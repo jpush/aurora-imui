@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ChatView start -->
+    <dimen name="circle_avatar_diameter">32dp</dimen>
+    <!-- ChatView end -->
+</resources>
