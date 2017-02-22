@@ -1,0 +1,111 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/chat_input_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/input_container_bg">
+
+        <ImageButton
+            android:id="@+id/switch_input_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/jmui_voice" />
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Space
+                android:id="@+id/input_margin_left"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_toLeftOf="@id/chat_input_et"
+                android:layout_toStartOf="@id/chat_input_et"/>
+
+            <EditText
+                android:id="@+id/chat_input_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/expression_btn"
+                android:background="@drawable/jmui_chat_input_bg"
+                android:cursorVisible="true"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:padding="5dp"
+                android:textColor="#000000"
+                android:textCursorDrawable="@drawable/jmui_text_cursor_bg" />
+
+            <Space
+                android:id="@+id/input_margin_right"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_toLeftOf="@id/expression_btn"
+                android:layout_toStartOf="@id/expression_btn"/>
+
+            <ImageButton
+                android:id="@+id/expression_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/jmui_expression"
+                android:visibility="gone" />
+
+            <cn.jiguang.imui.messages.RecordVoiceButton
+                android:id="@+id/voice_btn"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/jmui_voice_bg"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/record_voice_hint"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="5dp">
+
+            <Button
+                android:id="@+id/send_msg_btn"
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:background="@drawable/jmui_send_btn_bg"
+                android:gravity="center_horizontal|center_vertical"
+                android:padding="5dp"
+                android:text="@string/send"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/more_menu_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@mipmap/jmui_more_menu"
+                android:focusable="true" />
+        </FrameLayout>
+    </LinearLayout>
+
+
+</merge>

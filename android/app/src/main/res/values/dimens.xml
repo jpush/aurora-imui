@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-->conversation<-->
+    <dimen name="conv_avatar_width">50dp</dimen>
+    <dimen name="conv_avatar_height">50dp</dimen>
+
+    <!--><-->
+
+    <!-->chat input<-->
+    <dimen name="default_btn_radius">5dp</dimen>
+    <dimen name="input_margin_left">10dp</dimen>
+    <dimen name="input_margin_right">5dp</dimen>
+    <dimen name="input_text_size">17sp</dimen>
+    <dimen name="input_padding_left">16sp</dimen>
+    <dimen name="input_padding_right">16sp</dimen>
+    <dimen name="input_padding_top">8sp</dimen>
+    <dimen name="input_padding_bottom">8sp</dimen>
+
+
+</resources>
