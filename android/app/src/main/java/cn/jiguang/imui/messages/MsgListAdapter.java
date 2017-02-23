@@ -6,13 +6,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.lang.reflect.Constructor;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.ViewHolder;
 import cn.jiguang.imui.commons.models.IMessage;
+import cn.jiguang.imui.utils.CircleImageView;
 
 public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapter<ViewHolder>
         implements ScrollMoreListener.OnLoadMoreListener{
@@ -33,10 +41,27 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private final int TYPE_GROUP_CHANGE = 8;
     //自定义消息
     private final int TYPE_CUSTOM_TXT = 9;
+    private String mSenderId;
+    private HoldersConfig mHolders;
     private OnLoadMoreListener mListener;
+    private List<Wrapper> mItems;
+    private ImageLoader mImageLoader;
+    private boolean mIsSelectedMode;
+    private OnMsgClickListener<MESSAGE> mMsgClickListener;
+    private OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
+    private SelectionListener mSelectionListener;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private MessageListStyle mStyle;
 
-    public MsgListAdapter(Context context, List<MESSAGE> list) {
+    public MsgListAdapter(String senderId, ImageLoader imageLoader) {
+        this(senderId, new HoldersConfig(), imageLoader);
+    }
 
+    public MsgListAdapter(String senderId, HoldersConfig holders, ImageLoader imageLoader) {
+        this.mSenderId = senderId;
+        this.mHolders = holders;
+        this.mImageLoader = imageLoader;
+        this.mItems = new ArrayList<>();
     }
 
 
@@ -44,12 +69,26 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_RECEIVE_TXT:
-                return getHolder(parent, holders);
-                break;
+                return getHolder(parent, mHolders.mReceiveTxtLayout, mHolders.mReceiveTxtHolder);
             case TYPE_SEND_TXT:
-                break;
+                return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mReceiveTxtHolder);
         }
         return null;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Wrapper wrapper = mItems.get(position);
+        if (wrapper.item instanceof IMessage) {
+            IMessage message = (IMessage) wrapper.item;
+            switch (message.getType()) {
+                case SEND_TEXT:
+                    return TYPE_SEND_TXT;
+                case RECEIVE_TEXT:
+                    return TYPE_RECEIVE_TXT;
+            }
+        }
+        return TYPE_CUSTOM_TXT;
     }
 
     private <HOLDER extends ViewHolder>
@@ -60,22 +99,114 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             constructor.setAccessible(true);
             HOLDER holder = constructor.newInstance(v);
             if (holder instanceof DefaultMessageViewHolder) {
-                ((DefaultMessageViewHolder) holder).applyStyle(mMsgListStyle);
+                ((DefaultMessageViewHolder) holder).applyStyle(mStyle);
             }
             return holder;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Wrapper wrapper = mItems.get(position);
+        if (wrapper.item instanceof IMessage) {
+            ((BaseMessageViewHolder) holder).isSelected = wrapper.isSelected;
+            ((BaseMessageViewHolder) holder).imageLoader = this.mImageLoader;
+            holder.itemView.setOnClickListener(getMsgClickListener(wrapper));
+            holder.itemView.setOnLongClickListener(getMessageLongClickListener(wrapper));
+        }
 
+        holder.onBind(wrapper.item);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mItems.size();
+    }
+
+    private class Wrapper<DATA> {
+        private DATA item;
+        boolean isSelected;
+
+        Wrapper(DATA item) {
+            this.item = item;
+        }
+    }
+
+    /**
+     * Add message to bottom of list
+     * @param message message to be add
+     * @param scrollToBottom if true scroll list to bottom
+     */
+    public void addToStart(MESSAGE message, boolean scrollToBottom) {
+        Wrapper<MESSAGE> element = new Wrapper<>(message);
+        mItems.add(0, element);
+        notifyItemRangeInserted(0, 1);
+        if (mLayoutManager != null && scrollToBottom) {
+            mLayoutManager.scrollToPosition(0);
+        }
+    }
+
+    /**
+     * Add messages chronologically, to load last page of messages from history, use this method.
+     * @param messages Last page of messages.
+     * @param reverse if need to reserve messages before adding.
+     */
+    public void addToEnd(List<MESSAGE> messages, boolean reverse) {
+        if (reverse) {
+            Collections.reverse(messages);
+        }
+
+        int oldSize = mItems.size();
+        for (int i = 0; i < messages.size(); i++) {
+            MESSAGE message = messages.get(i);
+            mItems.add(new Wrapper<>(message));
+        }
+        notifyItemRangeInserted(oldSize, mItems.size() - oldSize);
+    }
+
+    public void updateMessage() {
+
+    }
+
+    private View.OnClickListener getMsgClickListener(final Wrapper<MESSAGE> wrapper) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mSelectionListener != null && mIsSelectedMode) {
+                    wrapper.isSelected = !wrapper.isSelected;
+                    if (wrapper.isSelected) {
+                        incrementSelectedItemsCount();
+                    } else {
+                        dcrementSelectedItemsCount();
+                    }
+
+                    MESSAGE message = (wrapper.item);
+                    notifyItemChanged(getMessagePositionById(message.getId()));
+                } else {
+                    notifyMessageClicked(wrapper.item);
+                }
+            }
+        };
+    }
+
+    private View.OnLongClickListener getMessageLongClickListener(final Wrapper<MESSAGE> wrapper) {
+        return new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (mSelectionListener == null) {
+                    notifyMessageLongClicked(wrapper.item);
+                    return true;
+                } else {
+                    mIsSelectedMode = true;
+                    view.callOnClick();
+                    return true;
+                }
+            }
+        };
     }
 
     public static class HolderConfig {
@@ -129,10 +260,146 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     /**
-     * When message item is clicked
+     * Callback will invoked when message item is clicked
      * @param <MESSAGE>
      */
     public interface OnMsgClickListener<MESSAGE extends IMessage> {
+        void onMessageClick(MESSAGE message);
+    }
 
+    /**
+     * Callback will invoked when message item is long clicked
+     * @param <MESSAGE>
+     */
+    public interface OnMsgLongClickListener<MESSAGE extends IMessage> {
+        void onMessageLongClick(MESSAGE message);
+    }
+
+    public static class HoldersConfig {
+
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendTxtHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveTxtHolder;
+        private int mSendTxtLayout;
+        private int mReceiveTxtLayout;
+
+        public HoldersConfig() {
+            this.mSendTxtHolder = DefaultSendTxtViewHolder.class;
+            this.mReceiveTxtHolder = DefaultReceiveTxtViewHolder.class;
+            this.mSendTxtLayout = R.layout.item_send_text;
+            this.mReceiveTxtLayout = R.layout.item_receive_txt;
+        }
+
+        public void setSender(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder, @LayoutRes int layout) {
+            this.mSendTxtHolder = holder;
+            this.mSendTxtLayout = layout;
+        }
+
+        public void setReceiver(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder, @LayoutRes int layout) {
+            this.mReceiveTxtHolder = holder;
+            this.mReceiveTxtLayout = layout;
+        }
+
+        public void setSenderLayout(@LayoutRes int layout) {
+            this.mSendTxtLayout = layout;
+        }
+
+        public void setReceiverLayout(@LayoutRes int layout) {
+            this.mReceiveTxtLayout = layout;
+        }
+
+    }
+
+    public static class SendTxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
+            implements DefaultMessageViewHolder {
+
+        protected ViewGroup bubble;
+        protected TextView msgTxt;
+        protected TextView date;
+        protected CircleImageView avatar;
+
+        public SendTxtViewHolder(View itemView) {
+            super(itemView);
+            bubble = (ViewGroup) itemView.findViewById(R.id.bubble);
+            msgTxt = (TextView) itemView.findViewById(R.id.message_tv);
+            date = (TextView) itemView.findViewById(R.id.date_tv);
+            avatar = (CircleImageView) itemView.findViewById(R.id.avatar_iv);
+        }
+
+        @Override
+        public void onBind(MESSAGE message) {
+            bubble.setSelected(isSelected());
+            msgTxt.setText(message.getText());
+            date.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));
+            boolean isAvatarExists = message.getUserInfo().getAvatar() != null
+                    && !message.getUserInfo().getAvatar().isEmpty();
+            if (isAvatarExists && imageLoader != null) {
+                imageLoader.loadImage(avatar, message.getUserInfo().getAvatar());
+            }
+        }
+
+        @Override
+        public void applyStyle(MessageListStyle style) {
+            bubble.setPadding(style.getSendBubblePaddingLeft(),
+                    style.getSendBubblePaddingTop(),
+                    style.getSendBubblePaddingRight(),
+                    style.getSendBubblePaddingBottom());
+            bubble.setBackground(style.getSendBubbleDrawable());
+            msgTxt.setTextColor(style.getSendBubbleTextColor());
+            msgTxt.setTextSize(style.getSendBubbleTextSize());
+            date.setTextSize(style.getDateTextSize());
+            date.setTextColor(style.getDateTextColor());
+        }
+    }
+
+    private static class DefaultSendTxtViewHolder extends SendTxtViewHolder<IMessage> {
+
+        public DefaultSendTxtViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public static class ReceiveTxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
+            implements DefaultMessageViewHolder {
+
+        protected ViewGroup bubble;
+        protected TextView msgTxt;
+        protected TextView date;
+        protected CircleImageView avatar;
+
+        public ReceiveTxtViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public void onBind(MESSAGE message) {
+            bubble.setSelected(isSelected());
+            msgTxt.setText(message.getText());
+            date.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));
+            boolean isAvatarExists = message.getUserInfo().getAvatar() != null
+                    && !message.getUserInfo().getAvatar().isEmpty();
+            if (isAvatarExists && imageLoader != null) {
+                imageLoader.loadImage(avatar, message.getUserInfo().getAvatar());
+            }
+        }
+
+        @Override
+        public void applyStyle(MessageListStyle style) {
+            bubble.setPadding(style.getReceiveBubblePaddingLeft(),
+                    style.getReceiveBubblePaddingTop(),
+                    style.getReceiveBubblePaddingRight(),
+                    style.getReceiveBubblePaddingBottom());
+            bubble.setBackground(style.getReceiveBubbleDrawable());
+            msgTxt.setTextColor(style.getReceiveBubbleColor());
+            msgTxt.setTextSize(style.getReceiveBubbleTextSize());
+            date.setTextSize(style.getDateTextSize());
+            date.setTextColor(style.getDateTextColor());
+        }
+    }
+
+    private static class DefaultReceiveTxtViewHolder extends ReceiveTxtViewHolder<IMessage> {
+
+        public DefaultReceiveTxtViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 }

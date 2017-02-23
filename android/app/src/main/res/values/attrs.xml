@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-->Message List<-->
+    <attr name="message_list" />
+    <declare-styleable name="MessageList">
+        <attr name="dateTextSize" format="dimension|reference" />
+        <attr name="dateTextColor" format="color|reference" />
+        <attr name="dateFormat" format="string|reference" />
+        <attr name="datePadding" format="dimension|reference" />
+
+        <attr name="avatarWidth" format="dimension|reference" />
+        <attr name="avatarHeight" format="dimension|reference" />
+
+        <attr name="receiveBubbleDrawable" format="reference" />
+        <attr name="receiveBubbleColor" format="color|reference" />
+        <attr name="receiveBubblePressedColor" format="color|reference" />
+        <attr name="receiveBubbleSelectedColor" format="color|reference" />
+        <attr name="receiveBubblePaddingLeft" format="dimension|reference" />
+        <attr name="receiveBubblePaddingTop" format="dimension|reference" />
+        <attr name="receiveBubblePaddingRight" format="dimension|reference" />
+        <attr name="receiveBubblePaddingBottom" format="dimension|reference" />
+        <attr name="receiveTextColor" format="color|reference" />
+        <attr name="receiveTextSize" format="dimension|reference" />
+
+        <attr name="sendBubbleDrawable" format="reference" />
+        <attr name="sendBubbleColor" format="color|reference" />
+        <attr name="sendBubblePressedColor" format="color|reference" />
+        <attr name="sendBubbleSelectedColor" format="color|reference" />
+        <attr name="sendBubblePaddingLeft" format="dimension|reference" />
+        <attr name="sendBubblePaddingTop" format="dimension|reference" />
+        <attr name="sendBubblePaddingRight" format="dimension|reference" />
+        <attr name="sendBubblePaddingBottom" format="dimension|reference" />
+        <attr name="sendTextColor" format="color|reference" />
+        <attr name="sendTextSize" format="dimension|reference" />
+    </declare-styleable>
     
     <!-->Chat input style<-->
     <attr name="chat_input" />

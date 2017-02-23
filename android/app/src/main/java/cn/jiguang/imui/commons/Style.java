@@ -9,16 +9,14 @@ import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
-import cn.jiguang.imui.R;
-
 public abstract class Style {
 
-    protected Context context;
+    protected Context mContext;
     protected Resources resources;
     protected AttributeSet attrs;
 
     protected Style(Context context, AttributeSet attrs) {
-        this.context = context;
+        this.mContext = context;
         this.attrs = attrs;
         this.resources = context.getResources();
     }
@@ -28,11 +26,11 @@ public abstract class Style {
     }
 
     protected final int getColor(@ColorRes int color) {
-        return ContextCompat.getColor(context, color);
+        return ContextCompat.getColor(mContext, color);
     }
 
     protected final Drawable getDrawable(@DrawableRes int drawable) {
-        return ContextCompat.getDrawable(context, drawable);
+        return ContextCompat.getDrawable(mContext, drawable);
     }
 
     protected final Drawable getVectorDrawable(@DrawableRes int drawable) {

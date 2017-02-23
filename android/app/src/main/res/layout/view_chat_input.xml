@@ -29,8 +29,8 @@
                 android:id="@+id/input_margin_left"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_toLeftOf="@id/chat_input_et"
-                android:layout_toStartOf="@id/chat_input_et"/>
+                android:layout_toLeftOf="@+id/chat_input_et"
+                android:layout_toStartOf="@+id/chat_input_et"/>
 
             <EditText
                 android:id="@+id/chat_input_et"

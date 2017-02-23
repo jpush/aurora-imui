@@ -503,6 +503,9 @@ public class RecordVoiceButton extends Button {
         }
     }
 
+    /**
+     * Callback will invoked when record voice is finished
+     */
     public interface RecordVoiceListener {
 
         void onFinishRecord();
