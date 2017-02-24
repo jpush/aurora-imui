@@ -1,19 +1,15 @@
 package cn.jiguang.imui.messages;
 
-import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.reflect.Constructor;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import cn.jiguang.imui.R;
@@ -21,6 +17,7 @@ import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.ViewHolder;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.utils.CircleImageView;
+import cn.jiguang.imui.utils.DateFormatter;
 
 public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapter<ViewHolder>
         implements ScrollMoreListener.OnLoadMoreListener{
@@ -50,6 +47,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private OnMsgClickListener<MESSAGE> mMsgClickListener;
     private OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
     private SelectionListener mSelectionListener;
+    private int mSelectedItemCount;
     private RecyclerView.LayoutManager mLayoutManager;
     private MessageListStyle mStyle;
 
@@ -168,8 +166,169 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         notifyItemRangeInserted(oldSize, mItems.size() - oldSize);
     }
 
-    public void updateMessage() {
+    @SuppressWarnings("unchecked")
+    private int getMessagePositionById(String id) {
+        for (int i = 0; i < mItems.size(); i++) {
+            Wrapper wrapper = mItems.get(i);
+            if (wrapper.item instanceof IMessage) {
+                MESSAGE message = (MESSAGE) wrapper.item;
+                if (message.getId().contentEquals(id)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
 
+    /**
+     * Update message by its id.
+     * @param message message to be updated.
+     */
+    public void updateMessage(MESSAGE message) {
+        updateMessage(message.getId(), message);
+    }
+
+    /**
+     * Updates message by old identifier.
+     * @param oldId
+     * @param newMessage
+     */
+    public void updateMessage(String oldId, MESSAGE newMessage) {
+        int position = getMessagePositionById(oldId);
+        if (position >= 0) {
+            Wrapper<MESSAGE> element = new Wrapper<>(newMessage);
+            mItems.set(position, element);
+            notifyItemChanged(position);
+        }
+    }
+
+    /**
+     * Delete message.
+     * @param message message to be deleted.
+     */
+    public void delete(MESSAGE message) {
+        deleteById(message.getId());
+    }
+
+    /**
+     * Delete message by identifier.
+     * @param id identifier of message.
+     */
+    public void deleteById(String id) {
+        int index = getMessagePositionById(id);
+        if (index >= 0) {
+            mItems.remove(index);
+            notifyItemRemoved(index);
+        }
+    }
+
+    /**
+     * Delete messages.
+     * @param messages messages list to be deleted.
+     */
+    public void delete(List<MESSAGE> messages) {
+        for (MESSAGE message : messages) {
+            int index = getMessagePositionById(message.getId());
+            if (index >= 0) {
+                mItems.remove(index);
+                notifyItemRemoved(index);
+            }
+        }
+    }
+
+    /**
+     * Delete messages by identifiers.
+     * @param ids ids array of identifiers of messages to be deleted.
+     */
+    public void deleteByIds(String[] ids) {
+        for (String id : ids) {
+            int index = getMessagePositionById(id);
+            if (index >= 0) {
+                mItems.remove(index);
+                notifyItemRemoved(index);
+            }
+        }
+    }
+
+    /**
+     * Clear messages list.
+     */
+    public void clear() {
+        mItems.clear();
+    }
+
+    /**
+     * Enable selection mode.
+     * @param listener SelectionListener. To get selected messages use {@link #getSelectedMessages()}.
+     */
+    public void enableSelectionMode(SelectionListener listener) {
+        if (listener == null) {
+            throw new IllegalArgumentException("SelectionListener must not be null.");
+        } else {
+            mSelectionListener = listener;
+        }
+    }
+
+    /**
+     * Disable selection mode, and deselect all items.
+     */
+    public void disableSelectionMode() {
+        mSelectionListener = null;
+        deselectAllItems();
+    }
+
+    /**
+     * Get selected messages.
+     * @return ArrayList with selected messages.
+     */
+    @SuppressWarnings("unchecked")
+    public ArrayList<MESSAGE> getSelectedMessages() {
+        ArrayList<MESSAGE> list = new ArrayList<>();
+        for (Wrapper wrapper : mItems) {
+            if (wrapper.item instanceof IMessage && wrapper.isSelected) {
+                list.add((MESSAGE) wrapper.item);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Delete all selected messages
+     */
+    public void deleteSelectedMessages() {
+        List<MESSAGE> selectedMessages = getSelectedMessages();
+        delete(selectedMessages);
+        deselectAllItems();
+    }
+
+    /**
+     *Deselect all items.
+     */
+    public void deselectAllItems() {
+        for (int i = 0; i < mItems.size(); i++) {
+            Wrapper wrapper = mItems.get(i);
+            if (wrapper.isSelected) {
+                wrapper.isSelected = false;
+                notifyItemChanged(i);
+            }
+        }
+        mIsSelectedMode = false;
+        mSelectedItemCount = 0;
+        notifySelectionChanged();
+    }
+
+    private void notifySelectionChanged() {
+        if (mSelectionListener != null) {
+            mSelectionListener.onSelectionChanged(mSelectedItemCount);
+        }
+    }
+
+    /**
+     * Set onMsgClickListener, fires onClick event only if list is not in selection mode.
+     * @param listener OnMsgClickListener
+     */
+    public void setOnMsgClickListener(OnMsgClickListener<MESSAGE> listener) {
+        mMsgClickListener = listener;
     }
 
     private View.OnClickListener getMsgClickListener(final Wrapper<MESSAGE> wrapper) {
@@ -181,7 +340,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     if (wrapper.isSelected) {
                         incrementSelectedItemsCount();
                     } else {
-                        dcrementSelectedItemsCount();
+                        decrementSelectedItemsCount();
                     }
 
                     MESSAGE message = (wrapper.item);
@@ -191,6 +350,31 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 }
             }
         };
+    }
+
+    private void incrementSelectedItemsCount() {
+        mSelectedItemCount++;
+        notifySelectionChanged();
+    }
+
+    private void decrementSelectedItemsCount() {
+        mSelectedItemCount--;
+        mIsSelectedMode = mSelectedItemCount > 0;
+        notifySelectionChanged();
+    }
+
+    private void notifyMessageClicked(MESSAGE message) {
+        if (mMsgClickListener != null) {
+            mMsgClickListener.onMessageClick(message);
+        }
+    }
+
+    /**
+     * Set long click listener for item, fires only if selection mode is disabled.
+     * @param listener onMsgLongClickListener
+     */
+    public void setMsgLongClickListener(OnMsgLongClickListener<MESSAGE> listener) {
+        mMsgLongClickListener = listener;
     }
 
     private View.OnLongClickListener getMessageLongClickListener(final Wrapper<MESSAGE> wrapper) {
@@ -209,13 +393,18 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         };
     }
 
-    public static class HolderConfig {
-
-        private Class<? extends BaseMessageViewHolder>
-
-        public HolderConfig() {
-
+    private void notifyMessageLongClicked(MESSAGE message) {
+        if (mMsgLongClickListener != null) {
+            mMsgLongClickListener.onMessageLongClick(message);
         }
+    }
+
+    public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
+        mLayoutManager = layoutManager;
+    }
+
+    public void setStyle(MessageListStyle style) {
+        mStyle = style;
     }
 
     public static abstract class BaseMessageViewHolder<MESSAGE extends IMessage> extends ViewHolder<MESSAGE> {
@@ -275,6 +464,11 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         void onMessageLongClick(MESSAGE message);
     }
 
+    /**
+     * Holders Config
+     * Config your custom layouts and view holders into adapter.
+     * You need instantiate HoldersConfig, otherwise will use default MessageListStyle.
+     */
     public static class HoldersConfig {
 
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendTxtHolder;
