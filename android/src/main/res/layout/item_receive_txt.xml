@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/jmui_chat_item_receive_layout">
+
+
+    <TextView
+        android:id="@+id/date_tv"
+        style="@style/jmui_chat_text_date_style"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <cn.jiguang.imui.utils.CircleImageView
+            android:id="@+id/avatar_iv"
+            style="@style/jmui_chat_item_receiver_avatar_style" />
+
+        <TextView
+            android:id="@+id/display_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/jmui_chat_display_name_style"
+            android:layout_toRightOf="@id/avatar_iv"
+            />
+
+        <TextView
+            android:id="@+id/message_tv"
+            style="@style/jmui_msg_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_below="@id/display_name_tv"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/avatar_iv"
+            android:background="@drawable/receive_bubble"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

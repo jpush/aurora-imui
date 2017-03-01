@@ -1,0 +1,133 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/default_input_bg">
+
+    <LinearLayout
+        android:id="@+id/chat_input_container"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <android.support.v4.widget.Space
+            android:id="@+id/input_margin_left"
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/chat_input_et"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/jmui_chat_input_bg"
+            android:cursorVisible="true"
+            android:inputType="textMultiLine"
+            android:padding="5dp"
+            android:textColor="#000000"
+            android:textCursorDrawable="@drawable/jmui_text_cursor_bg" />
+
+        <android.support.v4.widget.Space
+            android:id="@+id/input_margin_right"
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_container"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+
+            <ImageButton
+                android:id="@+id/voice_ib"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/mic"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/photo_ib"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/photo" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/camera_ib"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/camera" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="55dp"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/send_msg_ib"
+                    android:layout_gravity="center"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/send" />
+
+                <TextView
+                    android:id="@+id/send_count_tv"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/white_circle"
+                    android:gravity="center"
+                    android:elevation="5dp"
+                    android:layout_gravity="bottom|right"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

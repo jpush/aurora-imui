@@ -1,0 +1,4 @@
+rootProject.name = 'sample'
+
+include ':exampleui', ':imui'
+project(':imui').projectDir = new File(rootProject.projectDir, '../android')

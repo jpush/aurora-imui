@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="chat_title_bar_txt_size">20sp</dimen>
+</resources>

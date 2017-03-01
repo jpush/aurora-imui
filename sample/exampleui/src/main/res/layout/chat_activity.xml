@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f3f3">
+
+    <LinearLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/chat_title_bg"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/chat_title_bar_txt_size"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_container"
+        android:layout_above="@+id/chat_input">
+
+        <cn.jiguang.imui.messages.MessageList
+            android:id="@+id/msg_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:avatarHeight="50dp"
+            app:avatarWidth="50dp"
+            app:sendTextColor="#7587A8"
+            app:receiveTextColor="#ffffff"
+            app:dateTextSize="5sp"
+            app:sendTextSize="8sp"
+            app:receiveTextSize="8sp"
+            app:receiveBubblePaddingLeft="10dp"
+            app:receiveBubblePaddingRight="5dp"
+            app:sendBubblePaddingLeft="5dp"
+            app:sendBubblePaddingRight="10dp" />
+
+    </LinearLayout>
+
+        <cn.jiguang.imui.messages.ChatInput
+            android:id="@+id/chat_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textAlignment="center"
+            app:inputEditTextBg="@drawable/jmui_chat_input_bg"
+            app:inputCursorDrawable="@drawable/jmui_text_cursor_bg"
+            app:inputHint="@string/input_hint"
+            app:voiceBtnIcon="@drawable/mic"
+            app:photoBtnIcon="@drawable/photo"
+            app:cameraBtnIcon="@drawable/camera"
+            app:sendBtnIcon="@drawable/send"/>
+
+</RelativeLayout>

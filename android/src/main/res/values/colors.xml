@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+
+    <!-->Conversation<-->
+    <color name="conv_divider">#ebebeb</color>
+
+    <!-->Message List<-->
+    <color name="date_text_color">#4e4e4e</color>
+    <color name="receive_bubble_default_color">#2977fa</color>
+    <color name="receive_bubble_pressed_color">#005af2</color>
+    <color name="receive_bubble_selected_color">#0e63f0</color>
+    <color name="receive_text_color">@color/white</color>
+    <color name="send_bubble_default_color">#e7ebef</color>
+    <color name="send_bubble_pressed_color">#c9d3dd</color>
+    <color name="send_bubble_selected_color">#d3d9df</color>
+    <color name="send_text_color">#7587a8</color>
+
+    <!-->chat input<-->
+    <color name="default_input_bg">#f3f3f3</color>
+    <color name="input_container_bg">#e5e5e5</color>
+    <color name="input_default">#e5e5e5</color>
+    <color name="input_focus">#3f80dc</color>
+    <color name="default_cursor">#8db4eb</color>
+    <color name="jpush_blue">#3f80dc</color>
+    <color name="voice_btn_default">#3f80dc</color>
+    <color name="voice_btn_pressed">#3773cb</color>
+    <color name="input_text_color">#000000</color>
+    <color name="input_hint_color">#8b8b8b</color>
+</resources>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/conv_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/conv_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground">
+
+        <cn.jiguang.imui.utils.CircleImageView
+            android:id="@+id/conv_avatar"
+            android:layout_width="@dimen/conv_avatar_width"
+            android:layout_height="@dimen/conv_avatar_height"
+            android:layout_margin="16dp" />
+
+        <TextView
+            android:id="@+id/conv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="19dp"
+            android:layout_toLeftOf="@+id/conv_date"
+            android:layout_toRightOf="@+id/conv_avatar"
+            android:ellipsize="end"
+            android:fontFamily="@string/font_fontFamily_medium"
+            android:includeFontPadding="false"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/conv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/conv_title"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="7dp"
+            android:layout_toRightOf="@+id/conv_avatar">
+
+
+            <TextView
+                android:id="@+id/dialogLastMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="top"
+                android:maxLines="1" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/unread_msg_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/conv_avatar"
+            android:layout_alignTop="@+id/conv_avatar"
+            android:layout_marginRight="-5dp"
+            android:layout_marginTop="-5dp"
+            android:background="@drawable/white_circle"
+            android:ellipsize="end"
+            android:fontFamily="@string/font_fontFamily_medium"
+            android:gravity="center"
+            android:lines="1" />
+
+        <FrameLayout
+            android:id="@+id/dialogDividerContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp">
+
+            <View
+                android:id="@+id/dialogDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/conv_divider" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>
