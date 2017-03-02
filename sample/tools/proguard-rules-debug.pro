@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in /Users/caiyg/Library/Android/sdk/tools/proguard/proguard-android.txt
+# in C:/Work/android-sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
 #
@@ -17,13 +17,5 @@
 #}
 
 -ignorewarnings
-
-# Remove logs
--assumenosideeffects class android.util.Log {
-    public static boolean isLoggable(java.lang.String, int);
-    public static int v(...);
-    public static int i(...);
-    public static int w(...);
-    public static int d(...);
-    public static int e(...);
-}
+-dontobfuscate
+-dontoptimize

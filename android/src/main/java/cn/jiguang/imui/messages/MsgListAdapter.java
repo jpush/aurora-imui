@@ -20,24 +20,30 @@ import cn.jiguang.imui.utils.CircleImageView;
 import cn.jiguang.imui.utils.DateFormatter;
 
 public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapter<ViewHolder>
-        implements ScrollMoreListener.OnLoadMoreListener{
+        implements ScrollMoreListener.OnLoadMoreListener {
 
     // 文本
     private final int TYPE_RECEIVE_TXT = 0;
     private final int TYPE_SEND_TXT = 1;
+
     // 图片
     private final int TYPE_SEND_IMAGE = 2;
     private final int TYPE_RECEIVER_IMAGE = 3;
+
     // 位置
     private final int TYPE_SEND_LOCATION = 4;
     private final int TYPE_RECEIVER_LOCATION = 5;
+
     // 语音
     private final int TYPE_SEND_VOICE = 6;
     private final int TYPE_RECEIVER_VOICE = 7;
+
     //群成员变动
     private final int TYPE_GROUP_CHANGE = 8;
+
     //自定义消息
     private final int TYPE_CUSTOM_TXT = 9;
+
     private String mSenderId;
     private HoldersConfig mHolders;
     private OnLoadMoreListener mListener;
@@ -62,7 +68,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         this.mItems = new ArrayList<>();
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
@@ -70,9 +75,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mReceiveTxtLayout, mHolders.mReceiveTxtHolder);
             case TYPE_SEND_TXT:
                 return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendTxtHolder);
-
+            default:
+                return null;
         }
-        return null;
     }
 
     @Override
@@ -85,13 +90,15 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_SEND_TXT;
                 case RECEIVE_TEXT:
                     return TYPE_RECEIVE_TXT;
+                default:
+                    return TYPE_CUSTOM_TXT;
             }
         }
         return TYPE_CUSTOM_TXT;
     }
 
-    private <HOLDER extends ViewHolder>
-    ViewHolder getHolder(ViewGroup parent, @LayoutRes int layout, Class<HOLDER> holderClass) {
+    private <HOLDER extends ViewHolder> ViewHolder getHolder(ViewGroup parent, @LayoutRes int layout,
+                                                             Class<HOLDER> holderClass) {
         View v = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         try {
             Constructor<HOLDER> constructor = holderClass.getDeclaredConstructor(View.class);
@@ -115,7 +122,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).isSelected = wrapper.isSelected;
             ((BaseMessageViewHolder) holder).imageLoader = this.mImageLoader;
         }
-
         holder.onBind(wrapper.item);
     }
 
@@ -135,7 +141,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Add message to bottom of list
-     * @param message message to be add
+     *
+     * @param message        message to be add
      * @param scrollToBottom if true scroll list to bottom
      */
     public void addToStart(MESSAGE message, boolean scrollToBottom) {
@@ -149,8 +156,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Add messages chronologically, to load last page of messages from history, use this method.
+     *
      * @param messages Last page of messages.
-     * @param reverse if need to reserve messages before adding.
+     * @param reverse  if need to reserve messages before adding.
      */
     public void addToEnd(List<MESSAGE> messages, boolean reverse) {
         if (reverse) {
@@ -181,6 +189,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Update message by its id.
+     *
      * @param message message to be updated.
      */
     public void updateMessage(MESSAGE message) {
@@ -189,6 +198,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Updates message by old identifier.
+     *
      * @param oldId
      * @param newMessage
      */
@@ -203,6 +213,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Delete message.
+     *
      * @param message message to be deleted.
      */
     public void delete(MESSAGE message) {
@@ -211,6 +222,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Delete message by identifier.
+     *
      * @param id identifier of message.
      */
     public void deleteById(String id) {
@@ -223,6 +235,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Delete messages.
+     *
      * @param messages messages list to be deleted.
      */
     public void delete(List<MESSAGE> messages) {
@@ -237,6 +250,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Delete messages by identifiers.
+     *
      * @param ids ids array of identifiers of messages to be deleted.
      */
     public void deleteByIds(String[] ids) {
@@ -258,6 +272,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Enable selection mode.
+     *
      * @param listener SelectionListener. To get selected messages use {@link #getSelectedMessages()}.
      */
     public void enableSelectionMode(SelectionListener listener) {
@@ -278,6 +293,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Get selected messages.
+     *
      * @return ArrayList with selected messages.
      */
     @SuppressWarnings("unchecked")
@@ -301,7 +317,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     /**
-     *Deselect all items.
+     * Deselect all items.
      */
     public void deselectAllItems() {
         for (int i = 0; i < mItems.size(); i++) {
@@ -324,6 +340,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Set onMsgClickListener, fires onClick event only if list is not in selection mode.
+     *
      * @param listener OnMsgClickListener
      */
     public void setOnMsgClickListener(OnMsgClickListener<MESSAGE> listener) {
@@ -370,6 +387,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Set long click listener for item, fires only if selection mode is disabled.
+     *
      * @param listener onMsgLongClickListener
      */
     public void setMsgLongClickListener(OnMsgLongClickListener<MESSAGE> listener) {
@@ -406,7 +424,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         mStyle = style;
     }
 
-    public static abstract class BaseMessageViewHolder<MESSAGE extends IMessage> extends ViewHolder<MESSAGE> {
+    public static abstract class BaseMessageViewHolder<MESSAGE extends IMessage>
+            extends ViewHolder<MESSAGE> {
 
         private boolean isSelected;
         protected ImageLoader imageLoader;
@@ -449,6 +468,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Callback will invoked when message item is clicked
+     *
      * @param <MESSAGE>
      */
     public interface OnMsgClickListener<MESSAGE extends IMessage> {
@@ -457,6 +477,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Callback will invoked when message item is long clicked
+     *
      * @param <MESSAGE>
      */
     public interface OnMsgLongClickListener<MESSAGE extends IMessage> {
@@ -482,12 +503,14 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             this.mReceiveTxtLayout = R.layout.item_receive_txt;
         }
 
-        public void setSenderTxtMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder, @LayoutRes int layout) {
+        public void setSenderTxtMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                    @LayoutRes int layout) {
             this.mSendTxtHolder = holder;
             this.mSendTxtLayout = layout;
         }
 
-        public void setReceiverTxtMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder, @LayoutRes int layout) {
+        public void setReceiverTxtMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                      @LayoutRes int layout) {
             this.mReceiveTxtHolder = holder;
             this.mReceiveTxtLayout = layout;
         }
@@ -502,7 +525,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     }
 
-    public static class SendTxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
+    public static class SendTxtViewHolder<MESSAGE extends IMessage>
+            extends BaseMessageViewHolder<MESSAGE>
             implements DefaultMessageViewHolder {
 
         protected TextView msgTxt;
@@ -559,7 +583,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         }
     }
 
-    public static class ReceiveTxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
+    public static class ReceiveTxtViewHolder<MESSAGE extends IMessage>
+            extends BaseMessageViewHolder<MESSAGE>
             implements DefaultMessageViewHolder {
 
         protected TextView msgTxt;

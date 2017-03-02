@@ -1,3 +1,5 @@
+apply plugin: 'com.android.library'
+
 buildscript {
     repositories {
         jcenter()
@@ -7,9 +9,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.2.3'
     }
 }
-
-
-apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 25
