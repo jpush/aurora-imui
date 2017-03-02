@@ -33,6 +33,7 @@
         <attr name="sendBubblePaddingBottom" format="dimension|reference" />
         <attr name="sendTextColor" format="color|reference" />
         <attr name="sendTextSize" format="dimension|reference" />
+        <attr name="bubbleMaxWidth" format="float|reference" />
     </declare-styleable>
     
     <!-->Chat input style<-->

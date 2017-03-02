@@ -11,14 +11,14 @@
     <dimen name="avatar_width">50dp</dimen>
     <dimen name="avatar_height">50dp</dimen>
     <dimen name="receive_text_size">18sp</dimen>
-    <dimen name="receive_text_padding_left">10dp</dimen>
+    <dimen name="receive_text_padding_left">15dp</dimen>
     <dimen name="receive_text_padding_top">5dp</dimen>
-    <dimen name="receive_text_padding_right">5dp</dimen>
+    <dimen name="receive_text_padding_right">10dp</dimen>
     <dimen name="receive_text_padding_bottom">5dp</dimen>
     <dimen name="send_text_size">18sp</dimen>
-    <dimen name="send_text_padding_left">5dp</dimen>
+    <dimen name="send_text_padding_left">10dp</dimen>
     <dimen name="send_text_padding_top">5dp</dimen>
-    <dimen name="send_text_padding_right">10dp</dimen>
+    <dimen name="send_text_padding_right">15dp</dimen>
     <dimen name="send_text_padding_bottom">5dp</dimen>
 
     <!-->chat input<-->

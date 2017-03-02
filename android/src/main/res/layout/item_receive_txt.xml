@@ -34,10 +34,7 @@
             android:layout_below="@id/display_name_tv"
             android:layout_marginLeft="3dp"
             android:layout_toRightOf="@id/avatar_iv"
-            android:background="@drawable/receive_bubble"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/white"/>
+            android:background="@drawable/receive_bubble" />
 
     </RelativeLayout>
 

@@ -36,13 +36,14 @@
             app:avatarWidth="50dp"
             app:sendTextColor="#7587A8"
             app:receiveTextColor="#ffffff"
-            app:dateTextSize="5sp"
-            app:sendTextSize="8sp"
-            app:receiveTextSize="8sp"
-            app:receiveBubblePaddingLeft="10dp"
-            app:receiveBubblePaddingRight="5dp"
-            app:sendBubblePaddingLeft="5dp"
-            app:sendBubblePaddingRight="10dp" />
+            app:dateTextSize="14sp"
+            app:sendTextSize="18sp"
+            app:receiveTextSize="18sp"
+            app:receiveBubblePaddingLeft="20dp"
+            app:receiveBubblePaddingRight="10dp"
+            app:sendBubblePaddingLeft="10dp"
+            app:sendBubblePaddingRight="20dp"
+            app:bubbleMaxWidth="0.70" />
 
     </LinearLayout>
 

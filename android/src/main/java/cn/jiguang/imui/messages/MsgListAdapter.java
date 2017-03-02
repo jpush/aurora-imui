@@ -1,6 +1,5 @@
 package cn.jiguang.imui.messages;
 
-import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,6 +70,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mReceiveTxtLayout, mHolders.mReceiveTxtHolder);
             case TYPE_SEND_TXT:
                 return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendTxtHolder);
+
         }
         return null;
     }
@@ -114,8 +114,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         if (wrapper.item instanceof IMessage) {
             ((BaseMessageViewHolder) holder).isSelected = wrapper.isSelected;
             ((BaseMessageViewHolder) holder).imageLoader = this.mImageLoader;
-            holder.itemView.setOnClickListener(getMsgClickListener(wrapper));
-            holder.itemView.setOnLongClickListener(getMessageLongClickListener(wrapper));
         }
 
         holder.onBind(wrapper.item);
@@ -484,12 +482,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             this.mReceiveTxtLayout = R.layout.item_receive_txt;
         }
 
-        public void setSender(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder, @LayoutRes int layout) {
+        public void setSenderTxtMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder, @LayoutRes int layout) {
             this.mSendTxtHolder = holder;
             this.mSendTxtLayout = layout;
         }
 
-        public void setReceiver(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder, @LayoutRes int layout) {
+        public void setReceiverTxtMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder, @LayoutRes int layout) {
             this.mReceiveTxtHolder = holder;
             this.mReceiveTxtLayout = layout;
         }
@@ -531,22 +529,33 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         @Override
         public void applyStyle(MessageListStyle style) {
+            msgTxt.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
+            msgTxt.setBackground(style.getSendBubbleDrawable());
+            msgTxt.setTextColor(style.getSendBubbleTextColor());
+            msgTxt.setTextSize(style.getSendBubbleTextSize());
             msgTxt.setPadding(style.getSendBubblePaddingLeft(),
                     style.getSendBubblePaddingTop(),
                     style.getSendBubblePaddingRight(),
                     style.getSendBubblePaddingBottom());
-            msgTxt.setBackground(style.getSendBubbleDrawable());
-            msgTxt.setTextColor(style.getSendBubbleTextColor());
-            msgTxt.setTextSize(style.getSendBubbleTextSize());
             date.setTextSize(style.getDateTextSize());
             date.setTextColor(style.getDateTextColor());
         }
+
+        public TextView getMsgTextView() {
+            return msgTxt;
+        }
+
+        public CircleImageView getAvatar() {
+            return avatar;
+        }
+
     }
 
     private static class DefaultSendTxtViewHolder extends SendTxtViewHolder<IMessage> {
 
         public DefaultSendTxtViewHolder(View itemView) {
             super(itemView);
+
         }
     }
 
@@ -557,6 +566,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         protected TextView date;
         protected CircleImageView avatar;
 
+
         public ReceiveTxtViewHolder(View itemView) {
             super(itemView);
             msgTxt = (TextView) itemView.findViewById(R.id.message_tv);
@@ -565,7 +575,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         }
 
         @Override
-        public void onBind(MESSAGE message) {
+        public void onBind(final MESSAGE message) {
             msgTxt.setText(message.getText());
             date.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));
             boolean isAvatarExists = message.getUserInfo().getAvatar() != null
@@ -577,15 +587,24 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         @Override
         public void applyStyle(MessageListStyle style) {
+            msgTxt.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
+            msgTxt.setBackground(style.getReceiveBubbleDrawable());
+            msgTxt.setTextColor(style.getReceiveBubbleTextColor());
+            msgTxt.setTextSize(style.getReceiveBubbleTextSize());
             msgTxt.setPadding(style.getReceiveBubblePaddingLeft(),
                     style.getReceiveBubblePaddingTop(),
                     style.getReceiveBubblePaddingRight(),
                     style.getReceiveBubblePaddingBottom());
-            msgTxt.setBackground(style.getReceiveBubbleDrawable());
-            msgTxt.setTextColor(style.getReceiveBubbleTextColor());
-            msgTxt.setTextSize(style.getReceiveBubbleTextSize());
             date.setTextSize(style.getDateTextSize());
             date.setTextColor(style.getDateTextColor());
+        }
+
+        public TextView getMsgTextView() {
+            return msgTxt;
+        }
+
+        public CircleImageView getAvatar() {
+            return avatar;
         }
     }
 

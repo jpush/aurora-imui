@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -45,12 +46,13 @@ public class MessageListActivity extends Activity {
         mTitle = (TextView) findViewById(R.id.title_tv);
         mTitle.setText("User1");
         mMsgList = (MessageList) findViewById(R.id.msg_list);
-        mMsgList.setOnClickListener(new View.OnClickListener() {
+        mMsgList.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (mImm != null) {
                     mImm.hideSoftInputFromWindow(mChatInput.getInputView().getWindowToken(), 0); //强制隐藏键盘
                 }
+                return false;
             }
         });
         mChatInput = (ChatInput) findViewById(R.id.chat_input);
@@ -59,6 +61,9 @@ public class MessageListActivity extends Activity {
         mChatInput.setMenuClickListener(new ChatInput.OnMenuClickListener() {
             @Override
             public boolean onSubmit(CharSequence input) {
+                if (input.length() == 0) {
+                    return false;
+                }
                 mAdapter.addToStart(new MyMessage(input.toString(), IMessage.MessageType.SEND_TEXT), true);
                 return true;
             }
@@ -100,7 +105,23 @@ public class MessageListActivity extends Activity {
             }
         };
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
+        // Use default layout
         mAdapter = new MsgListAdapter<MyMessage>("0", holdersConfig, imageLoader);
+
+        // If you want to customise your layout, try to create custom ViewHolder:
+        // holdersConfig.setSenderTxtMsg(CustomViewHolder.class, layoutRes);
+        // holdersConfig.setReceiverTxtMsg(CustomViewHolder.class, layoutRes);
+        // CustomViewHolder must extends ViewHolders defined in MsgListAdapter.
+        // Current ViewHolders are SendTxtViewHolder, ReceiveTxtViewHolder.
+
+        mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>() {
+            @Override
+            public void onMessageClick(MyMessage message) {
+                Toast.makeText(mContext, mContext.getString(R.string.message_click_hint),
+                        Toast.LENGTH_SHORT).show();
+                // do something
+            }
+        });
         mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
             @Override
             public void onMessageLongClick(MyMessage message) {

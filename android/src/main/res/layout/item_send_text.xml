@@ -21,10 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
-            android:background="@drawable/send_bubble"
-            android:text="11111"
-            android:paddingLeft="10dp"
-            android:paddingRight="15dp" />
+            android:text="sfada"
+            android:paddingRight="20dp"
+            android:background="@drawable/send_bubble" />
 
         <cn.jiguang.imui.utils.CircleImageView
             android:id="@+id/avatar_iv"

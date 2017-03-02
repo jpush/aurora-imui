@@ -10,13 +10,14 @@ import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
+import android.view.WindowManager;
 
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.Style;
 
 public class MessageListStyle extends Style {
 
-    private int dateTextSize;
+    private float dateTextSize;
     private int dateTextColor;
     private int datePadding;
     private String dateFormat;
@@ -28,7 +29,7 @@ public class MessageListStyle extends Style {
     private int receiveBubbleColor;
     private int receiveBubblePressedColor;
     private int receiveBubbleSelectedColor;
-    private int receiveBubbleTextSize;
+    private float receiveBubbleTextSize;
     private int receiveBubbleTextColor;
     private int receiveBubblePaddingLeft;
     private int receiveBubblePaddingTop;
@@ -39,18 +40,25 @@ public class MessageListStyle extends Style {
     private int sendBubbleColor;
     private int sendBubblePressedColor;
     private int sendBubbleSelectedColor;
-    private int sendBubbleTextSize;
+    private float sendBubbleTextSize;
     private int sendBubbleTextColor;
     private int sendBubblePaddingLeft;
     private int sendBubblePaddingTop;
     private int sendBubblePaddingRight;
     private int sendBubblePaddingBottom;
 
+    // Set bubble's max width, value from 0 to 1. 1 means max width equals with screen width.
+    // Default value is 0.8.
+    private float bubbleMaxWidth;
+
+    private int windowWidth;
+
     public static MessageListStyle parse(Context context, AttributeSet attrs) {
         MessageListStyle style = new MessageListStyle(context, attrs);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MessageList);
-        style.dateTextSize = typedArray.getDimensionPixelSize(R.styleable.MessageList_dateTextSize,
+        int dateTextSizePixel = typedArray.getDimensionPixelSize(R.styleable.MessageList_dateTextSize,
                 context.getResources().getDimensionPixelOffset(R.dimen.date_text_size));
+        style.dateTextSize = getSPTextSize(context, dateTextSizePixel);
         style.dateTextColor = typedArray.getColor(R.styleable.MessageList_dateTextColor,
                 ContextCompat.getColor(context, R.color.date_text_color));
         style.datePadding = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePadding,
@@ -69,8 +77,9 @@ public class MessageListStyle extends Style {
                 ContextCompat.getColor(context, R.color.receive_bubble_pressed_color));
         style.receiveBubbleSelectedColor = typedArray.getColor(R.styleable.MessageList_receiveBubbleSelectedColor,
                 ContextCompat.getColor(context, R.color.receive_bubble_selected_color));
-        style.receiveBubbleTextSize = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveTextSize,
+        int receiveTextSizePixel = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveTextSize,
                 context.getResources().getDimensionPixelSize(R.dimen.receive_text_size));
+        style.receiveBubbleTextSize = getSPTextSize(context, receiveTextSizePixel);
         style.receiveBubbleTextColor = typedArray.getColor(R.styleable.MessageList_receiveTextColor,
                 ContextCompat.getColor(context, R.color.receive_text_color));
         style.receiveBubblePaddingLeft = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveBubblePaddingLeft,
@@ -89,8 +98,9 @@ public class MessageListStyle extends Style {
                 ContextCompat.getColor(context, R.color.send_bubble_pressed_color));
         style.sendBubbleSelectedColor = typedArray.getColor(R.styleable.MessageList_sendBubbleSelectedColor,
                 ContextCompat.getColor(context, R.color.send_bubble_selected_color));
-        style.sendBubbleTextSize = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendTextSize,
+        int sendTextSizePixel = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendTextSize,
                 context.getResources().getDimensionPixelSize(R.dimen.send_text_size));
+        style.sendBubbleTextSize = getSPTextSize(context, sendTextSizePixel);
         style.sendBubbleTextColor = typedArray.getColor(R.styleable.MessageList_sendTextColor,
                 ContextCompat.getColor(context, R.color.send_text_color));
         style.sendBubblePaddingLeft = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingLeft,
@@ -102,8 +112,15 @@ public class MessageListStyle extends Style {
         style.sendBubblePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingBottom,
                 context.getResources().getDimensionPixelSize(R.dimen.send_text_padding_bottom));
 
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        style.bubbleMaxWidth = typedArray.getFloat(R.styleable.MessageList_bubbleMaxWidth, 0.8f);
+        style.windowWidth =  wm.getDefaultDisplay().getWidth();
         typedArray.recycle();
         return style;
+    }
+
+    public static float getSPTextSize(Context context, int pixel) {
+        return pixel / context.getResources().getDisplayMetrics().scaledDensity;
     }
 
     protected MessageListStyle(Context context, AttributeSet attrs) {
@@ -121,7 +138,7 @@ public class MessageListStyle extends Style {
         return button;
     }
 
-    public int getDateTextSize() {
+    public float getDateTextSize() {
         return dateTextSize;
     }
 
@@ -166,7 +183,7 @@ public class MessageListStyle extends Style {
         return receiveBubbleSelectedColor;
     }
 
-    public int getReceiveBubbleTextSize() {
+    public float getReceiveBubbleTextSize() {
         return receiveBubbleTextSize;
     }
 
@@ -211,7 +228,7 @@ public class MessageListStyle extends Style {
         return sendBubbleSelectedColor;
     }
 
-    public int getSendBubbleTextSize() {
+    public float getSendBubbleTextSize() {
         return sendBubbleTextSize;
     }
 
@@ -233,5 +250,13 @@ public class MessageListStyle extends Style {
 
     public int getSendBubblePaddingBottom() {
         return sendBubblePaddingBottom;
+    }
+
+    public int getWindowWidth() {
+        return windowWidth;
+    }
+
+    public float getBubbleMaxWidth() {
+        return bubbleMaxWidth;
     }
 }
