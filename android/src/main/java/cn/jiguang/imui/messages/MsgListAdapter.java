@@ -2,6 +2,7 @@ package cn.jiguang.imui.messages;
 
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.ViewHolder;
 import cn.jiguang.imui.commons.models.IMessage;
+import cn.jiguang.imui.commons.models.IUser;
 import cn.jiguang.imui.utils.CircleImageView;
 import cn.jiguang.imui.utils.DateFormatter;
 
@@ -52,6 +55,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private boolean mIsSelectedMode;
     private OnMsgClickListener<MESSAGE> mMsgClickListener;
     private OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
+    private OnAvatarClickListener<MESSAGE> mAvatarClickListener;
     private SelectionListener mSelectionListener;
     private int mSelectedItemCount;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -121,6 +125,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         if (wrapper.item instanceof IMessage) {
             ((BaseMessageViewHolder) holder).isSelected = wrapper.isSelected;
             ((BaseMessageViewHolder) holder).imageLoader = this.mImageLoader;
+            ((BaseMessageViewHolder) holder).mMsgLongClickListener = this.mMsgLongClickListener;
+            ((BaseMessageViewHolder) holder).mMsgClickListener = this.mMsgClickListener;
+            ((BaseMessageViewHolder) holder).mAvatarClickListener = this.mAvatarClickListener;
         }
         holder.onBind(wrapper.item);
     }
@@ -416,6 +423,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         }
     }
 
+    public void setOnAvatarClickListener(OnAvatarClickListener<MESSAGE> listener) {
+        mAvatarClickListener = listener;
+    }
+
     public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
         mLayoutManager = layoutManager;
     }
@@ -429,6 +440,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         private boolean isSelected;
         protected ImageLoader imageLoader;
+        protected OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
+        protected OnMsgClickListener<MESSAGE> mMsgClickListener;
+        protected OnAvatarClickListener<MESSAGE> mAvatarClickListener;
 
         public BaseMessageViewHolder(View itemView) {
             super(itemView);
@@ -482,6 +496,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      */
     public interface OnMsgLongClickListener<MESSAGE extends IMessage> {
         void onMessageLongClick(MESSAGE message);
+    }
+
+    public interface OnAvatarClickListener<MESSAGE extends IMessage> {
+        void onAvatarClick(MESSAGE message);
     }
 
     /**
@@ -541,7 +559,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         }
 
         @Override
-        public void onBind(MESSAGE message) {
+        public void onBind(final MESSAGE message) {
             msgTxt.setText(message.getText());
             date.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));
             boolean isAvatarExists = message.getUserInfo().getAvatar() != null
@@ -549,6 +567,38 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             if (isAvatarExists && imageLoader != null) {
                 imageLoader.loadImage(avatar, message.getUserInfo().getAvatar());
             }
+
+            msgTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mMsgClickListener != null) {
+                        mMsgClickListener.onMessageClick(message);
+                    }
+                }
+            });
+
+            msgTxt.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (mMsgLongClickListener != null) {
+                        mMsgLongClickListener.onMessageLongClick(message);
+                    } else {
+                        if (BuildConfig.DEBUG) {
+                            Log.w("MsgListAdapter", "Didn't set long click listener! Drop event.");
+                        }
+                    }
+                    return true;
+                }
+            });
+
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mAvatarClickListener != null) {
+                        mAvatarClickListener.onAvatarClick(message);
+                    }
+                }
+            });
         }
 
         @Override
@@ -608,6 +658,38 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             if (isAvatarExists && imageLoader != null) {
                 imageLoader.loadImage(avatar, message.getUserInfo().getAvatar());
             }
+
+            msgTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mMsgClickListener != null) {
+                        mMsgClickListener.onMessageClick(message);
+                    }
+                }
+            });
+
+            msgTxt.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (mMsgLongClickListener != null) {
+                        mMsgLongClickListener.onMessageLongClick(message);
+                    } else {
+                        if (BuildConfig.DEBUG) {
+                            Log.w("MsgListAdapter", "Didn't set long click listener! Drop event.");
+                        }
+                    }
+                    return true;
+                }
+            });
+
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mAvatarClickListener != null) {
+                        mAvatarClickListener.onAvatarClick(message);
+                    }
+                }
+            });
         }
 
         @Override

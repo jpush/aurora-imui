@@ -3,6 +3,7 @@
     <string name="input_hint">发送消息</string>
     <string name="message_click_hint">点击消息事件</string>
     <string name="message_long_click_hint">长按消息事件</string>
+    <string name="avatar_click_hint">头像点击事件</string>
 
     <string-array name="messages_array">
         <item>How are you</item>

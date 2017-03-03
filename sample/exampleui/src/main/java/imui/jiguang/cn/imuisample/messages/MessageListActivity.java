@@ -24,6 +24,7 @@ import cn.jiguang.imui.messages.ChatInput;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import imui.jiguang.cn.imuisample.R;
+import imui.jiguang.cn.imuisample.models.DefaultUser;
 import imui.jiguang.cn.imuisample.models.MyMessage;
 
 public class MessageListActivity extends Activity {
@@ -122,12 +123,23 @@ public class MessageListActivity extends Activity {
                 // do something
             }
         });
+
         mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
             @Override
             public void onMessageLongClick(MyMessage message) {
                 Toast.makeText(mContext, mContext.getString(R.string.message_long_click_hint),
                         Toast.LENGTH_SHORT).show();
                 // do something
+            }
+        });
+
+        mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMessage>() {
+            @Override
+            public void onAvatarClick(MyMessage message) {
+                DefaultUser userInfo = (DefaultUser) message.getUserInfo();
+                Toast.makeText(mContext, mContext.getString(R.string.avatar_click_hint),
+                        Toast.LENGTH_SHORT).show();
+                // Do something
             }
         });
         mAdapter.addToStart(new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT), false);
