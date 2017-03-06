@@ -15,38 +15,46 @@ enum IMUIInputStatus {
   case none
 }
 
-protocol IMUIInputViewDelegate: NSObjectProtocol {
+@objc protocol IMUIInputViewDelegate: NSObjectProtocol {
+
+  @objc func sendTextMessage(_ messageText: String)
+}
+
+extension IMUIInputViewDelegate {
   // sendText
-  func sendTextMessage(_ messageText: String)
-  func sendPhotoMessage(_ imageArr: [UIImage])
+
+  
+  func sendPhotoMessage(_ imageArr: [UIImage]) {
+  
+  }
   // recordVoice
   
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton)
-  func switchOutOfRecordingVoiceMode(recordVoiceBtn: UIButton)
-  func startRecordingVoice()
-  func finishRecordingVoice(_ voiceData: Data, durationTime: Double)
-  func cancelRecordingVoice()
+  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {
+  }
+  func switchOutOfRecordingVoiceMode(recordVoiceBtn: UIButton) {}
+  func startRecordingVoice() {}
+  func finishRecordingVoice(_ voiceData: Data, durationTime: Double) {}
+  func cancelRecordingVoice() {}
   
   // photo
-  func switchIntoSelectPhotoMode(photoBtn: UIButton)
-  func switchOutOfSelectPhotoMode(photoBtn: UIButton)
-  func showMoreView()
-  func photoClick(photoBtn: UIButton)
-  func finishSelectedPhoto(_ photoArr: [UIImage])
+  func switchIntoSelectPhotoMode(photoBtn: UIButton) {}
+  func switchOutOfSelectPhotoMode(photoBtn: UIButton) {}
+  func showMoreView() {}
+  func photoClick(photoBtn: UIButton) {}
+  func finishSelectedPhoto(_ photoArr: [UIImage]) {}
   
   // camera
-  func switchIntoCameraMode(cameraBtn: UIButton)
-  func switchOutOfCameraMode()
-  func finishShootPicture(picture: UIImage)
-  func finishShoootVideo(videoData: Data, durationTime: Double)
-  
+  func switchIntoCameraMode(cameraBtn: UIButton) {}
+  func switchOutOfCameraMode() {}
+  func finishShootPicture(picture: UIImage) {}
+  func finishShoootVideo(videoData: Data, durationTime: Double) {}
 }
 
 
 class IMUIInputView: UIView {
   
   public var inputViewStatus: IMUIInputStatus = .none
-  public weak var inputViewDelegate: IMUIInputViewDelegate?
+  open weak var inputViewDelegate: IMUIInputViewDelegate?
   @IBOutlet var view: UIView!
   
   @IBOutlet weak var bottomMergin: NSLayoutConstraint!
@@ -93,7 +101,8 @@ class IMUIInputView: UIView {
   }
 
   @IBAction func clickSendBtn(_ sender: Any) {
-
+    self.inputViewDelegate?.sendTextMessage(self.inputTextView.text)
+    self.inputTextView.text = ""
   }
   
   func keyboardFrameChanged(_ notification: Notification) {

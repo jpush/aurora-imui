@@ -43,7 +43,7 @@
                 <viewControllerPlaceholder storyboardName="IMUIChatViewController" referencedIdentifier="ChatVC" id="btR-ED-Yd1" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mew-4Z-Xy0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="588" y="-109"/>
+            <point key="canvasLocation" x="672" y="123"/>
         </scene>
     </scenes>
 </document>

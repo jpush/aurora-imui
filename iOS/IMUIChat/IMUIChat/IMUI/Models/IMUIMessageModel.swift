@@ -9,26 +9,6 @@
 import UIKit
 
 
-
-///// 发送息创建时的初始状态
-//kJMSGMessageStatusSendDraft = 0,
-///// 消息正在发送过程中. UI 一般显示进度条
-//kJMSGMessageStatusSending = 1,
-///// 媒体类消息文件上传失败
-//kJMSGMessageStatusSendUploadFailed = 2,
-///// 媒体类消息文件上传成功
-//kJMSGMessageStatusSendUploadSucceed = 3,
-///// 消息发送失败
-//kJMSGMessageStatusSendFailed = 4,
-///// 消息发送成功
-//kJMSGMessageStatusSendSucceed = 5,
-///// 接收中的消息(还在处理)
-//kJMSGMessageStatusReceiving = 6,
-///// 接收消息时自动下载媒体失败
-//kJMSGMessageStatusReceiveDownloadFailed = 7,
-///// 接收消息成功
-//kJMSGMessageStatusReceiveSucceed = 8,
-
 public enum IMUIMessageType {
   case text
   case image
@@ -51,19 +31,19 @@ public enum IMUIMessageReceiveStatus {
 }
 
 
+
 public protocol IMUIMessageModelProtocol {
+}
 
+extension IMUIMessageModelProtocol {
   
-//  func msgId() -> String
-//  func senderId() -> String
-//  func isIncoming() -> Bool
-//  func date() -> Date
-//  func status() -> IMUIMessageStatus
-//  
-//  func messageType() -> IMUIMessageType
-  var mediaData: NSData { get }
-  var textMessage: String { get }
-
+  func mediaData() -> Data {
+    return Data()
+  }
+  
+  func textMessage() -> String {
+    return ""
+  }
 }
 
 public protocol IMUIMessageDataSource {
@@ -71,38 +51,217 @@ public protocol IMUIMessageDataSource {
   
 }
 
-
-open class IMUIMessageModel: IMUIMessageModelProtocol {
+struct IMUIMessageCellLayout {
+//  static var cellEdgeInsets: UIOffset {
+//    set {
+//      IMUIMessageCellLayout.cellEdgeInsets = newValue
+//    }
+//    
+//    get {
+//      return IMUIMessageCellLayout.cellEdgeInsets
+//    }
+//  }
   
-  public var textMessage: String {
+  static var avatarSize: CGSize = CGSize.zero
+  
+  static var avatarOffsetToCell:UIOffset = UIOffset.zero
+  
+  static var timeLabelFrame: CGRect = CGRect.zero
+  
+  static var nameLabelFrame: CGRect = CGRect.zero
+  
+  static var bubbleOffsetToAvatar: UIOffset = UIOffset.zero
+  
+  static var CellWidth: CGFloat = 0
+  
+  static var bubbleMaxWidth = 500
+  static var isNeedShowInComingAvatar = true
+  static var isNeedShowOutGoingAvtar = true
+
+  var avatarFrame: CGRect {
     get {
-      return ""
+      var avatarX: CGFloat
+      if self.isOutGoingMessage {
+        avatarX = IMUIMessageCellLayout.CellWidth - IMUIMessageCellLayout.avatarOffsetToCell.horizontal - IMUIMessageCellLayout.avatarSize.width
+      } else {
+        avatarX = IMUIMessageCellLayout.avatarOffsetToCell.horizontal
+      }
+      
+      return CGRect(x: avatarX,
+                    y: IMUIMessageCellLayout.avatarOffsetToCell.vertical + self.timeLabelFrame.size.height,
+                    width: IMUIMessageCellLayout.avatarSize.width,
+                    height: IMUIMessageCellLayout.avatarSize.height)
+    }
+  }
+  
+  var timeLabelFrame: CGRect {
+    get {
+      if self.isNeedShowTime {
+        return IMUIMessageCellLayout.timeLabelFrame
+      } else {
+        return CGRect.zero
+      }
+    }
+  }
+  
+  var bubbleFrame: CGRect {
+    get {
+      var bubbleX:CGFloat
+      
+      if self.isOutGoingMessage {
+        bubbleX = IMUIMessageCellLayout.avatarOffsetToCell.horizontal + IMUIMessageCellLayout.avatarSize.width + IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal
+      } else {
+        bubbleX = IMUIMessageCellLayout.CellWidth -
+          IMUIMessageCellLayout.avatarOffsetToCell.horizontal -
+          IMUIMessageCellLayout.avatarSize.width -
+          IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal -
+          self.bubbleSize.width
+      }
+      return CGRect(x: bubbleX,
+                    y: IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical + self.avatarFrame.origin.y,
+                    width: self.bubbleSize.width,
+                    height: self.bubbleSize.height)
+    }
+  }
+  
+  var isOutGoingMessage: Bool
+  var bubbleSize: CGSize
+  var isNeedShowTime: Bool
+  
+  var cellHeight: CGFloat {
+    get {
+      return IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical +
+        self.avatarFrame.origin.y +
+        self.bubbleSize.height
     }
   }
 
-  public var mediaData: NSData {
-    get {
-     return NSData()
-    }
-  }
+}
+
+
+public class IMUIMessageModel: IMUIMessageModelProtocol {
   
   open var msgId: String = ""
   open var fromUser: IMUIUser
-  open var isIncoming: Bool = false
+  open var isOutGoing: Bool = true
   open var date: Date
   open var isNeedShowTime: Bool = false
   open var status: IMUIMessageStatus
   open var type: IMUIMessageType
+  var layout: IMUIMessageCellLayout!
   
+//  func textMessage() -> String {
+//    return ""
+//  }
+//  
+//  func mediaData() -> Data {
+//    return Data()
+//  }
   
+  open var bubbleSize: CGSize {
+    get {
+      if self.layout.bubbleSize.height == 0 {
+        switch type {
+        case .image:
+          var imgHeight:CGFloat?
+          var imgWidth:CGFloat?
+          
+          let img:UIImage = UIImage(data: self.mediaData() as Data)!
+          
+          if img.size.height >= img.size.width {
+            imgHeight = CGFloat(135)
+            imgWidth = img.size.width/img.size.height * imgHeight!
+            imgWidth = (imgWidth! < 55) ? 55 : imgWidth
+          } else {
+            imgWidth = CGFloat(135)
+            imgHeight = img.size.height/img.size.width * imgWidth!
+            imgHeight = (imgHeight! < 55) ? 55 : imgHeight!
+          }
+          
+          self.bubbleSize = CGSize(width: imgWidth!, height: imgHeight!)
+          self.layout.bubbleSize = self.bubbleSize
+          break
+        case .text:
+          self.bubbleSize = CGSize(width: 200, height: 200)
+          self.layout.bubbleSize = self.bubbleSize
+          break
+        case .voice:
+          self.bubbleSize = CGSize(width: 200, height: 37)
+          self.layout.bubbleSize = self.bubbleSize
+          break
+        case .location:
+          self.bubbleSize = CGSize(width: 200, height: 200)
+          self.layout.bubbleSize = self.bubbleSize
+          break
+        default:
+          break
+        }
+        
+        return self.layout.bubbleSize
+      } else {
+        return self.layout.bubbleSize
+      }
+    }
+    
+    set {
+      self.bubbleSize = newValue
+    }
+  }
   
-  public init(msgId: String, fromUser: IMUIUser, isIncoming: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType) {
+  open func calculateBubbleSize() -> CGSize {
+    var bubbleSize: CGSize!
+    switch type {
+    case .image:
+      var imgHeight:CGFloat?
+      var imgWidth:CGFloat?
+      
+      let img:UIImage = UIImage(data: self.mediaData() as Data)!
+      
+      if img.size.height >= img.size.width {
+        imgHeight = CGFloat(135)
+        imgWidth = img.size.width/img.size.height * imgHeight!
+        imgWidth = (imgWidth! < 55) ? 55 : imgWidth
+      } else {
+        imgWidth = CGFloat(135)
+        imgHeight = img.size.height/img.size.width * imgWidth!
+        imgHeight = (imgHeight! < 55) ? 55 : imgHeight!
+      }
+      
+//      self.bubbleSize = CGSize(width: imgWidth!, height: imgHeight!)
+//      self.layout.bubbleSize = self.bubbleSize
+      bubbleSize = CGSize(width: imgWidth!, height: imgHeight!)
+      break
+    case .text:
+//      self.bubbleSize = CGSize(width: 200, height: 200)
+//      self.layout.bubbleSize = self.bubbleSize
+      bubbleSize = CGSize(width: 200, height: 200)
+      break
+    case .voice:
+//      self.bubbleSize = CGSize(width: 200, height: 37)
+//      self.layout.bubbleSize = self.bubbleSize
+      bubbleSize = CGSize(width: 200, height: 37)
+      break
+    case .location:
+//      self.bubbleSize = CGSize(width: 200, height: 200)
+//      self.layout.bubbleSize = self.bubbleSize
+      bubbleSize = CGSize(width: 200, height: 200)
+      break
+    default:
+      break
+    }
+    return bubbleSize
+  }
+  
+  public init(msgId: String, fromUser: IMUIUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType) {
     self.msgId = msgId
     self.fromUser = fromUser
-    self.isIncoming = isIncoming
+    self.isOutGoing = isOutGoing
     self.date = date
     self.status = status
     self.type = type
+    
+    let bubbleSize = self.calculateBubbleSize()
+    self.layout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, bubbleSize: bubbleSize, isNeedShowTime: isNeedShowTime)
   }
   
 }

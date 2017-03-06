@@ -8,17 +8,20 @@
 
 import UIKit
 
+
 class IMUIChatViewController: UIViewController {
 
-  @IBOutlet weak var messageCollectionView: UICollectionView!
+  @IBOutlet weak var messageCollectionView: IMUIMessageCollectionView!
+  
+  @IBOutlet weak var myInputView: IMUIInputView!
+  
   
   let dataManager = IMUIChatDataManager()
   let chatLayout = IMUIChatLayout()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    
+    self.myInputView.inputViewDelegate = self
   }
   
   override func didReceiveMemoryWarning() {
@@ -26,4 +29,13 @@ class IMUIChatViewController: UIViewController {
     
   }
 
+}
+
+extension IMUIChatViewController: IMUIInputViewDelegate {
+  
+  func sendTextMessage(_ messageText: String) {
+    let message = MyMessageModel(with: messageText)
+    messageCollectionView.appendMessage(with: message)
+    messageCollectionView.reloadData()
+  }
 }

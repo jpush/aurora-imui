@@ -68,7 +68,8 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="967"/>
                     <connections>
-                        <outlet property="messageCollectionView" destination="V84-9j-9CQ" id="euk-nx-bht"/>
+                        <outlet property="messageCollectionView" destination="V84-9j-9CQ" id="Cvv-Yy-e4r"/>
+                        <outlet property="myInputView" destination="fVd-98-brH" id="bto-vq-eLm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PeG-SB-tKR" userLabel="First Responder" sceneMemberID="firstResponder"/>

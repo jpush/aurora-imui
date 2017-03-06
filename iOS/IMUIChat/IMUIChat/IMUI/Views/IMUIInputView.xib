@@ -32,18 +32,18 @@
                         <constraint firstAttribute="height" constant="28" id="Gfm-rK-gwl"/>
                         <constraint firstAttribute="width" constant="40" id="WR3-OB-QWu"/>
                     </constraints>
-                    <state key="normal" image="Assets.bundle/image/input_item_mic"/>
+                    <state key="normal" image="IMUIAssets.bundle/image/input_item_mic"/>
                     <connections>
                         <action selector="clickMicBtn:" destination="-1" eventType="touchUpInside" id="twb-2t-eFg"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pt-Mb-N0J">
-                    <rect key="frame" x="180.5" y="45" width="40" height="29"/>
+                    <rect key="frame" x="180" y="45" width="40" height="29"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="0XI-Yu-c2T"/>
                         <constraint firstAttribute="height" constant="29" id="wld-8N-Rb4"/>
                     </constraints>
-                    <state key="normal" image="Assets.bundle/image/input_item_camera.png"/>
+                    <state key="normal" image="IMUIAssets.bundle/image/input_item_camera.png"/>
                     <connections>
                         <action selector="clickCameraBtn:" destination="-1" eventType="touchUpInside" id="E5T-mr-6AD"/>
                     </connections>
@@ -54,7 +54,7 @@
                         <constraint firstAttribute="height" constant="29" id="CL4-NC-7eU"/>
                         <constraint firstAttribute="width" constant="40" id="w67-EI-PGi"/>
                     </constraints>
-                    <state key="normal" image="Assets.bundle/image/input_item_send.png"/>
+                    <state key="normal" image="IMUIAssets.bundle/image/input_item_send.png"/>
                     <connections>
                         <action selector="clickSendBtn:" destination="-1" eventType="touchUpInside" id="UAC-TB-9OD"/>
                     </connections>
@@ -65,7 +65,7 @@
                         <constraint firstAttribute="height" constant="28" id="ASV-aO-anz"/>
                         <constraint firstAttribute="width" constant="40" id="aZE-zw-Gqu"/>
                     </constraints>
-                    <state key="normal" image="Assets.bundle/image/input_item_photo.png"/>
+                    <state key="normal" image="IMUIAssets.bundle/image/input_item_photo.png"/>
                     <connections>
                         <action selector="clickPhotoBtn:" destination="-1" eventType="touchUpInside" id="3ec-1h-AyA"/>
                     </connections>
@@ -103,9 +103,9 @@
         </view>
     </objects>
     <resources>
-        <image name="Assets.bundle/image/input_item_camera.png" width="16" height="16"/>
-        <image name="Assets.bundle/image/input_item_mic" width="16" height="16"/>
-        <image name="Assets.bundle/image/input_item_photo.png" width="16" height="16"/>
-        <image name="Assets.bundle/image/input_item_send.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/input_item_camera.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/input_item_mic" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/input_item_photo.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/input_item_send.png" width="16" height="16"/>
     </resources>
 </document>

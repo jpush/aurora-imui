@@ -8,7 +8,18 @@
 
 import UIKit
 
-class IMUIBaseMessageCell: UICollectionViewCell {
+
+enum IMUIMessageCellType {
+  case incoming
+  case outgoing
+}
+
+protocol IMUIMessageCellProtocal {
+  func presentCell(with message: IMUIMessageModel)
+}
+
+
+class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   var bubbleView: IMUIMessageBubbleView
   var avatarImage: UIImageView
   var timeLable: UILabel
@@ -28,15 +39,35 @@ class IMUIBaseMessageCell: UICollectionViewCell {
     self.contentView.addSubview(self.avatarImage)
     self.contentView.addSubview(self.timeLable)
     self.contentView.addSubview(self.nameLable)
-
+    
+    
+    self.nameLable.frame = IMUIMessageCellLayout.nameLabelFrame
+    
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
+  func layoutCell(with type: IMUIMessageCellType) {
+    
+  }
   
+  func layoutCell(with layout: IMUIMessageCellLayout) {
+    self.timeLable.frame = layout.timeLabelFrame
+    self.avatarImage.frame = layout.avatarFrame
+    self.bubbleView.frame = layout.bubbleFrame
+  }
   
+  func setupData(with message: IMUIMessageModel) {
+    self.avatarImage.image = message.fromUser.Avatar()
+    self.avatarImage.backgroundColor = UIColor.red
+    self.bubbleView.backgroundColor = UIColor.blue
+  }
   
+  open func presentCell(with message: IMUIMessageModel) {
+    self.layoutCell(with: message.layout)
+    self.setupData(with: message)
+  }
   
 }

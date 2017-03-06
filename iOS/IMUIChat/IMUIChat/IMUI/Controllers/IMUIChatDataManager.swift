@@ -14,6 +14,12 @@ class IMUIChatDataManager: NSObject {
   var allMessageArr = [IMUIMessageModel]()
   var allMessageDic = [String:IMUIMessageModel]()
   
+  var count: Int {
+    get {
+      return allMessageArr.count
+    }
+  }
+  
   subscript(index: Int) -> IMUIMessageModel {
     return allMessageArr[index]
   }
@@ -22,15 +28,25 @@ class IMUIChatDataManager: NSObject {
     return allMessageDic[msgId]
   }
   
+  var endIndex: Int {
+    get {
+      return self.allMessageArr.endIndex
+    }
+  }
+  
   func cleanCache() {
     self.allMessageArr.removeAll()
     self.allMessageDic.removeAll()
   }
   
+  
   open func appendMessage(with message: IMUIMessageModel) {
     self.allMessageArr.append(message)
     self.allMessageDic[message.msgId] = message
-    self.setupNeedShowTime(between: message, and: self.allMessageArr[-1])
+    
+    if self.count > 1 {
+      self.setupNeedShowTime(between: message, and: self.allMessageArr[allMessageArr.endIndex - 1])
+    }
   }
   
   func insertMessage(with message: IMUIMessageModel) {
