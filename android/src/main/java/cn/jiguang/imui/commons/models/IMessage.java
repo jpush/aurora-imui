@@ -34,4 +34,8 @@ public interface IMessage {
     MessageType getType();
 
     String getText();
+
+    String getContentFile();
+
+    int getDuration();
 }

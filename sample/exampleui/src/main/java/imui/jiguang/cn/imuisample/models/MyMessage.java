@@ -14,6 +14,8 @@ public class MyMessage implements IMessage {
     private Date createAt;
     private MessageType type;
     private IUser user;
+    private String contentFile;
+    private int duration;
 
     public MyMessage(String text, MessageType type) {
         this.text = text;
@@ -38,6 +40,19 @@ public class MyMessage implements IMessage {
         this.user = user;
     }
 
+    public void setContentFile(String path) {
+        this.contentFile = path;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    @Override
+    public int getDuration() {
+        return duration;
+    }
+
     @Override
     public Date getCreatedAt() {
         return createAt == null ? new Date() : createAt;
@@ -51,5 +66,10 @@ public class MyMessage implements IMessage {
     @Override
     public String getText() {
         return text;
+    }
+
+    @Override
+    public String getContentFile() {
+        return contentFile;
     }
 }

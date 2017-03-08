@@ -1,13 +1,23 @@
 package cn.jiguang.imui.messages;
 
+import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +28,6 @@ import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.ViewHolder;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.commons.models.IUser;
 import cn.jiguang.imui.utils.CircleImageView;
 import cn.jiguang.imui.utils.DateFormatter;
 
@@ -47,6 +56,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     //自定义消息
     private final int TYPE_CUSTOM_TXT = 9;
 
+    private Context mContext;
     private String mSenderId;
     private HoldersConfig mHolders;
     private OnLoadMoreListener mListener;
@@ -76,9 +86,13 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_RECEIVE_TXT:
-                return getHolder(parent, mHolders.mReceiveTxtLayout, mHolders.mReceiveTxtHolder);
+                return getHolder(parent, mHolders.mReceiveTxtLayout, mHolders.mReceiveTxtHolder, false);
             case TYPE_SEND_TXT:
-                return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendTxtHolder);
+                return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendTxtHolder, true);
+            case TYPE_SEND_VOICE:
+                return getHolder(parent, mHolders.mSendVoiceLayout, mHolders.mSendVoiceHolder, true);
+            case TYPE_RECEIVER_VOICE:
+                return getHolder(parent, mHolders.mReceiveVoiceLayout, mHolders.mReceiveVoiceHolder, false);
             default:
                 return null;
         }
@@ -94,6 +108,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_SEND_TXT;
                 case RECEIVE_TEXT:
                     return TYPE_RECEIVE_TXT;
+                case SEND_VOICE:
+                    return TYPE_SEND_VOICE;
+                case RECEIVE_VOICE:
+                    return TYPE_RECEIVER_VOICE;
                 default:
                     return TYPE_CUSTOM_TXT;
             }
@@ -102,12 +120,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     private <HOLDER extends ViewHolder> ViewHolder getHolder(ViewGroup parent, @LayoutRes int layout,
-                                                             Class<HOLDER> holderClass) {
+                                                             Class<HOLDER> holderClass, boolean isSender) {
         View v = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         try {
-            Constructor<HOLDER> constructor = holderClass.getDeclaredConstructor(View.class);
+            Constructor<HOLDER> constructor = holderClass.getDeclaredConstructor(View.class, boolean.class);
             constructor.setAccessible(true);
-            HOLDER holder = constructor.newInstance(v);
+            HOLDER holder = constructor.newInstance(v, isSender);
             if (holder instanceof DefaultMessageViewHolder) {
                 ((DefaultMessageViewHolder) holder).applyStyle(mStyle);
             }
@@ -123,6 +141,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public void onBindViewHolder(ViewHolder holder, int position) {
         Wrapper wrapper = mItems.get(position);
         if (wrapper.item instanceof IMessage) {
+            ((BaseMessageViewHolder) holder).mPosition = position;
+            ((BaseMessageViewHolder) holder).mContext = this.mContext;
             ((BaseMessageViewHolder) holder).isSelected = wrapper.isSelected;
             ((BaseMessageViewHolder) holder).imageLoader = this.mImageLoader;
             ((BaseMessageViewHolder) holder).mMsgLongClickListener = this.mMsgLongClickListener;
@@ -431,13 +451,16 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         mLayoutManager = layoutManager;
     }
 
-    public void setStyle(MessageListStyle style) {
+    public void setStyle(Context context, MessageListStyle style) {
+        mContext = context;
         mStyle = style;
     }
 
     public static abstract class BaseMessageViewHolder<MESSAGE extends IMessage>
             extends ViewHolder<MESSAGE> {
 
+        protected Context mContext;
+        protected int mPosition;
         private boolean isSelected;
         protected ImageLoader imageLoader;
         protected OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
@@ -511,14 +534,22 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendTxtHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveTxtHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendVoiceHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveVoiceHolder;
         private int mSendTxtLayout;
         private int mReceiveTxtLayout;
+        private int mSendVoiceLayout;
+        private int mReceiveVoiceLayout;
 
         public HoldersConfig() {
-            this.mSendTxtHolder = DefaultSendTxtViewHolder.class;
-            this.mReceiveTxtHolder = DefaultReceiveTxtViewHolder.class;
+            this.mSendTxtHolder = DefaultTxtViewHolder.class;
+            this.mReceiveTxtHolder = DefaultTxtViewHolder.class;
+            this.mSendVoiceHolder = DefaultVoiceViewHolder.class;
+            this.mReceiveVoiceHolder = DefaultVoiceViewHolder.class;
             this.mSendTxtLayout = R.layout.item_send_text;
             this.mReceiveTxtLayout = R.layout.item_receive_txt;
+            this.mSendVoiceLayout = R.layout.item_send_voice;
+            this.mReceiveVoiceLayout = R.layout.item_receive_voice;
         }
 
         public void setSenderTxtMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
@@ -541,18 +572,40 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             this.mReceiveTxtLayout = layout;
         }
 
+        public void setSenderVoiceMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                      @LayoutRes int layout) {
+            this.mSendVoiceHolder = holder;
+            this.mSendVoiceLayout = layout;
+        }
+
+        public void setSendVoiceLayout(@LayoutRes int layout) {
+            this.mSendVoiceLayout = layout;
+        }
+
+        public void setReceiverVoiceMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                        @LayoutRes int layout) {
+            this.mReceiveVoiceHolder = holder;
+            this.mReceiveVoiceLayout = layout;
+        }
+
+        public void setReceiveVoiceLayout(@LayoutRes int layout) {
+            this.mReceiveVoiceLayout = layout;
+        }
+
     }
 
-    public static class SendTxtViewHolder<MESSAGE extends IMessage>
+    public static class TxtViewHolder<MESSAGE extends IMessage>
             extends BaseMessageViewHolder<MESSAGE>
             implements DefaultMessageViewHolder {
 
         protected TextView msgTxt;
         protected TextView date;
         protected CircleImageView avatar;
+        protected boolean isSender;
 
-        public SendTxtViewHolder(View itemView) {
+        public TxtViewHolder(View itemView, boolean isSender) {
             super(itemView);
+            this.isSender = isSender;
             msgTxt = (TextView) itemView.findViewById(R.id.message_tv);
             date = (TextView) itemView.findViewById(R.id.date_tv);
             avatar = (CircleImageView) itemView.findViewById(R.id.avatar_iv);
@@ -604,13 +657,23 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         @Override
         public void applyStyle(MessageListStyle style) {
             msgTxt.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
-            msgTxt.setBackground(style.getSendBubbleDrawable());
-            msgTxt.setTextColor(style.getSendBubbleTextColor());
-            msgTxt.setTextSize(style.getSendBubbleTextSize());
-            msgTxt.setPadding(style.getSendBubblePaddingLeft(),
-                    style.getSendBubblePaddingTop(),
-                    style.getSendBubblePaddingRight(),
-                    style.getSendBubblePaddingBottom());
+            if (isSender) {
+                msgTxt.setBackground(style.getSendBubbleDrawable());
+                msgTxt.setTextColor(style.getSendBubbleTextColor());
+                msgTxt.setTextSize(style.getSendBubbleTextSize());
+                msgTxt.setPadding(style.getSendBubblePaddingLeft(),
+                        style.getSendBubblePaddingTop(),
+                        style.getSendBubblePaddingRight(),
+                        style.getSendBubblePaddingBottom());
+            } else {
+                msgTxt.setBackground(style.getReceiveBubbleDrawable());
+                msgTxt.setTextColor(style.getReceiveBubbleTextColor());
+                msgTxt.setTextSize(style.getReceiveBubbleTextSize());
+                msgTxt.setPadding(style.getReceiveBubblePaddingLeft(),
+                        style.getReceiveBubblePaddingTop(),
+                        style.getReceiveBubblePaddingRight(),
+                        style.getReceiveBubblePaddingBottom());
+            }
             date.setTextSize(style.getDateTextSize());
             date.setTextColor(style.getDateTextColor());
         }
@@ -625,45 +688,96 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     }
 
-    private static class DefaultSendTxtViewHolder extends SendTxtViewHolder<IMessage> {
+    private static class DefaultTxtViewHolder extends TxtViewHolder<IMessage> {
 
-        public DefaultSendTxtViewHolder(View itemView) {
-            super(itemView);
+        public DefaultTxtViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
 
         }
     }
 
-    public static class ReceiveTxtViewHolder<MESSAGE extends IMessage>
-            extends BaseMessageViewHolder<MESSAGE>
+
+    private static class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
             implements DefaultMessageViewHolder {
 
+        private boolean isSender;
         protected TextView msgTxt;
         protected TextView date;
         protected CircleImageView avatar;
+        protected ImageView voice;
+        protected TextView length;
+        protected ImageView unreadStatus;
+        private boolean mSetData = false;
+        private int mPlayPosition = -1;
+        private final MediaPlayer mp = new MediaPlayer();
+        private AnimationDrawable mVoiceAnimation;
+        private FileInputStream mFIS;
+        private FileDescriptor mFD;
+        private boolean mIsEarPhoneOn;
 
-
-        public ReceiveTxtViewHolder(View itemView) {
+        public VoiceViewHolder(View itemView, boolean isSender) {
             super(itemView);
+            this.isSender = isSender;
             msgTxt = (TextView) itemView.findViewById(R.id.message_tv);
             date = (TextView) itemView.findViewById(R.id.date_tv);
             avatar = (CircleImageView) itemView.findViewById(R.id.avatar_iv);
+            voice = (ImageView) itemView.findViewById(R.id.voice_iv);
+
+            if (isSender) {
+                length = (TextView) itemView.findViewById(R.id.voice_length_tv);
+            } else {
+                unreadStatus = (ImageView) itemView.findViewById(R.id.read_status_iv);
+            }
+
+            mp.setAudioStreamType(AudioManager.STREAM_RING);
+            mp.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    return false;
+                }
+            });
         }
 
         @Override
         public void onBind(final MESSAGE message) {
-            msgTxt.setText(message.getText());
             date.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));
             boolean isAvatarExists = message.getUserInfo().getAvatar() != null
                     && !message.getUserInfo().getAvatar().isEmpty();
             if (isAvatarExists && imageLoader != null) {
                 imageLoader.loadImage(avatar, message.getUserInfo().getAvatar());
             }
+            String lengthStr = message.getDuration() + mContext.getString(R.string.symbol_second);
+            length.setText(lengthStr);
 
             msgTxt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mMsgClickListener != null) {
                         mMsgClickListener.onMessageClick(message);
+                    }
+                    // TODO
+                    // 播放中点击了正在播放的Item 则暂停播放
+                    if (isSender) {
+                        voice.setImageResource(R.drawable.send_voice_anim);
+                    } else {
+                        voice.setImageResource(R.drawable.receive_voice_anim);
+                    }
+
+                    mVoiceAnimation = (AnimationDrawable) voice.getDrawable();
+                    if (mp.isPlaying() && mPosition == getAdapterPosition()) {
+                        pauseVoice();
+                        mVoiceAnimation.stop();
+                        // 开始播放录音
+                    } else {
+                        // 继续播放之前暂停的录音
+                        if (mSetData && mPosition == mPlayPosition) {
+                            mVoiceAnimation.start();
+                            mp.start();
+                            // 否则重新播放该录音或者其他录音
+                        } else {
+                            playVoice(mPosition, message, true);
+                        }
                     }
                 }
             });
@@ -681,44 +795,98 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return true;
                 }
             });
+        }
 
-            avatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mAvatarClickListener != null) {
-                        mAvatarClickListener.onAvatarClick(message);
-                    }
+        private void playVoice(int position, MESSAGE message, final boolean isSender) {
+            mPosition = position;
+            try {
+                mp.reset();
+                mFIS = new FileInputStream(message.getContentFile());
+                mFD = mFIS.getFD();
+                mp.setDataSource(mFD);
+                if (mIsEarPhoneOn) {
+                    mp.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
+                } else {
+                    mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 }
-            });
+                mp.prepare();
+                mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mVoiceAnimation.start();
+                        mp.start();
+                    }
+                });
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mVoiceAnimation.stop();
+                        mp.reset();
+                        mSetData = false;
+                        if (isSender) {
+                            voice.setImageResource(R.drawable.send_voice_anim);
+                        } else {
+                            voice.setImageResource(R.drawable.receive_voice_anim);
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                Toast.makeText(mContext, mContext.getString(R.string.file_not_found_toast),
+                        Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (mFIS != null) {
+                        mFIS.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private void pauseVoice() {
+            mp.pause();
+            mSetData = true;
+        }
+
+        public void setAudioPlayByEarPhone(int state) {
+            AudioManager audioManager = (AudioManager) mContext
+                    .getSystemService(Context.AUDIO_SERVICE);
+            int currVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+            audioManager.setMode(AudioManager.MODE_IN_CALL);
+            if (state == 0) {
+                mIsEarPhoneOn = false;
+                audioManager.setSpeakerphoneOn(true);
+                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
+                        audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
+                        AudioManager.STREAM_VOICE_CALL);
+            } else {
+                mIsEarPhoneOn = true;
+                audioManager.setSpeakerphoneOn(false);
+                audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume,
+                        AudioManager.STREAM_VOICE_CALL);
+            }
         }
 
         @Override
         public void applyStyle(MessageListStyle style) {
-            msgTxt.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
-            msgTxt.setBackground(style.getReceiveBubbleDrawable());
-            msgTxt.setTextColor(style.getReceiveBubbleTextColor());
-            msgTxt.setTextSize(style.getReceiveBubbleTextSize());
-            msgTxt.setPadding(style.getReceiveBubblePaddingLeft(),
-                    style.getReceiveBubblePaddingTop(),
-                    style.getReceiveBubblePaddingRight(),
-                    style.getReceiveBubblePaddingBottom());
             date.setTextSize(style.getDateTextSize());
             date.setTextColor(style.getDateTextColor());
-        }
-
-        public TextView getMsgTextView() {
-            return msgTxt;
-        }
-
-        public CircleImageView getAvatar() {
-            return avatar;
+            if (isSender) {
+                voice.setImageResource(R.drawable.send_voice_anim);
+                msgTxt.setBackground(style.getSendBubbleDrawable());
+            } else {
+                voice.setImageResource(R.drawable.receive_voice_anim);
+                msgTxt.setBackground(style.getReceiveBubbleDrawable());
+            }
         }
     }
 
-    private static class DefaultReceiveTxtViewHolder extends ReceiveTxtViewHolder<IMessage> {
+    private static class DefaultVoiceViewHolder extends VoiceViewHolder<IMessage> {
 
-        public DefaultReceiveTxtViewHolder(View itemView) {
-            super(itemView);
+        public DefaultVoiceViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
         }
     }
 }

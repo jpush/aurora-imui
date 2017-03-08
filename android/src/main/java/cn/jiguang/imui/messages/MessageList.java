@@ -14,6 +14,7 @@ import cn.jiguang.imui.commons.models.IMessage;
 public class MessageList extends RecyclerView {
 
     private MessageListStyle mMsgListStyle;
+    private Context mContext;
 
     public MessageList(Context context) {
         super(context);
@@ -31,6 +32,7 @@ public class MessageList extends RecyclerView {
 
     @SuppressWarnings("ResourceType")
     private void parseStyle(Context context, AttributeSet attrs) {
+        mContext = context;
         mMsgListStyle = MessageListStyle.parse(context, attrs);
     }
 
@@ -51,7 +53,7 @@ public class MessageList extends RecyclerView {
         setItemAnimator(itemAnimator);
         setLayoutManager(layoutManager);
         adapter.setLayoutManager(layoutManager);
-        adapter.setStyle(mMsgListStyle);
+        adapter.setStyle(mContext, mMsgListStyle);
         addOnScrollListener(new ScrollMoreListener(layoutManager, adapter));
         super.setAdapter(adapter);
     }

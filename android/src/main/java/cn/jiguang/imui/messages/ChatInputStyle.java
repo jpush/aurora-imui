@@ -3,7 +3,6 @@ package cn.jiguang.imui.messages;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import cn.jiguang.imui.R;
@@ -42,32 +41,32 @@ public class ChatInputStyle extends Style {
 
     public static ChatInputStyle parse(Context context, AttributeSet attrs) {
         ChatInputStyle style = new ChatInputStyle(context, attrs);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChatInput);
-        style.inputEditTextBg = typedArray.getDrawable(R.styleable.ChatInput_inputEditTextBg);
-        style.inputMarginLeft = typedArray.getDimensionPixelSize(R.styleable.ChatInput_inputMarginLeft,
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChatInputView);
+        style.inputEditTextBg = typedArray.getDrawable(R.styleable.ChatInputView_inputEditTextBg);
+        style.inputMarginLeft = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginLeft,
                 style.getDimension(R.dimen.input_margin_left));
-        style.inputMarginRight = typedArray.getDimensionPixelSize(R.styleable.ChatInput_inputMarginRight,
+        style.inputMarginRight = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginRight,
                 style.getDimension(R.dimen.input_margin_right));
-        style.inputMaxLines = typedArray.getInt(R.styleable.ChatInput_inputMaxLines, DEFAULT_MAX_LINES);
-        style.inputHint = typedArray.getString(R.styleable.ChatInput_inputHint);
-        style.inputText = typedArray.getString(R.styleable.ChatInput_inputText);
-        style.inputTextSize = typedArray.getDimensionPixelSize(R.styleable.ChatInput_inputTextSize,
+        style.inputMaxLines = typedArray.getInt(R.styleable.ChatInputView_inputMaxLines, DEFAULT_MAX_LINES);
+        style.inputHint = typedArray.getString(R.styleable.ChatInputView_inputHint);
+        style.inputText = typedArray.getString(R.styleable.ChatInputView_inputText);
+        style.inputTextSize = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputTextSize,
                 style.getDimension(R.dimen.input_text_size));
-        style.inputTextColor = typedArray.getColor(R.styleable.ChatInput_inputTextColor,
+        style.inputTextColor = typedArray.getColor(R.styleable.ChatInputView_inputTextColor,
                 style.getColor(R.color.input_text_color));
-        style.inputHintColor = typedArray.getColor(R.styleable.ChatInput_inputHintColor,
+        style.inputHintColor = typedArray.getColor(R.styleable.ChatInputView_inputHintColor,
                 style.getColor(R.color.input_hint_color));
-        style.inputCursorDrawable = typedArray.getDrawable(R.styleable.ChatInput_inputCursorDrawable);
+        style.inputCursorDrawable = typedArray.getDrawable(R.styleable.ChatInputView_inputCursorDrawable);
 
-        style.voiceBtnBg = typedArray.getDrawable(R.styleable.ChatInput_voiceBtnBg);
-        style.voiceBtnIcon = typedArray.getDrawable(R.styleable.ChatInput_voiceBtnIcon);
-        style.photoBtnBg = typedArray.getDrawable(R.styleable.ChatInput_photoBtnBg);
-        style.photoBtnIcon = typedArray.getDrawable(R.styleable.ChatInput_photoBtnIcon);
-        style.cameraBtnBg = typedArray.getDrawable(R.styleable.ChatInput_cameraBtnBg);
-        style.cameraBtnIcon = typedArray.getDrawable(R.styleable.ChatInput_cameraBtnIcon);
-        style.sendBtnBg = typedArray.getDrawable(R.styleable.ChatInput_sendBtnBg);
-        style.sendBtnIcon = typedArray.getDrawable(R.styleable.ChatInput_sendBtnIcon);
-        style.sendCountBg = typedArray.getDrawable(R.styleable.ChatInput_sendCountBg);
+        style.voiceBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_voiceBtnBg);
+        style.voiceBtnIcon = typedArray.getDrawable(R.styleable.ChatInputView_voiceBtnIcon);
+        style.photoBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_photoBtnBg);
+        style.photoBtnIcon = typedArray.getDrawable(R.styleable.ChatInputView_photoBtnIcon);
+        style.cameraBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_cameraBtnBg);
+        style.cameraBtnIcon = typedArray.getDrawable(R.styleable.ChatInputView_cameraBtnIcon);
+        style.sendBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_sendBtnBg);
+        style.sendBtnIcon = typedArray.getDrawable(R.styleable.ChatInputView_sendBtnIcon);
+        style.sendCountBg = typedArray.getDrawable(R.styleable.ChatInputView_sendCountBg);
         typedArray.recycle();
 
         style.inputDefaultPaddingLeft = style.getDimension(R.dimen.input_padding_left);

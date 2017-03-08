@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/jmui_chat_item_send_layout">
+
+    <TextView
+        android:id="@+id/date_tv"
+        style="@style/jmui_chat_text_date_style"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <cn.jiguang.imui.utils.CircleImageView
+            android:id="@+id/avatar_iv"
+            style="@style/jmui_chat_item_sender_avatar_style"/>
+
+        <FrameLayout
+            android:id="@+id/voice_fl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/avatar_iv"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/message_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/send_bubble"
+                android:maxWidth="220dp" />
+
+            <ImageView
+                android:id="@+id/voice_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/send_voice_anim" />
+
+            <TextView
+                android:id="@+id/voice_length_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="5dp"
+                android:text="3'"
+                android:layout_marginRight="10dp"
+                android:textColor="#555555"
+                android:textSize="12sp" />
+
+        </FrameLayout>
+
+
+        <ImageButton
+            android:id="@+id/resend_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/voice_fl"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:background="@drawable/jmui_send_error"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/sending_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@id/voice_fl"
+            android:src="@drawable/jmui_sending_img"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

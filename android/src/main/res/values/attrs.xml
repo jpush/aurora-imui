@@ -38,7 +38,7 @@
     
     <!-->Chat input style<-->
     <attr name="chat_input" />
-    <declare-styleable name="ChatInput">
+    <declare-styleable name="ChatInputView">
         <attr name="inputMarginLeft" format="dimension|reference" />
         <attr name="inputMarginRight" format="dimension|reference" />
         <attr name="inputEditTextBg" format="reference" />

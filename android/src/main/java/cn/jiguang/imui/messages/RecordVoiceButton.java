@@ -15,7 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +29,7 @@ import java.util.TimerTask;
 
 import cn.jiguang.imui.R;
 
-public class RecordVoiceButton extends Button {
+public class RecordVoiceButton extends ImageButton {
 
     private final static String TAG = "RecordVoiceButton";
 
@@ -45,10 +45,7 @@ public class RecordVoiceButton extends Button {
     //依次为开始录音时刻，按下录音时刻，松开录音按钮时刻
     private long startTime, time1, time2;
 
-    private Dialog recordIndicator;
 
-    private ImageView mVolumeIv;
-    private TextView mRecordHintTv;
 
     private MediaRecorder recorder;
 
@@ -66,14 +63,14 @@ public class RecordVoiceButton extends Button {
     private RecordVoiceBtnStyle mStyle;
     private RecordVoiceListener mListener;
 
-    public RecordVoiceButton(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public RecordVoiceButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
         this.mContext = context;
         init(context, attrs);
     }
 
-    public RecordVoiceButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public RecordVoiceButton(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         this.mContext = context;
         init(context, attrs);
     }
@@ -118,7 +115,7 @@ public class RecordVoiceButton extends Button {
         int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                this.setText(mStyle.getTapDownText());
+//                this.setText(mStyle.getTapDownText());
                 mIsPressed = true;
                 time1 = System.currentTimeMillis();
                 mTouchY1 = event.getY();
@@ -139,13 +136,13 @@ public class RecordVoiceButton extends Button {
                     Toast.makeText(this.getContext(), mContext.getString(R.string.sdcard_not_exist_toast),
                             Toast.LENGTH_SHORT).show();
                     this.setPressed(false);
-                    this.setText(mStyle.getVoiceBtnText());
+//                    this.setText(mStyle.getVoiceBtnText());
                     mIsPressed = false;
                     return false;
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                this.setText(mStyle.getVoiceBtnText());
+//                this.setText(mStyle.getVoiceBtnText());
                 mIsPressed = false;
                 this.setPressed(false);
                 mTouchY2 = event.getY();
@@ -164,14 +161,14 @@ public class RecordVoiceButton extends Button {
                 mTouchY = event.getY();
                 //手指上滑到超出限定后，显示松开取消发送提示
                 if (mTouchY1 - mTouchY > MIN_CANCEL_DISTANCE) {
-                    this.setText(mContext.getString(R.string.cancel_record_voice_hint));
+//                    this.setText(mContext.getString(R.string.cancel_record_voice_hint));
                     mVolumeHandler.sendEmptyMessage(CANCEL_RECORD);
                     if (mThread != null) {
                         mThread.exit();
                     }
                     mThread = null;
                 } else {
-                    this.setText(mContext.getString(R.string.release_send_voice_hint));
+//                    this.setText(mContext.getString(R.string.release_send_voice_hint));
                     if (mThread == null) {
                         mThread = new ObtainDecibelThread();
                         mThread.start();
@@ -179,7 +176,7 @@ public class RecordVoiceButton extends Button {
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:// 当手指移动到view外面，会cancel
-                this.setText(mStyle.getVoiceBtnText());
+//                this.setText(mStyle.getVoiceBtnText());
                 cancelRecord();
                 break;
         }
@@ -207,24 +204,13 @@ public class RecordVoiceButton extends Button {
     }
 
     private void initDialogAndStartRecord() {
-        recordIndicator = new Dialog(getContext());
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.dialog_record_voice, null);
-        recordIndicator.setContentView(view);
-        mVolumeIv = (ImageView) recordIndicator.findViewById(R.id.jmui_volume_hint_iv);
-        mRecordHintTv = (TextView) recordIndicator.findViewById(R.id.jmui_record_voice_tv);
-        mRecordHintTv.setText(mContext.getString(R.string.move_to_cancel_hint));
         startRecording();
-        recordIndicator.show();
     }
 
     //录音完毕加载 ListView item
     private void finishRecord() {
         cancelTimer();
         stopRecording();
-        if (recordIndicator != null) {
-            recordIndicator.dismiss();
-        }
 
         long intervalTime = System.currentTimeMillis() - startTime;
         if (intervalTime < MIN_INTERVAL_TIME) {
@@ -250,7 +236,7 @@ public class RecordVoiceButton extends Button {
                     }
                     // TODO finish callback here
                     if (null != mListener) {
-                        mListener.onFinishRecord();
+                        mListener.onFinishRecord(myRecAudioFile, duration);
                     }
                 } else {
                     Toast.makeText(mContext, mContext.getString(R.string.record_voice_permission_request),
@@ -270,9 +256,6 @@ public class RecordVoiceButton extends Button {
         mTimeUp = false;
         cancelTimer();
         stopRecording();
-        if (recordIndicator != null) {
-            recordIndicator.dismiss();
-        }
         if (myRecAudioFile != null) {
             myRecAudioFile.delete();
         }
@@ -413,10 +396,7 @@ public class RecordVoiceButton extends Button {
     }
 
     public void dismissDialog() {
-        if (recordIndicator != null) {
-            recordIndicator.dismiss();
-        }
-        this.setText(mStyle.getVoiceBtnText());
+//        this.setText(mStyle.getVoiceBtnText());
     }
 
     /**
@@ -445,8 +425,8 @@ public class RecordVoiceButton extends Button {
                     msg1.setData(bundle);
                     //创建一个延迟一秒执行的HandlerMessage，用于倒计时
                     controller.mVolumeHandler.sendMessageDelayed(msg1, 1000);
-                    controller.mRecordHintTv.setText(String.format(controller.mContext
-                            .getString(R.string.rest_record_time_hint), restTime + ""));
+//                    controller.mRecordHintTv.setText(String.format(controller.mContext
+//                            .getString(R.string.rest_record_time_hint), restTime + ""));
                     // 倒计时结束，发送语音, 重置状态
                 } else if (restTime == 0) {
                     controller.finishRecord();
@@ -457,24 +437,24 @@ public class RecordVoiceButton extends Button {
                     // 没有进入倒计时状态
                     if (!controller.mTimeUp) {
                         if (msg.what < CANCEL_RECORD) {
-                            controller.mRecordHintTv.setText(controller.mContext.getString(R.string
-                                    .move_to_cancel_hint));
+//                            controller.mRecordHintTv.setText(controller.mContext.getString(R.string
+//                                    .move_to_cancel_hint));
                         }
                         else {
-                            controller.mRecordHintTv.setText(controller.mContext.getString(R.string
-                                    .cancel_record_voice_hint));
+//                            controller.mRecordHintTv.setText(controller.mContext.getString(R.string
+//                                    .cancel_record_voice_hint));
                         }
                         // 进入倒计时
                     } else {
                         if (msg.what == CANCEL_RECORD) {
-                            controller.mRecordHintTv.setText(controller.mContext.getString(R.string
-                                    .cancel_record_voice_hint));
+//                            controller.mRecordHintTv.setText(controller.mContext.getString(R.string
+//                                    .cancel_record_voice_hint));
                             if (!mIsPressed) {
                                 controller.cancelRecord();
                             }
                         }
                     }
-                    controller.mVolumeIv.setImageDrawable(res[msg.what]);
+//                    controller.mVolumeIv.setImageDrawable(res[msg.what]);
                 }
             }
         }
@@ -508,7 +488,12 @@ public class RecordVoiceButton extends Button {
      */
     public interface RecordVoiceListener {
 
-        void onFinishRecord();
+        /**
+         *
+         * @param voiceFile
+         * @param duration
+         */
+        void onFinishRecord(File voiceFile, int duration);
 
 
     }

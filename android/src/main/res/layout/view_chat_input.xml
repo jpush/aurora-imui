@@ -35,7 +35,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/menu_container"
+        android:id="@+id/menu_item_container"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:baselineAligned="false"
@@ -129,5 +129,45 @@
 
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/menu_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+
+        <LinearLayout
+            android:id="@+id/record_voice_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+
+            <cn.jiguang.imui.messages.RecordVoiceButton
+                android:id="@+id/record_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/record_voice_mic"/>
+
+        </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/photo_container"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:visibility="gone">
+
+           <cn.jiguang.imui.utils.ImgBrowserViewPager
+               android:id="@+id/photo_vp"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent" />
+
+       </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>
