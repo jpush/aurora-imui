@@ -140,16 +140,17 @@
         <LinearLayout
             android:id="@+id/record_voice_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:visibility="gone">
+            android:visibility="visible">
 
 
             <cn.jiguang.imui.messages.RecordVoiceButton
                 android:id="@+id/record_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:background="@drawable/record_voice_mic"/>
 
         </LinearLayout>

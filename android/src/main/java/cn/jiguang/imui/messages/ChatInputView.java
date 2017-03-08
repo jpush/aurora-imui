@@ -92,6 +92,16 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mVoiceBtn.setOnClickListener(this);
         this.mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = ((Activity)context).getWindow();
+        mChatInput.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    mShowSoftInput = true;
+                    invisibleMenuLayout();
+                }
+                return false;
+            }
+        });
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -181,11 +191,10 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                 mChatInput.setText("");
             }
         } else {
-            if (!mShowMenu) {
-                showMenuLayout();
-                dismissSoftInput();
+            if (mMenuContainer.getVisibility() != VISIBLE) {
+                dismissSoftInputAndShowMenu();
             } else {
-                dismissMenuLayout();
+                dismissMenuAndResetSoftMode();
             }
 
             if (view.getId() == R.id.voice_ib) {
@@ -209,6 +218,11 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     public void dismissMenuLayout() {
         mMenuContainer.setVisibility(GONE);
+        mShowMenu = false;
+    }
+
+    public void invisibleMenuLayout() {
+        mMenuContainer.setVisibility(INVISIBLE);
         mShowMenu = false;
     }
 
@@ -257,8 +271,8 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mShowSoftInput = state;
     }
 
-    public boolean getMenuState() {
-        return mShowMenu;
+    public int getMenuState() {
+        return mMenuContainer.getVisibility();
     }
 
     /**
@@ -290,7 +304,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     }
 
 
-    public void showSoftInputAndDismissMenu() {
+    public void dismissMenuAndResetSoftMode() {
         mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); // 隐藏软键盘
         try {
@@ -301,11 +315,23 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
         dismissMenuLayout();
         mChatInput.requestFocus();
-        if (mImm != null) {
-            mImm.showSoftInput(mChatInput, InputMethodManager.SHOW_FORCED);//强制显示键盘
+    }
+
+    public void dismissSoftInputAndShowMenu() {
+        //隐藏软键盘
+        mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); // 隐藏软键盘
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        mShowSoftInput = true;
+        showMenuLayout();
+        if (mImm != null) {
+            mImm.hideSoftInputFromWindow(mChatInput.getWindowToken(), 0); //强制隐藏键盘
+        }
         setMenuContainerHeight(mMenuHeight);
+        mShowSoftInput = false;
     }
 
     public void dismissSoftInput() {
