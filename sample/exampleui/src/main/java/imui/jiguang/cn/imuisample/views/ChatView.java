@@ -2,6 +2,7 @@ package imui.jiguang.cn.imuisample.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -78,6 +79,10 @@ public class ChatView extends RelativeLayout {
 
     public void setOnSizeChangedListener(OnSizeChangedListener listener) {
         mSizeChangedListener = listener;
+    }
+
+    public void setOnTouchListener(OnTouchListener listener) {
+        mMsgList.setOnTouchListener(listener);
     }
 
     @Override

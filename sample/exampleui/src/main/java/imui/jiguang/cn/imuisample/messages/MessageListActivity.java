@@ -4,7 +4,6 @@ package imui.jiguang.cn.imuisample.messages;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -35,7 +34,7 @@ import imui.jiguang.cn.imuisample.models.MyMessage;
 import imui.jiguang.cn.imuisample.views.ChatView;
 
 public class MessageListActivity extends Activity implements ChatView.OnKeyboardChangedListener,
-        ChatView.OnSizeChangedListener {
+        ChatView.OnSizeChangedListener, View.OnTouchListener {
 
     private MsgListAdapter<MyMessage> mAdapter;
     private Context mContext;
@@ -59,6 +58,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         initMsgAdapter();
         mChatView.setKeyboardChangedListener(this);
         mChatView.setOnSizeChangedListener(this);
+        mChatView.setOnTouchListener(this);
         mChatView.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
             @Override
             public boolean onSubmit(CharSequence input) {
@@ -203,9 +203,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 if (mImm != null) {
                     mImm.isActive();
                 }
-                if (mChatView.getChatInputView().getVisibility() == View.INVISIBLE
-                        || (!chatInputView.getSoftInputState()
-                        && mChatView.getChatInputView().getVisibility() == View.GONE)) {
+                if (chatInputView.getMenuState() == View.INVISIBLE || (!chatInputView.getSoftInputState()
+                        && chatInputView.getMenuState() == View.GONE)) {
 
                     mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
                             | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -214,7 +213,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    mChatView.getChatInputView().setVisibility(View.GONE);
+                    chatInputView.dismissMenuLayout();
                 }
                 break;
         }
@@ -225,6 +224,36 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         if (oldh - h > 300) {
             mChatView.setMenuHeight(oldh - h);
         }
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                ChatInputView chatInputView = mChatView.getChatInputView();
+                if (view.getId() == chatInputView.getInputView().getId()) {
+                    if (chatInputView.getMenuState() == View.VISIBLE && !chatInputView.getSoftInputState()) {
+                        chatInputView.dismissMenuAndResetSoftMode();
+                        return false;
+                    } else {
+                        return false;
+                    }
+                }
+                if (chatInputView.getMenuState() == View.VISIBLE) {
+                    chatInputView.dismissMenuLayout();
+                }
+                if (chatInputView.getSoftInputState()) {
+                    View v = getCurrentFocus();
+                    if (mImm != null && v != null) {
+                        mImm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                        mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        chatInputView.setSoftInputState(false);
+                    }
+                }
+                break;
+        }
+        return false;
     }
 
 }
