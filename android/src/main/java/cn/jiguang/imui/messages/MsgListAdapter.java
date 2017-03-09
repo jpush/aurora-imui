@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,6 +144,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         if (wrapper.item instanceof IMessage) {
             ((BaseMessageViewHolder) holder).mPosition = position;
             ((BaseMessageViewHolder) holder).mContext = this.mContext;
+            DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
+            ((BaseMessageViewHolder) holder).mDensity = dm.density;
             ((BaseMessageViewHolder) holder).isSelected = wrapper.isSelected;
             ((BaseMessageViewHolder) holder).imageLoader = this.mImageLoader;
             ((BaseMessageViewHolder) holder).mMsgLongClickListener = this.mMsgLongClickListener;
@@ -460,6 +463,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             extends ViewHolder<MESSAGE> {
 
         protected Context mContext;
+        protected float mDensity;
         protected int mPosition;
         private boolean isSelected;
         protected ImageLoader imageLoader;
@@ -747,7 +751,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             if (isAvatarExists && imageLoader != null) {
                 imageLoader.loadImage(avatar, message.getUserInfo().getAvatar());
             }
-            String lengthStr = message.getDuration() + mContext.getString(R.string.symbol_second);
+            int duration = message.getDuration();
+            String lengthStr = duration + mContext.getString(R.string.symbol_second);
+            int width = (int) (-0.04 * duration * duration + 4.526 * duration + 75.214);
+            msgTxt.setWidth((int) (width * mDensity));
             length.setText(lengthStr);
 
             msgTxt.setOnClickListener(new View.OnClickListener() {
@@ -756,7 +763,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     if (mMsgClickListener != null) {
                         mMsgClickListener.onMessageClick(message);
                     }
-                    // TODO
                     // 播放中点击了正在播放的Item 则暂停播放
                     if (isSender) {
                         voice.setImageResource(R.drawable.send_voice_anim);
@@ -874,10 +880,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             date.setTextSize(style.getDateTextSize());
             date.setTextColor(style.getDateTextColor());
             if (isSender) {
-                voice.setImageResource(R.drawable.send_voice_anim);
+                voice.setImageResource(R.drawable.send_mic_3);
                 msgTxt.setBackground(style.getSendBubbleDrawable());
             } else {
-                voice.setImageResource(R.drawable.receive_voice_anim);
+                voice.setImageResource(R.drawable.receive_mic_3);
                 msgTxt.setBackground(style.getReceiveBubbleDrawable());
             }
         }

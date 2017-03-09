@@ -140,10 +140,10 @@
         <LinearLayout
             android:id="@+id/record_voice_container"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:visibility="visible">
+            android:visibility="gone">
 
 
             <cn.jiguang.imui.messages.RecordVoiceButton
@@ -155,19 +155,35 @@
 
         </LinearLayout>
 
-       <LinearLayout
+       <FrameLayout
            android:id="@+id/photo_container"
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="vertical"
+           android:layout_height="match_parent"
            android:visibility="gone">
+
+           <ProgressBar
+               android:id="@+id/progress_bar"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:visibility="gone"/>
 
            <cn.jiguang.imui.utils.ImgBrowserViewPager
                android:id="@+id/photo_vp"
                android:layout_width="match_parent"
-               android:layout_height="match_parent" />
+               android:layout_height="match_parent"
+               android:clipChildren="false"/>
 
-       </LinearLayout>
+           <ImageButton
+               android:id="@+id/album_ib"
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+               android:layout_gravity="bottom|right"
+               android:layout_marginRight="20dp"
+               android:layout_marginBottom="20dp"
+               android:background="@drawable/album"/>
+
+       </FrameLayout>
 
     </FrameLayout>
 
