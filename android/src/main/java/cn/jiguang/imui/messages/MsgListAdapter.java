@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -680,6 +679,11 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             }
             date.setTextSize(style.getDateTextSize());
             date.setTextColor(style.getDateTextColor());
+
+            android.view.ViewGroup.LayoutParams layoutParams = avatar.getLayoutParams();
+            layoutParams.width = style.getAvatarWidth();
+            layoutParams.height = style.getAvatarHeight();
+            avatar.setLayoutParams(layoutParams);
         }
 
         public TextView getMsgTextView() {
@@ -886,6 +890,11 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 voice.setImageResource(R.drawable.receive_mic_3);
                 msgTxt.setBackground(style.getReceiveBubbleDrawable());
             }
+
+            android.view.ViewGroup.LayoutParams layoutParams = avatar.getLayoutParams();
+            layoutParams.width = style.getAvatarWidth();
+            layoutParams.height = style.getAvatarHeight();
+            avatar.setLayoutParams(layoutParams);
         }
     }
 
