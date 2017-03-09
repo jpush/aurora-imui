@@ -146,19 +146,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
             }
         });
 
-        mMenuContainer.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return mImgViewPager.dispatchTouchEvent(motionEvent);
-            }
-        });
-
-        mRecordVoiceLl.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 
     private void init(Context context, AttributeSet attrs) {
