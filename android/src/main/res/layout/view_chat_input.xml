@@ -100,28 +100,34 @@
             android:gravity="center">
 
             <FrameLayout
+                android:id="@+id/send_btn_fl"
                 android:layout_width="55dp"
                 android:layout_height="match_parent">
 
                 <ImageButton
                     android:id="@+id/send_msg_ib"
                     android:layout_gravity="center"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     android:background="@drawable/send" />
 
                 <TextView
                     android:id="@+id/send_count_tv"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:textColor="@android:color/black"
                     android:background="@drawable/white_circle"
                     android:gravity="center"
-                    android:elevation="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:elevation="4dp"
+                    android:textSize="10sp"
+                    android:ems="1"
+                    android:maxLines="1"
                     android:layout_gravity="bottom|right"
-                    android:visibility="gone"/>
+                    android:visibility="visible"/>
 
             </FrameLayout>
 
@@ -161,18 +167,18 @@
            android:layout_height="match_parent"
            android:visibility="gone">
 
+           <cn.jiguang.imui.utils.ImgBrowserViewPager
+               android:id="@+id/photo_vp"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:clipChildren="false"/>
+
            <ProgressBar
                android:id="@+id/progress_bar"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_gravity="center"
                android:visibility="gone"/>
-
-           <cn.jiguang.imui.utils.ImgBrowserViewPager
-               android:id="@+id/photo_vp"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:clipChildren="false"/>
 
            <ImageButton
                android:id="@+id/album_ib"

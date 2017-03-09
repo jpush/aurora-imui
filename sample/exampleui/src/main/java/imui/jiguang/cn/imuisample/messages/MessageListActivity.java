@@ -70,6 +70,11 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
 
             @Override
+            public void onSendFiles(List<String> list) {
+                // do something
+            }
+
+            @Override
             public void onVoiceClick() {
                 if ((ActivityCompat.checkSelfPermission(MessageListActivity.this,
                         Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)) {

@@ -1,13 +1,15 @@
 package cn.jiguang.imui.messages;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -20,7 +22,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -34,20 +35,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.FileItem;
 import cn.jiguang.imui.utils.ImgBrowserViewPager;
 
-public class ChatInputView extends LinearLayout implements View.OnClickListener, TextWatcher {
+public class ChatInputView extends LinearLayout implements View.OnClickListener, TextWatcher,
+        PhotoAdapter.OnFileSelectedListener {
 
     private EditText mChatInput;
+    private FrameLayout mSendBtnFl;
     private ImageButton mSendBtn;
     private TextView mSendCountTv;
     private CharSequence mInput;
@@ -61,8 +63,8 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     private FrameLayout mPhotoFl;
     private RecordVoiceButton mRecordVoiceBtn;
     private ImgBrowserViewPager mImgViewPager;
-    private ImageView mPhotoIv;
     private ProgressBar mProgressBar;
+    private ImageView checkedIcon;
     private ImageButton mAlbumBtn;
     private OnMenuClickListener mListener;
     private ChatInputStyle mStyle;
@@ -72,6 +74,8 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     private int mMenuHeight = 300;
     private boolean mShowSoftInput = false;
+    private PhotoAdapter mAdapter;
+    private List<String> mSendFiles = new ArrayList<>();
     private List<FileItem> mPhotos = new ArrayList<>();
     private MyHandler myHandler = new MyHandler(this);
 
@@ -101,6 +105,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mChatInput = (EditText) findViewById(R.id.chat_input_et);
         mVoiceBtn = (ImageButton) findViewById(R.id.voice_ib);
         mPhotoBtn = (ImageButton) findViewById(R.id.photo_ib);
+        mSendBtnFl = (FrameLayout) findViewById(R.id.send_btn_fl);
         mSendBtn = (ImageButton) findViewById(R.id.send_msg_ib);
         mSendCountTv = (TextView) findViewById(R.id.send_count_tv);
         mCameraBtn = (ImageButton) findViewById(R.id.camera_ib);
@@ -110,6 +115,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mRecordVoiceLl = (LinearLayout) findViewById(R.id.record_voice_container);
         mPhotoFl = (FrameLayout) findViewById(R.id.photo_container);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        checkedIcon = (ImageView) findViewById(R.id.checked_iv);
         mAlbumBtn = (ImageButton) findViewById(R.id.album_ib);
         mRecordVoiceBtn = (RecordVoiceButton) findViewById(R.id.record_btn);
         mImgViewPager = (ImgBrowserViewPager) findViewById(R.id.photo_vp);
@@ -118,20 +124,32 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mImgViewPager.setPageMargin(40);
         mMenuContainer.setVisibility(GONE);
         mChatInput.addTextChangedListener(this);
+        mSendBtnFl.setOnClickListener(this);
         mSendBtn.setOnClickListener(this);
         mVoiceBtn.setOnClickListener(this);
         mPhotoBtn.setOnClickListener(this);
         mCameraBtn.setOnClickListener(this);
         this.mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        mWindow = ((Activity)context).getWindow();
+        mWindow = ((Activity) context).getWindow();
+
         mChatInput.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !mShowSoftInput) {
                     mShowSoftInput = true;
                     invisibleMenuLayout();
+                    mSendFiles.clear();
+                    mSendCountTv.setVisibility(GONE);
+                    setSendBtnBg();
                 }
                 return false;
+            }
+        });
+
+        mMenuContainer.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return mImgViewPager.dispatchTouchEvent(motionEvent);
             }
         });
     }
@@ -196,16 +214,26 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     @Override
     public void onTextChanged(CharSequence s, int start, int count, int after) {
         mInput = s;
-        if (mInput.length() > 0) {
-            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send_pres));
-        } else {
-            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
-        }
+        setSendBtnBg();
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
 
+    }
+
+    public void setSendBtnBg() {
+        if (mInput.length() > 0) {
+            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send_pres));
+            if (Build.VERSION.SDK_INT >= 21) {
+                mSendBtn.setElevation(getContext().getResources().getDimension(R.dimen.send_btn_shadow));
+            }
+        } else {
+            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
+            if (Build.VERSION.SDK_INT >= 21) {
+                mSendBtn.setElevation(0);
+            }
+        }
     }
 
     public EditText getInputView() {
@@ -218,8 +246,10 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.send_msg_ib) {
-            if (onSubmit()) {
+        if (view.getId() == R.id.send_btn_fl || view.getId() == R.id.send_msg_ib) {
+            if (mSendFiles.size() > 0) {
+                mListener.onSendFiles(mSendFiles);
+            } else if (onSubmit()) {
                 mChatInput.setText("");
             }
         } else {
@@ -284,10 +314,11 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     /**
      * Set menu container's height, invoke this method once the menu was initialized.
+     *
      * @param height Height of menu, set same height as soft keyboard so that display to perfection.
      */
     public void setMenuContainerHeight(int height) {
-        if(height > 0 && height != mMenuHeight){
+        if (height > 0 && height != mMenuHeight) {
             mMenuHeight = height;
             mMenuContainer.setLayoutParams(new LinearLayout
                     .LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
@@ -310,6 +341,64 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         return mMenuContainer.getVisibility();
     }
 
+    @Override
+    public void onFileSelected() {
+        mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send_pres));
+        if (mSendFiles.size() == 1) {
+            addSelectedAnimation(mSendBtn);
+        }
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            mSendBtn.setElevation(getContext().getResources().getDimension(R.dimen.send_btn_shadow));
+        }
+        mSendCountTv.setText(mSendFiles.size() + "");
+        mSendCountTv.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void onFileDeselected() {
+        if (mSendFiles.size() > 0) {
+            mSendCountTv.setVisibility(VISIBLE);
+            mSendCountTv.setText(mSendFiles.size() + "");
+        } else {
+            mSendCountTv.setVisibility(GONE);
+            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
+            if (Build.VERSION.SDK_INT >= 21) {
+                mSendBtn.setElevation(0);
+            }
+        }
+    }
+
+    private void addSelectedAnimation(View view) {
+        float[] vaules = new float[]{0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f};
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(ObjectAnimator.ofFloat(view, "scaleX", vaules),
+                ObjectAnimator.ofFloat(view, "scaleY", vaules));
+        set.setDuration(150);
+        set.start();
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                mSendCountTv.bringToFront();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+    }
+
     /**
      * Menu items' callbacks
      */
@@ -317,10 +406,17 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
         /**
          * Fires when send button is on click.
+         *
          * @param input Input content
          * @return boolean
          */
         boolean onSubmit(CharSequence input);
+
+        /**
+         * Files when send photos or videos.
+         * @param list File paths that will send.
+         */
+        void onSendFiles(List<String> list);
 
         /**
          * Fires when voice button is on click.
@@ -337,7 +433,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
          */
         void onCameraClick();
     }
-
 
     public void dismissMenuAndResetSoftMode() {
         mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -391,9 +486,9 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
             public void run() {
                 Uri imageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 ContentResolver contentResolver = getContext().getContentResolver();
-                String[] projection = new String[]{ MediaStore.Images.ImageColumns.DATA,
+                String[] projection = new String[]{MediaStore.Images.ImageColumns.DATA,
                         MediaStore.Images.ImageColumns.DISPLAY_NAME,
-                        MediaStore.Images.ImageColumns.SIZE };
+                        MediaStore.Images.ImageColumns.SIZE};
                 Cursor cursor = contentResolver.query(imageUri, projection, null, null,
                         MediaStore.Images.Media.DATE_MODIFIED + " desc");
                 if (cursor == null || cursor.getCount() == 0) {
@@ -434,6 +529,9 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                     case SCAN_OK:
                         //关闭进度条
                         chatInputView.mProgressBar.setVisibility(GONE);
+                        chatInputView.mAdapter = new PhotoAdapter(chatInputView.mImgViewPager, chatInputView.mPhotos);
+                        chatInputView.mAdapter.setSelectedFiles(chatInputView.mSendFiles);
+                        chatInputView.mAdapter.setOnPhotoSelectedListener(chatInputView);
                         chatInputView.mImgViewPager.setAdapter(chatInputView.mAdapter);
                         break;
                     case SCAN_ERROR:
@@ -445,102 +543,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                 }
             }
         }
-    }
-
-     PagerAdapter mAdapter = new PagerAdapter() {
-
-        @Override
-        public int getCount() {
-            return mPhotos.size();
-        }
-
-         @Override
-         public float getPageWidth(int position) {
-             return (float) 0.8;
-         }
-
-         /**
-         * 点击某张图片预览时，系统自动调用此方法加载这张图片左右视图（如果有的话）
-         */
-        @Override
-        public View instantiateItem(ViewGroup container, int position) {
-            mPhotoIv = new ImageView(container.getContext());
-            mPhotoIv.setTag(position);
-            mPhotoIv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            String path = mPhotos.get(position).getFilePath();
-            if (path != null) {
-                File file = new File(path);
-                if (file.exists()) {
-                    Bitmap bitmap = decodeFile(file);
-                    if (bitmap != null) {
-                        mPhotoIv.setImageBitmap(bitmap);
-                    } else {
-                        mPhotoIv.setImageResource(R.drawable.jmui_picture_not_found);
-                    }
-                }
-            } else {
-                mPhotoIv.setImageResource(R.drawable.jmui_picture_not_found);
-            }
-            container.addView(mPhotoIv, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-            return mPhotoIv;
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            View view = (View) object;
-            int currentPage = mImgViewPager.getCurrentItem();
-            if (currentPage == (Integer) view.getTag()) {
-                return POSITION_NONE;
-            } else {
-                return POSITION_UNCHANGED;
-            }
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-    };
-
-    private Bitmap decodeFile(File f){
-        Bitmap b = null;
-        try {
-            //Decode image size
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-
-            FileInputStream fis = new FileInputStream(f);
-            BitmapFactory.decodeStream(fis, null, options);
-            fis.close();
-
-            int width = options.outWidth;
-            int height = options.outHeight;
-            int ratio = 0;
-            //如果宽度大于高度，交换宽度和高度
-            if (width > height) {
-                int temp = width;
-                width = height;
-                height = temp;
-            }
-            //计算取样比例
-            int sampleRatio = Math.max(width/900, height/1600);
-
-            //Decode with inSampleSize
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = sampleRatio;
-            fis = new FileInputStream(f);
-            b = BitmapFactory.decodeStream(fis, null, o2);
-            fis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return b;
     }
 
 }
