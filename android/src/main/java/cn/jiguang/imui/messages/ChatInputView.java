@@ -152,6 +152,13 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                 return mImgViewPager.dispatchTouchEvent(motionEvent);
             }
         });
+
+        mRecordVoiceLl.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -295,8 +302,8 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     }
 
     public void showRecordVoiceLayout() {
-        mRecordVoiceLl.setVisibility(VISIBLE);
         mPhotoFl.setVisibility(GONE);
+        mRecordVoiceLl.setVisibility(VISIBLE);
     }
 
     public void dismissRecordVoiceLayout() {
@@ -304,8 +311,8 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     }
 
     public void showPhotoLayout() {
-        mPhotoFl.setVisibility(VISIBLE);
         mRecordVoiceLl.setVisibility(GONE);
+        mPhotoFl.setVisibility(VISIBLE);
     }
 
     public void dismissPhotoLayout() {
