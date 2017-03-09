@@ -15,6 +15,9 @@ enum IMUIInputStatus {
   case none
 }
 
+var IMUIFeatureViewHeight:CGFloat = 215
+var IMUIShowFeatureViewAnimationDuration = 0.25
+
 @objc protocol IMUIInputViewDelegate: NSObjectProtocol {
 
   @objc func sendTextMessage(_ messageText: String)
@@ -57,7 +60,7 @@ class IMUIInputView: UIView {
   open weak var inputViewDelegate: IMUIInputViewDelegate?
   @IBOutlet var view: UIView!
   
-  @IBOutlet weak var bottomMergin: NSLayoutConstraint!
+  @IBOutlet weak var moreViewHeight: NSLayoutConstraint!
   @IBOutlet weak var inputTextViewHeight: NSLayoutConstraint!
   
   @IBOutlet weak var inputTextView: UITextView!
@@ -81,28 +84,36 @@ class IMUIInputView: UIView {
     self.addSubview(view)
     view.frame = self.bounds
     
-    self.inputTextView.textContainer.lineBreakMode = .byWordWrapping
-    self.inputTextView.delegate = self
+    inputTextView.textContainer.lineBreakMode = .byWordWrapping
+    inputTextView.delegate = self
+    
   }
   
   @IBAction func clickMicBtn(_ sender: Any) {
-    self.inputTextView.resignFirstResponder()
-    self.inputViewDelegate?.switchIntoRecordingVoiceMode(recordVoiceBtn: sender as! UIButton)
+    inputTextView.resignFirstResponder()
+    inputViewDelegate?.switchIntoRecordingVoiceMode(recordVoiceBtn: sender as! UIButton)
+    self.showFeatureView()
   }
   
   @IBAction func clickPhotoBtn(_ sender: Any) {
-    self.inputTextView.resignFirstResponder()
-    self.inputViewDelegate?.switchIntoSelectPhotoMode(photoBtn: sender as! UIButton)
+    inputTextView.resignFirstResponder()
+    inputViewDelegate?.switchIntoSelectPhotoMode(photoBtn: sender as! UIButton)
+    self.showFeatureView()
   }
   
   @IBAction func clickCameraBtn(_ sender: Any) {
-    self.inputTextView.resignFirstResponder()
-    self.inputViewDelegate?.switchIntoCameraMode(cameraBtn: sender as! UIButton)
+    inputTextView.resignFirstResponder()
+    inputViewDelegate?.switchIntoCameraMode(cameraBtn: sender as! UIButton)
+    self.showFeatureView()
   }
 
   @IBAction func clickSendBtn(_ sender: Any) {
-    self.inputViewDelegate?.sendTextMessage(self.inputTextView.text)
-    self.inputTextView.text = ""
+    if inputTextView.text != "" {
+      inputViewDelegate?.sendTextMessage(self.inputTextView.text)
+      inputTextView.text = ""
+      fitTextViewSize(inputTextView)
+    }
+
   }
   
   func keyboardFrameChanged(_ notification: Notification) {
@@ -112,16 +123,36 @@ class IMUIInputView: UIView {
     let duration = Double(dic.object(forKey: UIKeyboardAnimationDurationUserInfoKey) as! NSNumber)
     
     UIView.animate(withDuration: duration) {
-      self.bottomMergin.constant = bottomDistance
+      self.moreViewHeight.constant = bottomDistance
       self.superview?.layoutIfNeeded()
     }
+  }
+  
+  func fitTextViewSize(_ textView: UITextView) {
+      let textViewFitSize = textView.sizeThatFits(CGSize(width: self.view.imui_width, height: CGFloat(MAXFLOAT)))
+      self.inputTextViewHeight.constant = textViewFitSize.height
+    }
+  
+  func showFeatureView() {
+    UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) { 
+      self.moreViewHeight.constant = IMUIFeatureViewHeight
+      self.superview?.layoutIfNeeded()
+    }
+    
+  }
+  
+  func hideFeatureView() {
+    UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) { 
+      self.moreViewHeight.constant = 0
+      self.superview?.layoutIfNeeded()
+    }
+    
   }
 }
 
 extension IMUIInputView: UITextViewDelegate {
   func textViewDidChange(_ textView: UITextView) {
-    let textViewFitSize = textView.sizeThatFits(CGSize(width: self.view.imui_width, height: CGFloat(MAXFLOAT)))
-    self.inputTextViewHeight.constant = textViewFitSize.height
+    self.fitTextViewSize(textView)
   }
   
 }

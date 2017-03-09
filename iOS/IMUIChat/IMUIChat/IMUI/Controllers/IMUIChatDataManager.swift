@@ -8,7 +8,7 @@
 
 import UIKit
 
-var needShowTimeInterval = 10 * 60.0
+var needShowTimeInterval = 0.0
 
 class IMUIChatDataManager: NSObject {
   var allMessageArr = [IMUIMessageModel]()
@@ -65,7 +65,7 @@ class IMUIChatDataManager: NSObject {
     let earlyDate = earlyMessage.date
     let lateDate = lateMessage.date
     let timeInterval = earlyDate.timeIntervalSince(lateDate)
-    if timeInterval > needShowTimeInterval {
+    if timeInterval >= needShowTimeInterval {
       lateMessage.isNeedShowTime = true
     }
     

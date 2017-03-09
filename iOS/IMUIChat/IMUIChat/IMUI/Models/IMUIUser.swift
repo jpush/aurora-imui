@@ -24,8 +24,9 @@ open class IMUIUser: IMUIUserProtocol {
 //  }
 
   public init() {
-  
+
   }
+  
   open func userId() -> String {
     return ""
   }

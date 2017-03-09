@@ -11,6 +11,6 @@ import UIKit
 
 extension UIImage {
   class func imuiImage(with name: String) -> UIImage? {
-    return UIImage(named: "Assets.bundle/image/" + name)
+    return UIImage(named: "IMUIAssets.bundle/image/\(name).png")
   }
 }

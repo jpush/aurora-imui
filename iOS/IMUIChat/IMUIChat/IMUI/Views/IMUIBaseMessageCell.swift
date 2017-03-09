@@ -29,10 +29,10 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   
   override init(frame: CGRect) {
 
-    self.bubbleView = IMUIMessageBubbleView()
-    self.avatarImage = UIImageView()
-    self.timeLable = UILabel()
-    self.nameLable = UILabel()
+    bubbleView = IMUIMessageBubbleView()
+    avatarImage = UIImageView()
+    timeLable = UILabel()
+    nameLable = UILabel()
     super.init(frame: frame)
     
     self.contentView.addSubview(self.bubbleView)
@@ -42,7 +42,13 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     
     
     self.nameLable.frame = IMUIMessageCellLayout.nameLabelFrame
-    
+    self.setupSubViews()
+  }
+  
+  fileprivate func setupSubViews() {
+    timeLable.textAlignment = .center
+    timeLable.textColor = UIColor.init(netHex: 0x90A6C4)
+    timeLable.font = UIFont.systemFont(ofSize: 10)
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -57,12 +63,30 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.timeLable.frame = layout.timeLabelFrame
     self.avatarImage.frame = layout.avatarFrame
     self.bubbleView.frame = layout.bubbleFrame
+    
   }
   
   func setupData(with message: IMUIMessageModel) {
     self.avatarImage.image = message.fromUser.Avatar()
-    self.avatarImage.backgroundColor = UIColor.red
-    self.bubbleView.backgroundColor = UIColor.blue
+    self.avatarImage.backgroundColor = UIColor.white
+    self.bubbleView.backgroundColor = UIColor.init(netHex: 0x2977FA)
+    self.timeLable.text = message.date.parseDate
+    
+    switch message.type {
+    case .text:
+      bubbleView.setupText(with: message.textMessage())
+      break
+    case .voice:
+      break
+    case .image:
+      break
+    case .location:
+      break
+    case .custom:
+      break
+    default:
+      break
+    }
   }
   
   open func presentCell(with message: IMUIMessageModel) {

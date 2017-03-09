@@ -18,7 +18,7 @@ enum IMUIMessageBubbleType {
 class IMUIMessageBubbleView: UIView {
   
   var bubbleType: IMUIMessageBubbleType?
-  var textMessageLable: UILabel
+  var textMessageLable: IMUITextView
   var bubbleImageView: UIImageView
   
   var image: UIImage? {
@@ -32,11 +32,17 @@ class IMUIMessageBubbleView: UIView {
   }
   
   override init(frame: CGRect) {
-    self.bubbleImageView = UIImageView()
-    self.textMessageLable = UILabel()
+    bubbleImageView = UIImageView()
+    textMessageLable = IMUITextView()
     
     super.init(frame: frame)
+    
+    self.addSubview(bubbleImageView)
+    self.addSubview(textMessageLable)
     self.backgroundColor = UIColor.red
+    textMessageLable.numberOfLines = 0
+    textMessageLable.contentInset = IMUIMessageCellLayout.contentInset
+    textMessageLable.textColor = UIColor.white
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -46,11 +52,22 @@ class IMUIMessageBubbleView: UIView {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-//    self.bubbleImageView!.image = self.maskBackgroupImage
-//    self.bubbleImageView!.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-//    self.layer.mask = self.maskBackgroupView!.layer
+    self.textMessageLable.frame = self.bounds
     self.bubbleImageView.frame = self.bounds
-    self.layer
+    
+    var bubbleImg = UIImage.imuiImage(with: "outGoing_bubble")
+    bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 10, 9, 15), resizingMode: .tile)
+    bubbleImageView.image = bubbleImg
+    self.layer.mask = bubbleImageView.layer
+    
+  }
+  
+  func setupText(with text: String) {
+    textMessageLable.text = text
   }
 
+  func setText(with text: String, with contentInset: UIEdgeInsets) {
+    textMessageLable.text = text
+    
+  }
 }

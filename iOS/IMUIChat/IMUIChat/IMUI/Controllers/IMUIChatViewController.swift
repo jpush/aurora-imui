@@ -36,6 +36,5 @@ extension IMUIChatViewController: IMUIInputViewDelegate {
   func sendTextMessage(_ messageText: String) {
     let message = MyMessageModel(with: messageText)
     messageCollectionView.appendMessage(with: message)
-    messageCollectionView.reloadData()
   }
 }

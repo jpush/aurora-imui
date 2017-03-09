@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IMUIMessageCollectionView: UICollectionView {
+class IMUIMessageCollectionView: UIView {
 
   @IBOutlet var view: UIView!
   @IBOutlet weak var messageCollectionView: UICollectionView!
@@ -50,12 +50,12 @@ class IMUIMessageCollectionView: UICollectionView {
     self.messageCollectionView.dataSource = self
     
     self.messageCollectionView.register(IMUIBaseMessageCell.self, forCellWithReuseIdentifier: IMUIBaseMessageCell.self.description())
+    self.messageCollectionView.isScrollEnabled = true
   }
   
   open func appendMessage(with message: IMUIMessageModel) {
     self.chatDataManager.appendMessage(with: message)
     self.messageCollectionView.reloadData()
-//    let endIndex = NSIndexPath(item: self.chatDataManager.endIndex, section: 0)
     let endIndex = IndexPath(item: chatDataManager.endIndex - 1, section: 0)
     self.messageCollectionView.scrollToItem(at: endIndex, at: .bottom, animated: true)
   }
