@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/jmui_chat_item_send_layout">
+
+
+    <TextView
+        android:id="@+id/date_tv"
+        style="@style/jmui_chat_text_date_style"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/photo_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="200dp"
+            android:maxHeight="200dp"
+            android:background="@drawable/image_default_bg"
+            android:src="@drawable/send_pres"
+            android:layout_marginRight="3dp"/>
+
+        <cn.jiguang.imui.utils.CircleImageView
+            android:id="@+id/avatar_iv"
+            style="@style/jmui_chat_item_sender_avatar_style" />
+
+    </LinearLayout>
+
+</LinearLayout>

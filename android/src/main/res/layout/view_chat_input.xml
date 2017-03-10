@@ -127,7 +127,7 @@
                     android:ems="1"
                     android:maxLines="1"
                     android:layout_gravity="bottom|right"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
 
             </FrameLayout>
 

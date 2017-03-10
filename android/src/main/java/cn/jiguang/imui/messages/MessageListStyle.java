@@ -50,6 +50,8 @@ public class MessageListStyle extends Style {
     // Set bubble's max width, value from 0 to 1. 1 means max width equals with screen width.
     // Default value is 0.8.
     private float bubbleMaxWidth;
+    private Drawable sendPhotoMsgBg;
+    private Drawable receivePhotoMsgBg;
 
     private int windowWidth;
 
@@ -115,6 +117,10 @@ public class MessageListStyle extends Style {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         style.bubbleMaxWidth = typedArray.getFloat(R.styleable.MessageList_bubbleMaxWidth, 0.8f);
         style.windowWidth =  wm.getDefaultDisplay().getWidth();
+
+        style.sendPhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_sendPhotoMsgBg);
+        style.receivePhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_receivePhotoMsgBg);
+
         typedArray.recycle();
         return style;
     }
@@ -258,5 +264,13 @@ public class MessageListStyle extends Style {
 
     public float getBubbleMaxWidth() {
         return bubbleMaxWidth;
+    }
+
+    public Drawable getSendPhotoMsgBg() {
+        return sendPhotoMsgBg;
+    }
+
+    public Drawable getReceivePhotoMsgBg() {
+        return receivePhotoMsgBg;
     }
 }

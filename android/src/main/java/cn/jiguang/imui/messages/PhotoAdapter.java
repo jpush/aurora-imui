@@ -205,6 +205,11 @@ public class PhotoAdapter extends PagerAdapter {
         mSendFiles = list;
     }
 
+    public void resetCheckedState() {
+        mSendFiles.clear();
+        mSelectedItems.clear();
+    }
+
     public interface OnFileSelectedListener {
 
         void onFileSelected();

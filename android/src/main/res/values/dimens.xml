@@ -20,6 +20,7 @@
     <dimen name="send_text_padding_top">5dp</dimen>
     <dimen name="send_text_padding_right">15dp</dimen>
     <dimen name="send_text_padding_bottom">5dp</dimen>
+    <dimen name="photo_default_radius">5dp</dimen>
 
     <!-->chat input<-->
     <dimen name="send_btn_shadow">5dp</dimen>

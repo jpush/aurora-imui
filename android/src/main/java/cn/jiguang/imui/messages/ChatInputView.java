@@ -243,6 +243,10 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         if (view.getId() == R.id.send_btn_fl || view.getId() == R.id.send_msg_ib) {
             if (mSendFiles.size() > 0) {
                 mListener.onSendFiles(mSendFiles);
+                mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
+                mSendCountTv.setVisibility(GONE);
+                dismissMenuLayout();
+                mAdapter.resetCheckedState();
             } else if (onSubmit()) {
                 mChatInput.setText("");
             }
