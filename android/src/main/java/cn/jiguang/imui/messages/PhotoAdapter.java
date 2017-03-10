@@ -1,5 +1,6 @@
 package cn.jiguang.imui.messages;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
@@ -81,15 +82,14 @@ public class PhotoAdapter extends PagerAdapter {
                 if (checkedIcon.getVisibility() == GONE && !mSelectedItems.get(position)) {
                     mSelectedItems.put(position, true);
                     checkedIcon.setVisibility(VISIBLE);
-                    addSelectedAnimation(photoView);
-                    addSelectedAnimation(shadow);
+                    addSelectedAnimation(photoView, shadow);
                     shadow.setVisibility(VISIBLE);
                     mSendFiles.add(mPhotos.get(position).getFilePath());
                     if (mListener != null) {
                         mListener.onFileSelected();
                     }
                 } else {
-                    addDeselectedAnimation(photoView);
+                    addDeselectedAnimation(photoView, shadow);
                     checkedIcon.setVisibility(GONE);
                     shadow.setVisibility(GONE);
                     mSelectedItems.delete(position);
@@ -161,22 +161,34 @@ public class PhotoAdapter extends PagerAdapter {
         return b;
     }
 
-    private void addDeselectedAnimation(ImageView view) {
-        float[] vaules = new float[]{1.0f, 1.1f, 1.2f, 1.3f, 1.2f, 1.1f, 1.0f, 0.9f, 0.8f, 0.7f, 0.75f,
-                0.80f, 0.85f, 0.9f, 0.95f, 1.0f};
+    private void addDeselectedAnimation(View... views) {
+        List<Animator> valueAnimators = new ArrayList<>();
+        for (View v : views) {
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(v, "scaleX", 1.0f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(v, "scaleY", 1.0f);
+
+            valueAnimators.add(scaleX);
+            valueAnimators.add(scaleY);
+        }
+
         AnimatorSet set = new AnimatorSet();
-        set.playTogether(ObjectAnimator.ofFloat(view, "scaleX", vaules),
-                ObjectAnimator.ofFloat(view, "scaleY", vaules));
+        set.playTogether(valueAnimators);
         set.setDuration(150);
         set.start();
     }
 
-    private void addSelectedAnimation(View view) {
-        float[] vaules = new float[]{0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 0.8f, 0.7f, 0.6f, 0.65f, 0.7f,
-                0.75f, 0.80f, 0.85f, 0.9f};
+    private void addSelectedAnimation(View... views) {
+        List<Animator> valueAnimators = new ArrayList<>();
+        for (View v : views) {
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(v, "scaleX", 0.8f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(v, "scaleY", 0.8f);
+
+            valueAnimators.add(scaleX);
+            valueAnimators.add(scaleY);
+        }
+
         AnimatorSet set = new AnimatorSet();
-        set.playTogether(ObjectAnimator.ofFloat(view, "scaleX", vaules),
-                ObjectAnimator.ofFloat(view, "scaleY", vaules));
+        set.playTogether(valueAnimators);
         set.setDuration(150);
         set.start();
     }
