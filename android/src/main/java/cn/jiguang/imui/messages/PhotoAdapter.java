@@ -3,96 +3,116 @@ package cn.jiguang.imui.messages;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.FileItem;
-import cn.jiguang.imui.utils.ImgBrowserViewPager;
+import cn.jiguang.imui.utils.DisplayUtil;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class PhotoAdapter extends PagerAdapter {
+public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
 
-    private ImgBrowserViewPager mImgViewPager;
-    private List<FileItem> mPhotos = new ArrayList<>();
-    private SparseBooleanArray mSelectedItems = new SparseBooleanArray();
+    private Context mContext;
+
+    private List<FileItem> mPhotos;
     private List<String> mSendFiles;
-    private Bitmap mBitmap;
+
+    private SparseBooleanArray mSelectedItems;
+
     private OnFileSelectedListener mListener;
 
-    public PhotoAdapter(ImgBrowserViewPager viewPager, List<FileItem> list) {
-        this.mImgViewPager = viewPager;
-        this.mPhotos = list;
-    }
+    private int mPhotoSide;    // 图片边长
 
-    @Override
-    public int getCount() {
-        return mPhotos.size();
-    }
-
-    @Override
-    public float getPageWidth(int position) {
-        return (float) 0.8;
-    }
-
-    /**
-     * 点击某张图片预览时，系统自动调用此方法加载这张图片左右视图（如果有的话）
-     */
-    @Override
-    public View instantiateItem(final ViewGroup container, final int position) {
-        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_photo_select, container, false);
-        final ImageView photoView = (ImageView) view.findViewById(R.id.item_photo_iv);
-        final ImageView shadow = (ImageView) view.findViewById(R.id.item_shadow_iv);
-        final ImageView checkedIcon = (ImageView) view.findViewById(R.id.checked_iv);
-        photoView.setTag(position);
-        photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        String path = mPhotos.get(position).getFilePath();
-        if (path != null) {
-            File file = new File(path);
-            if (file.exists()) {
-                mBitmap = decodeFile(file);
-                if (mBitmap != null) {
-                    photoView.setImageBitmap(mBitmap);
-                } else {
-                    photoView.setImageResource(R.drawable.jmui_picture_not_found);
-                }
-            }
+    public PhotoAdapter(List<FileItem> list, int height) {
+        mSelectedItems = new SparseBooleanArray();
+        if (list == null) {
+            mPhotos = new ArrayList<>();
         } else {
-            photoView.setImageResource(R.drawable.jmui_picture_not_found);
+            mPhotos = list;
+        }
+        mPhotoSide = height;
+    }
+
+    public List<String> getSelectedFiles() {
+        return mSendFiles;
+    }
+
+    public void setOnPhotoSelectedListener(OnFileSelectedListener listener) {
+        mListener = listener;
+    }
+
+    public void setSelectedFiles(List<String> list) {
+        mSendFiles = list;
+    }
+
+    public void resetCheckedState() {
+        mSendFiles.clear();
+        mSelectedItems.clear();
+    }
+
+    @Override
+    public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
+
+        FrameLayout photoSelectLayout = (FrameLayout) LayoutInflater.from(mContext)
+                .inflate(R.layout.item_photo_select, parent, false);
+        PhotoViewHolder holder = new PhotoViewHolder(photoSelectLayout);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
+        if (holder.container.getMeasuredWidth() != mPhotoSide) {
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(mPhotoSide, mPhotoSide);
+            layoutParams.rightMargin = DisplayUtil.dp2px(mContext, 8);
+            holder.container.setLayoutParams(layoutParams);
         }
 
-        photoView.setOnClickListener(new View.OnClickListener() {
+        FileItem photoFile = mPhotos.get(position);
+        String path = photoFile.getFilePath();
+        File photo = new File(path);
+        Glide.with(mContext)
+                .load(photo)
+                .placeholder(R.drawable.jmui_picture_not_found)
+                .crossFade()
+                .into(holder.ivPhoto);
 
+        holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkedIcon.getVisibility() == GONE && !mSelectedItems.get(position)) {
+                if (holder.ivSelect.getVisibility() == GONE && !mSelectedItems.get(position)) {
                     mSelectedItems.put(position, true);
-                    checkedIcon.setVisibility(VISIBLE);
-                    addSelectedAnimation(photoView, shadow);
-                    shadow.setVisibility(VISIBLE);
+
+                    holder.ivSelect.setVisibility(VISIBLE);
+                    holder.ivShadow.setVisibility(VISIBLE);
+                    addSelectedAnimation(holder.ivPhoto, holder.ivShadow);
+
                     mSendFiles.add(mPhotos.get(position).getFilePath());
                     if (mListener != null) {
                         mListener.onFileSelected();
                     }
                 } else {
-                    addDeselectedAnimation(photoView, shadow);
-                    checkedIcon.setVisibility(GONE);
-                    shadow.setVisibility(GONE);
                     mSelectedItems.delete(position);
+
+                    holder.ivSelect.setVisibility(GONE);
+                    holder.ivShadow.setVisibility(GONE);
+                    addDeselectedAnimation(holder.ivPhoto, holder.ivShadow);
+
                     mSendFiles.remove(mPhotos.get(position).getFilePath());
                     if (mListener != null) {
                         mListener.onFileDeselected();
@@ -100,65 +120,11 @@ public class PhotoAdapter extends PagerAdapter {
                 }
             }
         });
-
-        container.addView(view, ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.MATCH_PARENT);
-        return view;
     }
 
     @Override
-    public int getItemPosition(Object object) {
-        View view = (View) object;
-        int currentPage = mImgViewPager.getCurrentItem();
-        if (currentPage == (Integer) view.getTag()) {
-            return POSITION_NONE;
-        } else {
-            return POSITION_UNCHANGED;
-        }
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
-    }
-
-    private Bitmap decodeFile(File f) {
-        Bitmap b = null;
-        try {
-            //Decode image size
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-
-            FileInputStream fis = new FileInputStream(f);
-            BitmapFactory.decodeStream(fis, null, options);
-            fis.close();
-
-            int width = options.outWidth;
-            int height = options.outHeight;
-            int ratio = 0;
-            //如果宽度大于高度，交换宽度和高度
-            if (width > height) {
-                int temp = width;
-                width = height;
-                height = temp;
-            }
-            //计算取样比例
-            int sampleRatio = Math.max(width / 900, height / 1600);
-
-            //Decode with inSampleSize
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = sampleRatio;
-            fis = new FileInputStream(f);
-            b = BitmapFactory.decodeStream(fis, null, o2);
-            fis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return b;
+    public int getItemCount() {
+        return mPhotos.size();
     }
 
     private void addDeselectedAnimation(View... views) {
@@ -180,8 +146,8 @@ public class PhotoAdapter extends PagerAdapter {
     private void addSelectedAnimation(View... views) {
         List<Animator> valueAnimators = new ArrayList<>();
         for (View v : views) {
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(v, "scaleX", 0.8f);
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(v, "scaleY", 0.8f);
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(v, "scaleX", 0.90f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(v, "scaleY", 0.90f);
 
             valueAnimators.add(scaleX);
             valueAnimators.add(scaleY);
@@ -193,23 +159,6 @@ public class PhotoAdapter extends PagerAdapter {
         set.start();
     }
 
-    public List<String> getSelectedFiles() {
-        return mSendFiles;
-    }
-
-    public void setOnPhotoSelectedListener(OnFileSelectedListener listener) {
-        mListener = listener;
-    }
-
-    public void setSelectedFiles(List<String> list) {
-        mSendFiles = list;
-    }
-
-    public void resetCheckedState() {
-        mSendFiles.clear();
-        mSelectedItems.clear();
-    }
-
     public interface OnFileSelectedListener {
 
         void onFileSelected();
@@ -217,5 +166,19 @@ public class PhotoAdapter extends PagerAdapter {
         void onFileDeselected();
     }
 
+    public static final class PhotoViewHolder extends RecyclerView.ViewHolder {
 
+        public FrameLayout container;
+        public ImageView ivPhoto;
+        public ImageView ivShadow;
+        public ImageView ivSelect;
+
+        public PhotoViewHolder(View itemView) {
+            super(itemView);
+            container = (FrameLayout) itemView;
+            ivPhoto = (ImageView) itemView.findViewById(R.id.item_photo_iv);
+            ivShadow = (ImageView) itemView.findViewById(R.id.item_shadow_iv);
+            ivSelect = (ImageView) itemView.findViewById(R.id.checked_iv);
+        }
+    }
 }

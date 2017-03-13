@@ -30,5 +30,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
     compile 'com.google.android:flexbox:0.2.5'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.android.support:support-v4:19.1.0'
     testCompile 'junit:junit:4.12'
 }

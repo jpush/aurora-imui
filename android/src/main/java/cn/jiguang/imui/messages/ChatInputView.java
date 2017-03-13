@@ -14,8 +14,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.Space;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -40,10 +41,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.FileItem;
-import cn.jiguang.imui.utils.ImgBrowserViewPager;
 
 public class ChatInputView extends LinearLayout implements View.OnClickListener, TextWatcher,
         PhotoAdapter.OnFileSelectedListener {
@@ -62,7 +61,9 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     private LinearLayout mRecordVoiceLl;
     private FrameLayout mPhotoFl;
     private RecordVoiceButton mRecordVoiceBtn;
-    private ImgBrowserViewPager mImgViewPager;
+
+    private RecyclerView mRvPhotos; // 选择照片界面
+
     private ProgressBar mProgressBar;
     private ImageView checkedIcon;
     private ImageButton mAlbumBtn;
@@ -74,7 +75,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     private int mMenuHeight = 300;
     private boolean mShowSoftInput = false;
-    private PhotoAdapter mAdapter;
+    private PhotoAdapter mPhotoAdapter;
     private List<String> mSendFiles = new ArrayList<>();
     private List<FileItem> mPhotos = new ArrayList<>();
     private MyHandler myHandler = new MyHandler(this);
@@ -118,10 +119,12 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         checkedIcon = (ImageView) findViewById(R.id.checked_iv);
         mAlbumBtn = (ImageButton) findViewById(R.id.album_ib);
         mRecordVoiceBtn = (RecordVoiceButton) findViewById(R.id.record_btn);
-        mImgViewPager = (ImgBrowserViewPager) findViewById(R.id.photo_vp);
 
-        mImgViewPager.setOffscreenPageLimit(3);
-        mImgViewPager.setPageMargin(40);
+        mRvPhotos = (RecyclerView) findViewById(R.id.rv_photo);
+        mRvPhotos.setLayoutManager(new LinearLayoutManager(context,
+                LinearLayoutManager.HORIZONTAL, false));
+        mRvPhotos.setHasFixedSize(true);
+
         mMenuContainer.setVisibility(GONE);
         mChatInput.addTextChangedListener(this);
         mSendBtnFl.setOnClickListener(this);
@@ -129,7 +132,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mVoiceBtn.setOnClickListener(this);
         mPhotoBtn.setOnClickListener(this);
         mCameraBtn.setOnClickListener(this);
-        this.mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = ((Activity) context).getWindow();
 
         mChatInput.setOnTouchListener(new OnTouchListener() {
@@ -145,7 +148,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                 return false;
             }
         });
-
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -183,7 +185,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                     mStyle.getInputDefaultPaddingBottom()
             );
         }
-
     }
 
     private void setCursor(Drawable drawable) {
@@ -246,7 +247,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                 mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
                 mSendCountTv.setVisibility(GONE);
                 dismissMenuLayout();
-                mAdapter.resetCheckedState();
+                mPhotoAdapter.resetCheckedState();
             } else if (onSubmit()) {
                 mChatInput.setText("");
             }
@@ -367,6 +368,11 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         }
     }
 
+    /**
+     * 增加文件选中时的发送按钮动画效果
+     *
+     * @param view
+     */
     private void addSelectedAnimation(View view) {
         float[] vaules = new float[]{0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f};
         AnimatorSet set = new AnimatorSet();
@@ -412,6 +418,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
         /**
          * Files when send photos or videos.
+         *
          * @param list File paths that will send.
          */
         void onSendFiles(List<String> list);
@@ -489,6 +496,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                         MediaStore.Images.ImageColumns.SIZE};
                 Cursor cursor = contentResolver.query(imageUri, projection, null, null,
                         MediaStore.Images.Media.DATE_MODIFIED + " desc");
+
                 if (cursor == null || cursor.getCount() == 0) {
                     myHandler.sendEmptyMessage(SCAN_ERROR);
                 } else {
@@ -508,7 +516,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                 }
             }
         }).start();
-
     }
 
     private static class MyHandler extends Handler {
@@ -527,10 +534,11 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                     case SCAN_OK:
                         //关闭进度条
                         chatInputView.mProgressBar.setVisibility(GONE);
-                        chatInputView.mAdapter = new PhotoAdapter(chatInputView.mImgViewPager, chatInputView.mPhotos);
-                        chatInputView.mAdapter.setSelectedFiles(chatInputView.mSendFiles);
-                        chatInputView.mAdapter.setOnPhotoSelectedListener(chatInputView);
-                        chatInputView.mImgViewPager.setAdapter(chatInputView.mAdapter);
+                        chatInputView.mPhotoAdapter = new PhotoAdapter(chatInputView.mPhotos,
+                                chatInputView.mMenuHeight);
+                        chatInputView.mPhotoAdapter.setSelectedFiles(chatInputView.mSendFiles);
+                        chatInputView.mPhotoAdapter.setOnPhotoSelectedListener(chatInputView);
+                        chatInputView.mRvPhotos.setAdapter(chatInputView.mPhotoAdapter);
                         break;
                     case SCAN_ERROR:
                         chatInputView.mProgressBar.setVisibility(GONE);
@@ -542,5 +550,4 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
             }
         }
     }
-
 }

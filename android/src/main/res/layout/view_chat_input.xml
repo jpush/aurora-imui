@@ -142,7 +142,6 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-
         <LinearLayout
             android:id="@+id/record_voice_container"
             android:layout_width="match_parent"
@@ -167,11 +166,10 @@
            android:layout_height="match_parent"
            android:visibility="gone">
 
-           <cn.jiguang.imui.utils.ImgBrowserViewPager
-               android:id="@+id/photo_vp"
+           <android.support.v7.widget.RecyclerView
+               android:id="@+id/rv_photo"
                android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:clipChildren="false"/>
+               android:layout_height="match_parent" />
 
            <ProgressBar
                android:id="@+id/progress_bar"
