@@ -8,11 +8,14 @@
 
 import UIKit
 
+private var CellIdentifier = ""
+
 enum IMUIFeatureType {
-  case recorder
+  case voice
   case gallery
   case camera
   case location
+  case none
 }
 
 @objc protocol IMUIFeatureViewDelegate: NSObjectProtocol {
@@ -24,20 +27,23 @@ enum IMUIFeatureType {
 }
 
 class IMUIFeatureView: UIView {
+  @IBOutlet weak var showGalleryBtn: UIButton!
+  @IBOutlet weak var featureCollectionView: UICollectionView!
   
   var view: UIView!
-  @IBOutlet weak var showGalleryBtn: UIButton!
   
-  var currentType: IMUIFeatureType?
-  var delegate: IMUIFeatureViewDelegate?
+  var currentType:IMUIFeatureType = .none
   
-  @IBOutlet weak var featureCollectionView: UICollectionView!
+  open weak var inputViewDelegate: IMUIInputViewDelegate?
+  
+  lazy var galleryDataManager = IMUIGalleryDataManager()
   
   open override func awakeFromNib() {
     super.awakeFromNib()
-    self.featureCollectionView.delegate = self
-    self.featureCollectionView.dataSource = self
+
+    self.setupAllViews()
   }
+  
   
   required init?(coder aDecoder: NSCoder) {
     
@@ -48,11 +54,23 @@ class IMUIFeatureView: UIView {
     view.frame = self.bounds
   }
   
+  func setupAllViews() {
+    self.featureCollectionView.delegate = self
+    self.featureCollectionView.dataSource = self
+    self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: nil), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
+    self.featureCollectionView.register(UINib(nibName: "IMUICameraCell", bundle: nil), forCellWithReuseIdentifier: "IMUICameraCell")
+    self.showGalleryBtn.isHidden = true
+  }
+  
   open func layoutFeature(with type: IMUIFeatureType) {
+    if currentType == type {
+      return
+    }
+    
     currentType = type
     
     switch type {
-    case .recorder:
+    case .voice:
       self.layoutFeatureToRecordVoice()
       break
     case .camera:
@@ -60,6 +78,9 @@ class IMUIFeatureView: UIView {
       break
     case .gallery:
       self.layoutToGallery()
+      break
+    case .none:
+      self.layoutToNone()
       break
     default:
       break
@@ -84,24 +105,41 @@ class IMUIFeatureView: UIView {
     self.featureCollectionView.bounces = false
     self.featureCollectionView.reloadData()
   }
+  
+  func layoutToNone() {
+    self.showGalleryBtn.isHidden = true
+    self.featureCollectionView.reloadData()
+  }
 }
 
-
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 0
+    
+    switch currentType {
+    case .gallery:
+      return galleryDataManager.count
+    case .none:
+      return 0
+    default:
+      return 1
+    }
   }
   
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
   
-  
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
     
-    return CGSize.zero
+    switch currentType {
+    case .gallery:
+      return CGSize.zero
+    default:
+      return self.featureCollectionView.imui_size
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView,
@@ -112,7 +150,26 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
   
   func collectionView(_ collectionView: UICollectionView,
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    return UICollectionViewCell()
+    
+    switch currentType {
+    case .voice:
+      CellIdentifier = "IMUIRecordVoiceCell"
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIRecordVoiceCell
+      cell.inputViewDelegate = self.inputViewDelegate
+      return cell
+    case .camera:
+      CellIdentifier = "IMUICameraCell"
+      break
+    case .location:
+      break
+    case .gallery:
+      break
+    default:
+      break
+    }
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath)
+    
+    return cell
   }
   
   func collectionView(_ collectionView: UICollectionView,

@@ -71,6 +71,7 @@ class IMUIMessageCollectionView: UIView {
   }
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -102,12 +103,6 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
     cell.presentCell(with: self.chatDataManager[indexPath.item])
     return cell
   }
-  
-//  func collectionView(_ collectionView: UICollectionView,
-//                      viewForSupplementaryElementOfKind kind: String,
-//                      at indexPath: IndexPath) -> UICollectionReusableView {
-//    return UICollectionReusableView()
-//  }
   
   func collectionView(_ collectionView: UICollectionView,
                       didSelectItemAt indexPath: IndexPath) {

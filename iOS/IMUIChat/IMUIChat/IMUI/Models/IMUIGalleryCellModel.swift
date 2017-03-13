@@ -15,11 +15,10 @@ enum IMUIGalleryType {
 
 class IMUIGalleryCellModel: NSObject {
   var type: IMUIGalleryType?
-  var isSelected: Bool
+  var isSelected = false
   
   var mediaData: Data {
     return Data()
   }
-  
   
 }

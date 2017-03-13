@@ -73,7 +73,8 @@ class IMUIAudioPlayerHelper: NSObject {
 }
 
 
-extension IMUIAudioPlayerHelper:AVAudioPlayerDelegate {
+// MARK: - AVAudioPlayerDelegate
+extension IMUIAudioPlayerHelper: AVAudioPlayerDelegate {
   func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
     self.stopAudio()
   }

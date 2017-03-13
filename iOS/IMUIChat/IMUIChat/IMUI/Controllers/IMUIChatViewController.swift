@@ -31,10 +31,19 @@ class IMUIChatViewController: UIViewController {
 
 }
 
+// MARK: - IMUIInputViewDelegate
 extension IMUIChatViewController: IMUIInputViewDelegate {
   
   func sendTextMessage(_ messageText: String) {
     let message = MyMessageModel(with: messageText)
     messageCollectionView.appendMessage(with: message)
+  }
+  
+  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {
+    
+  }
+  
+  func finishRecordingVoice(_ voiceData: Data, durationTime: Double) {
+    print("fadfa")
   }
 }

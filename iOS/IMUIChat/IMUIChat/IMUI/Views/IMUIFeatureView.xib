@@ -36,6 +36,7 @@
                         <constraint firstAttribute="width" constant="56" id="9qp-Y0-g4a"/>
                         <constraint firstAttribute="height" constant="56" id="ujw-wa-Whe"/>
                     </constraints>
+                    <size key="titleShadowOffset" width="0.0" height="2"/>
                     <state key="normal" image="IMUIAssets.bundle/image/feature_gallery_Btn.png"/>
                 </button>
             </subviews>

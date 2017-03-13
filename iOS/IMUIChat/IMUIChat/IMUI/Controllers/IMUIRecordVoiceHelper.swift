@@ -12,21 +12,21 @@ import AVFoundation
 
 let maxRecordTime = 60.0
 typealias CompletionCallBack = () -> Void
+typealias IMUIFinishRecordVoiceCallBack = () -> Data
 
 class IMUIRecordVoiceHelper: NSObject {
-  var stopRecordCompletion:CompletionCallBack?
-  var startRecordCompleted:CompletionCallBack?
-  var cancelledDeleteCompletion:CompletionCallBack?
+  var finishiRecordCallBack: CompletionCallBack?
+  var startRecordCallBack: CompletionCallBack?
+  var cancelledRecordCallBack: CompletionCallBack?
   
   
-  var recorder:AVAudioRecorder?
-  var recordPath:String?
-  var recordDuration:String?
-  var recordProgress:Float?
-  var theTimer:Timer?
-  var currentTimeInterval:TimeInterval?
+  var recorder: AVAudioRecorder?
+  var recordPath: String?
+  var recordDuration: String?
+  var recordProgress: Float?
+  var theTimer: Timer?
+  var currentTimeInterval: TimeInterval?
   
-//  weak var updateMeterDelegate:JChatRecordingView?
   override init() {
     super.init()
   }
@@ -86,9 +86,16 @@ class IMUIRecordVoiceHelper: NSObject {
     self.resetTimer()
   }
   
-  func startRecordingWithPath(_ path:String, startRecordCompleted:@escaping CompletionCallBack) {
+  func startRecordingWithPath(_ path:String,
+                              startRecordCompleted: @escaping CompletionCallBack,
+                              finishCallback: @escaping CompletionCallBack,
+                              cancelCallback: @escaping CompletionCallBack) {
+    
     print("Action - startRecordingWithPath:")
-    self.startRecordCompleted = startRecordCompleted
+    self.startRecordCallBack = startRecordCompleted
+    self.finishiRecordCallBack = finishCallback
+    self.cancelledRecordCallBack = cancelCallback
+    
     self.recordPath = path
     
     let audioSession:AVAudioSession = AVAudioSession.sharedInstance()
@@ -125,22 +132,21 @@ class IMUIRecordVoiceHelper: NSObject {
     
     if ((self.recorder?.record()) != false) {
       self.resetTimer()
-//      self.theTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(updateMeters), userInfo: nil, repeats: true)
     } else {
       print("fail record")
     }
     
-    if self.startRecordCompleted != nil {
-      DispatchQueue.main.async(execute: self.startRecordCompleted!)
+    if self.startRecordCallBack != nil {
+      DispatchQueue.main.async(execute: self.startRecordCallBack!)
     }
   }
   
-  func finishRecordingCompletion() {
+  open func finishRecordingCompletion() {
     self.stopRecord()
     self.getVoiceDuration(self.recordPath!)
     
-    if self.stopRecordCompletion != nil {
-      DispatchQueue.main.async(execute: self.stopRecordCompletion!)
+    if self.finishiRecordCallBack != nil {
+      DispatchQueue.main.async(execute: self.finishiRecordCallBack!)
     }
   }
   
@@ -155,8 +161,8 @@ class IMUIRecordVoiceHelper: NSObject {
           print("can no to remove the voice file \(error.localizedDescription)")
         }
       } else {
-        if self.cancelledDeleteCompletion != nil {
-          DispatchQueue.main.async(execute: self.cancelledDeleteCompletion!)
+        if self.cancelledRecordCallBack != nil {
+          DispatchQueue.main.async(execute: self.cancelledRecordCallBack!)
         }
       }
       
@@ -178,10 +184,10 @@ class IMUIRecordVoiceHelper: NSObject {
     }
   }
   
-  
 }
 
 
+// MARK: - AVAudioPlayerDelegate
 extension IMUIRecordVoiceHelper : AVAudioPlayerDelegate {
   func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
     print("finished playing \(flag)")
@@ -195,6 +201,7 @@ extension IMUIRecordVoiceHelper : AVAudioPlayerDelegate {
   }
 }
 
+// MARK: - AVAudioRecorderDelegate
 extension IMUIRecordVoiceHelper : AVAudioRecorderDelegate {
   
 }

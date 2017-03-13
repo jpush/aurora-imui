@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IMUIInputView" customModule="IMUIChat" customModuleProvider="target">
             <connections>
                 <outlet property="cameraBtn" destination="0pt-Mb-N0J" id="57Y-sT-5kh"/>
+                <outlet property="featureView" destination="t9V-LN-RmM" id="BX1-yg-qdU"/>
                 <outlet property="inputTextView" destination="q3k-Vv-eYJ" id="MyE-YV-WPU"/>
                 <outlet property="inputTextViewHeight" destination="LLt-r7-Tnh" id="M6Z-gq-RJI"/>
                 <outlet property="micBtn" destination="M0O-Cg-Y6W" id="ggf-6g-6Wi"/>
@@ -82,7 +83,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t9V-LN-RmM">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t9V-LN-RmM" customClass="IMUIFeatureView" customModule="IMUIChat" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="85" width="322" height="215"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>

@@ -161,7 +161,7 @@ struct IMUIMessageCellLayout {
 
 }
 
-
+// MARK: - IMUIMessageModelProtocol
 public class IMUIMessageModel: IMUIMessageModelProtocol {
   
   open var msgId: String = ""

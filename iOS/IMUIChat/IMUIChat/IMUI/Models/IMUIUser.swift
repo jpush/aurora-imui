@@ -15,13 +15,6 @@ public protocol IMUIUserProtocol {
 }
 
 open class IMUIUser: IMUIUserProtocol {
-//  open var userId: String
-//  open var displayName: String
-  
-//  public init(userId: String, displayName: String) {
-//    self.userId = userId
-//    self.displayName = displayName
-//  }
 
   public init() {
 
