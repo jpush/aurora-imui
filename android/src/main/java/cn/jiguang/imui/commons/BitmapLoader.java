@@ -2,7 +2,9 @@ package cn.jiguang.imui.commons;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.media.ThumbnailUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.text.NumberFormat;
@@ -71,6 +73,40 @@ public class BitmapLoader {
         bitmap = ThumbnailUtils.extractThumbnail(bitmap, targetWidth, targetHeight,
                 ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
         return bitmap;
+    }
+
+    public static Bitmap getCompressBitmap(String path, int maxWidth, int maxHeight, float density) {
+        Point point = new Point();
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;// 不去真的解析图片，只是获取图片的头部信息，包含宽高等；
+        BitmapFactory.decodeFile(path, opts);
+        // 得到图片的宽度、高度；
+        int imgWidth = opts.outWidth;
+        int imgHeight = opts.outHeight;
+        Log.i("BitmapLoader", "Image width: " + imgWidth + " Image Height: " + imgHeight);
+        if (imgWidth <= 50 * density) {
+            point.x = (int) (50 * density);
+        } else if (imgWidth > maxWidth) {
+            point.x = maxWidth;
+        } else {
+            point.x = imgWidth;
+        }
+
+        if (imgHeight <= 50 * density) {
+            point.y = (int) (50 * density);
+        } else if (imgHeight > maxHeight) {
+            point.y = maxHeight;
+        } else {
+            point.y = imgHeight;
+        }
+        Log.i("BitmapLoader", "x: " + point.x + " y: " + point.y);
+        if (path != null) {
+            final int minSideLength = Math.min(point.x, point.y);
+            opts.inSampleSize = computeSampleSize(opts, minSideLength,
+                    point.x * point.y);
+            opts.inJustDecodeBounds = false;
+            return BitmapFactory.decodeFile(path, opts);
+        } else return null;
     }
 
     public static boolean verifyPictureSize(String path) {

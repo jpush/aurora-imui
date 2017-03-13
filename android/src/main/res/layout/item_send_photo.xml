@@ -22,7 +22,7 @@
             android:maxWidth="200dp"
             android:maxHeight="200dp"
             android:background="@drawable/image_default_bg"
-            android:src="@drawable/send_pres"
+            android:src="@drawable/jmui_picture_not_found"
             android:layout_marginRight="3dp"/>
 
         <cn.jiguang.imui.utils.CircleImageView

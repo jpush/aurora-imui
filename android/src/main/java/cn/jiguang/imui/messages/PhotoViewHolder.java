@@ -3,6 +3,7 @@ package cn.jiguang.imui.messages;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private TextView mDateTv;
     private ImageView mPhotoIv;
     private CircleImageView mAvatarIv;
+    private int mMaxWidth;
+    private int mMaxHeight;
 
 
     public PhotoViewHolder(View itemView, boolean isSender) {
@@ -43,8 +46,17 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         }
 
         setPictureScale(message.getContentFile(), mPhotoIv);
-        mPhotoIv.setImageBitmap(BitmapLoader.compressBySize(message.getContentFile(),
-                (int) (120 * mDensity), (int) (100 * mDensity)));
+        ViewGroup.LayoutParams params = mPhotoIv.getLayoutParams();
+        DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
+        int maxWidth = dm.widthPixels / 2;
+        int maxHeight = dm.heightPixels / 3;
+        Bitmap bitmap = BitmapLoader.getCompressBitmap(message.getContentFile(), maxWidth, maxHeight, mDensity);
+        if (bitmap != null) {
+            params.width = bitmap.getWidth();
+            params.height = bitmap.getHeight();
+            mPhotoIv.setLayoutParams(params);
+            mPhotoIv.setImageBitmap(bitmap);
+        }
 
         mAvatarIv.setOnClickListener(new View.OnClickListener() {
             @Override
