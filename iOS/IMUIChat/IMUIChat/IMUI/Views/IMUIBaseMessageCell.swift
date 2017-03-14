@@ -39,8 +39,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.contentView.addSubview(self.avatarImage)
     self.contentView.addSubview(self.timeLable)
     self.contentView.addSubview(self.nameLable)
-    
-    
+        
     self.nameLable.frame = IMUIMessageCellLayout.nameLabelFrame
     self.setupSubViews()
   }
@@ -69,16 +68,18 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   func setupData(with message: IMUIMessageModel) {
     self.avatarImage.image = message.fromUser.Avatar()
     self.avatarImage.backgroundColor = UIColor.white
-    self.bubbleView.backgroundColor = UIColor.init(netHex: 0x2977FA)
+    self.bubbleView.backgroundColor = UIColor.init(netHex: 0xE7EBEF)
     self.timeLable.text = message.date.parseDate
     
     switch message.type {
     case .text:
-      bubbleView.setupText(with: message.textMessage())
+      bubbleView.layoutToText(with: message.textMessage(), isOutGoing: message.isOutGoing)
       break
     case .voice:
+      bubbleView.layoutToVoice(isOutGoing: message.isOutGoing)
       break
     case .image:
+      bubbleView.layoutImage(image: UIImage(data: message.mediaData())!, isOutGoing: message.isOutGoing)
       break
     case .location:
       break

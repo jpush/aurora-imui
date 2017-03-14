@@ -35,7 +35,7 @@ class IMUIChatViewController: UIViewController {
 extension IMUIChatViewController: IMUIInputViewDelegate {
   
   func sendTextMessage(_ messageText: String) {
-    let message = MyMessageModel(with: messageText)
+    let message = MyMessageModel(text: messageText)
     messageCollectionView.appendMessage(with: message)
   }
   
@@ -44,6 +44,7 @@ extension IMUIChatViewController: IMUIInputViewDelegate {
   }
   
   func finishRecordingVoice(_ voiceData: Data, durationTime: Double) {
-    print("fadfa")
+    let message = MyMessageModel(voice: voiceData)
+    messageCollectionView.appendMessage(with: message)
   }
 }

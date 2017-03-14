@@ -30,11 +30,6 @@ class IMUIMessageCollectionView: UIView {
     view.frame = self.bounds
     self.chatDataManager = IMUIChatDataManager()
     self.setupMessageCollectionView()
-    
-    let message = MyMessageModel(with: "dfsfsdfs")
-    self.chatDataManager.appendMessage(with: message)
-    
-  
   }
   
   override func layoutSubviews() {

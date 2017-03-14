@@ -20,5 +20,4 @@ class IMUIGalleryCellModel: NSObject {
   var mediaData: Data {
     return Data()
   }
-  
 }

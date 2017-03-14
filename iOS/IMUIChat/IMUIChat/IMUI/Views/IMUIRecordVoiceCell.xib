@@ -74,7 +74,11 @@
             <connections>
                 <outlet property="RecordVoiceBtn" destination="IrY-VB-Zvt" id="NX9-GB-sHz"/>
                 <outlet property="cancelVoiceBtn" destination="kfg-6W-rbr" id="MZm-OM-xzb"/>
+                <outlet property="cancelVoiceBtnHeight" destination="0tY-Lh-n3t" id="L7z-Wa-zVv"/>
+                <outlet property="cancelVoiceBtnWidth" destination="5R4-Qn-L02" id="eqc-Gd-EU6"/>
                 <outlet property="playVoiceBtn" destination="V0Y-vc-33C" id="tkr-5O-g6W"/>
+                <outlet property="playVoiceBtnHeight" destination="fpr-k8-o5X" id="zo0-57-SGd"/>
+                <outlet property="playVoiceBtnWidth" destination="BQD-8w-dQq" id="Hvz-k5-MgN"/>
                 <outlet property="recordVoiceBtn" destination="IrY-VB-Zvt" id="Vep-kZ-F8o"/>
                 <outlet property="timeLable" destination="CKc-US-mL2" id="Mbn-rt-LeL"/>
             </connections>

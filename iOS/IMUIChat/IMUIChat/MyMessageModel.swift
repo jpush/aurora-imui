@@ -28,8 +28,12 @@ class MyMessageModel: IMUIMessageModel {
     super.init(msgId: msgId, fromUser: fromUser, isOutGoing: isOutGoing, date: date, status: status, type: type)
   }
   
-  convenience init(with text: String) {
+  convenience init(text: String) {
     self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .text, text: text)
+  }
+
+  convenience init(voice: Data) {
+    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .voice, text: "")
   }
   
   override func textMessage() -> String {
