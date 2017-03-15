@@ -40,7 +40,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
     private Context mContext;
     private List<MyMessage> mData;
     private ChatView mChatView;
-    private final int MY_REQUEST_CODE = 0x0001;
+    private final int REQUEST_RECORD_VOICE_PERMISSION = 0x0001;
+    private final int REQUEST_CAMERA_PERMISSION = 0x0002;
     private InputMethodManager mImm;
     private Window mWindow;
 
@@ -86,7 +87,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                     ActivityCompat.requestPermissions(MessageListActivity.this, new String[]{
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.RECORD_AUDIO}, MY_REQUEST_CODE);
+                            Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_VOICE_PERMISSION);
                 }
 
                 // Show record voice interface
@@ -103,11 +104,26 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public void onCameraClick() {
+                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) mContext, new String[]{
+                            Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    }, REQUEST_CAMERA_PERMISSION);
+                }
 
+                File rootDir = mContext.getFilesDir();
+                String fileDir = rootDir.getAbsolutePath() + "/photo";
+                mChatView.setCameraCaptureFile(fileDir, "temp_photo");
             }
         });
 
         mChatView.setRecordVoiceListener(new RecordVoiceButton.RecordVoiceListener() {
+            @Override
+            public void onStartRecord() {
+
+            }
+
             @Override
             public void onFinishRecord(File voiceFile, int duration) {
                 MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE);
@@ -115,15 +131,28 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 message.setDuration(duration);
                 mAdapter.addToStart(message, true);
             }
+
+            @Override
+            public void onCancelRecord() {
+
+            }
         });
     }
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == MY_REQUEST_CODE) {
-            if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == REQUEST_RECORD_VOICE_PERMISSION) {
+            if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // Permission denied
+                Toast.makeText(mContext, "User denied permission, can't use record voice feature.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                // Permission denied
+                Toast.makeText(mContext, "User denied permission, can't use take photo feature.",
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }

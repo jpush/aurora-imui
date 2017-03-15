@@ -1,7 +1,6 @@
 package cn.jiguang.imui.messages;
 
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -12,12 +11,8 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -259,6 +254,10 @@ public class RecordVoiceButton extends ImageButton {
         if (myRecAudioFile != null) {
             myRecAudioFile.delete();
         }
+
+        if (mListener != null) {
+            mListener.onCancelRecord();
+        }
     }
 
     private void startRecording() {
@@ -277,6 +276,9 @@ public class RecordVoiceButton extends ImageButton {
                 }
             });
             recorder.start();
+            if (mListener != null) {
+                mListener.onStartRecord();
+            }
             startTime = System.currentTimeMillis();
             mCountTimer = new Timer();
             mCountTimer.schedule(new TimerTask() {
@@ -489,12 +491,20 @@ public class RecordVoiceButton extends ImageButton {
     public interface RecordVoiceListener {
 
         /**
-         *
-         * @param voiceFile
-         * @param duration
+         * Fires when started recording.
+         */
+        void onStartRecord();
+
+        /**
+         * Fires when finished recording.
+         * @param voiceFile The audio file.
+         * @param duration The duration of audio file, specified in seconds.
          */
         void onFinishRecord(File voiceFile, int duration);
 
-
+        /**
+         * Fires when canceled recording, will delete the audio file.
+         */
+        void onCancelRecord();
     }
 }

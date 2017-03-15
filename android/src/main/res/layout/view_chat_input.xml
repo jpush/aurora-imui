@@ -140,6 +140,7 @@
         android:id="@+id/menu_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="300dp"
         android:gravity="center">
 
         <LinearLayout
@@ -150,13 +151,48 @@
             android:gravity="center"
             android:visibility="gone">
 
-
-            <cn.jiguang.imui.messages.RecordVoiceButton
-                android:id="@+id/record_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/record_voice_mic"/>
+                android:layout_marginTop="30dp">
+
+                <Chronometer
+                    android:id="@+id/chronometer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/chronometer_text_color"
+                    android:textSize="@dimen/chronometer_text_size"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/record_hint_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/record_voice_hint" />
+
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <cn.jiguang.imui.messages.RecordControllerView
+                    android:id="@+id/record_controller_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <cn.jiguang.imui.messages.RecordVoiceButton
+                    android:id="@+id/record_btn"
+                    android:layout_width="@dimen/record_button_size"
+                    android:layout_height="@dimen/record_button_size"
+                    android:layout_gravity="center"
+                    android:background="@drawable/record_voice_mic"/>
+
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -180,14 +216,63 @@
 
            <ImageButton
                android:id="@+id/album_ib"
-               android:layout_width="50dp"
-               android:layout_height="50dp"
+               android:layout_width="@dimen/album_button_size"
+               android:layout_height="@dimen/album_button_size"
                android:layout_gravity="bottom|right"
                android:layout_marginRight="20dp"
                android:layout_marginBottom="20dp"
                android:background="@drawable/album"/>
 
        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/camera_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minHeight="300dp">
+
+            <TextureView
+                android:id="@+id/camera_texture_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/full_screen_ib"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top|right"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/full_screen"/>
+            
+            <ImageButton
+                android:id="@+id/record_video_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/record_video" />
+            
+            <ImageButton
+                android:id="@+id/capture_ib"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="bottom|center"
+                android:background="@drawable/send_pres"/>
+
+            <ImageButton
+                android:id="@+id/switch_camera_ib"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|right"
+                android:background="@drawable/switch_camera"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"/>
+
+
+        </FrameLayout>
 
     </FrameLayout>
 

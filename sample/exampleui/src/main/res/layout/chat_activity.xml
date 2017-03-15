@@ -54,7 +54,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:textAlignment="center"
         app:cameraBtnIcon="@drawable/camera"
         app:inputCursorDrawable="@drawable/jmui_text_cursor_bg"
         app:inputEditTextBg="@drawable/jmui_chat_input_bg"

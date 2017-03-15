@@ -27,4 +27,5 @@
     <color name="voice_btn_pressed">#3773cb</color>
     <color name="input_text_color">#000000</color>
     <color name="input_hint_color">#8b8b8b</color>
+    <color name="chronometer_text_color">#92A7C5</color>
 </resources>

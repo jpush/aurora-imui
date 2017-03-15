@@ -7,9 +7,13 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -19,13 +23,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -36,13 +44,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.FileItem;
+import cn.jiguang.imui.utils.ImgBrowserViewPager;
 
 public class ChatInputView extends LinearLayout implements View.OnClickListener, TextWatcher,
         PhotoAdapter.OnFileSelectedListener {
@@ -60,6 +72,8 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     private FrameLayout mMenuContainer;
     private LinearLayout mRecordVoiceLl;
     private FrameLayout mPhotoFl;
+    private RecordControllerView mRecordControllerView;
+    private Chronometer mChronometer;
     private RecordVoiceButton mRecordVoiceBtn;
 
     private RecyclerView mRvPhotos; // 选择照片界面
@@ -67,12 +81,19 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     private ProgressBar mProgressBar;
     private ImageView checkedIcon;
     private ImageButton mAlbumBtn;
+    private FrameLayout mCameraFl;
+    private TextureView mTextureView;
+    private ImageButton mCaptureBtn;
+    private ImageButton mSwitchCameraBtn;
+    private ImageButton mFullScreenBtn;
+    private ImageButton mRecordVideoBtn;
     private OnMenuClickListener mListener;
     private ChatInputStyle mStyle;
     private InputMethodManager mImm;
     private Window mWindow;
     private int mLastClickId = 0;
 
+    private int mWidth;
     private int mMenuHeight = 300;
     private boolean mShowSoftInput = false;
     private PhotoAdapter mPhotoAdapter;
@@ -85,6 +106,11 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     public static final byte KEYBOARD_STATE_INIT = -1;
     private final static int SCAN_OK = 1;
     private final static int SCAN_ERROR = 0;
+    public static final int REQUEST_CODE_TAKE_PHOTO = 0x0001;
+
+    private File mPhoto;
+    private CameraSupport mCameraSupport;
+    private int mCameraId = -1;
 
     public ChatInputView(Context context) {
         super(context);
@@ -118,7 +144,15 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         checkedIcon = (ImageView) findViewById(R.id.checked_iv);
         mAlbumBtn = (ImageButton) findViewById(R.id.album_ib);
+        mRecordControllerView = (RecordControllerView) findViewById(R.id.record_controller_view);
+        mChronometer = (Chronometer) findViewById(R.id.chronometer);
         mRecordVoiceBtn = (RecordVoiceButton) findViewById(R.id.record_btn);
+        mCameraFl = (FrameLayout) findViewById(R.id.camera_container);
+        mTextureView = (TextureView) findViewById(R.id.camera_texture_view);
+        mFullScreenBtn = (ImageButton) findViewById(R.id.full_screen_ib);
+        mRecordVideoBtn = (ImageButton) findViewById(R.id.record_video_ib);
+        mCaptureBtn = (ImageButton) findViewById(R.id.capture_ib);
+        mSwitchCameraBtn = (ImageButton) findViewById(R.id.switch_camera_ib);
 
         mRvPhotos = (RecyclerView) findViewById(R.id.rv_photo);
         mRvPhotos.setLayoutManager(new LinearLayoutManager(context,
@@ -134,6 +168,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mCameraBtn.setOnClickListener(this);
         mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = ((Activity) context).getWindow();
+        mWidth = getWidth();
 
         mChatInput.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -178,12 +213,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                 && getPaddingRight() == 0
                 && getPaddingTop() == 0
                 && getPaddingBottom() == 0) {
-            setPadding(
-                    mStyle.getInputDefaultPaddingLeft(),
-                    mStyle.getInputDefaultPaddingTop(),
-                    mStyle.getInputDefaultPaddingRight(),
-                    mStyle.getInputDefaultPaddingBottom()
-            );
         }
     }
 
@@ -275,10 +304,65 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                 if (mListener != null) {
                     mListener.onCameraClick();
                 }
-
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    if (mPhoto == null) {
+                        String path = getContext().getFilesDir().getAbsolutePath() + "/photo";
+                        File destDir = new File(path);
+                        if (!destDir.exists()) {
+                            destDir.mkdirs();
+                        }
+                        mPhoto = new File(destDir, new DateFormat().format("yyyy_MMdd_hhmmss",
+                                Calendar.getInstance(Locale.CHINA)) + ".png");
+                    }
+                    if (mCameraSupport == null) {
+                        initCamera();
+                    }
+                    showCameraLayout();
+                } else {
+                    Toast.makeText(getContext(), getContext().getString(R.string.sdcard_not_exist_toast),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
             mLastClickId = view.getId();
         }
+    }
+
+    private void initCamera() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mCameraSupport = new CameraNew(getContext(), mTextureView);
+        } else {
+            mCameraSupport = new CameraOld(mWidth, mMenuHeight, mTextureView);
+        }
+        mCameraSupport.setOutputFile(mPhoto);
+        for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
+            Camera.CameraInfo info = new Camera.CameraInfo();
+            Camera.getCameraInfo(i, info);
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                mCameraId = i;
+                break;
+            }
+        }
+        mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+            @Override
+            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
+                mCameraSupport.open(mCameraId, width, height);
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
+
+            }
+
+            @Override
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+                return false;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+
+            }
+        });
     }
 
     public void dismissMenuLayout() {
@@ -295,6 +379,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     public void showRecordVoiceLayout() {
         mPhotoFl.setVisibility(GONE);
+        mCameraFl.setVisibility(GONE);
         mRecordVoiceLl.setVisibility(VISIBLE);
     }
 
@@ -304,12 +389,25 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     public void showPhotoLayout() {
         mRecordVoiceLl.setVisibility(GONE);
+        mCameraFl.setVisibility(GONE);
         mPhotoFl.setVisibility(VISIBLE);
     }
 
     public void dismissPhotoLayout() {
         mPhotoFl.setVisibility(GONE);
     }
+
+    public void showCameraLayout() {
+        mRecordVoiceLl.setVisibility(GONE);
+        mPhotoFl.setVisibility(GONE);
+        mCameraFl.setVisibility(VISIBLE);
+    }
+
+    public void dismissCameraLayout() {
+        mCameraFl.setVisibility(GONE);
+        mCameraSupport.release();
+    }
+
 
     /**
      * Set menu container's height, invoke this method once the menu was initialized.
@@ -401,6 +499,20 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
             }
         });
+    }
+
+    /**
+     * Set camera capture file path and file name. If user didn't invoke this method, will save in
+     * default path.
+     * @param path Photo to be saved in.
+     * @param fileName File name.
+     */
+    public void setCameraCaptureFile(String path, String fileName) {
+        File destDir = new File(path);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        mPhoto = new File(path, fileName + ".png");
     }
 
     /**
@@ -548,6 +660,14 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                         break;
                 }
             }
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mCameraSupport != null) {
+            mCameraSupport.release();
         }
     }
 }
