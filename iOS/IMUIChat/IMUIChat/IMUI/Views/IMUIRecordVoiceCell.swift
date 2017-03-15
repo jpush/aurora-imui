@@ -21,6 +21,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
   @IBOutlet weak var playVoiceBtnWidth: NSLayoutConstraint!
   @IBOutlet weak var cancelVoiceBtnHeight: NSLayoutConstraint!
   @IBOutlet weak var cancelVoiceBtnWidth: NSLayoutConstraint!
+  @IBOutlet weak var playVoiceBtn: UIButton!
   
   open weak var inputViewDelegate: IMUIInputViewDelegate?
   
@@ -62,12 +63,8 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     }, cancelCallback: { 
       print("cancel record")
     }) { (timer) in
-      
       let seconds = Date.secondsBetween(date1: self.recordHelper.timerFireDate!, date2: Date())
-      
-      
-      self.timeLable.text = "\(String(format: "%02d", seconds/60)):\(String(format: "%02d", seconds%60))"
-      
+      self.timeLable.text = "\(String(format: "%02d", seconds / 60)):\(String(format: "%02d", seconds % 60))"
     }
   }
   
