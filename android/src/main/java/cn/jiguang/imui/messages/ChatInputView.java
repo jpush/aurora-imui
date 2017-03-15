@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
-import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -27,7 +26,6 @@ import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
@@ -54,7 +52,6 @@ import java.util.Locale;
 
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.FileItem;
-import cn.jiguang.imui.utils.ImgBrowserViewPager;
 
 public class ChatInputView extends LinearLayout implements View.OnClickListener, TextWatcher,
         PhotoAdapter.OnFileSelectedListener {
@@ -249,13 +246,14 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     public void setSendBtnBg() {
         if (mInput.length() > 0) {
             mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send_pres));
-            if (Build.VERSION.SDK_INT >= 21) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 mSendBtn.setElevation(getContext().getResources().getDimension(R.dimen.send_btn_shadow));
             }
         } else {
             mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
-            if (Build.VERSION.SDK_INT >= 21) {
-                mSendBtn.setElevation(0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mSendBtn.setElevation(getContext().getResources().getDimension(R.dimen.send_btn_shadow));
+//                mSendBtn.setElevation(0);
             }
         }
     }
@@ -440,8 +438,8 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     @Override
     public void onFileSelected() {
-        mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send_pres));
         if (mSendFiles.size() == 1) {
+            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send_pres));
             addSelectedAnimation(mSendBtn);
         }
 
@@ -472,10 +470,10 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
      * @param view
      */
     private void addSelectedAnimation(View view) {
-        float[] vaules = new float[]{0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f};
+        float[] values = new float[]{0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f};
         AnimatorSet set = new AnimatorSet();
-        set.playTogether(ObjectAnimator.ofFloat(view, "scaleX", vaules),
-                ObjectAnimator.ofFloat(view, "scaleY", vaules));
+        set.playTogether(ObjectAnimator.ofFloat(view, "scaleX", values),
+                ObjectAnimator.ofFloat(view, "scaleY", values));
         set.setDuration(150);
         set.start();
         set.addListener(new Animator.AnimatorListener() {
