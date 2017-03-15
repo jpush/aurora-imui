@@ -12,7 +12,10 @@ import AVFoundation
 
 let maxRecordTime = 60.0
 typealias CompletionCallBack = () -> Void
+typealias TimerTickCallback = (Timer) -> Void
+
 typealias IMUIFinishRecordVoiceCallBack = () -> Data
+
 
 class IMUIRecordVoiceHelper: NSObject {
   var finishiRecordCallBack: CompletionCallBack?
@@ -25,6 +28,7 @@ class IMUIRecordVoiceHelper: NSObject {
   var recordDuration: String?
   var recordProgress: Float?
   var theTimer: Timer?
+  var timerFireDate: Date?
   var currentTimeInterval: TimeInterval?
   
   override init() {
@@ -63,6 +67,8 @@ class IMUIRecordVoiceHelper: NSObject {
   }
   
   func resetTimer() {
+    self.timerFireDate = nil
+    
     if self.theTimer == nil {
       return
     } else {
@@ -79,6 +85,7 @@ class IMUIRecordVoiceHelper: NSObject {
     }
     
     self.recorder = nil
+    self.resetTimer()
   }
   
   func stopRecord() {
@@ -89,13 +96,18 @@ class IMUIRecordVoiceHelper: NSObject {
   func startRecordingWithPath(_ path:String,
                               startRecordCompleted: @escaping CompletionCallBack,
                               finishCallback: @escaping CompletionCallBack,
-                              cancelCallback: @escaping CompletionCallBack) {
+                              cancelCallback: @escaping CompletionCallBack,
+                              timerTickCallback: @escaping TimerTickCallback) {
     
     print("Action - startRecordingWithPath:")
     self.startRecordCallBack = startRecordCompleted
     self.finishiRecordCallBack = finishCallback
     self.cancelledRecordCallBack = cancelCallback
     
+    theTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: timerTickCallback)
+    self.timerFireDate = Date()
+    
+    print("the timer \(theTimer)")
     self.recordPath = path
     
     let audioSession:AVAudioSession = AVAudioSession.sharedInstance()
@@ -131,13 +143,15 @@ class IMUIRecordVoiceHelper: NSObject {
     }
     
     if ((self.recorder?.record()) != false) {
-      self.resetTimer()
+//      self.resetTimer()
     } else {
       print("fail record")
     }
-    
+    theTimer?.fire()
+    print("the Timer fire")
     if self.startRecordCallBack != nil {
       DispatchQueue.main.async(execute: self.startRecordCallBack!)
+      
     }
   }
   
@@ -168,8 +182,8 @@ class IMUIRecordVoiceHelper: NSObject {
       
     }
   }
-  // test player
-  func playVoice(_ recordPath:String) {
+  
+  open func playVoice(_ recordPath:String) {
     do {
       print("\(recordPath)")
       let player:AVAudioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: recordPath))

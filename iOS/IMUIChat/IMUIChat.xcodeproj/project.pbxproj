@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6234E8251E7916CB00C0E81C /* TimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6234E8241E7916CB00C0E81C /* TimerExtension.swift */; };
 		6244424C1E63C91200D5F0EB /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6244424B1E63C91200D5F0EB /* UIViewExtension.swift */; };
 		6244424F1E63D57100D5F0EB /* IMUIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6244424D1E63D57100D5F0EB /* IMUIChatViewController.swift */; };
 		624442521E6400A900D5F0EB /* IMUIChatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624442511E6400A900D5F0EB /* IMUIChatDataManager.swift */; };
@@ -69,6 +70,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6234E8241E7916CB00C0E81C /* TimerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerExtension.swift; sourceTree = "<group>"; };
 		6244424B1E63C91200D5F0EB /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		6244424D1E63D57100D5F0EB /* IMUIChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIChatViewController.swift; sourceTree = "<group>"; };
 		624442511E6400A900D5F0EB /* IMUIChatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIChatDataManager.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				624442811E69507100D5F0EB /* UIColorExtension.swift */,
 				625266A31E6EBAA700AB3297 /* StringExtension.swift */,
 				625266A71E6FE13000AB3297 /* DateExtension.swift */,
+				6234E8241E7916CB00C0E81C /* TimerExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				624442701E68026200D5F0EB /* IMUIBaseMessageCell.swift in Sources */,
+				6234E8251E7916CB00C0E81C /* TimerExtension.swift in Sources */,
 				625266B01E712C6B00AB3297 /* IMUIFeatureView.swift in Sources */,
 				6259760A1E714F1E00D46639 /* IMUIGalleryDataSource.swift in Sources */,
 				625266A81E6FE13000AB3297 /* DateExtension.swift in Sources */,

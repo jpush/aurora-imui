@@ -34,7 +34,7 @@ class IMUIAudioPlayerHelper: NSObject {
     }
   }
   
-  func playAudioWithData(_ voiceData:Data) {
+  open func playAudioWithData(_ voiceData:Data) {
     do {
       try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
     } catch let error as NSError {
@@ -47,10 +47,10 @@ class IMUIAudioPlayerHelper: NSObject {
     }
     
     do {
-      let pl:AVAudioPlayer = try AVAudioPlayer(data: voiceData)
-      pl.delegate = self
-      pl.play()
-      self.player = pl
+      let voicePlayer:AVAudioPlayer = try AVAudioPlayer(data: voiceData)
+      voicePlayer.delegate = self
+      voicePlayer.play()
+      self.player = voicePlayer
     } catch let error as NSError {
       print("alloc AVAudioPlayer with voice data fail with error \(error)")
     }

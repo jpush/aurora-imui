@@ -153,5 +153,12 @@ extension UIView {
 //  return nil;
 //  }
 //
-//  
+//
+  func positionInLeftSide(with point: CGPoint) -> Bool {
+    if point.x < self.imui_centerX {
+      return true
+    } else {
+      return false
+    }
+  }
 }

@@ -14,7 +14,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
   
   @IBOutlet weak var recordVoiceBtn: UIButton!
   @IBOutlet weak var timeLable: UILabel!
-  @IBOutlet weak var playVoiceBtn: UIButton!
+  @IBOutlet weak var swtichToPlayModeBtn: UIButton!
   @IBOutlet weak var cancelVoiceBtn: UIButton!
   
   @IBOutlet weak var playVoiceBtnHeight: NSLayoutConstraint!
@@ -29,44 +29,52 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
   override func awakeFromNib() {
     super.awakeFromNib()
     
-    self.playVoiceBtn.layer.cornerRadius = self.playVoiceBtn.imui_width / 2
-    self.playVoiceBtn.layer.borderColor = UIColor.gray.cgColor
-    self.playVoiceBtn.layer.masksToBounds = true
-    self.playVoiceBtn.layer.borderWidth = 0.5
-    self.playVoiceBtn.isHidden = true
+    self.swtichToPlayModeBtn.layer.borderColor = UIColor.gray.cgColor
+    self.swtichToPlayModeBtn.layer.masksToBounds = true
+    self.swtichToPlayModeBtn.layer.borderWidth = 0.5
+    self.swtichToPlayModeBtn.isHidden = true
     
-    self.cancelVoiceBtn.layer.cornerRadius = self.cancelVoiceBtn.imui_width / 2
     self.cancelVoiceBtn.layer.borderColor = UIColor.gray.cgColor
     self.cancelVoiceBtn.layer.borderWidth = 0.5
     self.cancelVoiceBtn.layer.masksToBounds = true
     self.cancelVoiceBtn.isHidden = true
+    
+    self.resetSubViewsStyle()
     
     let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
     self.recordVoiceBtn.addGestureRecognizer(gestureRecognizer)
     
   }
 
-  
-  @IBAction func startRecordVoice(_ sender: Any) {
-    self.playVoiceBtn.isHidden = false
-    self.cancelVoiceBtn.isHidden = false
-    
-    recordHelper.startRecordingWithPath(self.getRecorderPath(),
-                                        startRecordCompleted: { 
-                                          print("start!")
-                                        },
-                                        finishCallback: { 
-                                          print("finish!")
-                                        },
-                                        cancelCallback: {
-                                          print("cancel!")
-                                        })
+  @IBAction func finishiRecordVoiceCallback(_ sender: Any) {
+    self.finishRecordVoice()
   }
   
-  @IBAction func finishRecordVoice(_ sender: Any) {
-    self.playVoiceBtn.isHidden = true
+  @IBAction func startRecordVoice(_ sender: Any) {
+    self.swtichToPlayModeBtn.isHidden = false
+    self.cancelVoiceBtn.isHidden = false
+
+    recordHelper.startRecordingWithPath(self.getRecorderPath(),
+                                        startRecordCompleted: {
+      print("start record")
+    }, finishCallback: { 
+      print("finish record")
+    }, cancelCallback: { 
+      print("cancel record")
+    }) { (timer) in
+      
+      let seconds = Date.secondsBetween(date1: self.recordHelper.timerFireDate!, date2: Date())
+      
+      
+      self.timeLable.text = "\(String(format: "%02d", seconds/60)):\(String(format: "%02d", seconds%60))"
+      
+    }
+  }
+  
+  func finishRecordVoice() {
+    self.swtichToPlayModeBtn.isHidden = true
     self.cancelVoiceBtn.isHidden = true
-    self.resetButtonSize()
+    self.resetSubViewsStyle()
     
     recordHelper.finishRecordingCompletion()
     
@@ -79,46 +87,93 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
 
   }
   
-  func resetButtonSize() {
+  func resetSubViewsStyle() {
     self.playVoiceBtnWidth.constant = IMUIRecordVoiceCell.buttonNormalWith
     self.playVoiceBtnHeight.constant = IMUIRecordVoiceCell.buttonNormalWith
-    self.playVoiceBtn.layer.cornerRadius = IMUIRecordVoiceCell.buttonNormalWith/2
+    self.swtichToPlayModeBtn.layer.cornerRadius = IMUIRecordVoiceCell.buttonNormalWith/2
+    self.swtichToPlayModeBtn.backgroundColor = UIColor.clear
+    self.swtichToPlayModeBtn.isSelected = false
+    self.swtichToPlayModeBtn.isHidden = true
     
     self.cancelVoiceBtnHeight.constant = IMUIRecordVoiceCell.buttonNormalWith
     self.cancelVoiceBtnWidth.constant = IMUIRecordVoiceCell.buttonNormalWith
     self.cancelVoiceBtn.layer.cornerRadius = IMUIRecordVoiceCell.buttonNormalWith/2
-  }
-  
-  @IBAction func cancelRecordVoice(_ sender: Any) {
-    self.playVoiceBtn.isHidden = true
+    self.cancelVoiceBtn.backgroundColor = UIColor.clear
+    self.cancelVoiceBtn.isSelected = false
     self.cancelVoiceBtn.isHidden = true
-    self.resetButtonSize()
+    
+    self.timeLable.text = "按住说话"
   }
-  
 
   func handlePan(recognizer:UIPanGestureRecognizer) {
-    let translation = recognizer.translation(in: self.contentView)
-    print("x \(translation.x)   y \(translation.y)")
-    if abs(translation.x) > 10.0 {
-      if translation.x > 0 {
-        let cancelDistance = abs(self.cancelVoiceBtn.imui_right - self.recordVoiceBtn.imui_right)
-        let progress = abs(translation.x) > abs(cancelDistance) ? abs(translation.x) : abs(cancelDistance)
-        let sizeWidth = IMUIRecordVoiceCell.buttonNormalWith + abs(progress / cancelDistance) * 15.0
-        cancelVoiceBtnWidth.constant = sizeWidth
-        cancelVoiceBtnHeight.constant = sizeWidth
-        self.cancelVoiceBtn.layer.cornerRadius = sizeWidth/2
-      } else {
-        let playDistance = self.recordVoiceBtn.imui_left - self.playVoiceBtn.imui_left
-        let progress = abs(translation.x) > abs(playDistance) ? abs(translation.x) : abs(playDistance)
-        let sizeWidth = IMUIRecordVoiceCell.buttonNormalWith + abs(progress / playDistance) * 15.0
-        playVoiceBtnHeight.constant = sizeWidth
-        playVoiceBtnWidth.constant = sizeWidth
-        self.playVoiceBtn.layer.cornerRadius = sizeWidth/2
-      }
-    } else {
-      self.resetButtonSize()
+    let pointInSuperView = recognizer.location(in: self.contentView)
+    
+    if !self.recordVoiceBtn.frame.contains(pointInSuperView) { // touch move out from recordVoiceBtn
+      
+      let playDistance =  abs(self.swtichToPlayModeBtn.imui_centerX - self.recordVoiceBtn.imui_left)
+      let playProgress = (self.recordVoiceBtn.imui_left - pointInSuperView.x) > 0 ? min((self.recordVoiceBtn.imui_left - pointInSuperView.x), playDistance) : 0
+      
+      var sizeWidth = IMUIRecordVoiceCell.buttonNormalWith + abs(playProgress / playDistance) * 20.0
+      playVoiceBtnHeight.constant = sizeWidth
+      playVoiceBtnWidth.constant = sizeWidth
+      self.swtichToPlayModeBtn.layer.cornerRadius = sizeWidth / 2
+      
+      let cancelDistance = abs(self.cancelVoiceBtn.imui_centerX - self.recordVoiceBtn.imui_right)
+      let cancelProgress = (pointInSuperView.x - self.recordVoiceBtn.imui_right) > 0 ? min(pointInSuperView.x - self.recordVoiceBtn.imui_right, cancelDistance) : 0
+      sizeWidth = IMUIRecordVoiceCell.buttonNormalWith + abs(cancelProgress / cancelDistance) * 20.0
+      cancelVoiceBtnWidth.constant = sizeWidth
+      cancelVoiceBtnHeight.constant = sizeWidth
+      self.cancelVoiceBtn.layer.cornerRadius = sizeWidth/2
     }
     
+    // Drag out from recordVoiceBtn to PlayVoiceBtn
+    if self.swtichToPlayModeBtn.frame.contains(pointInSuperView) {
+      self.setSelectedStatus(button: self.swtichToPlayModeBtn)
+    } else {
+      self.setDeselectStatus(button: self.swtichToPlayModeBtn)
+    }
+    
+    // Drag out from recordVoiceBtn to cancelVoiceBtn
+    if self.cancelVoiceBtn.frame.contains(pointInSuperView) {
+      self.setSelectedStatus(button: self.cancelVoiceBtn)
+    } else {
+      self.setDeselectStatus(button: self.cancelVoiceBtn)
+    }
+    
+    if recognizer.state == .ended {
+      
+      if self.cancelVoiceBtn.isSelected {
+        self.recordHelper.cancelRecording()
+        self.resetSubViewsStyle()
+        return
+      }
+      
+      if self.swtichToPlayModeBtn.isSelected {
+        // TODO: set to play mode
+//        do {
+//          let voiceData = try! Data(contentsOf: URL(fileURLWithPath: self.recordHelper.recordPath!))
+//          IMUIAudioPlayerHelper.sharedInstance.playAudioWithData(voiceData)
+//          self.resetSubViewsStyle()
+//          return
+//        } catch {
+//          print("could not load voice file")
+//        }
+        self.recordHelper.stopRecord()
+        return
+      }
+      
+      self.finishRecordVoice()
+    }
+  }
+  
+  func setSelectedStatus(button: UIButton) {
+    button.backgroundColor = UIColor(netHex: 0x979797)
+    button.isSelected = true
+  }
+  
+  func setDeselectStatus(button: UIButton) {
+    button.backgroundColor = UIColor.clear
+    button.isSelected = false
   }
   
   func getRecorderPath() -> String {
