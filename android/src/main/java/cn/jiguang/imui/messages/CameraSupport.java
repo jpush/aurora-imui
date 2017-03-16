@@ -8,4 +8,6 @@ public interface CameraSupport {
     int getOrientation(int cameraId);
     void release();
     void setOutputFile(File file);
+    void takePicture();
+    void setCameraCallbackListener(OnCameraCallbackListener listener);
 }

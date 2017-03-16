@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
-import android.graphics.drawable.GradientDrawable;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -24,19 +23,22 @@ import android.os.HandlerThread;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Size;
+import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class CameraNew implements CameraSupport {
@@ -54,13 +56,25 @@ public class CameraNew implements CameraSupport {
     private Handler mBackgroundHandler;
     private int mWidth;
     private int mHeight;
+    private static SparseIntArray ORIENTATIONS = new SparseIntArray();
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0, 0);
+        ORIENTATIONS.append(Surface.ROTATION_90, 90);
+        ORIENTATIONS.append(Surface.ROTATION_180, 180);
+        ORIENTATIONS.append(Surface.ROTATION_270, 270);
+    }
 
     private final static int REQUEST_CAMERA_PERMISSION = 200;
+    private OnCameraCallbackListener mOnCameraCallbackListener;
 
     public CameraNew(final Context context, TextureView textureView) {
         this.mContext = context;
         this.mManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         this.mTextureView = textureView;
+    }
+
+    public void setCameraCallbackListener(OnCameraCallbackListener listener) {
+        mOnCameraCallbackListener = listener;
     }
 
     @Override
@@ -77,9 +91,6 @@ public class CameraNew implements CameraSupport {
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 Log.e("CameraNew", "Lacking privileges to access camera service, please request permission first.");
-                ActivityCompat.requestPermissions((Activity) mContext, new String[] {
-                        Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                }, REQUEST_CAMERA_PERMISSION);
                 return null;
             }
             mManager.openCamera(mCameraId, mStateCallback, null);
@@ -94,7 +105,7 @@ public class CameraNew implements CameraSupport {
     CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice camera) {
-            CameraNew.this.mCamera = camera;
+            mCamera = camera;
             createCameraPreview();
 
         }
@@ -103,6 +114,7 @@ public class CameraNew implements CameraSupport {
         public void onDisconnected(CameraDevice camera) {
             // TODO handle
             mCamera.close();
+            mCamera = null;
         }
 
         @Override
@@ -116,7 +128,7 @@ public class CameraNew implements CameraSupport {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
             super.onCaptureCompleted(session, request, result);
-            createCameraPreview();
+//            createCameraPreview();
         }
     };
 
@@ -126,9 +138,21 @@ public class CameraNew implements CameraSupport {
             assert texture != null;
             CameraCharacteristics characteristics = mManager.getCameraCharacteristics(mCameraId);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-            Size[] sizes = map.getOutputSizes(ImageFormat.JPEG);
-            Size optimalSize = getOptimalPreviewSize(Arrays.asList(sizes), mWidth, mHeight);
+            int deviceOrientation = ((Activity) mContext).getWindowManager().getDefaultDisplay().getOrientation();
+            int totalRotation = sensorToDeviceRotation(characteristics, deviceOrientation);
+            boolean swapRotation = totalRotation == 90 || totalRotation == 270;
+            int rotatedWidth = mWidth;
+            int rotatedHeight = mHeight;
+            if (swapRotation) {
+                rotatedWidth = mHeight;
+                rotatedHeight = mWidth;
+            }
+            Size[] sizes = map.getOutputSizes(SurfaceTexture.class);
+            Log.e("CameraNew", "TextureView width: " + mWidth + " height: " + mHeight);
+            Size optimalSize = getPreferredPreviewSize(sizes, rotatedWidth, rotatedHeight);
             texture.setDefaultBufferSize(optimalSize.getWidth(), optimalSize.getHeight());
+//            texture.setDefaultBufferSize(mWidth, mHeight);
+            Log.e("CameraNew", "OptimalSize width: " + optimalSize.getWidth() + " height: " + optimalSize.getHeight());
             Surface surface = new Surface(texture);
             mBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mBuilder.addTarget(surface);
@@ -152,33 +176,42 @@ public class CameraNew implements CameraSupport {
         }
     }
 
-    private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
-        final double ASPECT_TOLERANCE = 0.1;
-        double targetRatio = (double) w / h;
-        if (sizes == null) return null;
-        Size optimalSize = null;
-        double minDiff = Double.MAX_VALUE;
-        int targetHeight = h;
-        // Try to find an size match aspect ratio and size
-        for (Size size : sizes) {
-            double ratio = (double) size.getWidth() / size.getHeight();
-            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
-            if (Math.abs(size.getWidth() - targetHeight) < minDiff) {
-                optimalSize = size;
-                minDiff = Math.abs(size.getHeight() - targetHeight);
-            }
-        }
-        // Cannot find the one match the aspect ratio, ignore the requirement
-        if (optimalSize == null) {
-            minDiff = Double.MAX_VALUE;
-            for (Size size : sizes) {
-                if (Math.abs(size.getHeight() - targetHeight) < minDiff) {
-                    optimalSize = size;
-                    minDiff = Math.abs(size.getHeight() - targetHeight);
+    private Size getPreferredPreviewSize(Size[] sizes, int width, int height) {
+        List<Size> collectorSizes = new ArrayList<>();
+        for (Size option : sizes) {
+            if (width > height) {
+                if (option.getWidth() > width && option.getHeight() > height) {
+                    collectorSizes.add(option);
+                }
+            } else {
+                if (option.getHeight() > width && option.getWidth() > height) {
+                    collectorSizes.add(option);
                 }
             }
         }
-        return optimalSize;
+        if (collectorSizes.size() > 0) {
+            return Collections.min(collectorSizes, new Comparator<Size>() {
+                @Override
+                public int compare(Size s1, Size s2) {
+                    return Long.signum(s1.getWidth() * s1.getHeight() - s2.getWidth() * s2.getHeight());
+                }
+            });
+        }
+//        for (Size option : sizes) {
+//            if (option.getHeight() == option.getWidth() * height / width
+//                    && option.getWidth() >= width && option.getHeight() >= height) {
+//                collectorSizes.add(option);
+//            }
+//        }
+//        if (collectorSizes.size() > 0) {
+//            return Collections.min(collectorSizes, new Comparator<Size>() {
+//                @Override
+//                public int compare(Size s1, Size s2) {
+//                    return Long.signum((long) s1.getWidth() * s1.getHeight() / (long) s2.getWidth() * s2.getHeight());
+//                }
+//            });
+//        }
+        return sizes[0];
     }
 
     private void updatePreview() {
@@ -187,7 +220,7 @@ public class CameraNew implements CameraSupport {
         }
         mBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
         try {
-            mSession.setRepeatingRequest(mBuilder.build(), null, mBackgroundHandler);
+            mSession.setRepeatingRequest(mBuilder.build(), captureCallbackListener, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -222,9 +255,23 @@ public class CameraNew implements CameraSupport {
         }
     }
 
+    private static int sensorToDeviceRotation(CameraCharacteristics characteristics, int deviceOrientation) {
+        int sensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+        deviceOrientation = ORIENTATIONS.get(deviceOrientation);
+        return (sensorOrientation + deviceOrientation + 360) % 360;
+    }
+
     @Override
     public void release() {
-        mCamera.close();
+        if (mSession != null) {
+            mSession.close();
+            mSession = null;
+        }
+        if (mCamera != null) {
+            mCamera.close();
+            mCamera = null;
+        }
+
         stopBackgroundThread();
     }
 
@@ -233,6 +280,7 @@ public class CameraNew implements CameraSupport {
         this.mPhoto = file;
     }
 
+    @Override
     public void takePicture() {
         if (null == mCamera) {
             return;
@@ -268,6 +316,9 @@ public class CameraNew implements CameraSupport {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
+                        if (mOnCameraCallbackListener != null) {
+                            mOnCameraCallbackListener.onTakePictureCompleted(mPhoto);
+                        }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
