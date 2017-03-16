@@ -304,7 +304,7 @@ public class CameraNew implements CameraSupport {
             List<Surface> outputSurfaces = new ArrayList<Surface>(2);
             outputSurfaces.add(reader.getSurface());
             outputSurfaces.add(new Surface(mTextureView.getSurfaceTexture()));
-            CaptureRequest.Builder builder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            final CaptureRequest.Builder builder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             builder.addTarget(reader.getSurface());
             builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
             builder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(Integer.parseInt(mCameraId)));
@@ -345,7 +345,7 @@ public class CameraNew implements CameraSupport {
                 @Override
                 public void onConfigured(CameraCaptureSession cameraCaptureSession) {
                     try {
-                        cameraCaptureSession.capture(mBuilder.build(), captureCallback, mBackgroundHandler);
+                        cameraCaptureSession.capture(builder.build(), captureCallback, mBackgroundHandler);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
                     }

@@ -74,9 +74,14 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             public void onSendFiles(List<String> list) {
                 // do something
                 for (String path : list) {
-                    MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
+                    final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
                     message.setContentFile(path);
-                    mAdapter.addToStart(message, true);
+                    MessageListActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.addToStart(message, true);
+                        }
+                    });
                 }
             }
 

@@ -444,7 +444,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     public void dismissCameraLayout() {
         mCameraFl.setVisibility(GONE);
-        mCameraSupport.release();
         ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mMenuHeight);
         mTextureView.setLayoutParams(params);
     }
