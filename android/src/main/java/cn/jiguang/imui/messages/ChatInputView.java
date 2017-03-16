@@ -295,7 +295,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         } else if (view.getId() == R.id.record_video_ib) {
             // TODO create video file and start recording
         } else if (view.getId() == R.id.capture_ib) {
-            // TODO take picture
             mCameraSupport.takePicture();
         } else if (view.getId() == R.id.switch_camera_ib) {
             for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
@@ -306,7 +305,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                         mCameraId = i;
                         mBackCamera = false;
                         mCameraSupport.release();
-                        Log.i("ChatInputView", "Switch camera TextureView width: " + mTextureView.getWidth() + " height: " + mTextureView.getHeight());
                         mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight());
                         break;
                     }
@@ -315,7 +313,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
                         mCameraId = i;
                         mBackCamera = true;
                         mCameraSupport.release();
-                        Log.i("ChatInputView", "Switch camera TextureView width: " + mTextureView.getWidth() + " height: " + mTextureView.getHeight());
                         mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight());
                         break;
                     }
@@ -387,7 +384,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
-                Log.i("ChatInputView", "TextureView width: " + width + " height: " + height);
                 mCameraSupport.open(mCameraId, width, height);
             }
 
