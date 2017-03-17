@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-->Chat input style<-->
+    <attr name="chat_input" />
+    <declare-styleable name="ChatInputView">
+        <attr name="inputMarginLeft" format="dimension|reference" />
+        <attr name="inputMarginRight" format="dimension|reference" />
+        <attr name="inputEditTextBg" format="reference" />
+        <attr name="inputMaxLines" format="integer" />
+        <attr name="inputHint" format="string" />
+        <attr name="inputText" format="string" />
+        <attr name="inputTextSize" format="dimension|reference" />
+        <attr name="inputTextColor" format="color|reference" />
+        <attr name="inputHintColor" format="color|reference" />
+        <attr name="inputCursorDrawable" format="reference" />
+        <attr name="sendBtnBg" format="reference" />
+        <attr name="sendBtnIcon" format="reference" />
+        <attr name="sendCountBg" format="reference" />
+        <attr name="voiceBtnBg" format="reference" />
+        <attr name="voiceBtnIcon" format="reference" />
+        <attr name="cameraBtnBg" format="reference" />
+        <attr name="cameraBtnIcon" format="reference" />
+        <attr name="photoBtnBg" format="reference" />
+        <attr name="photoBtnIcon" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="RecordVoiceButton">
+        <attr name="voiceBtnText" format="string" />
+        <attr name="tapDownText" format="string" />
+        <attr name="recordVoiceBtnBg" format="reference" />
+        <attr name="mic_1" format="reference" />
+        <attr name="mic_2" format="reference" />
+        <attr name="mic_3" format="reference" />
+        <attr name="mic_4" format="reference" />
+        <attr name="mic_5" format="reference" />
+        <attr name="cancelRecord" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="RecordVoiceDialog">
+        <attr name="background" format="reference" />
+    </declare-styleable>
+</resources>

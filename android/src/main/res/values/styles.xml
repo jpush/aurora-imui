@@ -14,20 +14,6 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="ChatWhoIsTyping">
-        <item name="android:lines">1</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="ChatSendButton">
-        <item name="android:maxLines">5</item>
-    </style>
-
-    <style name="ChatInputEditText">
-        <item name="android:background">@null</item>
-        <item name="android:textAllCaps">true</item>
-    </style>
-
     <style name="jmui_chat_item_receive_layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

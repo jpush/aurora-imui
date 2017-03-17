@@ -2,21 +2,19 @@ package imui.jiguang.cn.imuisample.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import cn.jiguang.imui.messages.ChatInputView;
+import cn.jiguang.imui.chatinput.ChatInputView;
+import cn.jiguang.imui.chatinput.RecordVoiceButton;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
-import cn.jiguang.imui.messages.RecordVoiceButton;
 import imui.jiguang.cn.imuisample.R;
 
-import static cn.jiguang.imui.messages.ChatInputView.KEYBOARD_STATE_HIDE;
-import static cn.jiguang.imui.messages.ChatInputView.KEYBOARD_STATE_INIT;
-import static cn.jiguang.imui.messages.ChatInputView.KEYBOARD_STATE_SHOW;
+import static cn.jiguang.imui.chatinput.ChatInputView.KEYBOARD_STATE_HIDE;
+import static cn.jiguang.imui.chatinput.ChatInputView.KEYBOARD_STATE_INIT;
+import static cn.jiguang.imui.chatinput.ChatInputView.KEYBOARD_STATE_SHOW;
 
 
 public class ChatView extends RelativeLayout {

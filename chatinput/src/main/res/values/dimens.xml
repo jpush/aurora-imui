@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-->chat input<-->
+    <dimen name="send_btn_shadow">5dp</dimen>
+    <dimen name="send_btn_default_size">25dp</dimen>
+    <dimen name="default_btn_radius">5dp</dimen>
+    <dimen name="input_margin_left">20dp</dimen>
+    <dimen name="input_margin_right">20dp</dimen>
+    <dimen name="input_text_size">17sp</dimen>
+    <dimen name="input_padding_left">16sp</dimen>
+    <dimen name="input_padding_right">16sp</dimen>
+    <dimen name="input_padding_top">0dp</dimen>
+    <dimen name="input_padding_bottom">0dp</dimen>
+    <dimen name="chronometer_text_size">20sp</dimen>
+    <dimen name="record_button_size">70dp</dimen>
+    <dimen name="album_button_size">60dp</dimen>
+
+
+
+</resources>

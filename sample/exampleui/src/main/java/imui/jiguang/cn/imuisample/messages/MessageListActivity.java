@@ -23,11 +23,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jiguang.imui.chatinput.ChatInputView;
+import cn.jiguang.imui.chatinput.RecordVoiceButton;
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.messages.ChatInputView;
 import cn.jiguang.imui.messages.MsgListAdapter;
-import cn.jiguang.imui.messages.RecordVoiceButton;
 import imui.jiguang.cn.imuisample.R;
 import imui.jiguang.cn.imuisample.models.DefaultUser;
 import imui.jiguang.cn.imuisample.models.MyMessage;
