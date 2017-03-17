@@ -16,27 +16,34 @@ protocol IMUIAudioPlayerDelegate:NSObjectProtocol {
 }
 
 class IMUIAudioPlayerHelper: NSObject {
+  
   static let sharedInstance = IMUIAudioPlayerHelper()
   
+
   var player:AVAudioPlayer!
   weak var delegate:IMUIAudioPlayerDelegate?
+
+  // play tick callback
+  typealias ProgressCallback = (_ currentTime: TimeInterval, _ duration: TimeInterval) -> ()
+  typealias FinishCallback = () -> ()
+  
+  var playProgressCallback: ProgressCallback?
+  var playFinishCallback: FinishCallback?
+  var updater: CADisplayLink! = nil
   
   override init() {
     super.init()
     
   }
   
-  func managerAudioWithData(_ data:Data, toplay:Bool) {
-    if toplay {
-      self.playAudioWithData(data)
-    } else {
-      self.pausePlayingAudio()
-    }
-  }
-  
-  open func playAudioWithData(_ voiceData:Data) {
+  open func playAudioWithData(_ voiceData:Data, progressCallback: @escaping ProgressCallback, finishCallBack: @escaping FinishCallback) {
     do {
+      self.playProgressCallback = progressCallback
+      self.playFinishCallback = finishCallBack
       try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+      updater = CADisplayLink(target: self, selector: #selector(self.trackAudio))
+      updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+      updater.frameInterval = 1
     } catch let error as NSError {
       print("set category fail \(error)")
     }
@@ -58,15 +65,26 @@ class IMUIAudioPlayerHelper: NSObject {
     UIDevice.current.isProximityMonitoringEnabled = true
   }
   
+  func trackAudio() {
+    self.playProgressCallback?(player.currentTime, player.duration)
+  }
+  
   func pausePlayingAudio() {
     self.player?.pause()
+    updater.invalidate()
+    
+  }
+  
+  func resumePlayingAudio() {
+    self.player?.play()
+    updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
   }
   
   func stopAudio() {
     if self.player.isPlaying {
       self.player.stop()
     }
-    
+    updater.invalidate()
     UIDevice.current.isProximityMonitoringEnabled = false
     self.delegate?.didAudioPlayerStopPlay(self.player)
   }
@@ -77,5 +95,6 @@ class IMUIAudioPlayerHelper: NSObject {
 extension IMUIAudioPlayerHelper: AVAudioPlayerDelegate {
   func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
     self.stopAudio()
+    self.playFinishCallback?()
   }
 }

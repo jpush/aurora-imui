@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+  @IBOutlet weak var progressBtn: IMUIProgressButton!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -23,9 +25,10 @@ class ViewController: UIViewController {
 //    let vc = IMUIChatViewController()
 ////    self.navigationController?.pushViewController(vc, animated: true)
 //    self.present(vc, animated: true) {
-//      
+//
 //    }
   }
+
 
 }
 

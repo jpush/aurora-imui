@@ -16,12 +16,13 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
   @IBOutlet weak var timeLable: UILabel!
   @IBOutlet weak var swtichToPlayModeBtn: UIButton!
   @IBOutlet weak var cancelVoiceBtn: UIButton!
+  @IBOutlet weak var playVoiceBtn: IMUIProgressButton!
   
   @IBOutlet weak var playVoiceBtnHeight: NSLayoutConstraint!
   @IBOutlet weak var playVoiceBtnWidth: NSLayoutConstraint!
   @IBOutlet weak var cancelVoiceBtnHeight: NSLayoutConstraint!
   @IBOutlet weak var cancelVoiceBtnWidth: NSLayoutConstraint!
-  @IBOutlet weak var playVoiceBtn: UIButton!
+  
   
   open weak var inputViewDelegate: IMUIInputViewDelegate?
   
@@ -40,6 +41,8 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     self.cancelVoiceBtn.layer.masksToBounds = true
     self.cancelVoiceBtn.isHidden = true
     
+    self.playVoiceBtn.clipColor = UIColor.init(netHex: 0xE1E1E3)
+    self.playVoiceBtn.progressColor = UIColor.init(netHex: 0x6BC6E7)
     self.resetSubViewsStyle()
     
     let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
@@ -47,6 +50,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     
   }
 
+  // -MARK: RecordVoice
   @IBAction func finishiRecordVoiceCallback(_ sender: Any) {
     self.finishRecordVoice()
   }
@@ -81,7 +85,6 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     } catch {
       print("\(error)")
     }
-
   }
   
   func resetSubViewsStyle() {
@@ -99,14 +102,49 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     self.cancelVoiceBtn.isSelected = false
     self.cancelVoiceBtn.isHidden = true
     
+    self.playVoiceBtn.isHidden = true
+    self.playVoiceBtn.progress = 0
     self.timeLable.text = "按住说话"
   }
 
+  // -MARK: Play RecordedVoice
+  @IBAction func playRecordedVoice(_ sender: IMUIProgressButton) {
+    if sender.isSelected {
+      // to pause voice
+      self.stopVoice()
+    } else {
+      // to play voice
+      self.playVoice()
+    }
+    
+    sender.isSelected = !sender.isSelected
+  }
+  
+  func stopVoice() {
+    IMUIAudioPlayerHelper.sharedInstance.stopAudio()
+  }
+  
+  func playVoice() {
+    do {
+      let voiceData = try Data(contentsOf: URL(fileURLWithPath: recordHelper.recordPath!))
+
+      IMUIAudioPlayerHelper.sharedInstance.playAudioWithData(voiceData, progressCallback: { (currentTime, duration) in
+        self.playVoiceBtn.progress = CGFloat(currentTime/duration)
+        
+      }, finishCallBack: { 
+        self.playVoiceBtn.isSelected = false
+      })
+    } catch {
+      print("fail to play recorded voice!")
+      print(error)
+    }
+  }
+  
   func handlePan(recognizer:UIPanGestureRecognizer) {
     let pointInSuperView = recognizer.location(in: self.contentView)
     
-    if !self.recordVoiceBtn.frame.contains(pointInSuperView) { // touch move out from recordVoiceBtn
-      
+    // touch move out from recordVoiceBtn
+    if !self.recordVoiceBtn.frame.contains(pointInSuperView) {
       let playDistance =  abs(self.swtichToPlayModeBtn.imui_centerX - self.recordVoiceBtn.imui_left)
       let playProgress = (self.recordVoiceBtn.imui_left - pointInSuperView.x) > 0 ? min((self.recordVoiceBtn.imui_left - pointInSuperView.x), playDistance) : 0
       
@@ -146,15 +184,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
       }
       
       if self.swtichToPlayModeBtn.isSelected {
-        // TODO: set to play mode
-//        do {
-//          let voiceData = try! Data(contentsOf: URL(fileURLWithPath: self.recordHelper.recordPath!))
-//          IMUIAudioPlayerHelper.sharedInstance.playAudioWithData(voiceData)
-//          self.resetSubViewsStyle()
-//          return
-//        } catch {
-//          print("could not load voice file")
-//        }
+        self.switchToPlayVoiceModel()
         self.recordHelper.stopRecord()
         return
       }
@@ -183,6 +213,13 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm-ss"
     recorderPath?.append("\(dateFormatter.string(from: now))-MySound.ilbc")
     return recorderPath!
+  }
+  
+  func switchToPlayVoiceModel() {
+    self.recordVoiceBtn.isHidden = true
+    self.cancelVoiceBtn.isHidden = true
+    self.swtichToPlayModeBtn.isHidden = true
+    self.playVoiceBtn.isHidden = false
   }
   
 }

@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CKc-US-mL2">
-                        <rect key="frame" x="118.5" y="78.5" width="134" height="28"/>
+                        <rect key="frame" x="118.5" y="47.5" width="134" height="28"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="134" id="cWb-G2-dPZ"/>
                             <constraint firstAttribute="height" constant="28" id="oDV-rO-fEk"/>
@@ -29,7 +29,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V0Y-vc-33C">
-                        <rect key="frame" x="42.5" y="113.5" width="46" height="46"/>
+                        <rect key="frame" x="42.5" y="93.5" width="46" height="46"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="46" id="BQD-8w-dQq"/>
@@ -39,7 +39,7 @@
                         <state key="selected" image="IMUIAssets.bundle/image/feature_voice_play_btn_seleted.png"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kfg-6W-rbr">
-                        <rect key="frame" x="283.5" y="113.5" width="45" height="46"/>
+                        <rect key="frame" x="283.5" y="93.5" width="45" height="46"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="46" id="0tY-Lh-n3t"/>
@@ -49,10 +49,10 @@
                         <state key="selected" image="IMUIAssets.bundle/image/feature_voice_delete_btn_selected.png"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrY-VB-Zvt">
-                        <rect key="frame" x="135" y="132.5" width="100" height="100"/>
+                        <rect key="frame" x="130.5" y="101.5" width="110" height="110"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="100" id="5RD-Gg-I9e"/>
-                            <constraint firstAttribute="width" constant="100" id="a09-fM-yRc"/>
+                            <constraint firstAttribute="height" constant="110" id="5RD-Gg-I9e"/>
+                            <constraint firstAttribute="width" constant="110" id="a09-fM-yRc"/>
                         </constraints>
                         <size key="titleShadowOffset" width="3" height="0.0"/>
                         <state key="normal" image="IMUIAssets.bundle/image/feature_record_voice_btn.png"/>
@@ -61,8 +61,13 @@
                             <action selector="startRecordVoice:" destination="gTV-IL-0wX" eventType="touchDown" id="vNQ-hp-6uY"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kcv-8l-kQa">
-                        <rect key="frame" x="135" y="133" width="100" height="100"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kcv-8l-kQa" customClass="IMUIProgressButton" customModule="IMUIChat" customModuleProvider="target">
+                        <rect key="frame" x="130.5" y="101.5" width="110" height="110"/>
+                        <state key="normal" image="IMUIAssets.bundle/image/feature_play_voive_btn.png"/>
+                        <state key="selected" image="IMUIAssets.bundle/image/feature_pause_voice_btn.png"/>
+                        <connections>
+                            <action selector="playRecordedVoice:" destination="gTV-IL-0wX" eventType="touchUpInside" id="wMG-9d-isM"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>
@@ -73,11 +78,11 @@
                 <constraint firstItem="V0Y-vc-33C" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" constant="-120" id="Gqj-eX-NNf"/>
                 <constraint firstItem="kcv-8l-kQa" firstAttribute="centerY" secondItem="IrY-VB-Zvt" secondAttribute="centerY" id="H1u-XM-lsh"/>
                 <constraint firstItem="kcv-8l-kQa" firstAttribute="height" secondItem="IrY-VB-Zvt" secondAttribute="height" id="H3I-TA-Lws"/>
-                <constraint firstItem="V0Y-vc-33C" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="HFH-Qk-OHd"/>
+                <constraint firstItem="V0Y-vc-33C" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-20" id="HFH-Qk-OHd"/>
                 <constraint firstItem="IrY-VB-Zvt" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Hzf-Yc-X3t"/>
-                <constraint firstItem="kfg-6W-rbr" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="T5o-e7-0xI"/>
+                <constraint firstItem="kfg-6W-rbr" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-20" id="T5o-e7-0xI"/>
                 <constraint firstItem="IrY-VB-Zvt" firstAttribute="top" secondItem="CKc-US-mL2" secondAttribute="bottom" constant="26" id="epQ-UM-aij"/>
-                <constraint firstItem="IrY-VB-Zvt" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="46" id="oTI-ar-yi1"/>
+                <constraint firstItem="IrY-VB-Zvt" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="20" id="oTI-ar-yi1"/>
                 <constraint firstItem="kfg-6W-rbr" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" constant="120" id="vCh-PH-8bP"/>
             </constraints>
             <size key="customSize" width="371" height="273"/>
@@ -86,7 +91,7 @@
                 <outlet property="cancelVoiceBtn" destination="kfg-6W-rbr" id="MZm-OM-xzb"/>
                 <outlet property="cancelVoiceBtnHeight" destination="0tY-Lh-n3t" id="L7z-Wa-zVv"/>
                 <outlet property="cancelVoiceBtnWidth" destination="5R4-Qn-L02" id="eqc-Gd-EU6"/>
-                <outlet property="playVoiceBtn" destination="kcv-8l-kQa" id="qgo-KL-YR8"/>
+                <outlet property="playVoiceBtn" destination="kcv-8l-kQa" id="rRm-IX-k4o"/>
                 <outlet property="playVoiceBtnHeight" destination="fpr-k8-o5X" id="zo0-57-SGd"/>
                 <outlet property="playVoiceBtnWidth" destination="BQD-8w-dQq" id="Hvz-k5-MgN"/>
                 <outlet property="recordVoiceBtn" destination="IrY-VB-Zvt" id="Vep-kZ-F8o"/>
@@ -97,6 +102,8 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="IMUIAssets.bundle/image/feature_pause_voice_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/feature_play_voive_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/feature_record_voice_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/feature_voice_delete_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/feature_voice_delete_btn_selected.png" width="16" height="16"/>

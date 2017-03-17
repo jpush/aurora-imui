@@ -22,9 +22,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTA-Wu-Jax">
-                                <rect key="frame" x="99" y="128" width="46" height="30"/>
+                                <rect key="frame" x="99" y="128" width="147" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="enterChatPage"/>
                                 <connections>
                                     <action selector="clickBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dwQ-4E-MEC"/>
                                     <segue destination="btR-ED-Yd1" kind="show" id="fCM-LY-91a"/>
@@ -33,9 +33,13 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
+                    <connections>
+                        <outlet property="progressBtn" destination="eTA-Wu-Jax" id="8Xg-8f-DZT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="24.800000000000001" y="36.431784107946029"/>
         </scene>
         <!--ChatVC-->
         <scene sceneID="mNv-0h-RbB">
