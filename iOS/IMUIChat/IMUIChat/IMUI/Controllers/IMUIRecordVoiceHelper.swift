@@ -143,7 +143,7 @@ class IMUIRecordVoiceHelper: NSObject {
     }
     
     if ((self.recorder?.record()) != false) {
-//      self.resetTimer()
+
     } else {
       print("fail record")
     }

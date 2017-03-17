@@ -69,20 +69,52 @@
                             <action selector="playRecordedVoice:" destination="gTV-IL-0wX" eventType="touchUpInside" id="wMG-9d-isM"/>
                         </connections>
                     </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e6J-Zi-Odb">
+                        <rect key="frame" x="0.0" y="237" width="185.5" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="zHv-I5-FDA"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <state key="normal" title="Cancel">
+                            <color key="titleColor" red="0.0" green="0.6742900013923645" blue="0.92407369613647461" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="cancelPlayVoice:" destination="gTV-IL-0wX" eventType="touchUpInside" id="J3p-5v-63f"/>
+                        </connections>
+                    </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evV-wh-nrn">
+                        <rect key="frame" x="185.5" y="237" width="185.5" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="urA-0a-XOk"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <state key="normal" title="Send">
+                            <color key="titleColor" red="0.0" green="0.6742900013923645" blue="0.92407369613647461" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="sendRecordedVoice:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Bc1-nb-nhw"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="kcv-8l-kQa" firstAttribute="width" secondItem="IrY-VB-Zvt" secondAttribute="width" id="3NY-s2-ZD5"/>
                 <constraint firstItem="CKc-US-mL2" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="4na-Xd-gOv"/>
                 <constraint firstItem="kcv-8l-kQa" firstAttribute="centerX" secondItem="IrY-VB-Zvt" secondAttribute="centerX" id="5dQ-xC-U99"/>
+                <constraint firstAttribute="bottom" secondItem="evV-wh-nrn" secondAttribute="bottom" id="94l-dR-7bc"/>
+                <constraint firstItem="evV-wh-nrn" firstAttribute="leading" secondItem="e6J-Zi-Odb" secondAttribute="trailing" id="9GD-AD-VZR"/>
+                <constraint firstAttribute="trailing" secondItem="evV-wh-nrn" secondAttribute="trailing" id="CMd-dp-Zwg"/>
                 <constraint firstItem="V0Y-vc-33C" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" constant="-120" id="Gqj-eX-NNf"/>
                 <constraint firstItem="kcv-8l-kQa" firstAttribute="centerY" secondItem="IrY-VB-Zvt" secondAttribute="centerY" id="H1u-XM-lsh"/>
                 <constraint firstItem="kcv-8l-kQa" firstAttribute="height" secondItem="IrY-VB-Zvt" secondAttribute="height" id="H3I-TA-Lws"/>
                 <constraint firstItem="V0Y-vc-33C" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-20" id="HFH-Qk-OHd"/>
                 <constraint firstItem="IrY-VB-Zvt" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Hzf-Yc-X3t"/>
                 <constraint firstItem="kfg-6W-rbr" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-20" id="T5o-e7-0xI"/>
+                <constraint firstItem="e6J-Zi-Odb" firstAttribute="width" secondItem="evV-wh-nrn" secondAttribute="width" id="ZTw-4f-BMb"/>
                 <constraint firstItem="IrY-VB-Zvt" firstAttribute="top" secondItem="CKc-US-mL2" secondAttribute="bottom" constant="26" id="epQ-UM-aij"/>
+                <constraint firstItem="e6J-Zi-Odb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fXz-Gq-d50"/>
                 <constraint firstItem="IrY-VB-Zvt" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="20" id="oTI-ar-yi1"/>
+                <constraint firstAttribute="bottom" secondItem="e6J-Zi-Odb" secondAttribute="bottom" id="plc-8m-Skg"/>
                 <constraint firstItem="kfg-6W-rbr" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" constant="120" id="vCh-PH-8bP"/>
             </constraints>
             <size key="customSize" width="371" height="273"/>
@@ -91,10 +123,12 @@
                 <outlet property="cancelVoiceBtn" destination="kfg-6W-rbr" id="MZm-OM-xzb"/>
                 <outlet property="cancelVoiceBtnHeight" destination="0tY-Lh-n3t" id="L7z-Wa-zVv"/>
                 <outlet property="cancelVoiceBtnWidth" destination="5R4-Qn-L02" id="eqc-Gd-EU6"/>
+                <outlet property="playCancelBtn" destination="e6J-Zi-Odb" id="cmy-67-AJP"/>
                 <outlet property="playVoiceBtn" destination="kcv-8l-kQa" id="rRm-IX-k4o"/>
                 <outlet property="playVoiceBtnHeight" destination="fpr-k8-o5X" id="zo0-57-SGd"/>
                 <outlet property="playVoiceBtnWidth" destination="BQD-8w-dQq" id="Hvz-k5-MgN"/>
                 <outlet property="recordVoiceBtn" destination="IrY-VB-Zvt" id="Vep-kZ-F8o"/>
+                <outlet property="sendVoiceBtn" destination="evV-wh-nrn" id="9kV-8E-cQQ"/>
                 <outlet property="swtichToPlayModeBtn" destination="V0Y-vc-33C" id="ERL-la-9eM"/>
                 <outlet property="timeLable" destination="CKc-US-mL2" id="Mbn-rt-LeL"/>
             </connections>

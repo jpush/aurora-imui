@@ -17,6 +17,8 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
   @IBOutlet weak var swtichToPlayModeBtn: UIButton!
   @IBOutlet weak var cancelVoiceBtn: UIButton!
   @IBOutlet weak var playVoiceBtn: IMUIProgressButton!
+  @IBOutlet weak var playCancelBtn: UIButton!
+  @IBOutlet weak var sendVoiceBtn: UIButton!
   
   @IBOutlet weak var playVoiceBtnHeight: NSLayoutConstraint!
   @IBOutlet weak var playVoiceBtnWidth: NSLayoutConstraint!
@@ -102,12 +104,34 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     self.cancelVoiceBtn.isSelected = false
     self.cancelVoiceBtn.isHidden = true
     
+    self.recordVoiceBtn.isHidden = false
+    self.playCancelBtn.isHidden = true
+    self.sendVoiceBtn.isHidden = true
     self.playVoiceBtn.isHidden = true
     self.playVoiceBtn.progress = 0
     self.timeLable.text = "按住说话"
   }
 
-  // -MARK: Play RecordedVoice
+  // -MARK: Play Voice
+  func switchToPlayVoiceModel() {
+    self.recordVoiceBtn.isHidden = true
+    self.cancelVoiceBtn.isHidden = true
+    self.swtichToPlayModeBtn.isHidden = true
+    self.playVoiceBtn.isHidden = false
+    self.playCancelBtn.isHidden = false
+    self.sendVoiceBtn.isHidden = false
+  }
+  
+  @IBAction func cancelPlayVoice(_ sender: Any) {
+    recordHelper.stopRecord()
+    recordHelper.cancelledDeleteWithCompletion()
+    self.resetSubViewsStyle()
+  }
+  
+  @IBAction func sendRecordedVoice(_ sender: Any) {
+    self.finishRecordVoice()
+  }
+  
   @IBAction func playRecordedVoice(_ sender: IMUIProgressButton) {
     if sender.isSelected {
       // to pause voice
@@ -148,14 +172,14 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
       let playDistance =  abs(self.swtichToPlayModeBtn.imui_centerX - self.recordVoiceBtn.imui_left)
       let playProgress = (self.recordVoiceBtn.imui_left - pointInSuperView.x) > 0 ? min((self.recordVoiceBtn.imui_left - pointInSuperView.x), playDistance) : 0
       
-      var sizeWidth = IMUIRecordVoiceCell.buttonNormalWith + abs(playProgress / playDistance) * 20.0
+      var sizeWidth = IMUIRecordVoiceCell.buttonNormalWith + abs(playProgress / playDistance) * 30.0
       playVoiceBtnHeight.constant = sizeWidth
       playVoiceBtnWidth.constant = sizeWidth
       self.swtichToPlayModeBtn.layer.cornerRadius = sizeWidth / 2
       
       let cancelDistance = abs(self.cancelVoiceBtn.imui_centerX - self.recordVoiceBtn.imui_right)
       let cancelProgress = (pointInSuperView.x - self.recordVoiceBtn.imui_right) > 0 ? min(pointInSuperView.x - self.recordVoiceBtn.imui_right, cancelDistance) : 0
-      sizeWidth = IMUIRecordVoiceCell.buttonNormalWith + abs(cancelProgress / cancelDistance) * 20.0
+      sizeWidth = IMUIRecordVoiceCell.buttonNormalWith + abs(cancelProgress / cancelDistance) * 30.0
       cancelVoiceBtnWidth.constant = sizeWidth
       cancelVoiceBtnHeight.constant = sizeWidth
       self.cancelVoiceBtn.layer.cornerRadius = sizeWidth/2
@@ -213,13 +237,6 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm-ss"
     recorderPath?.append("\(dateFormatter.string(from: now))-MySound.ilbc")
     return recorderPath!
-  }
-  
-  func switchToPlayVoiceModel() {
-    self.recordVoiceBtn.isHidden = true
-    self.cancelVoiceBtn.isHidden = true
-    self.swtichToPlayModeBtn.isHidden = true
-    self.playVoiceBtn.isHidden = false
   }
   
 }
