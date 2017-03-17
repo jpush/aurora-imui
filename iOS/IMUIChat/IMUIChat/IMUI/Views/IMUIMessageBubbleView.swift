@@ -12,6 +12,7 @@ enum IMUIMessageBubbleType {
   case text
   case image
   case video
+  case voice
   case location
 }
 
@@ -21,6 +22,17 @@ class IMUIMessageBubbleView: UIView {
   var textMessageLable: IMUITextView
   var bubbleImageView: UIImageView
   var voiceImg: UIImageView
+  var isActivity: Bool = false {
+    didSet {
+      switch bubbleType! {
+      case .voice:
+        
+        break
+      default:
+        return
+      }
+    }
+  }
   
   var image: UIImage? {
     set {
@@ -66,12 +78,16 @@ class IMUIMessageBubbleView: UIView {
   }
   
   func layoutToText(with text: String, isOutGoing: Bool) {
+    self.bubbleType = .text
+    
     textMessageLable.text = text
     voiceImg.isHidden = true
     self.setupBubbleImage(isOutgoing: isOutGoing)
   }
 
   func layoutToVoice(isOutGoing: Bool) {
+    self.bubbleType = .voice
+    
     voiceImg.isHidden = false
     if isOutGoing {
       self.voiceImg.image = UIImage.imuiImage(with: "outgoing_voice_3")
@@ -84,6 +100,8 @@ class IMUIMessageBubbleView: UIView {
   }
   
   func layoutImage(image: UIImage, isOutGoing: Bool) {
+    self.bubbleType = .image
+    
     voiceImg.isHidden = true
     self.setupBubbleImage(isOutgoing: isOutGoing)
   }
@@ -116,4 +134,5 @@ class IMUIMessageBubbleView: UIView {
     textMessageLable.text = text
     
   }
+  
 }

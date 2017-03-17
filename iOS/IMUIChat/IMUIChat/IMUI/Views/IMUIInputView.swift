@@ -27,7 +27,7 @@ var IMUIShowFeatureViewAnimationDuration = 0.25
   // RecordVoice
   @objc optional func switchOutOfRecordingVoiceMode(recordVoiceBtn: UIButton)
   @objc optional func startRecordingVoice()
-  @objc optional func finishRecordingVoice(_ voiceData: Data, durationTime: Double)
+  @objc optional func finishRecordingVoice(_ voicePath: String, durationTime: Double)
   @objc optional func cancelRecordingVoice()
   
   // Photo

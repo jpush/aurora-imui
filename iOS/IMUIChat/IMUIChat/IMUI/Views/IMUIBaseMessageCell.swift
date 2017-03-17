@@ -39,7 +39,12 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.contentView.addSubview(self.avatarImage)
     self.contentView.addSubview(self.timeLable)
     self.contentView.addSubview(self.nameLable)
-        
+    
+    let gesture = UITapGestureRecognizer(target: self, action: #selector(self.tapBubbleView))
+    gesture.numberOfTapsRequired = 1
+    self.bubbleView.isUserInteractionEnabled = true
+    self.bubbleView.addGestureRecognizer(gesture)
+    
     self.nameLable.frame = IMUIMessageCellLayout.nameLabelFrame
     self.setupSubViews()
   }
@@ -70,6 +75,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.avatarImage.backgroundColor = UIColor.white
     self.bubbleView.backgroundColor = UIColor.init(netHex: 0xE7EBEF)
     self.timeLable.text = message.date.parseDate
+    self.message = message
     
     switch message.type {
     case .text:
@@ -88,6 +94,35 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     default:
       break
     }
+  }
+  
+  func tapBubbleView() {
+    
+    if bubbleView.isActivity {
+      switch message!.type {
+      case .voice:
+        IMUIAudioPlayerHelper.sharedInstance.stopAudio()
+        break
+      default:
+        break
+      }
+    } else {
+      switch message!.type {
+      case .voice:
+        IMUIAudioPlayerHelper.sharedInstance.playAudioWithData((message?.mediaData())!,
+                                                               progressCallback: { (currendTime, duration) in
+          
+                                                                },
+                                                               finishCallBack: {
+                                                                self.bubbleView.isActivity = false
+                                                              })
+        break
+      default:
+        break
+      }
+    }
+    
+    bubbleView.isActivity = !bubbleView.isActivity
   }
   
   open func presentCell(with message: IMUIMessageModel) {

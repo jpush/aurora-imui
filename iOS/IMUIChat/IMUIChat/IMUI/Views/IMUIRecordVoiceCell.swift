@@ -61,6 +61,10 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     self.swtichToPlayModeBtn.isHidden = false
     self.cancelVoiceBtn.isHidden = false
 
+    UIView.animate(withDuration: 0.2) {
+      self.contentView.layoutIfNeeded()
+    }
+    
     recordHelper.startRecordingWithPath(self.getRecorderPath(),
                                         startRecordCompleted: {
       print("start record")
@@ -82,8 +86,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
     recordHelper.finishRecordingCompletion()
     
     do {
-      let voiceData = try! Data(contentsOf: URL(fileURLWithPath: self.recordHelper.recordPath!))
-      self.inputViewDelegate?.finishRecordingVoice?(voiceData, durationTime: Double(self.recordHelper.recordDuration!)!)
+      self.inputViewDelegate?.finishRecordingVoice?(self.recordHelper.recordPath!, durationTime: Double(self.recordHelper.recordDuration!)!)
     } catch {
       print("\(error)")
     }

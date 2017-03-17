@@ -43,8 +43,8 @@ extension IMUIChatViewController: IMUIInputViewDelegate {
     
   }
   
-  func finishRecordingVoice(_ voiceData: Data, durationTime: Double) {
-    let message = MyMessageModel(voice: voiceData)
+  func finishRecordingVoice(_ voicePath: String, durationTime: Double) {
+    let message = MyMessageModel(voicePath: voicePath)
     messageCollectionView.appendMessage(with: message)
   }
 }
