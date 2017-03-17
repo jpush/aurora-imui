@@ -92,6 +92,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     private int mLastClickId = 0;
 
     private int mWidth;
+    private int mHeight;
     private int mMenuHeight = 300;
     private boolean mShowSoftInput = false;
     private PhotoAdapter mPhotoAdapter;
@@ -163,6 +164,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mSendBtnFl.setOnClickListener(this);
         mSendBtn.setOnClickListener(this);
         mVoiceBtn.setOnClickListener(this);
+        mRecordVoiceBtn.setRecordController(mRecordControllerView);
         mPhotoBtn.setOnClickListener(this);
         mCameraBtn.setOnClickListener(this);
         mFullScreenBtn.setOnClickListener(this);
@@ -171,7 +173,10 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mSwitchCameraBtn.setOnClickListener(this);
         mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = ((Activity) context).getWindow();
-        mWidth = getWidth();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        mWidth = dm.widthPixels;
+        mHeight = dm.heightPixels;
+        mRecordControllerView.setWidth(mWidth);
 
         mChatInput.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -286,8 +291,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
             }
         } else if (view.getId() == R.id.full_screen_ib) {
             mTextureView.bringToFront();
-            DisplayMetrics dm = getResources().getDisplayMetrics();
-            ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(dm.widthPixels, dm.heightPixels);
+            ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(mWidth, mHeight);
             mTextureView.setLayoutParams(params);
         } else if (view.getId() == R.id.record_video_ib) {
             // TODO create video file and start recording

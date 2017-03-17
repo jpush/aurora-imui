@@ -55,6 +55,8 @@ public class RecordVoiceButton extends ImageButton {
     private static Drawable[] res;
     private RecordVoiceBtnStyle mStyle;
     private RecordVoiceListener mListener;
+    private RecordControllerView mControllerView;
+    private boolean mSetBoundary = false;
 
     public RecordVoiceButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -108,6 +110,10 @@ public class RecordVoiceButton extends ImageButton {
         int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                if (mControllerView != null && !mSetBoundary) {
+                    mControllerView.setRecordBtnBoundry(this.getLeft(), this.getTop(), this.getRight(), this.getBottom());
+                    mSetBoundary = true;
+                }
 //                this.setText(mStyle.getTapDownText());
                 mIsPressed = true;
                 time1 = System.currentTimeMillis();
@@ -147,8 +153,12 @@ public class RecordVoiceButton extends ImageButton {
                     cancelRecord();
                 } else if (mTouchY1 - mTouchY2 > MIN_CANCEL_DISTANCE) {
                     cancelRecord();
-                } else if (time2 - time1 < 60000)
+                } else if (time2 - time1 < 60000) {
                     finishRecord();
+                }
+                if (mControllerView != null) {
+                    mControllerView.onActionUp();
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 mTouchY = event.getY();
@@ -166,6 +176,9 @@ public class RecordVoiceButton extends ImageButton {
                         mThread = new ObtainDecibelThread();
                         mThread.start();
                     }
+                }
+                if (mControllerView != null) {
+                    mControllerView.onActionMove(event.getRawX());
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:// 当手指移动到view外面，会cancel
@@ -349,6 +362,10 @@ public class RecordVoiceButton extends ImageButton {
                 recorder = null;
             }
         }
+    }
+
+    public void setRecordController(RecordControllerView controllerView) {
+        mControllerView = controllerView;
     }
 
     private class ObtainDecibelThread extends Thread {
