@@ -19,8 +19,11 @@ enum IMUIMessageBubbleType {
 class IMUIMessageBubbleView: UIView {
 //  var isOutGoing: Bool
   var bubbleType: IMUIMessageBubbleType?
-  var textMessageLable: IMUITextView
+  
   var bubbleImageView: UIImageView
+  
+  var imageView: UIImageView
+  var textMessageLable: IMUITextView
   var voiceImg: UIImageView
   var isActivity: Bool = false {
     didSet {
@@ -48,12 +51,13 @@ class IMUIMessageBubbleView: UIView {
     bubbleImageView = UIImageView()
     textMessageLable = IMUITextView()
     voiceImg = UIImageView()
-    
+    imageView = UIImageView()
     super.init(frame: frame)
     
     self.addSubview(bubbleImageView)
     self.addSubview(textMessageLable)
     self.addSubview(voiceImg)
+    self.addSubview(imageView)
     self.backgroundColor = UIColor.red
     textMessageLable.numberOfLines = 0
     textMessageLable.contentInset = IMUIMessageCellLayout.contentInset
@@ -69,12 +73,8 @@ class IMUIMessageBubbleView: UIView {
     super.layoutSubviews()
     self.textMessageLable.frame = self.bounds
     self.bubbleImageView.frame = self.bounds
-    
-    var bubbleImg = UIImage.imuiImage(with: "outGoing_bubble")
-    bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 10, 9, 15), resizingMode: .tile)
-    bubbleImageView.image = bubbleImg
-    self.layer.mask = bubbleImageView.layer
-    
+    self.imageView.frame = self.bounds
+    self.setupBubbleImage(isOutgoing: true)
   }
   
   func layoutToText(with text: String, isOutGoing: Bool) {
@@ -82,6 +82,7 @@ class IMUIMessageBubbleView: UIView {
     
     textMessageLable.text = text
     voiceImg.isHidden = true
+    imageView.isHidden = true
     self.setupBubbleImage(isOutgoing: isOutGoing)
   }
 
@@ -89,6 +90,7 @@ class IMUIMessageBubbleView: UIView {
     self.bubbleType = .voice
     
     voiceImg.isHidden = false
+    imageView.isHidden = true
     if isOutGoing {
       self.voiceImg.image = UIImage.imuiImage(with: "outgoing_voice_3")
     } else {
@@ -103,7 +105,10 @@ class IMUIMessageBubbleView: UIView {
     self.bubbleType = .image
     
     voiceImg.isHidden = true
+    imageView.isHidden = false
     self.setupBubbleImage(isOutgoing: isOutGoing)
+    self.imageView.image = image
+    print("fad")
   }
   
   func layoutVoiceInBubble(with frame: CGRect, isOutGoing: Bool) {

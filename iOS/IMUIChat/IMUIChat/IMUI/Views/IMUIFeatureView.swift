@@ -26,6 +26,10 @@ enum IMUIFeatureType {
   @objc func didRecordVideo(with voiceData: Data)
 }
 
+protocol IMUIFeatureCellProtocal {
+  var inputViewDelegate: IMUIInputViewDelegate? { set get }
+}
+
 class IMUIFeatureView: UIView {
   @IBOutlet weak var showGalleryBtn: UIButton!
   @IBOutlet weak var featureCollectionView: UICollectionView!
@@ -154,9 +158,6 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     switch currentType {
     case .voice:
       CellIdentifier = "IMUIRecordVoiceCell"
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIRecordVoiceCell
-      cell.inputViewDelegate = self.inputViewDelegate
-      return cell
     case .camera:
       CellIdentifier = "IMUICameraCell"
       break
@@ -167,9 +168,9 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     default:
       break
     }
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath)
-    
-    return cell
+    var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocal
+    cell.inputViewDelegate = self.inputViewDelegate!
+    return cell as! UICollectionViewCell
   }
   
   func collectionView(_ collectionView: UICollectionView,

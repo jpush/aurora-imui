@@ -39,6 +39,7 @@
 		6259760E1E71548E00D46639 /* IMUIRecordVoiceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6259760C1E71548E00D46639 /* IMUIRecordVoiceCell.xib */; };
 		625976111E7154AB00D46639 /* IMUICameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6259760F1E7154AB00D46639 /* IMUICameraCell.swift */; };
 		625976121E7154AB00D46639 /* IMUICameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 625976101E7154AB00D46639 /* IMUICameraCell.xib */; };
+		62704F8F1E7BD243000CC7BD /* IMUIPhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62704F8E1E7BD243000CC7BD /* IMUIPhotoCaptureDelegate.swift */; };
 		62AC1A8A1E5EC6A500E810B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AC1A891E5EC6A500E810B2 /* AppDelegate.swift */; };
 		62AC1A8C1E5EC6A500E810B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AC1A8B1E5EC6A500E810B2 /* ViewController.swift */; };
 		62AC1A8F1E5EC6A500E810B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62AC1A8D1E5EC6A500E810B2 /* Main.storyboard */; };
@@ -103,6 +104,7 @@
 		6259760C1E71548E00D46639 /* IMUIRecordVoiceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIRecordVoiceCell.xib; sourceTree = "<group>"; };
 		6259760F1E7154AB00D46639 /* IMUICameraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICameraCell.swift; sourceTree = "<group>"; };
 		625976101E7154AB00D46639 /* IMUICameraCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUICameraCell.xib; sourceTree = "<group>"; };
+		62704F8E1E7BD243000CC7BD /* IMUIPhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIPhotoCaptureDelegate.swift; sourceTree = "<group>"; };
 		62AC1A861E5EC6A500E810B2 /* IMUIChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMUIChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62AC1A891E5EC6A500E810B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		62AC1A8B1E5EC6A500E810B2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				6259760F1E7154AB00D46639 /* IMUICameraCell.swift */,
 				625976101E7154AB00D46639 /* IMUICameraCell.xib */,
 				62E24D001E755E0400490B3F /* IMUICameraPreviewView.swift */,
+				62704F8E1E7BD243000CC7BD /* IMUIPhotoCaptureDelegate.swift */,
 				6234E8261E79340D00C0E81C /* IMUIProgressButton.swift */,
 			);
 			path = Views;
@@ -466,6 +469,7 @@
 				624442541E6400C000D5F0EB /* IMUIChatLayout.swift in Sources */,
 				624442721E68091000D5F0EB /* UIImageExtension.swift in Sources */,
 				625266A41E6EBAA700AB3297 /* StringExtension.swift in Sources */,
+				62704F8F1E7BD243000CC7BD /* IMUIPhotoCaptureDelegate.swift in Sources */,
 				624442841E6C5CAE00D5F0EB /* MyMessageModel.swift in Sources */,
 				625266B41E713CF600AB3297 /* IMUIGalleryCellModel.swift in Sources */,
 				625266AE1E7123FF00AB3297 /* IMUIAudioPlayerHelper.swift in Sources */,

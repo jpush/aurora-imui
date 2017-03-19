@@ -47,4 +47,12 @@ extension IMUIChatViewController: IMUIInputViewDelegate {
     let message = MyMessageModel(voicePath: voicePath)
     messageCollectionView.appendMessage(with: message)
   }
+  
+  func finishShootPicture(picture: UIImage) {
+    DispatchQueue.main.async {
+      let message = MyMessageModel(image: picture)
+      self.messageCollectionView.appendMessage(with: message)
+    }
+    
+  }
 }

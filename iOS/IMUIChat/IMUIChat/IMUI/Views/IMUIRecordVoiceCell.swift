@@ -9,7 +9,7 @@
 import UIKit
 
 
-class IMUIRecordVoiceCell: UICollectionViewCell {
+class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   static var buttonNormalWith: CGFloat = 46.0
   
   @IBOutlet weak var recordVoiceBtn: UIButton!
@@ -26,7 +26,17 @@ class IMUIRecordVoiceCell: UICollectionViewCell {
   @IBOutlet weak var cancelVoiceBtnWidth: NSLayoutConstraint!
   
   
-  open weak var inputViewDelegate: IMUIInputViewDelegate?
+  weak var delegate: IMUIInputViewDelegate?
+  
+  var inputViewDelegate: IMUIInputViewDelegate? {
+    set {
+      self.delegate = newValue
+    }
+    
+    get {
+      return self.delegate
+    }
+  }
   
   lazy var recordHelper = IMUIRecordVoiceHelper()
   

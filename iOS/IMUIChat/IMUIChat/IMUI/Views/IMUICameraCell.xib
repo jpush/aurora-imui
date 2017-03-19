@@ -28,6 +28,9 @@
                                     <constraint firstAttribute="height" constant="60" id="nWM-aq-22g"/>
                                 </constraints>
                                 <state key="normal" image="IMUIAssets.bundle/image/camera_recordVD_btn.png"/>
+                                <connections>
+                                    <action selector="clickToChangeCameraMode:" destination="gTV-IL-0wX" eventType="touchUpInside" id="nr2-d0-6Ow"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUn-vc-ITV">
                                 <rect key="frame" x="154" y="173" width="56" height="56"/>
@@ -36,6 +39,9 @@
                                     <constraint firstAttribute="width" constant="56" id="VMs-Gz-uuk"/>
                                 </constraints>
                                 <state key="normal" image="IMUIAssets.bundle/image/camera_send_message_btn.png"/>
+                                <connections>
+                                    <action selector="clickCameraSwitch:" destination="gTV-IL-0wX" eventType="touchUpInside" id="fMq-8f-Khm"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWo-yF-VkR">
                                 <rect key="frame" x="281" y="171" width="60" height="60"/>
@@ -44,6 +50,9 @@
                                     <constraint firstAttribute="height" constant="60" id="WFX-kf-GbQ"/>
                                 </constraints>
                                 <state key="normal" image="IMUIAssets.bundle/image/switch_camera_btn.png"/>
+                                <connections>
+                                    <action selector="clickToSwitchCamera:" destination="gTV-IL-0wX" eventType="touchUpInside" id="s8U-y1-fJ2"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRu-3Y-U22">
                                 <rect key="frame" x="296" y="8" width="60" height="60"/>
@@ -52,6 +61,9 @@
                                     <constraint firstAttribute="width" constant="60" id="bi9-q7-rfd"/>
                                 </constraints>
                                 <state key="normal" image="IMUIAssets.bundle/image/camera_fullscreen_Btn.png"/>
+                                <connections>
+                                    <action selector="clickToAdjustCameraViewSize:" destination="gTV-IL-0wX" eventType="touchUpInside" id="D5N-bo-Tur"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

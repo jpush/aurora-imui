@@ -20,11 +20,31 @@ private enum LivePhotoMode {
 		case off
 }
 
-class IMUICameraCell: UICollectionViewCell {
+class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
 
   @IBOutlet weak var cameraPreviewView: IMUICameraPreviewView!
-  open weak var inputViewDelegate: IMUIInputViewDelegate?
+  weak var delegate: IMUIInputViewDelegate?
   
+  var inputViewDelegate: IMUIInputViewDelegate? {
+    set {
+      self.delegate = newValue
+    }
+    
+    get {
+      return self.delegate
+    }
+  }
+  
+  private var inProgressPhotoCaptureDelegates = [Int64 : IMUIPhotoCaptureDelegate]()
+  private var inProgressLivePhotoCapturesCount = 0
+  
+  private var isPhotoMode: Bool = true {
+    didSet {
+    
+    }
+  }
+
+  private let stillImageOutput = AVCaptureStillImageOutput()
   private let session = AVCaptureSession()
   private var setupResult: SessionSetupResult = .success
   private let photoOutput = AVCapturePhotoOutput()
@@ -85,6 +105,145 @@ class IMUICameraCell: UICollectionViewCell {
       }
     }
   }
+  
+  // -MARK: Click Event
+  @IBAction func clickCameraSwitch(_ sender: Any) {
+    if #available(iOS 10.0, *) {
+      self.capturePhotoAfter_iOS10()
+    } else {
+      self.capturePhotoBefore_iOS8()
+    }
+  }
+  
+  @IBAction func clickToSwitchCamera(_ sender: Any) {
+    
+  }
+  
+  @IBAction func clickToChangeCameraMode(_ sender: Any) {
+    
+  }
+  
+  @IBAction func clickToAdjustCameraViewSize(_ sender: Any) {
+    
+  }
+  
+  func capturePhotoAfter_iOS10() {
+    /*
+     Retrieve the video preview layer's video orientation on the main queue before
+     entering the session queue. We do this to ensure UI elements are accessed on
+     the main thread and session configuration is done on the session queue.
+     */
+    let videoPreviewLayerOrientation = cameraPreviewView.videoPreviewLayer.connection.videoOrientation
+    
+    sessionQueue.async {
+      // Update the photo output's connection to match the video orientation of the video preview layer.
+      if let photoOutputConnection = self.photoOutput.connection(withMediaType: AVMediaTypeVideo) {
+        photoOutputConnection.videoOrientation = videoPreviewLayerOrientation
+      }
+      
+      // Capture a JPEG photo with flash set to auto and high resolution photo enabled.
+      let photoSettings = AVCapturePhotoSettings()
+      photoSettings.flashMode = .auto
+      
+      photoSettings.isHighResolutionPhotoEnabled = false
+      
+      if photoSettings.availablePreviewPhotoPixelFormatTypes.count > 0 {
+        photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String : photoSettings.availablePreviewPhotoPixelFormatTypes.first!]
+      }
+      if self.livePhotoMode == .on && self.photoOutput.isLivePhotoCaptureSupported { // Live Photo capture is not supported in movie mode.
+        let livePhotoMovieFileName = NSUUID().uuidString
+        let livePhotoMovieFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((livePhotoMovieFileName as NSString).appendingPathExtension("mov")!)
+        photoSettings.livePhotoMovieFileURL = URL(fileURLWithPath: livePhotoMovieFilePath)
+      }
+      
+      // Use a separate object for the photo capture delegate to isolate each capture life cycle.
+      let photoCaptureDelegate = IMUIPhotoCaptureDelegate(with: photoSettings, willCapturePhotoAnimation: {
+        DispatchQueue.main.async { [unowned self] in
+          self.cameraPreviewView.videoPreviewLayer.opacity = 0
+          UIView.animate(withDuration: 0.25) { [unowned self] in
+            self.cameraPreviewView.videoPreviewLayer.opacity = 1
+          }
+        }
+      }, capturingLivePhoto: { capturing in
+        /*
+         Because Live Photo captures can overlap, we need to keep track of the
+         number of in progress Live Photo captures to ensure that the
+         Live Photo label stays visible during these captures.
+         */
+        self.sessionQueue.async { [unowned self] in
+          if capturing {
+            self.inProgressLivePhotoCapturesCount += 1
+          }
+          else {
+            self.inProgressLivePhotoCapturesCount -= 1
+          }
+          
+          let inProgressLivePhotoCapturesCount = self.inProgressLivePhotoCapturesCount
+          DispatchQueue.main.async { [unowned self] in
+            if inProgressLivePhotoCapturesCount > 0 {
+//              self.capturingLivePhotoLabel.isHidden = false
+            }
+            else if inProgressLivePhotoCapturesCount == 0 {
+//              self.capturingLivePhotoLabel.isHidden = true
+            }
+            else {
+              print("Error: In progress live photo capture count is less than 0");
+            }
+          }
+        }
+      }, completed: { [unowned self] photoCaptureDelegate in
+        // When the capture is complete, remove a reference to the photo capture delegate so it can be deallocated.
+        let image = UIImage()
+        self.inputViewDelegate?.finishShootPicture?(picture: UIImage(data: photoCaptureDelegate.photoData!)!)
+        self.sessionQueue.async { [unowned self] in
+          self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = nil
+        }
+        }
+      )
+      
+      /*
+       The Photo Output keeps a weak reference to the photo capture delegate so
+       we store it in an array to maintain a strong reference to this object
+       until the capture is completed.
+       */
+      self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = photoCaptureDelegate
+      self.photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate)
+    }
+  }
+  
+  private func capturePhotoBefore_iOS8() {
+  
+    var videoConnection: AVCaptureConnection? = nil
+    for connection in stillImageOutput.connections {
+      let theConnection = connection as! AVCaptureConnection
+      for port in theConnection.inputPorts {
+        if ((port as? AVCaptureInputPort)?.isEqual(AVMediaTypeVideo))! {
+          videoConnection = theConnection
+          break
+        }
+      }
+      
+      if (videoConnection != nil) {
+        break
+      }
+    }
+    print("about to request a capture from: \(stillImageOutput)")
+    stillImageOutput.captureStillImageAsynchronously(from: videoConnection) { (imageSampleBuffer, error) in
+      var exifAttachments = CMGetAttachment(imageSampleBuffer!, kCGImagePropertyExifDictionary, nil)
+      
+      if (exifAttachments != nil) {
+        print("exifAttachments exit")
+      } else {
+        print("exifAttachments not exit")
+      }
+      
+      let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
+      let image = UIImage(data: imageData!)
+      UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+
+    }
+  }
+  
   private func configureSession() {
     if setupResult != .success {
       return
