@@ -792,4 +792,12 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
             mCameraSupport.release();
         }
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        if (mCameraSupport != null) {
+            mCameraSupport.release();
+        }
+    }
 }

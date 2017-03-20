@@ -18,9 +18,8 @@ public class RecordControllerView extends View {
     private Path mPath;
     private Paint mPaint;
     private int mRecordBtnLeft;
-    private int mRecordBtnTop;
     private int mRecordBtnRight;
-    private int mRecordBtnBottom;
+    private RecordVoiceButton mRecordVoiceBtn;
 
     private int mCurrentState = 0;
     private float mNowX;
@@ -106,15 +105,22 @@ public class RecordControllerView extends View {
         postInvalidate();
     }
 
-    public void setRecordBtnBoundry(int left, int top, int right, int bottom) {
-        mRecordBtnLeft = left;
-        mRecordBtnTop = top;
-        mRecordBtnRight = right;
-        mRecordBtnBottom = bottom;
-        Log.e("RecordControllerView", "Left: " + mRecordBtnLeft + " Top: " + mRecordBtnTop + "Right: " + mRecordBtnRight + "Bottom: " + mRecordBtnBottom);
+    public void setRecordButton(RecordVoiceButton button) {
+        mRecordBtnLeft = button.getLeft();
+        mRecordBtnRight = button.getRight();
+        mRecordVoiceBtn = button;
     }
 
-    public void onActionUp() {
+    public void onActionUp(float x, float y) {
+        if (x <= 250 && y >= 100 && y <= 300) {
+            //TODO preview audio
+        } else if (x > 250 && x < mWidth - 250) {
+            //TODO finish record
+            mRecordVoiceBtn.finishRecord();
+        } else if (x >= mWidth - 250 && y >= 100 && y <= 300) {
+            //TODO cancel record
+            mRecordVoiceBtn.cancelRecord();
+        }
         mCurrentState = INIT_STATE;
         postInvalidate();
     }

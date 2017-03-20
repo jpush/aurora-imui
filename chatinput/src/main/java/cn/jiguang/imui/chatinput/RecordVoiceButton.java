@@ -111,7 +111,7 @@ public class RecordVoiceButton extends ImageButton {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 if (mControllerView != null && !mSetBoundary) {
-                    mControllerView.setRecordBtnBoundry(this.getLeft(), this.getTop(), this.getRight(), this.getBottom());
+                    mControllerView.setRecordButton(this);
                     mSetBoundary = true;
                 }
 //                this.setText(mStyle.getTapDownText());
@@ -157,7 +157,7 @@ public class RecordVoiceButton extends ImageButton {
                     finishRecord();
                 }
                 if (mControllerView != null) {
-                    mControllerView.onActionUp();
+                    mControllerView.onActionUp(event.getRawX(), event.getY());
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -214,7 +214,7 @@ public class RecordVoiceButton extends ImageButton {
     }
 
     //录音完毕加载 ListView item
-    private void finishRecord() {
+    public void finishRecord() {
         cancelTimer();
         stopRecording();
 
@@ -253,7 +253,7 @@ public class RecordVoiceButton extends ImageButton {
     }
 
     //取消录音，清除计时
-    private void cancelRecord() {
+    public void cancelRecord() {
         //可能在消息队列中还存在HandlerMessage，移除剩余消息
         mVolumeHandler.removeMessages(56, null);
         mVolumeHandler.removeMessages(57, null);
