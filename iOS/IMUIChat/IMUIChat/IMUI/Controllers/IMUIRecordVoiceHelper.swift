@@ -104,7 +104,11 @@ class IMUIRecordVoiceHelper: NSObject {
     self.finishiRecordCallBack = finishCallback
     self.cancelledRecordCallBack = cancelCallback
     
-    theTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: timerTickCallback)
+    if #available(iOS 10.0, *) {
+      theTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: timerTickCallback)
+    } else {
+      // Fallback on earlier versions
+    }
     self.timerFireDate = Date()
     
     print("the timer \(theTimer)")

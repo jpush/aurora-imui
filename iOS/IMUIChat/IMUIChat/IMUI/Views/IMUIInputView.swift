@@ -40,7 +40,7 @@ var IMUIShowFeatureViewAnimationDuration = 0.25
   // Camera
   @objc optional func switchIntoCameraMode(cameraBtn: UIButton)
   @objc optional func switchOutOfCameraMode()
-  @objc optional func finishShootPicture(picture: UIImage)
+  @objc optional func finishShootPicture(picture: Data)
   @objc optional func finishShoootVideo(videoData: Data, durationTime: Double)
 }
 

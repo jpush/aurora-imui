@@ -20,6 +20,7 @@ private enum LivePhotoMode {
 		case off
 }
 
+@available(iOS 10.0, *)
 class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
 
   @IBOutlet weak var cameraPreviewView: IMUICameraPreviewView!
@@ -192,7 +193,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           }
         }
       }, completed: { [unowned self] photoCaptureDelegate in
-        self.inputViewDelegate?.finishShootPicture?(picture: UIImage(data: photoCaptureDelegate.photoData!)!)
+        self.inputViewDelegate?.finishShootPicture?(picture: photoCaptureDelegate.photoData!)
         self.sessionQueue.async { [unowned self] in
           self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = nil
         }

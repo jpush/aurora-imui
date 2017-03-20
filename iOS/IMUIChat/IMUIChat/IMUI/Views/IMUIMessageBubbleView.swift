@@ -108,7 +108,6 @@ class IMUIMessageBubbleView: UIView {
     imageView.isHidden = false
     self.setupBubbleImage(isOutgoing: isOutGoing)
     self.imageView.image = image
-    print("fad")
   }
   
   func layoutVoiceInBubble(with frame: CGRect, isOutGoing: Bool) {

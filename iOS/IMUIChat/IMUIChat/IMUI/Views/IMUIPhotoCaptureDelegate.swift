@@ -10,6 +10,7 @@
 import AVFoundation
 import Photos
 
+@available(iOS 10.0, *)
 class IMUIPhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
   private(set) var requestedPhotoSettings: AVCapturePhotoSettings
   
@@ -98,9 +99,14 @@ class IMUIPhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
           creationRequest.addResource(with: .photo, data: photoData, options: nil)
           
           if let livePhotoCompanionMovieURL = self.livePhotoCompanionMovieURL {
-            let livePhotoCompanionMovieFileResourceOptions = PHAssetResourceCreationOptions()
-            livePhotoCompanionMovieFileResourceOptions.shouldMoveFile = true
-            creationRequest.addResource(with: .pairedVideo, fileURL: livePhotoCompanionMovieURL, options: livePhotoCompanionMovieFileResourceOptions)
+            if #available(iOS 9.0, *) {
+              let livePhotoCompanionMovieFileResourceOptions = PHAssetResourceCreationOptions()
+              livePhotoCompanionMovieFileResourceOptions.shouldMoveFile = true
+              creationRequest.addResource(with: .pairedVideo, fileURL: livePhotoCompanionMovieURL, options: livePhotoCompanionMovieFileResourceOptions)
+            } else {
+              // Fallback on earlier versions
+            }
+            
           }
           
           }, completionHandler: { [unowned self] success, error in

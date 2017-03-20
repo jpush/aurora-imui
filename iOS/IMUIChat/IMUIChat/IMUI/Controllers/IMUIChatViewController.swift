@@ -48,11 +48,29 @@ extension IMUIChatViewController: IMUIInputViewDelegate {
     messageCollectionView.appendMessage(with: message)
   }
   
-  func finishShootPicture(picture: UIImage) {
-    DispatchQueue.main.async {
-      let message = MyMessageModel(image: picture)
-      self.messageCollectionView.appendMessage(with: message)
+  func finishShootPicture(picture: Data) {
+    let imgPath = self.getPath()
+    do {
+      try picture.write(to: URL(fileURLWithPath: imgPath))
+      DispatchQueue.main.async {
+        let message = MyMessageModel(imagePath: imgPath)
+        self.messageCollectionView.appendMessage(with: message)
+      }
+    } catch {
+      print("write image file error")
     }
     
+  }
+  
+  func getPath() -> String {
+    var recorderPath:String? = nil
+    let now:Date = Date()
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yy-MMMM-dd"
+    recorderPath = "\(NSHomeDirectory())/Documents/"
+    
+    dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm-ss"
+    recorderPath?.append("\(dateFormatter.string(from: now))-image")
+    return recorderPath!
   }
 }

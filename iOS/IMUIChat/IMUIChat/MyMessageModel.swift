@@ -23,25 +23,25 @@ import UIKit
 class MyMessageModel: IMUIMessageModel {
   open var myTextMessage: String = ""
   var voicePath: String = ""
-  var image: UIImage? = nil
+  var imagePath: String? = nil
   
-  init(msgId: String, fromUser: IMUIUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, text: String, voicePath: String, image: UIImage?) {
+  init(msgId: String, fromUser: IMUIUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, text: String, voicePath: String, imagePath: String) {
     self.myTextMessage = text
     self.voicePath = voicePath
-    self.image = image
+    self.imagePath = imagePath
     super.init(msgId: msgId, fromUser: fromUser, isOutGoing: isOutGoing, date: date, status: status, type: type)
   }
   
   convenience init(text: String) {
-    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .text, text: text, voicePath: "", image: nil)
+    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .text, text: text, voicePath: "", imagePath: "")
   }
 
   convenience init(voicePath: String) {
-    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .voice, text: "", voicePath: voicePath, image: nil)
+    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .voice, text: "", voicePath: voicePath, imagePath: "")
   }
   
-  convenience init(image: UIImage) {
-    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .image, text: "", voicePath: "", image: image)
+  convenience init(imagePath: String) {
+    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .image, text: "", voicePath: "", imagePath: imagePath)
   }
   
   override func textMessage() -> String {
@@ -53,7 +53,12 @@ class MyMessageModel: IMUIMessageModel {
     
     switch type {
     case .image:
-      mediaData = self.image?.jpegRepresentationData
+      do {
+        mediaData = try! Data(contentsOf: URL(fileURLWithPath: self.imagePath!))
+      } catch {
+        print("cannot load image file")
+      }
+      
       break
     case .voice:
       do {
