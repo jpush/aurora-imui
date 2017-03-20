@@ -53,7 +53,8 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class ChatInputView extends LinearLayout implements View.OnClickListener, TextWatcher,
+public class ChatInputView extends LinearLayout implements View.OnClickListener,
+        TextWatcher,
         PhotoAdapter.OnFileSelectedListener, OnCameraCallbackListener {
 
     private EditText mChatInput;
@@ -121,7 +122,8 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         init(context, attrs);
     }
 
-    public ChatInputView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ChatInputView(Context context, AttributeSet attrs,
+                         int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -180,12 +182,10 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mChatInput.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                // 软键盘还未打开
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !mShowSoftInput) {
                     mShowSoftInput = true;
                     invisibleMenuLayout();
-                    mSendFiles.clear();
-                    mSendCountTv.setVisibility(GONE);
-                    setSendBtnBg();
                 }
                 return false;
             }
@@ -205,7 +205,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         mChatInput.setBackground(mStyle.getInputEditTextBg());
         mInputMarginLeft.getLayoutParams().width = mStyle.getInputMarginLeft();
         mInputMarginRight.getLayoutParams().width = mStyle.getInputMarginRight();
-//        setCursor(mStyle.getInputCursorDrawable());
+        //        setCursor(mStyle.getInputCursorDrawable());
         mVoiceBtn.setImageDrawable(mStyle.getVoiceBtnIcon());
         mVoiceBtn.setBackground(mStyle.getVoiceBtnBg());
         mPhotoBtn.setBackground(mStyle.getPhotoBtnBg());
@@ -238,34 +238,38 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     }
 
     @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int count, int after) {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
         mInput = s;
-        setSendBtnBg();
+
+        if (mSendFiles.size() > 0) {
+            return;
+        }
+
+        if (s.length() == 1 && before == 0) {
+            triggerSendButtonAnimation(mSendBtn, true, false);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mSendBtn.setElevation(getContext().getResources().getDimension(R.dimen.send_btn_shadow));
+            }
+        }
+
+        if (s.length() == 0 && before == 1) {
+            triggerSendButtonAnimation(mSendBtn, false, false);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mSendBtn.setElevation(getContext().getResources().getDimension(R.dimen.send_btn_shadow));
+            }
+        }
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
 
-    }
-
-    public void setSendBtnBg() {
-        if (mInput.length() > 0) {
-            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send_pres));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mSendBtn.setElevation(getContext().getResources().getDimension(R.dimen.send_btn_shadow));
-            }
-        } else {
-            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mSendBtn.setElevation(getContext().getResources().getDimension(R.dimen.send_btn_shadow));
-//                mSendBtn.setElevation(0);
-            }
-        }
     }
 
     public EditText getInputView() {
@@ -279,14 +283,16 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.send_btn_fl || view.getId() == R.id.send_msg_ib) {
+            // 允许同时发送文字和选中的图片
+            if (onSubmit()) {
+                mChatInput.setText("");
+            }
             if (mSendFiles.size() > 0) {
                 mListener.onSendFiles(mSendFiles);
                 mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
                 mSendCountTv.setVisibility(GONE);
                 dismissMenuLayout();
                 mPhotoAdapter.resetCheckedState();
-            } else if (onSubmit()) {
-                mChatInput.setText("");
             }
         } else if (view.getId() == R.id.full_screen_ib) {
             mTextureView.bringToFront();
@@ -383,17 +389,20 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         }
         mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
-            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
+            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture,
+                                                  int width, int height) {
                 mCameraSupport.open(mCameraId, width, height);
             }
 
             @Override
-            public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width, int height) {
+            public void onSurfaceTextureSizeChanged(
+                    SurfaceTexture surfaceTexture, int width, int height) {
                 mCameraSupport.open(mCameraId, width, height);
             }
 
             @Override
-            public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+            public boolean onSurfaceTextureDestroyed(
+                    SurfaceTexture surfaceTexture) {
                 return false;
             }
 
@@ -480,8 +489,10 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
 
     @Override
     public void onFileSelected() {
-        if (mSendFiles.size() == 1) {
-            addSendButtonAnimation(mSendBtn, true, true);
+        if (mInput.length() == 0 && mSendFiles.size() == 1) {
+            triggerSendButtonAnimation(mSendBtn, true, true);
+        } else if (mInput.length() > 0 && mSendCountTv.getVisibility() != View.VISIBLE) {
+            mSendCountTv.setVisibility(View.VISIBLE);
         }
         mSendCountTv.setText(String.valueOf(mSendFiles.size()));
     }
@@ -491,47 +502,23 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         if (mSendFiles.size() > 0) {
             mSendCountTv.setText(String.valueOf(mSendFiles.size()));
         } else {
-            addSendButtonAnimation(mSendBtn, false, true);
+            if (mInput.length() == 0) {
+                triggerSendButtonAnimation(mSendBtn, false, true);
+            } else {
+                mSendCountTv.setVisibility(View.GONE);
+            }
         }
     }
 
     /**
-     * 增加文件选中时的发送按钮动画效果
+     * 触发发送按钮的动画效果
      *
-     * @param view
+     * @param sendBtn       发送按钮
+     * @param hasContent    输入框或图片选择界面是否有内容
+     * @param isSelectPhoto 是否正在选择图片
      */
-    private void addSelectedAnimation(View view) {
-        float[] values = new float[]{0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f};
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(ObjectAnimator.ofFloat(view, "scaleX", values),
-                ObjectAnimator.ofFloat(view, "scaleY", values));
-        set.setDuration(75);
-        set.start();
-        set.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                mSendCountTv.bringToFront();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
-        });
-    }
-
-    private void addSendButtonAnimation(final ImageButton sendBtn, final boolean hasContent,
-                                        final boolean isSelectPhoto) {
+    private void triggerSendButtonAnimation(final ImageButton sendBtn, final boolean hasContent,
+                                            final boolean isSelectPhoto) {
         float[] shrinkValues = new float[]{0.6f};
         AnimatorSet shrinkAnimatorSet = new AnimatorSet();
         shrinkAnimatorSet.playTogether(
@@ -712,7 +699,8 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
             public void run() {
                 Uri imageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 ContentResolver contentResolver = getContext().getContentResolver();
-                String[] projection = new String[]{MediaStore.Images.ImageColumns.DATA,
+                String[] projection = new String[]{
+                        MediaStore.Images.ImageColumns.DATA,
                         MediaStore.Images.ImageColumns.DISPLAY_NAME,
                         MediaStore.Images.ImageColumns.SIZE};
                 Cursor cursor = contentResolver.query(imageUri, projection, null, null,
