@@ -192,8 +192,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           }
         }
       }, completed: { [unowned self] photoCaptureDelegate in
-        // When the capture is complete, remove a reference to the photo capture delegate so it can be deallocated.
-        let image = UIImage()
         self.inputViewDelegate?.finishShootPicture?(picture: UIImage(data: photoCaptureDelegate.photoData!)!)
         self.sessionQueue.async { [unowned self] in
           self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = nil
