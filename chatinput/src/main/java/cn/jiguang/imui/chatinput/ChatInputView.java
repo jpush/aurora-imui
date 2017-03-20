@@ -25,7 +25,6 @@ import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.TextureView;
@@ -482,28 +481,17 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
     @Override
     public void onFileSelected() {
         if (mSendFiles.size() == 1) {
-            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send_pres));
-            addSelectedAnimation(mSendBtn);
+            addSendButtonAnimation(mSendBtn, true, true);
         }
-
-        if (Build.VERSION.SDK_INT >= 21) {
-            mSendBtn.setElevation(getContext().getResources().getDimension(R.dimen.send_btn_shadow));
-        }
-        mSendCountTv.setText(mSendFiles.size() + "");
-        mSendCountTv.setVisibility(VISIBLE);
+        mSendCountTv.setText(String.valueOf(mSendFiles.size()));
     }
 
     @Override
     public void onFileDeselected() {
         if (mSendFiles.size() > 0) {
-            mSendCountTv.setVisibility(VISIBLE);
-            mSendCountTv.setText(mSendFiles.size() + "");
+            mSendCountTv.setText(String.valueOf(mSendFiles.size()));
         } else {
-            mSendCountTv.setVisibility(GONE);
-            mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
-            if (Build.VERSION.SDK_INT >= 21) {
-                mSendBtn.setElevation(0);
-            }
+            addSendButtonAnimation(mSendBtn, false, true);
         }
     }
 
@@ -517,7 +505,7 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         AnimatorSet set = new AnimatorSet();
         set.playTogether(ObjectAnimator.ofFloat(view, "scaleX", values),
                 ObjectAnimator.ofFloat(view, "scaleY", values));
-        set.setDuration(150);
+        set.setDuration(75);
         set.start();
         set.addListener(new Animator.AnimatorListener() {
             @Override
@@ -542,10 +530,88 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
         });
     }
 
+    private void addSendButtonAnimation(final ImageButton sendBtn, final boolean hasContent,
+                                        final boolean isSelectPhoto) {
+        float[] shrinkValues = new float[]{0.6f};
+        AnimatorSet shrinkAnimatorSet = new AnimatorSet();
+        shrinkAnimatorSet.playTogether(
+                ObjectAnimator.ofFloat(sendBtn, "scaleX", shrinkValues),
+                ObjectAnimator.ofFloat(sendBtn, "scaleY", shrinkValues)
+        );
+        shrinkAnimatorSet.setDuration(100);
+
+        float[] restoreValues = new float[]{1.0f};
+        final AnimatorSet restoreAnimatorSet = new AnimatorSet();
+        restoreAnimatorSet.playTogether(
+                ObjectAnimator.ofFloat(sendBtn, "scaleX", restoreValues),
+                ObjectAnimator.ofFloat(sendBtn, "scaleY", restoreValues)
+        );
+        restoreAnimatorSet.setDuration(100);
+
+        restoreAnimatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if (hasContent && isSelectPhoto) {
+                    mSendCountTv.bringToFront();
+                    mSendCountTv.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+
+        shrinkAnimatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                if (!hasContent && isSelectPhoto) {
+                    mSendCountTv.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if (hasContent) {
+                    mSendBtn.setImageDrawable(
+                            ContextCompat.getDrawable(getContext(), R.drawable.send_pres));
+                } else {
+                    mSendBtn.setImageDrawable(
+                            ContextCompat.getDrawable(getContext(), R.drawable.send));
+                }
+                restoreAnimatorSet.start();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+
+        shrinkAnimatorSet.start();
+    }
+
     /**
      * Set camera capture file path and file name. If user didn't invoke this method, will save in
      * default path.
-     * @param path Photo to be saved in.
+     *
+     * @param path     Photo to be saved in.
      * @param fileName File name.
      */
     public void setCameraCaptureFile(String path, String fileName) {
@@ -672,7 +738,6 @@ public class ChatInputView extends LinearLayout implements View.OnClickListener,
             }
         }).start();
     }
-
 
 
     @Override

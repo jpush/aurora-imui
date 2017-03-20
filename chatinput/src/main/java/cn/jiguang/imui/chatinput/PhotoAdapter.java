@@ -22,8 +22,7 @@ import java.util.List;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class PhotoAdapter extends
-		RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
+public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
 
 	private Context mContext;
 
@@ -97,16 +96,12 @@ public class PhotoAdapter extends
 				.crossFade()
 				.into(holder.ivPhoto);
 
-		if (position < mSelectedItems.size()
-				&& mSelectedItems.valueAt(position)) {
-
+		if (position < mSelectedItems.size() && mSelectedItems.valueAt(position)) {
 			if (mSelectedItems.get(position)) {
-
 				holder.ivSelect.setVisibility(VISIBLE);
 				holder.ivShadow.setVisibility(VISIBLE);
 				addSelectedAnimation(holder.ivPhoto, holder.ivShadow);
 			} else {
-
 				holder.ivSelect.setVisibility(GONE);
 				holder.ivShadow.setVisibility(GONE);
 				addDeselectedAnimation(holder.ivPhoto, holder.ivShadow);
@@ -118,28 +113,28 @@ public class PhotoAdapter extends
 			public void onClick(View view) {
 				if (holder.ivSelect.getVisibility() == GONE
 						&& !mSelectedItems.get(holder.getAdapterPosition())) {
-					holder.setIsRecyclable(false);
+                    holder.setIsRecyclable(false);
 
 					mSelectedItems.put(holder.getAdapterPosition(), true);
+                    mSendFiles.add(mPhotos.get(holder.getAdapterPosition()).getFilePath());
 
 					holder.ivSelect.setVisibility(VISIBLE);
 					holder.ivShadow.setVisibility(VISIBLE);
 					addSelectedAnimation(holder.ivPhoto, holder.ivShadow);
 
-					mSendFiles.add(mPhotos.get(holder.getAdapterPosition()).getFilePath());
 					if (mListener != null) {
 						mListener.onFileSelected();
 					}
 				} else {
-					holder.setIsRecyclable(true);
+                    holder.setIsRecyclable(true);
 
 					mSelectedItems.delete(holder.getAdapterPosition());
+                    mSendFiles.remove(mPhotos.get(holder.getAdapterPosition()).getFilePath());
 
 					holder.ivSelect.setVisibility(GONE);
 					holder.ivShadow.setVisibility(GONE);
 					addDeselectedAnimation(holder.ivPhoto, holder.ivShadow);
 
-					mSendFiles.remove(mPhotos.get(holder.getAdapterPosition()).getFilePath());
 					if (mListener != null) {
 						mListener.onFileDeselected();
 					}
