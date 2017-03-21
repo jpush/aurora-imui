@@ -47,6 +47,11 @@ public class MessageListStyle extends Style {
     private int sendBubblePaddingRight;
     private int sendBubblePaddingBottom;
 
+    private int sendVoiceDrawable;
+    private int receiveVoiceDrawable;
+    private int playSendVoiceAnim;
+    private int playReceiveVoiceAnim;
+
     // Set bubble's max width, value from 0 to 1. 1 means max width equals with screen width.
     // Default value is 0.8.
     private float bubbleMaxWidth;
@@ -113,6 +118,15 @@ public class MessageListStyle extends Style {
                 context.getResources().getDimensionPixelSize(R.dimen.send_text_padding_right));
         style.sendBubblePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingBottom,
                 context.getResources().getDimensionPixelSize(R.dimen.send_text_padding_bottom));
+
+        style.sendVoiceDrawable = typedArray.getResourceId(R.styleable.MessageList_sendVoiceDrawable,
+                R.drawable.send_3);
+        style.receiveVoiceDrawable = typedArray.getResourceId(R.styleable.MessageList_receiveVoiceDrawable,
+                R.drawable.receive_3);
+        style.playSendVoiceAnim = typedArray.getResourceId(R.styleable.MessageList_playSendVoiceAnim,
+                R.drawable.send_voice_anim);
+        style.playReceiveVoiceAnim = typedArray.getResourceId(R.styleable.MessageList_playReceiveVoiceAnim,
+                R.drawable.receive_voice_anim);
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         style.bubbleMaxWidth = typedArray.getFloat(R.styleable.MessageList_bubbleMaxWidth, 0.8f);
@@ -256,6 +270,22 @@ public class MessageListStyle extends Style {
 
     public int getSendBubblePaddingBottom() {
         return sendBubblePaddingBottom;
+    }
+
+    public int getSendVoiceDrawable() {
+        return sendVoiceDrawable;
+    }
+
+    public int getReceiveVoiceDrawable() {
+        return receiveVoiceDrawable;
+    }
+
+    public int getPlaySendVoiceAnim() {
+        return playSendVoiceAnim;
+    }
+
+    public int getPlayReceiveVoiceAnim() {
+        return playReceiveVoiceAnim;
     }
 
     public int getWindowWidth() {

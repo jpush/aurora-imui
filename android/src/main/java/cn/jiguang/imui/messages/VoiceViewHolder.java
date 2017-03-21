@@ -37,6 +37,10 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private FileInputStream mFIS;
     private FileDescriptor mFD;
     private boolean mIsEarPhoneOn;
+    private int mSendDrawable;
+    private int mReceiveDrawable;
+    private int mPlaySendAnim;
+    private int mPlayReceiveAnim;
 
     public VoiceViewHolder(View itemView, boolean isSender) {
         super(itemView);
@@ -84,9 +88,9 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 }
                 // 播放中点击了正在播放的Item 则暂停播放
                 if (mIsSender) {
-                    mVoiceIv.setImageResource(R.drawable.send_voice_anim);
+                    mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
-                    mVoiceIv.setImageResource(R.drawable.receive_voice_anim);
+                    mVoiceIv.setImageResource(mPlayReceiveAnim);
                 }
 
                 mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
@@ -158,9 +162,9 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                     mp.reset();
                     mSetData = false;
                     if (isSender) {
-                        mVoiceIv.setImageResource(R.drawable.send_voice_anim);
+                        mVoiceIv.setImageResource(mSendDrawable);
                     } else {
-                        mVoiceIv.setImageResource(R.drawable.receive_voice_anim);
+                        mVoiceIv.setImageResource(mReceiveDrawable);
                     }
                 }
             });
@@ -207,11 +211,15 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     public void applyStyle(MessageListStyle style) {
         mDateTv.setTextSize(style.getDateTextSize());
         mDateTv.setTextColor(style.getDateTextColor());
+        mSendDrawable = style.getSendVoiceDrawable();
+        mReceiveDrawable = style.getReceiveVoiceDrawable();
+        mPlaySendAnim = style.getPlaySendVoiceAnim();
+        mPlayReceiveAnim = style.getPlayReceiveVoiceAnim();
         if (mIsSender) {
-            mVoiceIv.setImageResource(R.drawable.send_mic_3);
+            mVoiceIv.setImageResource(mSendDrawable);
             mMsgTv.setBackground(style.getSendBubbleDrawable());
         } else {
-            mVoiceIv.setImageResource(R.drawable.receive_mic_3);
+            mVoiceIv.setImageResource(mReceiveDrawable);
             mMsgTv.setBackground(style.getReceiveBubbleDrawable());
         }
 

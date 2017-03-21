@@ -35,6 +35,11 @@
         <attr name="sendTextSize" format="dimension|reference" />
         <attr name="bubbleMaxWidth" format="float|reference" />
 
+        <attr name="sendVoiceDrawable" format="reference" />
+        <attr name="receiveVoiceDrawable" format="reference" />
+        <attr name="playSendVoiceAnim" format="reference" />
+        <attr name="playReceiveVoiceAnim" format="reference" />
+
         <attr name="sendPhotoMsgBg" format="reference" />
         <attr name="receivePhotoMsgBg" format="reference" />
 
