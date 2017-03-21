@@ -149,7 +149,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -164,7 +164,7 @@
                     android:layout_centerInParent="true"
                     android:textColor="@color/chronometer_text_color"
                     android:textSize="@dimen/chronometer_text_size"
-                    android:visibility="gone"/>
+                    android:visibility="invisible"/>
 
                 <TextView
                     android:id="@+id/record_hint_tv"
@@ -229,7 +229,8 @@
             android:id="@+id/camera_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="300dp">
+            android:minHeight="300dp"
+            android:visibility="gone">
 
             <TextureView
                 android:id="@+id/camera_texture_view"

@@ -1,13 +1,15 @@
 package cn.jiguang.imui.chatinput;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 
@@ -19,7 +21,10 @@ public class RecordControllerView extends View {
     private Paint mPaint;
     private int mRecordBtnLeft;
     private int mRecordBtnRight;
+    private int mRecordBtnTop;
+    private int mRecordBtnBottom;
     private RecordVoiceButton mRecordVoiceBtn;
+    private final int MAX_RADIUS = 90;
 
     private int mCurrentState = 0;
     private float mNowX;
@@ -28,6 +33,14 @@ public class RecordControllerView extends View {
     private final static int MOVE_ON_LEFT = 2;
     private final static int MOVING_RIGHT = 3;
     private final static int MOVE_ON_RIGHT = 4;
+
+    private Bitmap mCancelBmp;
+    private Bitmap mPreviewBmp;
+    private Bitmap mCancelPresBmp;
+    private Bitmap mPreviewPresBmp;
+    private Rect mLeftRect;
+    private Rect mRightRect;
+    private OnRecordActionListener mListener;
 
     public RecordControllerView(Context context) {
         super(context);
@@ -42,12 +55,19 @@ public class RecordControllerView extends View {
     private void init() {
         mPath = new Path();
         mPaint = new Paint();
+        mCancelBmp = BitmapFactory.decodeResource(getResources(), R.drawable.cancel_record);
+        mPreviewBmp = BitmapFactory.decodeResource(getResources(), R.drawable.preview_paly_audio);
+        mCancelPresBmp = BitmapFactory.decodeResource(getResources(), R.drawable.cancel_record_pres);
+        mPreviewPresBmp = BitmapFactory.decodeResource(getResources(), R.drawable.preview_play_audio_pres);
     }
 
     public void setWidth(int width) {
         mWidth = width;
         Log.e("RecordControllerView", "mWidth: " + mWidth);
-
+        mLeftRect = new Rect((int) (155 - 25 * Math.sqrt(2)), (int) (200 - 25 * Math.sqrt(2)),
+                (int) (155 + 25 * Math.sqrt(2)), (int) (200 + 25 * Math.sqrt(2)));
+        mRightRect = new Rect((int) (mWidth - 150 - 25 * Math.sqrt(2)), (int) (200 - 25 * Math.sqrt(2)),
+                (int) (mWidth - 150 + 25 * Math.sqrt(2)), (int) (200 + 25 * Math.sqrt(2)));
     }
 
     @Override
@@ -56,51 +76,91 @@ public class RecordControllerView extends View {
 
         switch (mCurrentState) {
             case INIT_STATE:
-                mPaint.setColor(Color.GRAY);
+                mPaint.setColor(Color.rgb(211, 211, 211));
                 mPaint.setStyle(Paint.Style.STROKE);
                 mPaint.setAntiAlias(true);
                 mPaint.setStrokeWidth(2);
-                canvas.drawCircle(150, 200, 50, mPaint);
-                canvas.drawCircle(mWidth - 150, 200, 50, mPaint);
+                canvas.drawCircle(150, 200, 60, mPaint);
+                canvas.drawCircle(mWidth - 150, 200, 60, mPaint);
+                mPaint.setColor(Color.GRAY);
+                canvas.drawBitmap(mPreviewBmp, null, mLeftRect, mPaint);
+                canvas.drawBitmap(mCancelBmp, null, mRightRect, mPaint);
                 break;
             case MOVING_LEFT:
-                float radius = 50.0f * (mRecordBtnLeft - mNowX) / (mRecordBtnLeft - 250.0f) + 50.0f;
-                Log.e(TAG, "left radius: " + radius);
+                float radius = 40.0f * (mRecordBtnLeft - mNowX) / (mRecordBtnLeft - 250.0f) + 60.0f;
+                mPaint.setColor(Color.rgb(211, 211, 211));
                 canvas.drawCircle(150, 200, radius, mPaint);
-                canvas.drawCircle(mWidth - 150, 200, 50, mPaint);
+                canvas.drawCircle(mWidth - 150, 200, 60, mPaint);
+                mPaint.setColor(Color.GRAY);
+                canvas.drawBitmap(mPreviewBmp, null, mLeftRect, mPaint);
+                canvas.drawBitmap(mCancelBmp, null, mRightRect, mPaint);
                 break;
             case MOVING_RIGHT:
-                radius = 50.0f * (mNowX - mRecordBtnRight) / (mWidth - mRecordBtnRight) + 50.0f;
-                Log.e(TAG, "right radius: " + radius);
-                canvas.drawCircle(150, 200, 50, mPaint);
+                radius = 40.0f * (mNowX - mRecordBtnRight) / (mWidth - mRecordBtnRight) + 60.0f;
+                mPaint.setColor(Color.rgb(211, 211, 211));
+                canvas.drawCircle(150, 200, 60, mPaint);
                 canvas.drawCircle(mWidth - 150, 200, radius, mPaint);
+                mPaint.setColor(Color.GRAY);
+                canvas.drawBitmap(mPreviewBmp, null, mLeftRect, mPaint);
+                canvas.drawBitmap(mCancelBmp, null, mRightRect, mPaint);
                 break;
             case MOVE_ON_LEFT:
-                radius = 100;
+                radius = MAX_RADIUS;
+                mPaint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(150, 200, radius, mPaint);
-                canvas.drawCircle(mWidth - 150, 200, 50, mPaint);
+                mPaint.setStyle(Paint.Style.STROKE);
+                canvas.drawBitmap(mPreviewPresBmp, null, mLeftRect, mPaint);
+                canvas.drawCircle(mWidth - 150, 200, 60, mPaint);
+                canvas.drawBitmap(mCancelBmp, null, mRightRect, mPaint);
                 break;
             case MOVE_ON_RIGHT:
-                radius = 100;
-                canvas.drawCircle(150, 200, 50, mPaint);
+                radius = MAX_RADIUS;
+                mPaint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(mWidth - 150, 200, radius, mPaint);
+                mPaint.setStyle(Paint.Style.STROKE);
+                canvas.drawCircle(150, 200, 60, mPaint);
+                canvas.drawBitmap(mPreviewBmp, null, mLeftRect, mPaint);
+                canvas.drawBitmap(mCancelPresBmp, null, mRightRect, mPaint);
                 break;
         }
 
     }
 
-    public void onActionMove(float x) {
+    public void onActionDown() {
+        if (mListener != null) {
+            mListener.onStart();
+        }
+    }
+
+    public void onActionMove(float x, float y) {
         mNowX = x;
-        if (x < 250) {
+        if (x <= 150 + MAX_RADIUS && y >= 200 - mRecordBtnTop - MAX_RADIUS
+                && y <= 200 + MAX_RADIUS - mRecordBtnTop) {
             mCurrentState = MOVE_ON_LEFT;
-        } else if (x > 250 && x < mRecordBtnLeft) {
+            if (mListener != null) {
+                mListener.onMovedLeft();
+            }
+        } else if (x > 200 + MAX_RADIUS && x < mRecordBtnLeft) {
             mCurrentState = MOVING_LEFT;
+            if (mListener != null) {
+                mListener.onMoving();
+            }
         } else if (mRecordBtnLeft < x && x < mRecordBtnRight) {
             mCurrentState = INIT_STATE;
-        } else if (x > mRecordBtnRight && x < mWidth - 250) {
+            if (mListener != null) {
+                mListener.onMoving();
+            }
+        } else if (x > mRecordBtnRight && x < mWidth - 150 - MAX_RADIUS) {
             mCurrentState = MOVING_RIGHT;
-        } else {
+            if (mListener != null) {
+                mListener.onMoving();
+            }
+        } else if (x >= mWidth - 150 - MAX_RADIUS && y > 200 - mRecordBtnTop - MAX_RADIUS
+                && y < 200 + MAX_RADIUS - mRecordBtnTop) {
             mCurrentState = MOVE_ON_RIGHT;
+            if (mListener != null) {
+                mListener.onMovedRight();
+            }
         }
         postInvalidate();
     }
@@ -108,35 +168,49 @@ public class RecordControllerView extends View {
     public void setRecordButton(RecordVoiceButton button) {
         mRecordBtnLeft = button.getLeft();
         mRecordBtnRight = button.getRight();
+        mRecordBtnTop = button.getTop();
+        mRecordBtnBottom = button.getBottom();
         mRecordVoiceBtn = button;
     }
 
-    public void onActionUp(float x, float y) {
-        if (x <= 250 && y >= 100 && y <= 300) {
-            //TODO preview audio
-        } else if (x > 250 && x < mWidth - 250) {
-            //TODO finish record
-            mRecordVoiceBtn.finishRecord();
-        } else if (x >= mWidth - 250 && y >= 100 && y <= 300) {
-            //TODO cancel record
-            mRecordVoiceBtn.cancelRecord();
+    public void onActionUp() {
+        if (mListener != null) {
+            mListener.onFinish();
+        }
+        switch (mCurrentState) {
+            case MOVE_ON_LEFT:
+                mRecordVoiceBtn.finishRecord(true);
+                // TODO preview audio
+                break;
+            case MOVE_ON_RIGHT:
+                mRecordVoiceBtn.cancelRecord();
+                break;
+            default:
+                mRecordVoiceBtn.finishRecord(false);
         }
         mCurrentState = INIT_STATE;
         postInvalidate();
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                if (event.getX() > mWidth - 150 && event.getX() < mWidth - 50
-//                        && event.getY() > 150 && event.getY() < 250) {
-//                    Log.i("ControllerView", "Move to right button!");
-//                }
-//                break;
-//        }
-//        return true;
-//    }
+    public void resetState() {
+        mCurrentState = INIT_STATE;
+        postInvalidate();
+    }
+
+    public void setOnControllerListener(OnRecordActionListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnRecordActionListener {
+
+        void onStart();
+
+        void onMoving();
+
+        void onMovedLeft();
+
+        void onMovedRight();
+
+        void onFinish();
+    }
 }

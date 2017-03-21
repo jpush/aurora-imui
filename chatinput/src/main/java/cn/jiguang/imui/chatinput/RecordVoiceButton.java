@@ -1,7 +1,6 @@
 package cn.jiguang.imui.chatinput;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -32,12 +31,8 @@ public class RecordVoiceButton extends ImageButton {
     private final static int CANCEL_RECORD = 5;
     private final static int START_RECORD = 7;
     private final static int RECORD_DENIED_STATUS = 1000;
-    //依次为按下录音键坐标、手指离开屏幕坐标、手指移动坐标
-    float mTouchY1, mTouchY2, mTouchY;
-    private final float MIN_CANCEL_DISTANCE = 300f;
-    //依次为开始录音时刻，按下录音时刻，松开录音按钮时刻
-    private long startTime, time1, time2;
-
+    //依次为开始录音时刻，按下录音时刻
+    private long startTime, time1;
 
 
     private MediaRecorder recorder;
@@ -48,15 +43,14 @@ public class RecordVoiceButton extends ImageButton {
     public static boolean mIsPressed = false;
     private Context mContext;
     private Timer timer = new Timer();
-    private Timer mCountTimer;
     private boolean isTimerCanceled = false;
     private boolean mTimeUp = false;
     private final MyHandler myHandler = new MyHandler(this);
-    private static Drawable[] res;
     private RecordVoiceBtnStyle mStyle;
     private RecordVoiceListener mListener;
     private RecordControllerView mControllerView;
-    private boolean mSetBoundary = false;
+    private boolean mSetController = false;
+    private int mDuration;
 
     public RecordVoiceButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -73,8 +67,6 @@ public class RecordVoiceButton extends ImageButton {
     private void init(Context context, AttributeSet attrs) {
         mStyle = RecordVoiceBtnStyle.parse(context, attrs);
         mVolumeHandler = new ShowVolumeHandler(this);
-        res = new Drawable[]{mStyle.getMic_1(), mStyle.getMic_2(), mStyle.getMic_3(),
-                mStyle.getMic_4(), mStyle.getMic_5(), mStyle.getCancelRecord()};
     }
 
     public void setRecordVoiceListener(RecordVoiceListener listener) {
@@ -83,7 +75,8 @@ public class RecordVoiceButton extends ImageButton {
 
     /**
      * Require, must set file path and file name before recording
-     * @param path file to be saved.
+     *
+     * @param path     file to be saved.
      * @param fileName file name
      */
     public void setVoiceFilePath(String path, String fileName) {
@@ -110,14 +103,16 @@ public class RecordVoiceButton extends ImageButton {
         int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                if (mControllerView != null && !mSetBoundary) {
+                if (mControllerView != null && !mSetController) {
                     mControllerView.setRecordButton(this);
-                    mSetBoundary = true;
+                    mSetController = true;
+                }
+                if (mControllerView != null) {
+                    mControllerView.onActionDown();
                 }
 //                this.setText(mStyle.getTapDownText());
                 mIsPressed = true;
                 time1 = System.currentTimeMillis();
-                mTouchY1 = event.getY();
                 //检查sd卡是否存在
                 if (isSdCardExist()) {
                     if (isTimerCanceled) {
@@ -135,56 +130,43 @@ public class RecordVoiceButton extends ImageButton {
                     Toast.makeText(this.getContext(), mContext.getString(R.string.sdcard_not_exist_toast),
                             Toast.LENGTH_SHORT).show();
                     this.setPressed(false);
-//                    this.setText(mStyle.getVoiceBtnText());
                     mIsPressed = false;
                     return false;
                 }
                 break;
             case MotionEvent.ACTION_UP:
-//                this.setText(mStyle.getVoiceBtnText());
                 mIsPressed = false;
                 this.setPressed(false);
-                mTouchY2 = event.getY();
-                time2 = System.currentTimeMillis();
+                //松开录音按钮时刻
+                long time2 = System.currentTimeMillis();
                 if (time2 - time1 < 500) {
                     cancelTimer();
+                    if (mControllerView != null) {
+                        mControllerView.resetState();
+                    }
                     return true;
                 } else if (time2 - time1 < 1000) {
+                    if (mControllerView != null) {
+                        mControllerView.resetState();
+                    }
                     cancelRecord();
-                } else if (mTouchY1 - mTouchY2 > MIN_CANCEL_DISTANCE) {
-                    cancelRecord();
-                } else if (time2 - time1 < 60000) {
-                    finishRecord();
-                }
-                if (mControllerView != null) {
-                    mControllerView.onActionUp(event.getRawX(), event.getY());
+                } else if (mControllerView != null) {
+                    mControllerView.onActionUp();
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                mTouchY = event.getY();
-                //手指上滑到超出限定后，显示松开取消发送提示
-                if (mTouchY1 - mTouchY > MIN_CANCEL_DISTANCE) {
-//                    this.setText(mContext.getString(R.string.cancel_record_voice_hint));
-                    mVolumeHandler.sendEmptyMessage(CANCEL_RECORD);
-                    if (mThread != null) {
-                        mThread.exit();
-                    }
-                    mThread = null;
-                } else {
-//                    this.setText(mContext.getString(R.string.release_send_voice_hint));
-                    if (mThread == null) {
-                        mThread = new ObtainDecibelThread();
-                        mThread.start();
-                    }
+                if (mThread == null) {
+                    mThread = new ObtainDecibelThread();
+                    mThread.start();
                 }
                 if (mControllerView != null) {
-                    mControllerView.onActionMove(event.getRawX());
+                    mControllerView.onActionMove(event.getRawX(), event.getY());
                 }
                 break;
-            case MotionEvent.ACTION_CANCEL:// 当手指移动到view外面，会cancel
-//                this.setText(mStyle.getVoiceBtnText());
-                cancelRecord();
-                break;
+//            case MotionEvent.ACTION_CANCEL:// 当手指移动到view外面，会cancel
+////                this.setText(mStyle.getVoiceBtnText());
+//                cancelRecord();
+//                break;
         }
 
         return true;
@@ -196,10 +178,6 @@ public class RecordVoiceButton extends ImageButton {
             timer.cancel();
             timer.purge();
             isTimerCanceled = true;
-        }
-        if (mCountTimer != null) {
-            mCountTimer.cancel();
-            mCountTimer.purge();
         }
     }
 
@@ -213,8 +191,8 @@ public class RecordVoiceButton extends ImageButton {
         startRecording();
     }
 
-    //录音完毕加载 ListView item
-    public void finishRecord() {
+    //录音完毕
+    public void finishRecord(boolean isPreview) {
         cancelTimer();
         stopRecording();
 
@@ -234,15 +212,13 @@ public class RecordVoiceButton extends ImageButton {
                 }
                 //某些手机会限制录音，如果用户拒接使用录音，则需判断mp是否存在
                 if (mp != null) {
-                    int duration = mp.getDuration() / 1000;//即为时长 是s
-                    if (duration < 1) {
-                        duration = 1;
-                    } else if (duration > 60) {
-                        duration = 60;
+                    mDuration = mp.getDuration() / 1000;//即为时长 是s
+                    if (mDuration < 1) {
+                        mDuration = 1;
                     }
                     // TODO finish callback here
-                    if (null != mListener) {
-                        mListener.onFinishRecord(myRecAudioFile, duration);
+                    if (null != mListener && !isPreview) {
+                        mListener.onFinishRecord(myRecAudioFile, mDuration);
                     }
                 } else {
                     Toast.makeText(mContext, mContext.getString(R.string.record_voice_permission_request),
@@ -252,13 +228,14 @@ public class RecordVoiceButton extends ImageButton {
         }
     }
 
+    public void finishRecord() {
+        if (null != mListener) {
+            mListener.onFinishRecord(myRecAudioFile, mDuration);
+        }
+    }
+
     //取消录音，清除计时
     public void cancelRecord() {
-        //可能在消息队列中还存在HandlerMessage，移除剩余消息
-        mVolumeHandler.removeMessages(56, null);
-        mVolumeHandler.removeMessages(57, null);
-        mVolumeHandler.removeMessages(58, null);
-        mVolumeHandler.removeMessages(59, null);
         mTimeUp = false;
         cancelTimer();
         stopRecording();
@@ -291,21 +268,6 @@ public class RecordVoiceButton extends ImageButton {
                 mListener.onStartRecord();
             }
             startTime = System.currentTimeMillis();
-            mCountTimer = new Timer();
-            mCountTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    mTimeUp = true;
-                    android.os.Message msg = mVolumeHandler.obtainMessage();
-                    msg.what = 55;
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("restTime", 5);
-                    msg.setData(bundle);
-                    msg.sendToTarget();
-                    mCountTimer.cancel();
-                }
-            }, 56000);
-
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(mContext, mContext.getString(R.string.illegal_state_toast), Toast.LENGTH_SHORT).show();
@@ -355,9 +317,9 @@ public class RecordVoiceButton extends ImageButton {
         if (recorder != null) {
             try {
                 recorder.stop();
-            }catch (Exception e){
+            } catch (Exception e) {
                 Log.d("RecordVoice", "Catch exception: stop recorder failed!");
-            }finally {
+            } finally {
                 recorder.release();
                 recorder = null;
             }
@@ -431,48 +393,7 @@ public class RecordVoiceButton extends ImageButton {
         public void handleMessage(android.os.Message msg) {
             RecordVoiceButton controller = lButton.get();
             if (controller != null) {
-                int restTime = msg.getData().getInt("restTime", -1);
-                // 若restTime>0, 进入倒计时
-                if (restTime > 0) {
-                    controller.mTimeUp = true;
-                    android.os.Message msg1 = controller.mVolumeHandler.obtainMessage();
-                    msg1.what = 60 - restTime + 1;
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("restTime", restTime - 1);
-                    msg1.setData(bundle);
-                    //创建一个延迟一秒执行的HandlerMessage，用于倒计时
-                    controller.mVolumeHandler.sendMessageDelayed(msg1, 1000);
-//                    controller.mRecordHintTv.setText(String.format(controller.mContext
-//                            .getString(R.string.rest_record_time_hint), restTime + ""));
-                    // 倒计时结束，发送语音, 重置状态
-                } else if (restTime == 0) {
-                    controller.finishRecord();
-                    controller.setPressed(false);
-                    controller.mTimeUp = false;
-                    // restTime = -1, 一般情况
-                } else {
-                    // 没有进入倒计时状态
-                    if (!controller.mTimeUp) {
-                        if (msg.what < CANCEL_RECORD) {
-//                            controller.mRecordHintTv.setText(controller.mContext.getString(R.string
-//                                    .move_to_cancel_hint));
-                        }
-                        else {
-//                            controller.mRecordHintTv.setText(controller.mContext.getString(R.string
-//                                    .cancel_record_voice_hint));
-                        }
-                        // 进入倒计时
-                    } else {
-                        if (msg.what == CANCEL_RECORD) {
-//                            controller.mRecordHintTv.setText(controller.mContext.getString(R.string
-//                                    .cancel_record_voice_hint));
-                            if (!mIsPressed) {
-                                controller.cancelRecord();
-                            }
-                        }
-                    }
-//                    controller.mVolumeIv.setImageDrawable(res[msg.what]);
-                }
+                //TODO show wave view
             }
         }
     }
@@ -512,8 +433,9 @@ public class RecordVoiceButton extends ImageButton {
 
         /**
          * Fires when finished recording.
+         *
          * @param voiceFile The audio file.
-         * @param duration The duration of audio file, specified in seconds.
+         * @param duration  The duration of audio file, specified in seconds.
          */
         void onFinishRecord(File voiceFile, int duration);
 
