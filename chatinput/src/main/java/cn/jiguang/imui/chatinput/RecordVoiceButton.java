@@ -250,6 +250,9 @@ public class RecordVoiceButton extends ImageButton {
 
     private void startRecording() {
         try {
+            if (mListener != null) {
+                mListener.onStartRecord();
+            }
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
@@ -264,9 +267,6 @@ public class RecordVoiceButton extends ImageButton {
                 }
             });
             recorder.start();
-            if (mListener != null) {
-                mListener.onStartRecord();
-            }
             startTime = System.currentTimeMillis();
         } catch (IOException e) {
             e.printStackTrace();

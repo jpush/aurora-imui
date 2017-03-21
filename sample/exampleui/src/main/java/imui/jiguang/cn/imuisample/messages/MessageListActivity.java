@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.text.format.DateFormat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +22,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.RecordVoiceButton;
@@ -88,18 +91,16 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             @Override
             public void onVoiceClick() {
                 if ((ActivityCompat.checkSelfPermission(MessageListActivity.this,
-                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)) {
+                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(mContext,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(mContext,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
                     ActivityCompat.requestPermissions(MessageListActivity.this, new String[]{
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_VOICE_PERMISSION);
                 }
-
-                // Show record voice interface
-                // 设置存放录音文件目录
-                File rootDir = mContext.getFilesDir();
-                String fileDir = rootDir.getAbsolutePath() + "/voice";
-                mChatView.setRecordVoiceFile(fileDir, "temp_voice");
             }
 
             @Override
@@ -126,7 +127,12 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mChatView.setRecordVoiceListener(new RecordVoiceButton.RecordVoiceListener() {
             @Override
             public void onStartRecord() {
-
+                // Show record voice interface
+                // 设置存放录音文件目录
+                File rootDir = mContext.getFilesDir();
+                String fileDir = rootDir.getAbsolutePath() + "/voice";
+                mChatView.setRecordVoiceFile(fileDir, new DateFormat().format("yyyy_MMdd_hhmmss",
+                        Calendar.getInstance(Locale.CHINA)) + "");
             }
 
             @Override
