@@ -48,7 +48,21 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   private let stillImageOutput = AVCaptureStillImageOutput()
   private let session = AVCaptureSession()
   private var setupResult: SessionSetupResult = .success
-  private let photoOutput = AVCapturePhotoOutput()
+  
+  
+  private var _photoOutput: Any?
+  @available(iOS 10.0, *)
+  var photoOutput: AVCapturePhotoOutput? {
+    get {
+      return _photoOutput as? AVCapturePhotoOutput
+    }
+    
+    set {
+      _photoOutput = newValue
+    }
+  }
+//  private var photoOutput = AVCapturePhotoOutput?()
+
   var videoDeviceInput: AVCaptureDeviceInput!
   private var livePhotoMode: LivePhotoMode = .off
   var backgroundRecordingID: UIBackgroundTaskIdentifier? = nil
@@ -138,7 +152,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     
     sessionQueue.async {
       // Update the photo output's connection to match the video orientation of the video preview layer.
-      if let photoOutputConnection = self.photoOutput.connection(withMediaType: AVMediaTypeVideo) {
+      if let photoOutputConnection = self.photoOutput?.connection(withMediaType: AVMediaTypeVideo) {
         photoOutputConnection.videoOrientation = videoPreviewLayerOrientation
       }
       
@@ -151,7 +165,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       if photoSettings.availablePreviewPhotoPixelFormatTypes.count > 0 {
         photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String : photoSettings.availablePreviewPhotoPixelFormatTypes.first!]
       }
-      if self.livePhotoMode == .on && self.photoOutput.isLivePhotoCaptureSupported { // Live Photo capture is not supported in movie mode.
+      if self.livePhotoMode == .on && (self.photoOutput?.isLivePhotoCaptureSupported)! { // Live Photo capture is not supported in movie mode.
         let livePhotoMovieFileName = NSUUID().uuidString
         let livePhotoMovieFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((livePhotoMovieFileName as NSString).appendingPathExtension("mov")!)
         photoSettings.livePhotoMovieFileURL = URL(fileURLWithPath: livePhotoMovieFilePath)
@@ -206,26 +220,27 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
        until the capture is completed.
        */
       self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = photoCaptureDelegate
-      self.photoOutput.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate)
+      self.photoOutput?.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate)
     }
   }
   
   private func capturePhotoBefore_iOS8() {
-  
+
+    
+    stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
+    
     var videoConnection: AVCaptureConnection? = nil
-    for connection in stillImageOutput.connections {
-      let theConnection = connection as! AVCaptureConnection
-      for port in theConnection.inputPorts {
-        if ((port as? AVCaptureInputPort)?.isEqual(AVMediaTypeVideo))! {
-          videoConnection = theConnection
+    for connection in stillImageOutput.connections as! [AVCaptureConnection] {
+      for port in connection.inputPorts as! [AVCaptureInputPort]{
+        if port.mediaType == AVMediaTypeVideo {
+          videoConnection = connection
           break
         }
       }
       
-      if (videoConnection != nil) {
-        break
-      }
+      if videoConnection != nil { break }
     }
+    
     print("about to request a capture from: \(stillImageOutput)")
     stillImageOutput.captureStillImageAsynchronously(from: videoConnection) { (imageSampleBuffer, error) in
       var exifAttachments = CMGetAttachment(imageSampleBuffer!, kCGImagePropertyExifDictionary, nil)
@@ -237,13 +252,15 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       }
       
       let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
+      self.inputViewDelegate?.finishShootPicture?(picture: imageData!)
       let image = UIImage(data: imageData!)
       UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
-
+      
     }
   }
   
   private func configureSession() {
+    
     if setupResult != .success {
       return
     }
@@ -254,15 +271,19 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     do {
       var defaultVideoDevice: AVCaptureDevice?
       
-      if let dualCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .back) {
-        defaultVideoDevice = dualCameraDevice
-      }
-      else if let backCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .back) {
-        defaultVideoDevice = backCameraDevice
-      }
-      else if let frontCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
-        
-        defaultVideoDevice = frontCameraDevice
+      if #available(iOS 10.0, *) {
+        if let dualCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .back) {
+          defaultVideoDevice = dualCameraDevice
+        }
+        else if let backCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .back) {
+          defaultVideoDevice = backCameraDevice
+        }
+        else if let frontCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
+          
+          defaultVideoDevice = frontCameraDevice
+        }
+      } else {
+        defaultVideoDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
       }
       
       let videoDeviceInput = try AVCaptureDeviceInput(device: defaultVideoDevice)
@@ -283,15 +304,13 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           
           self.cameraPreviewView.videoPreviewLayer.connection.videoOrientation = initialVideoOrientation
         }
-      }
-      else {
+      } else {
         print("Could not add video device input to the session")
         setupResult = .configurationFailed
         session.commitConfiguration()
         return
       }
-    }
-    catch {
+    } catch {
       print("Could not create video device input: \(error)")
       setupResult = .configurationFailed
       session.commitConfiguration()
@@ -304,30 +323,40 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       
       if session.canAddInput(audioDeviceInput) {
         session.addInput(audioDeviceInput)
-      }
-      else {
+      } else {
         print("Could not add audio device input to the session")
       }
-    }
-    catch {
+    } catch {
       print("Could not create audio device input: \(error)")
     }
+    
+    // configure output
+    
 
-    if session.canAddOutput(photoOutput)
-    {
-      session.addOutput(photoOutput)
+    
+    if #available(iOS 10.0, *) {
+      self.photoOutput = AVCapturePhotoOutput()
       
-      photoOutput.isHighResolutionCaptureEnabled = true
-      photoOutput.isLivePhotoCaptureEnabled = photoOutput.isLivePhotoCaptureSupported
-      livePhotoMode = photoOutput.isLivePhotoCaptureSupported ? .on : .off
-    }
-    else {
-      print("Could not add photo output to the session")
-      setupResult = .configurationFailed
-      session.commitConfiguration()
-      return
+      if session.canAddOutput(self.photoOutput!) {
+        session.addOutput(self.photoOutput)
+        self.photoOutput?.isHighResolutionCaptureEnabled = true
+        self.photoOutput?.isLivePhotoCaptureEnabled = (self.photoOutput?.isLivePhotoCaptureSupported)!
+        livePhotoMode = (photoOutput?.isLivePhotoCaptureSupported)! ? .on : .off
+      } else {
+        print("Could not add photo output to the session")
+        setupResult = .configurationFailed
+        session.commitConfiguration()
+        return
+      }
+    } else {
+      if session.canAddOutput(stillImageOutput) {
+        session.addOutput(stillImageOutput)
+      }
     }
     
+    if #available(*, iOS 10.0) {
+
+    }
     session.commitConfiguration()
   }
 

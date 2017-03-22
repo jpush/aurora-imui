@@ -4,19 +4,13 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "IMUIChat/IMUI/Views/IMUIMessageBubbleView.swift"
-            timestampString = "511620329.25831"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "layoutImage(image:isOutGoing:)"
-            landmarkType = "7">
+            scope = "0"
+            stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -25,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "IMUIChat/IMUI/Views/IMUIMessageBubbleView.swift"
-            timestampString = "511669489.121535"
+            filePath = "IMUIChat/IMUI/Controllers/IMUIRecordVoiceHelper.swift"
+            timestampString = "511859470.973677"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "setupBubbleImage(isOutgoing:)"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "startRecordingWithPath(_:startRecordCompleted:timerTickCallback:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -12,24 +12,31 @@ import AVFoundation
 
 let maxRecordTime = 60.0
 typealias CompletionCallBack = () -> Void
-typealias TimerTickCallback = (Timer) -> Void
+typealias TimerTickCallback = (TimeInterval, CGFloat) -> Void //  recordDuration, meter
 
 typealias IMUIFinishRecordVoiceCallBack = () -> Data
 
 
 class IMUIRecordVoiceHelper: NSObject {
-  var finishiRecordCallBack: CompletionCallBack?
+
   var startRecordCallBack: CompletionCallBack?
-  var cancelledRecordCallBack: CompletionCallBack?
-  
+  var timerTickCallBack: TimerTickCallback?
   
   var recorder: AVAudioRecorder?
   var recordPath: String?
-  var recordDuration: String?
-  var recordProgress: Float?
-  var theTimer: Timer?
+
   var timerFireDate: Date?
-  var currentTimeInterval: TimeInterval?
+  var recordDuration: TimeInterval {
+    get {
+      if timerFireDate != nil {
+        return Date().timeIntervalSince(timerFireDate!)
+      } else {
+        return 0.0
+      }
+    }
+  }
+  
+  var updater: CADisplayLink! = nil
   
   override init() {
     super.init()
@@ -56,25 +63,21 @@ class IMUIRecordVoiceHelper: NSObject {
 //    }
 //  }
   
-  func getVoiceDuration(_ recordPath:String) {
-    do {
-      let player:AVAudioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: recordPath))
-      player.play()
-      self.recordDuration = "\(player.duration)"
-    } catch let error as NSError {
-      print("get AVAudioPlayer is fail \(error)")
-    }
-  }
+//  func getVoiceDuration(_ recordPath:String) {
+//    do {
+//      let player:AVAudioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: recordPath))
+//      player.play()
+//      self.recordDuration = "\(player.duration)"
+//    } catch let error as NSError {
+//      print("get AVAudioPlayer is fail \(error)")
+//    }
+//  }
   
   func resetTimer() {
     self.timerFireDate = nil
     
-    if self.theTimer == nil {
-      return
-    } else {
-      self.theTimer!.invalidate()
-      self.theTimer = nil
-    }
+    updater?.invalidate()
+    updater = nil
   }
   
   func cancelRecording() {
@@ -91,27 +94,20 @@ class IMUIRecordVoiceHelper: NSObject {
   func stopRecord() {
     self.cancelRecording()
     self.resetTimer()
+
   }
   
   func startRecordingWithPath(_ path:String,
                               startRecordCompleted: @escaping CompletionCallBack,
-                              finishCallback: @escaping CompletionCallBack,
-                              cancelCallback: @escaping CompletionCallBack,
                               timerTickCallback: @escaping TimerTickCallback) {
     
     print("Action - startRecordingWithPath:")
     self.startRecordCallBack = startRecordCompleted
-    self.finishiRecordCallBack = finishCallback
-    self.cancelledRecordCallBack = cancelCallback
-    
-    if #available(iOS 10.0, *) {
-      theTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: timerTickCallback)
-    } else {
-      // Fallback on earlier versions
-    }
+//    self.finishiRecordCallBack = finishCallback
+//    self.cancelledRecordCallBack = cancelCallback
+    self.timerTickCallBack = timerTickCallback
+
     self.timerFireDate = Date()
-    
-    print("the timer \(theTimer)")
     self.recordPath = path
     
     let audioSession:AVAudioSession = AVAudioSession.sharedInstance()
@@ -151,40 +147,43 @@ class IMUIRecordVoiceHelper: NSObject {
     } else {
       print("fail record")
     }
-    theTimer?.fire()
-    print("the Timer fire")
+
+    self.updater = CADisplayLink(target: self, selector: #selector(self.trackAudio))
+    updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+    updater.frameInterval = 1
+    
     if self.startRecordCallBack != nil {
       DispatchQueue.main.async(execute: self.startRecordCallBack!)
       
     }
   }
   
-  open func finishRecordingCompletion() {
+  func trackAudio() {
+    self.timerTickCallBack?(recordDuration, 0.0)
+  }
+  
+  open func finishRecordingCompletion() -> (voiceFilePath: String, duration: TimeInterval){
+    let duration = recordDuration
     self.stopRecord()
-    self.getVoiceDuration(self.recordPath!)
-    
-    if self.finishiRecordCallBack != nil {
-      DispatchQueue.main.async(execute: self.finishiRecordCallBack!)
-    }
+    return (voiceFilePath: recordPath!, duration: duration)
   }
   
   func cancelledDeleteWithCompletion() {
     self.stopRecord()
-    if self.recordPath != nil {
-      let fileManager:FileManager = FileManager.default
-      if fileManager.fileExists(atPath: self.recordPath!) == true {
-        do {
-          try fileManager.removeItem(atPath: self.recordPath!)
-        } catch let error as NSError {
-          print("can no to remove the voice file \(error.localizedDescription)")
-        }
-      } else {
-        if self.cancelledRecordCallBack != nil {
-          DispatchQueue.main.async(execute: self.cancelledRecordCallBack!)
-        }
+    if self.recordPath == nil { return }
+    
+    let fileManager:FileManager = FileManager.default
+    if fileManager.fileExists(atPath: self.recordPath!) == true {
+      do {
+        try fileManager.removeItem(atPath: self.recordPath!)
+      } catch let error as NSError {
+        print("can no to remove the voice file \(error.localizedDescription)")
       }
-      
+    } else {
+
     }
+    
+    
   }
   
   open func playVoice(_ recordPath:String) {

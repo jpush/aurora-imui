@@ -76,15 +76,12 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     }
     
     recordHelper.startRecordingWithPath(self.getRecorderPath(),
-                                        startRecordCompleted: {
-      print("start record")
-    }, finishCallback: { 
-      print("finish record")
-    }, cancelCallback: { 
-      print("cancel record")
-    }) { (timer) in
-      let seconds = Date.secondsBetween(date1: self.recordHelper.timerFireDate!, date2: Date())
+                                        startRecordCompleted: { 
+                                          
+    }) { (duration, meter) in
+      let seconds = Int(duration)
       self.timeLable.text = "\(String(format: "%02d", seconds / 60)):\(String(format: "%02d", seconds % 60))"
+      
     }
   }
   
@@ -93,10 +90,9 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     self.cancelVoiceBtn.isHidden = true
     self.resetSubViewsStyle()
     
-    recordHelper.finishRecordingCompletion()
-    
     do {
-      self.inputViewDelegate?.finishRecordingVoice?(self.recordHelper.recordPath!, durationTime: Double(self.recordHelper.recordDuration!)!)
+      let finishiRecorder = recordHelper.finishRecordingCompletion()
+      self.inputViewDelegate?.finishRecordingVoice?(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
     } catch {
       print("\(error)")
     }
