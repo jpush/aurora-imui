@@ -93,6 +93,13 @@ public class RecordVoiceButton extends ImageButton {
         Log.i(TAG, "Create file success file path: " + myRecAudioFile.getAbsolutePath());
     }
 
+    public String getRecordFile() {
+        if (myRecAudioFile != null) {
+            return myRecAudioFile.getAbsolutePath();
+        }
+        return null;
+    }
+
     private boolean isSdCardExist() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
@@ -103,6 +110,7 @@ public class RecordVoiceButton extends ImageButton {
         int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                //TODO animation
                 if (mControllerView != null && !mSetController) {
                     mControllerView.setRecordButton(this);
                     mSetController = true;

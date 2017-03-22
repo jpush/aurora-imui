@@ -24,6 +24,7 @@
         <attr name="photoBtnBg" format="reference" />
         <attr name="photoBtnIcon" format="reference" />
     </declare-styleable>
+
     <declare-styleable name="RecordVoiceButton">
         <attr name="voiceBtnText" format="string" />
         <attr name="tapDownText" format="string" />
@@ -35,7 +36,19 @@
         <attr name="mic_5" format="reference" />
         <attr name="cancelRecord" format="reference" />
     </declare-styleable>
+
     <declare-styleable name="RecordVoiceDialog">
         <attr name="background" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ProgressButton">
+        <attr name="roundColor" format="color"/>
+        <attr name="roundProgressColor" format="color"/>
+        <attr name="roundWidth" format="dimension" />
+        <attr name="max" format="integer" />
+        <attr name="style">
+            <enum name="STROKE" value="0" />
+            <enum name="FILL" value="1" />
+        </attr>
     </declare-styleable>
 </resources>

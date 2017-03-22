@@ -87,7 +87,12 @@ public class RecordControllerView extends View {
                 canvas.drawBitmap(mCancelBmp, null, mRightRect, mPaint);
                 break;
             case MOVING_LEFT:
-                float radius = 40.0f * (mRecordBtnLeft - mNowX) / (mRecordBtnLeft - 250.0f) + 60.0f;
+                float radius;
+                if (mNowX < 150 + MAX_RADIUS) {
+                    radius = MAX_RADIUS;
+                } else {
+                    radius = 40.0f * (mRecordBtnLeft - mNowX) / (mRecordBtnLeft - 250.0f) + 60.0f;
+                }
                 mPaint.setColor(Color.rgb(211, 211, 211));
                 canvas.drawCircle(150, 200, radius, mPaint);
                 canvas.drawCircle(mWidth - 150, 200, 60, mPaint);
@@ -174,19 +179,24 @@ public class RecordControllerView extends View {
     }
 
     public void onActionUp() {
-        if (mListener != null) {
-            mListener.onFinish();
-        }
         switch (mCurrentState) {
             case MOVE_ON_LEFT:
                 mRecordVoiceBtn.finishRecord(true);
-                // TODO preview audio
+                if (mListener != null) {
+                    mListener.onLeftUpTapped();
+                }
                 break;
             case MOVE_ON_RIGHT:
                 mRecordVoiceBtn.cancelRecord();
+                if (mListener != null) {
+                    mListener.onRightUpTapped();
+                }
                 break;
             default:
                 mRecordVoiceBtn.finishRecord(false);
+                if (mListener != null) {
+                    mListener.onRightUpTapped();
+                }
         }
         mCurrentState = INIT_STATE;
         postInvalidate();
@@ -211,6 +221,8 @@ public class RecordControllerView extends View {
 
         void onMovedRight();
 
-        void onFinish();
+        void onRightUpTapped();
+
+        void onLeftUpTapped();
     }
 }

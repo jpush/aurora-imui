@@ -9,7 +9,7 @@
     <string name="release_send_voice_hint">松开 发送</string>
     <string name="cancel_record_voice_hint">松开手指，取消发送</string>
     <string name="preview_play_audio_hint">松开手指试听</string>
-    <string name="move_to_cancel_hint">手指上滑，取消发送</string>
+    <string name="cancel">取消</string>
     <string name="rest_record_time_hint">还可以说%s秒</string>
     <string name="time_too_short_toast">时间太短！</string>
     <string name="record_voice_permission_request">若要使用语音功能，请选择允许录音</string>

@@ -143,18 +143,17 @@
         android:minHeight="300dp"
         android:gravity="center">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/record_voice_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
             android:visibility="visible">
 
             <RelativeLayout
+                android:id="@+id/top_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp">
 
                 <Chronometer
@@ -175,26 +174,85 @@
 
             </RelativeLayout>
 
-            <FrameLayout
+            <LinearLayout
+                android:id="@+id/preview_play_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_below="@+id/top_container"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <cn.jiguang.imui.chatinput.RecordControllerView
-                    android:id="@+id/record_controller_view"
+                <cn.jiguang.imui.chatinput.ProgressButton
+                    android:id="@+id/play_audio_pb"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
 
-                <cn.jiguang.imui.chatinput.RecordVoiceButton
-                    android:id="@+id/record_btn"
-                    android:layout_width="@dimen/record_button_size"
-                    android:layout_height="@dimen/record_button_size"
-                    android:layout_gravity="center"
-                    android:background="@drawable/record_voice_mic"/>
+                    <Button
+                        android:id="@+id/cancel_play_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cancel"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:textColor="#29B5EA"
+                        android:textSize="16sp"
+                        android:background="@drawable/jmui_dialog_bottom_left_btn"/>
 
-            </FrameLayout>
+                    <Button
+                        android:id="@+id/send_voice_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/send"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:textColor="#29B5EA"
+                        android:textSize="16sp"
+                        android:background="@drawable/jmui_dialog_bottom_right_btn"/>
 
-        </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/record_content_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="visible">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <cn.jiguang.imui.chatinput.RecordControllerView
+                        android:id="@+id/record_controller_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <cn.jiguang.imui.chatinput.RecordVoiceButton
+                        android:id="@+id/record_btn"
+                        android:layout_width="@dimen/record_button_size"
+                        android:layout_height="@dimen/record_button_size"
+                        android:layout_gravity="center"
+                        android:background="@drawable/record_voice_mic"/>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
 
        <FrameLayout
            android:id="@+id/photo_container"

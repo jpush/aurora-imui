@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -48,6 +50,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -77,7 +82,10 @@ public class ChatInputView extends LinearLayout
     private ImageButton mVoiceBtn;
     private ImageButton mCameraBtn;
     private FrameLayout mMenuContainer;
-    private LinearLayout mRecordVoiceLl;
+    private RelativeLayout mRecordVoiceRl;
+    private LinearLayout mPreviewPlayLl;
+    private ProgressButton mPreviewPlayBtn;
+    private LinearLayout mRecordContentLl;
     private FrameLayout mPhotoFl;
     private RecordControllerView mRecordControllerView;
     private Chronometer mChronometer;
@@ -115,6 +123,14 @@ public class ChatInputView extends LinearLayout
     private boolean mShowSoftInput = false;
 
     private MyHandler myHandler = new MyHandler(this);
+    private long mRecordTime;
+    private boolean mPlaying = false;
+    private int mNowCount = 0;
+    private final MediaPlayer mMediaPlayer = new MediaPlayer();
+    private boolean mSetData;
+    private FileInputStream mFIS;
+    private FileDescriptor mFD;
+    private boolean mIsEarPhoneOn;
 
     private final static int SCAN_OK = 1;
     private final static int SCAN_ERROR = 0;
@@ -151,7 +167,10 @@ public class ChatInputView extends LinearLayout
         mInputMarginLeft = (Space) findViewById(R.id.input_margin_left);
         mInputMarginRight = (Space) findViewById(R.id.input_margin_right);
         mMenuContainer = (FrameLayout) findViewById(R.id.menu_container);
-        mRecordVoiceLl = (LinearLayout) findViewById(R.id.record_voice_container);
+        mRecordVoiceRl = (RelativeLayout) findViewById(R.id.record_voice_container);
+        mPreviewPlayLl = (LinearLayout) findViewById(R.id.preview_play_container);
+        mPreviewPlayBtn = (ProgressButton) findViewById(R.id.play_audio_pb);
+        mRecordContentLl = (LinearLayout) findViewById(R.id.record_content_container);
         mPhotoFl = (FrameLayout) findViewById(R.id.photo_container);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mAlbumBtn = (ImageButton) findViewById(R.id.album_ib);
@@ -179,6 +198,7 @@ public class ChatInputView extends LinearLayout
         mRecordVoiceBtn.setRecordController(mRecordControllerView);
         mPhotoBtn.setOnClickListener(this);
         mCameraBtn.setOnClickListener(this);
+        mPreviewPlayBtn.setOnClickListener(this);
         mFullScreenBtn.setOnClickListener(this);
         mRecordVideoBtn.setOnClickListener(this);
         mCaptureBtn.setOnClickListener(this);
@@ -233,6 +253,14 @@ public class ChatInputView extends LinearLayout
                 && getPaddingTop() == 0
                 && getPaddingBottom() == 0) {
         }
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+        mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                return false;
+            }
+        });
     }
 
     private void setCursor(Drawable drawable) {
@@ -297,6 +325,22 @@ public class ChatInputView extends LinearLayout
                 dismissMenuLayout();
                 mPhotoAdapter.resetCheckedState();
             }
+        } else if (view.getId() == R.id.play_audio_pb) {
+            if (!mPlaying) {
+                if (mSetData) {
+                    mMediaPlayer.start();
+                } else {
+                    playVoice();
+                }
+            } else {
+                mSetData = true;
+                mMediaPlayer.stop();
+                mChronometer.stop();
+                mPlaying = false;
+                mPreviewPlayBtn.stopPlay();
+                // TODO stop play audio
+            }
+
         } else if (view.getId() == R.id.full_screen_ib) {
             mTextureView.bringToFront();
             ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(mWidth, mHeight);
@@ -389,6 +433,79 @@ public class ChatInputView extends LinearLayout
         }
     }
 
+    private void playVoice() {
+        try {
+            mMediaPlayer.reset();
+            mFIS = new FileInputStream(mRecordVoiceBtn.getRecordFile());
+            mFD = mFIS.getFD();
+            mMediaPlayer.setDataSource(mFD);
+            if (mIsEarPhoneOn) {
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
+            } else {
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            }
+            mMediaPlayer.prepare();
+            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mChronometer.setBase(SystemClock.elapsedRealtime());
+                    mChronometer.start();
+                    mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                        @Override
+                        public void onChronometerTick(Chronometer chronometer) {
+                            if (SystemClock.elapsedRealtime() - chronometer.getBase() > mRecordTime) {
+                                chronometer.stop();
+                                mNowCount = 0;
+                            } else {
+                                mPreviewPlayBtn.setProgress(++mNowCount);
+                            }
+                        }
+                    });
+                    mp.start();
+                    mPlaying = true;
+                }
+            });
+            mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.reset();
+                    mSetData = false;
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getContext(), getContext().getString(R.string.file_not_found_toast),
+                    Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } finally {
+            try {
+                if (mFIS != null) {
+                    mFIS.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setAudioPlayByEarPhone(int state) {
+        AudioManager audioManager = (AudioManager) getContext()
+                .getSystemService(Context.AUDIO_SERVICE);
+        int currVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+        audioManager.setMode(AudioManager.MODE_IN_CALL);
+        if (state == 0) {
+            mIsEarPhoneOn = false;
+            audioManager.setSpeakerphoneOn(true);
+            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
+                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
+                    AudioManager.STREAM_VOICE_CALL);
+        } else {
+            mIsEarPhoneOn = true;
+            audioManager.setSpeakerphoneOn(false);
+            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume,
+                    AudioManager.STREAM_VOICE_CALL);
+        }
+    }
+
     private void initCamera() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mCameraSupport = new CameraNew(getContext(), mTextureView);
@@ -444,11 +561,11 @@ public class ChatInputView extends LinearLayout
     public void showRecordVoiceLayout() {
         mPhotoFl.setVisibility(GONE);
         mCameraFl.setVisibility(GONE);
-        mRecordVoiceLl.setVisibility(VISIBLE);
+        mRecordVoiceRl.setVisibility(VISIBLE);
     }
 
     public void dismissRecordVoiceLayout() {
-        mRecordVoiceLl.setVisibility(GONE);
+        mRecordVoiceRl.setVisibility(GONE);
     }
 
     public void showPhotoLayout() {
@@ -653,11 +770,32 @@ public class ChatInputView extends LinearLayout
     }
 
     @Override
-    public void onFinish() {
+    public void onLeftUpTapped() {
+        mChronometer.stop();
+        mRecordTime = convertStrTimeToLong(mChronometer.getText().toString());
+        mPreviewPlayBtn.setMax((int) (mRecordTime / 1000));
+        mChronometer.setVisibility(VISIBLE);
+        mRecordHintTv.setVisibility(INVISIBLE);
+        mPreviewPlayLl.setVisibility(VISIBLE);
+        mRecordContentLl.setVisibility(GONE);
+    }
+
+    @Override
+    public void onRightUpTapped() {
         mChronometer.stop();
         mChronometer.setVisibility(INVISIBLE);
         mRecordHintTv.setText(getContext().getString(R.string.record_voice_hint));
         mRecordHintTv.setVisibility(VISIBLE);
+    }
+
+    private long convertStrTimeToLong(String strTime) {
+        // TODO Auto-generated method stub
+        String[] timeArray = strTime.split(":");
+        long longTime = 0;
+        if (timeArray.length == 2) {//如果时间是MM:SS格式
+            longTime = Integer.parseInt(timeArray[0]) * 60 * 1000 + Integer.parseInt(timeArray[1]) * 1000;
+        }
+        return longTime;
     }
 
     /**
