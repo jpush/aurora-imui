@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
@@ -59,7 +61,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
   public void resetCheckedState() {
     mSendFiles.clear();
     for (int i = 0; i < mSelectedItems.size(); i++) {
-      if (mSelectedItems.get(i)) {    // 处于选中状态
+      // 处于选中状态
+      if (mSelectedItems.get(i)) {
         mSelectedItems.delete(i);
         mSelectedItems.put(i, false);
         notifyDataSetChanged();
@@ -71,7 +74,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
   @Override public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();
 
-    FrameLayout photoSelectLayout = (FrameLayout) LayoutInflater.from(mContext)
+    RelativeLayout photoSelectLayout = (RelativeLayout) LayoutInflater.from(mContext)
         .inflate(R.layout.item_photo_select, parent, false);
     PhotoViewHolder holder = new PhotoViewHolder(photoSelectLayout);
     return holder;
@@ -84,39 +87,50 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
       holder.container.setLayoutParams(layoutParams);
     }
 
-    FileItem photoFile = mPhotos.get(position);
-    String path = photoFile.getFilePath();
-    File photo = new File(path);
+    final FileItem item = mPhotos.get(position);
+    String path = item.getFilePath();
+    File file = new File(path);
     Glide.with(mContext)
-        .load(photo)
+        .load(file)
         .placeholder(R.drawable.jmui_picture_not_found)
         .crossFade()
         .into(holder.ivPhoto);
 
     if (position < mSelectedItems.size() && mSelectedItems.valueAt(position)) {
       if (mSelectedItems.get(position)) {
-        holder.ivSelect.setVisibility(VISIBLE);
+        holder.ivTick.setVisibility(VISIBLE);
         holder.ivShadow.setVisibility(VISIBLE);
         addSelectedAnimation(holder.ivPhoto, holder.ivShadow);
       } else {
-        holder.ivSelect.setVisibility(GONE);
+        holder.ivTick.setVisibility(GONE);
         holder.ivShadow.setVisibility(GONE);
         addDeselectedAnimation(holder.ivPhoto, holder.ivShadow);
       }
     }
 
+    if (item.getType() == FileItem.Type.Video) {
+      holder.tvDuration.setVisibility(View.VISIBLE);
+      holder.tvDuration.setText(((VideoItem) item).getDuration());
+      holder.setIsRecyclable(false);
+    }
+
     holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        if (holder.ivSelect.getVisibility() == GONE && !mSelectedItems.get(
+        if (holder.ivTick.getVisibility() == GONE && !mSelectedItems.get(
             holder.getAdapterPosition())) {
           holder.setIsRecyclable(false);
 
           mSelectedItems.put(holder.getAdapterPosition(), true);
           mSendFiles.add(mPhotos.get(holder.getAdapterPosition()).getFilePath());
 
-          holder.ivSelect.setVisibility(VISIBLE);
+          holder.ivTick.setVisibility(VISIBLE);
           holder.ivShadow.setVisibility(VISIBLE);
-          addSelectedAnimation(holder.ivPhoto, holder.ivShadow);
+
+          if (item.getType() == FileItem.Type.Video) {
+            addSelectedAnimation(holder.ivPhoto, holder.ivShadow, holder.ivTick);
+          } else {
+            addSelectedAnimation(holder.ivPhoto, holder.ivShadow);
+          }
 
           if (mListener != null) {
             mListener.onFileSelected();
@@ -127,9 +141,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
           mSelectedItems.delete(holder.getAdapterPosition());
           mSendFiles.remove(mPhotos.get(holder.getAdapterPosition()).getFilePath());
 
-          holder.ivSelect.setVisibility(GONE);
+          holder.ivTick.setVisibility(GONE);
           holder.ivShadow.setVisibility(GONE);
-          addDeselectedAnimation(holder.ivPhoto, holder.ivShadow);
+
+          if (item.getType() == FileItem.Type.Video) {
+            addDeselectedAnimation(holder.ivPhoto, holder.ivShadow, holder.ivTick);
+          } else {
+            addDeselectedAnimation(holder.ivPhoto, holder.ivShadow);
+          }
 
           if (mListener != null) {
             mListener.onFileDeselected();
@@ -182,19 +201,21 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     void onFileDeselected();
   }
 
-  public static final class PhotoViewHolder extends RecyclerView.ViewHolder {
+  static final class PhotoViewHolder extends RecyclerView.ViewHolder {
 
-    public FrameLayout container;
-    public ImageView ivPhoto;
-    public ImageView ivShadow;
-    public ImageView ivSelect;
+    View container;
+    TextView tvDuration;
+    ImageView ivPhoto;
+    ImageView ivShadow;
+    ImageView ivTick;
 
-    public PhotoViewHolder(View itemView) {
+    PhotoViewHolder(View itemView) {
       super(itemView);
-      container = (FrameLayout) itemView;
-      ivPhoto = (ImageView) itemView.findViewById(R.id.item_photo_iv);
-      ivShadow = (ImageView) itemView.findViewById(R.id.item_shadow_iv);
-      ivSelect = (ImageView) itemView.findViewById(R.id.checked_iv);
+      container = itemView;
+      tvDuration = (TextView) itemView.findViewById(R.id.text_photoselect_duration);
+      ivPhoto = (ImageView) itemView.findViewById(R.id.image_photoselect_photo);
+      ivShadow = (ImageView) itemView.findViewById(R.id.image_photoselect_shadow);
+      ivTick = (ImageView) itemView.findViewById(R.id.image_photoselect_tick);
     }
   }
 }
