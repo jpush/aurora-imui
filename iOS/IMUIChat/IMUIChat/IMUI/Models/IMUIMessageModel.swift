@@ -217,6 +217,9 @@ public class IMUIMessageModel: IMUIMessageModelProtocol {
     case .voice:
       bubbleSize = CGSize(width: 200, height: 37)
       break
+    case .video:
+      bubbleSize = CGSize(width: 200, height: 200)
+      break
     case .location:
       bubbleSize = CGSize(width: 200, height: 200)
       break

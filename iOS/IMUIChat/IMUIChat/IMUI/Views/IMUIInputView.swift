@@ -41,7 +41,7 @@ var IMUIShowFeatureViewAnimationDuration = 0.25
   @objc optional func switchIntoCameraMode(cameraBtn: UIButton)
   @objc optional func switchOutOfCameraMode()
   @objc optional func finishShootPicture(picture: Data)
-  @objc optional func finishShoootVideo(videoData: Data, durationTime: Double)
+  @objc optional func finishShootVideo(videoPath: String, durationTime: Double)
 }
 
 extension IMUIInputViewDelegate {

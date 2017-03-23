@@ -103,8 +103,6 @@ class IMUIRecordVoiceHelper: NSObject {
     
     print("Action - startRecordingWithPath:")
     self.startRecordCallBack = startRecordCompleted
-//    self.finishiRecordCallBack = finishCallback
-//    self.cancelledRecordCallBack = cancelCallback
     self.timerTickCallBack = timerTickCallback
 
     self.timerFireDate = Date()

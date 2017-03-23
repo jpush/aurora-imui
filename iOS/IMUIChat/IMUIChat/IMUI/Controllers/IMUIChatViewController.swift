@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import AVFoundation
+import MediaPlayer
 
 class IMUIChatViewController: UIViewController {
 
@@ -60,6 +61,15 @@ extension IMUIChatViewController: IMUIInputViewDelegate {
       print("write image file error")
     }
     
+  }
+  
+  func finishShootVideo(videoPath: String, durationTime: Double) {
+    
+//    let movieVP = MPMoviePlayerViewController(contentURL: URL(fileURLWithPath: videoPath))
+//    self.presentMoviePlayerViewControllerAnimated(movieVP)
+    
+//    let message = MyMessageModel(videoPath: videoPath)
+//    messageCollectionView.appendMessage(with: message)
   }
   
   func getPath() -> String {

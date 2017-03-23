@@ -28,6 +28,7 @@
                                     <constraint firstAttribute="height" constant="60" id="nWM-aq-22g"/>
                                 </constraints>
                                 <state key="normal" image="IMUIAssets.bundle/image/camera_recordVD_btn.png"/>
+                                <state key="selected" image="IMUIAssets.bundle/image/switch_camera_photo_btn.png"/>
                                 <connections>
                                     <action selector="clickToChangeCameraMode:" destination="gTV-IL-0wX" eventType="touchUpInside" id="nr2-d0-6Ow"/>
                                 </connections>
@@ -39,6 +40,7 @@
                                     <constraint firstAttribute="width" constant="56" id="VMs-Gz-uuk"/>
                                 </constraints>
                                 <state key="normal" image="IMUIAssets.bundle/image/camera_send_message_btn.png"/>
+                                <state key="selected" image="IMUIAssets.bundle/image/camera_recordVD_big_btn.png"/>
                                 <connections>
                                     <action selector="clickCameraSwitch:" destination="gTV-IL-0wX" eventType="touchUpInside" id="fMq-8f-Khm"/>
                                 </connections>
@@ -89,14 +91,20 @@
             <size key="customSize" width="364" height="245"/>
             <connections>
                 <outlet property="cameraPreviewView" destination="xKF-0A-AxD" id="6NT-bI-g6G"/>
+                <outlet property="cameraShotBtn" destination="xUn-vc-ITV" id="GxZ-Nb-gFK"/>
+                <outlet property="resizeCameraPreviewBtn" destination="IRu-3Y-U22" id="r9z-2a-uBA"/>
+                <outlet property="switchCameraDeviceBtn" destination="FWo-yF-VkR" id="Bbe-IB-Kzs"/>
+                <outlet property="switchCameraModeBtn" destination="3sF-mM-jBR" id="N57-4k-A3a"/>
             </connections>
             <point key="canvasLocation" x="182" y="149.5"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="IMUIAssets.bundle/image/camera_fullscreen_Btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/camera_recordVD_big_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/camera_recordVD_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/camera_send_message_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/switch_camera_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/switch_camera_photo_btn.png" width="16" height="16"/>
     </resources>
 </document>
