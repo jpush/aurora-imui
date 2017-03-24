@@ -449,15 +449,6 @@ extension UIInterfaceOrientation {
 
 extension IMUICameraCell: AVCaptureFileOutputRecordingDelegate {
   func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
-    print("asdfdas")
-//    BOOL recordedSuccessfully = YES;
-//    if ([error code] != noErr) {
-//      // A problem occurred: Find out if the recording was successful.
-//      id value = [[error userInfo] objectForKey:AVErrorRecordingSuccessfullyFinishedKey];
-//      if (value) {
-//        recordedSuccessfully = [value boolValue];
-//      }
-//    }
     if error == nil {
       
       self.inputViewDelegate?.finishShootVideo?(videoPath: outputFileURL.path, durationTime: captureOutput.recordedDuration.seconds)
@@ -468,7 +459,6 @@ extension IMUICameraCell: AVCaptureFileOutputRecordingDelegate {
   }
   
   func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-    print("asdfdas")
 
   }
 }

@@ -2,4 +2,70 @@
 <Bucket
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMUIChat/IMUI/Controllers/IMUIVideoFileLoader.swift"
+            timestampString = "512041053.084566"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "loadVideoFile(with:callback:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMUIChat/IMUI/Views/IMUIMessageBubbleView.swift"
+            timestampString = "512039544.239571"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "layoutVideo(with:isOutGoing:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IMUIChat.IMUIMessageBubbleView.(layoutVideo (with : Swift.String, isOutGoing : Swift.Bool) -&gt; ()).(closure #1)"
+                  moduleName = "IMUIChat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/HuminiOS/Desktop/workproject/imui/iOS/IMUIChat/IMUIChat/IMUI/Views/IMUIMessageBubbleView.swift"
+                  timestampString = "512040058.690573"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "132"
+                  endingLineNumber = "132"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IMUIChat.IMUIMessageBubbleView.(layoutVideo (with : Swift.String, isOutGoing : Swift.Bool) -&gt; ()).(closure #1).(closure #1)"
+                  moduleName = "IMUIChat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/HuminiOS/Desktop/workproject/imui/iOS/IMUIChat/IMUIChat/IMUI/Views/IMUIMessageBubbleView.swift"
+                  timestampString = "512040058.692072"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "133"
+                  endingLineNumber = "133"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -87,6 +87,9 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     case .image:
       bubbleView.layoutImage(image: UIImage(data: message.mediaData())!, isOutGoing: message.isOutGoing)
       break
+    case .video:
+      bubbleView.layoutVideo(with: message.videoPath!, isOutGoing: message.isOutGoing)
+      break
     case .location:
       break
     case .custom:

@@ -64,13 +64,32 @@ extension IMUIChatViewController: IMUIInputViewDelegate {
   }
   
   func finishShootVideo(videoPath: String, durationTime: Double) {
-    
-//    let movieVP = MPMoviePlayerViewController(contentURL: URL(fileURLWithPath: videoPath))
-//    self.presentMoviePlayerViewControllerAnimated(movieVP)
-    
-//    let message = MyMessageModel(videoPath: videoPath)
-//    messageCollectionView.appendMessage(with: message)
+    let message = MyMessageModel(videoPath: videoPath)
+    self.messageCollectionView.appendMessage(with: message)
+//    do {
+//      let videoAsset = AVAsset(url: URL(fileURLWithPath: videoPath))
+//      let reader = try AVAssetReader(asset: videoAsset)
+//      let videoTracks = videoAsset.tracks(withMediaType: AVMediaTypeVideo)
+//      let videoTrack = videoTracks[0]
+//
+//      let options = [String(kCVPixelBufferPixelFormatTypeKey): kCVPixelFormatType_32BGRA]
+//      let videoReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings: options)
+//      reader.add(videoReaderOutput)
+//      reader.startReading()
+//      
+//      while reader.status == .reading && videoTrack.nominalFrameRate > 0 {
+//        let videoBuffer = videoReaderOutput.copyNextSampleBuffer()
+//        if videoBuffer == nil { return }
+//        
+//        let image = self.imageFromSampleBuffer(sampleBuffer: videoBuffer!)
+//        self.
+//      }
+//      
+//    } catch {
+//      print("can not load video file")
+//    }
   }
+  
   
   func getPath() -> String {
     var recorderPath:String? = nil

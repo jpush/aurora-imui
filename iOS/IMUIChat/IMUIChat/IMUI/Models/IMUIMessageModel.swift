@@ -36,6 +36,8 @@ public enum IMUIMessageReceiveStatus {
   @objc optional func mediaData() -> Data
   
   @objc optional func textMessage() -> String
+  
+  @objc optional var videoPath: String? { get }
 }
 
 //extension IMUIMessageModelProtocol {
@@ -185,7 +187,9 @@ public class IMUIMessageModel: IMUIMessageModelProtocol {
     return Data()
   }
   
-
+  public var videoPath: String? {
+    return nil
+  }
   
   open func calculateBubbleSize() -> CGSize {
     var bubbleSize: CGSize!

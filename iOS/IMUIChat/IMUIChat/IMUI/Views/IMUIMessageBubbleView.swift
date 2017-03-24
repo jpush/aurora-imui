@@ -25,6 +25,9 @@ class IMUIMessageBubbleView: UIView {
   var imageView: UIImageView
   var textMessageLable: IMUITextView
   var voiceImg: UIImageView
+  
+  var videoReader = IMUIVideoFileLoader()
+  
   var isActivity: Bool = false {
     didSet {
       switch bubbleType! {
@@ -119,6 +122,17 @@ class IMUIMessageBubbleView: UIView {
       self.voiceImg.center = CGPoint(x: frame.width - 20, y: frame.height/2)
     }
     
+  }
+  
+  func layoutVideo(with videoPath: String, isOutGoing: Bool) {
+    voiceImg.isHidden = true
+    imageView.isHidden = false
+    self.setupBubbleImage(isOutgoing: isOutGoing)
+    self.videoReader.loadVideoFile(with: URL(fileURLWithPath: videoPath)) { (videoFrameImage) in
+      DispatchQueue.main.async {
+        self.imageView.image = videoFrameImage
+      }
+    }
   }
   
   func setupBubbleImage(isOutgoing: Bool) {

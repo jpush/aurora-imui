@@ -24,6 +24,11 @@ class MyMessageModel: IMUIMessageModel {
   open var myTextMessage: String = ""
   var mediaPath: String = ""
   
+  override var videoPath: String! {
+    if self.type != .video { return nil }
+    
+    return mediaPath
+  }
   init(msgId: String, fromUser: IMUIUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String) {
     self.myTextMessage = text
     self.mediaPath = mediaPath
