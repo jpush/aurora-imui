@@ -39,21 +39,18 @@ public class ProgressButton extends Button {
      */
     private int mMax;
 
-    /**
-     * 当前进度
-     */
-    private int mProgress;
+    private int mPercent;
+    private float mCurrentPercent;
 
-    /**
-     * 进度的风格，实心或者空心
-     */
-    private int mStyle;
     private boolean mPlaying;
     private Bitmap mPlayBmp;
     private Bitmap mPauseBmp;
-
-    public static final int STROKE = 0;
-    public static final int FILL = 1;
+    private int mCacheAngle;
+    private ProgressThread mThread;
+    private int mCurrentState = 0;
+    private static final int INIT_STATE = 0;
+    private static final int PLAYING_STATE = 1;
+    private static final int PAUSE_STATE = 2;
 
     public ProgressButton(Context context) {
         this(context, null);
@@ -65,9 +62,7 @@ public class ProgressButton extends Button {
 
     public ProgressButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         mPaint = new Paint();
-
         mPlayBmp = BitmapFactory.decodeResource(getResources(), R.drawable.play_audio);
         mPauseBmp = BitmapFactory.decodeResource(getResources(), R.drawable.pause_play_audio);
         TypedArray typedArray = context.obtainStyledAttributes(attrs,
@@ -78,7 +73,6 @@ public class ProgressButton extends Button {
         mRoundProgressColor = typedArray.getColor(R.styleable.ProgressButton_roundProgressColor, Color.GREEN);
         mRoundWidth = typedArray.getDimension(R.styleable.ProgressButton_roundWidth, 5);
         mMax = typedArray.getInteger(R.styleable.ProgressButton_max, 100);
-        mStyle = typedArray.getInt(R.styleable.ProgressButton_style, 0);
 
         typedArray.recycle();
     }
@@ -87,54 +81,101 @@ public class ProgressButton extends Button {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        int angle = (int) Math.ceil(mCurrentPercent * 3.6);
+        if (mCurrentState == PAUSE_STATE) {
+            mCacheAngle = angle;
+        }
         /**
          * 画最外层的大圆环
          */
         int centerX = getWidth()/2; //获取圆心的x坐标
         int centerY = getHeight() / 2;
         int radius = (int) (centerX - mRoundWidth /2); //圆环的半径
-        mPaint.setColor(mRoundColor); //设置圆环的颜色
-        mPaint.setStyle(Paint.Style.STROKE); //设置空心
-        mPaint.setStrokeWidth(mRoundWidth); //设置圆环的宽度
-        mPaint.setAntiAlias(true);  //消除锯齿
-        canvas.drawCircle(centerX, centerX, radius, mPaint); //画出圆环
-
-        Log.e("log", centerX + "");
-
         /**
          * 画圆弧 ，画圆环的进度
          */
 
-        //设置进度是实心还是空心
-        mPaint.setStrokeWidth(mRoundWidth); //设置圆环的宽度
-        mPaint.setColor(mRoundProgressColor);  //设置进度的颜色
-        RectF oval = new RectF(centerX - radius / 2, centerX - radius / 2, centerX
-                + radius / 2, centerX + radius / 2);  //用于定义的圆弧的形状和大小的界限
-        Rect rect = new Rect(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
-        switch (mStyle) {
-            case STROKE:{
-                mPaint.setStyle(Paint.Style.STROKE);
-                canvas.drawArc(oval, 0, 360 * mProgress / mMax, false, mPaint);  //根据进度画圆弧
-                break;
-            }
-            case FILL:{
-                mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-                if(mProgress !=0)
-                    canvas.drawArc(oval, 0, 360 * mProgress / mMax, true, mPaint);  //根据进度画圆弧
-                break;
-            }
-        }
 
-        if (mPlaying) {
-            canvas.drawBitmap(mPauseBmp, null, rect, mPaint);
-        } else {
-            canvas.drawBitmap(mPlayBmp, null, rect, mPaint);
+        RectF oval = new RectF(centerX - radius, centerX - radius, centerX + radius,
+                centerX + radius);  //用于定义的圆弧的形状和大小的界限
+        Rect rect = new Rect(centerX - radius / 2, centerY - radius / 2, centerX + radius / 2, centerY + radius / 2);
+        Rect rect2 = new Rect(centerX - radius / 2 + 10, centerY - radius / 2, centerX + radius / 2 + 10, centerY + radius / 2);
+
+
+        switch (mCurrentState) {
+            case INIT_STATE:
+                mPaint.setColor(mRoundColor); //设置圆环的颜色
+                mPaint.setStyle(Paint.Style.STROKE); //设置空心
+                mPaint.setStrokeWidth(mRoundWidth); //设置圆环的宽度
+                mPaint.setAntiAlias(true);  //消除锯齿
+                canvas.drawCircle(centerX, centerX, radius, mPaint); //画出圆环
+                canvas.drawBitmap(mPlayBmp, null, rect2, mPaint);
+                mCurrentPercent = 0;
+                break;
+            case PLAYING_STATE:
+                mPaint.setColor(mRoundColor); //设置圆环的颜色
+                mPaint.setStyle(Paint.Style.STROKE); //设置空心
+                mPaint.setStrokeWidth(mRoundWidth); //设置圆环的宽度
+                mPaint.setAntiAlias(true);  //消除锯齿
+                canvas.drawCircle(centerX, centerX, radius, mPaint); //画出圆环
+                //设置进度是实心还是空心
+                mPaint.setStrokeWidth(mRoundWidth); //设置圆环的宽度
+                mPaint.setColor(mRoundProgressColor);  //设置进度的颜色
+                canvas.drawArc(oval, 270, angle, false, mPaint);  //根据进度画圆弧
+                canvas.drawBitmap(mPauseBmp, null, rect, mPaint);
+                break;
+            case PAUSE_STATE:
+                mPaint.setColor(mRoundColor); //设置圆环的颜色
+                mPaint.setStyle(Paint.Style.STROKE); //设置空心
+                mPaint.setStrokeWidth(mRoundWidth); //设置圆环的宽度
+                mPaint.setAntiAlias(true);  //消除锯齿
+                canvas.drawCircle(centerX, centerX, radius, mPaint); //画出圆环
+                //设置进度是实心还是空心
+                mPaint.setStrokeWidth(mRoundWidth); //设置圆环的宽度
+                mPaint.setColor(mRoundProgressColor);  //设置进度的颜色
+                canvas.drawArc(oval, 270, mCacheAngle, false, mPaint);  //根据进度画圆弧
+                canvas.drawBitmap(mPlayBmp, null, rect2, mPaint);
+                break;
         }
+    }
+
+    public void startPlay(float progress) {
+        mCurrentPercent = (progress / mMax) * 100;
+        if (mThread == null) {
+            mThread = new ProgressThread();
+            mThread.setProgress(mCurrentPercent);
+            mThread.start();
+        }
+        mThread.play();
+        mCurrentState = PLAYING_STATE;
+    }
+
+
+    public void stopPlay() {
+            mCurrentState = PAUSE_STATE;
+            postInvalidate();
+            if (mThread != null) {
+                mThread.exit();
+                mThread.stop();
+                mThread = null;
+            }
+            postInvalidate();
 
     }
 
-    public void stopPlay() {
-        mPlaying = false;
+    public void finishPlay() {
+        mCurrentState = INIT_STATE;
+        try {
+            if (mThread != null) {
+                mThread.exit();
+                mThread.join();
+                mThread = null;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mCurrentPercent = 0;
+        mCacheAngle = 0;
         postInvalidate();
     }
 
@@ -158,25 +199,40 @@ public class ProgressButton extends Button {
      * @return
      */
     public synchronized int getProgress() {
-        return mProgress;
+        return mPercent;
     }
 
-    /**
-     * 设置进度，此为线程安全控件，由于考虑多线的问题，需要同步
-     * 刷新界面调用postInvalidate()能在非UI线程刷新
-     * @param progress
-     */
-    public synchronized void setProgress(int progress) {
-        if(progress < 0){
-            throw new IllegalArgumentException("mProgress not less than 0");
+    private class ProgressThread extends Thread {
+
+        private volatile boolean running = true;
+        private float mPercent = 0;
+
+        public void exit() {
+            running = false;
         }
-        mPlaying = true;
-        if(progress > mMax){
-            progress = mMax;
+
+        public void play() {
+            running = true;
         }
-        if(progress <= mMax){
-            this.mProgress = progress;
-            postInvalidate();
+
+        public void setProgress(float currentPercent) {
+            mPercent = currentPercent;
+        }
+
+        @Override
+        public void run() {
+            while (running) {
+                for (int i = (int) mPercent; i <= 100; i++) {
+                    try {
+                        Thread.sleep(10 * mMax);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("ProgressButton", "thread running, percent: " + i);
+                    mCurrentPercent = i;
+                    postInvalidate();
+                }
+            }
         }
 
     }

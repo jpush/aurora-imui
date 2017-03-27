@@ -46,9 +46,5 @@
         <attr name="roundProgressColor" format="color"/>
         <attr name="roundWidth" format="dimension" />
         <attr name="max" format="integer" />
-        <attr name="style">
-            <enum name="STROKE" value="0" />
-            <enum name="FILL" value="1" />
-        </attr>
     </declare-styleable>
 </resources>

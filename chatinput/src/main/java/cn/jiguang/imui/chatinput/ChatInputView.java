@@ -42,7 +42,6 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -57,7 +56,6 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -328,13 +326,20 @@ public class ChatInputView extends LinearLayout
         } else if (view.getId() == R.id.play_audio_pb) {
             if (!mPlaying) {
                 if (mSetData) {
+                    Log.e("ChatInputView", "restart play audio");
                     mMediaPlayer.start();
+                    mPlaying = true;
+                    mPreviewPlayBtn.startPlay(mNowCount);
+                    mChronometer.setBase(convertStrTimeToLong(mChronometer.getText().toString()));
+                    mChronometer.start();
                 } else {
+                    Log.e("ChatInputView", "start play audio");
                     playVoice();
                 }
             } else {
+                Log.e("ChatInputView", "Pause playing");
                 mSetData = true;
-                mMediaPlayer.stop();
+                mMediaPlayer.pause();
                 mChronometer.stop();
                 mPlaying = false;
                 mPreviewPlayBtn.stopPlay();
@@ -447,17 +452,21 @@ public class ChatInputView extends LinearLayout
             mMediaPlayer.prepare();
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
-                public void onPrepared(MediaPlayer mp) {
+                public void onPrepared(final MediaPlayer mp) {
                     mChronometer.setBase(SystemClock.elapsedRealtime());
                     mChronometer.start();
+                    mPreviewPlayBtn.startPlay(0);
                     mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                         @Override
                         public void onChronometerTick(Chronometer chronometer) {
-                            if (SystemClock.elapsedRealtime() - chronometer.getBase() > mRecordTime) {
+                            ++mNowCount;
+                            if (mNowCount > mRecordTime / 1000) {
                                 chronometer.stop();
+                                mp.stop();
+                                Log.e("ChatInputView", "stop play audio");
+                                mPreviewPlayBtn.finishPlay();
+                                mPlaying = false;
                                 mNowCount = 0;
-                            } else {
-                                mPreviewPlayBtn.setProgress(++mNowCount);
                             }
                         }
                     });
@@ -470,6 +479,7 @@ public class ChatInputView extends LinearLayout
                 public void onCompletion(MediaPlayer mp) {
                     mp.reset();
                     mSetData = false;
+                    Log.e("ChatInputView", "Finish play audio");
                 }
             });
         } catch (Exception e) {
@@ -772,7 +782,7 @@ public class ChatInputView extends LinearLayout
     @Override
     public void onLeftUpTapped() {
         mChronometer.stop();
-        mRecordTime = convertStrTimeToLong(mChronometer.getText().toString());
+        mRecordTime = SystemClock.elapsedRealtime() - mChronometer.getBase();
         mPreviewPlayBtn.setMax((int) (mRecordTime / 1000));
         mChronometer.setVisibility(VISIBLE);
         mRecordHintTv.setVisibility(INVISIBLE);
@@ -795,7 +805,7 @@ public class ChatInputView extends LinearLayout
         if (timeArray.length == 2) {//如果时间是MM:SS格式
             longTime = Integer.parseInt(timeArray[0]) * 60 * 1000 + Integer.parseInt(timeArray[1]) * 1000;
         }
-        return longTime;
+        return SystemClock.elapsedRealtime() - longTime;
     }
 
     /**
