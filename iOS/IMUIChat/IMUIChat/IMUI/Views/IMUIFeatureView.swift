@@ -39,12 +39,9 @@ class IMUIFeatureView: UIView {
   var currentType:IMUIFeatureType = .none
   
   open weak var inputViewDelegate: IMUIInputViewDelegate?
-  
-  lazy var galleryDataManager = IMUIGalleryDataManager()
-  
+    
   open override func awakeFromNib() {
     super.awakeFromNib()
-
     self.setupAllViews()
   }
   
@@ -62,6 +59,7 @@ class IMUIFeatureView: UIView {
     self.featureCollectionView.delegate = self
     self.featureCollectionView.dataSource = self
     self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: nil), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
+    self.featureCollectionView.register(UINib(nibName: "IMUIGalleryCell", bundle: nil), forCellWithReuseIdentifier: "IMUIGalleryCell")
     self.featureCollectionView.register(UINib(nibName: "IMUICameraCell", bundle: nil), forCellWithReuseIdentifier: "IMUICameraCell")
     self.showGalleryBtn.isHidden = true
   }
@@ -119,10 +117,9 @@ class IMUIFeatureView: UIView {
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    
     switch currentType {
     case .gallery:
-      return galleryDataManager.count
+      return IMUIGalleryDataManager.allAssets.count
     case .none:
       return 0
     default:
@@ -137,10 +134,9 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-    
     switch currentType {
     case .gallery:
-      return CGSize.zero
+        return self.featureCollectionView.imui_size
     default:
       return self.featureCollectionView.imui_size
     }
@@ -156,6 +152,30 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
     switch currentType {
+<<<<<<< HEAD
+        case .voice:
+            CellIdentifier = "IMUIRecordVoiceCell"
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIRecordVoiceCell
+            cell.inputViewDelegate = self.inputViewDelegate
+            return cell
+        case .camera:
+            CellIdentifier = "IMUICameraCell"
+        break
+        case .location:
+        break
+        case .gallery:
+            CellIdentifier = "IMUIGalleryCell"
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIGalleryCell
+            cell.asset = IMUIGalleryDataManager.allAssets[indexPath.row]
+            return cell
+        default:
+        break
+    }
+
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath)
+    
+    return cell
+=======
     case .voice:
       CellIdentifier = "IMUIRecordVoiceCell"
     case .camera:
@@ -171,6 +191,10 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocal
     cell.inputViewDelegate = self.inputViewDelegate!
     return cell as! UICollectionViewCell
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/dev
+>>>>>>> Stashed changes
   }
   
   func collectionView(_ collectionView: UICollectionView,
