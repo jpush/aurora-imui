@@ -152,30 +152,6 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
     switch currentType {
-<<<<<<< HEAD
-        case .voice:
-            CellIdentifier = "IMUIRecordVoiceCell"
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIRecordVoiceCell
-            cell.inputViewDelegate = self.inputViewDelegate
-            return cell
-        case .camera:
-            CellIdentifier = "IMUICameraCell"
-        break
-        case .location:
-        break
-        case .gallery:
-            CellIdentifier = "IMUIGalleryCell"
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIGalleryCell
-            cell.asset = IMUIGalleryDataManager.allAssets[indexPath.row]
-            return cell
-        default:
-        break
-    }
-
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath)
-    
-    return cell
-=======
     case .voice:
       CellIdentifier = "IMUIRecordVoiceCell"
     case .camera:
@@ -184,17 +160,16 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     case .location:
       break
     case .gallery:
-      break
+        CellIdentifier = "IMUIGalleryCell"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIGalleryCell
+        cell.asset = IMUIGalleryDataManager.allAssets[indexPath.row]
+        return cell
     default:
       break
     }
     var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocal
     cell.inputViewDelegate = self.inputViewDelegate!
     return cell as! UICollectionViewCell
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/dev
->>>>>>> Stashed changes
   }
   
   func collectionView(_ collectionView: UICollectionView,
