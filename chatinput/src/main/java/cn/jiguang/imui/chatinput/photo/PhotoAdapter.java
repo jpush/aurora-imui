@@ -1,4 +1,4 @@
-package cn.jiguang.imui.chatinput;
+package cn.jiguang.imui.chatinput.photo;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -19,6 +19,11 @@ import com.bumptech.glide.Glide;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jiguang.imui.chatinput.utils.DisplayUtil;
+import cn.jiguang.imui.chatinput.utils.FileItem;
+import cn.jiguang.imui.chatinput.R;
+import cn.jiguang.imui.chatinput.utils.VideoItem;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;

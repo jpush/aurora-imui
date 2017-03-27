@@ -1,9 +1,8 @@
-package cn.jiguang.imui.chatinput;
+package cn.jiguang.imui.chatinput.record;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -19,6 +18,8 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import cn.jiguang.imui.chatinput.R;
 
 
 public class RecordVoiceButton extends ImageButton {

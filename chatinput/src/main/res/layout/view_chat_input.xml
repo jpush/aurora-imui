@@ -183,7 +183,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <cn.jiguang.imui.chatinput.ProgressButton
+                <cn.jiguang.imui.chatinput.record.ProgressButton
                     android:id="@+id/play_audio_pb"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -196,7 +196,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/cancel_play_btn"
+                        android:id="@+id/cancel_send_audio_btn"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/cancel"
@@ -234,12 +234,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp">
 
-                    <cn.jiguang.imui.chatinput.RecordControllerView
+                    <cn.jiguang.imui.chatinput.record.RecordControllerView
                         android:id="@+id/record_controller_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <cn.jiguang.imui.chatinput.RecordVoiceButton
+                    <cn.jiguang.imui.chatinput.record.RecordVoiceButton
                         android:id="@+id/record_btn"
                         android:layout_width="@dimen/record_button_size"
                         android:layout_height="@dimen/record_button_size"

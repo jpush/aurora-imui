@@ -1,4 +1,6 @@
-package cn.jiguang.imui.chatinput;
+package cn.jiguang.imui.chatinput.utils;
+
+import cn.jiguang.imui.chatinput.utils.FileItem;
 
 /**
  * 视频类

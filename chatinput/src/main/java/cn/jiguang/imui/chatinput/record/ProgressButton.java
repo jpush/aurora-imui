@@ -1,4 +1,4 @@
-package cn.jiguang.imui.chatinput;
+package cn.jiguang.imui.chatinput.record;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,6 +12,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Button;
+
+import cn.jiguang.imui.chatinput.R;
 
 import static android.R.attr.textColor;
 
@@ -45,7 +47,7 @@ public class ProgressButton extends Button {
     private boolean mPlaying;
     private Bitmap mPlayBmp;
     private Bitmap mPauseBmp;
-    private int mCacheAngle;
+    private int mEndAngle;
     private ProgressThread mThread;
     private int mCurrentState = 0;
     private static final int INIT_STATE = 0;
@@ -81,16 +83,13 @@ public class ProgressButton extends Button {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int angle = (int) Math.ceil(mCurrentPercent * 3.6);
-        if (mCurrentState == PAUSE_STATE) {
-            mCacheAngle = angle;
-        }
+        mEndAngle = (int) Math.ceil(mCurrentPercent * 3.6);
         /**
          * 画最外层的大圆环
          */
-        int centerX = getWidth()/2; //获取圆心的x坐标
+        int centerX = getWidth() / 2; //获取圆心的x坐标
         int centerY = getHeight() / 2;
-        int radius = (int) (centerX - mRoundWidth /2); //圆环的半径
+        int radius = (int) (centerX - mRoundWidth / 2); //圆环的半径
         /**
          * 画圆弧 ，画圆环的进度
          */
@@ -121,7 +120,7 @@ public class ProgressButton extends Button {
                 //设置进度是实心还是空心
                 mPaint.setStrokeWidth(mRoundWidth); //设置圆环的宽度
                 mPaint.setColor(mRoundProgressColor);  //设置进度的颜色
-                canvas.drawArc(oval, 270, angle, false, mPaint);  //根据进度画圆弧
+                canvas.drawArc(oval, 270, mEndAngle, false, mPaint);  //根据进度画圆弧
                 canvas.drawBitmap(mPauseBmp, null, rect, mPaint);
                 break;
             case PAUSE_STATE:
@@ -133,7 +132,7 @@ public class ProgressButton extends Button {
                 //设置进度是实心还是空心
                 mPaint.setStrokeWidth(mRoundWidth); //设置圆环的宽度
                 mPaint.setColor(mRoundProgressColor);  //设置进度的颜色
-                canvas.drawArc(oval, 270, mCacheAngle, false, mPaint);  //根据进度画圆弧
+                canvas.drawArc(oval, 270, mEndAngle, false, mPaint);  //根据进度画圆弧
                 canvas.drawBitmap(mPlayBmp, null, rect2, mPaint);
                 break;
         }
@@ -152,14 +151,14 @@ public class ProgressButton extends Button {
 
 
     public void stopPlay() {
-            mCurrentState = PAUSE_STATE;
-            postInvalidate();
-            if (mThread != null) {
-                mThread.exit();
-                mThread.stop();
-                mThread = null;
-            }
-            postInvalidate();
+        mCurrentState = PAUSE_STATE;
+        postInvalidate();
+        if (mThread != null) {
+            mThread.exit();
+            mThread.stop();
+            mThread = null;
+        }
+        postInvalidate();
 
     }
 
@@ -175,7 +174,6 @@ public class ProgressButton extends Button {
             e.printStackTrace();
         }
         mCurrentPercent = 0;
-        mCacheAngle = 0;
         postInvalidate();
     }
 
@@ -185,10 +183,11 @@ public class ProgressButton extends Button {
 
     /**
      * 设置进度的最大值
+     *
      * @param max
      */
     public synchronized void setMax(int max) {
-        if(max < 0){
+        if (max < 0) {
             throw new IllegalArgumentException("mMax not less than 0");
         }
         this.mMax = max;
@@ -196,6 +195,7 @@ public class ProgressButton extends Button {
 
     /**
      * 获取进度.需要同步
+     *
      * @return
      */
     public synchronized int getProgress() {

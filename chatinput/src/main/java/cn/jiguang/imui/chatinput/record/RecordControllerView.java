@@ -1,4 +1,4 @@
-package cn.jiguang.imui.chatinput;
+package cn.jiguang.imui.chatinput.record;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +11,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+
+import cn.jiguang.imui.chatinput.R;
 
 
 public class RecordControllerView extends View {

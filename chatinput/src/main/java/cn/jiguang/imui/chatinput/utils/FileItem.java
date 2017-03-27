@@ -1,9 +1,7 @@
-package cn.jiguang.imui.chatinput;
+package cn.jiguang.imui.chatinput.utils;
 
 import android.support.annotation.NonNull;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class FileItem implements Comparable<FileItem> {
 
@@ -81,7 +79,7 @@ public class FileItem implements Comparable<FileItem> {
     return (int) (Long.valueOf(fileItem.getDate()) - Long.valueOf(mDate));
   }
 
-  enum Type {
+  public enum Type {
     Image, Video
   }
 }

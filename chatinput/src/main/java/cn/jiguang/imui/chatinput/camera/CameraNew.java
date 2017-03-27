@@ -1,4 +1,4 @@
-package cn.jiguang.imui.chatinput;
+package cn.jiguang.imui.chatinput.camera;
 
 import android.Manifest;
 import android.app.Activity;
@@ -25,7 +25,6 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.io.File;

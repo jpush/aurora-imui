@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -59,6 +60,17 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import cn.jiguang.imui.chatinput.camera.CameraNew;
+import cn.jiguang.imui.chatinput.camera.CameraOld;
+import cn.jiguang.imui.chatinput.camera.CameraSupport;
+import cn.jiguang.imui.chatinput.camera.OnCameraCallbackListener;
+import cn.jiguang.imui.chatinput.photo.PhotoAdapter;
+import cn.jiguang.imui.chatinput.record.ProgressButton;
+import cn.jiguang.imui.chatinput.record.RecordControllerView;
+import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
+import cn.jiguang.imui.chatinput.utils.FileItem;
+import cn.jiguang.imui.chatinput.utils.VideoItem;
 
 public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
@@ -83,6 +95,8 @@ public class ChatInputView extends LinearLayout
     private RelativeLayout mRecordVoiceRl;
     private LinearLayout mPreviewPlayLl;
     private ProgressButton mPreviewPlayBtn;
+    private Button mSendAudioBtn;
+    private Button mCancelSendAudioBtn;
     private LinearLayout mRecordContentLl;
     private FrameLayout mPhotoFl;
     private RecordControllerView mRecordControllerView;
@@ -175,6 +189,8 @@ public class ChatInputView extends LinearLayout
         mRecordControllerView = (RecordControllerView) findViewById(R.id.record_controller_view);
         mChronometer = (Chronometer) findViewById(R.id.chronometer);
         mRecordHintTv = (TextView) findViewById(R.id.record_hint_tv);
+        mSendAudioBtn = (Button) findViewById(R.id.send_voice_btn);
+        mCancelSendAudioBtn = (Button) findViewById(R.id.cancel_send_audio_btn);
         mRecordVoiceBtn = (RecordVoiceButton) findViewById(R.id.record_btn);
         mCameraFl = (FrameLayout) findViewById(R.id.camera_container);
         mTextureView = (TextureView) findViewById(R.id.camera_texture_view);
@@ -197,6 +213,8 @@ public class ChatInputView extends LinearLayout
         mPhotoBtn.setOnClickListener(this);
         mCameraBtn.setOnClickListener(this);
         mPreviewPlayBtn.setOnClickListener(this);
+        mCancelSendAudioBtn.setOnClickListener(this);
+        mSendAudioBtn.setOnClickListener(this);
         mFullScreenBtn.setOnClickListener(this);
         mRecordVideoBtn.setOnClickListener(this);
         mCaptureBtn.setOnClickListener(this);
@@ -346,6 +364,18 @@ public class ChatInputView extends LinearLayout
                 // TODO stop play audio
             }
 
+        } else if (view.getId() == R.id.cancel_send_audio_btn) {
+            mPreviewPlayLl.setVisibility(GONE);
+            mRecordContentLl.setVisibility(VISIBLE);
+            mRecordVoiceBtn.cancelRecord();
+            mMediaPlayer.release();
+            mChronometer.setText("00:00");
+        } else if (view.getId() == R.id.send_voice_btn) {
+            mPreviewPlayLl.setVisibility(GONE);
+            dismissMenuLayout();
+            mMediaPlayer.release();
+            mRecordVoiceBtn.finishRecord();
+            mChronometer.setText("00:00");
         } else if (view.getId() == R.id.full_screen_ib) {
             mTextureView.bringToFront();
             ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(mWidth, mHeight);
@@ -454,13 +484,12 @@ public class ChatInputView extends LinearLayout
                 @Override
                 public void onPrepared(final MediaPlayer mp) {
                     mChronometer.setBase(SystemClock.elapsedRealtime());
-                    mChronometer.start();
                     mPreviewPlayBtn.startPlay(0);
+                    mChronometer.start();
                     mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                         @Override
                         public void onChronometerTick(Chronometer chronometer) {
-                            ++mNowCount;
-                            if (mNowCount > mRecordTime / 1000) {
+                            if (SystemClock.elapsedRealtime() - chronometer.getBase() > mRecordTime) {
                                 chronometer.stop();
                                 mp.stop();
                                 Log.e("ChatInputView", "stop play audio");
@@ -572,6 +601,7 @@ public class ChatInputView extends LinearLayout
         mPhotoFl.setVisibility(GONE);
         mCameraFl.setVisibility(GONE);
         mRecordVoiceRl.setVisibility(VISIBLE);
+        mRecordContentLl.setVisibility(VISIBLE);
     }
 
     public void dismissRecordVoiceLayout() {
@@ -782,7 +812,7 @@ public class ChatInputView extends LinearLayout
     @Override
     public void onLeftUpTapped() {
         mChronometer.stop();
-        mRecordTime = SystemClock.elapsedRealtime() - mChronometer.getBase();
+        mRecordTime = convertStrTimeToLong(mChronometer.getText().toString());
         mPreviewPlayBtn.setMax((int) (mRecordTime / 1000));
         mChronometer.setVisibility(VISIBLE);
         mRecordHintTv.setVisibility(INVISIBLE);
@@ -805,7 +835,7 @@ public class ChatInputView extends LinearLayout
         if (timeArray.length == 2) {//如果时间是MM:SS格式
             longTime = Integer.parseInt(timeArray[0]) * 60 * 1000 + Integer.parseInt(timeArray[1]) * 1000;
         }
-        return SystemClock.elapsedRealtime() - longTime;
+        return longTime;
     }
 
     /**

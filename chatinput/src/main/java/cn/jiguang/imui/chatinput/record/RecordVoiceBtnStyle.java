@@ -1,10 +1,12 @@
-package cn.jiguang.imui.chatinput;
+package cn.jiguang.imui.chatinput.record;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
+import cn.jiguang.imui.chatinput.R;
+import cn.jiguang.imui.chatinput.Style;
 
 
 public class RecordVoiceBtnStyle extends Style {

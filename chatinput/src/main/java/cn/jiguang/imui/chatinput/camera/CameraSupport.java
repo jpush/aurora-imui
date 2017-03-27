@@ -1,4 +1,4 @@
-package cn.jiguang.imui.chatinput;
+package cn.jiguang.imui.chatinput.camera;
 
 import java.io.File;
 
