@@ -5,7 +5,7 @@
 ## Usage
 
 ## Contribute
-Please contribute! [Look at the issues](https://github.com/jpush/jpush-phonegap-plugin/issues).
+Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
 
 ## License
 MIT © [JiGuang](/LICENSE)
