@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
@@ -81,6 +82,7 @@ public class ChatInputView extends LinearLayout
     public static final byte KEYBOARD_STATE_INIT = -1;
 
     public static final int REQUEST_CODE_TAKE_PHOTO = 0x0001;
+    public static final int REQUEST_CODE_SELECT_PHOTO = 0x0002;
 
     private EditText mChatInput;
     private FrameLayout mSendBtnFl;
@@ -152,6 +154,8 @@ public class ChatInputView extends LinearLayout
     private int mCameraId = -1;
     private boolean mBackCamera = true;
 
+    private Context mContext;
+
     public ChatInputView(Context context) {
         super(context);
         init(context);
@@ -168,6 +172,7 @@ public class ChatInputView extends LinearLayout
     }
 
     private void init(Context context) {
+        mContext = context;
         inflate(context, R.layout.view_chat_input, this);
         mChatInput = (EditText) findViewById(R.id.chat_input_et);
         mVoiceBtn = (ImageButton) findViewById(R.id.voice_ib);
@@ -219,6 +224,21 @@ public class ChatInputView extends LinearLayout
         mRecordVideoBtn.setOnClickListener(this);
         mCaptureBtn.setOnClickListener(this);
         mSwitchCameraBtn.setOnClickListener(this);
+
+        // 从相册选择图片
+        mAlbumBtn.setOnClickListener(this);
+        mAlbumBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mContext instanceof Activity) {
+                    return;
+                }
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivity(intent, REQUEST_CODE_SELECT_PHOTO);
+            }
+        });
+
         mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = ((Activity) context).getWindow();
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -264,10 +284,8 @@ public class ChatInputView extends LinearLayout
         mSendBtn.setImageDrawable(mStyle.getSendBtnIcon());
         mSendCountTv.setBackground(mStyle.getSendCountBg());
 
-        if (getPaddingLeft() == 0
-                && getPaddingRight() == 0
-                && getPaddingTop() == 0
-                && getPaddingBottom() == 0) {
+        if (getPaddingLeft() == 0 && getPaddingRight() == 0 && getPaddingTop() == 0 && getPaddingBottom() == 0) {
+
         }
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -363,7 +381,6 @@ public class ChatInputView extends LinearLayout
                 mPreviewPlayBtn.stopPlay();
                 // TODO stop play audio
             }
-
         } else if (view.getId() == R.id.cancel_send_audio_btn) {
             mPreviewPlayLl.setVisibility(GONE);
             mRecordContentLl.setVisibility(VISIBLE);
@@ -973,8 +990,8 @@ public class ChatInputView extends LinearLayout
         while (cursor.moveToNext()) {
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
             String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
-            String duration = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
             String date = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED));
+            long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
             VideoItem item = new VideoItem(path, name, null, date, duration);
             item.setType(FileItem.Type.Video);
             mMedias.add(item);
