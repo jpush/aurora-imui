@@ -53,6 +53,7 @@ public class ChatView extends RelativeLayout {
         mMenuLl = (LinearLayout) findViewById(R.id.menu_item_container);
         mChatInput = (ChatInputView) findViewById(R.id.chat_input);
         mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
+        mChatInput.setMenuContainerHeight(500);
     }
 
     public void setMenuClickListener(ChatInputView.OnMenuClickListener listener) {

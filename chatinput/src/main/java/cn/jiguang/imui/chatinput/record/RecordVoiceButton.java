@@ -1,5 +1,7 @@
 package cn.jiguang.imui.chatinput.record;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -112,6 +114,12 @@ public class RecordVoiceButton extends ImageButton {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 //TODO animation
+                float[] vaules = new float[]{0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 1.1f, 1.2f, 1.3f, 1.25f, 1.2f, 1.15f, 1.1f, 1.0f};
+                AnimatorSet set = new AnimatorSet();
+                set.playTogether(ObjectAnimator.ofFloat(this, "scaleX", vaules),
+                        ObjectAnimator.ofFloat(this, "scaleY", vaules));
+                set.setDuration(150);
+                set.start();
                 if (mControllerView != null && !mSetController) {
                     mControllerView.setRecordButton(this);
                     mSetController = true;

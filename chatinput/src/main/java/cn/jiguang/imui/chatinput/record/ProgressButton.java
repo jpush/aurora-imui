@@ -41,7 +41,7 @@ public class ProgressButton extends Button {
      */
     private int mMax;
 
-    private int mPercent;
+    private int mCachePercent = 0;
     private float mCurrentPercent;
 
     private boolean mPlaying;
@@ -138,32 +138,22 @@ public class ProgressButton extends Button {
         }
     }
 
-    public void startPlay(float progress) {
-        mCurrentPercent = (progress / mMax) * 100;
+    public void startPlay() {
+        mCurrentPercent = mCachePercent;
         if (mThread == null) {
             mThread = new ProgressThread();
-            mThread.setProgress(mCurrentPercent);
             mThread.start();
         }
+        mThread.setProgress(mCurrentPercent);
         mThread.play();
         mCurrentState = PLAYING_STATE;
+        postInvalidate();
     }
 
 
     public void stopPlay() {
         mCurrentState = PAUSE_STATE;
         postInvalidate();
-        if (mThread != null) {
-            mThread.exit();
-            mThread.stop();
-            mThread = null;
-        }
-        postInvalidate();
-
-    }
-
-    public void finishPlay() {
-        mCurrentState = INIT_STATE;
         try {
             if (mThread != null) {
                 mThread.exit();
@@ -173,7 +163,24 @@ public class ProgressButton extends Button {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        postInvalidate();
+
+    }
+
+    public void finishPlay() {
+        try {
+            if (mThread != null) {
+                mThread.exit();
+                mThread.join();
+                mThread = null;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mCurrentState = INIT_STATE;
         mCurrentPercent = 0;
+        mCachePercent = 0;
         postInvalidate();
     }
 
@@ -191,15 +198,6 @@ public class ProgressButton extends Button {
             throw new IllegalArgumentException("mMax not less than 0");
         }
         this.mMax = max;
-    }
-
-    /**
-     * 获取进度.需要同步
-     *
-     * @return
-     */
-    public synchronized int getProgress() {
-        return mPercent;
     }
 
     private class ProgressThread extends Thread {
@@ -228,9 +226,13 @@ public class ProgressButton extends Button {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    Log.e("ProgressButton", "thread running, percent: " + i);
-                    mCurrentPercent = i;
-                    postInvalidate();
+                    if (running) {
+                        mCurrentPercent = i;
+                        postInvalidate();
+                    } else {
+                        mCachePercent = i;
+                        break;
+                    }
                 }
             }
         }

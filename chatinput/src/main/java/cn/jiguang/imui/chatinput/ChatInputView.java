@@ -139,7 +139,6 @@ public class ChatInputView extends LinearLayout
     private MyHandler myHandler = new MyHandler(this);
     private long mRecordTime;
     private boolean mPlaying = false;
-    private int mNowCount = 0;
     private final MediaPlayer mMediaPlayer = new MediaPlayer();
     private boolean mSetData;
     private FileInputStream mFIS;
@@ -362,18 +361,15 @@ public class ChatInputView extends LinearLayout
         } else if (view.getId() == R.id.play_audio_pb) {
             if (!mPlaying) {
                 if (mSetData) {
-                    Log.e("ChatInputView", "restart play audio");
+                    mPreviewPlayBtn.startPlay();
                     mMediaPlayer.start();
                     mPlaying = true;
-                    mPreviewPlayBtn.startPlay(mNowCount);
                     mChronometer.setBase(convertStrTimeToLong(mChronometer.getText().toString()));
                     mChronometer.start();
                 } else {
-                    Log.e("ChatInputView", "start play audio");
                     playVoice();
                 }
             } else {
-                Log.e("ChatInputView", "Pause playing");
                 mSetData = true;
                 mMediaPlayer.pause();
                 mChronometer.stop();
@@ -385,12 +381,10 @@ public class ChatInputView extends LinearLayout
             mPreviewPlayLl.setVisibility(GONE);
             mRecordContentLl.setVisibility(VISIBLE);
             mRecordVoiceBtn.cancelRecord();
-            mMediaPlayer.release();
             mChronometer.setText("00:00");
         } else if (view.getId() == R.id.send_voice_btn) {
             mPreviewPlayLl.setVisibility(GONE);
             dismissMenuLayout();
-            mMediaPlayer.release();
             mRecordVoiceBtn.finishRecord();
             mChronometer.setText("00:00");
         } else if (view.getId() == R.id.full_screen_ib) {
@@ -501,21 +495,8 @@ public class ChatInputView extends LinearLayout
                 @Override
                 public void onPrepared(final MediaPlayer mp) {
                     mChronometer.setBase(SystemClock.elapsedRealtime());
-                    mPreviewPlayBtn.startPlay(0);
+                    mPreviewPlayBtn.startPlay();
                     mChronometer.start();
-                    mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                        @Override
-                        public void onChronometerTick(Chronometer chronometer) {
-                            if (SystemClock.elapsedRealtime() - chronometer.getBase() > mRecordTime) {
-                                chronometer.stop();
-                                mp.stop();
-                                Log.e("ChatInputView", "stop play audio");
-                                mPreviewPlayBtn.finishPlay();
-                                mPlaying = false;
-                                mNowCount = 0;
-                            }
-                        }
-                    });
                     mp.start();
                     mPlaying = true;
                 }
@@ -523,9 +504,11 @@ public class ChatInputView extends LinearLayout
             mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    mp.reset();
+                    mp.stop();
                     mSetData = false;
-                    Log.e("ChatInputView", "Finish play audio");
+                    mChronometer.stop();
+                    mPlaying = false;
+                    mPreviewPlayBtn.finishPlay();
                 }
             });
         } catch (Exception e) {
@@ -829,7 +812,7 @@ public class ChatInputView extends LinearLayout
     @Override
     public void onLeftUpTapped() {
         mChronometer.stop();
-        mRecordTime = convertStrTimeToLong(mChronometer.getText().toString());
+        mRecordTime = SystemClock.elapsedRealtime() - mChronometer.getBase();
         mPreviewPlayBtn.setMax((int) (mRecordTime / 1000));
         mChronometer.setVisibility(VISIBLE);
         mRecordHintTv.setVisibility(INVISIBLE);
@@ -852,7 +835,7 @@ public class ChatInputView extends LinearLayout
         if (timeArray.length == 2) {//如果时间是MM:SS格式
             longTime = Integer.parseInt(timeArray[0]) * 60 * 1000 + Integer.parseInt(timeArray[1]) * 1000;
         }
-        return longTime;
+        return SystemClock.elapsedRealtime() - longTime;
     }
 
     /**
@@ -1055,6 +1038,7 @@ public class ChatInputView extends LinearLayout
         if (mCameraSupport != null) {
             mCameraSupport.release();
         }
+        mMediaPlayer.release();
     }
 
     @Override
