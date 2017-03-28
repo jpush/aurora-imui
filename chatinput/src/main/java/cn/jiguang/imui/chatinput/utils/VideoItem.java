@@ -7,18 +7,18 @@ import cn.jiguang.imui.chatinput.utils.FileItem;
  */
 public class VideoItem extends FileItem {
 
-  private String mDuration;
+    private long mDuration;
 
-  public VideoItem(String path, String name, String size, String date, String duration) {
-    super(path, name, size, date);
-    mDuration = duration;
-  }
+    public VideoItem(String path, String name, String size, String date, long duration) {
+        super(path, name, size, date);
+        mDuration = duration;
+    }
 
-  public String getDuration() {
-    return mDuration;
-  }
+    public long getDuration() {
+        return mDuration;
+    }
 
-  public void setDuration(String duration) {
-    mDuration = duration;
-  }
+    public void setDuration(long duration) {
+        mDuration = duration;
+    }
 }
