@@ -77,7 +77,6 @@ class IMUIMessageBubbleView: UIView {
     self.textMessageLable.frame = self.bounds
     self.bubbleImageView.frame = self.bounds
     self.imageView.frame = self.bounds
-    self.setupBubbleImage(isOutgoing: true)
   }
   
   func layoutToText(with text: String, isOutGoing: Bool) {
@@ -139,11 +138,14 @@ class IMUIMessageBubbleView: UIView {
     var bubbleImg: UIImage?
     if isOutgoing {
       bubbleImg = UIImage.imuiImage(with: "outGoing_bubble")
+      self.backgroundColor = UIColor.init(netHex: 0xE7EBEF)
+      bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 10, 9, 15), resizingMode: .tile)
     } else {
       bubbleImg = UIImage.imuiImage(with: "inComing_bubble")
+      self.backgroundColor = UIColor.init(netHex: 0x2977FA)
+      bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 15, 9, 10), resizingMode: .tile)
     }
     
-    bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 10, 9, 15), resizingMode: .tile)
     bubbleImageView.image = bubbleImg
     self.layer.mask = bubbleImageView.layer
   }
