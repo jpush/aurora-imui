@@ -113,3 +113,4 @@ fabric.properties
 # *.ipr
 
 # End of https://www.gitignore.io/api/android,intellij
+sample/\.idea/
