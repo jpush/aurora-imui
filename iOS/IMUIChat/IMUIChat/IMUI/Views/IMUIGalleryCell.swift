@@ -48,15 +48,13 @@ class IMUIGalleryCell: UICollectionViewCell {
         }
     }
 
-    override var isSelected: Bool{
-        didSet{
-            if didSelect {
-                IMUIGalleryDataManager.selectedAssets = IMUIGalleryDataManager.selectedAssets.filter({$0 != asset!})
-            }else{
-                IMUIGalleryDataManager.selectedAssets.append(asset!)
-            }
-            animate(duration: 0.2)
+    func clicked(){
+        if didSelect {
+            IMUIGalleryDataManager.selectedAssets = IMUIGalleryDataManager.selectedAssets.filter({$0 != asset!})
+        }else{
+            IMUIGalleryDataManager.selectedAssets.append(asset!)
         }
+        animate(duration: 0.2)
     }
 
     private func animate(duration:TimeInterval){
@@ -75,7 +73,6 @@ class IMUIGalleryCell: UICollectionViewCell {
             self?.bringSubview(toFront: (self?.grayView)!)
             self?.bringSubview(toFront: (self?.selectImageView)!)
         }
-
     }
 
 }

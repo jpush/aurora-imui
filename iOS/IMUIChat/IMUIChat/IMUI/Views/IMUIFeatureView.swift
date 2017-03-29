@@ -30,12 +30,37 @@ protocol IMUIFeatureCellProtocal {
   var inputViewDelegate: IMUIInputViewDelegate? { set get }
 }
 
-class IMUIFeatureView: UIView {
+class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   @IBOutlet weak var showGalleryBtn: UIButton!
   @IBOutlet weak var featureCollectionView: UICollectionView!
   
+    @IBAction func showGalleryBtnPressed(_ sender: Any) {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        imagePickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        self.rootViewController.present(imagePickerController, animated: true) {
+        }
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        self.inputViewDelegate?.sendPhotoMessage!([image])
+    }
+
+    var rootViewController : UIViewController {
+        get{
+            let appRootVC = UIApplication.shared.keyWindow?.rootViewController
+            var topVC = appRootVC
+            while (topVC?.presentedViewController != nil) {
+                topVC = topVC?.presentedViewController
+            }
+            return topVC!
+        }
+    }
+
   var view: UIView!
-  
+
   var currentType:IMUIFeatureType = .none
   
   open weak var inputViewDelegate: IMUIInputViewDelegate?
@@ -172,8 +197,11 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     return cell as! UICollectionViewCell
   }
   
-  func collectionView(_ collectionView: UICollectionView,
-                      didSelectItemAt indexPath: IndexPath) {
-    
-  }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)!
+        if cell is IMUIGalleryCell {
+            let galleryCell = cell as! IMUIGalleryCell
+            galleryCell.clicked()
+        }
+    }
 }

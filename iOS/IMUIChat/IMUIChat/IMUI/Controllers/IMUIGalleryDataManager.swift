@@ -24,7 +24,9 @@ class IMUIGalleryDataManager: NSObject {
     }
 
     class func updateAssets(){
-        let assetFetchResult = PHAsset.fetchAssets(with: nil)
+        let options = PHFetchOptions()
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        let assetFetchResult = PHAsset.fetchAssets(with: options)
         assetFetchResult.enumerateObjects({(asset, _, _) in
             _allAssets.append(asset)
         })
