@@ -8,6 +8,8 @@
 ## Features
 
 ## Usage
+#### Android
+- [MessageList 用法](https://github.com/jpush/imui/blob/dev/Android/imui/docs/usage.md)
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
