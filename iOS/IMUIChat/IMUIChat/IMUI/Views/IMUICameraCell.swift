@@ -22,6 +22,8 @@ private enum LivePhotoMode {
 		case off
 }
 
+
+// TODO: Need to  Restructure
 @available(iOS 8.0, *)
 class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
 
@@ -268,7 +270,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           }
         }
       }, completed: { [unowned self] photoCaptureDelegate in
-        self.inputViewDelegate?.finishShootPicture?(picture: photoCaptureDelegate.photoData!)
+        self.inputViewDelegate?.finishShootPicture(picture: photoCaptureDelegate.photoData!)
         self.sessionQueue.async { [unowned self] in
           self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = nil
         }
@@ -308,7 +310,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       }
       
       let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
-      self.inputViewDelegate?.finishShootPicture?(picture: imageData!)
+      self.inputViewDelegate?.finishShootPicture(picture: imageData!)
       let image = UIImage(data: imageData!)
       UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
       
@@ -451,7 +453,7 @@ extension IMUICameraCell: AVCaptureFileOutputRecordingDelegate {
   func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
     if error == nil {
       
-      self.inputViewDelegate?.finishShootVideo?(videoPath: outputFileURL.path, durationTime: captureOutput.recordedDuration.seconds)
+      self.inputViewDelegate?.finishShootVideo(videoPath: outputFileURL.path, durationTime: captureOutput.recordedDuration.seconds)
     } else {
       print("record video fail")
     }

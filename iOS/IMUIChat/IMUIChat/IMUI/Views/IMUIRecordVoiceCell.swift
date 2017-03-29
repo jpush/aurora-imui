@@ -92,7 +92,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     
     do {
       let finishiRecorder = recordHelper.finishRecordingCompletion()
-      self.inputViewDelegate?.finishRecordingVoice?(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
+      self.inputViewDelegate?.finishRecordingVoice(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
     } catch {
       print("\(error)")
     }

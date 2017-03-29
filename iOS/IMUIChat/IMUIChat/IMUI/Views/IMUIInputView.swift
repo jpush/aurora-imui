@@ -18,34 +18,59 @@ enum IMUIInputStatus {
 var IMUIFeatureViewHeight:CGFloat = 215
 var IMUIShowFeatureViewAnimationDuration = 0.25
 
-@objc protocol IMUIInputViewDelegate: NSObjectProtocol {
-
-  @objc optional func sendTextMessage(_ messageText: String)
-  @objc optional func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton)
-  @objc optional func sendPhotoMessage(_ imageArr: [UIImage])
+protocol IMUIInputViewDelegate: NSObjectProtocol {
+  
+  func sendTextMessage(_ messageText: String)
+  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton)
+  func sendPhotoMessage(_ imageArr: [UIImage])
   
   // RecordVoice
-  @objc optional func switchOutOfRecordingVoiceMode(recordVoiceBtn: UIButton)
-  @objc optional func startRecordingVoice()
-  @objc optional func finishRecordingVoice(_ voicePath: String, durationTime: Double)
-  @objc optional func cancelRecordingVoice()
+  func switchOutOfRecordingVoiceMode(recordVoiceBtn: UIButton)
+  func startRecordingVoice()
+  func finishRecordingVoice(_ voicePath: String, durationTime: Double)
+  func cancelRecordingVoice()
   
   // Photo
-  @objc optional func switchIntoSelectPhotoMode(photoBtn: UIButton)
-  @objc optional func switchOutOfSelectPhotoMode(photoBtn: UIButton)
-  @objc optional func showMoreView()
-  @objc optional func photoClick(photoBtn: UIButton)
-  @objc optional func finishSelectedPhoto(_ photoArr: [UIImage])
-  @objc optional func finishSelectedVideo(_ VideoArr: [UIImage])
-
+  func switchIntoSelectPhotoMode(photoBtn: UIButton)
+  func switchOutOfSelectPhotoMode(photoBtn: UIButton)
+  func showMoreView()
+  func photoClick(photoBtn: UIButton)
+  func finishSelectedPhoto(_ photoArr: [UIImage])
+  func finishSelectedVideo(_ VideoArr: [UIImage])
+  
   // Camera
-  @objc optional func switchIntoCameraMode(cameraBtn: UIButton)
-  @objc optional func switchOutOfCameraMode()
-  @objc optional func finishShootPicture(picture: Data)
-  @objc optional func finishShootVideo(videoPath: String, durationTime: Double)
+  func switchIntoCameraMode(cameraBtn: UIButton)
+  func switchOutOfCameraMode()
+  func finishShootPicture(picture: Data)
+  func finishShootVideo(videoPath: String, durationTime: Double)
 }
 
+
+
 extension IMUIInputViewDelegate {
+  func sendTextMessage(_ messageText: String) {}
+  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {}
+  func sendPhotoMessage(_ imageArr: [UIImage]) {}
+  
+  // RecordVoice
+  func switchOutOfRecordingVoiceMode(recordVoiceBtn: UIButton) {}
+  func startRecordingVoice() {}
+  func finishRecordingVoice(_ voicePath: String, durationTime: Double) {}
+  func cancelRecordingVoice() {}
+  
+  // Photo
+  func switchIntoSelectPhotoMode(photoBtn: UIButton) {}
+  func switchOutOfSelectPhotoMode(photoBtn: UIButton) {}
+  func showMoreView() {}
+  func photoClick(photoBtn: UIButton) {}
+  func finishSelectedPhoto(_ photoArr: [UIImage]) {}
+  func finishSelectedVideo(_ VideoArr: [UIImage]) {}
+  
+  // Camera
+  func switchIntoCameraMode(cameraBtn: UIButton) {}
+  func switchOutOfCameraMode() {}
+  func finishShootPicture(picture: Data) {}
+  func finishShootVideo(videoPath: String, durationTime: Double) {}
 }
 
 
@@ -92,28 +117,28 @@ class IMUIInputView: UIView {
   
   @IBAction func clickMicBtn(_ sender: Any) {
     inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchIntoRecordingVoiceMode?(recordVoiceBtn: sender as! UIButton)
+    inputViewDelegate?.switchIntoRecordingVoiceMode(recordVoiceBtn: sender as! UIButton)
     self.featureView.layoutFeature(with: .voice)
     self.showFeatureView()
   }
   
   @IBAction func clickPhotoBtn(_ sender: Any) {
     inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchIntoSelectPhotoMode?(photoBtn: sender as! UIButton)
+    inputViewDelegate?.switchIntoSelectPhotoMode(photoBtn: sender as! UIButton)
     self.featureView.layoutFeature(with: .gallery)
     self.showFeatureView()
   }
   
   @IBAction func clickCameraBtn(_ sender: Any) {
     inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchIntoCameraMode?(cameraBtn: sender as! UIButton)
+    inputViewDelegate?.switchIntoCameraMode(cameraBtn: sender as! UIButton)
     self.featureView.layoutFeature(with: .camera)
     self.showFeatureView()
   }
 
   @IBAction func clickSendBtn(_ sender: Any) {
     if inputTextView.text != "" {
-      inputViewDelegate?.sendTextMessage?(self.inputTextView.text)
+      inputViewDelegate?.sendTextMessage(self.inputTextView.text)
       inputTextView.text = ""
       fitTextViewSize(inputTextView)
     }

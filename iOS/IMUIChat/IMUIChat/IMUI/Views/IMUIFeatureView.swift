@@ -30,6 +30,7 @@ protocol IMUIFeatureCellProtocal {
   var inputViewDelegate: IMUIInputViewDelegate? { set get }
 }
 
+// TODO: Need to  Restructure
 class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   @IBOutlet weak var showGalleryBtn: UIButton!
   @IBOutlet weak var featureCollectionView: UICollectionView!
@@ -45,7 +46,7 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        self.inputViewDelegate?.sendPhotoMessage!([image])
+        self.inputViewDelegate?.sendPhotoMessage([image])
     }
 
     var rootViewController : UIViewController {
