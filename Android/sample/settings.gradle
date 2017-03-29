@@ -1,5 +1,5 @@
 rootProject.name = 'sample'
 
 include ':exampleui', ':imui', ':chatinput'
-project(':imui').projectDir = new File(rootProject.projectDir, '../android')
+project(':imui').projectDir = new File(rootProject.projectDir, '../imui')
 project(':chatinput').projectDir = new File(rootProject.projectDir, '../chatinput')
