@@ -24,7 +24,7 @@ public class MessageListStyle extends Style {
 
     private int avatarWidth;
     private int avatarHeight;
-
+    private int showDisplayName;
     private int receiveBubbleDrawable;
     private int receiveBubbleColor;
     private int receiveBubblePressedColor;
@@ -76,6 +76,7 @@ public class MessageListStyle extends Style {
                 context.getResources().getDimensionPixelSize(R.dimen.avatar_width));
         style.avatarHeight = typedArray.getDimensionPixelSize(R.styleable.MessageList_avatarHeight,
                 context.getResources().getDimensionPixelSize(R.dimen.avatar_height));
+        style.showDisplayName = typedArray.getInt(R.styleable.MessageList_showDisplayName, 0);
 
         style.receiveBubbleDrawable = typedArray.getResourceId(R.styleable.MessageList_receiveBubbleDrawable, -1);
         style.receiveBubbleColor = typedArray.getColor(R.styleable.MessageList_receiveBubbleColor,
@@ -180,6 +181,10 @@ public class MessageListStyle extends Style {
 
     public int getAvatarHeight() {
         return avatarHeight;
+    }
+
+    public int getShowDisplayName() {
+        return showDisplayName;
     }
 
     public Drawable getReceiveBubbleDrawable() {

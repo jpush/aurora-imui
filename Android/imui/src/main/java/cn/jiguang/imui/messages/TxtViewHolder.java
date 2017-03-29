@@ -37,9 +37,13 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                 && !message.getUserInfo().getAvatar().isEmpty();
         if (isAvatarExists && mImageLoader != null) {
             mImageLoader.loadImage(mAvatarIv, message.getUserInfo().getAvatar());
+        } else if (mImageLoader == null) {
+            mAvatarIv.setVisibility(View.GONE);
         }
         if (!mIsSender) {
-
+            if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
+                mDisplayNameTv.setText(message.getUserInfo().getDisplayName());
+            }
         }
 
         mMsgTv.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +98,9 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                     style.getReceiveBubblePaddingTop(),
                     style.getReceiveBubblePaddingRight(),
                     style.getReceiveBubblePaddingBottom());
+            if (style.getShowDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
         }
         mDateTv.setTextSize(style.getDateTextSize());
         mDateTv.setTextColor(style.getDateTextColor());

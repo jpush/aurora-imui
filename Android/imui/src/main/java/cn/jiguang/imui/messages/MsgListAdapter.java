@@ -223,8 +223,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     /**
      * Updates message by old identifier.
      *
-     * @param oldId
-     * @param newMessage
+     * @param oldId message id to be updated
+     * @param newMessage message to be updated
      */
     public void updateMessage(String oldId, MESSAGE newMessage) {
         int position = getMessagePositionById(oldId);
@@ -618,6 +618,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                                     @LayoutRes int layout) {
             this.mSendPhotoHolder = holder;
             this.mSendPhotoLayout = layout;
+        }
+
+        public void setReceivePhotoMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                       @LayoutRes int layout) {
+            this.mReceivePhotoHolder = holder;
+            this.mReceivePhotoLayout = layout;
         }
     }
 
