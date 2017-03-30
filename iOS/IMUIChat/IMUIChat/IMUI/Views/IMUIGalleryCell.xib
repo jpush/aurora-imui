@@ -23,7 +23,7 @@
                     </imageView>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3AA-7J-gEY">
                         <rect key="frame" x="0.0" y="0.0" width="268" height="233"/>
-                        <color key="backgroundColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="0.5" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="0.64961723993288589" colorSpace="calibratedRGB"/>
                     </view>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IMUIAssets.bundle/image/feature_gallery_select.png" translatesAutoresizingMaskIntoConstraints="NO" id="rXG-G6-3Co">
                         <rect key="frame" x="116" y="98.5" width="36" height="36"/>

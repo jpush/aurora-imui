@@ -16,13 +16,19 @@ class IMUIGalleryCell: UICollectionViewCell {
     @IBOutlet weak var selectImageView: UIImageView!
     @IBOutlet weak var mediaView: UIView!
 
-    lazy var playerLayer : AVPlayerLayer = {
-        let aLayer = AVPlayerLayer()
-        aLayer.frame = self.mediaView.layer.bounds
-        aLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        self.mediaView.layer.addSublayer(aLayer)
-        return aLayer
-    }()
+    var playerLayer : AVPlayerLayer!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        playerLayer = AVPlayerLayer()
+        playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        self.mediaView.layer.addSublayer(playerLayer)
+    }
+
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        playerLayer.frame = self.mediaView.layer.bounds
+    }
 
     var asset : PHAsset?{
         didSet{
@@ -39,13 +45,14 @@ class IMUIGalleryCell: UICollectionViewCell {
                 galleryImageView.image = nil
                 galleryImageView.isHidden = true
                 mediaView.isHidden = false
-                PHImageManager.default().requestPlayerItem(forVideo: self.asset!, options: nil, resultHandler: { (avPlayerItem, _) in
-                    self.contentView.sendSubview(toBack: self.mediaView!)
-                        let player = AVPlayer(playerItem: avPlayerItem)
-                        self.playerLayer.player?.pause()
-                        self.playerLayer.player = player
-                        player.play()
+                PHImageManager.default().requestPlayerItem(forVideo: self.asset!, options: nil, resultHandler: { [weak self] (avPlayerItem, _) in
+                    self?.contentView.sendSubview(toBack: (self?.mediaView)!)
+                    self?.playerLayer.player?.pause()
+                    let player = AVPlayer(playerItem: avPlayerItem)
+                    self?.playerLayer.player = player
+                    player.play()
                 })
+
                 break
             default:
                 break
@@ -86,8 +93,8 @@ class IMUIGalleryCell: UICollectionViewCell {
         }) {  [weak self] ( completion ) in
             self?.selectImageView.isHidden = !(self?.didSelect)!
             self?.grayView.isHidden = !(self?.didSelect)!
-            self?.bringSubview(toFront: (self?.grayView)!)
-            self?.bringSubview(toFront: (self?.selectImageView)!)
+            self?.contentView.bringSubview(toFront: (self?.grayView)!)
+            self?.contentView.bringSubview(toFront: (self?.selectImageView)!)
         }
     }
 
