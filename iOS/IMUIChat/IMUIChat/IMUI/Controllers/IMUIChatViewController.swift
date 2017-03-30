@@ -62,7 +62,18 @@ extension IMUIChatViewController: IMUIInputViewDelegate {
     }
     
   }
-  
+
+    func finishSelectedPhoto(_ photoArr: [Data]) {
+        for data in photoArr {
+            finishShootPicture(picture: data)
+        }
+    }
+
+    func finishSelectedVideo(_ VideoArr: [URL]) {
+        
+    }
+
+
   func finishShootVideo(videoPath: String, durationTime: Double) {
     let message = MyMessageModel(videoPath: videoPath)
     self.messageCollectionView.appendMessage(with: message)

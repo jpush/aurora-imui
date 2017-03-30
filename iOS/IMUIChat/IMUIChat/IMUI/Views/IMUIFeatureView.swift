@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MobileCoreServices
+import Photos
 
 private var CellIdentifier = ""
 
@@ -39,14 +41,21 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
-        imagePickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
         self.rootViewController.present(imagePickerController, animated: true) {
         }
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        self.inputViewDelegate?.sendPhotoMessage([image])
+        let type = info[UIImagePickerControllerMediaType] as! String
+        if type == (kUTTypeImage as String) {
+            let data = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage] as! UIImage)
+            self.inputViewDelegate?.finishSelectedPhoto([data!])
+        }else if type == (kUTTypeMovie as String){
+            let url = info[UIImagePickerControllerMediaURL] as! URL
+            self.inputViewDelegate?.finishSelectedVideo([url])
+        }
+        picker.dismiss(animated: true, completion: nil)
     }
 
     var rootViewController : UIViewController {

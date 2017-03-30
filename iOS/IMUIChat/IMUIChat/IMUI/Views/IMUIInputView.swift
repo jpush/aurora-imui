@@ -35,8 +35,8 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
   func switchOutOfSelectPhotoMode(photoBtn: UIButton)
   func showMoreView()
   func photoClick(photoBtn: UIButton)
-  func finishSelectedPhoto(_ photoArr: [UIImage])
-  func finishSelectedVideo(_ VideoArr: [UIImage])
+  func finishSelectedPhoto(_ photoArr: [Data])
+  func finishSelectedVideo(_ VideoArr: [URL])
   
   // Camera
   func switchIntoCameraMode(cameraBtn: UIButton)
@@ -64,7 +64,7 @@ extension IMUIInputViewDelegate {
   func showMoreView() {}
   func photoClick(photoBtn: UIButton) {}
   func finishSelectedPhoto(_ photoArr: [UIImage]) {}
-  func finishSelectedVideo(_ VideoArr: [UIImage]) {}
+  func finishSelectedVideo(_ VideoArr: [URL]) {}
   
   // Camera
   func switchIntoCameraMode(cameraBtn: UIButton) {}

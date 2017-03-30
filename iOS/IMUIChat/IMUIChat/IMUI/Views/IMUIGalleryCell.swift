@@ -14,6 +14,15 @@ class IMUIGalleryCell: UICollectionViewCell {
     @IBOutlet weak var grayView: UIView!
     @IBOutlet weak var galleryImageView: UIImageView!
     @IBOutlet weak var selectImageView: UIImageView!
+    @IBOutlet weak var mediaView: UIView!
+
+    lazy var playerLayer : AVPlayerLayer = {
+        let aLayer = AVPlayerLayer()
+        aLayer.frame = self.mediaView.layer.bounds
+        aLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        self.mediaView.layer.addSublayer(aLayer)
+        return aLayer
+    }()
 
     var asset : PHAsset?{
         didSet{
@@ -21,16 +30,21 @@ class IMUIGalleryCell: UICollectionViewCell {
             case .image:
                 PHImageManager.default().requestImage(for: asset!, targetSize: self.frame.size, contentMode: PHImageContentMode.default, options: nil, resultHandler: { [weak self] (image, _) in
                     self?.galleryImageView.image = image
+                    self?.galleryImageView.isHidden = false
+                    self?.mediaView.isHidden = true
+                    self?.playerLayer.player = nil
                 })
                 break
             case .audio, .video:
-                PHImageManager.default().requestPlayerItem(forVideo: asset!, options: nil, resultHandler: {[weak self] (avPlayerItem, _) in
-                    let player = AVPlayer(playerItem: avPlayerItem)
-                    let playerLayer = AVPlayerLayer(player: player)
-                    playerLayer.frame = (self?.layer.bounds)!
-                    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-                    self?.layer.addSublayer(playerLayer)
-                    player.play()
+                galleryImageView.image = nil
+                galleryImageView.isHidden = true
+                mediaView.isHidden = false
+                PHImageManager.default().requestPlayerItem(forVideo: self.asset!, options: nil, resultHandler: { (avPlayerItem, _) in
+                    self.contentView.sendSubview(toBack: self.mediaView!)
+                        let player = AVPlayer(playerItem: avPlayerItem)
+                        self.playerLayer.player?.pause()
+                        self.playerLayer.player = player
+                        player.play()
                 })
                 break
             default:
@@ -65,8 +79,10 @@ class IMUIGalleryCell: UICollectionViewCell {
             scale = 1/0.9
         }
         UIView.animate(withDuration: duration, animations: { [weak self] in
-            self?.galleryImageView.transform = CGAffineTransform(scaleX: scale, y: scale)
-            self?.grayView.transform = CGAffineTransform(scaleX: scale, y: scale)
+            let transform = CGAffineTransform(scaleX: scale, y: scale)
+            self?.galleryImageView.transform = transform
+            self?.grayView.transform = transform
+            self?.mediaView.transform = transform
         }) {  [weak self] ( completion ) in
             self?.selectImageView.isHidden = !(self?.didSelect)!
             self?.grayView.isHidden = !(self?.didSelect)!
