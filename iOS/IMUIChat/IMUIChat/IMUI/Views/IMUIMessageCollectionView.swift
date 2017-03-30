@@ -8,6 +8,17 @@
 
 import UIKit
 
+protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
+  func didTapMessageCell(_ model: IMUIMessageModel)
+  func didTapMessageBubble(_ model: IMUIMessageModel)
+}
+
+extension IMUIMessageMessageCollectionViewDelegate {
+  func didTapMessageCell(_ model: IMUIMessageModel) {}
+  func didTapMessageBubble(_ model: IMUIMessageModel){}
+}
+
+
 class IMUIMessageCollectionView: UIView {
 
   @IBOutlet var view: UIView!
@@ -81,8 +92,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
     
-    return CGSize(width: messageCollectionView.imui_width, height: chatDataManager[indexPath.item].layout.cellHeight)
-    
+    return CGSize(width: messageCollectionView.imui_width, height: chatDataManager[indexPath.item].layout!.cellHeight)
   }
   
   func collectionView(_ collectionView: UICollectionView,
@@ -94,9 +104,9 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
   func collectionView(_ collectionView: UICollectionView,
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IMUIBaseMessageCell.self.description(), for: indexPath) as! IMUIBaseMessageCell
+    let cell: IMUIMessageCellProtocal = collectionView.dequeueReusableCell(withReuseIdentifier: IMUIBaseMessageCell.self.description(), for: indexPath) as! IMUIMessageCellProtocal
     cell.presentCell(with: self.chatDataManager[indexPath.item])
-    return cell
+    return cell as! UICollectionViewCell
   }
   
   func collectionView(_ collectionView: UICollectionView,

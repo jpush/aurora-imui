@@ -84,10 +84,10 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t9V-LN-RmM" customClass="IMUIFeatureView" customModule="IMUIChat" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="85" width="322" height="215"/>
+                    <rect key="frame" x="0.0" y="85" width="322" height="0.0"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="215" id="Di3-tL-4ID"/>
+                        <constraint firstAttribute="height" id="Di3-tL-4ID"/>
                     </constraints>
                 </view>
             </subviews>

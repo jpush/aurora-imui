@@ -76,7 +76,7 @@ extension IMUIInputViewDelegate {
 
 class IMUIInputView: UIView {
   
-  public var inputViewStatus: IMUIInputStatus = .none
+  public var inputViewStatus: IMUIInputStatus = .microphone
   open weak var inputViewDelegate: IMUIInputViewDelegate? {
     didSet {
       self.featureView.inputViewDelegate = self.inputViewDelegate
@@ -116,8 +116,9 @@ class IMUIInputView: UIView {
   }
   
   @IBAction func clickMicBtn(_ sender: Any) {
-    inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchIntoRecordingVoiceMode(recordVoiceBtn: sender as! UIButton)
+    
+    self.inputTextView.resignFirstResponder()
+    self.inputViewDelegate?.switchIntoRecordingVoiceMode(recordVoiceBtn: sender as! UIButton)
     self.featureView.layoutFeature(with: .voice)
     self.showFeatureView()
   }
@@ -142,7 +143,6 @@ class IMUIInputView: UIView {
       inputTextView.text = ""
       fitTextViewSize(inputTextView)
     }
-
   }
   
   func keyboardFrameChanged(_ notification: Notification) {
@@ -171,7 +171,6 @@ class IMUIInputView: UIView {
       self.moreViewHeight.constant = IMUIFeatureViewHeight
       self.superview?.layoutIfNeeded()
     }
-    
   }
   
   func hideFeatureView() {

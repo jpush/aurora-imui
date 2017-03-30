@@ -19,7 +19,7 @@ protocol IMUIMessageCellProtocal {
 }
 
 
-class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
+class IMUIBaseMessageCell: UICollectionViewCell {
   var bubbleView: IMUIMessageBubbleView
   var avatarImage: UIImageView
   var timeLable: UILabel
@@ -127,10 +127,11 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     
     bubbleView.isActivity = !bubbleView.isActivity
   }
-  
+}
+
+extension IMUIBaseMessageCell: IMUIMessageCellProtocal {
   open func presentCell(with message: IMUIMessageModel) {
-    self.layoutCell(with: message.layout)
+    self.layoutCell(with: message.layout!)
     self.setupData(with: message)
   }
-  
 }

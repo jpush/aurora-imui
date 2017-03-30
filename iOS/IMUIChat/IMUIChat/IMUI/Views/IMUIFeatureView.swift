@@ -82,12 +82,16 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
   }
   
   func setupAllViews() {
-    self.featureCollectionView.delegate = self
-    self.featureCollectionView.dataSource = self
+
     self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: nil), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
     self.featureCollectionView.register(UINib(nibName: "IMUIGalleryCell", bundle: nil), forCellWithReuseIdentifier: "IMUIGalleryCell")
     self.featureCollectionView.register(UINib(nibName: "IMUICameraCell", bundle: nil), forCellWithReuseIdentifier: "IMUICameraCell")
     self.showGalleryBtn.isHidden = true
+    
+    self.featureCollectionView.delegate = self
+    self.featureCollectionView.dataSource = self
+    
+    self.featureCollectionView.reloadData()
   }
   
   open func layoutFeature(with type: IMUIFeatureType) {

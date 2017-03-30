@@ -31,30 +31,72 @@ public enum IMUIMessageReceiveStatus {
 }
 
 
-
-@objc public protocol IMUIMessageModelProtocol: class {
-  @objc optional func mediaData() -> Data
+protocol IMUIMessageModelProtocol {
+  func mediaData() -> Data
   
-  @objc optional func textMessage() -> String
+  func textMessage() -> String
   
-  @objc optional var videoPath: String? { get }
+  var videoPath: String? { get }
+  
+  var layout: IMUIMessageCellLayoutProtocal? { get }
 }
 
-//extension IMUIMessageModelProtocol {
-//  
-//  func mediaData() -> Data {
-//    return Data()
-//  }
-//  
-//  func textMessage() -> String {
-//    return ""
-//  }
-//}
 
-public protocol IMUIMessageDataSource {
+extension IMUIMessageModelProtocol {
+  
+  func mediaData() -> Data {
+    return Data()
+  }
+  
+  func textMessage() -> String {
+    return ""
+  }
+  
+  var videoPath: String? {
+    get {
+      return nil
+    }
+  }
+  
+  var layout: IMUIMessageCellLayoutProtocal? {
+    get {
+      return nil
+    }
+  }
+}
+
+protocol IMUIMessageDataSource {
   func messageArray(with offset:NSNumber, limit:NSNumber) -> [IMUIMessageModelProtocol]
   
 }
+
+protocol IMUIMessageCellLayoutProtocal {
+  var avatarFrame: CGRect { get }
+  var timeLabelFrame: CGRect { get }
+  var bubbleFrame: CGRect { get }
+  var cellHeight: CGFloat { get }
+}
+
+extension IMUIMessageCellLayoutProtocal {
+  var avatarFrame: CGRect {
+    get {
+      return CGRect.zero
+    }
+  }
+  
+  var timeLabelFrame: CGRect {
+    get {
+      return CGRect.zero
+    }
+  }
+  
+  var bubbleFrame: CGRect {
+    get {
+      return CGRect.zero
+    }
+  }
+}
+
 
 struct IMUIMessageCellLayout {
   
@@ -76,6 +118,26 @@ struct IMUIMessageCellLayout {
   
   static var contentInset: UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
   
+  var isOutGoingMessage: Bool
+  var bubbleSize: CGSize
+  var isNeedShowTime: Bool
+  
+  public static func calculateTextBubbleSize(with textSize: CGSize) -> CGSize {
+    let bubbleX = textSize.width +
+                  IMUIMessageCellLayout.contentInset.left +
+                  IMUIMessageCellLayout.contentInset.right
+    
+    let bubbleY = textSize.height +
+                  IMUIMessageCellLayout.contentInset.bottom +
+                  IMUIMessageCellLayout.contentInset.top
+    
+    
+    return CGSize(width: bubbleX, height: bubbleY)
+  }
+}
+
+
+extension IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   
   var avatarFrame: CGRect {
     get {
@@ -88,7 +150,7 @@ struct IMUIMessageCellLayout {
         avatarX = IMUIMessageCellLayout.avatarOffsetToCell.horizontal
       }
       let avatarY = IMUIMessageCellLayout.avatarOffsetToCell.vertical +
-                    self.timeLabelFrame.size.height
+        self.timeLabelFrame.size.height
       
       return CGRect(x: avatarX,
                     y: avatarY,
@@ -107,26 +169,35 @@ struct IMUIMessageCellLayout {
     }
   }
   
+  var cellHeight: CGFloat {
+    get {
+      return  IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical +
+        IMUIMessageCellLayout.timeLabelFrame.size.height +
+        self.avatarFrame.origin.y +
+        self.bubbleSize.height
+    }
+  }
+  
   var bubbleFrame: CGRect {
     get {
       var bubbleX:CGFloat
       
       if self.isOutGoingMessage {
         bubbleX = IMUIMessageCellLayout.CellWidth -
-                  IMUIMessageCellLayout.avatarOffsetToCell.horizontal -
-                  IMUIMessageCellLayout.avatarSize.width -
-                  IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal -
-                  self.bubbleSize.width
+          IMUIMessageCellLayout.avatarOffsetToCell.horizontal -
+          IMUIMessageCellLayout.avatarSize.width -
+          IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal -
+          self.bubbleSize.width
         
         
       } else {
         bubbleX = IMUIMessageCellLayout.avatarOffsetToCell.horizontal +
-                  IMUIMessageCellLayout.avatarSize.width +
-                  IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal
+          IMUIMessageCellLayout.avatarSize.width +
+          IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal
       }
       let bubbleY = IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical +
         self.avatarFrame.origin.y +
-      IMUIMessageCellLayout.timeLabelFrame.size.height
+        IMUIMessageCellLayout.timeLabelFrame.size.height
       
       return CGRect(x: bubbleX,
                     y: bubbleY,
@@ -134,50 +205,27 @@ struct IMUIMessageCellLayout {
                     height: bubbleSize.height)
     }
   }
-  
-  var isOutGoingMessage: Bool
-  var bubbleSize: CGSize
-  var isNeedShowTime: Bool
-  
-  var cellHeight: CGFloat {
-    get {
-      return  IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical +
-              IMUIMessageCellLayout.timeLabelFrame.size.height +
-              self.avatarFrame.origin.y +
-              self.bubbleSize.height
-    }
-  }
-  
-  public static func calculateTextBubbleSize(with textSize: CGSize) -> CGSize {
-    let bubbleX = textSize.width +
-                  IMUIMessageCellLayout.contentInset.left +
-                  IMUIMessageCellLayout.contentInset.right
-    
-    let bubbleY = textSize.height +
-                  IMUIMessageCellLayout.contentInset.bottom +
-                  IMUIMessageCellLayout.contentInset.top
-    
-    
-    return CGSize(width: bubbleX, height: bubbleY)
-  }
-
 }
 
+
+
 // MARK: - IMUIMessageModelProtocol
-public class IMUIMessageModel: IMUIMessageModelProtocol {
+class IMUIMessageModel: IMUIMessageModelProtocol {
   
   open var msgId: String = ""
   open var fromUser: IMUIUser
   open var isOutGoing: Bool = true
   open var date: Date
+  
   open var isNeedShowTime: Bool = false {
     didSet {
-      layout.isNeedShowTime = isNeedShowTime
+      layout?.isNeedShowTime = isNeedShowTime
     }
   }
+  
   open var status: IMUIMessageStatus
   open var type: IMUIMessageType
-  var layout: IMUIMessageCellLayout!
+  var layout: IMUIMessageCellLayout?
   
   public func textMessage() -> String {
     return ""
@@ -234,7 +282,7 @@ public class IMUIMessageModel: IMUIMessageModelProtocol {
   }
   
   
-  public init(msgId: String, fromUser: IMUIUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType) {
+  public init(msgId: String, fromUser: IMUIUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, cellLayout: IMUIMessageCellLayout?) {
     self.msgId = msgId
     self.fromUser = fromUser
     self.isOutGoing = isOutGoing
@@ -242,8 +290,14 @@ public class IMUIMessageModel: IMUIMessageModelProtocol {
     self.status = status
     self.type = type
     
-    let bubbleSize = self.calculateBubbleSize()
-    self.layout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, bubbleSize: bubbleSize, isNeedShowTime: isNeedShowTime)
+    
+    if let layout = cellLayout {
+      self.layout = layout
+    } else {
+      let bubbleSize = self.calculateBubbleSize()
+      self.layout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, bubbleSize: bubbleSize, isNeedShowTime: isNeedShowTime)
+    }
+    
   }
   
 }
