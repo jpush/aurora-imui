@@ -91,7 +91,6 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-    
     return CGSize(width: messageCollectionView.imui_width, height: chatDataManager[indexPath.item].layout!.cellHeight)
   }
   

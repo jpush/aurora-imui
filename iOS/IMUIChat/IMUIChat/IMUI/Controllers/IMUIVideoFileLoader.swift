@@ -10,17 +10,56 @@ import UIKit
 import AVFoundation
 
 
+
+typealias ReadFrameCallBack = (CGImage) -> ()
+
 class IMUIVideoFileLoader: NSObject {
  
-  typealias ReadFrameCallBack = (UIImage) -> ()
+  
   var readFrameCallback: ReadFrameCallBack?
+  
+  static let queue = OperationQueue()
+  var videoReadOperation: IMUIVideFileLoaderOperation?
+  
+  var isNeedToStopVideo: Bool {
+    set {
+      self.videoReadOperation?.isNeedToStop = newValue
+    }
+    
+    get {
+      return true
+    }
+  }
   
   func loadVideoFile(with url: URL, callback: @escaping ReadFrameCallBack) {
     self.readFrameCallback = callback
+    videoReadOperation?.isNeedToStop = true
+    videoReadOperation = IMUIVideFileLoaderOperation(url: url, callback: callback)
+    IMUIVideoFileLoader.queue.addOperation(videoReadOperation!)
+    return
+  }
+}
+
+class IMUIVideFileLoaderOperation: Operation {
+  
+  var isNeedToStop = false
+
+  var previousFrameTime: CMTime?
+  
+  var url: URL
+  var readFrameCallback: ReadFrameCallBack
+  
+  init(url: URL, callback: @escaping ReadFrameCallBack) {
+    self.url = url
+    self.readFrameCallback = callback
     
-    let queue = DispatchQueue(label: "imui.video.reader")
-    queue.async {
-      do {
+    super.init()
+  }
+  
+  override func main() {
+    self.isNeedToStop = false
+    do {
+      while !self.isNeedToStop {
         let videoAsset = AVAsset(url: url)
         let reader = try AVAssetReader(asset: videoAsset)
         let videoTracks = videoAsset.tracks(withMediaType: AVMediaTypeVideo)
@@ -31,30 +70,39 @@ class IMUIVideoFileLoader: NSObject {
         reader.add(videoReaderOutput)
         reader.startReading()
         
-        while reader.status == .reading && videoTrack.nominalFrameRate > 0 {
+        while reader.status == .reading && videoTrack.nominalFrameRate > 0 && self.isNeedToStop != true {
           let videoBuffer = videoReaderOutput.copyNextSampleBuffer()
-          if videoBuffer == nil { return }
+          
+          if videoBuffer == nil {
+            if reader.status != .cancelled {
+              reader.cancelReading()
+            }
+            break
+          }
           
           let image = self.imageFromSampleBuffer(sampleBuffer: videoBuffer!)
           
           usleep(41666)
           
-          self.readFrameCallback?(image)
+
+          self.readFrameCallback(image)
+          
+          if reader.status == .completed {
+            reader.cancelReading()
+          }
         }
-        
-      } catch {
-        print("can not load video file")
-        return
+
       }
+    } catch {
+      print("can not load video file")
+      return
     }
-    
-    return
   }
   
-  fileprivate func imageFromSampleBuffer(sampleBuffer: CMSampleBuffer) -> UIImage {
+  fileprivate func imageFromSampleBuffer(sampleBuffer: CMSampleBuffer) -> CGImage {
     let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
     CVPixelBufferLockBaseAddress(imageBuffer!, CVPixelBufferLockFlags(rawValue: 0))
-
+    
     let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer!)
     let bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer!)
     let width = CVPixelBufferGetWidth(imageBuffer!)
@@ -65,12 +113,11 @@ class IMUIVideoFileLoader: NSObject {
     
     let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipFirst.rawValue | CGBitmapInfo.byteOrder32Little.rawValue)
     let context = CGContext(data: baseAddress, width: width, height: height, bitsPerComponent: 8, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
-
+    
     let quartzImage = context!.makeImage();
     CVPixelBufferUnlockBaseAddress(imageBuffer!,CVPixelBufferLockFlags(rawValue: 0));
     
-    let image = UIImage(cgImage: quartzImage!)
-    
-    return image
+    return quartzImage!
   }
+  
 }

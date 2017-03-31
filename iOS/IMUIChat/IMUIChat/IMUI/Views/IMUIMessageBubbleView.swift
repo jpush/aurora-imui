@@ -25,6 +25,7 @@ class IMUIMessageBubbleView: UIView {
   var imageView: UIImageView
   var textMessageLable: IMUITextView
   var voiceImg: UIImageView
+  var videoView: UIView
   
   var videoReader = IMUIVideoFileLoader()
   
@@ -55,12 +56,15 @@ class IMUIMessageBubbleView: UIView {
     textMessageLable = IMUITextView()
     voiceImg = UIImageView()
     imageView = UIImageView()
+    videoView = UIView()
     super.init(frame: frame)
     
     self.addSubview(bubbleImageView)
     self.addSubview(textMessageLable)
     self.addSubview(voiceImg)
     self.addSubview(imageView)
+    self.addSubview(videoView)
+    
     self.backgroundColor = UIColor.red
     textMessageLable.numberOfLines = 0
     textMessageLable.contentInset = IMUIMessageCellLayout.contentInset
@@ -77,6 +81,7 @@ class IMUIMessageBubbleView: UIView {
     self.textMessageLable.frame = self.bounds
     self.bubbleImageView.frame = self.bounds
     self.imageView.frame = self.bounds
+    self.videoView.frame = self.bounds
   }
   
   func layoutToText(with text: String, isOutGoing: Bool) {
@@ -86,6 +91,8 @@ class IMUIMessageBubbleView: UIView {
     voiceImg.isHidden = true
     imageView.isHidden = true
     self.setupBubbleImage(isOutgoing: isOutGoing)
+    
+    self.videoReader.isNeedToStopVideo = true
   }
 
   func layoutToVoice(isOutGoing: Bool) {
@@ -93,6 +100,10 @@ class IMUIMessageBubbleView: UIView {
     
     voiceImg.isHidden = false
     imageView.isHidden = true
+    videoView.isHidden = true
+    
+    self.videoReader.isNeedToStopVideo = true
+    
     if isOutGoing {
       self.voiceImg.image = UIImage.imuiImage(with: "outgoing_voice_3")
     } else {
@@ -107,7 +118,11 @@ class IMUIMessageBubbleView: UIView {
     self.bubbleType = .image
     
     voiceImg.isHidden = true
+    videoView.isHidden = true
     imageView.isHidden = false
+    
+    self.videoReader.isNeedToStopVideo = true
+    
     self.setupBubbleImage(isOutgoing: isOutGoing)
     self.imageView.image = image
   }
@@ -125,11 +140,12 @@ class IMUIMessageBubbleView: UIView {
   
   func layoutVideo(with videoPath: String, isOutGoing: Bool) {
     voiceImg.isHidden = true
-    imageView.isHidden = false
+    imageView.isHidden = true
+    videoView.isHidden = false
     self.setupBubbleImage(isOutgoing: isOutGoing)
     self.videoReader.loadVideoFile(with: URL(fileURLWithPath: videoPath)) { (videoFrameImage) in
       DispatchQueue.main.async {
-        self.imageView.image = videoFrameImage
+        self.videoView.layer.contents = videoFrameImage
       }
     }
   }
