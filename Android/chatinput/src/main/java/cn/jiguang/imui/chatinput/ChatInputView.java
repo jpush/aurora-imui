@@ -140,6 +140,7 @@ public class ChatInputView extends LinearLayout
     private long mRecordTime;
     private boolean mPlaying = false;
     private final MediaPlayer mMediaPlayer = new MediaPlayer();
+    private boolean mIsRecordingVideo = false;
     private boolean mSetData;
     private FileInputStream mFIS;
     private FileDescriptor mFD;
@@ -375,7 +376,6 @@ public class ChatInputView extends LinearLayout
                 mChronometer.stop();
                 mPlaying = false;
                 mPreviewPlayBtn.stopPlay();
-                // TODO stop play audio
             }
         } else if (view.getId() == R.id.cancel_send_audio_btn) {
             mPreviewPlayLl.setVisibility(GONE);
@@ -392,7 +392,21 @@ public class ChatInputView extends LinearLayout
             ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(mWidth, mHeight);
             mTextureView.setLayoutParams(params);
         } else if (view.getId() == R.id.record_video_ib) {
-            // TODO create video file and start recording
+            if (!mIsRecordingVideo) {
+                mIsRecordingVideo = true;
+                mCameraSupport.startRecordingVideo();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRecordVoiceBtn.setImageResource(R.drawable.record_video);
+                    }
+                }, 200);
+            } else {
+                mIsRecordingVideo = false;
+                mCameraSupport.stopRecordingVideo();
+                mRecordVoiceBtn.setImageResource(R.drawable.record_video);
+            }
+
         } else if (view.getId() == R.id.capture_ib) {
             mCameraSupport.takePicture();
         } else if (view.getId() == R.id.switch_camera_ib) {
@@ -479,6 +493,7 @@ public class ChatInputView extends LinearLayout
         }
     }
 
+    // 播放录音
     private void playVoice() {
         try {
             mMediaPlayer.reset();
@@ -549,7 +564,7 @@ public class ChatInputView extends LinearLayout
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mCameraSupport = new CameraNew(getContext(), mTextureView);
         } else {
-            mCameraSupport = new CameraOld(mWidth, mMenuHeight, mTextureView);
+            mCameraSupport = new CameraOld(getContext(), mTextureView);
         }
         mCameraSupport.setCameraCallbackListener(this);
         mCameraSupport.setOutputFile(mPhoto);
@@ -570,7 +585,7 @@ public class ChatInputView extends LinearLayout
             @Override
             public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width,
                                                     int height) {
-                mCameraSupport.open(mCameraId, width, height);
+//                mCameraSupport.open(mCameraId, width, height);
             }
 
             @Override
@@ -984,15 +999,15 @@ public class ChatInputView extends LinearLayout
     }
 
     @Override
-    public void onTakePictureCompleted(File file) {
+    public void onTakePictureCompleted(String photoPath) {
         List<String> list = new ArrayList<>();
-        list.add(file.getAbsolutePath());
+        list.add(photoPath);
         mListener.onSendFiles(list);
     }
 
     @Override
-    public void onRecordVideoCompleted(File file) {
-
+    public void onRecordVideoCompleted(String videoPath) {
+        // TODO send video message
     }
 
     private static class MyHandler extends Handler {

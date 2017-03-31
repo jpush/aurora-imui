@@ -19,4 +19,5 @@
         否则将无法使用录音功能</string>
     <string name="file_not_found_toast">文件丢失</string>
     <string name="sdcard_not_prepare_toast">sdcard尚未准备好</string>
+    <string name="record_video_failed">录像失败</string>
 </resources>

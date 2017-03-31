@@ -1,9 +1,14 @@
 package cn.jiguang.imui.chatinput.camera;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
+import android.media.MediaRecorder;
 import android.util.Log;
+import android.util.SparseIntArray;
+import android.view.Surface;
 import android.view.TextureView;
 import android.widget.RelativeLayout;
 
@@ -18,31 +23,45 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class CameraOld implements CameraSupport {
 
-    private Camera camera;
-    private TextureView mTextureView;
-    private int mWidth;
-    private int mHeight;
-    private File mPhoto;
-    private OnCameraCallbackListener mCameraCallbackListener;
+    private final static String TAG = "CameraOld";
 
-    public CameraOld(int width, int height, TextureView textureView) {
-        this.mWidth = width;
-        this.mHeight = height;
+    private Camera mCamera;
+    private TextureView mTextureView;
+    private File mPhoto;
+    private Context mContext;
+    private OnCameraCallbackListener mCameraCallbackListener;
+    private MediaRecorder mMediaRecorder;
+    private String mNextVideoAbsolutePath;
+    private int mCameraId;
+    private Size mPreviewSize;
+    private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
+    private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
+    private static SparseIntArray ORIENTATIONS = new SparseIntArray();
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0, 0);
+        ORIENTATIONS.append(Surface.ROTATION_90, 90);
+        ORIENTATIONS.append(Surface.ROTATION_180, 180);
+        ORIENTATIONS.append(Surface.ROTATION_270, 270);
+    }
+
+    public CameraOld(Context context, TextureView textureView) {
+        this.mContext = context;
         this.mTextureView = textureView;
     }
 
     @Override
     public CameraSupport open(int cameraId, int width, int height) {
-        this.camera = Camera.open(cameraId);
-        Camera.Parameters params = camera.getParameters();
+        this.mCameraId = cameraId;
+        this.mCamera = Camera.open(cameraId);
+        Camera.Parameters params = mCamera.getParameters();
         /*获取摄像头支持的PictureSize列表*/
         List<Size> pictureSizeList = params.getSupportedPictureSizes();
         /*从列表中选取合适的分辨率*/
-        Size picSize = getProperSize(pictureSizeList, ((float) width) / height);
-        if (null != picSize) {
-            params.setPictureSize(picSize.width, picSize.height);
+        mPreviewSize = getProperSize(pictureSizeList, ((float) width) / height);
+        if (null != mPreviewSize) {
+            params.setPictureSize(mPreviewSize.width, mPreviewSize.height);
         } else {
-            picSize = params.getPictureSize();
+            mPreviewSize = params.getPictureSize();
         }
         /*获取摄像头支持的PreviewSize列表*/
         List<Size> previewSizeList = params.getSupportedPreviewSizes();
@@ -53,8 +72,8 @@ public class CameraOld implements CameraSupport {
         }
 
         /*根据选出的PictureSize重新设置SurfaceView大小*/
-        float w = picSize.width;
-        float h = picSize.height;
+        float w = mPreviewSize.width;
+        float h = mPreviewSize.height;
         mTextureView.setLayoutParams(new RelativeLayout.LayoutParams((int) (height * (w / h)), height));
 
         params.setJpegQuality(100); // 设置照片质量
@@ -63,37 +82,19 @@ public class CameraOld implements CameraSupport {
         }
 
 
-        camera.cancelAutoFocus();//只有加上了这一句，才会自动对焦。
+        mCamera.cancelAutoFocus();//只有加上了这一句，才会自动对焦。
         params.setPictureFormat(ImageFormat.JPEG);
-        camera.setParameters(params);
+        mCamera.setParameters(params);
         try {
-            camera.setPreviewTexture(mTextureView.getSurfaceTexture());
-            camera.setDisplayOrientation(90);
-            camera.startPreview();
+            mCamera.setPreviewTexture(mTextureView.getSurfaceTexture());
+            mCamera.setDisplayOrientation(90);
+            mCamera.startPreview();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return this;
     }
-
-    Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] bytes, Camera camera) {
-            if (mPhoto == null) {
-                return;
-            }
-            try {
-                FileOutputStream fos = new FileOutputStream(mPhoto);
-                fos.write(bytes);
-                fos.close();
-
-                // TODO take picture callback
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    };
 
     @Override
     public int getOrientation(int cameraId) {
@@ -104,10 +105,12 @@ public class CameraOld implements CameraSupport {
 
     @Override
     public void release() {
-        camera.setPreviewCallback(null);
-        camera.stopPreview();
-        camera.release();
-        camera = null;
+        mCamera.setPreviewCallback(null);
+        mCamera.stopPreview();
+        mCamera.lock();
+        mCamera.release();
+        mCamera = null;
+        releaseMediaRecorder();
     }
 
     @Override
@@ -117,7 +120,7 @@ public class CameraOld implements CameraSupport {
 
     @Override
     public void takePicture() {
-        camera.takePicture(null, null, new Camera.PictureCallback() {
+        mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] bytes, Camera camera) {
                 OutputStream outputStream = null;
@@ -126,7 +129,7 @@ public class CameraOld implements CameraSupport {
                     outputStream.write(bytes);
                     outputStream.close();
                     if (mCameraCallbackListener != null) {
-                        mCameraCallbackListener.onTakePictureCompleted(mPhoto);
+                        mCameraCallbackListener.onTakePictureCompleted(mPhoto.getAbsolutePath());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -175,5 +178,82 @@ public class CameraOld implements CameraSupport {
             return 0;
         }
 
+    }
+
+    public void setUpMediaRecorder() {
+        if (null == mContext) {
+            return;
+        }
+        Activity activity = (Activity) mContext;
+        mMediaRecorder = new MediaRecorder();
+        mCamera.stopPreview();
+        mCamera.unlock();
+        mMediaRecorder.setCamera(mCamera);
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        if (mNextVideoAbsolutePath == null || mNextVideoAbsolutePath.isEmpty()) {
+            mNextVideoAbsolutePath = getVideoFilePath(activity);
+        }
+        mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
+        mMediaRecorder.setVideoFrameRate(30);
+        mMediaRecorder.setVideoEncodingBitRate(10000000);
+        mMediaRecorder.setVideoSize(mPreviewSize.width, mPreviewSize.height);
+        mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        switch (getOrientation(mCameraId)) {
+            case SENSOR_ORIENTATION_DEFAULT_DEGREES:
+                mMediaRecorder.setOrientationHint(ORIENTATIONS.get(rotation));
+                break;
+            case SENSOR_ORIENTATION_INVERSE_DEGREES:
+                mMediaRecorder.setOrientationHint(rotation);
+                break;
+        }
+        try {
+            mMediaRecorder.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getVideoFilePath(Context context) {
+        String fileDir = context.getFilesDir().getAbsolutePath() + "/video";
+        File destDir = new File(fileDir);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        return destDir.getAbsolutePath() + "/" + System.currentTimeMillis() + ".mp4";
+    }
+
+    @Override
+    public void startRecordingVideo() {
+        try {
+            setUpMediaRecorder();
+            mMediaRecorder.start();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            Log.e(TAG, "MediaRecorder start error");
+            releaseMediaRecorder();
+        }
+    }
+
+    private void releaseMediaRecorder() {
+        if (mMediaRecorder != null) {
+            mMediaRecorder.release();
+            mMediaRecorder = null;
+        }
+    }
+
+    @Override
+    public void stopRecordingVideo() {
+        mMediaRecorder.stop();
+        mMediaRecorder.reset();
+        Log.e(TAG, "Stop recording video");
+        mCamera.startPreview();
+        if (mCameraCallbackListener != null) {
+            mCameraCallbackListener.onRecordVideoCompleted(mNextVideoAbsolutePath);
+        }
+        mNextVideoAbsolutePath = null;
     }
 }

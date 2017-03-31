@@ -10,4 +10,6 @@ public interface CameraSupport {
     void setOutputFile(File file);
     void takePicture();
     void setCameraCallbackListener(OnCameraCallbackListener listener);
+    void startRecordingVideo();
+    void stopRecordingVideo();
 }

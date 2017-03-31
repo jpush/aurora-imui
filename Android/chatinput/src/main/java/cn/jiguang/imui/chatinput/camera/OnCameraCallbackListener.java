@@ -9,14 +9,14 @@ public interface OnCameraCallbackListener {
     /**
      * Fires when take picture finished.
      *
-     * @param file Return the picture file.
+     * @param photoPath Return the absolute path of picture file.
      */
-    void onTakePictureCompleted(File file);
+    void onTakePictureCompleted(String photoPath);
 
     /**
      * Fires when record video finished.
      *
-     * @param file Return the video file.
+     * @param videoPath Return the absolute path of video file.
      */
-    void onRecordVideoCompleted(File file);
+    void onRecordVideoCompleted(String videoPath);
 }
