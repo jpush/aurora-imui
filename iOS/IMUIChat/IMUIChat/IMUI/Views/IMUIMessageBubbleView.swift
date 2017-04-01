@@ -73,7 +73,6 @@ class IMUIMessageBubbleView: UIView {
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-    
   }
 
   override func layoutSubviews() {
@@ -87,11 +86,13 @@ class IMUIMessageBubbleView: UIView {
   func layoutToText(with text: String, isOutGoing: Bool) {
     self.bubbleType = .text
     
-    textMessageLable.text = text
     voiceImg.isHidden = true
     imageView.isHidden = true
-    self.setupBubbleImage(isOutgoing: isOutGoing)
+    videoView.isHidden = true
+    textMessageLable.isHidden = false
     
+    textMessageLable.text = text
+    self.setupBubbleImage(isOutgoing: isOutGoing)
     self.videoReader.isNeedToStopVideo = true
   }
 
@@ -101,6 +102,7 @@ class IMUIMessageBubbleView: UIView {
     voiceImg.isHidden = false
     imageView.isHidden = true
     videoView.isHidden = true
+    textMessageLable.isHidden = true
     
     self.videoReader.isNeedToStopVideo = true
     
@@ -119,6 +121,7 @@ class IMUIMessageBubbleView: UIView {
     
     voiceImg.isHidden = true
     videoView.isHidden = true
+    textMessageLable.isHidden = true
     imageView.isHidden = false
     
     self.videoReader.isNeedToStopVideo = true
@@ -141,14 +144,14 @@ class IMUIMessageBubbleView: UIView {
   func layoutVideo(with videoPath: String, isOutGoing: Bool) {
     voiceImg.isHidden = true
     imageView.isHidden = true
+    textMessageLable.isHidden = true
     videoView.isHidden = false
+    
     self.setupBubbleImage(isOutgoing: isOutGoing)
     self.videoView.layer.contents = nil
     self.videoReader.loadVideoFile(with: URL(fileURLWithPath: videoPath)) { (videoFrameImage) in
       DispatchQueue.main.async {
-//        let image = UIImage(ciImage: videoFrameImage)
         self.videoView.layer.contents = videoFrameImage
-//        self.videoView.image = image
       }
     }
   }

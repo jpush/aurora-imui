@@ -21,33 +21,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTA-Wu-Jax">
-                                <rect key="frame" x="99" y="128" width="147" height="46"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="enterChatPage"/>
-                                <connections>
-                                    <action selector="clickBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dwQ-4E-MEC"/>
-                                    <segue destination="btR-ED-Yd1" kind="show" id="fCM-LY-91a"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="grm-Nr-isw" customClass="IMUIInputView" customModule="IMUIChat" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="606" width="375" height="61"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2BR-mF-TZo" customClass="IMUIMessageCollectionView" customModule="IMUIChat" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="598"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="grm-Nr-isw" secondAttribute="trailing" id="5uv-Kw-b4G"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="grm-Nr-isw" secondAttribute="bottom" id="8jt-6l-7Kk"/>
+                            <constraint firstAttribute="trailing" secondItem="2BR-mF-TZo" secondAttribute="trailing" id="MIJ-MR-k3Q"/>
+                            <constraint firstItem="2BR-mF-TZo" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="SNY-9p-HsM"/>
+                            <constraint firstItem="grm-Nr-isw" firstAttribute="top" secondItem="2BR-mF-TZo" secondAttribute="bottom" id="XuD-pl-H9z"/>
+                            <constraint firstItem="grm-Nr-isw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Y4V-bI-NYO"/>
+                            <constraint firstItem="2BR-mF-TZo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="pCX-e2-f5R"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="progressBtn" destination="eTA-Wu-Jax" id="8Xg-8f-DZT"/>
+                        <outlet property="messageCollectionView" destination="2BR-mF-TZo" id="ims-ko-dAo"/>
+                        <outlet property="myInputView" destination="grm-Nr-isw" id="pbN-Gc-rK7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="24.800000000000001" y="36.431784107946029"/>
-        </scene>
-        <!--ChatVC-->
-        <scene sceneID="mNv-0h-RbB">
-            <objects>
-                <viewControllerPlaceholder storyboardName="IMUIChatViewController" referencedIdentifier="ChatVC" id="btR-ED-Yd1" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mew-4Z-Xy0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="672" y="123"/>
         </scene>
     </scenes>
 </document>

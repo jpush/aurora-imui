@@ -30,10 +30,9 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   @IBOutlet weak var switchCameraModeBtn: UIButton!
   @IBOutlet weak var cameraShotBtn: UIButton!
   @IBOutlet weak var switchCameraDeviceBtn: UIButton!
-  
   @IBOutlet weak var resizeCameraPreviewBtn: UIButton!
-  
   @IBOutlet weak var cameraPreviewView: IMUICameraPreviewView!
+  
   weak var delegate: IMUIInputViewDelegate?
   
   var inputViewDelegate: IMUIInputViewDelegate? {
@@ -67,7 +66,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     didSet {
       self.switchCameraModeBtn.isSelected = !isPhotoMode
       self.cameraShotBtn.isSelected = !isPhotoMode
-      
     }
   }
 
@@ -89,14 +87,11 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       _photoOutput = newValue
     }
   }
-  
-  
-
 
   var videoDeviceInput: AVCaptureDeviceInput!
   private var livePhotoMode: LivePhotoMode = .off
   var backgroundRecordingID: UIBackgroundTaskIdentifier? = nil
-//  private var movieFileOutput: AVCaptureMovieFileOutput? = nil
+
   private var isSessionRunning = false
   private var sessionRunningObserveContext = 0
   private let sessionQueue = DispatchQueue(label: "session queue", attributes: [], target: nil) // Communicate with the session and other session objects on this
@@ -160,25 +155,8 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         self.capturePhotoBefore_iOS8()
       }
     } else {
-      
-      
-//      let captureConnection = videoFileOutput?.connection(withMediaType: AVMediaTypeVideo)
-//      if (captureConnection?.isActive)! {
-//        videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: self.getPath()), recordingDelegate: self)
-//      } else {
-//        print("not activity")
-//      }
+
       if !(videoFileOutput!.isRecording) {
-        
-//        [self.recordButton setTitle:@"Stop" forState:UIControlStateNormal];
-//        
-//        NSString *outputPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"output.mp4"];
-//        
-//        NSFileManager *manager = [[NSFileManager alloc] init];
-//        if ([manager fileExistsAtPath:outputPath])
-//        {
-//          [manager removeItemAtPath:outputPath error:nil];
-//        }
         
         let outputPath = self.getPath()
         let fileManager = FileManager()
@@ -191,20 +169,14 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           
         }
         session.beginConfiguration()
-//        session.sessionPreset = AVCaptureSessionPresetHigh
-//        session.sessionPreset = AVCaptureSessionPreset640x480
         session.sessionPreset = AVCaptureSessionPreset352x288
         session.commitConfiguration()
         videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputPath), recordingDelegate: self)
-        
       } else {
         videoFileOutput?.stopRecording()
       }
-      
-      
     }
-    
-    
+
   }
   
   @IBAction func clickToSwitchCamera(_ sender: Any) {
@@ -291,7 +263,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   
   private func capturePhotoBefore_iOS8() {
 
-    
     stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
     
     var videoConnection: AVCaptureConnection? = nil
@@ -453,7 +424,6 @@ extension UIInterfaceOrientation {
     }
   }
 }
-
 
 
 extension IMUICameraCell: AVCaptureFileOutputRecordingDelegate {
