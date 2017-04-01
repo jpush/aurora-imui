@@ -52,7 +52,6 @@ class IMUIVideFileLoaderOperation: Operation {
   init(url: URL, callback: @escaping ReadFrameCallBack) {
     self.url = url
     self.readFrameCallback = callback
-    
     super.init()
   }
   
@@ -70,7 +69,7 @@ class IMUIVideFileLoaderOperation: Operation {
         reader.add(videoReaderOutput)
         reader.startReading()
         
-        while reader.status == .reading && videoTrack.nominalFrameRate > 0 && self.isNeedToStop != true {
+        while reader.status == .reading && videoTrack.nominalFrameRate > 0 {
           let videoBuffer = videoReaderOutput.copyNextSampleBuffer()
           
           if videoBuffer == nil {
@@ -82,11 +81,14 @@ class IMUIVideFileLoaderOperation: Operation {
           
           let image = self.imageFromSampleBuffer(sampleBuffer: videoBuffer!)
           
-          usleep(41666)
-          
+          if self.isNeedToStop != true {
+            self.readFrameCallback(image)
+          } else {
+            break
+          }
 
-          self.readFrameCallback(image)
-          
+          usleep(41666)
+
           if reader.status == .completed {
             reader.cancelReading()
           }
@@ -118,6 +120,11 @@ class IMUIVideFileLoaderOperation: Operation {
     CVPixelBufferUnlockBaseAddress(imageBuffer!,CVPixelBufferLockFlags(rawValue: 0));
     
     return quartzImage!
+  }
+  
+  fileprivate func ciImageFromSampleBuffer(sampleBuffer: CMSampleBuffer) -> CIImage {
+    return CIImage(cvPixelBuffer: CMSampleBufferGetImageBuffer(sampleBuffer)!)
+    
   }
   
 }

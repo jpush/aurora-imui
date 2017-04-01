@@ -25,7 +25,7 @@ class IMUIMessageBubbleView: UIView {
   var imageView: UIImageView
   var textMessageLable: IMUITextView
   var voiceImg: UIImageView
-  var videoView: UIView
+  var videoView: UIImageView
   
   var videoReader = IMUIVideoFileLoader()
   
@@ -56,7 +56,7 @@ class IMUIMessageBubbleView: UIView {
     textMessageLable = IMUITextView()
     voiceImg = UIImageView()
     imageView = UIImageView()
-    videoView = UIView()
+    videoView = UIImageView()
     super.init(frame: frame)
     
     self.addSubview(bubbleImageView)
@@ -143,9 +143,12 @@ class IMUIMessageBubbleView: UIView {
     imageView.isHidden = true
     videoView.isHidden = false
     self.setupBubbleImage(isOutgoing: isOutGoing)
+    self.videoView.layer.contents = nil
     self.videoReader.loadVideoFile(with: URL(fileURLWithPath: videoPath)) { (videoFrameImage) in
       DispatchQueue.main.async {
+//        let image = UIImage(ciImage: videoFrameImage)
         self.videoView.layer.contents = videoFrameImage
+//        self.videoView.image = image
       }
     }
   }

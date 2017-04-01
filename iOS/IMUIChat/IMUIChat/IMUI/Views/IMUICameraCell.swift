@@ -191,7 +191,9 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           
         }
         session.beginConfiguration()
-        session.sessionPreset = AVCaptureSessionPresetHigh
+//        session.sessionPreset = AVCaptureSessionPresetHigh
+//        session.sessionPreset = AVCaptureSessionPreset640x480
+        session.sessionPreset = AVCaptureSessionPreset352x288
         session.commitConfiguration()
         videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputPath), recordingDelegate: self)
         
@@ -211,6 +213,11 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   
   @IBAction func clickToChangeCameraMode(_ sender: Any) {
     isPhotoMode = !isPhotoMode
+    if isPhotoMode {
+      session.sessionPreset = AVCaptureSessionPresetPhoto
+    } else {
+      session.sessionPreset = AVCaptureSessionPreset352x288
+    }
   }
   
   @IBAction func clickToAdjustCameraViewSize(_ sender: Any) {
