@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/jmui_chat_item_send_layout">
+
+    <TextView
+        android:id="@+id/date_tv"
+        style="@style/jmui_chat_text_date_style"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="4dp">
+
+            <ImageView
+                android:id="@+id/image_msglist_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:visibility="invisible"
+                />
+
+            <com.volokh.danylo.video_player_manager.ui.VideoPlayerView
+                android:id="@+id/video_msglist_send"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                />
+        </FrameLayout>
+
+        <cn.jiguang.imui.utils.CircleImageView
+            android:id="@+id/avatar_iv"
+            style="@style/jmui_chat_item_sender_avatar_style"/>
+    </LinearLayout>
+</LinearLayout>
