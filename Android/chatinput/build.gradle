@@ -1,14 +1,6 @@
 apply plugin: 'com.android.library'
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-    }
-}
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 25
@@ -19,6 +11,97 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            jniLibs.srcDirs = ['libs']
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+}
+
+group = "cn.jiguang.imui.chatinput"
+version = '1.0'
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'ChatInputView for IM UI'
+                url 'https://github.com/jpush/imui'
+                licenses {
+                    license {
+                        name 'MIT Liscense'
+                        url 'https://github.com/jpush/imui/blob/master/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id "null"
+                        name "KenChoi1992"
+                        email "caiyg@jpush.cn"
+                    }
+                    developer {
+                        id "null"
+                        name "Hevin"
+                        email "liuhw@jpush.cn"
+                    }
+                }
+                scm {
+                    connection 'https://github.com/jpush/imui'
+                    developerConnection 'https://github.com/jpush'
+                    url 'https://github.com/jpush/imui'
+                }
+            }
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['ChatInputPublication']
+    pkg {
+        repo = 'maven'
+        name = 'chatInputView'
+        userOrg = 'JiGuang'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/jpush/imui.git'
+        version {
+            name = '1.0-SNAPSHOT'
+            desc = 'ChatInputView for IM UI'
+            released = new Date()
+            vcsTag = '1.0'
+        }
+        configurations = ['archives']
     }
 }
 
