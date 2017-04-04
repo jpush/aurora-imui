@@ -188,8 +188,6 @@ extension IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
           IMUIMessageCellLayout.avatarSize.width -
           IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal -
           self.bubbleSize.width
-        
-        
       } else {
         bubbleX = IMUIMessageCellLayout.avatarOffsetToCell.horizontal +
           IMUIMessageCellLayout.avatarSize.width +
@@ -206,7 +204,6 @@ extension IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
     }
   }
 }
-
 
 
 // MARK: - IMUIMessageModelProtocol

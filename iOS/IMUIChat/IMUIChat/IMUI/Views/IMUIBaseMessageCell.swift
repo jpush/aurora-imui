@@ -16,8 +16,12 @@ enum IMUIMessageCellType {
 
 protocol IMUIMessageCellProtocal {
   func presentCell(with message: IMUIMessageModel)
+  func didDisAppearCell()
 }
 
+extension IMUIMessageCellProtocal {
+  func didDisAppearCell() {}
+}
 
 class IMUIBaseMessageCell: UICollectionViewCell {
   var bubbleView: IMUIMessageBubbleView
@@ -77,61 +81,42 @@ class IMUIBaseMessageCell: UICollectionViewCell {
     self.timeLable.text = message.date.parseDate
     self.message = message
     
-    switch message.type {
-    case .text:
-      bubbleView.layoutToText(with: message.textMessage(), isOutGoing: message.isOutGoing)
-      break
-    case .voice:
-      bubbleView.layoutToVoice(isOutGoing: message.isOutGoing)
-      break
-    case .image:
-      bubbleView.layoutImage(image: UIImage(data: message.mediaData())!, isOutGoing: message.isOutGoing)
-      break
-    case .video:
-      bubbleView.layoutVideo(with: message.videoPath!, isOutGoing: message.isOutGoing)
-      break
-    case .location:
-      break
-    case .custom:
-      break
-    default:
-      break
-    }
+    self.bubbleView.setupBubbleImage(isOutgoing: message.isOutGoing)
   }
   
   func tapBubbleView() {
     
-    if bubbleView.isActivity {
-      switch message!.type {
-      case .voice:
-        IMUIAudioPlayerHelper.sharedInstance.stopAudio()
-        break
-      default:
-        break
-      }
-    } else {
-      switch message!.type {
-      case .voice:
-        IMUIAudioPlayerHelper.sharedInstance.playAudioWithData((message?.mediaData())!,
-                                                               progressCallback: { (currendTime, duration) in
-          
-                                                                },
-                                                               finishCallBack: {
-                                                                self.bubbleView.isActivity = false
-                                                              })
-        break
-      default:
-        break
-      }
-    }
+//    if bubbleView.isActivity {
+//      switch message!.type {
+//      case .voice:
+//        IMUIAudioPlayerHelper.sharedInstance.stopAudio()
+//        break
+//      default:
+//        break
+//      }
+//    } else {
+//      switch message!.type {
+//      case .voice:
+//        IMUIAudioPlayerHelper.sharedInstance.playAudioWithData((message?.mediaData())!,
+//                                                               progressCallback: { (currendTime, duration) in
+//          
+//                                                                },
+//                                                               finishCallBack: {
+//                                                                self.bubbleView.isActivity = false
+//                                                              })
+//        break
+//      default:
+//        break
+//      }
+//    }
     
-    bubbleView.isActivity = !bubbleView.isActivity
+//    bubbleView.isActivity = !bubbleView.isActivity
   }
 }
 
-extension IMUIBaseMessageCell: IMUIMessageCellProtocal {
-  open func presentCell(with message: IMUIMessageModel) {
-    self.layoutCell(with: message.layout!)
-    self.setupData(with: message)
-  }
-}
+//extension IMUIBaseMessageCell: IMUIMessageCellProtocal {
+//  open func presentCell(with message: IMUIMessageModel) {
+//    self.layoutCell(with: message.layout!)
+//    self.setupData(with: message)
+//  }
+//}

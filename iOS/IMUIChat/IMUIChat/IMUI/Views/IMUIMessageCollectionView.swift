@@ -55,7 +55,11 @@ class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.delegate = self
     self.messageCollectionView.dataSource = self
     
-    self.messageCollectionView.register(IMUIBaseMessageCell.self, forCellWithReuseIdentifier: IMUIBaseMessageCell.self.description())
+    self.messageCollectionView.register(IMUITextMessageCell.self, forCellWithReuseIdentifier: IMUITextMessageCell.self.description())
+    self.messageCollectionView.register(IMUIImageMessageCell.self, forCellWithReuseIdentifier: IMUIImageMessageCell.self.description())
+    self.messageCollectionView.register(IMUIVoiceMessageCell.self, forCellWithReuseIdentifier: IMUIVoiceMessageCell.self.description())
+    self.messageCollectionView.register(IMUIVideoMessageCell.self, forCellWithReuseIdentifier: IMUIVideoMessageCell.self.description())
+    
     self.messageCollectionView.isScrollEnabled = true
   }
   
@@ -103,7 +107,25 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
   func collectionView(_ collectionView: UICollectionView,
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-    let cell: IMUIMessageCellProtocal = collectionView.dequeueReusableCell(withReuseIdentifier: IMUIBaseMessageCell.self.description(), for: indexPath) as! IMUIMessageCellProtocal
+    var cellIdentify = ""
+    let messageModel = self.chatDataManager[indexPath.item]
+    switch messageModel.type {
+    case .text:
+      cellIdentify = IMUITextMessageCell.self.description()
+      break
+    case .image:
+      cellIdentify = IMUIImageMessageCell.self.description()
+      break
+    case .voice:
+      cellIdentify = IMUIVoiceMessageCell.self.description()
+      break
+    case .video:
+      cellIdentify = IMUIVideoMessageCell.self.description()
+      break
+    default:
+      break
+    }
+    let cell: IMUIMessageCellProtocal = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentify, for: indexPath) as! IMUIMessageCellProtocal
     cell.presentCell(with: self.chatDataManager[indexPath.item])
     return cell as! UICollectionViewCell
   }
@@ -113,4 +135,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
     
   }
 
+  func collectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
+    print("dadfsf\(didEndDisplaying)")
+  }
 }
