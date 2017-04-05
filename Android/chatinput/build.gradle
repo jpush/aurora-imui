@@ -12,6 +12,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -26,8 +27,8 @@ android {
     }
 }
 
-group = "cn.jiguang.imui.chatinput"
-version = '1.0'
+group = "cn.jiguang.imui"
+version = '1.0.0'
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -37,6 +38,17 @@ task sourcesJar(type: Jar) {
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet "UTF-8"
+        author true
+        version true
+        links "http://docs.oracle.com/javase/8/docs/api"
+        title "chatInputView"
+    }
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -54,6 +66,8 @@ install {
             project {
                 packaging 'aar'
                 name 'ChatInputView for IM UI'
+                groupId 'cn.jiguang.imui'
+                artifactId 'chatinput'
                 url 'https://github.com/jpush/imui'
                 licenses {
                     license {
@@ -63,13 +77,13 @@ install {
                 }
                 developers {
                     developer {
-                        id "null"
-                        name "KenChoi1992"
+                        id "KenChoi1992"
+                        name "Ken Choi"
                         email "caiyg@jpush.cn"
                     }
                     developer {
-                        id "null"
-                        name "Hevin"
+                        id "Hevin"
+                        name "Hevin Liu"
                         email "liuhw@jpush.cn"
                     }
                 }
@@ -88,18 +102,18 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
-    publications = ['ChatInputPublication']
     pkg {
         repo = 'maven'
-        name = 'chatInputView'
+        name = 'chatinput'
         userOrg = 'JiGuang'
         licenses = ['MIT']
+        publish = true
         vcsUrl = 'https://github.com/jpush/imui.git'
         version {
-            name = '1.0-SNAPSHOT'
+            name = '1.0.0'
             desc = 'ChatInputView for IM UI'
             released = new Date()
-            vcsTag = '1.0'
+            vcsTag = '1.0.0'
         }
         configurations = ['archives']
     }
