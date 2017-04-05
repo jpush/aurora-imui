@@ -8,7 +8,9 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +32,7 @@ import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.models.IMessage;
+import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import imui.jiguang.cn.imuisample.R;
 import imui.jiguang.cn.imuisample.models.DefaultUser;
@@ -43,8 +46,11 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
     private Context mContext;
     private List<MyMessage> mData;
     private ChatView mChatView;
+
     private final int REQUEST_RECORD_VOICE_PERMISSION = 0x0001;
     private final int REQUEST_CAMERA_PERMISSION = 0x0002;
+    private final int REQUEST_PHOTO_PERMISSION = 0x0003;
+
     private InputMethodManager mImm;
     private Window mWindow;
 
@@ -105,7 +111,12 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public void onPhotoClick() {
-
+                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MessageListActivity.this, new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                    }, REQUEST_PHOTO_PERMISSION);
+                }
             }
 
             @Override
@@ -152,7 +163,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode == REQUEST_RECORD_VOICE_PERMISSION) {
             if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // Permission denied
@@ -163,6 +175,12 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // Permission denied
                 Toast.makeText(mContext, "User denied permission, can't use take photo feature.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == REQUEST_PHOTO_PERMISSION) {
+            if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                // Permission denied
+                Toast.makeText(mContext, "User denied permission, can't use select photo feature.",
                         Toast.LENGTH_SHORT).show();
             }
         }

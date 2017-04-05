@@ -1,5 +1,6 @@
 package cn.jiguang.imui.chatinput;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -7,6 +8,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
@@ -447,9 +449,14 @@ public class ChatInputView extends LinearLayout
                 if (mListener != null) {
                     mListener.onPhotoClick();
                 }
+
+                if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+
                 showPhotoLayout();
 
-                // TODO: 判断是否有新增照片或视频
                 if (mMedias == null) {
                     mMedias = new ArrayList<>();
                     mProgressBar.setVisibility(View.VISIBLE);
