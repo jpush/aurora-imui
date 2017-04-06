@@ -95,6 +95,8 @@ public class ChatInputView extends LinearLayout
     private Space mInputMarginRight;
     private ImageButton mVoiceBtn;
     private ImageButton mCameraBtn;
+    private LinearLayout mChatInputContainer;
+    private LinearLayout mMenuItemContainer;
     private FrameLayout mMenuContainer;
     private RelativeLayout mRecordVoiceRl;
     private LinearLayout mPreviewPlayLl;
@@ -155,7 +157,7 @@ public class ChatInputView extends LinearLayout
     private CameraSupport mCameraSupport;
     private int mCameraId = -1;
     private boolean mBackCamera = true;
-
+    private boolean mIsFullScreen = false;
     private Context mContext;
 
     public ChatInputView(Context context) {
@@ -185,6 +187,8 @@ public class ChatInputView extends LinearLayout
         mCameraBtn = (ImageButton) findViewById(R.id.camera_ib);
         mInputMarginLeft = (Space) findViewById(R.id.input_margin_left);
         mInputMarginRight = (Space) findViewById(R.id.input_margin_right);
+        mChatInputContainer = (LinearLayout) findViewById(R.id.chat_input_container);
+        mMenuItemContainer = (LinearLayout) findViewById(R.id.menu_item_container);
         mMenuContainer = (FrameLayout) findViewById(R.id.menu_container);
         mRecordVoiceRl = (RelativeLayout) findViewById(R.id.record_voice_container);
         mPreviewPlayLl = (LinearLayout) findViewById(R.id.preview_play_container);
@@ -390,9 +394,21 @@ public class ChatInputView extends LinearLayout
             mRecordVoiceBtn.finishRecord();
             mChronometer.setText("00:00");
         } else if (view.getId() == R.id.full_screen_ib) {
-            mTextureView.bringToFront();
-            ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(mWidth, mHeight);
-            mTextureView.setLayoutParams(params);
+            if (!mIsFullScreen) {
+                mFullScreenBtn.setBackgroundResource(R.drawable.recover_screen);
+                mChatInputContainer.setVisibility(GONE);
+                mMenuItemContainer.setVisibility(GONE);
+                mMenuContainer.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mHeight));
+                mCameraSupport.open(mCameraId, mWidth, mHeight);
+                mIsFullScreen = true;
+            } else {
+                mIsFullScreen = false;
+                mFullScreenBtn.setBackgroundResource(R.drawable.full_screen);
+                mChatInputContainer.setVisibility(VISIBLE);
+                mMenuItemContainer.setVisibility(VISIBLE);
+                setMenuContainerHeight(mMenuHeight);
+            }
+
         } else if (view.getId() == R.id.record_video_ib) {
             if (!mIsRecordingVideo) {
                 mIsRecordingVideo = true;
@@ -666,7 +682,7 @@ public class ChatInputView extends LinearLayout
      * @param height Height of menu, set same height as soft keyboard so that display to perfection.
      */
     public void setMenuContainerHeight(int height) {
-        if (height > 0 && height != mMenuHeight) {
+        if (height > 0) {
             mMenuHeight = height;
             mMenuContainer.setLayoutParams(
                     new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));

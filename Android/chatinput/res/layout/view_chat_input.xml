@@ -3,12 +3,12 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingTop="10dp"
     android:background="@color/default_input_bg">
 
     <LinearLayout
         android:id="@+id/chat_input_container"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="50dp"
         android:orientation="horizontal">
 

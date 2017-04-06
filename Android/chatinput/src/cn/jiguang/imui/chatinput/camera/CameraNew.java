@@ -205,6 +205,9 @@ public class CameraNew implements CameraSupport {
     private Size getPreferredPreviewSize(Size[] sizes, int width, int height) {
         List<Size> collectorSizes = new ArrayList<>();
         for (Size option : sizes) {
+            if (option.getWidth() == width && option.getHeight() == height) {
+                return option;
+            }
             if (width > height) {
                 if (option.getWidth() > width && option.getHeight() > height) {
                     collectorSizes.add(option);
@@ -223,20 +226,6 @@ public class CameraNew implements CameraSupport {
                 }
             });
         }
-//        for (Size option : sizes) {
-//            if (option.getHeight() == option.getWidth() * height / width
-//                    && option.getWidth() >= width && option.getHeight() >= height) {
-//                collectorSizes.add(option);
-//            }
-//        }
-//        if (collectorSizes.size() > 0) {
-//            return Collections.min(collectorSizes, new Comparator<Size>() {
-//                @Override
-//                public int compare(Size s1, Size s2) {
-//                    return Long.signum((long) s1.getWidth() * s1.getHeight() / (long) s2.getWidth() * s2.getHeight());
-//                }
-//            });
-//        }
         return sizes[0];
     }
 
