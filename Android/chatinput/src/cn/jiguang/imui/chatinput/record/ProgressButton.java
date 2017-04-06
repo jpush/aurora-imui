@@ -191,7 +191,7 @@ public class ProgressButton extends Button {
     /**
      * 设置进度的最大值
      *
-     * @param max
+     * @param max audio duration in seconds
      */
     public synchronized void setMax(int max) {
         if (max < 0) {
