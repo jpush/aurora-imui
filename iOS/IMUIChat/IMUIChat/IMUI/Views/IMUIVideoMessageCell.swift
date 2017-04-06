@@ -25,26 +25,18 @@ class IMUIVideoMessageCell: IMUIBaseMessageCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    self.videoView.frame = bubbleView.bounds
+    self.videoView.frame = (message?.layout?.bubbleContentFrame)!
   }
   
   func didDisAppearCell() {
     self.videoReader.isNeedToStopVideo = true
   }
   
-}
-
-
-extension IMUIVideoMessageCell: IMUIMessageCellProtocal {
-  open func presentCell(with message: IMUIMessageModel) {
-    self.layoutCell(with: message.layout!)
-    self.setupData(with: message)
-    
+  override func presentCell(with message: IMUIMessageModel) {
     self.layoutVideo(with: message.videoPath!)
   }
   
   func layoutVideo(with videoPath: String) {
-    
     self.videoView.layer.contents = nil
     self.videoReader.loadVideoFile(with: URL(fileURLWithPath: videoPath)) { (videoFrameImage) in
       DispatchQueue.main.async {

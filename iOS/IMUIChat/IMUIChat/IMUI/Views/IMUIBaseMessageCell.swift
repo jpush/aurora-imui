@@ -23,7 +23,7 @@ extension IMUIMessageCellProtocal {
   func didDisAppearCell() {}
 }
 
-class IMUIBaseMessageCell: UICollectionViewCell {
+class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   var bubbleView: IMUIMessageBubbleView
   var avatarImage: UIImageView
   var timeLable: UILabel
@@ -63,10 +63,6 @@ class IMUIBaseMessageCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func layoutCell(with type: IMUIMessageCellType) {
-    
-  }
-  
   func layoutCell(with layout: IMUIMessageCellLayout) {
     self.timeLable.frame = layout.timeLabelFrame
     self.avatarImage.frame = layout.avatarFrame
@@ -84,39 +80,12 @@ class IMUIBaseMessageCell: UICollectionViewCell {
     self.bubbleView.setupBubbleImage(isOutgoing: message.isOutGoing)
   }
   
+  func presentCell(with message: IMUIMessageModel) {
+    self.layoutCell(with: message.layout!)
+    self.setupData(with: message)
+  }
+  
   func tapBubbleView() {
-    
-//    if bubbleView.isActivity {
-//      switch message!.type {
-//      case .voice:
-//        IMUIAudioPlayerHelper.sharedInstance.stopAudio()
-//        break
-//      default:
-//        break
-//      }
-//    } else {
-//      switch message!.type {
-//      case .voice:
-//        IMUIAudioPlayerHelper.sharedInstance.playAudioWithData((message?.mediaData())!,
-//                                                               progressCallback: { (currendTime, duration) in
-//          
-//                                                                },
-//                                                               finishCallBack: {
-//                                                                self.bubbleView.isActivity = false
-//                                                              })
-//        break
-//      default:
-//        break
-//      }
-//    }
-    
-//    bubbleView.isActivity = !bubbleView.isActivity
+    print("tapBubbleView")
   }
 }
-
-//extension IMUIBaseMessageCell: IMUIMessageCellProtocal {
-//  open func presentCell(with message: IMUIMessageModel) {
-//    self.layoutCell(with: message.layout!)
-//    self.setupData(with: message)
-//  }
-//}

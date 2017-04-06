@@ -29,6 +29,7 @@ class MyMessageModel: IMUIMessageModel {
     
     return mediaPath
   }
+  
   init(msgId: String, fromUser: IMUIUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String, layout: IMUIMessageCellLayout?) {
     self.myTextMessage = text
     self.mediaPath = mediaPath
@@ -37,7 +38,12 @@ class MyMessageModel: IMUIMessageModel {
   }
   
   convenience init(text: String) {
-    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  nil)
+    let layout = IMUIMessageCellLayout(isOutGoingMessage: true,
+                                       bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text),
+                                       bubbleContentInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10),
+                                       isNeedShowTime: false)
+    
+    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  layout)
   }
 
   convenience init(voicePath: String) {
@@ -66,4 +72,10 @@ class MyMessageModel: IMUIMessageModel {
     return mediaData!
   }
   
+  
+  static func calculateTextContentSize(text: String) -> CGSize {
+    let textSize  = text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: UIFont.systemFont(ofSize: 18))
+    
+    return textSize
+  }
 }

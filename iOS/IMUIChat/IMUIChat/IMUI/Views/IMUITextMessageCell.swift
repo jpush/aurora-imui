@@ -18,7 +18,6 @@ class IMUITextMessageCell: IMUIBaseMessageCell {
     super.init(frame: frame)
     self.bubbleView.addSubview(textMessageLable)
     textMessageLable.numberOfLines = 0
-    textMessageLable.contentInset = IMUIMessageCellLayout.contentInset
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -27,20 +26,20 @@ class IMUITextMessageCell: IMUIBaseMessageCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    self.textMessageLable.frame = bubbleView.bounds
+    self.textMessageLable.frame = (message?.layout?.bubbleContentFrame)!
+    self.textMessageLable.font = UIFont.systemFont(ofSize: 18)
+    
   }
   
-}
-
-extension IMUITextMessageCell: IMUIMessageCellProtocal {
-  open func presentCell(with message: IMUIMessageModel) {
-    self.layoutCell(with: message.layout!)
-    self.setupData(with: message)
+  override func presentCell(with message: IMUIMessageModel) {
+    super.presentCell(with: message)
     
+    self.textMessageLable.frame = (message.layout?.bubbleContentFrame)!
     self.layoutToText(with: message.textMessage(), isOutGoing: message.isOutGoing)
   }
   
   func layoutToText(with text: String, isOutGoing: Bool) {
     textMessageLable.text = text
   }
+  
 }

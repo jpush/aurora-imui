@@ -10,7 +10,12 @@ import UIKit
 
 class IMUIVoiceMessageCell: IMUIBaseMessageCell {
 
-  var voiceImg = UIImageView()
+  fileprivate var voiceImg = UIImageView()
+  fileprivate var isMediaActivity = false {
+    didSet {
+      
+    }
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -25,41 +30,26 @@ class IMUIVoiceMessageCell: IMUIBaseMessageCell {
   override func tapBubbleView() {
     super.tapBubbleView()
     
-        if bubbleView.isActivity {
-          switch message!.type {
-          case .voice:
-            IMUIAudioPlayerHelper.sharedInstance.stopAudio()
-            break
-          default:
-            break
-          }
-        } else {
-          switch message!.type {
-          case .voice:
-            IMUIAudioPlayerHelper.sharedInstance.playAudioWithData((message?.mediaData())!,
-                                                                   progressCallback: { (currendTime, duration) in
-    
-                                                                    },
-                                                                   finishCallBack: {
-                                                                    self.bubbleView.isActivity = false
+        if isMediaActivity {
+          IMUIAudioPlayerHelper.sharedInstance.playAudioWithData((message?.mediaData())!,
+                                                                 progressCallback: { (currendTime, duration) in
+                                                                  
+                                                                  },
+                                                                 finishCallBack: {
+                                                                  self.isMediaActivity = false
                                                                   })
-            break
-          default:
-            break
-          }
+        } else {
+          IMUIAudioPlayerHelper.sharedInstance.stopAudio()
+
         }
     
-        bubbleView.isActivity = !bubbleView.isActivity
+    
+        isMediaActivity = !isMediaActivity
   }
   
-}
-
-
-extension IMUIVoiceMessageCell: IMUIMessageCellProtocal {
-  open func presentCell(with message: IMUIMessageModel) {
-    self.layoutCell(with: message.layout!)
-    self.setupData(with: message)
-    
+  override func presentCell(with message: IMUIMessageModel) {
+    super.presentCell(with: message)
+    self.isMediaActivity = true // TODO: add playRecording
     self.layoutToVoice(isOutGoing: message.isOutGoing)
   }
   
@@ -75,4 +65,6 @@ extension IMUIVoiceMessageCell: IMUIMessageCellProtocal {
       self.voiceImg.center = CGPoint(x: 20, y: bubbleView.frame.height/2)
     }
   }
+  
+  
 }

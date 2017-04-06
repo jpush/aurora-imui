@@ -23,13 +23,10 @@ class IMUIImageMessageCell: IMUIBaseMessageCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    self.imageView.frame = bubbleView.bounds
+    self.imageView.frame = (message?.layout?.bubbleContentFrame)!
   }
-  
-}
 
-extension IMUIImageMessageCell: IMUIMessageCellProtocal {
-  open func presentCell(with message: IMUIMessageModel) {
+  override func presentCell(with message: IMUIMessageModel) {
     self.layoutCell(with: message.layout!)
     self.setupData(with: message)
     
@@ -40,3 +37,4 @@ extension IMUIImageMessageCell: IMUIMessageCellProtocal {
     self.imageView.image = image
   }
 }
+
