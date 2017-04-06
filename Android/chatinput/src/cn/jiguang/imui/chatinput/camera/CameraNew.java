@@ -406,17 +406,17 @@ public class CameraNew implements CameraSupport {
         Activity activity = (Activity) mContext;
         mMediaRecorder = new MediaRecorder();
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
         mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
+        mMediaRecorder.setVideoFrameRate(30);
         if (mNextVideoAbsolutePath == null || mNextVideoAbsolutePath.isEmpty()) {
             mNextVideoAbsolutePath = getVideoFilePath(activity);
         }
         mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
-        mMediaRecorder.setVideoFrameRate(30);
         mMediaRecorder.setVideoEncodingBitRate(10000000);
-        mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
-        mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         switch (mSensorOrientation) {
             case SENSOR_ORIENTATION_DEFAULT_DEGREES:
@@ -486,11 +486,21 @@ public class CameraNew implements CameraSupport {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
-        mMediaRecorder.stop();
+        try {
+            mMediaRecorder.stop();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            Toast.makeText(mContext, mContext.getString(R.string.record_video_failed), Toast.LENGTH_SHORT).show();
+        }
         mMediaRecorder.reset();
         Log.e(TAG, "Stop recording video");
-
+        mNextVideoAbsolutePath = null;
         startPreview();
+    }
+
+    @Override
+    public void finishRecordingVideo() {
+        stopRecordingVideo();
         if (mOnCameraCallbackListener != null) {
             mOnCameraCallbackListener.onRecordVideoCompleted(mNextVideoAbsolutePath);
         }

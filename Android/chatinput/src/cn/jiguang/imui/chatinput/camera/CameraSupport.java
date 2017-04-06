@@ -12,4 +12,5 @@ public interface CameraSupport {
     void setCameraCallbackListener(OnCameraCallbackListener listener);
     void startRecordingVideo();
     void stopRecordingVideo();
+    void finishRecordingVideo();
 }

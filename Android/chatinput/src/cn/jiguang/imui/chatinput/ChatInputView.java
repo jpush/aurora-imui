@@ -400,17 +400,24 @@ public class ChatInputView extends LinearLayout
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mRecordVoiceBtn.setImageResource(R.drawable.record_video);
+                        mRecordVideoBtn.setBackground(getResources().getDrawable(R.drawable.camera_capture));
+                        mCaptureBtn.setBackgroundResource(R.drawable.record_video);
                     }
                 }, 200);
             } else {
                 mIsRecordingVideo = false;
                 mCameraSupport.stopRecordingVideo();
-                mRecordVoiceBtn.setImageResource(R.drawable.record_video);
+                mRecordVideoBtn.setBackground(getResources().getDrawable(R.drawable.record_video));
             }
 
         } else if (view.getId() == R.id.capture_ib) {
-            mCameraSupport.takePicture();
+            if (mIsRecordingVideo) {
+                mCameraSupport.finishRecordingVideo();
+                mIsRecordingVideo = false;
+                mCaptureBtn.setBackgroundResource(R.drawable.send_pres);
+            } else {
+                mCameraSupport.takePicture();
+            }
         } else if (view.getId() == R.id.switch_camera_ib) {
             for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
                 Camera.CameraInfo info = new Camera.CameraInfo();
@@ -894,6 +901,12 @@ public class ChatInputView extends LinearLayout
          * Fires when camera button is on click.
          */
         void onCameraClick();
+
+        /**
+         * Fires when record video finished
+         * @param filePath return video file path.
+         */
+        void onVideoRecordFinished(String filePath);
     }
 
     public void dismissMenuAndResetSoftMode() {
@@ -1015,6 +1028,9 @@ public class ChatInputView extends LinearLayout
     @Override
     public void onRecordVideoCompleted(String videoPath) {
         // TODO send video message
+        if (mListener != null) {
+            mListener.onVideoRecordFinished(videoPath);
+        }
     }
 
     private static class MyHandler extends Handler {

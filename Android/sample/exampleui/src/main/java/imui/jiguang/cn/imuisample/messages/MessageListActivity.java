@@ -133,6 +133,18 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 String fileDir = rootDir.getAbsolutePath() + "/photo";
                 mChatView.setCameraCaptureFile(fileDir, "temp_photo");
             }
+
+            @Override
+            public void onVideoRecordFinished(String filePath) {
+                final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
+                message.setContentFile(filePath);
+                MessageListActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.addToStart(message, true);
+                    }
+                });
+            }
         });
 
         mChatView.setRecordVoiceListener(new RecordVoiceButton.RecordVoiceListener() {
@@ -158,6 +170,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             public void onCancelRecord() {
 
             }
+
         });
     }
 
