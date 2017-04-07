@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -150,6 +151,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public void onVideoRecordFinished(String filePath) {
+                Log.e("MessageListActivity", "Video Path: " + filePath);
                 final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
                 message.setContentFile(filePath);
                 MessageListActivity.this.runOnUiThread(new Runnable() {

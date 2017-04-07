@@ -483,7 +483,6 @@ public class CameraNew implements CameraSupport {
         }
         mMediaRecorder.reset();
         Log.e(TAG, "Stop recording video");
-        mNextVideoAbsolutePath = null;
         startPreview();
     }
 

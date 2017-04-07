@@ -1047,6 +1047,7 @@ public class ChatInputView extends LinearLayout
 
     @Override
     public void onRecordVideoCompleted(String videoPath) {
+        Log.e("ChatInputView", "Video path: " + videoPath);
         // TODO send video message
         if (mListener != null) {
             mListener.onVideoRecordFinished(videoPath);
