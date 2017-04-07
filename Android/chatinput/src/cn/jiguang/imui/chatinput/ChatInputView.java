@@ -417,14 +417,15 @@ public class ChatInputView extends LinearLayout
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mRecordVideoBtn.setBackground(getResources().getDrawable(R.drawable.camera_capture));
+                        mRecordVideoBtn.setBackgroundResource(R.drawable.camera_capture);
                         mCaptureBtn.setBackgroundResource(R.drawable.recording_video);
                     }
                 }, 200);
             } else {
                 mIsRecordingVideo = false;
                 mCameraSupport.stopRecordingVideo();
-                mRecordVideoBtn.setBackground(getResources().getDrawable(R.drawable.record_video));
+                mRecordVideoBtn.setBackgroundResource(R.drawable.record_video);
+                mCaptureBtn.setBackgroundResource(R.drawable.send_pres);
             }
 
         } else if (view.getId() == R.id.capture_ib) {
@@ -432,6 +433,7 @@ public class ChatInputView extends LinearLayout
                 mCameraSupport.finishRecordingVideo();
                 mIsRecordingVideo = false;
                 mCaptureBtn.setBackgroundResource(R.drawable.send_pres);
+                mRecordVideoBtn.setBackgroundResource(R.drawable.record_video);
             } else {
                 mCameraSupport.takePicture();
             }
