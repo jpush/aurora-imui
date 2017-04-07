@@ -300,6 +300,16 @@
                 android:layout_height="match_parent" />
 
             <ImageButton
+                android:id="@+id/close_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top|left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/close"
+                android:visibility="gone"/>
+
+            <ImageButton
                 android:id="@+id/full_screen_ib"
                 android:layout_width="40dp"
                 android:layout_height="30dp"

@@ -468,7 +468,24 @@ public class CameraNew implements CameraSupport {
     }
 
     @Override
-    public void stopRecordingVideo() {
+    public void cancelRecordingVideo() {
+        resetRecordState();
+        File file = new File(mNextVideoAbsolutePath);
+        if (file.exists() && file.isFile()) {
+            file.delete();
+        }
+    }
+
+    @Override
+    public void finishRecordingVideo() {
+        resetRecordState();
+        if (mOnCameraCallbackListener != null) {
+            mOnCameraCallbackListener.onRecordVideoCompleted(mNextVideoAbsolutePath);
+        }
+        mNextVideoAbsolutePath = null;
+    }
+
+    private void resetRecordState() {
         try {
             mPreviewSession.stopRepeating();
             mPreviewSession.abortCaptures();
@@ -484,15 +501,6 @@ public class CameraNew implements CameraSupport {
         mMediaRecorder.reset();
         Log.e(TAG, "Stop recording video");
         startPreview();
-    }
-
-    @Override
-    public void finishRecordingVideo() {
-        stopRecordingVideo();
-        if (mOnCameraCallbackListener != null) {
-            mOnCameraCallbackListener.onRecordVideoCompleted(mNextVideoAbsolutePath);
-        }
-        mNextVideoAbsolutePath = null;
     }
 
     private String getVideoFilePath(Context context) {

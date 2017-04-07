@@ -126,6 +126,7 @@ public class ChatInputView extends LinearLayout
     private FrameLayout mCameraFl;
     private TextureView mTextureView;
     private ImageButton mCaptureBtn;
+    private ImageButton mCloseBtn;
     private ImageButton mSwitchCameraBtn;
     private ImageButton mFullScreenBtn;
     private ImageButton mRecordVideoBtn;
@@ -144,7 +145,15 @@ public class ChatInputView extends LinearLayout
     private long mRecordTime;
     private boolean mPlaying = false;
     private final MediaPlayer mMediaPlayer = new MediaPlayer();
+    // 是否在录像模式
+    private boolean mIsRecordVideoMode = false;
+    // 是否正在录像
     private boolean mIsRecordingVideo = false;
+    // 是否完成录像
+    private boolean mFinishRecordingVideo = false;
+    // 存放录像的路径
+    private String mVideoFilePath;
+    // 是否播放过录音
     private boolean mSetData;
     private FileInputStream mFIS;
     private FileDescriptor mFD;
@@ -205,6 +214,7 @@ public class ChatInputView extends LinearLayout
         mRecordVoiceBtn = (RecordVoiceButton) findViewById(R.id.record_btn);
         mCameraFl = (FrameLayout) findViewById(R.id.camera_container);
         mTextureView = (TextureView) findViewById(R.id.camera_texture_view);
+        mCloseBtn = (ImageButton) findViewById(R.id.close_btn);
         mFullScreenBtn = (ImageButton) findViewById(R.id.full_screen_ib);
         mRecordVideoBtn = (ImageButton) findViewById(R.id.record_video_ib);
         mCaptureBtn = (ImageButton) findViewById(R.id.capture_ib);
@@ -226,6 +236,7 @@ public class ChatInputView extends LinearLayout
         mPreviewPlayBtn.setOnClickListener(this);
         mCancelSendAudioBtn.setOnClickListener(this);
         mSendAudioBtn.setOnClickListener(this);
+        mCloseBtn.setOnClickListener(this);
         mFullScreenBtn.setOnClickListener(this);
         mRecordVideoBtn.setOnClickListener(this);
         mCaptureBtn.setOnClickListener(this);
@@ -366,6 +377,7 @@ public class ChatInputView extends LinearLayout
                 mPhotoAdapter.resetCheckedState();
                 dismissMenuLayout();
             }
+        // 按下试听语音按钮
         } else if (view.getId() == R.id.play_audio_pb) {
             if (!mPlaying) {
                 if (mSetData) {
@@ -384,78 +396,119 @@ public class ChatInputView extends LinearLayout
                 mPlaying = false;
                 mPreviewPlayBtn.stopPlay();
             }
+        // 试听语音界面取消发送语音
         } else if (view.getId() == R.id.cancel_send_audio_btn) {
             mPreviewPlayLl.setVisibility(GONE);
             mRecordContentLl.setVisibility(VISIBLE);
             mRecordVoiceBtn.cancelRecord();
             mChronometer.setText("00:00");
+        // 试听语音界面发送语音
         } else if (view.getId() == R.id.send_voice_btn) {
             mPreviewPlayLl.setVisibility(GONE);
             dismissMenuLayout();
             mRecordVoiceBtn.finishRecord();
             mChronometer.setText("00:00");
+        // 拍照或者录像右上角缩放按钮
         } else if (view.getId() == R.id.full_screen_ib) {
             if (!mIsFullScreen) {
                 mFullScreenBtn.setBackgroundResource(R.drawable.recover_screen);
-                mChatInputContainer.setVisibility(GONE);
-                mMenuItemContainer.setVisibility(GONE);
-                mMenuContainer.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mHeight));
-                mCameraSupport.open(mCameraId, mWidth, mHeight);
-                mIsFullScreen = true;
+                fullScreen();
             } else {
-                mIsFullScreen = false;
-                mFullScreenBtn.setBackgroundResource(R.drawable.full_screen);
-                mChatInputContainer.setVisibility(VISIBLE);
-                mMenuItemContainer.setVisibility(VISIBLE);
-                setMenuContainerHeight(mMenuHeight);
+                recoverScreen();
             }
-
+        // 点击录像按钮
         } else if (view.getId() == R.id.record_video_ib) {
-            if (!mIsRecordingVideo) {
-                mIsRecordingVideo = true;
-                mCameraSupport.startRecordingVideo();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRecordVideoBtn.setBackgroundResource(R.drawable.camera_capture);
-                        mCaptureBtn.setBackgroundResource(R.drawable.recording_video);
-                    }
-                }, 200);
+            // 如果不是录像模式
+            if (!mIsRecordVideoMode) {
+                mIsRecordVideoMode = true;
+                mCaptureBtn.setBackgroundResource(R.drawable.record_video_pres);
+                mRecordVideoBtn.setBackgroundResource(R.drawable.camera_capture);
+                fullScreen();
+                mCloseBtn.setVisibility(VISIBLE);
             } else {
-                mIsRecordingVideo = false;
-                mCameraSupport.stopRecordingVideo();
+                mIsRecordVideoMode = false;
                 mRecordVideoBtn.setBackgroundResource(R.drawable.record_video);
                 mCaptureBtn.setBackgroundResource(R.drawable.send_pres);
+                mFullScreenBtn.setBackgroundResource(R.drawable.recover_screen);
+                mFullScreenBtn.setVisibility(VISIBLE);
+                mCloseBtn.setVisibility(GONE);
             }
-
+        // 点击预览中的拍照按钮
         } else if (view.getId() == R.id.capture_ib) {
-            if (mIsRecordingVideo) {
-                mCameraSupport.finishRecordingVideo();
-                mIsRecordingVideo = false;
-                mCaptureBtn.setBackgroundResource(R.drawable.send_pres);
-                mRecordVideoBtn.setBackgroundResource(R.drawable.record_video);
+            // 若为录像模式
+            if (mIsRecordVideoMode) {
+                // 开始录像
+                if (!mIsRecordingVideo) {
+                    mCameraSupport.startRecordingVideo();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mCaptureBtn.setBackgroundResource(R.drawable.stop_recording_video);
+                            mRecordVideoBtn.setVisibility(GONE);
+                            mSwitchCameraBtn.setVisibility(GONE);
+                            mCloseBtn.setVisibility(VISIBLE);
+                        }
+                    }, 200);
+                    mIsRecordingVideo = true;
+                // 完成录像
+                } else {
+                    mCameraSupport.finishRecordingVideo();
+                    mIsRecordingVideo = false;
+                    mIsRecordVideoMode = false;
+                    mFinishRecordingVideo = true;
+                    mCaptureBtn.setBackgroundResource(R.drawable.send_pres);
+                    mRecordVideoBtn.setVisibility(GONE);
+                    mSwitchCameraBtn.setBackgroundResource(R.drawable.delete_video);
+                    mSwitchCameraBtn.setVisibility(VISIBLE);
+                    // TODO play video
+                }
+            // 若完成录像，则发送视频
+            } else if (mFinishRecordingVideo) {
+                if (mListener != null) {
+                    mListener.onVideoRecordFinished(mVideoFilePath);
+                    mFinishRecordingVideo = false;
+                }
+                recoverScreen();
+            // 否则拍照并发送
             } else {
                 mCameraSupport.takePicture();
+                recoverScreen();
+            }
+        } else if (view.getId() == R.id.close_btn) {
+            dismissMenuAndResetSoftMode();
+            recoverScreen();
+            if (mFinishRecordingVideo) {
+                mCameraSupport.cancelRecordingVideo();
             }
         } else if (view.getId() == R.id.switch_camera_ib) {
-            for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
-                Camera.CameraInfo info = new Camera.CameraInfo();
-                Camera.getCameraInfo(i, info);
-                if (mBackCamera) {
-                    if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                        mCameraId = i;
-                        mBackCamera = false;
-                        mCameraSupport.release();
-                        mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight());
-                        break;
-                    }
-                } else {
-                    if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                        mCameraId = i;
-                        mBackCamera = true;
-                        mCameraSupport.release();
-                        mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight());
-                        break;
+            if (mFinishRecordingVideo) {
+                mCameraSupport.cancelRecordingVideo();
+                mRecordVideoBtn.setBackgroundResource(R.drawable.camera_capture);
+                mRecordVideoBtn.setVisibility(VISIBLE);
+                mFinishRecordingVideo = false;
+                mCaptureBtn.setBackgroundResource(R.drawable.record_video_pres);
+                // TODO cancel play video
+                mCameraSupport.open(mCameraId, mWidth, mHeight);
+            } else {
+                for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
+                    Camera.CameraInfo info = new Camera.CameraInfo();
+                    Camera.getCameraInfo(i, info);
+                    if (mBackCamera) {
+                        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                            mCameraId = i;
+                            mBackCamera = false;
+                            mCameraSupport.release();
+                            mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight());
+                            break;
+                        }
+                    } else {
+                        if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                            mCameraId = i;
+                            mBackCamera = true;
+                            mCameraSupport.release();
+                            mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight());
+                            break;
+                        }
                     }
                 }
             }
@@ -633,6 +686,45 @@ public class ChatInputView extends LinearLayout
         });
     }
 
+    /**
+     * 进入全屏模式
+     */
+    private void fullScreen() {
+        // 设置为全屏
+        Activity activity = (Activity) getContext();
+        WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
+        attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        activity.getWindow().setAttributes(attrs);
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        mFullScreenBtn.setVisibility(GONE);
+        mChatInputContainer.setVisibility(GONE);
+        mMenuItemContainer.setVisibility(GONE);
+        mMenuContainer.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mHeight));
+        mCameraSupport.open(mCameraId, mWidth, mHeight);
+        mIsFullScreen = true;
+    }
+
+    /**
+     * 恢复屏幕
+     */
+    private void recoverScreen() {
+        Activity activity = (Activity) getContext();
+        WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        activity.getWindow().setAttributes(attrs);
+        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        mIsFullScreen = false;
+        mFullScreenBtn.setBackgroundResource(R.drawable.full_screen);
+        mFullScreenBtn.setVisibility(VISIBLE);
+        mChatInputContainer.setVisibility(VISIBLE);
+        mMenuItemContainer.setVisibility(VISIBLE);
+        setMenuContainerHeight(mMenuHeight);
+        mRecordVideoBtn.setBackgroundResource(R.drawable.record_video);
+        mRecordVideoBtn.setVisibility(VISIBLE);
+        mSwitchCameraBtn.setBackgroundResource(R.drawable.switch_camera);
+        mSwitchCameraBtn.setVisibility(VISIBLE);
+    }
+
     public void dismissMenuLayout() {
         mMenuContainer.setVisibility(GONE);
     }
@@ -708,6 +800,9 @@ public class ChatInputView extends LinearLayout
         return mMenuContainer.getVisibility();
     }
 
+    /**
+     * 选中图片的回调
+     */
     @Override
     public void onFileSelected() {
         if (mInput.length() == 0 && mSendFiles.size() == 1) {
@@ -718,6 +813,9 @@ public class ChatInputView extends LinearLayout
         mSendCountTv.setText(String.valueOf(mSendFiles.size()));
     }
 
+    /**
+     * 取消选中图片的回调
+     */
     @Override
     public void onFileDeselected() {
         if (mSendFiles.size() > 0) {
@@ -828,6 +926,9 @@ public class ChatInputView extends LinearLayout
         mPhoto = new File(path, fileName + ".png");
     }
 
+    /**
+     * 在录音界面手指按下
+     */
     @Override
     public void onStart() {
         Log.e("ChatInputView", "starting chronometer");
@@ -837,12 +938,18 @@ public class ChatInputView extends LinearLayout
         mRecordHintTv.setVisibility(INVISIBLE);
     }
 
+    /**
+     * 录音状态下，手指按下并移动
+     */
     @Override
     public void onMoving() {
         mChronometer.setVisibility(VISIBLE);
         mRecordHintTv.setVisibility(INVISIBLE);
     }
 
+    /**
+     * 录音状态下，手指往左移动
+     */
     @Override
     public void onMovedLeft() {
         mChronometer.setVisibility(INVISIBLE);
@@ -850,6 +957,9 @@ public class ChatInputView extends LinearLayout
         mRecordHintTv.setText(getContext().getString(R.string.preview_play_audio_hint));
     }
 
+    /**
+     * 录音状态下，手指往右移动
+     */
     @Override
     public void onMovedRight() {
         mChronometer.setVisibility(INVISIBLE);
@@ -857,6 +967,9 @@ public class ChatInputView extends LinearLayout
         mRecordHintTv.setText(getContext().getString(R.string.cancel_record_voice_hint));
     }
 
+    /**
+     * 录音状态下，手指移动到左侧预览按钮并放开
+     */
     @Override
     public void onLeftUpTapped() {
         mChronometer.stop();
@@ -868,6 +981,9 @@ public class ChatInputView extends LinearLayout
         mRecordContentLl.setVisibility(GONE);
     }
 
+    /**
+     * 录音状态下，手指移动到右侧取消按钮并放开
+     */
     @Override
     public void onRightUpTapped() {
         mChronometer.stop();
@@ -961,20 +1077,6 @@ public class ChatInputView extends LinearLayout
         mShowSoftInput = false;
     }
 
-    public void dismissSoftInput() {
-        if (mShowSoftInput) {
-            if (mImm != null) {
-                mImm.hideSoftInputFromWindow(mChatInput.getWindowToken(), 0);
-                mShowSoftInput = false;
-            }
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     private boolean getPhotos() {
         Uri imageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         ContentResolver contentResolver = getContext().getContentResolver();
@@ -1041,17 +1143,20 @@ public class ChatInputView extends LinearLayout
     @Override
     public void onTakePictureCompleted(String photoPath) {
         List<FileItem> list = new ArrayList<>();
-        list.add(new FileItem(photoPath, null, null, null));
+        FileItem item = new FileItem(photoPath, null, null, null);
+        item.setType(FileItem.Type.Image);
+        list.add(item);
         mListener.onSendFiles(list);
     }
 
+    /**
+     * 录像完成的回调
+     * @param videoPath Return the absolute path of video file.
+     */
     @Override
     public void onRecordVideoCompleted(String videoPath) {
         Log.e("ChatInputView", "Video path: " + videoPath);
-        // TODO send video message
-        if (mListener != null) {
-            mListener.onVideoRecordFinished(videoPath);
-        }
+        mVideoFilePath = videoPath;
     }
 
     private static class MyHandler extends Handler {
@@ -1101,10 +1206,12 @@ public class ChatInputView extends LinearLayout
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-        if (mCameraSupport != null) {
-            mCameraSupport.release();
+    public void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        if (visibility == GONE) {
+            if (mCameraSupport != null) {
+                mCameraSupport.release();
+            }
         }
     }
 }
