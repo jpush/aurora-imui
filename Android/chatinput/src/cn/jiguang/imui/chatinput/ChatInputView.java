@@ -417,7 +417,7 @@ public class ChatInputView extends LinearLayout
                     @Override
                     public void run() {
                         mRecordVideoBtn.setBackground(getResources().getDrawable(R.drawable.camera_capture));
-                        mCaptureBtn.setBackgroundResource(R.drawable.record_video);
+                        mCaptureBtn.setBackgroundResource(R.drawable.recording_video);
                     }
                 }, 200);
             } else {
