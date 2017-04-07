@@ -30,6 +30,7 @@ import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
+import cn.jiguang.imui.chatinput.utils.FileItem;
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messages.MessageList;
@@ -80,15 +81,28 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
 
             @Override
-            public void onSendFiles(List<String> list) {
-                // do something
-                for (String path : list) {
-                    final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
-                    message.setContentFile(path);
+            public void onSendFiles(List<FileItem> list) {
+                if (list == null || list.isEmpty()) {
+                    return;
+                }
+
+                MyMessage message;
+                for (FileItem item : list) {
+                    if (item.getType() == FileItem.Type.Image) {
+                        message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
+                    } else if (item.getType() == FileItem.Type.Video) {
+                        message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
+                    } else {
+                        throw new RuntimeException("Invalid FileItem type. Must be Type.Image or Type.Video.");
+                    }
+
+                    message.setContentFile(item.getFilePath());
+
+                    final MyMessage fMsg = message;
                     MessageListActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mAdapter.addToStart(message, true);
+                            mAdapter.addToStart(fMsg, true);
                         }
                     });
                 }
@@ -170,10 +184,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             public void onCancelRecord() {
 
             }
-
         });
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -336,5 +348,4 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         }
         return false;
     }
-
 }

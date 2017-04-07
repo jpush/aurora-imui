@@ -120,7 +120,7 @@ public class ChatInputView extends LinearLayout
     private ProgressBar mProgressBar;
 
     private List<FileItem> mMedias; // 所有的图片和视频文件
-    private List<String> mSendFiles = new ArrayList<>();
+    private List<FileItem> mSendFiles = new ArrayList<>();
     // Select photo end
 
     private FrameLayout mCameraFl;
@@ -360,10 +360,11 @@ public class ChatInputView extends LinearLayout
             }
             if (mSendFiles.size() > 0) {
                 mListener.onSendFiles(mSendFiles);
+
                 mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.send));
                 mSendCountTv.setVisibility(View.INVISIBLE);
-                dismissMenuLayout();
                 mPhotoAdapter.resetCheckedState();
+                dismissMenuLayout();
             }
         } else if (view.getId() == R.id.play_audio_pb) {
             if (!mPlaying) {
@@ -901,7 +902,7 @@ public class ChatInputView extends LinearLayout
          *
          * @param list File paths that will send.
          */
-        void onSendFiles(List<String> list);
+        void onSendFiles(List<FileItem> list);
 
         /**
          * Fires when voice button is on click.
@@ -993,10 +994,10 @@ public class ChatInputView extends LinearLayout
         while (cursor.moveToNext()) {
             //获取图片的路径
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA));
-            String fileName =
-                    cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
+            String fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
             String size = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE));
             String date = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
+
             FileItem item = new FileItem(path, fileName, size, date);
             item.setType(FileItem.Type.Image);
             mMedias.add(item);
@@ -1026,6 +1027,7 @@ public class ChatInputView extends LinearLayout
             String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
             String date = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED));
             long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
+
             VideoItem item = new VideoItem(path, name, null, date, duration);
             item.setType(FileItem.Type.Video);
             mMedias.add(item);
@@ -1036,8 +1038,8 @@ public class ChatInputView extends LinearLayout
 
     @Override
     public void onTakePictureCompleted(String photoPath) {
-        List<String> list = new ArrayList<>();
-        list.add(photoPath);
+        List<FileItem> list = new ArrayList<>();
+        list.add(new FileItem(photoPath, null, null, null));
         mListener.onSendFiles(list);
     }
 

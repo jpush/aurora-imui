@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
-                android:visibility="invisible"
+                android:visibility="gone"
                 />
 
             <com.volokh.danylo.video_player_manager.ui.VideoPlayerView

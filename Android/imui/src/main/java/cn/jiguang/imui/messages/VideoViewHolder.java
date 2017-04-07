@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
+import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.video_player_manager.meta.MetaData;
+import com.volokh.danylo.video_player_manager.ui.SimpleMainThreadMediaPlayerListener;
 import com.volokh.danylo.video_player_manager.ui.VideoPlayerView;
 
 import cn.jiguang.imui.R;
@@ -26,6 +31,13 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
     private CircleImageView mImageAvatar;
     private ImageView mImageCover;
     private VideoPlayerView mVideoView;
+
+    private final VideoPlayerManager<MetaData> mVideoPlayerManager = new SingleVideoPlayerManager(new PlayerItemChangeListener() {
+        @Override
+        public void onPlayerItemChanged(MetaData currentItemMetaData) {
+
+        }
+    });
 
     public VideoViewHolder(View itemView, boolean isSender) {
         super(itemView);
@@ -46,6 +58,8 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
 
         boolean isAvatarExists = message.getUserInfo().getAvatar() != null
                 && !message.getUserInfo().getAvatar().isEmpty();
+
+        mVideoPlayerManager.playNewVideo(null, mVideoView, message.getContentFile());
 
         if (mImageLoader != null) {
             if (isAvatarExists) {

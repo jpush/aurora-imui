@@ -17,7 +17,7 @@ public class FileItem implements Comparable<FileItem> {
 
     private Type mType;
 
-    public FileItem(String path, String name, String size, String date) {
+    public FileItem(@NonNull String path, String name, String size, String date) {
         this.mFilePath = path;
         this.mFileName = name;
         this.mSize = size;
@@ -42,10 +42,11 @@ public class FileItem implements Comparable<FileItem> {
 
     public String getFileSize() {
         NumberFormat ddf1 = NumberFormat.getNumberInstance();
-        //保留小数点后两位
+        // 保留小数点后两位
         ddf1.setMaximumFractionDigits(2);
-        long size = Long.valueOf(mSize);
+
         String sizeDisplay;
+        long size = Long.valueOf(mSize);
         if (size > 1048576.0) {
             double result = size / 1048576.0;
             sizeDisplay = ddf1.format(result) + "M";
@@ -63,8 +64,6 @@ public class FileItem implements Comparable<FileItem> {
     }
 
     public String getDate() {
-        //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        //return format.format(Long.valueOf(mDate) * 1000);
         return mDate;
     }
 

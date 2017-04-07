@@ -33,12 +33,10 @@ import static android.view.View.VISIBLE;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
 
-    private final String TAG = PhotoAdapter.class.getSimpleName();
-
     private Context mContext;
 
     private List<FileItem> mPhotos;
-    private List<String> mSendFiles;
+    private List<FileItem> mSendFiles;
 
     private List<Integer> mSelectedItems;
 
@@ -56,7 +54,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         mPhotoSide = height;
     }
 
-    public List<String> getSelectedFiles() {
+    public List<FileItem> getSelectedFiles() {
         return mSendFiles;
     }
 
@@ -64,7 +62,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         mListener = listener;
     }
 
-    public void setSelectedFiles(List<String> list) {
+    public void setSelectedFiles(List<FileItem> list) {
         mSendFiles = list;
     }
 
@@ -134,7 +132,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
                 if (holder.ivTick.getVisibility() == GONE && !mSelectedItems.contains(p)) {
                     mSelectedItems.add(p);
-                    mSendFiles.add(mPhotos.get(p).getFilePath());
+                    mSendFiles.add(mPhotos.get(p));
 
                     holder.ivTick.setVisibility(VISIBLE);
                     holder.ivShadow.setVisibility(VISIBLE);
@@ -146,7 +144,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                     }
                 } else {
                     mSelectedItems.remove(Integer.valueOf(p));
-                    mSendFiles.remove(mPhotos.get(p).getFilePath());
+                    mSendFiles.remove(mPhotos.get(p));
 
                     holder.ivTick.setVisibility(GONE);
                     holder.ivShadow.setVisibility(GONE);

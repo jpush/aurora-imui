@@ -76,10 +76,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
-            case TYPE_RECEIVE_TXT:
-                return getHolder(parent, mHolders.mReceiveTxtLayout, mHolders.mReceiveTxtHolder, false);
             case TYPE_SEND_TXT:
                 return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendTxtHolder, true);
+            case TYPE_RECEIVE_TXT:
+                return getHolder(parent, mHolders.mReceiveTxtLayout, mHolders.mReceiveTxtHolder, false);
             case TYPE_SEND_VOICE:
                 return getHolder(parent, mHolders.mSendVoiceLayout, mHolders.mSendVoiceHolder, true);
             case TYPE_RECEIVER_VOICE:
@@ -235,7 +235,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     /**
      * Updates message by old identifier.
      *
-     * @param oldId message id to be updated
+     * @param oldId      message id to be updated
      * @param newMessage message to be updated
      */
     public void updateMessage(String oldId, MESSAGE newMessage) {
@@ -519,42 +519,57 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendTxtHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveTxtHolder;
+
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendVoiceHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveVoiceHolder;
+
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendPhotoHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceivePhotoHolder;
+
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendVideoHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveVideoHolder;
+
         private int mSendTxtLayout;
         private int mReceiveTxtLayout;
+
         private int mSendVoiceLayout;
         private int mReceiveVoiceLayout;
+
         private int mSendPhotoLayout;
         private int mReceivePhotoLayout;
+
         private int mSendVideoLayout;
         private int mReceiveVideoLayout;
 
         public HoldersConfig() {
-            this.mSendTxtHolder = DefaultTxtViewHolder.class;
-            this.mReceiveTxtHolder = DefaultTxtViewHolder.class;
-            this.mSendVoiceHolder = DefaultVoiceViewHolder.class;
-            this.mReceiveVoiceHolder = DefaultVoiceViewHolder.class;
-            this.mSendPhotoHolder = DefaultPhotoViewHolder.class;
-            this.mReceivePhotoHolder = DefaultPhotoViewHolder.class;
-            this.mSendVideoHolder = DefaultVideoViewHolder.class;
-            this.mReceiveVideoHolder = DefaultVideoViewHolder.class;
-            this.mSendTxtLayout = R.layout.item_send_text;
-            this.mReceiveTxtLayout = R.layout.item_receive_txt;
-            this.mSendVoiceLayout = R.layout.item_send_voice;
-            this.mReceiveVoiceLayout = R.layout.item_receive_voice;
-            this.mSendPhotoLayout = R.layout.item_send_photo;
-            this.mReceivePhotoLayout = R.layout.item_receive_photo;
-            this.mSendVideoLayout = R.layout.item_send_video;
-            this.mReceiveVideoLayout = R.layout.item_receive_video;
+            mSendTxtHolder = DefaultTxtViewHolder.class;
+            mReceiveTxtHolder = DefaultTxtViewHolder.class;
+
+            mSendVoiceHolder = DefaultVoiceViewHolder.class;
+            mReceiveVoiceHolder = DefaultVoiceViewHolder.class;
+
+            mSendPhotoHolder = DefaultPhotoViewHolder.class;
+            mReceivePhotoHolder = DefaultPhotoViewHolder.class;
+
+            mSendVideoHolder = DefaultVideoViewHolder.class;
+            mReceiveVideoHolder = DefaultVideoViewHolder.class;
+
+            mSendTxtLayout = R.layout.item_send_text;
+            mReceiveTxtLayout = R.layout.item_receive_txt;
+
+            mSendVoiceLayout = R.layout.item_send_voice;
+            mReceiveVoiceLayout = R.layout.item_receive_voice;
+
+            mSendPhotoLayout = R.layout.item_send_photo;
+            mReceivePhotoLayout = R.layout.item_receive_photo;
+
+            mSendVideoLayout = R.layout.item_send_video;
+            mReceiveVideoLayout = R.layout.item_receive_video;
         }
 
         /**
          * In place of default send text message style by passing custom view holder and layout.
+         *
          * @param holder Custom view holder that extends BaseMessageViewHolder.
          * @param layout Custom send text message layout.
          */
@@ -566,6 +581,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * In place of default receive text message style by passing custom view holder and layout.
+         *
          * @param holder Custom view holder that extends BaseMessageViewHolder.
          * @param layout Custom receive text message layout.
          */
@@ -577,6 +593,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * Customize send text message layout.
+         *
          * @param layout Custom send text message layout.
          */
         public void setSenderLayout(@LayoutRes int layout) {
@@ -585,6 +602,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * Customize receive text message layout.
+         *
          * @param layout Custom receive text message layout.
          */
         public void setReceiverLayout(@LayoutRes int layout) {
@@ -593,6 +611,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * In place of default send voice message style by passing custom view holder and layout.
+         *
          * @param holder Custom view holder that extends BaseMessageViewHolder.
          * @param layout Custom send voice message layout.
          */
@@ -604,6 +623,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * Customize send voice message layout.
+         *
          * @param layout Custom send voice message layout.
          */
         public void setSendVoiceLayout(@LayoutRes int layout) {
@@ -612,6 +632,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * In place of default receive voice message style by passing custom view holder and layout.
+         *
          * @param holder Custom view holder that extends BaseMessageViewHolder.
          * @param layout Custom receive voice message layout.
          */
@@ -623,6 +644,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * Customize receive voice message layout.
+         *
          * @param layout Custom receive voice message layout.
          */
         public void setReceiveVoiceLayout(@LayoutRes int layout) {
@@ -631,6 +653,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * In place of default send photo message style by passing custom view holder and layout.
+         *
          * @param holder Custom view holder that extends BaseMessageViewHolder.
          * @param layout Custom send photo message layout
          */
@@ -706,7 +729,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         }
 
     }
-
 
     private static class DefaultTxtViewHolder extends TxtViewHolder<IMessage> {
 
