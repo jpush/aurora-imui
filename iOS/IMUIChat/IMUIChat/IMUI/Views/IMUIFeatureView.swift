@@ -59,14 +59,12 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
     }
 
     var rootViewController : UIViewController {
-        get{
-            let appRootVC = UIApplication.shared.keyWindow?.rootViewController
-            var topVC = appRootVC
-            while (topVC?.presentedViewController != nil) {
-                topVC = topVC?.presentedViewController
-            }
-            return topVC!
-        }
+      let appRootVC = UIApplication.shared.keyWindow?.rootViewController
+      var topVC = appRootVC
+      while (topVC?.presentedViewController != nil) {
+        topVC = topVC?.presentedViewController
+      }
+      return topVC!
     }
 
   var view: UIView!
@@ -159,6 +157,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     switch currentType {
     case .gallery:
       return IMUIGalleryDataManager.allAssets.count
+      return 0
     case .none:
       return 0
     default:

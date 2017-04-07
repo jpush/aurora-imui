@@ -15,9 +15,7 @@ class IMUIChatDataManager: NSObject {
   var allMessageDic = [String:IMUIMessageModel]()
   
   var count: Int {
-    get {
-      return allMessageArr.count
-    }
+    return allMessageArr.count
   }
   
   subscript(index: Int) -> IMUIMessageModel {
@@ -29,9 +27,7 @@ class IMUIChatDataManager: NSObject {
   }
   
   var endIndex: Int {
-    get {
-      return self.allMessageArr.endIndex
-    }
+    return self.allMessageArr.endIndex
   }
   
   func cleanCache() {

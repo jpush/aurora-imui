@@ -35,8 +35,10 @@ class ViewController: UIViewController {
 extension ViewController: IMUIInputViewDelegate {
   
   func sendTextMessage(_ messageText: String) {
-    let message = MyMessageModel(text: messageText)
-    messageCollectionView.appendMessage(with: message)
+    let outGoingmessage = MyMessageModel(text: messageText, isOutGoing: true)
+    let inCommingMessage = MyMessageModel(text: messageText, isOutGoing: false)
+    self.messageCollectionView.appendMessage(with: outGoingmessage)
+    self.messageCollectionView.appendMessage(with: inCommingMessage)
   }
   
   func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {
@@ -44,8 +46,10 @@ extension ViewController: IMUIInputViewDelegate {
   }
   
   func finishRecordingVoice(_ voicePath: String, durationTime: Double) {
-    let message = MyMessageModel(voicePath: voicePath)
-    messageCollectionView.appendMessage(with: message)
+    let outGoingmessage = MyMessageModel(voicePath: voicePath, isOutGoing: true)
+    let inCommingMessage = MyMessageModel(voicePath: voicePath, isOutGoing: false)
+    self.messageCollectionView.appendMessage(with: outGoingmessage)
+    self.messageCollectionView.appendMessage(with: inCommingMessage)
   }
   
   func finishShootPicture(picture: Data) {
@@ -53,8 +57,10 @@ extension ViewController: IMUIInputViewDelegate {
     do {
       try picture.write(to: URL(fileURLWithPath: imgPath))
       DispatchQueue.main.async {
-        let message = MyMessageModel(imagePath: imgPath)
-        self.messageCollectionView.appendMessage(with: message)
+        let outGoingmessage = MyMessageModel(imagePath: imgPath, isOutGoing: true)
+        let inCommingMessage = MyMessageModel(imagePath: imgPath, isOutGoing: false)
+        self.messageCollectionView.appendMessage(with: outGoingmessage)
+        self.messageCollectionView.appendMessage(with: inCommingMessage)
       }
     } catch {
       print("write image file error")
@@ -74,8 +80,10 @@ extension ViewController: IMUIInputViewDelegate {
   
   
   func finishShootVideo(videoPath: String, durationTime: Double) {
-    let message = MyMessageModel(videoPath: videoPath)
-    self.messageCollectionView.appendMessage(with: message)
+    let outGoingmessage = MyMessageModel(videoPath: videoPath, isOutGoing: true)
+    let inCommingMessage = MyMessageModel(videoPath: videoPath, isOutGoing: false)
+    self.messageCollectionView.appendMessage(with: outGoingmessage)
+    self.messageCollectionView.appendMessage(with: inCommingMessage)
   }
   
   

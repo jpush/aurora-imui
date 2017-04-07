@@ -8,18 +8,6 @@
 
 import UIKit
 
-
-
-//extension MyMessageModel {
-//  func textMessage() -> String {
-//    return self.myTextMessage
-//  }
-//  
-//  func mediaData() -> Data {
-//    return Data()
-//  }
-//}
-
 class MyMessageModel: IMUIMessageModel {
   open var myTextMessage: String = ""
   var mediaPath: String = ""
@@ -37,25 +25,25 @@ class MyMessageModel: IMUIMessageModel {
     super.init(msgId: msgId, fromUser: fromUser, isOutGoing: isOutGoing, date: date, status: status, type: type, cellLayout: layout)
   }
   
-  convenience init(text: String) {
-    let layout = IMUIMessageCellLayout(isOutGoingMessage: true,
+  convenience init(text: String, isOutGoing: Bool) {
+    let layout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing,
                                        bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text),
                                        bubbleContentInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10),
                                        isNeedShowTime: false)
     
-    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  layout)
+    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  layout)
   }
 
-  convenience init(voicePath: String) {
-    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .voice, text: "", mediaPath: voicePath, layout:  nil)
+  convenience init(voicePath: String, isOutGoing: Bool) {
+    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .voice, text: "", mediaPath: voicePath, layout:  nil)
   }
   
-  convenience init(imagePath: String) {
-    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .image, text: "", mediaPath: imagePath, layout:  nil)
+  convenience init(imagePath: String, isOutGoing: Bool) {
+    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .image, text: "", mediaPath: imagePath, layout:  nil)
   }
   
-  convenience init(videoPath: String) {
-    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: true, date: Date(), status: .success, type: .video, text: "", mediaPath: videoPath, layout:  nil)
+  convenience init(videoPath: String, isOutGoing: Bool) {
+    self.init(msgId: "", fromUser: IMUIUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .video, text: "", mediaPath: videoPath, layout:  nil)
   }
   
   override func textMessage() -> String {
@@ -72,10 +60,12 @@ class MyMessageModel: IMUIMessageModel {
     return mediaData!
   }
   
-  
   static func calculateTextContentSize(text: String) -> CGSize {
     let textSize  = text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: UIFont.systemFont(ofSize: 18))
     
     return textSize
   }
+
 }
+
+

@@ -26,15 +26,13 @@ class IMUITextMessageCell: IMUIBaseMessageCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    self.textMessageLable.frame = (message?.layout?.bubbleContentFrame)!
-    self.textMessageLable.font = UIFont.systemFont(ofSize: 18)
-    
   }
   
   override func presentCell(with message: IMUIMessageModel) {
     super.presentCell(with: message)
-    
-    self.textMessageLable.frame = (message.layout?.bubbleContentFrame)!
+
+    let layout = message.layout as! IMUIMessageCellLayout
+    self.textMessageLable.frame = layout.bubbleContentFrame
     self.layoutToText(with: message.textMessage(), isOutGoing: message.isOutGoing)
   }
   

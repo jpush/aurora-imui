@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IMUIChat/IMUI/Views/IMUIImageMessageCell.swift"
-            timestampString = "513014000.399079"
+            timestampString = "513236936.521765"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "layoutSubviews()"
             landmarkType = "7">
          </BreakpointContent>

@@ -63,7 +63,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func layoutCell(with layout: IMUIMessageCellLayout) {
+  func layoutCell(with layout: IMUIMessageCellLayoutProtocal) {
     self.timeLable.frame = layout.timeLabelFrame
     self.avatarImage.frame = layout.avatarFrame
     self.bubbleView.frame = layout.bubbleFrame
@@ -81,7 +81,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   }
   
   func presentCell(with message: IMUIMessageModel) {
-    self.layoutCell(with: message.layout!)
+    self.layoutCell(with: message.layout)
     self.setupData(with: message)
   }
   

@@ -25,7 +25,6 @@ class IMUIVideoMessageCell: IMUIBaseMessageCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    self.videoView.frame = (message?.layout?.bubbleContentFrame)!
   }
   
   func didDisAppearCell() {
@@ -33,7 +32,10 @@ class IMUIVideoMessageCell: IMUIBaseMessageCell {
   }
   
   override func presentCell(with message: IMUIMessageModel) {
+    super.presentCell(with: message)
     self.layoutVideo(with: message.videoPath!)
+    let layout = message.layout as! IMUIMessageCellLayout
+    self.videoView.frame = layout.bubbleContentFrame
   }
   
   func layoutVideo(with videoPath: String) {

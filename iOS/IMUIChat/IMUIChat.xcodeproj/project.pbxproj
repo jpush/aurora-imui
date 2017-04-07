@@ -254,13 +254,13 @@
 			children = (
 				6244424A1E63C48900D5F0EB /* Extension */,
 				62AC1AB81E5EC6B700E810B2 /* Assets */,
-				62AC1ADF1E60238E00E810B2 /* Protocol */,
 				62AC1AB91E5EC6B700E810B2 /* Controllers */,
 				62AC1ABA1E5EC6B700E810B2 /* Factories */,
 				62AC1ABB1E5EC6B700E810B2 /* IMUI.h */,
+				624811FF1E9604CA00B345A2 /* Layout */,
+				62AC1ADF1E60238E00E810B2 /* Protocol */,
 				62AC1ABC1E5EC6B700E810B2 /* Models */,
 				62AC1ABD1E5EC6B700E810B2 /* Views */,
-				624811FF1E9604CA00B345A2 /* Layout */,
 			);
 			path = IMUI;
 			sourceTree = "<group>";

@@ -33,45 +33,6 @@ public enum IMUIMessageReceiveStatus {
 }
 
 
-protocol IMUIMessageModelProtocol {
-  func mediaData() -> Data
-  
-  func textMessage() -> String
-  
-  var msgId: String { get }
-  
-  var fromUser: IMUIUser { get }
-  
-  var videoPath: String? { get }
-  
-  var layout: IMUIMessageCellLayoutProtocal? { get }
-}
-
-
-extension IMUIMessageModelProtocol {
-  
-  func mediaData() -> Data {
-    return Data()
-  }
-  
-  func textMessage() -> String {
-    return ""
-  }
-  
-  var videoPath: String? {
-    get {
-      return nil
-    }
-  }
-  
-  var layout: IMUIMessageCellLayoutProtocal? {
-    get {
-      return nil
-    }
-  }
-}
-
-
 protocol IMUIMessageDataSource {
   func messageArray(with offset:NSNumber, limit:NSNumber) -> [IMUIMessageModelProtocol]
   
@@ -80,6 +41,7 @@ protocol IMUIMessageDataSource {
 
 // MARK: - IMUIMessageModelProtocol
 class IMUIMessageModel: IMUIMessageModelProtocol {
+  
 
   internal var msgId = {
     return ""
@@ -94,13 +56,17 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
   
   open var isNeedShowTime: Bool = false {
     didSet {
-      layout?.isNeedShowTime = isNeedShowTime
+      cellLayout?.isNeedShowTime = isNeedShowTime
     }
   }
   
   open var status: IMUIMessageStatus
   open var type: IMUIMessageType
-  var layout: IMUIMessageCellLayout?
+  
+  internal var layout: IMUIMessageCellLayoutProtocal {
+    return cellLayout!
+  }
+  internal var cellLayout: IMUIMessageCellLayout?
   
   public func textMessage() -> String {
     return ""
@@ -166,11 +132,10 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
     self.type = type
     
     if let layout = cellLayout {
-      self.layout = layout
+      self.cellLayout = layout
     } else {
       let bubbleSize = self.calculateBubbleContentSize()
-      self.layout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, bubbleContentSize: bubbleSize, bubbleContentInset: UIEdgeInsets.zero, isNeedShowTime: isNeedShowTime)
-      
+      self.cellLayout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, bubbleContentSize: bubbleSize, bubbleContentInset: UIEdgeInsets.zero, isNeedShowTime: isNeedShowTime)
     }
   }
   

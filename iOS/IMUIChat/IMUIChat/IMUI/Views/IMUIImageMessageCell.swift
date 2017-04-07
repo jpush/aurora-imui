@@ -23,13 +23,13 @@ class IMUIImageMessageCell: IMUIBaseMessageCell {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    self.imageView.frame = (message?.layout?.bubbleContentFrame)!
   }
 
   override func presentCell(with message: IMUIMessageModel) {
-    self.layoutCell(with: message.layout!)
-    self.setupData(with: message)
+    super.presentCell(with: message)
     
+    let layout = message.layout as! IMUIMessageCellLayout
+    self.imageView.frame = layout.bubbleContentFrame
     self.layoutImage(image: UIImage(data: message.mediaData())!)
   }
   
