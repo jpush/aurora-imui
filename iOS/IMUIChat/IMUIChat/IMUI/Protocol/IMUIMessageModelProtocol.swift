@@ -21,6 +21,8 @@ protocol IMUIMessageModelProtocol {
   var videoPath: String? { get }
   
   var layout: IMUIMessageCellLayoutProtocal { get }
+  
+  var resizableBubbleImage: UIImage { get }
 }
 
 

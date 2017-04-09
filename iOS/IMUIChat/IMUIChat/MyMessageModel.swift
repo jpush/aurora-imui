@@ -18,6 +18,11 @@ class MyMessageModel: IMUIMessageModel {
     return mediaPath
   }
   
+  override var resizableBubbleImage: UIImage {
+    // return defoult message bubble
+    return super.resizableBubbleImage
+  }
+  
   init(msgId: String, fromUser: MyUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocal?) {
     self.myTextMessage = text
     self.mediaPath = mediaPath

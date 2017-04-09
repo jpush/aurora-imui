@@ -43,6 +43,7 @@ protocol IMUIMessageDataSource {
 class IMUIMessageModel: IMUIMessageModelProtocol {
   
 
+  
   internal var msgId = {
     return ""
   }()
@@ -135,6 +136,19 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
       let bubbleSize = self.calculateBubbleContentSize()
       self.cellLayout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleSize, bubbleContentInset: UIEdgeInsets.zero)
     }
+  }
+  
+  var resizableBubbleImage: UIImage {
+    var bubbleImg: UIImage?
+    if isOutGoing {
+      bubbleImg = UIImage.imuiImage(with: "outGoing_bubble")
+      bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 10, 9, 15), resizingMode: .tile)
+    } else {
+      bubbleImg = UIImage.imuiImage(with: "inComing_bubble")
+      bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 15, 9, 10), resizingMode: .tile)
+    }
+    
+    return bubbleImg!
   }
   
 }

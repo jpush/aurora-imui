@@ -34,7 +34,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   
   override init(frame: CGRect) {
 
-    bubbleView = IMUIMessageBubbleView()
+    bubbleView = IMUIMessageBubbleView(frame: CGRect.zero)
     avatarImage = UIImageView()
     timeLable = UILabel()
     nameLable = UILabel()
@@ -78,7 +78,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.timeLable.text = message.date.parseDate
     self.message = message
     
-    self.bubbleView.setupBubbleImage(isOutgoing: message.isOutGoing)
+    self.bubbleView.setupBubbleImage(resizeBubbleImage: message.resizableBubbleImage)
   }
   
   func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?) {

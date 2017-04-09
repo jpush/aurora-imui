@@ -26,7 +26,7 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   
   static var cellContentInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
   
-  static var bubbleMaxWidth: CGFloat = 250.0
+  static var bubbleMaxWidth: CGFloat = 200.0
   static var isNeedShowInComingAvatar = true
   static var isNeedShowOutGoingAvtar = true
   
@@ -49,7 +49,8 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   }
   
   var bubbleContentFrame: CGRect {
-    let bubbleContentPostion = CGPoint(x: self.bubbleContentInset.left, y: self.bubbleContentInset.top)
+    let bubbleContentPostion = CGPoint(x: bubbleContentInset.left,
+                                       y: bubbleContentInset.top)
     return CGRect(origin: bubbleContentPostion, size: self.bubbleContentSize)
   }
   
