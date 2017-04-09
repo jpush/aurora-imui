@@ -47,16 +47,14 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
     return ""
   }()
   
-  internal var fromUser = {
-     return IMUIUser()
-  }()
+  internal var fromUser: IMUIUserProtocol
   
   internal var isOutGoing: Bool = true
   internal var date: Date
   
   open var isNeedShowTime: Bool = false {
     didSet {
-      cellLayout?.isNeedShowTime = isNeedShowTime
+//      cellLayout?.isNeedShowTime = isNeedShowTime
     }
   }
   
@@ -66,7 +64,7 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
   internal var layout: IMUIMessageCellLayoutProtocal {
     return cellLayout!
   }
-  internal var cellLayout: IMUIMessageCellLayout?
+  internal var cellLayout: IMUIMessageCellLayoutProtocal?
   
   public func textMessage() -> String {
     return ""
@@ -123,7 +121,7 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
   }
   
   
-  public init(msgId: String, fromUser: IMUIUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, cellLayout: IMUIMessageCellLayout?) {
+  public init(msgId: String, fromUser: IMUIUserProtocol, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, cellLayout: IMUIMessageCellLayoutProtocal?) {
     self.msgId = msgId
     self.fromUser = fromUser
     self.isOutGoing = isOutGoing
@@ -135,7 +133,7 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
       self.cellLayout = layout
     } else {
       let bubbleSize = self.calculateBubbleContentSize()
-      self.cellLayout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, bubbleContentSize: bubbleSize, bubbleContentInset: UIEdgeInsets.zero, isNeedShowTime: isNeedShowTime)
+      self.cellLayout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleSize, bubbleContentInset: UIEdgeInsets.zero)
     }
   }
   

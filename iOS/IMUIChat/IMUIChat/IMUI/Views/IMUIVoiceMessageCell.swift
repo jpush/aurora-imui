@@ -47,8 +47,8 @@ class IMUIVoiceMessageCell: IMUIBaseMessageCell {
         isMediaActivity = !isMediaActivity
   }
   
-  override func presentCell(with message: IMUIMessageModel) {
-    super.presentCell(with: message)
+  override func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?) {
+    super.presentCell(with: message, delegate: delegate)
     self.isMediaActivity = true // TODO: add playRecording
     self.layoutToVoice(isOutGoing: message.isOutGoing)
   }

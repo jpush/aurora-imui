@@ -9,13 +9,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "IMUIChat/IMUI/Views/IMUIImageMessageCell.swift"
-            timestampString = "513236936.521765"
+            filePath = "IMUIChat/IMUI/Controllers/IMUIChatDataManager.swift"
+            timestampString = "513248941.403883"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "layoutSubviews()"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "setupNeedShowTime(between:and:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IMUIChat/IMUI/Views/IMUITextMessageCell.swift"
+            timestampString = "513361132.188163"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "presentCell(with:delegate:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

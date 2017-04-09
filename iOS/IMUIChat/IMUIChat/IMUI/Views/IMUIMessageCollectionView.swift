@@ -11,11 +11,15 @@ import UIKit
 protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
   func didTapMessageCell(_ model: IMUIMessageModel)
   func didTapMessageBubble(_ model: IMUIMessageModel)
+  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any)
+  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any)
 }
 
 extension IMUIMessageMessageCollectionViewDelegate {
   func didTapMessageCell(_ model: IMUIMessageModel) {}
   func didTapMessageBubble(_ model: IMUIMessageModel){}
+  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any) {}
+  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any) {}
 }
 
 
@@ -25,11 +29,10 @@ class IMUIMessageCollectionView: UIView {
   @IBOutlet weak var messageCollectionView: UICollectionView!
 
   var chatDataManager = IMUIChatDataManager()
-  
+  weak var delegate: IMUIMessageMessageCollectionViewDelegate?
   
   open override func awakeFromNib() {
     super.awakeFromNib()
-    
   }
   
   
@@ -45,10 +48,7 @@ class IMUIMessageCollectionView: UIView {
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    IMUIMessageCellLayout.CellWidth = self.imui_width
-    IMUIMessageCellLayout.avatarSize = CGSize(width: 40, height: 40)
-    IMUIMessageCellLayout.bubbleMaxWidth = 200
-    
+    IMUIMessageCellLayout.cellWidth = self.imui_width
   }
   
   func setupMessageCollectionView() {
@@ -109,6 +109,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
 
     var cellIdentify = ""
     let messageModel = self.chatDataManager[indexPath.item]
+    
     switch messageModel.type {
     case .text:
       cellIdentify = IMUITextMessageCell.self.description()
@@ -125,17 +126,24 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
     default:
       break
     }
+    
     let cell: IMUIMessageCellProtocal = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentify, for: indexPath) as! IMUIMessageCellProtocal
-    cell.presentCell(with: self.chatDataManager[indexPath.item])
+    
+    cell.presentCell(with: messageModel, delegate: delegate)
+    
+    self.delegate?.willDisplayMessageCell(messageModel, cell: cell)
+    
     return cell as! UICollectionViewCell
   }
   
   func collectionView(_ collectionView: UICollectionView,
                       didSelectItemAt indexPath: IndexPath) {
-    
+    let messageModel = self.chatDataManager[indexPath.item]
+    self.delegate?.didTapMessageCell(messageModel)
   }
 
   func collectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
-    print("dadfsf\(didEndDisplaying)")
+    let messageModel = self.chatDataManager[forItemAt.item]
+    self.delegate?.didEndDisplaying(messageModel, cell: didEndDisplaying)
   }
 }

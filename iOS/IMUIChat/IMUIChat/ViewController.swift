@@ -14,19 +14,14 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var myInputView: IMUIInputView!
   
-  
-  
-  let dataManager = IMUIChatDataManager()
-  let chatLayout = IMUIChatLayout()
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     self.myInputView.inputViewDelegate = self
+    self.messageCollectionView.delegate = self
   }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    
   }
 }
 
@@ -97,5 +92,24 @@ extension ViewController: IMUIInputViewDelegate {
     dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm-ss"
     recorderPath?.append("\(dateFormatter.string(from: now))-image")
     return recorderPath!
+  }
+}
+
+
+// MARK - IMUIMessageMessageCollectionViewDelegate
+extension ViewController: IMUIMessageMessageCollectionViewDelegate {
+
+  func didTapMessageCell(_ model: IMUIMessageModel) {
+    print("\(model)")
+  }
+  
+  func didTapMessageBubble(_ model: IMUIMessageModel) {
+    print("tap bubble \(model)")
+  }
+  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any) {
+    print("willDisplayMessageCell \(model)")
+  }
+  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any) {
+    print(" didEndDisplaying  \(model)")
   }
 }

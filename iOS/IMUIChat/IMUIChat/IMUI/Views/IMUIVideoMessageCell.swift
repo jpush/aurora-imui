@@ -31,11 +31,11 @@ class IMUIVideoMessageCell: IMUIBaseMessageCell {
     self.videoReader.isNeedToStopVideo = true
   }
   
-  override func presentCell(with message: IMUIMessageModel) {
-    super.presentCell(with: message)
+  override func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?) {
+    super.presentCell(with: message, delegate: delegate)
     self.layoutVideo(with: message.videoPath!)
     let layout = message.layout as! IMUIMessageCellLayout
-    self.videoView.frame = layout.bubbleContentFrame
+    self.videoView.frame = UIEdgeInsetsInsetRect(CGRect(origin: CGPoint.zero, size: layout.bubbleFrame.size), layout.bubbleContentInset)
   }
   
   func layoutVideo(with videoPath: String) {

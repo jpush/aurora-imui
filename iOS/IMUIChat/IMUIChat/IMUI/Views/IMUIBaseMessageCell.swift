@@ -15,7 +15,7 @@ enum IMUIMessageCellType {
 }
 
 protocol IMUIMessageCellProtocal {
-  func presentCell(with message: IMUIMessageModel)
+  func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?)
   func didDisAppearCell()
 }
 
@@ -29,6 +29,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   var timeLable: UILabel
   var nameLable: UILabel
   
+  weak var delegate: IMUIMessageMessageCollectionViewDelegate?
   weak var message: IMUIMessageModel?
   
   override init(frame: CGRect) {
@@ -80,12 +81,13 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.bubbleView.setupBubbleImage(isOutgoing: message.isOutGoing)
   }
   
-  func presentCell(with message: IMUIMessageModel) {
+  func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?) {
     self.layoutCell(with: message.layout)
     self.setupData(with: message)
+    self.delegate = delegate
   }
   
   func tapBubbleView() {
-    print("tapBubbleView")
+    self.delegate?.didTapMessageCell(self.message!)
   }
 }

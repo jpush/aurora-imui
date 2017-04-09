@@ -25,11 +25,11 @@ class IMUIImageMessageCell: IMUIBaseMessageCell {
     super.layoutSubviews()
   }
 
-  override func presentCell(with message: IMUIMessageModel) {
-    super.presentCell(with: message)
+  override func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?) {
+    super.presentCell(with: message, delegate: delegate)
     
     let layout = message.layout as! IMUIMessageCellLayout
-    self.imageView.frame = layout.bubbleContentFrame
+    self.imageView.frame = UIEdgeInsetsInsetRect(CGRect(origin: CGPoint.zero, size: layout.bubbleFrame.size), layout.bubbleContentInset)
     self.layoutImage(image: UIImage(data: message.mediaData())!)
   }
   

@@ -8,7 +8,8 @@
 
 import UIKit
 
-var needShowTimeInterval = 0.0
+var needShowTimeInterval = Double.greatestFiniteMagnitude
+
 
 class IMUIChatDataManager: NSObject {
   var allMessageArr = [IMUIMessageModel]()

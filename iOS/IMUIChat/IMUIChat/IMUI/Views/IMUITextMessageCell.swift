@@ -28,16 +28,23 @@ class IMUITextMessageCell: IMUIBaseMessageCell {
     super.layoutSubviews()
   }
   
-  override func presentCell(with message: IMUIMessageModel) {
-    super.presentCell(with: message)
+  override func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?) {
+    super.presentCell(with: message, delegate: delegate)
 
-    let layout = message.layout as! IMUIMessageCellLayout
-    self.textMessageLable.frame = layout.bubbleContentFrame
+    let layout = message.layout
+
+    self.textMessageLable.frame = UIEdgeInsetsInsetRect(CGRect(origin: CGPoint.zero, size: layout.bubbleFrame.size), layout.bubbleContentInset)
     self.layoutToText(with: message.textMessage(), isOutGoing: message.isOutGoing)
   }
   
   func layoutToText(with text: String, isOutGoing: Bool) {
     textMessageLable.text = text
+    if isOutGoing {
+      textMessageLable.textColor = UIColor(netHex: 0x7587A8)
+    } else {
+      textMessageLable.textColor = UIColor.white
+    }
+    
   }
   
 }
