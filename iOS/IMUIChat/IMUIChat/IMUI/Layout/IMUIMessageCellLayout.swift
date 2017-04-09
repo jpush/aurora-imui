@@ -56,7 +56,7 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   
   
   
-  internal var bubbleContentInset = {
+  var bubbleContentInset = {
     return UIEdgeInsets.zero
   }()
   

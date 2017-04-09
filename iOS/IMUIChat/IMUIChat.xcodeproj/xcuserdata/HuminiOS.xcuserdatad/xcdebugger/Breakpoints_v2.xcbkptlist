@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IMUIChat/IMUI/Views/IMUITextMessageCell.swift"
-            timestampString = "513361132.188163"
+            timestampString = "513441680.428174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "presentCell(with:delegate:)"
             landmarkType = "7">
          </BreakpointContent>

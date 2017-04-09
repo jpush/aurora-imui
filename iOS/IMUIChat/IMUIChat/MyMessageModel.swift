@@ -95,7 +95,12 @@ struct MyMessageCellLayout: IMUIMessageCellLayoutProtocal {
   }
   
   var bubbleContentInset: UIEdgeInsets {
-    return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    if defaultLayout.isOutGoingMessage {
+      return UIEdgeInsets(top: 10, left: 30, bottom: 10, right: 55)
+    } else {
+      return UIEdgeInsets(top: 10, left: 35, bottom: 10, right: 30)
+    }
+    
   }
 }
 

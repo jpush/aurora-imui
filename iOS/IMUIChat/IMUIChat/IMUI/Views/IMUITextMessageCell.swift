@@ -18,6 +18,7 @@ class IMUITextMessageCell: IMUIBaseMessageCell {
     super.init(frame: frame)
     self.bubbleView.addSubview(textMessageLable)
     textMessageLable.numberOfLines = 0
+    textMessageLable.font = UIFont.systemFont(ofSize: 18)
   }
   
   required init?(coder aDecoder: NSCoder) {
