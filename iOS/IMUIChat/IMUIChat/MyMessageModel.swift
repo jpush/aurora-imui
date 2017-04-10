@@ -34,7 +34,7 @@ class MyMessageModel: IMUIMessageModel {
     let layout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing,
                                        isNeedShowTime: false,
                                        bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text),
-                                       bubbleContentInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+                                       bubbleContentInset: MyMessageModel.bubbleContentInset(isOutGoing: isOutGoing))
     let myLayout = MyMessageCellLayout(defaultLayout: layout)
     
     self.init(msgId: "", fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
@@ -71,6 +71,14 @@ class MyMessageModel: IMUIMessageModel {
     
     return textSize
   }
+  
+  static func bubbleContentInset(isOutGoing: Bool) -> UIEdgeInsets {
+    if isOutGoing {
+      return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 15)
+    } else {
+      return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 10)
+    }
+  }
 }
 
 
@@ -95,13 +103,9 @@ struct MyMessageCellLayout: IMUIMessageCellLayoutProtocal {
   }
   
   var bubbleContentInset: UIEdgeInsets {
-    if defaultLayout.isOutGoingMessage {
-      return UIEdgeInsets(top: 10, left: 30, bottom: 10, right: 55)
-    } else {
-      return UIEdgeInsets(top: 10, left: 35, bottom: 10, right: 30)
-    }
-    
+    return defaultLayout.bubbleContentInset
   }
+  
 }
 
 
