@@ -20,12 +20,21 @@ enum IMUIFeatureType {
   case none
 }
 
-@objc protocol IMUIFeatureViewDelegate: NSObjectProtocol {
+protocol IMUIFeatureViewDelegate: NSObjectProtocol {
   
-  @objc func didSelectPhoto(with images: [UIImage])
-  @objc func didRecordVoice(with voiceData: Data)
-  @objc func didShotPicture(with image: UIImage)
-  @objc func didRecordVideo(with voiceData: Data)
+  func didSelectPhoto(with images: [UIImage])
+  func didRecordVoice(with voiceData: Data)
+  func didShotPicture(with image: UIImage)
+  func didRecordVideo(with voiceData: Data)
+  func didChangeSelectedGallery(with gallerys: [PHAsset])
+}
+
+extension IMUIFeatureViewDelegate {
+  func didSelectPhoto(with images: [UIImage]) {}
+  func didRecordVoice(with voiceData: Data) {}
+  func didShotPicture(with image: UIImage) {}
+  func didRecordVideo(with voiceData: Data) {}
+  func didChangeSelectedGallery() {}
 }
 
 protocol IMUIFeatureCellProtocal {
@@ -72,7 +81,9 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
   var currentType:IMUIFeatureType = .none
   
   open weak var inputViewDelegate: IMUIInputViewDelegate?
-    
+  
+  weak var delegate: IMUIFeatureViewDelegate?
+  
   open override func awakeFromNib() {
     super.awakeFromNib()
     self.setupAllViews()
@@ -149,6 +160,12 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
     self.showGalleryBtn.isHidden = true
     self.featureCollectionView.reloadData()
   }
+  
+  func clearAllSelectedGallery() {
+    if currentType != .gallery { return }
+    IMUIGalleryDataManager.selectedAssets = [PHAsset]()
+    self.featureCollectionView.reloadData()
+  }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -174,7 +191,8 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
                       sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
     switch currentType {
     case .gallery:
-        return self.featureCollectionView.imui_size
+      let minWidth = min(self.featureCollectionView.imui_size.width, self.featureCollectionView.imui_size.height)
+      return CGSize(width: minWidth, height: minWidth)
     default:
       return self.featureCollectionView.imui_size
     }
@@ -210,11 +228,17 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     return cell as! UICollectionViewCell
   }
   
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)!
-        if cell is IMUIGalleryCell {
-            let galleryCell = cell as! IMUIGalleryCell
-            galleryCell.clicked()
-        }
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let cell = collectionView.cellForItem(at: indexPath)!
+    if cell is IMUIGalleryCell {
+      let galleryCell = cell as! IMUIGalleryCell
+      galleryCell.clicked()
+      self.updateSelectedAssets()
     }
+  }
+  
+  func updateSelectedAssets() {
+    self.delegate?.didChangeSelectedGallery(with: IMUIGalleryDataManager.selectedAssets)
+  }
+  
 }

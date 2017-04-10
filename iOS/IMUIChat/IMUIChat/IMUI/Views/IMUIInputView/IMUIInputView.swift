@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 enum IMUIInputStatus {
   case microphone
@@ -37,7 +38,8 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
   func photoClick(photoBtn: UIButton)
   func finishSelectedPhoto(_ photoArr: [Data])
   func finishSelectedVideo(_ VideoArr: [URL])
-  
+
+  func finishiSeletedGallery(AssetArr: [PHAsset])
   // Camera
   func switchIntoCameraMode(cameraBtn: UIButton)
   func switchOutOfCameraMode()
@@ -65,7 +67,7 @@ extension IMUIInputViewDelegate {
   func photoClick(photoBtn: UIButton) {}
   func finishSelectedPhoto(_ photoArr: [UIImage]) {}
   func finishSelectedVideo(_ VideoArr: [URL]) {}
-  
+  func finishiSeletedGallery(AssetArr: [PHAsset]) {}
   // Camera
   func switchIntoCameraMode(cameraBtn: UIButton) {}
   func switchOutOfCameraMode() {}
@@ -93,6 +95,7 @@ class IMUIInputView: UIView {
   @IBOutlet weak var photoBtn: UIButton!
   @IBOutlet weak var cameraBtn: UIButton!
   @IBOutlet weak var sendBtn: UIButton!
+  @IBOutlet weak var sendNumberLabel: UILabel!
   
   open override func awakeFromNib() {
     super.awakeFromNib()
@@ -100,7 +103,12 @@ class IMUIInputView: UIView {
                                            selector: #selector(self.keyboardFrameChanged(_:)),
                                            name: NSNotification.Name.UIKeyboardWillChangeFrame,
                                            object: nil)
-    
+    self.sendNumberLabel.isHidden = true
+    self.sendNumberLabel.layer.masksToBounds = true
+    self.sendNumberLabel.layer.cornerRadius = self.sendNumberLabel.imui_width/2
+    self.sendNumberLabel.layer.shadowOffset = CGSize(width: 2, height: 2)
+    self.sendNumberLabel.layer.shadowRadius = 5
+    self.sendNumberLabel.layer.shadowOpacity = 0.5
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -112,7 +120,7 @@ class IMUIInputView: UIView {
     
     inputTextView.textContainer.lineBreakMode = .byWordWrapping
     inputTextView.delegate = self
-    
+    self.featureView.delegate = self
   }
   
   @IBAction func clickMicBtn(_ sender: Any) {
@@ -138,6 +146,12 @@ class IMUIInputView: UIView {
   }
 
   @IBAction func clickSendBtn(_ sender: Any) {
+    if IMUIGalleryDataManager.selectedAssets.count > 0 {
+      self.inputViewDelegate?.finishiSeletedGallery(AssetArr: IMUIGalleryDataManager.selectedAssets)
+      self.featureView.clearAllSelectedGallery()
+      return
+    }
+    
     if inputTextView.text != "" {
       inputViewDelegate?.sendTextMessage(self.inputTextView.text)
       inputTextView.text = ""
@@ -178,7 +192,10 @@ class IMUIInputView: UIView {
       self.moreViewHeight.constant = 0
       self.superview?.layoutIfNeeded()
     }
-    
+  }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
   }
 }
 
@@ -193,4 +210,24 @@ extension IMUIInputView: UITextViewDelegate {
     return true
   }
   
+}
+
+
+extension IMUIInputView: IMUIFeatureViewDelegate {
+  func didChangeSelectedGallery(with gallerys: [PHAsset]) {
+    if gallerys.count == 0 {
+      self.sendBtn.isEnabled = inputTextView.text == ""
+    } else {
+      self.sendBtn.isEnabled = true
+    }
+    
+    self.updateSendBtnToPhotoSendStatus(with: gallerys.count)
+  }
+  
+  func updateSendBtnToPhotoSendStatus(with number: Int) {
+
+    self.sendBtn.isSelected = number > 0
+    self.sendNumberLabel.isHidden = !(number > 0)
+    self.sendNumberLabel.text = "\(number)"
+  }
 }

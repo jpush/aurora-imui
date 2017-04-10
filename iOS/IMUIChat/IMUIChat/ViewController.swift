@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class ViewController: UIViewController {
 
@@ -81,6 +82,22 @@ extension ViewController: IMUIInputViewDelegate {
     self.messageCollectionView.appendMessage(with: inCommingMessage)
   }
   
+  func finishiSeletedGallery(AssetArr: [PHAsset]) {
+    for asset in AssetArr {
+      switch asset.mediaType {
+      case .image:
+        let option = PHImageRequestOptions()
+        option.isSynchronous = true
+        PHImageManager.default().requestImage(for: asset, targetSize: self.view.frame.size, contentMode: PHImageContentMode.default, options: option, resultHandler: { [weak self] (image, _) in
+          let imageData = UIImagePNGRepresentation(image!)
+          self?.finishShootPicture(picture: imageData!)
+        })
+        break
+      default:
+        break
+      }
+    }
+  }
   
   func getPath() -> String {
     var recorderPath:String? = nil
@@ -106,10 +123,12 @@ extension ViewController: IMUIMessageMessageCollectionViewDelegate {
   func didTapMessageBubble(_ model: IMUIMessageModel) {
     print("tap bubble \(model)")
   }
+  
   func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any) {
-    print("willDisplayMessageCell \(model)")
+    
   }
+  
   func didEndDisplaying(_ model: IMUIMessageModel, cell: Any) {
-    print(" didEndDisplaying  \(model)")
+    
   }
 }

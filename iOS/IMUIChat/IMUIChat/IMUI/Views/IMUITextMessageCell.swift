@@ -45,7 +45,6 @@ class IMUITextMessageCell: IMUIBaseMessageCell {
     } else {
       textMessageLable.textColor = UIColor.white
     }
-    
   }
   
 }
