@@ -15,6 +15,8 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var myInputView: IMUIInputView!
   
+  let imageManage: PHCachingImageManager = PHCachingImageManager()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     self.myInputView.inputViewDelegate = self
@@ -88,7 +90,8 @@ extension ViewController: IMUIInputViewDelegate {
       case .image:
         let option = PHImageRequestOptions()
         option.isSynchronous = true
-        PHImageManager.default().requestImage(for: asset, targetSize: self.view.frame.size, contentMode: PHImageContentMode.default, options: option, resultHandler: { [weak self] (image, _) in
+        
+        imageManage.requestImage(for: asset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .aspectFill, options: option, resultHandler: { [weak self] (image, _) in
           let imageData = UIImagePNGRepresentation(image!)
           self?.finishShootPicture(picture: imageData!)
         })
