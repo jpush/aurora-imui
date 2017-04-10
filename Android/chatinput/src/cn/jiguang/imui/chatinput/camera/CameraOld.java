@@ -262,7 +262,6 @@ public class CameraOld implements CameraSupport {
     public void finishRecordingVideo() {
         mMediaRecorder.stop();
         mMediaRecorder.reset();
-        mCamera.startPreview();
         if (mCameraCallbackListener != null) {
             mCameraCallbackListener.onRecordVideoCompleted(mNextVideoAbsolutePath);
         }

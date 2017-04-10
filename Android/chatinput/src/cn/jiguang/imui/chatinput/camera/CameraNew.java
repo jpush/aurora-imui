@@ -468,6 +468,7 @@ public class CameraNew implements CameraSupport {
     @Override
     public void cancelRecordingVideo() {
         resetRecordState();
+        startPreview();
         if (mNextVideoAbsolutePath != null) {
             File file = new File(mNextVideoAbsolutePath);
             if (file.exists() && file.isFile()) {
@@ -486,19 +487,22 @@ public class CameraNew implements CameraSupport {
 
     private void resetRecordState() {
         try {
-            mPreviewSession.stopRepeating();
-            mPreviewSession.abortCaptures();
+            if (mPreviewSession != null) {
+                mPreviewSession.stopRepeating();
+                mPreviewSession.abortCaptures();
+            }
+            if (mMediaRecorder != null) {
+                mMediaRecorder.stop();
+                mMediaRecorder.reset();
+            }
         } catch (CameraAccessException e) {
             e.printStackTrace();
-        }
-        try {
-            mMediaRecorder.stop();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         } catch (RuntimeException e) {
             e.printStackTrace();
             Toast.makeText(mContext, mContext.getString(R.string.record_video_failed), Toast.LENGTH_SHORT).show();
         }
-        mMediaRecorder.reset();
-        startPreview();
     }
 
     private String getVideoFilePath(Context context) {

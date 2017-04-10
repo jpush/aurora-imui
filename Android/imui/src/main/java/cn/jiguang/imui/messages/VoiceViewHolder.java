@@ -86,7 +86,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 if (mMsgClickListener != null) {
                     mMsgClickListener.onMessageClick(message);
                 }
-                // 播放中点击了正在播放的Item 则暂停播放
                 if (mIsSender) {
                     mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
@@ -94,16 +93,17 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 }
 
                 mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
+                // If audio is playing, pause
                 if (mMediaPlayer.isPlaying() && mPosition == getAdapterPosition()) {
                     pauseVoice();
                     mVoiceAnimation.stop();
-                    // 开始播放录音
+                    // Start playing audio
                 } else {
-                    // 继续播放之前暂停的录音
+                    // Restart playing audio
                     if (mSetData && mPosition == mPlayPosition) {
                         mVoiceAnimation.start();
                         mMediaPlayer.start();
-                        // 否则重新播放该录音或者其他录音
+                        // start play audio
                     } else {
                         playVoice(mPosition, message, true);
                     }

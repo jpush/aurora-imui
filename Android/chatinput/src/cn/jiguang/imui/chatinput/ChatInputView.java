@@ -35,6 +35,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,13 +115,13 @@ public class ChatInputView extends LinearLayout
     private ImageButton mPhotoBtn;
     private ImageButton mAlbumBtn;
 
-    private RecyclerView mRvPhotos; // 选择照片界面
+    private RecyclerView mRvPhotos; // Select photo view
     private PhotoAdapter mPhotoAdapter;
 
     private ProgressBar mProgressBar;
 
-    private List<FileItem> mMedias; // 所有的图片和视频文件
-    private List<FileItem> mSendFiles = new ArrayList<>();
+    private List<FileItem> mMedias; // All photo or video files
+    private List<FileItem> mSendFiles = new ArrayList<>(); // Photo or video files to be sent.
     // Select photo end
 
     private FrameLayout mCameraFl;
@@ -144,16 +145,16 @@ public class ChatInputView extends LinearLayout
     private MyHandler myHandler = new MyHandler(this);
     private long mRecordTime;
     private boolean mPlaying = false;
-    private final MediaPlayer mMediaPlayer = new MediaPlayer();
-    // 是否在录像模式
+    private MediaPlayer mMediaPlayer = new MediaPlayer();
+    // To judge if it is record video mode
     private boolean mIsRecordVideoMode = false;
-    // 是否正在录像
+    // To judge if it is recording video now
     private boolean mIsRecordingVideo = false;
-    // 是否完成录像
+    // To judge if is finish recording video
     private boolean mFinishRecordingVideo = false;
-    // 存放录像的路径
+    // Video file to be saved at
     private String mVideoFilePath;
-    // 是否播放过录音
+    // If audio file has been set
     private boolean mSetData;
     private FileInputStream mFIS;
     private FileDescriptor mFD;
@@ -341,10 +342,10 @@ public class ChatInputView extends LinearLayout
             return;
         }
 
-        if (s.length() >= 1 && start == 0 && before == 0) { // 开始输入内容
+        if (s.length() >= 1 && start == 0 && before == 0) { // Starting input
             triggerSendButtonAnimation(mSendBtn, true, false);
         }
-        if (s.length() == 0 && before >= 1) { // 清空内容
+        if (s.length() == 0 && before >= 1) { // clear content
             triggerSendButtonAnimation(mSendBtn, false, false);
         }
     }
@@ -365,7 +366,7 @@ public class ChatInputView extends LinearLayout
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.send_btn_fl || view.getId() == R.id.send_msg_ib) {
-            // 允许同时发送文字和选中的图片
+            // allow send text and photos at the same time
             if (onSubmit()) {
                 mChatInput.setText("");
             }
@@ -377,7 +378,7 @@ public class ChatInputView extends LinearLayout
                 mPhotoAdapter.resetCheckedState();
                 dismissMenuLayout();
             }
-        // 按下试听语音按钮
+        // press preview play audio button
         } else if (view.getId() == R.id.play_audio_pb) {
             if (!mPlaying) {
                 if (mSetData) {
@@ -396,19 +397,19 @@ public class ChatInputView extends LinearLayout
                 mPlaying = false;
                 mPreviewPlayBtn.stopPlay();
             }
-        // 试听语音界面取消发送语音
+        // preview play audio widget cancel sending audio
         } else if (view.getId() == R.id.cancel_send_audio_btn) {
             mPreviewPlayLl.setVisibility(GONE);
             mRecordContentLl.setVisibility(VISIBLE);
             mRecordVoiceBtn.cancelRecord();
             mChronometer.setText("00:00");
-        // 试听语音界面发送语音
+        // preview play audio widget send audio
         } else if (view.getId() == R.id.send_voice_btn) {
             mPreviewPlayLl.setVisibility(GONE);
             dismissMenuLayout();
             mRecordVoiceBtn.finishRecord();
             mChronometer.setText("00:00");
-        // 拍照或者录像右上角缩放按钮
+        // full screen/recover screen button in texture view
         } else if (view.getId() == R.id.full_screen_ib) {
             if (!mIsFullScreen) {
                 mFullScreenBtn.setBackgroundResource(R.drawable.recover_screen);
@@ -416,9 +417,9 @@ public class ChatInputView extends LinearLayout
             } else {
                 recoverScreen();
             }
-        // 点击录像按钮
+        // click record video button
         } else if (view.getId() == R.id.record_video_ib) {
-            // 如果不是录像模式
+            // if it is not record video mode
             if (!mIsRecordVideoMode) {
                 mIsRecordVideoMode = true;
                 mCaptureBtn.setBackgroundResource(R.drawable.record_video_pres);
@@ -433,11 +434,11 @@ public class ChatInputView extends LinearLayout
                 mFullScreenBtn.setVisibility(VISIBLE);
                 mCloseBtn.setVisibility(GONE);
             }
-        // 点击预览中的拍照按钮
+        // click capture button in preview camera view
         } else if (view.getId() == R.id.capture_ib) {
-            // 若为录像模式
+            // is record video mode
             if (mIsRecordVideoMode) {
-                // 开始录像
+                // start recording
                 if (!mIsRecordingVideo) {
                     mCameraSupport.startRecordingVideo();
                     new Handler().postDelayed(new Runnable() {
@@ -450,7 +451,7 @@ public class ChatInputView extends LinearLayout
                         }
                     }, 200);
                     mIsRecordingVideo = true;
-                // 完成录像
+                // finish recording
                 } else {
                     mCameraSupport.finishRecordingVideo();
                     mIsRecordingVideo = false;
@@ -461,15 +462,19 @@ public class ChatInputView extends LinearLayout
                     mSwitchCameraBtn.setBackgroundResource(R.drawable.delete_video);
                     mSwitchCameraBtn.setVisibility(VISIBLE);
                     // TODO play video
+                    if (mVideoFilePath != null) {
+                        playVideo();
+                    }
                 }
-            // 若完成录像，则发送视频
+            // if finished recording video, send it
             } else if (mFinishRecordingVideo) {
                 if (mListener != null) {
                     mListener.onVideoRecordFinished(mVideoFilePath);
                     mFinishRecordingVideo = false;
+                    mVideoFilePath = null;
                 }
                 recoverScreen();
-            // 否则拍照并发送
+            // take picture and send it
             } else {
                 mCameraSupport.takePicture();
                 recoverScreen();
@@ -486,11 +491,13 @@ public class ChatInputView extends LinearLayout
                 mSwitchCameraBtn.setBackgroundResource(R.drawable.switch_camera);
                 mRecordVideoBtn.setBackgroundResource(R.drawable.camera_capture);
                 mRecordVideoBtn.setVisibility(VISIBLE);
+                mVideoFilePath = null;
                 mFinishRecordingVideo = false;
                 mIsRecordVideoMode = true;
                 mCaptureBtn.setBackgroundResource(R.drawable.record_video_pres);
-                // TODO cancel play video
-                mCameraSupport.open(mCameraId, mWidth, mHeight);
+                mMediaPlayer.stop();
+                mMediaPlayer.release();
+                initCamera();
             } else {
                 for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
                     Camera.CameraInfo info = new Camera.CameraInfo();
@@ -581,7 +588,7 @@ public class ChatInputView extends LinearLayout
         }
     }
 
-    // 播放录音
+    // play audio
     private void playVoice() {
         try {
             mMediaPlayer.reset();
@@ -629,6 +636,30 @@ public class ChatInputView extends LinearLayout
         }
     }
 
+    private void playVideo() {
+        try {
+            mCameraSupport.release();
+            mMediaPlayer = new MediaPlayer();
+            mMediaPlayer.setDataSource(mVideoFilePath);
+            Surface surface = new Surface(mTextureView.getSurfaceTexture());
+            mMediaPlayer.setSurface(surface);
+            mMediaPlayer.setLooping(true);
+            mMediaPlayer.prepareAsync();
+            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mediaPlayer) {
+                    mediaPlayer.start();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setAudioPlayByEarPhone(int state) {
         AudioManager audioManager = (AudioManager) getContext()
                 .getSystemService(Context.AUDIO_SERVICE);
@@ -667,7 +698,13 @@ public class ChatInputView extends LinearLayout
         mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
-                mCameraSupport.open(mCameraId, width, height);
+                if (mVideoFilePath != null) {
+                    playVideo();
+                } else {
+                    Log.e("ChatInputView", "Opening camera");
+                    mCameraSupport.open(mCameraId, width, height);
+                }
+
             }
 
             @Override
@@ -689,10 +726,10 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 进入全屏模式
+     * Full screen mode
      */
     private void fullScreen() {
-        // 设置为全屏
+        // hide top status bar
         Activity activity = (Activity) getContext();
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
@@ -708,7 +745,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 恢复屏幕
+     * Recover screen
      */
     private void recoverScreen() {
         Activity activity = (Activity) getContext();
@@ -808,7 +845,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 选中图片的回调
+     * Select photo callback
      */
     @Override
     public void onFileSelected() {
@@ -821,7 +858,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 取消选中图片的回调
+     * Cancel select photo callback
      */
     @Override
     public void onFileDeselected() {
@@ -837,11 +874,11 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 触发发送按钮的动画效果
+     * Trigger send button animation
      *
-     * @param sendBtn       发送按钮
-     * @param hasContent    输入框或图片选择界面是否有内容
-     * @param isSelectPhoto 是否正在选择图片
+     * @param sendBtn       send button
+     * @param hasContent    EditText has content or photos have been selected
+     * @param isSelectPhoto check if selecting photos
      */
     private void triggerSendButtonAnimation(final ImageButton sendBtn, final boolean hasContent,
                                             final boolean isSelectPhoto) {
@@ -934,7 +971,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 在录音界面手指按下
+     * Record audio widget finger on touch record button callback
      */
     @Override
     public void onStart() {
@@ -946,7 +983,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 录音状态下，手指按下并移动
+     * Recording audio mode, finger moving callback
      */
     @Override
     public void onMoving() {
@@ -955,7 +992,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 录音状态下，手指往左移动
+     * Recording audio mode, finger moved left button (preview button) callback
      */
     @Override
     public void onMovedLeft() {
@@ -965,7 +1002,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 录音状态下，手指往右移动
+     * Recording audio mode, finger moved right button (cancel button)
      */
     @Override
     public void onMovedRight() {
@@ -975,7 +1012,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 录音状态下，手指移动到左侧预览按钮并放开
+     * Recording audio mode, finger moved left button and release
      */
     @Override
     public void onLeftUpTapped() {
@@ -989,7 +1026,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 录音状态下，手指移动到右侧取消按钮并放开
+     * Recording audio mode, finger moved right button and release
      */
     @Override
     public void onRightUpTapped() {
@@ -1003,7 +1040,7 @@ public class ChatInputView extends LinearLayout
         // TODO Auto-generated method stub
         String[] timeArray = strTime.split(":");
         long longTime = 0;
-        if (timeArray.length == 2) {//如果时间是MM:SS格式
+        if (timeArray.length == 2) { // If time format is MM:SS
             longTime = Integer.parseInt(timeArray[0]) * 60 * 1000 + Integer.parseInt(timeArray[1]) * 1000;
         }
         return SystemClock.elapsedRealtime() - longTime;
@@ -1053,7 +1090,7 @@ public class ChatInputView extends LinearLayout
 
     public void dismissMenuAndResetSoftMode() {
         mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); // 隐藏软键盘
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -1068,9 +1105,9 @@ public class ChatInputView extends LinearLayout
     }
 
     public void dismissSoftInputAndShowMenu() {
-        //隐藏软键盘
+        // dismiss soft input
         mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); // 隐藏软键盘
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -1078,7 +1115,7 @@ public class ChatInputView extends LinearLayout
         }
         showMenuLayout();
         if (mImm != null) {
-            mImm.hideSoftInputFromWindow(mChatInput.getWindowToken(), 0); //强制隐藏键盘
+            mImm.hideSoftInputFromWindow(mChatInput.getWindowToken(), 0);
         }
         setMenuContainerHeight(mMenuHeight);
         mShowSoftInput = false;
@@ -1157,7 +1194,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * 录像完成的回调
+     * Finished recording video callback
      * @param videoPath Return the absolute path of video file.
      */
     @Override
@@ -1181,7 +1218,6 @@ public class ChatInputView extends LinearLayout
             if (chatInputView != null) {
                 switch (msg.what) {
                     case SCAN_OK:
-                        //关闭进度条
                         chatInputView.mProgressBar.setVisibility(GONE);
 
                         Collections.sort(chatInputView.mMedias);
@@ -1210,6 +1246,7 @@ public class ChatInputView extends LinearLayout
             mCameraSupport.release();
         }
         mMediaPlayer.release();
+        mMediaPlayer = null;
     }
 
     @Override

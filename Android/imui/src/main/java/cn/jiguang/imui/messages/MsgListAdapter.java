@@ -21,30 +21,30 @@ import cn.jiguang.imui.commons.models.IMessage;
 public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapter<ViewHolder>
         implements ScrollMoreListener.OnLoadMoreListener {
 
-    // 文本
+    // Text message
     private final int TYPE_RECEIVE_TXT = 0;
     private final int TYPE_SEND_TXT = 1;
 
-    // 图片
+    // Photo message
     private final int TYPE_SEND_IMAGE = 2;
     private final int TYPE_RECEIVER_IMAGE = 3;
 
-    // 位置
+    // Location message
     private final int TYPE_SEND_LOCATION = 4;
     private final int TYPE_RECEIVER_LOCATION = 5;
 
-    // 语音
+    // Voice message
     private final int TYPE_SEND_VOICE = 6;
     private final int TYPE_RECEIVER_VOICE = 7;
 
-    // 视频
+    // Video message
     private final int TYPE_SEND_VIDEO = 8;
     private final int TYPE_RECEIVE_VIDEO = 9;
 
-    //群成员变动
+    // Group change message
     private final int TYPE_GROUP_CHANGE = 10;
 
-    //自定义消息
+    // Custom message
     private final int TYPE_CUSTOM_TXT = 11;
 
     private Context mContext;

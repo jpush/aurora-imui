@@ -41,7 +41,7 @@ publish {
     userOrg = 'KenChoi1992'
     groupId = 'cn.jiguang.imui'
     artifactId = 'chatinput'
-    publishVersion = '1.0.0'
+    publishVersion = '0.0.1'
     desc = 'ChatInputView for IM UI'
     website = 'https://github.com/jpush/imui.git'
 }
