@@ -106,7 +106,7 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
       bubbleContentSize = textSize
       break
     case .voice:
-      bubbleContentSize = CGSize(width: 200, height: 37)
+      bubbleContentSize = CGSize(width: 80, height: 37)
       break
     case .video:
       bubbleContentSize = CGSize(width: 200, height: 200)
