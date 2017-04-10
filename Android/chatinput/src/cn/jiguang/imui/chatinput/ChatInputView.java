@@ -475,17 +475,19 @@ public class ChatInputView extends LinearLayout
                 recoverScreen();
             }
         } else if (view.getId() == R.id.close_btn) {
-            dismissMenuAndResetSoftMode();
             recoverScreen();
+            dismissMenuAndResetSoftMode();
             if (mFinishRecordingVideo) {
                 mCameraSupport.cancelRecordingVideo();
             }
         } else if (view.getId() == R.id.switch_camera_ib) {
             if (mFinishRecordingVideo) {
                 mCameraSupport.cancelRecordingVideo();
+                mSwitchCameraBtn.setBackgroundResource(R.drawable.switch_camera);
                 mRecordVideoBtn.setBackgroundResource(R.drawable.camera_capture);
                 mRecordVideoBtn.setVisibility(VISIBLE);
                 mFinishRecordingVideo = false;
+                mIsRecordVideoMode = true;
                 mCaptureBtn.setBackgroundResource(R.drawable.record_video_pres);
                 // TODO cancel play video
                 mCameraSupport.open(mCameraId, mWidth, mHeight);
@@ -700,6 +702,7 @@ public class ChatInputView extends LinearLayout
         mChatInputContainer.setVisibility(GONE);
         mMenuItemContainer.setVisibility(GONE);
         mMenuContainer.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mHeight));
+        mTextureView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mHeight));
         mCameraSupport.open(mCameraId, mWidth, mHeight);
         mIsFullScreen = true;
     }
@@ -714,15 +717,19 @@ public class ChatInputView extends LinearLayout
         activity.getWindow().setAttributes(attrs);
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         mIsFullScreen = false;
+        mCloseBtn.setVisibility(GONE);
         mFullScreenBtn.setBackgroundResource(R.drawable.full_screen);
         mFullScreenBtn.setVisibility(VISIBLE);
         mChatInputContainer.setVisibility(VISIBLE);
         mMenuItemContainer.setVisibility(VISIBLE);
         setMenuContainerHeight(mMenuHeight);
+        ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mMenuHeight);
+        mTextureView.setLayoutParams(params);
         mRecordVideoBtn.setBackgroundResource(R.drawable.record_video);
         mRecordVideoBtn.setVisibility(VISIBLE);
         mSwitchCameraBtn.setBackgroundResource(R.drawable.switch_camera);
         mSwitchCameraBtn.setVisibility(VISIBLE);
+        mCaptureBtn.setBackgroundResource(R.drawable.send_pres);
     }
 
     public void dismissMenuLayout() {

@@ -249,11 +249,12 @@ public class CameraOld implements CameraSupport {
     public void cancelRecordingVideo() {
         mMediaRecorder.stop();
         mMediaRecorder.reset();
-        Log.e(TAG, "Stop recording video");
         mCamera.startPreview();
-        File file = new File(mNextVideoAbsolutePath);
-        if (file.exists() && file.isFile()) {
-            file.delete();
+        if (mNextVideoAbsolutePath != null) {
+            File file = new File(mNextVideoAbsolutePath);
+            if (file.exists() && file.isFile()) {
+                file.delete();
+            }
         }
     }
 
@@ -261,11 +262,9 @@ public class CameraOld implements CameraSupport {
     public void finishRecordingVideo() {
         mMediaRecorder.stop();
         mMediaRecorder.reset();
-        Log.e(TAG, "Stop recording video");
         mCamera.startPreview();
         if (mCameraCallbackListener != null) {
             mCameraCallbackListener.onRecordVideoCompleted(mNextVideoAbsolutePath);
         }
-        mNextVideoAbsolutePath = null;
     }
 }

@@ -3,6 +3,7 @@ package cn.jiguang.imui.chatinput.camera;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -21,6 +22,7 @@ import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.v4.app.ActivityCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -163,12 +165,9 @@ public class CameraNew implements CameraSupport {
                 rotatedHeight = mWidth;
             }
             Size[] sizes = map.getOutputSizes(SurfaceTexture.class);
-            Log.e("CameraNew", "TextureView width: " + mWidth + " height: " + mHeight);
             mVideoSize = chooseVideoSize(map.getOutputSizes(MediaRecorder.class));
             mPreviewSize = getPreferredPreviewSize(sizes, rotatedWidth, rotatedHeight);
             texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-//            texture.setDefaultBufferSize(mWidth, mHeight);
-            Log.e("CameraNew", "OptimalSize width: " + mPreviewSize.getWidth() + " height: " + mPreviewSize.getHeight());
             Surface surface = new Surface(texture);
             mBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mBuilder.addTarget(surface);
@@ -451,7 +450,6 @@ public class CameraNew implements CameraSupport {
                 public void onConfigured(CameraCaptureSession cameraCaptureSession) {
                     mPreviewSession = cameraCaptureSession;
                     updatePreview();
-                    Log.e(TAG, "Start recording video!");
                     mMediaRecorder.start();
                 }
 
@@ -470,9 +468,11 @@ public class CameraNew implements CameraSupport {
     @Override
     public void cancelRecordingVideo() {
         resetRecordState();
-        File file = new File(mNextVideoAbsolutePath);
-        if (file.exists() && file.isFile()) {
-            file.delete();
+        if (mNextVideoAbsolutePath != null) {
+            File file = new File(mNextVideoAbsolutePath);
+            if (file.exists() && file.isFile()) {
+                file.delete();
+            }
         }
     }
 
@@ -482,7 +482,6 @@ public class CameraNew implements CameraSupport {
         if (mOnCameraCallbackListener != null) {
             mOnCameraCallbackListener.onRecordVideoCompleted(mNextVideoAbsolutePath);
         }
-        mNextVideoAbsolutePath = null;
     }
 
     private void resetRecordState() {
@@ -499,7 +498,6 @@ public class CameraNew implements CameraSupport {
             Toast.makeText(mContext, mContext.getString(R.string.record_video_failed), Toast.LENGTH_SHORT).show();
         }
         mMediaRecorder.reset();
-        Log.e(TAG, "Stop recording video");
         startPreview();
     }
 
