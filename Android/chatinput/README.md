@@ -64,6 +64,11 @@ chatInput.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
     public void onCameraClick() {
         // 点击拍照按钮触发事件
     }
+    
+     @Override
+     public void onVideoRecordFinished(String filePath) {
+         // 录完视频后，点击发送触发事件
+     }
 });
 ```
 关于上述事件的处理，可以参考 sample 中的 MessageListActivity 对于事件的处理。
