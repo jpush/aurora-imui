@@ -58,6 +58,9 @@
 		62C86A2B1E9B568F00AA8FE9 /* IMUIProgressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C86A1E1E9B568F00AA8FE9 /* IMUIProgressButton.swift */; };
 		62C86A2C1E9B568F00AA8FE9 /* IMUIRecordVoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C86A1F1E9B568F00AA8FE9 /* IMUIRecordVoiceCell.swift */; };
 		62C86A2D1E9B568F00AA8FE9 /* IMUIRecordVoiceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62C86A201E9B568F00AA8FE9 /* IMUIRecordVoiceCell.xib */; };
+		62C86A321E9B5A5600AA8FE9 /* defoult_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 62C86A2F1E9B5A5600AA8FE9 /* defoult_header.png */; };
+		62C86A331E9B5A5600AA8FE9 /* defoult_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62C86A301E9B5A5600AA8FE9 /* defoult_header@2x.png */; };
+		62C86A341E9B5A5600AA8FE9 /* defoult_header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62C86A311E9B5A5600AA8FE9 /* defoult_header@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +140,9 @@
 		62C86A1E1E9B568F00AA8FE9 /* IMUIProgressButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIProgressButton.swift; sourceTree = "<group>"; };
 		62C86A1F1E9B568F00AA8FE9 /* IMUIRecordVoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIRecordVoiceCell.swift; sourceTree = "<group>"; };
 		62C86A201E9B568F00AA8FE9 /* IMUIRecordVoiceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIRecordVoiceCell.xib; sourceTree = "<group>"; };
+		62C86A2F1E9B5A5600AA8FE9 /* defoult_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defoult_header.png; sourceTree = "<group>"; };
+		62C86A301E9B5A5600AA8FE9 /* defoult_header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defoult_header@2x.png"; sourceTree = "<group>"; };
+		62C86A311E9B5A5600AA8FE9 /* defoult_header@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defoult_header@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +207,7 @@
 				624442831E6C5CAE00D5F0EB /* MyMessageModel.swift */,
 				62C8692E1E9A2D9700AA8FE9 /* MyUser.swift */,
 				62AC1A8B1E5EC6A500E810B2 /* ViewController.swift */,
+				62C86A2E1E9B5A5600AA8FE9 /* Rescources */,
 				62AC1A8D1E5EC6A500E810B2 /* Main.storyboard */,
 				62AC1A901E5EC6A500E810B2 /* Assets.xcassets */,
 				62AC1A921E5EC6A500E810B2 /* LaunchScreen.storyboard */,
@@ -306,9 +313,9 @@
 		62C869CC1E9B51AE00AA8FE9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				62C869CF1E9B51AE00AA8FE9 /* IMUIInputView */,
 				62C869CD1E9B51AE00AA8FE9 /* IMUIBaseMessageCell.swift */,
 				62C869CE1E9B51AE00AA8FE9 /* IMUIImageMessageCell.swift */,
-				62C869CF1E9B51AE00AA8FE9 /* IMUIInputView */,
 				62C869DD1E9B51AE00AA8FE9 /* IMUIMessageBubbleView.swift */,
 				62C869DE1E9B51AE00AA8FE9 /* IMUIMessageCollectionView.swift */,
 				62C869DF1E9B51AE00AA8FE9 /* IMUIMessageCollectionView.xib */,
@@ -356,6 +363,16 @@
 				62C86A201E9B568F00AA8FE9 /* IMUIRecordVoiceCell.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		62C86A2E1E9B5A5600AA8FE9 /* Rescources */ = {
+			isa = PBXGroup;
+			children = (
+				62C86A2F1E9B5A5600AA8FE9 /* defoult_header.png */,
+				62C86A301E9B5A5600AA8FE9 /* defoult_header@2x.png */,
+				62C86A311E9B5A5600AA8FE9 /* defoult_header@3x.png */,
+			);
+			path = Rescources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -468,14 +485,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62C86A321E9B5A5600AA8FE9 /* defoult_header.png in Resources */,
 				62C86A291E9B568F00AA8FE9 /* IMUIInputView.xib in Resources */,
 				62C86A271E9B568F00AA8FE9 /* IMUIGalleryCell.xib in Resources */,
 				62C869E41E9B51AE00AA8FE9 /* IMUIAssets.bundle in Resources */,
 				62AC1A941E5EC6A500E810B2 /* LaunchScreen.storyboard in Resources */,
+				62C86A331E9B5A5600AA8FE9 /* defoult_header@2x.png in Resources */,
 				62C86A251E9B568F00AA8FE9 /* IMUIFeatureView.xib in Resources */,
 				62C86A2D1E9B568F00AA8FE9 /* IMUIRecordVoiceCell.xib in Resources */,
 				62C86A221E9B568F00AA8FE9 /* IMUICameraCell.xib in Resources */,
 				62AC1A911E5EC6A500E810B2 /* Assets.xcassets in Resources */,
+				62C86A341E9B5A5600AA8FE9 /* defoult_header@3x.png in Resources */,
 				62C86A091E9B51AE00AA8FE9 /* IMUIMessageCollectionView.xib in Resources */,
 				62AC1A8F1E5EC6A500E810B2 /* Main.storyboard in Resources */,
 			);

@@ -49,7 +49,6 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     gesture.numberOfTapsRequired = 1
     self.bubbleView.isUserInteractionEnabled = true
     self.bubbleView.addGestureRecognizer(gesture)
-    
     self.nameLable.frame = IMUIMessageCellLayout.nameLabelFrame
     self.setupSubViews()
   }
@@ -73,7 +72,6 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   
   func setupData(with message: IMUIMessageModel) {
     self.avatarImage.image = message.fromUser.Avatar()
-    self.avatarImage.backgroundColor = UIColor.white
     self.bubbleView.backgroundColor = UIColor.init(netHex: 0xE7EBEF)
     self.timeLable.text = message.date.parseDate
     self.message = message

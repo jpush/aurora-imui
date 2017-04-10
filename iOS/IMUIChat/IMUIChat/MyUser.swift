@@ -24,6 +24,6 @@ class MyUser: IMUIUserProtocol {
   }
   
   func Avatar() -> UIImage {
-    return UIImage()
+    return UIImage(named: "defoult_header")!
   }
 }
