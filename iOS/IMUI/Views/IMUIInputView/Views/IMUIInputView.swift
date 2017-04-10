@@ -124,6 +124,7 @@ class IMUIInputView: UIView {
   }
   
   @IBAction func clickMicBtn(_ sender: Any) {
+    self.leaveGalleryMode()
     
     self.inputTextView.resignFirstResponder()
     self.inputViewDelegate?.switchIntoRecordingVoiceMode(recordVoiceBtn: sender as! UIButton)
@@ -132,6 +133,8 @@ class IMUIInputView: UIView {
   }
   
   @IBAction func clickPhotoBtn(_ sender: Any) {
+    self.leaveGalleryMode()
+    
     inputTextView.resignFirstResponder()
     inputViewDelegate?.switchIntoSelectPhotoMode(photoBtn: sender as! UIButton)
     self.featureView.layoutFeature(with: .gallery)
@@ -139,6 +142,8 @@ class IMUIInputView: UIView {
   }
   
   @IBAction func clickCameraBtn(_ sender: Any) {
+    self.leaveGalleryMode()
+    
     inputTextView.resignFirstResponder()
     inputViewDelegate?.switchIntoCameraMode(cameraBtn: sender as! UIButton)
     self.featureView.layoutFeature(with: .camera)
@@ -149,6 +154,7 @@ class IMUIInputView: UIView {
     if IMUIGalleryDataManager.selectedAssets.count > 0 {
       self.inputViewDelegate?.finishiSeletedGallery(AssetArr: IMUIGalleryDataManager.selectedAssets)
       self.featureView.clearAllSelectedGallery()
+      self.updateSendBtnToPhotoSendStatus(with: 0)
       return
     }
     
@@ -157,6 +163,11 @@ class IMUIInputView: UIView {
       inputTextView.text = ""
       fitTextViewSize(inputTextView)
     }
+  }
+  
+  func leaveGalleryMode() {
+    featureView.clearAllSelectedGallery()
+    self.updateSendBtnToPhotoSendStatus(with: 0)
   }
   
   func keyboardFrameChanged(_ notification: Notification) {

@@ -67,6 +67,18 @@
                                     <action selector="clickToAdjustCameraViewSize:" destination="gTV-IL-0wX" eventType="touchUpInside" id="D5N-bo-Tur"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jr9-zZ-ylD">
+                                <rect key="frame" x="154" y="173" width="56" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="8XH-GP-Oix"/>
+                                    <constraint firstAttribute="width" constant="56" id="o3q-Gz-eTq"/>
+                                </constraints>
+                                <state key="normal" image="IMUIAssets.bundle/image/video_record_btn_to_play.png"/>
+                                <state key="selected" image="IMUIAssets.bundle/image/video_record_btn_to_stop.png"/>
+                                <connections>
+                                    <action selector="clickVideoRecordSwitch:" destination="gTV-IL-0wX" eventType="touchUpInside" id="um9-S9-LIN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -77,6 +89,8 @@
                             <constraint firstItem="IRu-3Y-U22" firstAttribute="top" secondItem="xKF-0A-AxD" secondAttribute="top" constant="8" id="Vva-8b-FMT"/>
                             <constraint firstItem="3sF-mM-jBR" firstAttribute="leading" secondItem="xKF-0A-AxD" secondAttribute="leading" constant="25" id="Ykf-iK-1yC"/>
                             <constraint firstItem="FWo-yF-VkR" firstAttribute="centerY" secondItem="xUn-vc-ITV" secondAttribute="centerY" id="jd6-Sx-Rk9"/>
+                            <constraint firstItem="jr9-zZ-ylD" firstAttribute="centerX" secondItem="xUn-vc-ITV" secondAttribute="centerX" id="mm2-FJ-KLM"/>
+                            <constraint firstItem="jr9-zZ-ylD" firstAttribute="centerY" secondItem="xUn-vc-ITV" secondAttribute="centerY" id="sD1-EM-GIw"/>
                             <constraint firstAttribute="bottom" secondItem="xUn-vc-ITV" secondAttribute="bottom" constant="16" id="x32-VD-Ztl"/>
                         </constraints>
                     </view>
@@ -95,6 +109,7 @@
                 <outlet property="resizeCameraPreviewBtn" destination="IRu-3Y-U22" id="r9z-2a-uBA"/>
                 <outlet property="switchCameraDeviceBtn" destination="FWo-yF-VkR" id="Bbe-IB-Kzs"/>
                 <outlet property="switchCameraModeBtn" destination="3sF-mM-jBR" id="N57-4k-A3a"/>
+                <outlet property="videoRecordBtn" destination="jr9-zZ-ylD" id="Vkz-YH-U8c"/>
             </connections>
             <point key="canvasLocation" x="182" y="149.5"/>
         </collectionViewCell>
@@ -106,5 +121,7 @@
         <image name="IMUIAssets.bundle/image/camera_send_message_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/switch_camera_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/switch_camera_photo_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/video_record_btn_to_play.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/video_record_btn_to_stop.png" width="16" height="16"/>
     </resources>
 </document>

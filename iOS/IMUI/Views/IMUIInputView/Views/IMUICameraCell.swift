@@ -29,6 +29,8 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
 
   @IBOutlet weak var switchCameraModeBtn: UIButton!
   @IBOutlet weak var cameraShotBtn: UIButton!
+  @IBOutlet weak var videoRecordBtn: UIButton!
+  
   @IBOutlet weak var switchCameraDeviceBtn: UIButton!
   @IBOutlet weak var resizeCameraPreviewBtn: UIButton!
   @IBOutlet weak var cameraPreviewView: IMUICameraPreviewView!
@@ -98,6 +100,8 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   
   override func awakeFromNib() {
     super.awakeFromNib()
+    self.videoRecordBtn.isHidden = true
+    
     cameraPreviewView.session = session
     
     switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) {
@@ -179,16 +183,46 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
 
   }
   
+  @IBAction func clickVideoRecordSwitch(_ sender: Any) {
+    videoRecordBtn.isSelected = !videoRecordBtn.isSelected
+    
+    if !(videoFileOutput!.isRecording) {
+
+      let outputPath = self.getPath()
+      let fileManager = FileManager()
+      if fileManager.fileExists(atPath: outputPath) {
+        do {
+          try fileManager.removeItem(at: URL(fileURLWithPath: outputPath))
+        } catch {
+          print("removefile fail")
+        }
+        
+      }
+      session.beginConfiguration()
+      session.sessionPreset = AVCaptureSessionPreset352x288
+      session.commitConfiguration()
+      videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputPath), recordingDelegate: self)
+    } else {
+      videoFileOutput?.stopRecording()
+    }
+
+  }
+  
   @IBAction func clickToSwitchCamera(_ sender: Any) {
     
   }
   
   @IBAction func clickToChangeCameraMode(_ sender: Any) {
+    
     isPhotoMode = !isPhotoMode
     if isPhotoMode {
       session.sessionPreset = AVCaptureSessionPresetPhoto
+      videoRecordBtn.isHidden = true
+      cameraShotBtn.isHidden = false
     } else {
       session.sessionPreset = AVCaptureSessionPreset352x288
+      videoRecordBtn.isHidden = false
+      cameraShotBtn.isHidden = true
     }
   }
   
