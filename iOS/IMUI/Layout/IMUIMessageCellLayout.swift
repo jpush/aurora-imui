@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 
-
-struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
+/**
+ *  The 'IMUIMessageCellLayout' is a concrete layout struct comfort 
+ *  'IMUIMessageCellLayoutProtocal' protocol.
+ *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to layout cell's items
+ */
+class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
 
   static var avatarSize: CGSize = CGSize(width: 40, height: 40)
   
@@ -29,6 +33,16 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   static var bubbleMaxWidth: CGFloat = 200.0
   static var isNeedShowInComingAvatar = true
   static var isNeedShowOutGoingAvtar = true
+  
+  init(isOutGoingMessage: Bool,
+          isNeedShowTime: Bool,
+       bubbleContentSize: CGSize
+      ) {
+    self.isOutGoingMessage = isOutGoingMessage
+    self.isNeedShowTime = isNeedShowTime
+    self.bubbleContentSize = bubbleContentSize
+    
+  }
   
   var isOutGoingMessage: Bool
   
@@ -56,9 +70,9 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   
   
   
-  var bubbleContentInset = {
+  var bubbleContentInset: UIEdgeInsets {
     return UIEdgeInsets.zero
-  }()
+  }
   
   
   
@@ -70,16 +84,16 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
       avatarX = IMUIMessageCellLayout.cellWidth -
         IMUIMessageCellLayout.avatarOffsetToCell.horizontal -
         IMUIMessageCellLayout.avatarSize.width -
-        IMUIMessageCellLayout.cellContentInset.right
+        cellContentInset.right
       
     } else {
       avatarX = IMUIMessageCellLayout.avatarOffsetToCell.horizontal +
-        IMUIMessageCellLayout.cellContentInset.left
+        cellContentInset.left
     }
     
     let avatarY = IMUIMessageCellLayout.avatarOffsetToCell.vertical +
       self.timeLabelFrame.size.height +
-      IMUIMessageCellLayout.cellContentInset.top
+      cellContentInset.top
     
     return CGRect(x: avatarX,
                   y: avatarY,
@@ -90,11 +104,11 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   var timeLabelFrame: CGRect {
     if self.isNeedShowTime {
       let timeWidth = IMUIMessageCellLayout.cellWidth -
-        IMUIMessageCellLayout.cellContentInset.left -
-        IMUIMessageCellLayout.cellContentInset.right
+        cellContentInset.left -
+        cellContentInset.right
       
-      return CGRect(x: IMUIMessageCellLayout.cellContentInset.left,
-                    y: IMUIMessageCellLayout.cellContentInset.top,
+      return CGRect(x: cellContentInset.left,
+                    y: cellContentInset.top,
                     width: timeWidth,
                     height: 20) // TODO: TEST code!
     } else {
@@ -107,12 +121,11 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
       IMUIMessageCellLayout.timeLabelFrame.size.height +
       self.avatarFrame.origin.y +
       self.bubbleSize.height +
-      IMUIMessageCellLayout.cellContentInset.top +
-      IMUIMessageCellLayout.cellContentInset.bottom
+      cellContentInset.top +
+      cellContentInset.bottom
   }
   
   var bubbleFrame: CGRect {
-    
     var bubbleX:CGFloat
     
     if self.isOutGoingMessage {
@@ -120,13 +133,13 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
         IMUIMessageCellLayout.avatarOffsetToCell.horizontal -
         IMUIMessageCellLayout.avatarSize.width -
         IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal -
-        IMUIMessageCellLayout.cellContentInset.right -
+        cellContentInset.right -
         self.bubbleSize.width
     } else {
       bubbleX = IMUIMessageCellLayout.avatarOffsetToCell.horizontal +
         IMUIMessageCellLayout.avatarSize.width +
         IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal +
-        IMUIMessageCellLayout.cellContentInset.left
+        cellContentInset.left
     }
     let bubbleY = IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical +
       self.avatarFrame.origin.y +
@@ -138,5 +151,8 @@ struct IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
                   height: bubbleSize.height)
   }
   
+  var cellContentInset: UIEdgeInsets {
+    return IMUIMessageCellLayout.cellContentInset
+  }
 
 }

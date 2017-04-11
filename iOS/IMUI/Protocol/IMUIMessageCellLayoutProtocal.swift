@@ -9,20 +9,43 @@
 import Foundation
 import UIKit
 
-
+/**
+ *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to display message cell item
+ */
 protocol IMUIMessageCellLayoutProtocal {
   
+  /**
+   *  return message cell height
+   */
   var cellHeight: CGFloat { get }
   
+  /**
+   *  return avatar frame
+   */
   var avatarFrame: CGRect { get }
   
+  /**
+   *  return time label frame in the layout
+   */
   var timeLabelFrame: CGRect { get }
   
+  /**
+   *  return message bubble frame in the layout
+   */
   var bubbleFrame: CGRect { get }
   
+  /**
+   *  return contents inset in message bubble
+   */
   var bubbleContentInset: UIEdgeInsets { get }
+  
+  /**
+   *  return IMUIMessageBaseCell content inset
+   */
+  var cellContentInset: UIEdgeInsets { get }
 }
 
+//  IMUIMessageCellLayoutProtocal default value
 extension IMUIMessageCellLayoutProtocal {
   var avatarFrame: CGRect {
     return CGRect.zero
@@ -33,6 +56,10 @@ extension IMUIMessageCellLayoutProtocal {
   }
   
   var bubbleContentInset: UIEdgeInsets {
+    return UIEdgeInsets.zero
+  }
+  
+  var cellContentInset: UIEdgeInsets {
     return UIEdgeInsets.zero
   }
 }

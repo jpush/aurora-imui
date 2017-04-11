@@ -31,11 +31,10 @@ class MyMessageModel: IMUIMessageModel {
   }
   
   convenience init(text: String, isOutGoing: Bool) {
-    let layout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing,
+
+    let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
                                        isNeedShowTime: false,
-                                       bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text),
-                                       bubbleContentInset: MyMessageModel.bubbleContentInset(isOutGoing: isOutGoing))
-    let myLayout = MyMessageCellLayout(defaultLayout: layout)
+                                       bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text))
     
     self.init(msgId: "", fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
   }
@@ -71,39 +70,24 @@ class MyMessageModel: IMUIMessageModel {
     
     return textSize
   }
-  
-  static func bubbleContentInset(isOutGoing: Bool) -> UIEdgeInsets {
-    if isOutGoing {
-      return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 15)
-    } else {
-      return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 10)
-    }
-  }
 }
 
 
 //MARK - IMUIMessageCellLayoutProtocal
-struct MyMessageCellLayout: IMUIMessageCellLayoutProtocal {
-  let defaultLayout: IMUIMessageCellLayout
+class MyMessageCellLayout: IMUIMessageCellLayout {
   
-  var cellHeight: CGFloat {
-    return defaultLayout.cellHeight
+  override init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize) {
+    
+    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize)
   }
   
-  var avatarFrame: CGRect {
-    return defaultLayout.avatarFrame
-  }
-  
-  var timeLabelFrame: CGRect {
-    return defaultLayout.timeLabelFrame
-  }
-  
-  var bubbleFrame: CGRect {
-    return defaultLayout.bubbleFrame
-  }
-  
-  var bubbleContentInset: UIEdgeInsets {
-    return defaultLayout.bubbleContentInset
+  override var bubbleContentInset: UIEdgeInsets {
+    
+    if isOutGoingMessage {
+      return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 15)
+    } else {
+      return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 10)
+    }
   }
   
 }

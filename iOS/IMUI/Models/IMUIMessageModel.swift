@@ -40,9 +40,11 @@ protocol IMUIMessageDataSource {
 
 
 // MARK: - IMUIMessageModelProtocol
+/**
+ *  The `IMUIMessageModel` is a concrete message model object that comfort
+ * `IMUIMessageModelProtocol`
+ */
 class IMUIMessageModel: IMUIMessageModelProtocol {
-  
-
   
   internal var msgId = {
     return ""
@@ -134,7 +136,7 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
       self.cellLayout = layout
     } else {
       let bubbleSize = self.calculateBubbleContentSize()
-      self.cellLayout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleSize, bubbleContentInset: UIEdgeInsets.zero)
+      self.cellLayout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleSize)
     }
   }
   
