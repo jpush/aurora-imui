@@ -40,9 +40,12 @@ protocol IMUIMessageDataSource {
 
 
 // MARK: - IMUIMessageModelProtocol
+
 /**
- *  The `IMUIMessageModel` is a concrete message model object that comfort
- * `IMUIMessageModelProtocol`
+ *  The class `IMUIMessageModel` is a concrete class for message model objects that represent a single user message
+ *  The message can be text \ voice \ image \ video \ message
+ *  It implements `IMUIMessageModelProtocol` protocal
+ *
  */
 class IMUIMessageModel: IMUIMessageModelProtocol {
   

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 /**
- *  The 'IMUIMessageCellLayout' is a concrete layout struct comfort 
+ *  The 'IMUIMessageCellLayout' is a concrete layout object comfort
  *  'IMUIMessageCellLayoutProtocal' protocol.
  *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to layout cell's items
  */

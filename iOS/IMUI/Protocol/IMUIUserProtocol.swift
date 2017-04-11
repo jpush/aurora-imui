@@ -8,8 +8,24 @@
 
 import UIKit
 
+/**
+ *  The `IMUIUserProtocol` protocol defines the common interface with user model objects
+ *  It declares the required methods which model should implement it
+ */
 public protocol IMUIUserProtocol {
+  
+  /**
+   *  return user id, to identifies this user
+   */
   func userId() -> String
+  
+  /**
+   *  return user displayName, which will display in IMUIBaseMessageCell.nameLabel
+   */
   func displayName() -> String
+  
+  /**
+   *  return user header image, which will display in IMUIBaseMessageCell.avatarImage
+   */
   func Avatar() -> UIImage
 }

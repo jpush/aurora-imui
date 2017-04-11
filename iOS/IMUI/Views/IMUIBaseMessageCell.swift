@@ -26,8 +26,8 @@ extension IMUIMessageCellProtocal {
 class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   var bubbleView: IMUIMessageBubbleView
   var avatarImage: UIImageView
-  var timeLable: UILabel
-  var nameLable: UILabel
+  var timeLabel: UILabel
+  var nameLabel: UILabel
   
   weak var delegate: IMUIMessageMessageCollectionViewDelegate?
   weak var message: IMUIMessageModel?
@@ -36,27 +36,27 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
 
     bubbleView = IMUIMessageBubbleView(frame: CGRect.zero)
     avatarImage = UIImageView()
-    timeLable = UILabel()
-    nameLable = UILabel()
+    timeLabel = UILabel()
+    nameLabel = UILabel()
     super.init(frame: frame)
     
     self.contentView.addSubview(self.bubbleView)
     self.contentView.addSubview(self.avatarImage)
-    self.contentView.addSubview(self.timeLable)
-    self.contentView.addSubview(self.nameLable)
+    self.contentView.addSubview(self.timeLabel)
+    self.contentView.addSubview(self.nameLabel)
     
     let gesture = UITapGestureRecognizer(target: self, action: #selector(self.tapBubbleView))
     gesture.numberOfTapsRequired = 1
     self.bubbleView.isUserInteractionEnabled = true
     self.bubbleView.addGestureRecognizer(gesture)
-    self.nameLable.frame = IMUIMessageCellLayout.nameLabelFrame
+    self.nameLabel.frame = IMUIMessageCellLayout.nameLabelFrame
     self.setupSubViews()
   }
   
   fileprivate func setupSubViews() {
-    timeLable.textAlignment = .center
-    timeLable.textColor = UIColor.init(netHex: 0x90A6C4)
-    timeLable.font = UIFont.systemFont(ofSize: 10)
+    timeLabel.textAlignment = .center
+    timeLabel.textColor = UIColor.init(netHex: 0x90A6C4)
+    timeLabel.font = UIFont.systemFont(ofSize: 10)
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -64,7 +64,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   }
   
   func layoutCell(with layout: IMUIMessageCellLayoutProtocal) {
-    self.timeLable.frame = layout.timeLabelFrame
+    self.timeLabel.frame = layout.timeLabelFrame
     self.avatarImage.frame = layout.avatarFrame
     self.bubbleView.frame = layout.bubbleFrame
     
@@ -73,7 +73,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   func setupData(with message: IMUIMessageModel) {
     self.avatarImage.image = message.fromUser.Avatar()
     self.bubbleView.backgroundColor = UIColor.init(netHex: 0xE7EBEF)
-    self.timeLable.text = message.date.parseDate
+    self.timeLabel.text = message.date.parseDate
     self.message = message
     
     self.bubbleView.setupBubbleImage(resizeBubbleImage: message.resizableBubbleImage)
