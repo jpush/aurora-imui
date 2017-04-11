@@ -45,15 +45,15 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     public VoiceViewHolder(View itemView, boolean isSender) {
         super(itemView);
         this.mIsSender = isSender;
-        mMsgTv = (TextView) itemView.findViewById(R.id.message_tv);
-        mDateTv = (TextView) itemView.findViewById(R.id.date_tv);
-        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.avatar_iv);
-        mVoiceIv = (ImageView) itemView.findViewById(R.id.voice_iv);
+        mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
+        mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
+        mVoiceIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_voice_anim);
 
         if (isSender) {
-            mLengthTv = (TextView) itemView.findViewById(R.id.voice_length_tv);
+            mLengthTv = (TextView) itemView.findViewById(R.id.aurora_tv_voice_length);
         } else {
-            mUnreadStatusIv = (ImageView) itemView.findViewById(R.id.read_status_iv);
+            mUnreadStatusIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_read_status);
         }
 
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
@@ -75,7 +75,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             mImageLoader.loadImage(mAvatarIv, message.getUserInfo().getAvatar());
         }
         int duration = message.getDuration();
-        String lengthStr = duration + mContext.getString(R.string.symbol_second);
+        String lengthStr = duration + mContext.getString(R.string.aurora_symbol_second);
         int width = (int) (-0.04 * duration * duration + 4.526 * duration + 75.214);
         mMsgTv.setWidth((int) (width * mDensity));
         mLengthTv.setText(lengthStr);
@@ -169,7 +169,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 }
             });
         } catch (Exception e) {
-            Toast.makeText(mContext, mContext.getString(R.string.file_not_found_toast),
+            Toast.makeText(mContext, mContext.getString(R.string.aurora_file_not_found_toast),
                     Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         } finally {

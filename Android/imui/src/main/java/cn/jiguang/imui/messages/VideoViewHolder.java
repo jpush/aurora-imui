@@ -1,13 +1,6 @@
 package cn.jiguang.imui.messages;
 
-import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.media.MediaPlayer;
-import android.media.ThumbnailUtils;
-import android.provider.MediaStore;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +8,6 @@ import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
 import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
 import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
 import com.volokh.danylo.video_player_manager.meta.MetaData;
-import com.volokh.danylo.video_player_manager.ui.SimpleMainThreadMediaPlayerListener;
 import com.volokh.danylo.video_player_manager.ui.VideoPlayerView;
 
 import cn.jiguang.imui.R;
@@ -41,14 +33,14 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
 
     public VideoViewHolder(View itemView, boolean isSender) {
         super(itemView);
-        mTextDate = (TextView) itemView.findViewById(R.id.date_tv);
-        mImageAvatar = (CircleImageView) itemView.findViewById(R.id.avatar_iv);
-        mImageCover = (ImageView) itemView.findViewById(R.id.image_msglist_cover);
+        mTextDate = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mImageAvatar = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
+        mImageCover = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_cover);
 
         if (isSender) {
-            mVideoView = (VideoPlayerView) itemView.findViewById(R.id.video_msglist_send);
+            mVideoView = (VideoPlayerView) itemView.findViewById(R.id.aurora_vpv_msgitem_send);
         } else {
-            mVideoView = (VideoPlayerView) itemView.findViewById(R.id.video_msglist_receive);
+            mVideoView = (VideoPlayerView) itemView.findViewById(R.id.aurora_vpv_msgitem_video_player);
         }
     }
 

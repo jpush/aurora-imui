@@ -4,8 +4,11 @@ package imui.jiguang.cn.imuisample.messages;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -24,6 +27,9 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -55,6 +61,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
     private InputMethodManager mImm;
     private Window mWindow;
+    private String mReceiverAvatar;
+    private String mSenderAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mWindow = getWindow();
         mChatView = (ChatView) findViewById(R.id.chat_view);
         mChatView.initModule();
+        mChatView.setTitle("Deadpool");
         mData = getMessages();
         initMsgAdapter();
         mChatView.setKeyboardChangedListener(this);
@@ -201,13 +210,13 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         } else if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // Permission denied
-                Toast.makeText(mContext, "User denied permission, can't use take photo feature.",
+                Toast.makeText(mContext, "User denied permission, can't use take aurora_menuitem_photo feature.",
                         Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == REQUEST_PHOTO_PERMISSION) {
             if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // Permission denied
-                Toast.makeText(mContext, "User denied permission, can't use select photo feature.",
+                Toast.makeText(mContext, "User denied permission, can't use select aurora_menuitem_photo feature.",
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -218,8 +227,14 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         Resources res = getResources();
         String[] messages = res.getStringArray(R.array.messages_array);
         for (int i = 0; i < 10; i++) {
-            MyMessage message = new MyMessage(messages[i], i % 2 == 0 ?
-                    IMessage.MessageType.RECEIVE_TEXT : IMessage.MessageType.SEND_TEXT);
+            MyMessage message;
+            if (i % 2 == 0) {
+                message = new MyMessage(messages[i], IMessage.MessageType.RECEIVE_TEXT);
+                message.setUserInfo(new DefaultUser("0", "DeadPool", "deadpool"));
+            } else {
+                message = new MyMessage(messages[i], IMessage.MessageType.SEND_TEXT);
+                message.setUserInfo(new DefaultUser("1", "IronMan", "ironman"));
+            }
             list.add(message);
         }
         return list;
@@ -229,7 +244,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         ImageLoader imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, String url) {
-                Picasso.with(mContext).load(url).into(imageView);
+//                Picasso.with(mContext).load(url).into(imageView);
+                imageView.setImageResource(getResources().getIdentifier(url, "drawable", getPackageName()));
             }
         };
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
@@ -269,7 +285,9 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 // Do something
             }
         });
-        mAdapter.addToStart(new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT), false);
+        MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
+        message.setUserInfo(new DefaultUser("0", "Deadpool", "deadpool"));
+        mAdapter.addToStart(message, false);
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int page, int totalCount) {

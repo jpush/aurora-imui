@@ -2,14 +2,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape >
-            <corners android:radius="@dimen/default_btn_radius"/>
+            <corners android:radius="@dimen/aurora_radius_btn_default"/>
             <solid android:color="#346fc3"/>
         </shape>
     </item>
     <item>
         <shape >
-            <corners android:radius="@dimen/default_btn_radius"/>
-            <solid android:color="@color/jpush_blue"/>
+            <corners android:radius="@dimen/aurora_radius_btn_default"/>
+            <solid android:color="@color/aurora_jpush_blue"/>
         </shape>
     </item>
 

@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/jmui_picture_not_found" />
+        android:src="@drawable/aurora_picture_not_found" />
 
     <ImageView
         android:id="@+id/image_photoselect_shadow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/shadow"
+        android:src="@drawable/aurora_selectphoto_shadow"
         android:visibility="invisible" />
 
     <ImageView
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:src="@drawable/checked_icon"
+        android:src="@drawable/aurora_selectphoto_checked_icon"
         android:visibility="gone"
         tools:visibility="visible" />
 
@@ -36,7 +36,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/shape_photoselect_duration"
+        android:background="@drawable/aurora_selectphoto_time_duration"
         android:paddingBottom="4dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/jmui_chat_item_send_layout">
+    style="@style/aurora_msgitem_send_style">
 
     <TextView
-        android:id="@+id/date_tv"
-        style="@style/jmui_chat_text_date_style"/>
+        android:id="@+id/aurora_tv_msgitem_date"
+        style="@style/aurora_msgitem_date_style"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,35 +12,35 @@
         android:layout_marginTop="5dp">
 
         <cn.jiguang.imui.utils.CircleImageView
-            android:id="@+id/avatar_iv"
-            style="@style/jmui_chat_item_sender_avatar_style"/>
+            android:id="@+id/aurora_iv_msgitem_avatar"
+            style="@style/aurora_msgitem_sender_avatar_style"/>
 
         <FrameLayout
-            android:id="@+id/voice_fl"
+            android:id="@+id/aurora_fl_msgitem_voice_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/avatar_iv"
+            android:layout_toLeftOf="@id/aurora_iv_msgitem_avatar"
             android:gravity="right">
 
             <TextView
-                android:id="@+id/message_tv"
+                android:id="@+id/aurora_tv_msgitem_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="3dp"
-                android:background="@drawable/send_bubble"
+                android:background="@drawable/aurora_sendtxt_bubble"
                 android:maxWidth="220dp" />
 
             <ImageView
-                android:id="@+id/voice_iv"
+                android:id="@+id/aurora_iv_msgitem_voice_anim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/send_voice_anim" />
+                android:background="@drawable/aurora_anim_send_voice" />
 
             <TextView
-                android:id="@+id/voice_length_tv"
+                android:id="@+id/aurora_tv_voice_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|left"
@@ -54,25 +54,25 @@
 
 
         <ImageButton
-            android:id="@+id/resend_ib"
+            android:id="@+id/aurora_ib_msgitem_resend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@id/voice_fl"
+            android:layout_toLeftOf="@id/aurora_fl_msgitem_voice_container"
             android:clickable="true"
             android:scaleType="fitCenter"
-            android:background="@drawable/jmui_send_error"
+            android:background="@drawable/aurora_send_msg_error"
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/sending_iv"
+            android:id="@+id/aurora_iv_msgitem_sending"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
-            android:layout_toLeftOf="@id/voice_fl"
-            android:src="@drawable/jmui_sending_img"
+            android:layout_toLeftOf="@id/aurora_fl_msgitem_voice_container"
+            android:src="@drawable/aurora_send_msg_sending"
             android:visibility="gone"/>
 
     </RelativeLayout>

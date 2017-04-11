@@ -31,9 +31,9 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     public PhotoViewHolder(View itemView, boolean isSender) {
         super(itemView);
         this.mIsSender = isSender;
-        mDateTv = (TextView) itemView.findViewById(R.id.date_tv);
-        mPhotoIv = (ImageView) itemView.findViewById(R.id.photo_iv);
-        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.avatar_iv);
+        mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mPhotoIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_photo);
+        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
     }
 
     @Override

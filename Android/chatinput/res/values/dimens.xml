@@ -2,19 +2,19 @@
 <resources>
 
     <!-->chat input<-->
-    <dimen name="send_btn_shadow">5dp</dimen>
-    <dimen name="send_btn_default_size">25dp</dimen>
-    <dimen name="default_btn_radius">5dp</dimen>
-    <dimen name="input_margin_left">20dp</dimen>
-    <dimen name="input_margin_right">20dp</dimen>
-    <dimen name="input_text_size">17sp</dimen>
-    <dimen name="input_padding_left">16sp</dimen>
-    <dimen name="input_padding_right">16sp</dimen>
-    <dimen name="input_padding_top">0dp</dimen>
-    <dimen name="input_padding_bottom">0dp</dimen>
-    <dimen name="chronometer_text_size">20sp</dimen>
-    <dimen name="record_button_size">70dp</dimen>
-    <dimen name="album_button_size">60dp</dimen>
+    <dimen name="aurora_elevation_send_btn">5dp</dimen>
+    <dimen name="aurora_size_send_btn_default">25dp</dimen>
+    <dimen name="aurora_radius_btn_default">5dp</dimen>
+    <dimen name="aurora_margin_input_left">20dp</dimen>
+    <dimen name="aurora_margin_input_right">20dp</dimen>
+    <dimen name="aurora_textsize_input">17sp</dimen>
+    <dimen name="aurora_padding_input_left">16sp</dimen>
+    <dimen name="aurora_padding_input_right">16sp</dimen>
+    <dimen name="aurora_padding_input_top">0dp</dimen>
+    <dimen name="aurora_padding_input_bottom">0dp</dimen>
+    <dimen name="aurora_textsize_chronometer">20sp</dimen>
+    <dimen name="aurora_size_record_button">70dp</dimen>
+    <dimen name="aurora_size_album_button">60dp</dimen>
 
 
 

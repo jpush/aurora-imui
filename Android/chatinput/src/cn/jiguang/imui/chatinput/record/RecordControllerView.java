@@ -57,10 +57,10 @@ public class RecordControllerView extends View {
     private void init() {
         mPath = new Path();
         mPaint = new Paint();
-        mCancelBmp = BitmapFactory.decodeResource(getResources(), R.drawable.cancel_record);
-        mPreviewBmp = BitmapFactory.decodeResource(getResources(), R.drawable.preview_paly_audio);
-        mCancelPresBmp = BitmapFactory.decodeResource(getResources(), R.drawable.cancel_record_pres);
-        mPreviewPresBmp = BitmapFactory.decodeResource(getResources(), R.drawable.preview_play_audio_pres);
+        mCancelBmp = BitmapFactory.decodeResource(getResources(), R.drawable.aurora_recordvoice_cancel_record);
+        mPreviewBmp = BitmapFactory.decodeResource(getResources(), R.drawable.aurora_recordvoice_preview_play);
+        mCancelPresBmp = BitmapFactory.decodeResource(getResources(), R.drawable.aurora_recordvoice_cancel_record_pres);
+        mPreviewPresBmp = BitmapFactory.decodeResource(getResources(), R.drawable.aurora_recordvoice_preview_play_pres);
     }
 
     public void setWidth(int width) {

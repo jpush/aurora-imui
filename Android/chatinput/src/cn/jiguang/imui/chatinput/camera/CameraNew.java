@@ -107,7 +107,7 @@ public class CameraNew implements CameraSupport {
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                Log.e("CameraNew", "Lacking privileges to access camera service, please request permission first.");
+                Log.e("CameraNew", "Lacking privileges to access aurora_menuitem_camera service, please request permission first.");
                 return null;
             }
             mManager.openCamera(mCameraId, mStateCallback, null);
@@ -434,7 +434,7 @@ public class CameraNew implements CameraSupport {
             texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
             mBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             List<Surface> surfaces = new ArrayList<>();
-            // Set up Surface for camera preview
+            // Set up Surface for aurora_menuitem_camera preview
             Surface previewSurface = new Surface(texture);
             surfaces.add(previewSurface);
             mBuilder.addTarget(previewSurface);

@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.Button;
 
 import cn.jiguang.imui.chatinput.R;
@@ -65,8 +64,8 @@ public class ProgressButton extends Button {
     public ProgressButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mPaint = new Paint();
-        mPlayBmp = BitmapFactory.decodeResource(getResources(), R.drawable.play_audio);
-        mPauseBmp = BitmapFactory.decodeResource(getResources(), R.drawable.pause_play_audio);
+        mPlayBmp = BitmapFactory.decodeResource(getResources(), R.drawable.aurora_recordvoice_play);
+        mPauseBmp = BitmapFactory.decodeResource(getResources(), R.drawable.aurora_recordvoice_pause);
         TypedArray typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.ProgressButton);
 

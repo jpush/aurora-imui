@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/jmui_chat_item_receive_layout">
+              style="@style/aurora_msgitem_receive_style">
 
     <TextView
-        android:id="@+id/date_tv"
-        style="@style/jmui_chat_text_date_style"/>
+        android:id="@+id/aurora_tv_msgitem_date"
+        style="@style/aurora_msgitem_date_style"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,23 +12,23 @@
         android:layout_marginTop="8dp">
 
         <cn.jiguang.imui.utils.CircleImageView
-            android:id="@+id/avatar_iv"
-            style="@style/jmui_chat_item_receiver_avatar_style"/>
+            android:id="@+id/aurora_iv_msgitem_avatar"
+            style="@style/aurora_msgitem_receiver_avatar_style"/>
 
         <TextView
-            android:id="@+id/display_name_tv"
-            style="@style/jmui_chat_display_name_style"
+            android:id="@+id/aurora_tv_msgitem_display_name"
+            style="@style/aurora_msgitem_display_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/avatar_iv"/>
+            android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"/>
 
         <com.volokh.danylo.video_player_manager.ui.VideoPlayerView
-            android:id="@+id/video_msglist_receive"
+            android:id="@+id/aurora_vpv_msgitem_video_player"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:layout_below="@id/display_name_tv"
+            android:layout_below="@id/aurora_tv_msgitem_display_name"
             android:layout_centerVertical="true"
             android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@id/avatar_iv"/>
+            android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"/>
     </RelativeLayout>
 </LinearLayout>

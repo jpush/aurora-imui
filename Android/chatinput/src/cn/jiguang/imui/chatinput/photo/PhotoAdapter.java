@@ -5,8 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +96,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         File file = new File(path);
         Glide.with(mContext)
                 .load(file)
-                .placeholder(R.drawable.jmui_picture_not_found)
+                .placeholder(R.drawable.aurora_picture_not_found)
                 .crossFade()
                 .into(holder.ivPhoto);
 

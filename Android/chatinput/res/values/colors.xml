@@ -3,15 +3,15 @@
     <color name="white">#ffffff</color>
 
     <!-->chat input<-->
-    <color name="default_input_bg">#f3f3f3</color>
-    <color name="input_container_bg">#e5e5e5</color>
-    <color name="input_default">#e5e5e5</color>
-    <color name="input_focus">#3f80dc</color>
-    <color name="default_cursor">#8db4eb</color>
-    <color name="jpush_blue">#3f80dc</color>
-    <color name="voice_btn_default">#3f80dc</color>
-    <color name="voice_btn_pressed">#3773cb</color>
-    <color name="input_text_color">#000000</color>
-    <color name="input_hint_color">#8b8b8b</color>
-    <color name="chronometer_text_color">#92A7C5</color>
+    <color name="aurora_bg_input_default">#f3f3f3</color>
+    <color name="aurora_bg_input_container">#e5e5e5</color>
+    <color name="aurora_bg_edittext_default">#e5e5e5</color>
+    <color name="aurora_bg_edittext_focus">#3f80dc</color>
+    <color name="aurora_cursor_color_default">#8db4eb</color>
+    <color name="aurora_jpush_blue">#3f80dc</color>
+    <color name="aurora_bg_voice_btn_default">#3f80dc</color>
+    <color name="aurora_bg_voice_btn_pressed">#3773cb</color>
+    <color name="aurora_text_color_input">#000000</color>
+    <color name="aurora_hint_color_input">#8b8b8b</color>
+    <color name="aurora_chronometer_text_color">#92A7C5</color>
 </resources>

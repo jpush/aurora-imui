@@ -3,17 +3,17 @@
     <color name="white">#ffffff</color>
 
     <!-->Conversation<-->
-    <color name="conv_divider">#ebebeb</color>
+    <color name="aurora_conv_divider">#ebebeb</color>
 
     <!-->Message List<-->
-    <color name="date_text_color">#4e4e4e</color>
-    <color name="receive_bubble_default_color">#2977fa</color>
-    <color name="receive_bubble_pressed_color">#005af2</color>
-    <color name="receive_bubble_selected_color">#0e63f0</color>
-    <color name="receive_text_color">@color/white</color>
-    <color name="send_bubble_default_color">#e7ebef</color>
-    <color name="send_bubble_pressed_color">#c9d3dd</color>
-    <color name="send_bubble_selected_color">#d3d9df</color>
-    <color name="send_text_color">#7587a8</color>
+    <color name="aurora_msg_date_text_color">#4e4e4e</color>
+    <color name="aurora_msg_receive_bubble_default_color">#2977fa</color>
+    <color name="aurora_msg_receive_bubble_pressed_color">#005af2</color>
+    <color name="aurora_msg_receive_bubble_selected_color">#0e63f0</color>
+    <color name="aurora_msg_receive_text_color">@color/white</color>
+    <color name="aurora_msg_send_bubble_default_color">#e7ebef</color>
+    <color name="aurora_msg_send_bubble_pressed_color">#c9d3dd</color>
+    <color name="aurora_msg_send_bubble_selected_color">#d3d9df</color>
+    <color name="aurora_msg_send_text_color">#7587a8</color>
 
 </resources>

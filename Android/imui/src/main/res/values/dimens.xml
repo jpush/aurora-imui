@@ -2,25 +2,25 @@
 <resources>
 
     <!-->conversation<-->
-    <dimen name="conv_avatar_width">50dp</dimen>
-    <dimen name="conv_avatar_height">50dp</dimen>
+    <dimen name="aurora_width_conv_avatar">50dp</dimen>
+    <dimen name="aurora_height_conv_avatar">50dp</dimen>
 
     <!-->Message List<-->
-    <dimen name="date_text_size">16sp</dimen>
-    <dimen name="date_text_padding">5dp</dimen>
-    <dimen name="avatar_width">50dp</dimen>
-    <dimen name="avatar_height">50dp</dimen>
-    <dimen name="receive_text_size">18sp</dimen>
-    <dimen name="receive_text_padding_left">15dp</dimen>
-    <dimen name="receive_text_padding_top">5dp</dimen>
-    <dimen name="receive_text_padding_right">10dp</dimen>
-    <dimen name="receive_text_padding_bottom">5dp</dimen>
-    <dimen name="send_text_size">18sp</dimen>
-    <dimen name="send_text_padding_left">10dp</dimen>
-    <dimen name="send_text_padding_top">5dp</dimen>
-    <dimen name="send_text_padding_right">15dp</dimen>
-    <dimen name="send_text_padding_bottom">5dp</dimen>
-    <dimen name="photo_default_radius">5dp</dimen>
+    <dimen name="aurora_size_date_text">16sp</dimen>
+    <dimen name="aurora_padding_date_text">5dp</dimen>
+    <dimen name="aurora_width_msg_avatar">50dp</dimen>
+    <dimen name="aurora_height_msg_avatar">50dp</dimen>
+    <dimen name="aurora_size_receive_text">18sp</dimen>
+    <dimen name="aurora_padding_receive_text_left">15dp</dimen>
+    <dimen name="aurora_padding_receive_text_top">5dp</dimen>
+    <dimen name="aurora_padding_receive_text_right">10dp</dimen>
+    <dimen name="aurora_padding_receive_text_bottom">5dp</dimen>
+    <dimen name="aurora_size_send_text">18sp</dimen>
+    <dimen name="aurora_padding_send_text_left">10dp</dimen>
+    <dimen name="aurora_padding_send_text_top">5dp</dimen>
+    <dimen name="aurora_padding_send_text_right">15dp</dimen>
+    <dimen name="aurora_padding_send_text_bottom">5dp</dimen>
+    <dimen name="aurora_radius_photo_default">5dp</dimen>
 
 
 </resources>

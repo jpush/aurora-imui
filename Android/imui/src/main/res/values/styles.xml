@@ -14,14 +14,14 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="jmui_chat_item_receive_layout">
+    <style name="aurora_msgitem_receive_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="jmui_chat_text_date_style">
+    <style name="aurora_msgitem_date_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -31,7 +31,7 @@
         <item name="android:paddingBottom">2dp</item>
     </style>
 
-    <style name="jmui_chat_display_name_style">
+    <style name="aurora_msgitem_display_name_style">
         <item name="android:ems">5</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:singleLine">true</item>
@@ -40,32 +40,32 @@
         <item name="android:visibility">gone</item>
     </style>
 
-    <style name="jmui_chat_item_send_layout">
+    <style name="aurora_msgitem_send_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="jmui_chat_item_receiver_avatar_style">
-        <item name="android:layout_width">@dimen/avatar_width</item>
-        <item name="android:layout_height">@dimen/avatar_height</item>
+    <style name="aurora_msgitem_receiver_avatar_style">
+        <item name="android:layout_width">@dimen/aurora_width_msg_avatar</item>
+        <item name="android:layout_height">@dimen/aurora_height_msg_avatar</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_marginLeft">5dp</item>
-        <item name="android:src">@drawable/jmui_head_icon</item>
+        <item name="android:src">@drawable/aurora_headicon_default</item>
         <item name="android:scaleType">fitXY</item>
     </style>
 
-    <style name="jmui_chat_item_sender_avatar_style">
-        <item name="android:layout_width">@dimen/avatar_width</item>
-        <item name="android:layout_height">@dimen/avatar_height</item>
+    <style name="aurora_msgitem_sender_avatar_style">
+        <item name="android:layout_width">@dimen/aurora_width_msg_avatar</item>
+        <item name="android:layout_height">@dimen/aurora_height_msg_avatar</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginRight">5dp</item>
-        <item name="android:src">@drawable/jmui_head_icon</item>
+        <item name="android:src">@drawable/aurora_headicon_default</item>
         <item name="android:scaleType">fitXY</item>
     </style>
 
-    <style name="jmui_msg_text_style">
+    <style name="aurora_msgitem_msg_txt_style">
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:clickable">true</item>
@@ -80,13 +80,5 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="record_voice_dialog_bg">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowBackground">@drawable/round_background</item>
-    </style>
 
 </resources>

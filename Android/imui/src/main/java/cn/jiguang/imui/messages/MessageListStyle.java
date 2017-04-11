@@ -64,70 +64,70 @@ public class MessageListStyle extends Style {
         MessageListStyle style = new MessageListStyle(context, attrs);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MessageList);
         int dateTextSizePixel = typedArray.getDimensionPixelSize(R.styleable.MessageList_dateTextSize,
-                context.getResources().getDimensionPixelOffset(R.dimen.date_text_size));
+                context.getResources().getDimensionPixelOffset(R.dimen.aurora_size_date_text));
         style.dateTextSize = getSPTextSize(context, dateTextSizePixel);
         style.dateTextColor = typedArray.getColor(R.styleable.MessageList_dateTextColor,
-                ContextCompat.getColor(context, R.color.date_text_color));
+                ContextCompat.getColor(context, R.color.aurora_msg_date_text_color));
         style.datePadding = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePadding,
-                context.getResources().getDimensionPixelSize(R.dimen.date_text_padding));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_date_text));
         style.dateFormat = typedArray.getString(R.styleable.MessageList_dateFormat);
 
         style.avatarWidth = typedArray.getDimensionPixelSize(R.styleable.MessageList_avatarWidth,
-                context.getResources().getDimensionPixelSize(R.dimen.avatar_width));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_width_msg_avatar));
         style.avatarHeight = typedArray.getDimensionPixelSize(R.styleable.MessageList_avatarHeight,
-                context.getResources().getDimensionPixelSize(R.dimen.avatar_height));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_height_msg_avatar));
         style.showDisplayName = typedArray.getInt(R.styleable.MessageList_showDisplayName, 0);
 
         style.receiveBubbleDrawable = typedArray.getResourceId(R.styleable.MessageList_receiveBubbleDrawable, -1);
         style.receiveBubbleColor = typedArray.getColor(R.styleable.MessageList_receiveBubbleColor,
-                ContextCompat.getColor(context, R.color.receive_bubble_default_color));
+                ContextCompat.getColor(context, R.color.aurora_msg_receive_bubble_default_color));
         style.receiveBubblePressedColor = typedArray.getColor(R.styleable.MessageList_receiveBubblePressedColor,
-                ContextCompat.getColor(context, R.color.receive_bubble_pressed_color));
+                ContextCompat.getColor(context, R.color.aurora_msg_receive_bubble_pressed_color));
         style.receiveBubbleSelectedColor = typedArray.getColor(R.styleable.MessageList_receiveBubbleSelectedColor,
-                ContextCompat.getColor(context, R.color.receive_bubble_selected_color));
+                ContextCompat.getColor(context, R.color.aurora_msg_receive_bubble_selected_color));
         int receiveTextSizePixel = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveTextSize,
-                context.getResources().getDimensionPixelSize(R.dimen.receive_text_size));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_size_receive_text));
         style.receiveBubbleTextSize = getSPTextSize(context, receiveTextSizePixel);
         style.receiveBubbleTextColor = typedArray.getColor(R.styleable.MessageList_receiveTextColor,
-                ContextCompat.getColor(context, R.color.receive_text_color));
+                ContextCompat.getColor(context, R.color.aurora_msg_receive_text_color));
         style.receiveBubblePaddingLeft = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveBubblePaddingLeft,
-                context.getResources().getDimensionPixelSize(R.dimen.receive_text_padding_left));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_receive_text_left));
         style.receiveBubblePaddingTop = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveBubblePaddingTop,
-                context.getResources().getDimensionPixelSize(R.dimen.receive_text_padding_top));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_receive_text_top));
         style.receiveBubblePaddingRight = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveBubblePaddingRight,
-                context.getResources().getDimensionPixelSize(R.dimen.receive_text_padding_right));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_receive_text_right));
         style.receiveBubblePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveBubblePaddingBottom,
-                context.getResources().getDimensionPixelSize(R.dimen.receive_text_padding_bottom));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_receive_text_bottom));
 
         style.sendBubbleDrawable = typedArray.getResourceId(R.styleable.MessageList_sendBubbleDrawable, -1);
         style.sendBubbleColor = typedArray.getColor(R.styleable.MessageList_sendBubbleColor,
-                ContextCompat.getColor(context, R.color.send_bubble_default_color));
+                ContextCompat.getColor(context, R.color.aurora_msg_send_bubble_default_color));
         style.sendBubblePressedColor = typedArray.getColor(R.styleable.MessageList_sendBubblePressedColor,
-                ContextCompat.getColor(context, R.color.send_bubble_pressed_color));
+                ContextCompat.getColor(context, R.color.aurora_msg_send_bubble_pressed_color));
         style.sendBubbleSelectedColor = typedArray.getColor(R.styleable.MessageList_sendBubbleSelectedColor,
-                ContextCompat.getColor(context, R.color.send_bubble_selected_color));
+                ContextCompat.getColor(context, R.color.aurora_msg_send_bubble_selected_color));
         int sendTextSizePixel = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendTextSize,
-                context.getResources().getDimensionPixelSize(R.dimen.send_text_size));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_size_send_text));
         style.sendBubbleTextSize = getSPTextSize(context, sendTextSizePixel);
         style.sendBubbleTextColor = typedArray.getColor(R.styleable.MessageList_sendTextColor,
-                ContextCompat.getColor(context, R.color.send_text_color));
+                ContextCompat.getColor(context, R.color.aurora_msg_send_text_color));
         style.sendBubblePaddingLeft = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingLeft,
-                context.getResources().getDimensionPixelSize(R.dimen.send_text_padding_left));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_send_text_left));
         style.sendBubblePaddingTop = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingTop,
-                context.getResources().getDimensionPixelSize(R.dimen.send_text_padding_top));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_send_text_top));
         style.sendBubblePaddingRight = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingRight,
-                context.getResources().getDimensionPixelSize(R.dimen.send_text_padding_right));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_send_text_right));
         style.sendBubblePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingBottom,
-                context.getResources().getDimensionPixelSize(R.dimen.send_text_padding_bottom));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_send_text_bottom));
 
         style.sendVoiceDrawable = typedArray.getResourceId(R.styleable.MessageList_sendVoiceDrawable,
-                R.drawable.send_3);
+                R.drawable.aurora_sendvoice_send_3);
         style.receiveVoiceDrawable = typedArray.getResourceId(R.styleable.MessageList_receiveVoiceDrawable,
-                R.drawable.receive_3);
+                R.drawable.aurora_receivevoice_receive_3);
         style.playSendVoiceAnim = typedArray.getResourceId(R.styleable.MessageList_playSendVoiceAnim,
-                R.drawable.send_voice_anim);
+                R.drawable.aurora_anim_send_voice);
         style.playReceiveVoiceAnim = typedArray.getResourceId(R.styleable.MessageList_playReceiveVoiceAnim,
-                R.drawable.receive_voice_anim);
+                R.drawable.aurora_anim_receive_voice);
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         style.bubbleMaxWidth = typedArray.getFloat(R.styleable.MessageList_bubbleMaxWidth, 0.8f);
@@ -190,7 +190,7 @@ public class MessageListStyle extends Style {
     public Drawable getReceiveBubbleDrawable() {
         if (receiveBubbleDrawable == -1) {
             return getMessageSelector(receiveBubbleColor, receiveBubbleSelectedColor, receiveBubblePressedColor,
-                    R.drawable.receive_bubble);
+                    R.drawable.aurora_receivetxt_bubble);
         } else {
             return ContextCompat.getDrawable(mContext, receiveBubbleDrawable);
         }
@@ -235,7 +235,7 @@ public class MessageListStyle extends Style {
     public Drawable getSendBubbleDrawable() {
         if (sendBubbleDrawable == -1) {
             return getMessageSelector(sendBubbleColor, sendBubbleSelectedColor, sendBubblePressedColor,
-                    R.drawable.send_bubble);
+                    R.drawable.aurora_sendtxt_bubble);
         } else {
             return ContextCompat.getDrawable(mContext, sendBubbleDrawable);
         }

@@ -43,18 +43,18 @@ public class ChatInputStyle extends Style {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChatInputView);
         style.inputEditTextBg = typedArray.getDrawable(R.styleable.ChatInputView_inputEditTextBg);
         style.inputMarginLeft = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginLeft,
-                style.getDimension(R.dimen.input_margin_left));
+                style.getDimension(R.dimen.aurora_margin_input_left));
         style.inputMarginRight = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginRight,
-                style.getDimension(R.dimen.input_margin_right));
+                style.getDimension(R.dimen.aurora_margin_input_right));
         style.inputMaxLines = typedArray.getInt(R.styleable.ChatInputView_inputMaxLines, DEFAULT_MAX_LINES);
         style.inputHint = typedArray.getString(R.styleable.ChatInputView_inputHint);
         style.inputText = typedArray.getString(R.styleable.ChatInputView_inputText);
         style.inputTextSize = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputTextSize,
-                style.getDimension(R.dimen.input_text_size));
+                style.getDimension(R.dimen.aurora_textsize_input));
         style.inputTextColor = typedArray.getColor(R.styleable.ChatInputView_inputTextColor,
-                style.getColor(R.color.input_text_color));
+                style.getColor(R.color.aurora_text_color_input));
         style.inputHintColor = typedArray.getColor(R.styleable.ChatInputView_inputHintColor,
-                style.getColor(R.color.input_hint_color));
+                style.getColor(R.color.aurora_hint_color_input));
         style.inputCursorDrawable = typedArray.getDrawable(R.styleable.ChatInputView_inputCursorDrawable);
 
         style.voiceBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_voiceBtnBg);
@@ -68,10 +68,10 @@ public class ChatInputStyle extends Style {
         style.sendCountBg = typedArray.getDrawable(R.styleable.ChatInputView_sendCountBg);
         typedArray.recycle();
 
-        style.inputDefaultPaddingLeft = style.getDimension(R.dimen.input_padding_left);
-        style.inputDefaultPaddingRight = style.getDimension(R.dimen.input_padding_right);
-        style.inputDefaultPaddingTop = style.getDimension(R.dimen.input_padding_top);
-        style.inputDefaultPaddingBottom = style.getDimension(R.dimen.input_padding_bottom);
+        style.inputDefaultPaddingLeft = style.getDimension(R.dimen.aurora_padding_input_left);
+        style.inputDefaultPaddingRight = style.getDimension(R.dimen.aurora_padding_input_right);
+        style.inputDefaultPaddingTop = style.getDimension(R.dimen.aurora_padding_input_top);
+        style.inputDefaultPaddingBottom = style.getDimension(R.dimen.aurora_padding_input_bottom);
 
         return style;
     }
@@ -154,7 +154,7 @@ public class ChatInputStyle extends Style {
 
     public Drawable getSendCountBg() {
         if (sendCountBg == null) {
-            return ContextCompat.getDrawable(mContext, R.drawable.white_circle);
+            return ContextCompat.getDrawable(mContext, R.drawable.aurora_menuitem_send_count_bg);
         }
         return this.sendCountBg;
     }

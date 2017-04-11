@@ -23,10 +23,10 @@ public class TxtViewHolder<MESSAGE extends IMessage>
     public TxtViewHolder(View itemView, boolean isSender) {
         super(itemView);
         this.mIsSender = isSender;
-        mMsgTv = (TextView) itemView.findViewById(R.id.message_tv);
-        mDateTv = (TextView) itemView.findViewById(R.id.date_tv);
-        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.avatar_iv);
-        mDisplayNameTv = (TextView) itemView.findViewById(R.id.display_name_tv);
+        mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
+        mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
+        mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
     }
 
     @Override
