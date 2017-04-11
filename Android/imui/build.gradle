@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 25
@@ -16,14 +17,21 @@ android {
     }
 }
 
+publish {
+    userOrg = 'KenChoi1992'
+    groupId = 'cn.jiguang.imui'
+    artifactId = 'imui'
+    publishVersion = '0.0.1'
+    desc = 'im uikit'
+    website = 'https://github.com/jpush/imui.git'
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
-    compile 'com.google.android:flexbox:0.2.5'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:25.1.1'
     compile 'com.github.danylovolokh:video-player-manager:0.2.0'
