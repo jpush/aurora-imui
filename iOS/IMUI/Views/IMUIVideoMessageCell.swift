@@ -11,7 +11,7 @@ import UIKit
 class IMUIVideoMessageCell: IMUIBaseMessageCell {
 
 
-  var videoView = UIImageView()
+  var videoView = UIView()
   var videoReader = IMUIVideoFileLoader()
   
   override init(frame: CGRect) {
