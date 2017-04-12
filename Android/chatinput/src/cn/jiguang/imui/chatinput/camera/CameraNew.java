@@ -406,13 +406,34 @@ public class CameraNew implements CameraSupport {
         mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
         mMediaRecorder.setVideoEncodingBitRate(10000000);
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-        switch (mSensorOrientation) {
-            case SENSOR_ORIENTATION_DEFAULT_DEGREES:
-                mMediaRecorder.setOrientationHint(ORIENTATIONS.get(rotation));
-                break;
-            case SENSOR_ORIENTATION_INVERSE_DEGREES:
-                mMediaRecorder.setOrientationHint(INVERSE_ORIENTATIONS.get(rotation));
-                break;
+        DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+        // if the device's natural orientation is portrait:
+        if ((rotation == Surface.ROTATION_0
+                || rotation == Surface.ROTATION_180) && height > width ||
+                (rotation == Surface.ROTATION_90
+                        || rotation == Surface.ROTATION_270) && width > height) {
+            switch(rotation) {
+                case Surface.ROTATION_0:
+                    mMediaRecorder.setOrientationHint(90);
+                    break;
+                case Surface.ROTATION_90:
+                    mMediaRecorder.setOrientationHint(0);
+                    break;
+                case Surface.ROTATION_180:
+                    mMediaRecorder.setOrientationHint(270);
+                    break;
+                case Surface.ROTATION_270:
+                    mMediaRecorder.setOrientationHint(180);
+                    break;
+                default:
+                    Log.e(TAG, "Unknown screen orientation. Defaulting to " +
+                            "portrait.");
+                    mMediaRecorder.setOrientationHint(90);
+                    break;
+            }
         }
         try {
             mMediaRecorder.prepare();
