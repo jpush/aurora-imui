@@ -8,13 +8,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
 
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.visibility_utils.scroll_utils.ItemsPositionGetter;
+
 import cn.jiguang.imui.commons.models.IMessage;
 
 
 public class MessageList extends RecyclerView {
 
-    private MessageListStyle mMsgListStyle;
     private Context mContext;
+
+    private MessageListStyle mMsgListStyle;
 
     public MessageList(Context context) {
         super(context);
@@ -49,12 +53,19 @@ public class MessageList extends RecyclerView {
     public <MESSAGE extends IMessage> void setAdapter(MsgListAdapter<MESSAGE> adapter) {
         SimpleItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setSupportsChangeAnimations(false);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         setItemAnimator(itemAnimator);
-        setLayoutManager(layoutManager);
-        adapter.setLayoutManager(layoutManager);
+
+        if (getLayoutManager() == null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
+                    LinearLayoutManager.VERTICAL, true);
+            adapter.setLayoutManager(layoutManager);
+            addOnScrollListener(new ScrollMoreListener(layoutManager, adapter));
+        } else {
+            addOnScrollListener(new ScrollMoreListener((LinearLayoutManager) getLayoutManager(), adapter));
+        }
+
         adapter.setStyle(mContext, mMsgListStyle);
-        addOnScrollListener(new ScrollMoreListener(layoutManager, adapter));
+
         super.setAdapter(adapter);
     }
 }

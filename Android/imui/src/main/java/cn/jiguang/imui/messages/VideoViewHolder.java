@@ -4,10 +4,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
 import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
 import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
 import com.volokh.danylo.video_player_manager.meta.MetaData;
+import com.volokh.danylo.video_player_manager.ui.SimpleMainThreadMediaPlayerListener;
 import com.volokh.danylo.video_player_manager.ui.VideoPlayerView;
 
 import cn.jiguang.imui.R;
@@ -19,17 +21,11 @@ import cn.jiguang.imui.utils.DateFormatter;
 public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHolder<Message>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
-    private TextView mTextDate;
-    private CircleImageView mImageAvatar;
-    private ImageView mImageCover;
-    private VideoPlayerView mVideoView;
+    public final VideoPlayerView mVideoView;
 
-    private final VideoPlayerManager<MetaData> mVideoPlayerManager = new SingleVideoPlayerManager(new PlayerItemChangeListener() {
-        @Override
-        public void onPlayerItemChanged(MetaData currentItemMetaData) {
-
-        }
-    });
+    private final TextView mTextDate;
+    private final CircleImageView mImageAvatar;
+    private final ImageView mImageCover;
 
     public VideoViewHolder(View itemView, boolean isSender) {
         super(itemView);
@@ -51,7 +47,26 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         boolean isAvatarExists = message.getUserInfo().getAvatar() != null
                 && !message.getUserInfo().getAvatar().isEmpty();
 
-        mVideoPlayerManager.playNewVideo(null, mVideoView, message.getContentFile());
+        Glide.with(itemView.getContext())
+                .load(message.getContentFile())
+                .centerCrop()
+                .into(mImageCover);
+
+        mVideoView.addMediaPlayerListener(new SimpleMainThreadMediaPlayerListener() {
+            @Override
+            public void onVideoPreparedMainThread() {
+                mImageCover.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onVideoCompletionMainThread() {
+                mImageCover.setVisibility(View.VISIBLE);
+            }
+        });
+
+//        if (message.getVideoPlayManager() != null) {
+//            message.getVideoPlayManager().playNewVideo(null, mVideoView, message.getContentFile());
+//        }
 
         if (mImageLoader != null) {
             if (isAvatarExists) {

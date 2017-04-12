@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.video_player_manager.meta.MetaData;
+import com.volokh.danylo.visibility_utils.items.ListItem;
+
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,6 +79,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        VideoViewHolder holder;
+
         switch (viewType) {
             case TYPE_SEND_TXT:
                 return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendTxtHolder, true);
@@ -89,9 +95,17 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             case TYPE_RECEIVER_IMAGE:
                 return getHolder(parent, mHolders.mReceivePhotoLayout, mHolders.mReceivePhotoHolder, false);
             case TYPE_SEND_VIDEO:
-                return getHolder(parent, mHolders.mSendVideoLayout, mHolders.mSendVideoHolder, true);
+                holder = (VideoViewHolder) getHolder(parent, mHolders.mSendVideoLayout, mHolders.mSendVideoHolder, true);
+                if (holder != null) {
+                    holder.itemView.setTag(holder);
+                }
+                return holder;
             case TYPE_RECEIVE_VIDEO:
-                return getHolder(parent, mHolders.mReceiveVideoLayout, mHolders.mReceiveVideoHolder, false);
+                holder = (VideoViewHolder) getHolder(parent, mHolders.mSendVideoLayout, mHolders.mReceiveVideoHolder, false);
+                if (holder != null) {
+                    holder.itemView.setTag(holder);
+                }
+                return holder;
             default:
                 return null;
         }
@@ -146,9 +160,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Wrapper wrapper = mItems.get(position);
+        Wrapper wrapper = mItems.get(holder.getAdapterPosition());
         if (wrapper.item instanceof IMessage) {
-            ((BaseMessageViewHolder) holder).mPosition = position;
+            ((BaseMessageViewHolder) holder).mPosition = holder.getAdapterPosition();
             ((BaseMessageViewHolder) holder).mContext = this.mContext;
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
             ((BaseMessageViewHolder) holder).mDensity = dm.density;
@@ -221,6 +235,16 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             }
         }
         return -1;
+    }
+
+    public List<MESSAGE> getMessageList() {
+        List<MESSAGE> msgList = new ArrayList<>();
+        for (Wrapper wrapper : mItems) {
+            if (wrapper.item instanceof IMessage) {
+                msgList.add((MESSAGE) wrapper.item);
+            }
+        }
+        return msgList;
     }
 
     /**

@@ -14,6 +14,8 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -21,10 +23,20 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
+import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.video_player_manager.meta.MetaData;
+import com.volokh.danylo.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
+import com.volokh.danylo.visibility_utils.calculator.ListItemsVisibilityCalculator;
+import com.volokh.danylo.visibility_utils.calculator.SingleListViewItemActiveCalculator;
+import com.volokh.danylo.visibility_utils.scroll_utils.ItemsPositionGetter;
+import com.volokh.danylo.visibility_utils.scroll_utils.RecyclerViewItemPositionGetter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,19 +62,36 @@ import imui.jiguang.cn.imuisample.views.ChatView;
 public class MessageListActivity extends Activity implements ChatView.OnKeyboardChangedListener,
         ChatView.OnSizeChangedListener, View.OnTouchListener {
 
-    private MsgListAdapter<MyMessage> mAdapter;
-    private Context mContext;
-    private List<MyMessage> mData;
-    private ChatView mChatView;
-
     private final int REQUEST_RECORD_VOICE_PERMISSION = 0x0001;
     private final int REQUEST_CAMERA_PERMISSION = 0x0002;
     private final int REQUEST_PHOTO_PERMISSION = 0x0003;
+
+    private Context mContext;
+
+    private ChatView mChatView;
+    private MsgListAdapter<MyMessage> mAdapter;
+    private List<MyMessage> mData;
 
     private InputMethodManager mImm;
     private Window mWindow;
     private String mReceiverAvatar;
     private String mSenderAvatar;
+
+    private ListItemsVisibilityCalculator mItemsVisibilityCalculator;
+
+    private final VideoPlayerManager<MetaData> mVideoPlayerManager =
+            new SingleVideoPlayerManager(new PlayerItemChangeListener() {
+                @Override
+                public void onPlayerItemChanged(MetaData currentItemMetaData) {
+
+                }
+            });
+
+    private int mScrollState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+
+    private ItemsPositionGetter mItemsPositionGetter;
+
+    private LinearLayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,21 +101,58 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
         this.mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = getWindow();
+
         mChatView = (ChatView) findViewById(R.id.chat_view);
         mChatView.initModule();
         mChatView.setTitle("Deadpool");
         mData = getMessages();
         initMsgAdapter();
+
         mChatView.setKeyboardChangedListener(this);
         mChatView.setOnSizeChangedListener(this);
         mChatView.setOnTouchListener(this);
+
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+        mChatView.getMessageListView().setLayoutManager(mLayoutManager);
+
+        mItemsPositionGetter = new RecyclerViewItemPositionGetter(mLayoutManager,
+                mChatView.getMessageListView());
+
+        mItemsVisibilityCalculator =
+            new SingleListViewItemActiveCalculator(new DefaultSingleItemCalculatorCallback(), mData);
+
+        mChatView.getMessageListView().addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                mScrollState = newState;
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && !mData.isEmpty()) {
+                    mItemsVisibilityCalculator.onScrollStateIdle(mItemsPositionGetter,
+                            mLayoutManager.findFirstVisibleItemPosition(),
+                            mLayoutManager.findLastVisibleItemPosition());
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (!mData.isEmpty()) {
+                    mItemsVisibilityCalculator.onScroll(mItemsPositionGetter,
+                            mLayoutManager.findFirstVisibleItemPosition(),
+                            mLayoutManager.findLastVisibleItemPosition() - mLayoutManager.findFirstVisibleItemPosition() + 1,
+                            mScrollState);
+                }
+            }
+        });
+
         mChatView.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
             @Override
             public boolean onSubmit(CharSequence input) {
                 if (input.length() == 0) {
                     return false;
                 }
-                mAdapter.addToStart(new MyMessage(input.toString(), IMessage.MessageType.SEND_TEXT), true);
+                MyMessage message = new MyMessage(input.toString(), IMessage.MessageType.SEND_TEXT);
+                mData.add(0, message);
+                mAdapter.addToStart(message, true);
                 return true;
             }
 
@@ -100,13 +166,17 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 for (FileItem item : list) {
                     if (item.getType() == FileItem.Type.Image) {
                         message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
+
                     } else if (item.getType() == FileItem.Type.Video) {
                         message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
+                        message.setVideoPlayerManager(mVideoPlayerManager);
+
                     } else {
-                        throw new RuntimeException("Invalid FileItem type. Must be Type.Image or Type.Video.");
+                        throw new RuntimeException("Invalid FileItem type. Must be Type.Image or Type.Video");
                     }
 
                     message.setContentFile(item.getFilePath());
+                    mData.add(0, message);
 
                     final MyMessage fMsg = message;
                     MessageListActivity.this.runOnUiThread(new Runnable() {
@@ -163,6 +233,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 Log.e("MessageListActivity", "Video Path: " + filePath);
                 final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
                 message.setContentFile(filePath);
+                mData.add(0, message);
                 MessageListActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -188,6 +259,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE);
                 message.setContentFile(voiceFile.getPath());
                 message.setDuration(duration);
+                mData.add(0, message);
                 mAdapter.addToStart(message, true);
             }
 
@@ -196,6 +268,27 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!mData.isEmpty()) {
+            mChatView.getMessageListView().post(new Runnable() {
+                @Override
+                public void run() {
+                    mItemsVisibilityCalculator.onScrollStateIdle(mItemsPositionGetter,
+                            mLayoutManager.findFirstVisibleItemPosition(),
+                            mLayoutManager.findLastVisibleItemPosition());
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mVideoPlayerManager.resetMediaPlayer();
     }
 
     @Override
@@ -251,6 +344,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
         // Use default layout
         mAdapter = new MsgListAdapter<MyMessage>("0", holdersConfig, imageLoader);
+        mAdapter.setLayoutManager(mLayoutManager);
 
         // If you want to customise your layout, try to create custom ViewHolder:
         // holdersConfig.setSenderTxtMsg(CustomViewHolder.class, layoutRes);
@@ -285,8 +379,11 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 // Do something
             }
         });
+
         MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
         message.setUserInfo(new DefaultUser("0", "Deadpool", "deadpool"));
+        mData.add(0, message);
+
         mAdapter.addToStart(message, false);
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override
@@ -296,6 +393,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 }
             }
         });
+
         mChatView.setAdapter(mAdapter);
     }
 

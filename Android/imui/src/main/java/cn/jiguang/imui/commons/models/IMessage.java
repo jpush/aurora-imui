@@ -1,6 +1,9 @@
 package cn.jiguang.imui.commons.models;
 
 
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.video_player_manager.meta.MetaData;
+
 import java.util.Date;
 
 
@@ -44,4 +47,6 @@ public interface IMessage {
     String getContentFile();
 
     int getDuration();
+
+    VideoPlayerManager<MetaData> getVideoPlayManager();
 }

@@ -1,10 +1,19 @@
 package imui.jiguang.cn.imuisample.views;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.volokh.danylo.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
+import com.volokh.danylo.visibility_utils.calculator.ListItemsVisibilityCalculator;
+import com.volokh.danylo.visibility_utils.calculator.SingleListViewItemActiveCalculator;
+import com.volokh.danylo.visibility_utils.scroll_utils.ItemsPositionGetter;
+import com.volokh.danylo.visibility_utils.scroll_utils.RecyclerViewItemPositionGetter;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
@@ -20,14 +29,17 @@ import static cn.jiguang.imui.chatinput.ChatInputView.KEYBOARD_STATE_SHOW;
 public class ChatView extends RelativeLayout {
 
     private Context mContext;
+
     private TextView mTitle;
     private MessageList mMsgList;
     private ChatInputView mChatInput;
     private LinearLayout mMenuLl;
     private RecordVoiceButton mRecordVoiceBtn;
+
     private boolean mHasInit;
-    private int mHeight;
     private boolean mHasKeyboard;
+    private int mHeight;
+
     private OnKeyboardChangedListener mKeyboardListener;
     private OnSizeChangedListener mSizeChangedListener;
 
@@ -51,8 +63,12 @@ public class ChatView extends RelativeLayout {
         mMsgList = (MessageList) findViewById(R.id.msg_list);
         mMenuLl = (LinearLayout) findViewById(R.id.aurora_ll_menuitem_container);
         mChatInput = (ChatInputView) findViewById(R.id.chat_input);
-        mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
         mChatInput.setMenuContainerHeight(500);
+
+        mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
+
+        mMsgList = (MessageList) findViewById(R.id.msg_list);
+        mMsgList.setHasFixedSize(true);
     }
 
     public void setTitle(String title) {
@@ -65,6 +81,10 @@ public class ChatView extends RelativeLayout {
 
     public void setAdapter(MsgListAdapter adapter) {
         mMsgList.setAdapter(adapter);
+    }
+
+    public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
+        mMsgList.setLayoutManager(layoutManager);
     }
 
     public void setRecordVoiceFile(String path, String fileName) {
@@ -94,7 +114,7 @@ public class ChatView extends RelativeLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if(mSizeChangedListener != null){
+        if (mSizeChangedListener != null) {
             mSizeChangedListener.onSizeChanged(w, h, oldw, oldh);
         }
     }
@@ -132,6 +152,10 @@ public class ChatView extends RelativeLayout {
         return mChatInput;
     }
 
+    public MessageList getMessageListView() {
+        return mMsgList;
+    }
+
     public void setMenuHeight(int height) {
         mChatInput.setMenuContainerHeight(height);
     }
@@ -143,6 +167,7 @@ public class ChatView extends RelativeLayout {
 
         /**
          * Soft keyboard status changed will invoke this callback, use this callback to do you logic.
+         *
          * @param state Three states: init, show, hide.
          */
         public void onKeyBoardStateChanged(int state);
@@ -151,5 +176,4 @@ public class ChatView extends RelativeLayout {
     public interface OnSizeChangedListener {
         void onSizeChanged(int w, int h, int oldw, int oldh);
     }
-
 }

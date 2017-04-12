@@ -1182,6 +1182,9 @@ public class ChatInputView extends LinearLayout
 
     @Override
     public void onTakePictureCompleted(String photoPath) {
+        FileItem photo = new FileItem(photoPath, null, null, null);
+        photo.setType(FileItem.Type.Image);
+
         List<FileItem> list = new ArrayList<>();
         FileItem item = new FileItem(photoPath, null, null, null);
         item.setType(FileItem.Type.Image);
