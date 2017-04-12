@@ -151,6 +151,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                     return false;
                 }
                 MyMessage message = new MyMessage(input.toString(), IMessage.MessageType.SEND_TEXT);
+                message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
                 mData.add(0, message);
                 mAdapter.addToStart(message, true);
                 return true;
@@ -176,6 +177,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                     }
 
                     message.setContentFile(item.getFilePath());
+                    message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
                     mData.add(0, message);
 
                     final MyMessage fMsg = message;
@@ -233,6 +235,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 Log.e("MessageListActivity", "Video Path: " + filePath);
                 final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
                 message.setContentFile(filePath);
+                message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
                 mData.add(0, message);
                 MessageListActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -257,6 +260,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             @Override
             public void onFinishRecord(File voiceFile, int duration) {
                 MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE);
+                message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
                 message.setContentFile(voiceFile.getPath());
                 message.setDuration(duration);
                 mData.add(0, message);
@@ -382,9 +386,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
         MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
         message.setUserInfo(new DefaultUser("0", "Deadpool", "deadpool"));
-        mData.add(0, message);
-
-        mAdapter.addToStart(message, false);
+        mData.add(message);
+        mAdapter.addToEnd(mData, true);
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int page, int totalCount) {

@@ -1,7 +1,11 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.novoda.bintray-release'
-group='com.github.jiguang'
+
+ext {
+    PUBLISH_GROUP_ID = 'cn.jiguang.imui'
+    PUBLISH_ARTIFACT_ID = 'imui'
+    PUBLISH_VERSION = '0.0.1'
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -18,15 +22,6 @@ android {
     }
 }
 
-publish {
-    userOrg = 'KenChoi1992'
-    groupId = 'cn.jiguang.imui'
-    artifactId = 'imui'
-    publishVersion = '0.0.1'
-    desc = 'im uikit'
-    website = 'https://github.com/jpush/imui.git'
-}
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -40,3 +35,5 @@ dependencies {
     compile 'com.github.danylovolokh:list-visibility-utils:0.2.0'
     testCompile 'junit:junit:4.12'
 }
+
+apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
