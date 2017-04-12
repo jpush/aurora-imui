@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.novoda.bintray-release'
-
+group='com.github.jiguang'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"

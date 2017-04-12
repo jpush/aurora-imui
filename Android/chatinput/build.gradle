@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.novoda.bintray-release'
-
+group='com.github.jiguang'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -21,19 +22,6 @@ android {
 
     lintOptions {
         abortOnError false
-    }
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            jniLibs.srcDirs = ['libs']
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-        }
     }
 }
 
