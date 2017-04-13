@@ -1,6 +1,11 @@
 ## IMUIMessageCollectionView
 IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类型的消息，可以支持丰富的自定义扩展。如果不使用自定义将会使用默认样式。 
 
+
+## 安装
+#### 手动安装
+将 IMUI/ 目录拖拽到自己工程中
+
 ## 使用
 使用 IMUIMessageCollectionView 只需要几个简单的步骤。
 
