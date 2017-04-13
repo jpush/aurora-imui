@@ -60,15 +60,23 @@ class IMUIVideoMessageCell: IMUIBaseMessageCell {
        videoDuration.text = "\(seconds / 60):\(String(format: "%02d", seconds % 60))"
     }
     
-    let imgGenerator = AVAssetImageGenerator(asset: asset)
     
-    do {
-      let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
-      self.videoView.image = UIImage(cgImage: cgImage)
-    } catch {
-      self.videoView.image = nil
+    
+    let serialQueue = DispatchQueue(label: "videoLoad")
+    serialQueue.async {
+      do {
+        let imgGenerator = AVAssetImageGenerator(asset: asset)
+        let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+        DispatchQueue.main.async {
+          self.videoView.image = UIImage(cgImage: cgImage)
+        }
+        
+      } catch {
+        DispatchQueue.main.async {
+          self.videoView.image = nil
+        }
+      }
     }
-    
     
   }
   
