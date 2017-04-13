@@ -20,4 +20,6 @@ extension String {
     let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
     return CGSize(width: boundingBox.width, height: boundingBox.height)
   }
+  
+
 }

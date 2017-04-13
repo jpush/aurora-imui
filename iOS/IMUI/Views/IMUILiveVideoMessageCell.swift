@@ -1,5 +1,5 @@
 //
-//  IMUIVideoMessageCell.swift
+//  IMUILiveVideoMessageCell.swift
 //  IMUIChat
 //
 //  Created by oshumini on 2017/4/1.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IMUIVideoMessageCell: IMUIBaseMessageCell {
+class IMUILiveVideoMessageCell: IMUIBaseMessageCell {
 
 
   var videoView = UIView()
