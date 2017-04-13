@@ -47,32 +47,6 @@ class IMUIRecordVoiceHelper: NSObject {
     self.recordPath = nil
   }
   
-//  func updateMeters() {
-//    if self.recorder == nil { return }
-//    self.currentTimeInterval = self.recorder?.currentTime
-//    
-//    self.recordProgress = self.recorder?.peakPower(forChannel: 0)
-//    self.updateMeterDelegate?.setPeakPower(self.recordProgress!)
-//    
-//    if self.currentTimeInterval > maxRecordTime {
-//      self.stopRecord()
-//      if self.stopRecordCompletion != nil {
-//        DispatchQueue.main.async(execute: self.stopRecordCompletion!)
-//        self.recorder?.updateMeters()
-//      }
-//    }
-//  }
-  
-//  func getVoiceDuration(_ recordPath:String) {
-//    do {
-//      let player:AVAudioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: recordPath))
-//      player.play()
-//      self.recordDuration = "\(player.duration)"
-//    } catch let error as NSError {
-//      print("get AVAudioPlayer is fail \(error)")
-//    }
-//  }
-  
   func resetTimer() {
     self.timerFireDate = nil
     

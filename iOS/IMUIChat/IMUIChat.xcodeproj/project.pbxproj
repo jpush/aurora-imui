@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		624442841E6C5CAE00D5F0EB /* MyMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624442831E6C5CAE00D5F0EB /* MyMessageModel.swift */; };
 		6245B9401E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6245B93F1E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift */; };
+		6245B95A1E9F7E2200DC6DB4 /* IMUIMessageMessageCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6245B9591E9F7E2200DC6DB4 /* IMUIMessageMessageCollectionViewDelegate.swift */; };
 		62AC1A8A1E5EC6A500E810B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AC1A891E5EC6A500E810B2 /* AppDelegate.swift */; };
 		62AC1A8C1E5EC6A500E810B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AC1A8B1E5EC6A500E810B2 /* ViewController.swift */; };
 		62AC1A8F1E5EC6A500E810B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62AC1A8D1E5EC6A500E810B2 /* Main.storyboard */; };
@@ -25,7 +26,6 @@
 		62C869EB1E9B51AE00AA8FE9 /* CMSampleBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869BB1E9B51AE00AA8FE9 /* CMSampleBufferExtension.swift */; };
 		62C869EC1E9B51AE00AA8FE9 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869BC1E9B51AE00AA8FE9 /* DateExtension.swift */; };
 		62C869ED1E9B51AE00AA8FE9 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869BD1E9B51AE00AA8FE9 /* StringExtension.swift */; };
-		62C869EE1E9B51AE00AA8FE9 /* TimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869BE1E9B51AE00AA8FE9 /* TimerExtension.swift */; };
 		62C869F01E9B51AE00AA8FE9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869C01E9B51AE00AA8FE9 /* UIColorExtension.swift */; };
 		62C869F11E9B51AE00AA8FE9 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869C11E9B51AE00AA8FE9 /* UIImageExtension.swift */; };
 		62C869F21E9B51AE00AA8FE9 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869C21E9B51AE00AA8FE9 /* UIViewExtension.swift */; };
@@ -83,6 +83,7 @@
 /* Begin PBXFileReference section */
 		624442831E6C5CAE00D5F0EB /* MyMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMessageModel.swift; sourceTree = "<group>"; };
 		6245B93F1E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVideoMessageCell.swift; sourceTree = "<group>"; };
+		6245B9591E9F7E2200DC6DB4 /* IMUIMessageMessageCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageMessageCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		627050261E826CBF000CC7BD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		62AC1A861E5EC6A500E810B2 /* IMUIChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMUIChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62AC1A891E5EC6A500E810B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,7 +107,6 @@
 		62C869BB1E9B51AE00AA8FE9 /* CMSampleBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMSampleBufferExtension.swift; sourceTree = "<group>"; };
 		62C869BC1E9B51AE00AA8FE9 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		62C869BD1E9B51AE00AA8FE9 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		62C869BE1E9B51AE00AA8FE9 /* TimerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerExtension.swift; sourceTree = "<group>"; };
 		62C869C01E9B51AE00AA8FE9 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		62C869C11E9B51AE00AA8FE9 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		62C869C21E9B51AE00AA8FE9 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -275,7 +275,6 @@
 				62C869BB1E9B51AE00AA8FE9 /* CMSampleBufferExtension.swift */,
 				62C869BC1E9B51AE00AA8FE9 /* DateExtension.swift */,
 				62C869BD1E9B51AE00AA8FE9 /* StringExtension.swift */,
-				62C869BE1E9B51AE00AA8FE9 /* TimerExtension.swift */,
 				62C869C01E9B51AE00AA8FE9 /* UIColorExtension.swift */,
 				62C869C11E9B51AE00AA8FE9 /* UIImageExtension.swift */,
 				62C869C21E9B51AE00AA8FE9 /* UIViewExtension.swift */,
@@ -305,6 +304,7 @@
 				62C869C91E9B51AE00AA8FE9 /* IMUIMessageCellLayoutProtocal.swift */,
 				62C869CA1E9B51AE00AA8FE9 /* IMUIMessageModelProtocol.swift */,
 				62C869CB1E9B51AE00AA8FE9 /* IMUIUserProtocol.swift */,
+				6245B9591E9F7E2200DC6DB4 /* IMUIMessageMessageCollectionViewDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -522,6 +522,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6245B95A1E9F7E2200DC6DB4 /* IMUIMessageMessageCollectionViewDelegate.swift in Sources */,
 				62C869EA1E9B51AE00AA8FE9 /* IMUIVideoFileLoader.swift in Sources */,
 				62C869F51E9B51AE00AA8FE9 /* IMUIMessageCellLayoutProtocal.swift in Sources */,
 				62C869EC1E9B51AE00AA8FE9 /* DateExtension.swift in Sources */,
@@ -531,7 +532,6 @@
 				62C869F11E9B51AE00AA8FE9 /* UIImageExtension.swift in Sources */,
 				62C869F91E9B51AE00AA8FE9 /* IMUIImageMessageCell.swift in Sources */,
 				62C86A241E9B568F00AA8FE9 /* IMUIFeatureView.swift in Sources */,
-				62C869EE1E9B51AE00AA8FE9 /* TimerExtension.swift in Sources */,
 				62C86A2A1E9B568F00AA8FE9 /* IMUIPhotoCaptureDelegate.swift in Sources */,
 				62C869F21E9B51AE00AA8FE9 /* UIViewExtension.swift in Sources */,
 				62C86A231E9B568F00AA8FE9 /* IMUICameraPreviewView.swift in Sources */,

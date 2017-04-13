@@ -8,20 +8,6 @@
 
 import UIKit
 
-protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
-  func didTapMessageCell(_ model: IMUIMessageModel)
-  func didTapMessageBubble(_ model: IMUIMessageModel)
-  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any)
-  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any)
-}
-
-extension IMUIMessageMessageCollectionViewDelegate {
-  func didTapMessageCell(_ model: IMUIMessageModel) {}
-  func didTapMessageBubble(_ model: IMUIMessageModel){}
-  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any) {}
-  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any) {}
-}
-
 
 class IMUIMessageCollectionView: UIView {
 
