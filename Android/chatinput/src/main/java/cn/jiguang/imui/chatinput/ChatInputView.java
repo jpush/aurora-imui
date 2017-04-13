@@ -242,7 +242,6 @@ public class ChatInputView extends LinearLayout
         mCaptureBtn.setOnClickListener(this);
         mSwitchCameraBtn.setOnClickListener(this);
 
-        // 从相册选择图片
         mAlbumBtn.setOnClickListener(this);
         mAlbumBtn.setOnClickListener(new OnClickListener() {
             @Override
@@ -250,8 +249,8 @@ public class ChatInputView extends LinearLayout
                 if (mContext instanceof Activity) {
                     return;
                 }
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                Intent intent = new Intent(Intent.ACTION_PICK,
+//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //                startActivity(intent, REQUEST_CODE_SELECT_PHOTO);
             }
         });
@@ -267,7 +266,6 @@ public class ChatInputView extends LinearLayout
         mChatInput.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                // 软键盘还未打开
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !mShowSoftInput) {
                     mShowSoftInput = true;
                     invisibleMenuLayout();
@@ -654,11 +652,7 @@ public class ChatInputView extends LinearLayout
                     mediaPlayer.start();
                 }
             });
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
+        } catch (IOException | IllegalArgumentException | IllegalStateException e) {
             e.printStackTrace();
         }
     }
@@ -1143,7 +1137,7 @@ public class ChatInputView extends LinearLayout
         }
 
         while (cursor.moveToNext()) {
-            //获取图片的路径
+            // Get photo path.
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA));
             String fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
             String size = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE));

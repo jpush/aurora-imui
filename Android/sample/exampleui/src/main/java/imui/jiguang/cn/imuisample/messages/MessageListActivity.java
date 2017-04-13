@@ -4,16 +4,12 @@ package imui.jiguang.cn.imuisample.messages;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -27,7 +23,6 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
 import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
 import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
@@ -39,9 +34,6 @@ import com.volokh.danylo.visibility_utils.scroll_utils.ItemsPositionGetter;
 import com.volokh.danylo.visibility_utils.scroll_utils.RecyclerViewItemPositionGetter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -52,7 +44,6 @@ import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
 import cn.jiguang.imui.chatinput.utils.FileItem;
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import imui.jiguang.cn.imuisample.R;
 import imui.jiguang.cn.imuisample.models.DefaultUser;
@@ -118,8 +109,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mItemsPositionGetter = new RecyclerViewItemPositionGetter(mLayoutManager,
                 mChatView.getMessageListView());
 
-        mItemsVisibilityCalculator =
-            new SingleListViewItemActiveCalculator(new DefaultSingleItemCalculatorCallback(), mData);
+        mItemsVisibilityCalculator = new SingleListViewItemActiveCalculator(
+                new DefaultSingleItemCalculatorCallback(), mAdapter.getMessageList());
 
         mChatView.getMessageListView().addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -129,7 +120,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && !mData.isEmpty()) {
                     mItemsVisibilityCalculator.onScrollStateIdle(mItemsPositionGetter,
                             mLayoutManager.findFirstVisibleItemPosition(),
-                            mLayoutManager.findLastVisibleItemPosition());
+                            mLayoutManager.findLastVisibleItemPosition() - 1);
                 }
             }
 
@@ -236,6 +227,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
                 message.setContentFile(filePath);
                 message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
+                message.setVideoPlayerManager(mVideoPlayerManager);
                 mData.add(0, message);
                 MessageListActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -263,7 +255,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
                 message.setContentFile(voiceFile.getPath());
                 message.setDuration(duration);
-                mData.add(0, message);
                 mAdapter.addToStart(message, true);
             }
 
@@ -348,7 +339,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
         // Use default layout
         mAdapter = new MsgListAdapter<MyMessage>("0", holdersConfig, imageLoader);
-        mAdapter.setLayoutManager(mLayoutManager);
+//        mAdapter.setLayoutManager(mLayoutManager);
 
         // If you want to customise your layout, try to create custom ViewHolder:
         // holdersConfig.setSenderTxtMsg(CustomViewHolder.class, layoutRes);
@@ -380,7 +371,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 DefaultUser userInfo = (DefaultUser) message.getUserInfo();
                 Toast.makeText(mContext, mContext.getString(R.string.avatar_click_hint),
                         Toast.LENGTH_SHORT).show();
-                // Do something
+                // do something
             }
         });
 

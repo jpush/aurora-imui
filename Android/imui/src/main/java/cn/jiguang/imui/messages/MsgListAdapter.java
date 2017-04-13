@@ -55,7 +55,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private String mSenderId;
     private HoldersConfig mHolders;
     private OnLoadMoreListener mListener;
-    private List<Wrapper> mItems;
+
     private ImageLoader mImageLoader;
     private boolean mIsSelectedMode;
     private OnMsgClickListener<MESSAGE> mMsgClickListener;
@@ -66,15 +66,19 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private RecyclerView.LayoutManager mLayoutManager;
     private MessageListStyle mStyle;
 
+    public List<Wrapper> mItems;
+    private List<MESSAGE> mMessageList;
+
     public MsgListAdapter(String senderId, ImageLoader imageLoader) {
         this(senderId, new HoldersConfig(), imageLoader);
     }
 
     public MsgListAdapter(String senderId, HoldersConfig holders, ImageLoader imageLoader) {
-        this.mSenderId = senderId;
-        this.mHolders = holders;
-        this.mImageLoader = imageLoader;
-        this.mItems = new ArrayList<>();
+        mSenderId = senderId;
+        mHolders = holders;
+        mImageLoader = imageLoader;
+        mItems = new ArrayList<>();
+        mMessageList = new ArrayList<>();
     }
 
     @Override
@@ -95,13 +99,15 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             case TYPE_RECEIVER_IMAGE:
                 return getHolder(parent, mHolders.mReceivePhotoLayout, mHolders.mReceivePhotoHolder, false);
             case TYPE_SEND_VIDEO:
-                holder = (VideoViewHolder) getHolder(parent, mHolders.mSendVideoLayout, mHolders.mSendVideoHolder, true);
+                holder = (VideoViewHolder) getHolder(parent, mHolders.mSendVideoLayout,
+                        mHolders.mSendVideoHolder, true);
                 if (holder != null) {
                     holder.itemView.setTag(holder);
                 }
                 return holder;
             case TYPE_RECEIVE_VIDEO:
-                holder = (VideoViewHolder) getHolder(parent, mHolders.mSendVideoLayout, mHolders.mReceiveVideoHolder, false);
+                holder = (VideoViewHolder) getHolder(parent, mHolders.mReceiveVideoLayout,
+                        mHolders.mReceiveVideoHolder, false);
                 if (holder != null) {
                     holder.itemView.setTag(holder);
                 }
@@ -198,6 +204,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public void addToStart(MESSAGE message, boolean scrollToBottom) {
         Wrapper<MESSAGE> element = new Wrapper<>(message);
         mItems.add(0, element);
+        mMessageList.add(0, message);
         notifyItemRangeInserted(0, 1);
         if (mLayoutManager != null && scrollToBottom) {
             mLayoutManager.scrollToPosition(0);
@@ -214,6 +221,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         if (reverse) {
             Collections.reverse(messages);
         }
+
+        mMessageList.addAll(messages);
 
         int oldSize = mItems.size();
         for (int i = 0; i < messages.size(); i++) {
@@ -238,13 +247,14 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     public List<MESSAGE> getMessageList() {
-        List<MESSAGE> msgList = new ArrayList<>();
-        for (Wrapper wrapper : mItems) {
-            if (wrapper.item instanceof IMessage) {
-                msgList.add((MESSAGE) wrapper.item);
-            }
-        }
-        return msgList;
+//        List<MESSAGE> msgList = new ArrayList<>();
+//        for (Wrapper wrapper : mItems) {
+//            if (wrapper.item instanceof IMessage) {
+//                msgList.add((MESSAGE) wrapper.item);
+//            }
+//        }
+//        return msgList;
+        return mMessageList;
     }
 
     /**
@@ -265,6 +275,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public void updateMessage(String oldId, MESSAGE newMessage) {
         int position = getMessagePositionById(oldId);
         if (position >= 0) {
+            mMessageList.set(position, newMessage);
+
             Wrapper<MESSAGE> element = new Wrapper<>(newMessage);
             mItems.set(position, element);
             notifyItemChanged(position);
@@ -288,6 +300,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public void deleteById(String id) {
         int index = getMessagePositionById(id);
         if (index >= 0) {
+            mMessageList.remove(index);
             mItems.remove(index);
             notifyItemRemoved(index);
         }
@@ -302,6 +315,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         for (MESSAGE message : messages) {
             int index = getMessagePositionById(message.getId());
             if (index >= 0) {
+                mMessageList.remove(index);
                 mItems.remove(index);
                 notifyItemRemoved(index);
             }
@@ -317,6 +331,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         for (String id : ids) {
             int index = getMessagePositionById(id);
             if (index >= 0) {
+                mMessageList.remove(index);
                 mItems.remove(index);
                 notifyItemRemoved(index);
             }
@@ -327,6 +342,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      * Clear messages list.
      */
     public void clear() {
+        mMessageList.clear();
         mItems.clear();
     }
 
@@ -689,6 +705,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * Customize send voice message layout.
+         *
          * @param layout Custom send photo message layout.
          */
         public void setSendPhotoLayout(@LayoutRes int layout) {
@@ -697,6 +714,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * In place of default receive photo message style by passing custom view holder and layout.
+         *
          * @param holder Custom view holder that extends BaseMessageViewHolder.
          * @param layout Custom receive photo message layout
          */
@@ -708,6 +726,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * Customize receive voice message layout.
+         *
          * @param layout Custom receive photo message layout.
          */
         public void setReceivePhotoLayout(@LayoutRes int layout) {
@@ -716,17 +735,19 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * In place of default send video message style by passing custom view holder and layout.
+         *
          * @param holder Custom view holder that extends BaseMessageViewHolder.
          * @param layout custom send video message layout
          */
         public void setSendVideoMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
-                                       @LayoutRes int layout) {
+                                    @LayoutRes int layout) {
             this.mSendVideoHolder = holder;
             this.mSendVideoLayout = layout;
         }
 
         /**
          * Customize send voice message layout.
+         *
          * @param layout Custom send Video message layout.
          */
         public void setSendVideoLayout(@LayoutRes int layout) {
@@ -735,6 +756,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * In place of default receive video message style by passing custom view holder and layout.
+         *
          * @param holder Custom view holder that extends BaseMessageViewHolder.
          * @param layout Custom receive video message layout
          */
@@ -746,6 +768,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         /**
          * Customize receive video message layout.
+         *
          * @param layout Custom receive video message layout.
          */
         public void setReceiveVideoLayout(@LayoutRes int layout) {

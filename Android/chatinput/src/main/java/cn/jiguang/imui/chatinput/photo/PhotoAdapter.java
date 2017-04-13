@@ -40,7 +40,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     private OnFileSelectedListener mListener;
 
-    private int mPhotoSide;    // 图片边长
+    private int mPhotoSide;    // length of side
 
     public PhotoAdapter(List<FileItem> list, int height) {
         mSelectedItems = new ArrayList<>();
@@ -67,7 +67,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     public void resetCheckedState() {
         mSendFiles.clear();
         for (int i = 0; i < mSelectedItems.size(); i++) {
-            // 处于选中状态
             mSelectedItems.remove(i);
             notifyDataSetChanged();
         }
@@ -100,11 +99,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                 .crossFade()
                 .into(holder.ivPhoto);
 
-        if (mSelectedItems.contains(position)) {    // 当前图片在选中列表中
+        if (mSelectedItems.contains(position)) {    // Current photo is selected
             holder.ivTick.setVisibility(VISIBLE);
             holder.ivShadow.setVisibility(VISIBLE);
             addSelectedAnimation(holder.ivPhoto, holder.ivShadow);
-        } else if (holder.ivTick.getVisibility() == View.VISIBLE) { // 之前被选中，当前未被选中
+
+        } else if (holder.ivTick.getVisibility() == View.VISIBLE) { // Selected before, now have not been selected
             holder.ivTick.setVisibility(GONE);
             holder.ivShadow.setVisibility(GONE);
             addDeselectedAnimation(holder.ivPhoto, holder.ivShadow);

@@ -64,10 +64,6 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
             }
         });
 
-//        if (message.getVideoPlayManager() != null) {
-//            message.getVideoPlayManager().playNewVideo(null, mVideoView, message.getContentFile());
-//        }
-
         if (mImageLoader != null) {
             if (isAvatarExists) {
                 mImageLoader.loadImage(mImageAvatar, message.getUserInfo().getAvatar());

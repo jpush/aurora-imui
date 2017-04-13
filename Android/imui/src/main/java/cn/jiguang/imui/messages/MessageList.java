@@ -40,11 +40,6 @@ public class MessageList extends RecyclerView {
         mMsgListStyle = MessageListStyle.parse(context, attrs);
     }
 
-//    @Override
-//    public void setAdapter(Adapter adapter) {
-//        throw new IllegalArgumentException("Do not set adapter directly, use setAdapter(MsgListAdapter) instead.");
-//    }
-
     /**
      * Set adapter for MessageList.
      * @param adapter Adapter, extends MsgListAdapter.
@@ -60,6 +55,7 @@ public class MessageList extends RecyclerView {
                     LinearLayoutManager.VERTICAL, true);
             adapter.setLayoutManager(layoutManager);
             addOnScrollListener(new ScrollMoreListener(layoutManager, adapter));
+
         } else {
             addOnScrollListener(new ScrollMoreListener((LinearLayoutManager) getLayoutManager(), adapter));
         }

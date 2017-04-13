@@ -12,7 +12,7 @@ public class ScrollMoreListener extends RecyclerView.OnScrollListener {
     private OnLoadMoreListener mListener;
     private int mCurrentPage = 0;
     private int mPreviousTotalItemCount = 0;
-    private boolean mLoading = true;
+    private boolean mLoading = false;
 
     public ScrollMoreListener(LinearLayoutManager layoutManager, OnLoadMoreListener listener) {
         this.mLayoutManager = layoutManager;

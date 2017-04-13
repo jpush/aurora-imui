@@ -107,16 +107,14 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     }
 
     /**
-     * 设置图片最小宽高
-     *
-     * @param path      图片路径
-     * @param imageView 显示图片的View
+     * @param path      photo file path
+     * @param imageView Image view to display the picture.
      */
     private void setPictureScale(String path, ImageView imageView) {
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, opts);
-        //计算图片缩放比例
+
         double imageWidth = opts.outWidth;
         double imageHeight = opts.outHeight;
         if (imageWidth < 100 * mDensity) {
