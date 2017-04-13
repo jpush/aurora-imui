@@ -138,14 +138,10 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         self.isSessionRunning = self.session.isRunning
         
       case .notAuthorized:
-        DispatchQueue.main.async { [unowned self] in
-          print("AVCam doesn't have permission to use the camera, please change privacy settings")
-        }
+        print("AVCam doesn't have permission to use the camera, please change privacy settings")
         
       case .configurationFailed:
-        DispatchQueue.main.async { [unowned self] in
-          print("Unable to capture media")
-        }
+        print("Unable to capture media")
       }
     }
   }
@@ -270,13 +266,14 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           }
           
           let inProgressLivePhotoCapturesCount = self.inProgressLivePhotoCapturesCount
-          DispatchQueue.main.async { [unowned self] in
+          DispatchQueue.main.async {
             if inProgressLivePhotoCapturesCount > 0 {
-//              self.capturingLivePhotoLabel.isHidden = false
+
             }
             else if inProgressLivePhotoCapturesCount == 0 {
-//              self.capturingLivePhotoLabel.isHidden = true
+
             }
+              
             else {
               print("Error: In progress live photo capture count is less than 0");
             }
@@ -313,7 +310,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     
     print("about to request a capture from: \(stillImageOutput)")
     stillImageOutput.captureStillImageAsynchronously(from: videoConnection) { (imageSampleBuffer, error) in
-      var exifAttachments = CMGetAttachment(imageSampleBuffer!, kCGImagePropertyExifDictionary, nil)
+      let exifAttachments = CMGetAttachment(imageSampleBuffer!, kCGImagePropertyExifDictionary, nil)
       
       if (exifAttachments != nil) {
         print("exifAttachments exit")

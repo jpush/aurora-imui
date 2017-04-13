@@ -26,7 +26,6 @@
 		62C869EC1E9B51AE00AA8FE9 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869BC1E9B51AE00AA8FE9 /* DateExtension.swift */; };
 		62C869ED1E9B51AE00AA8FE9 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869BD1E9B51AE00AA8FE9 /* StringExtension.swift */; };
 		62C869EE1E9B51AE00AA8FE9 /* TimerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869BE1E9B51AE00AA8FE9 /* TimerExtension.swift */; };
-		62C869EF1E9B51AE00AA8FE9 /* UICollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869BF1E9B51AE00AA8FE9 /* UICollectionViewExtension.swift */; };
 		62C869F01E9B51AE00AA8FE9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869C01E9B51AE00AA8FE9 /* UIColorExtension.swift */; };
 		62C869F11E9B51AE00AA8FE9 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869C11E9B51AE00AA8FE9 /* UIImageExtension.swift */; };
 		62C869F21E9B51AE00AA8FE9 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869C21E9B51AE00AA8FE9 /* UIViewExtension.swift */; };
@@ -108,7 +107,6 @@
 		62C869BC1E9B51AE00AA8FE9 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		62C869BD1E9B51AE00AA8FE9 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		62C869BE1E9B51AE00AA8FE9 /* TimerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerExtension.swift; sourceTree = "<group>"; };
-		62C869BF1E9B51AE00AA8FE9 /* UICollectionViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtension.swift; sourceTree = "<group>"; };
 		62C869C01E9B51AE00AA8FE9 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		62C869C11E9B51AE00AA8FE9 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		62C869C21E9B51AE00AA8FE9 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -278,7 +276,6 @@
 				62C869BC1E9B51AE00AA8FE9 /* DateExtension.swift */,
 				62C869BD1E9B51AE00AA8FE9 /* StringExtension.swift */,
 				62C869BE1E9B51AE00AA8FE9 /* TimerExtension.swift */,
-				62C869BF1E9B51AE00AA8FE9 /* UICollectionViewExtension.swift */,
 				62C869C01E9B51AE00AA8FE9 /* UIColorExtension.swift */,
 				62C869C11E9B51AE00AA8FE9 /* UIImageExtension.swift */,
 				62C869C21E9B51AE00AA8FE9 /* UIViewExtension.swift */,
@@ -536,7 +533,6 @@
 				62C86A241E9B568F00AA8FE9 /* IMUIFeatureView.swift in Sources */,
 				62C869EE1E9B51AE00AA8FE9 /* TimerExtension.swift in Sources */,
 				62C86A2A1E9B568F00AA8FE9 /* IMUIPhotoCaptureDelegate.swift in Sources */,
-				62C869EF1E9B51AE00AA8FE9 /* UICollectionViewExtension.swift in Sources */,
 				62C869F21E9B51AE00AA8FE9 /* UIViewExtension.swift in Sources */,
 				62C86A231E9B568F00AA8FE9 /* IMUICameraPreviewView.swift in Sources */,
 				62C869E71E9B51AE00AA8FE9 /* IMUIChatLayout.swift in Sources */,

@@ -124,7 +124,7 @@ sample/\.idea/
 ## Build generated
 build/
 DerivedData/
-
+iOS/IMUIChat/IMUIChat.xcodeproj/project.xcworkspace/xcuserdata/HuminiOS.xcuserdatad/UserInterfaceState.xcuserstate
 ## Various settings
 *.pbxuser
 !default.pbxuser

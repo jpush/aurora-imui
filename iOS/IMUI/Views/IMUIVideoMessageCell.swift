@@ -52,7 +52,7 @@ class IMUIVideoMessageCell: IMUIBaseMessageCell {
   
   func layoutVideo(with videoPath: String) {
     let asset = AVURLAsset(url: URL(fileURLWithPath: videoPath), options: nil)
-    var seconds = Int (CMTimeGetSeconds(asset.duration))
+    let seconds = Int (CMTimeGetSeconds(asset.duration))
     
     if seconds/3600 > 0 {
        videoDuration.text = "\(seconds/3600):\(String(format: "%02d", (seconds/3600)%60)):\(seconds%60)"

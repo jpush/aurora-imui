@@ -174,7 +174,6 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     switch currentType {
     case .gallery:
       return IMUIGalleryDataManager.allAssets.count
-      return 0
     case .none:
       return 0
     default:

@@ -90,12 +90,8 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     self.cancelVoiceBtn.isHidden = true
     self.resetSubViewsStyle()
     
-    do {
-      let finishiRecorder = recordHelper.finishRecordingCompletion()
-      self.inputViewDelegate?.finishRecordingVoice(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
-    } catch {
-      print("\(error)")
-    }
+    let finishiRecorder = recordHelper.finishRecordingCompletion()
+    self.inputViewDelegate?.finishRecordingVoice(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
   }
   
   func resetSubViewsStyle() {

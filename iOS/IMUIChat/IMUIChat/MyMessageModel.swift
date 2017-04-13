@@ -58,7 +58,7 @@ class MyMessageModel: IMUIMessageModel {
   override func mediaData() -> Data {
     var mediaData: Data?
     do {
-      mediaData = try! Data(contentsOf: URL(fileURLWithPath: self.mediaPath))
+      mediaData = try Data(contentsOf: URL(fileURLWithPath: self.mediaPath))
     } catch {
       print("load voice data frome path fail")
     }
