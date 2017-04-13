@@ -70,6 +70,11 @@ class IMUIGalleryCell: UICollectionViewCell {
   }
   
   func clicked(){
+    if asset!.mediaType != .image {
+      print("now only support send image type")
+      return
+    }
+    
     if didSelect {
       IMUIGalleryDataManager.selectedAssets = IMUIGalleryDataManager.selectedAssets.filter({$0 != asset!})
     }else{
