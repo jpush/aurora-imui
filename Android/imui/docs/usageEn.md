@@ -1,19 +1,21 @@
 # MessageList
-[English Document](./usageEn.md)
+[中文文档](./usage.md)
 
-MessageList 是聊天界面的消息列表，用来展示各种类型的消息，可以支持丰富的自定义扩展。如果不使用自定义将会使用默认样式。
+MessageList is a message list in chatting interface, use to display all kinds of messages, and is can be fully customize.
+If you don't define your style, MessageList will use default style.
 
-## 安装
+## Download
 
-提供了以下几种方式添加依赖，只需要选择其中一种即可。
+We have support several current popular ways to add dependency. You can choose one of them.
 
-- Gradle 方式
+
+- Via Gradle:
 
 ```
 compile 'cn.jiguang.imui:imui:0.0.1'
 ```
 
-- 使用 Maven：
+- Via Maven：
 ```
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
@@ -23,11 +25,11 @@ compile 'cn.jiguang.imui:imui:0.0.1'
 </dependency>
 ```
 
-- 使用 JitPack
+- Via JitPack
 
-    在项目的 build.gradle 中加入：
+    add in project's build.gradle：
 
-   ```
+ ```
 allprojects {
         repositories {
            ...
@@ -36,17 +38,21 @@ allprojects {
 }
 ```
 
-    在 Module 的 build.gradle 中加入：
-    ```
+   add in module's build.gradle：
+
+```
     dependencies {
         compile 'com.github.jpush:imui:0.0.1'
     }
-    ```
+```
 
-## 使用
-使用 MessageList 只需要几个简单的步骤，你也可以参考一下我们的 [sample](./../sample)。
+## Usage
+To use MessageList only need three simple steps, or you can check out our [sample project](./../../sample) to
+try it yourself.
 
-#### 第一步：在布局文件中引用 MessageList：
+
+
+#### Step one: add MessageList in your xml layout：
 ```
 <cn.jiguang.imui.messages.MessageList
     android:id="@+id/msg_list"
@@ -65,20 +71,25 @@ allprojects {
     app:sendTextColor="#7587A8"
     app:sendTextSize="18sp" />
 ```
-我们定义了很多样式，供用户调整布局，详细的属性可以参考 attr 文件。当然我们也支持完全自定义布局，下面会说到。
+We have define many kinds of attributes, to support user to adjust their layout, you can see
+[attrs.xml](./../src/main/res/values/attrs.xml) in detail, and we support totally customize style either, please look down.
 
-#### 第二步：构造 adapter
-Adapter 的构造函数有三个参数。第一个是 sender id，发送方的 id，第二个参数是 HoldersConfig 对象，你可以用这个对象来
-[构造自定义的消息的 ViewHolder 及布局界面](./customLayout.md)。第三个参数是 ImageLoader 的实现，用来展示头像，如果为空，将会隐藏头像。
-（[点击了解更多关于 ImageLoader 的内容](./imageLoader.md)）
+#### Step two: construct adapter
+Adapter's constructor has three parameters. The first one is `sender id`, the id of sender, the second one is `HoldersConfig object`,
+you can use this object to [construct your custom ViewHolder and layout](./customLayoutEn.md), the third one is implement of `ImageLoader`,
+use to display user's avatar, if this value is null, will not display avatar.([Click here to know more about ImageLoader](./imageLoadEn.md))
+
+
 ```
 MsgListAdapter adapter = new MsgListAdapter<MyMessage>("0", holdersConfig, imageLoader);
 messageList.setAdapter(adapter);
 ```
 
-#### 第三步：构造你的实体类型
-包括消息、用户（以及以后的会话），你必须实现我们的 IMessage、IUser 接口类，例如：
-```
+#### Step three：construct your model
+To be add messages, you need to implement IMessage, IUser interface into your existing model and override it's methods:
+
+
+```java
 public class MyMessage implements IMessage {
 
     private long id;
@@ -146,8 +157,10 @@ public class MyMessage implements IMessage {
     }
 }
 ```
-上面的 MessageType 是 IMessage 中的枚举类。同样 IUser 接口也需要实现：
-```
+
+MessageType above is an enum class in IMessage class, you need implement IUser interface, too:
+
+```java
 public class DefaultUser implements IUser {
 
     private String id;
@@ -176,29 +189,31 @@ public class DefaultUser implements IUser {
     }
 }
 ```
-以上就完成了所有的准备工作。
 
-## 数据管理
+That's all! Now you can use your own message model to fill into adapter without type converting of any kind!
 
-#### 增加新的消息
-在消息列表中插入消息非常简单，这里提供了两种方式：
+## Data management
 
-- 在消息列表底部插入最新消息： addToStart(IMESSAGE message, boolean scroll)
+#### Adding new messages
+
+To add new message in message list is pretty easy, we support two ways to add new messages:
+
+- Add new message in the bottom of message list： `addToStart(IMESSAGE message, boolean scroll)`
 
 ```
-// 在底部插入一条消息，第二个参数表示是否滚动到底部。
+// add a new message in the bottom of message list, the second parameter implys whether to scroll to bottom.
 adapter.addToStart(message, true);
 ```
 
-- 在消息列表的末尾插入消息（通常用来加载上一页消息）: addToEnd(List<IMessage> messages, boolean reverse)
+- Add messages in the top of message list（Usually use this method to load last page of history messages）: `addToEnd(List<IMessage> messages, boolean reverse)`
 
 ```
-// 在消息列表的顶部加入消息，第二个参数表示是否在插入前是否反转列表
+// Add messages to the top of message list, the second parameter implys whether to reverse list(the first parameter).
 adapter.addToEnd(messages, true);
 ```
 
-- 滚动列表加载历史消息
-设置监听 OnLoadMoreListener，当滚动列表时就会触发 onLoadMore 事件，例如：
+- Scroll to load history messages
+After adding this listener: OnLoadMoreListener，when scroll to top will fire `onLoadMore` event，for example：
 ```
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
     @Override
@@ -215,24 +230,24 @@ mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
 });
 ```
 
-#### 删除消息
-有如下删除消息的接口：
+#### Delete message
+Here are methods to delete message：
 
-- adapter.deleteById(String id) 根据 message id 来删除消息
-- adapter.deleteByIds(String[] ids) 根据 message id 批量删除
-- adapter.delete(IMessage message) 根据消息对象删除
-- adapter.delete(List<IMessage> messages) 根据消息对象列表批量删除
-- adapter.clear() 删除所有消息
+- adapter.deleteById(String id) // according message id to delete
+- adapter.deleteByIds(String[] ids) // according message ids' array to delete
+- adapter.delete(IMessage message) // according message object to delete
+- adapter.delete(List<IMessage> messages) // according message objects' list to delete
+- adapter.clear() // delete all messages
 
-#### 更新消息
-如果消息改变了，可以调用以下接口来更新消息：
+#### Update message
+If message updated, you can invoke these methods to notify adapter to update message:
 
-- adapter.update(IMessage message)
+- adapter.update(IMessage message) // message to be updated
 - adapter.update(String oldId, IMessage newMessage)
 
 
-## 事件监听
-- OnMsgClickListener 点击消息的时候触发
+## Event handling
+- `OnMsgClickListener` Fires when click message
 
 ```
 mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>() {
@@ -243,7 +258,7 @@ mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>(
 });
 ```
 
-- OnAvatarClickListener 点击头像的时候触发
+- `OnAvatarClickListener` Fires when click avatar
 
 ```
 mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMessage>() {
@@ -255,7 +270,7 @@ mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMes
 });
 ```
 
-- OnMsgLongClickListener 长按消息触发
+- `OnMsgLongClickListener` Fires when long click message
 
 ```
 mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
@@ -265,6 +280,7 @@ mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMes
     }
 });
 ```
+
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).

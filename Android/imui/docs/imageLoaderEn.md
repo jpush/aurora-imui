@@ -1,9 +1,11 @@
 ## ImageLoader
-[English Document](./imageLoaderEn.md)
+[中文文档](./imageLoader.md)
 
-为了不限定加载图片的方式（有很多第三方库可以很方便地用来加载图片），我们提供了 ImageLoader 接口，只要实现这个接口，就可以
-使用你自己定义的方式来加载图片。
-例如使用 Picasso 来加载图片：
+For loading images with free style(There are many third-party libraries can easily use to load image),
+we define ImageLoader interface, so you can use the way you like to load image.
+
+Take Picasso for example:
+
 ```
 ImageLoader imageLoader = new ImageLoader() {
    @Override
@@ -13,7 +15,7 @@ ImageLoader imageLoader = new ImageLoader() {
 };
 ```
 
-或者 Glide:
+or Glide:
 
 ```
 ImageLoader imageLoader = new ImageLoader() {

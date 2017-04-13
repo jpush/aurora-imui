@@ -1,5 +1,7 @@
 ## 自定义界面样式
 
+[English Docment](./customLayoutEn.md)
+
 如果你需要对界面样式做更多定制化的需求，例如消息状态，设置已读标签等等，你可以使用自定义 ViewHolder 及布局。
 
 ### 用法
