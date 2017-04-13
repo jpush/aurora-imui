@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		624442841E6C5CAE00D5F0EB /* MyMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624442831E6C5CAE00D5F0EB /* MyMessageModel.swift */; };
+		6245B9401E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6245B93F1E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift */; };
 		62AC1A8A1E5EC6A500E810B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AC1A891E5EC6A500E810B2 /* AppDelegate.swift */; };
 		62AC1A8C1E5EC6A500E810B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AC1A8B1E5EC6A500E810B2 /* ViewController.swift */; };
 		62AC1A8F1E5EC6A500E810B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62AC1A8D1E5EC6A500E810B2 /* Main.storyboard */; };
@@ -41,7 +42,7 @@
 		62C86A091E9B51AE00AA8FE9 /* IMUIMessageCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62C869DF1E9B51AE00AA8FE9 /* IMUIMessageCollectionView.xib */; };
 		62C86A0A1E9B51AE00AA8FE9 /* IMUITextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869E01E9B51AE00AA8FE9 /* IMUITextMessageCell.swift */; };
 		62C86A0B1E9B51AE00AA8FE9 /* IMUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869E11E9B51AE00AA8FE9 /* IMUITextView.swift */; };
-		62C86A0C1E9B51AE00AA8FE9 /* IMUIVideoMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869E21E9B51AE00AA8FE9 /* IMUIVideoMessageCell.swift */; };
+		62C86A0C1E9B51AE00AA8FE9 /* IMUILiveVideoMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869E21E9B51AE00AA8FE9 /* IMUILiveVideoMessageCell.swift */; };
 		62C86A0D1E9B51AE00AA8FE9 /* IMUIVoiceMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C869E31E9B51AE00AA8FE9 /* IMUIVoiceMessageCell.swift */; };
 		62C86A111E9B564800AA8FE9 /* IMUIGalleryDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C86A0F1E9B564800AA8FE9 /* IMUIGalleryDataManager.swift */; };
 		62C86A121E9B564800AA8FE9 /* IMUIRecordVoiceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C86A101E9B564800AA8FE9 /* IMUIRecordVoiceHelper.swift */; };
@@ -82,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		624442831E6C5CAE00D5F0EB /* MyMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMessageModel.swift; sourceTree = "<group>"; };
+		6245B93F1E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVideoMessageCell.swift; sourceTree = "<group>"; };
 		627050261E826CBF000CC7BD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		62AC1A861E5EC6A500E810B2 /* IMUIChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMUIChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62AC1A891E5EC6A500E810B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -123,7 +125,7 @@
 		62C869DF1E9B51AE00AA8FE9 /* IMUIMessageCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIMessageCollectionView.xib; sourceTree = "<group>"; };
 		62C869E01E9B51AE00AA8FE9 /* IMUITextMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUITextMessageCell.swift; sourceTree = "<group>"; };
 		62C869E11E9B51AE00AA8FE9 /* IMUITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUITextView.swift; sourceTree = "<group>"; };
-		62C869E21E9B51AE00AA8FE9 /* IMUIVideoMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVideoMessageCell.swift; sourceTree = "<group>"; };
+		62C869E21E9B51AE00AA8FE9 /* IMUILiveVideoMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUILiveVideoMessageCell.swift; sourceTree = "<group>"; };
 		62C869E31E9B51AE00AA8FE9 /* IMUIVoiceMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVoiceMessageCell.swift; sourceTree = "<group>"; };
 		62C86A0F1E9B564800AA8FE9 /* IMUIGalleryDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIGalleryDataManager.swift; sourceTree = "<group>"; };
 		62C86A101E9B564800AA8FE9 /* IMUIRecordVoiceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIRecordVoiceHelper.swift; sourceTree = "<group>"; };
@@ -321,7 +323,8 @@
 				62C869DF1E9B51AE00AA8FE9 /* IMUIMessageCollectionView.xib */,
 				62C869E01E9B51AE00AA8FE9 /* IMUITextMessageCell.swift */,
 				62C869E11E9B51AE00AA8FE9 /* IMUITextView.swift */,
-				62C869E21E9B51AE00AA8FE9 /* IMUIVideoMessageCell.swift */,
+				62C869E21E9B51AE00AA8FE9 /* IMUILiveVideoMessageCell.swift */,
+				6245B93F1E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift */,
 				62C869E31E9B51AE00AA8FE9 /* IMUIVoiceMessageCell.swift */,
 			);
 			path = Views;
@@ -543,6 +546,7 @@
 				62C869E51E9B51AE00AA8FE9 /* IMUIAudioPlayerHelper.swift in Sources */,
 				62C869F41E9B51AE00AA8FE9 /* IMUIMessageModel.swift in Sources */,
 				62C869F61E9B51AE00AA8FE9 /* IMUIMessageModelProtocol.swift in Sources */,
+				6245B9401E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift in Sources */,
 				62C86A0D1E9B51AE00AA8FE9 /* IMUIVoiceMessageCell.swift in Sources */,
 				62C8692F1E9A2D9700AA8FE9 /* MyUser.swift in Sources */,
 				62AC1A8C1E5EC6A500E810B2 /* ViewController.swift in Sources */,
@@ -559,7 +563,7 @@
 				62C869ED1E9B51AE00AA8FE9 /* StringExtension.swift in Sources */,
 				62AC1A8A1E5EC6A500E810B2 /* AppDelegate.swift in Sources */,
 				62C86A081E9B51AE00AA8FE9 /* IMUIMessageCollectionView.swift in Sources */,
-				62C86A0C1E9B51AE00AA8FE9 /* IMUIVideoMessageCell.swift in Sources */,
+				62C86A0C1E9B51AE00AA8FE9 /* IMUILiveVideoMessageCell.swift in Sources */,
 				62C86A071E9B51AE00AA8FE9 /* IMUIMessageBubbleView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
