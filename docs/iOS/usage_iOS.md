@@ -1,4 +1,6 @@
-## IMUIMessageCollectionView
+# IMUIMessageCollectionView
+[English document](./usage_english.md)
+
 IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类型的消息，可以支持丰富的自定义扩展。如果不使用自定义将会使用默认样式。 
 
 
