@@ -1,7 +1,7 @@
 # IMUIMessageCollectionView
 [中文文档](https://github.com/jpush/imui/blob/dev/docs/iOS/usage_iOS.md)
 
-IMUIMessageCollectionView is a message list in chatting interface, use to display all kinds of messages, and is can be fully customize. If you don't define your style, IMUIMessageCollectionView will use default style.
+IMUIMessageCollectionView is a message list in chatting interface, use to display all kinds of messages, and it can be fully customize. If you don't define your style, IMUIMessageCollectionView will use default style.
 
 ## Install
 #### Manual
@@ -41,27 +41,24 @@ To use IMUIMessageCollectionView only need three simple steps, or you can check 
 **1.** To be add messages, you need to implement `IMUIMessageModelProtocol` protocol into your existing mode
 ```
   protocol IMUIMessageModelProtocol {
-    @request
-    var msgId: String { get }
-    var fromUser: IMUIUserProtocol { get }
-    var layout: IMUIMessageCellLayoutProtocal { get }
+  @request
+  var msgId: String { get }
+  
+  var fromUser: IMUIUserProtocol { get }
+  
+  var layout: IMUIMessageCellLayoutProtocal { get }
+  
+  var resizableBubbleImage: UIImage { get }
+  
+  @optional
+  func mediaData() -> Data
+  
+  func textMessage() -> String
 
-    @optional
-  //  文本消息 字符串
-    func textMessage() -> String
-  
-  //  音频数据
-    func mediaData() -> Data
-  
-  // 视频路径
-    var videoPath: String? { get }
-  
-  // 消息泡泡图片
-    var resizeBubbleImage: UIImage { get }
-  }
+  var videoPath: String? { get }
 ```
 
-**2.** construct your user model , to implement `IMUIUserProtocol` protocal
+**2.** Construct your user model , to implement `IMUIUserProtocol` protocal
 
 ```
 public protocol IMUIUserProtocol {
@@ -90,7 +87,7 @@ messageCollectionViewinsertMessage(with message: IMUIMessageModel)
 ```
 
 ## Custom  Layout
-construct message object need return `IMUIMessageCellLayoutProtocal`  object used to layout MessageCell.
+Construct message object need return `IMUIMessageCellLayoutProtocal`  object used to layout MessageCell.
  If you return nil,will use default layout `IMUIMessageCellLayout ` .
 If you want to adjust default layout, just change layout static value, like that
 
