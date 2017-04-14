@@ -6,7 +6,9 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
 
 ## 安装
 #### 手动安装
-将 IMUI/ 目录拖拽到自己工程中
+复制 `IMUI` 目录拖拽到自己工程中
+
+**注意：** 确保自己工程中 `Info.plist` 包含 camera , Microphone 和 Photo Library 权限
 
 ## 使用
 使用 IMUIMessageCollectionView 只需要几个简单的步骤。
@@ -107,30 +109,24 @@ IMUIMessageCellLayout.cellWidth
 // 设置 Message Cell 的内边距
 IMUIMessageCellLayout.cellContentInset
 ```
-如果简单调整 默认布局 的配置项满足不了自己的布局需求，需要在构造方法中指定 自定义的布局, 自定义布局需要实现`IMUIMessageCellLayoutProtocal `。例如：
+如果简单调整 默认布局 的配置项满足不了自己的布局需求，需要在构造方法中指定 自定义的布局, 自定义布局需要实现`IMUIMessageCellLayoutProtocal `。也可以继承 `IMUIMessageCellLayout` 类，更具自己的需求 override 方法。例如：
 ```
-struct MyMessageCellLayout: IMUIMessageCellLayoutProtocal {
-  let defaultLayout: IMUIMessageCellLayout
+class MyMessageCellLayout: IMUIMessageCellLayout {
   
-  var cellHeight: CGFloat {
-    return defaultLayout.cellHeight
+  override init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize) {
+    
+    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize)
   }
   
-  var avatarFrame: CGRect {
-    return defaultLayout.avatarFrame
+  override var bubbleContentInset: UIEdgeInsets {
+    
+    if isOutGoingMessage {
+      return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 15)
+    } else {
+      return UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 10)
+    }
   }
   
-  var timeLabelFrame: CGRect {
-    return defaultLayout.timeLabelFrame
-  }
-  
-  var bubbleFrame: CGRect {
-    return defaultLayout.bubbleFrame
-  }
-  
-  var bubbleContentInset: UIEdgeInsets {
-    return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-  }
 }
 ```
 
