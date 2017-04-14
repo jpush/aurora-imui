@@ -25,7 +25,7 @@ class IMUIImageMessageCell: IMUIBaseMessageCell {
     super.layoutSubviews()
   }
 
-  override func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?) {
+  override func presentCell(with message: IMUIMessageModelProtocol, delegate: IMUIMessageMessageCollectionViewDelegate?) {
     super.presentCell(with: message, delegate: delegate)
     
     let layout = message.layout as! IMUIMessageCellLayout

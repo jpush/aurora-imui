@@ -119,6 +119,7 @@ extension ViewController: IMUIInputViewDelegate {
 // MARK - IMUIMessageMessageCollectionViewDelegate
 extension ViewController: IMUIMessageMessageCollectionViewDelegate {
 
+
   func didTapMessageCell(_ model: IMUIMessageModel) {
     print("\(model)")
   }
