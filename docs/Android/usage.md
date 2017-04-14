@@ -1,19 +1,18 @@
 # MessageList
 [English Document](./usageEn.md)
 
-MessageList 是聊天界面的消息列表，用来展示各种类型的消息，可以支持丰富的自定义扩展。如果不使用自定义将会使用默认样式。
+MessageList 是聊天的消息列表，用于展示各种类型消息，支持丰富的自定义扩展。如果不做自定义则使用默认样式。
 
 ## 安装
-
 提供了以下几种方式添加依赖，只需要选择其中一种即可。
 
-- Gradle 方式
+- Gradle
 
-```
+```groovy
 compile 'cn.jiguang.imui:imui:0.0.1'
 ```
 
-- 使用 Maven：
+- Maven
 ```
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
@@ -23,11 +22,9 @@ compile 'cn.jiguang.imui:imui:0.0.1'
 </dependency>
 ```
 
-- 使用 JitPack
-
-    在项目的 build.gradle 中加入：
-
-   ```
+- JitPack
+在项目的 build.gradle 中加入：
+```groovy
 allprojects {
         repositories {
            ...
@@ -36,17 +33,17 @@ allprojects {
 }
 ```
 
-    在 Module 的 build.gradle 中加入：
-    ```
-    dependencies {
-        compile 'com.github.jpush:imui:0.0.1'
-    }
-    ```
+在 Module 的 build.gradle 中加入：
+```groovy
+  dependencies {
+    compile 'com.github.jpush:imui:0.0.1'
+  }
+```
 
 ## 使用
-使用 MessageList 只需要几个简单的步骤，你也可以参考一下我们的 [sample](./../sample)。
+使用 MessageList 只需几个简单的步骤，可以参考一下我们的 [demo](./../sample)。
 
-#### 第一步：在布局文件中引用 MessageList：
+### 1. 在布局文件中引用 MessageList：
 ```
 <cn.jiguang.imui.messages.MessageList
     android:id="@+id/msg_list"
@@ -67,18 +64,21 @@ allprojects {
 ```
 我们定义了很多样式，供用户调整布局，详细的属性可以参考 attr 文件。当然我们也支持完全自定义布局，下面会说到。
 
-#### 第二步：构造 adapter
-Adapter 的构造函数有三个参数。第一个是 sender id，发送方的 id，第二个参数是 HoldersConfig 对象，你可以用这个对象来
-[构造自定义的消息的 ViewHolder 及布局界面](./customLayout.md)。第三个参数是 ImageLoader 的实现，用来展示头像，如果为空，将会隐藏头像。
-（[点击了解更多关于 ImageLoader 的内容](./imageLoader.md)）
-```
-MsgListAdapter adapter = new MsgListAdapter<MyMessage>("0", holdersConfig, imageLoader);
+### 2. 构造 Adapter
+Adapter 的构造函数有三个参数：
+
+1. Sender Id: 发送方 Id(唯一标识)
+2. HoldersConfig，可以用这个对象来[构造自定义的消息的 ViewHolder 及布局界面](./customLayout.md)。
+3. ImageLoader 的实例，用来展示头像。如果为空，将会隐藏头像。（[点击了解更多关于 ImageLoader 的内容](./imageLoader.md)）。
+
+```java
+MsgListAdapter adapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
 messageList.setAdapter(adapter);
 ```
 
-#### 第三步：构造你的实体类型
-包括消息、用户（以及以后的会话），你必须实现我们的 IMessage、IUser 接口类，例如：
-```
+### 3.构造实体类
+包括消息、用户（以及以后的会话），需要实现我们的 IMessage、IUser 接口。例如：
+```java
 public class MyMessage implements IMessage {
 
     private long id;
@@ -147,7 +147,7 @@ public class MyMessage implements IMessage {
 }
 ```
 上面的 MessageType 是 IMessage 中的枚举类。同样 IUser 接口也需要实现：
-```
+```java
 public class DefaultUser implements IUser {
 
     private String id;
@@ -179,27 +179,24 @@ public class DefaultUser implements IUser {
 以上就完成了所有的准备工作。
 
 ## 数据管理
-
-#### 增加新的消息
+### 新增消息
 在消息列表中插入消息非常简单，这里提供了两种方式：
 
-- 在消息列表底部插入最新消息： addToStart(IMESSAGE message, boolean scroll)
-
-```
+- *addToStart(IMESSAGE message, boolean scroll)*
+```java
 // 在底部插入一条消息，第二个参数表示是否滚动到底部。
 adapter.addToStart(message, true);
 ```
 
-- 在消息列表的末尾插入消息（通常用来加载上一页消息）: addToEnd(List<IMessage> messages, boolean reverse)
-
-```
-// 在消息列表的顶部加入消息，第二个参数表示是否在插入前是否反转列表
+- *addToEnd(List<IMessage> messages, boolean reverse)*
+```java
+// 在消息列表的顶部加入消息，第二个参数表示是否在插入前是否反转列表。
 adapter.addToEnd(messages, true);
 ```
 
 - 滚动列表加载历史消息
 设置监听 OnLoadMoreListener，当滚动列表时就会触发 onLoadMore 事件，例如：
-```
+```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
     @Override
     public void onLoadMore(int page, int totalCount) {
@@ -215,26 +212,24 @@ mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
 });
 ```
 
-#### 删除消息
+### 删除消息
 有如下删除消息的接口：
 
-- adapter.deleteById(String id) 根据 message id 来删除消息
-- adapter.deleteByIds(String[] ids) 根据 message id 批量删除
-- adapter.delete(IMessage message) 根据消息对象删除
-- adapter.delete(List<IMessage> messages) 根据消息对象列表批量删除
-- adapter.clear() 删除所有消息
+- *adapter.deleteById(String id)*: 根据 message id 来删除消息
+- *adapter.deleteByIds(String[] ids)*: 根据 message id 批量删除
+- *adapter.delete(IMessage message)*: 根据消息对象删除
+- *adapter.delete(List<IMessage> messages)*: 批量删除
+- *adapter.clear()*: 清空消息
 
-#### 更新消息
+### 更新消息
 如果消息改变了，可以调用以下接口来更新消息：
 
 - adapter.update(IMessage message)
 - adapter.update(String oldId, IMessage newMessage)
 
-
-## 事件监听
-- OnMsgClickListener 点击消息的时候触发
-
-```
+### 事件监听
+- OnMsgClickListener: 点击消息时触发
+```java
 mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>() {
     @Override
     public void onMessageClick(MyMessage message) {
@@ -243,21 +238,19 @@ mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>(
 });
 ```
 
-- OnAvatarClickListener 点击头像的时候触发
-
-```
+- OnAvatarClickListener: 点击头像时触发
+```java
 mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMessage>() {
     @Override
     public void onAvatarClick(MyMessage message) {
         DefaultUser userInfo = (DefaultUser) message.getUserInfo();
-        // Do something
+        // do something
     }
 });
 ```
 
-- OnMsgLongClickListener 长按消息触发
-
-```
+- OnMsgLongClickListener: 长按消息触发
+```java
 mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
     @Override
     public void onMessageLongClick(MyMessage message) {
@@ -265,9 +258,3 @@ mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMes
     }
 });
 ```
-
-## Contribute
-Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
-
-## License
-MIT © [JiGuang](/LICENSE)
