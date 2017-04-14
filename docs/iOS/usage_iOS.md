@@ -14,6 +14,7 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
 使用 IMUIMessageCollectionView 只需要几个简单的步骤。
 
 第一步： 拖拽一个 View 到 UIViewController 中 （可以是 storyboard 和  xib），修改 class 为 `IMUIMessageCollectionView`
+
 第二步： 实现 `IMUIMessageMessageCollectionViewDelegate` 方法
 ```
   @IBOutlet weak var messageCollectionView: IMUIMessageCollectionView!
@@ -24,18 +25,17 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
   }
 
 // MARK - IMUIMessageMessageCollectionViewDelegate 
-  func didTapMessageCell(_ model: IMUIMessageModel) {
-  }
-  
-  func didTapMessageBubble(_ model: IMUIMessageModel) {
-  }
 
-  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any) {
-  }
+  func didTapMessageCell(_ model: IMUIMessageModel){}
+  
+  func didTapMessageBubble(_ model: IMUIMessageModel){
+  }
 
-  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any) {
-  }
+  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any){}
+  
+  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any){}
 ```
+
 第三步： 构造实体类型
 - 构建消息类型， 实现 `IMUIMessageModelProtocol` 协议
 
