@@ -87,9 +87,7 @@ messageCollectionViewinsertMessage(with message: IMUIMessageModel)
 ```
 
 ## Custom  Layout
-Construct message object need return `IMUIMessageCellLayoutProtocal`  object used to layout MessageCell.
- If you return nil,will use default layout `IMUIMessageCellLayout ` .
-If you want to adjust default layout, just change layout static value, like that
+Create `MessageModel` object need to specify layout infomation, if not, will use default layout `IMUIMessageCellLayout`. Base on default layout, here offers simple configuration to adjust elements in `MessageCell`:
 
 ```
 //  head image size
