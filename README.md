@@ -12,7 +12,7 @@
 - [MessageList](./docs/Android/usage.md)
 
 ### iOS
-- [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md)
+- [IMUIMessageCollectionView](./docs/iOS/usage_english.md)
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
