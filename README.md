@@ -9,7 +9,7 @@
 
 ## Usage
 ### Android
-- [MessageList](./docs/Android/usage.md)
+- [MessageList](./docs/Android/usageEn.md)
 
 ### iOS
 - [IMUIMessageCollectionView](./docs/iOS/usage_english.md)
