@@ -29,7 +29,7 @@ proguard/
 
 # Log Files
 *.log
-
+*.qshell
 # Android Studio Navigation editor temp files
 .navigation/
 
