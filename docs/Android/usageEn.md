@@ -4,19 +4,17 @@
 MessageList is a message list in chatting interface, use to display all kinds of messages, and is can be fully customize.
 If you don't define your style, MessageList will use default style.
 
-## Download
+## Install
 
 We have support several current popular ways to add dependency. You can choose one of them.
 
-
-- Via Gradle:
-
-```
+- Gradle:
+```groovy
 compile 'cn.jiguang.imui:imui:0.0.1'
 ```
 
-- Via Maven：
-```
+-  Maven：
+```groovy
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>imui</artifactId>
@@ -25,35 +23,28 @@ compile 'cn.jiguang.imui:imui:0.0.1'
 </dependency>
 ```
 
-- Via JitPack
-
-    add in project's build.gradle：
-
- ```
+- JitPack
+```groovy
+// Add in project's build.gradle
 allprojects {
-        repositories {
-           ...
-           maven { url 'https://jitpack.io' }
-        }
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
 }
-```
 
-   add in module's build.gradle：
-
-```
-    dependencies {
-        compile 'com.github.jpush:imui:0.0.1'
-    }
+// Add in module's build.gradle
+dependencies {
+    compile 'com.github.jpush:imui:0.0.1'
+}
 ```
 
 ## Usage
 To use MessageList only need three simple steps, or you can check out our [sample project](./../../sample) to
 try it yourself.
 
-
-
-#### Step one: add MessageList in your xml layout：
-```
+### 1. Add MessageList in your xml layout：
+```xml
 <cn.jiguang.imui.messages.MessageList
     android:id="@+id/msg_list"
     android:layout_width="match_parent"
@@ -74,20 +65,18 @@ try it yourself.
 We have define many kinds of attributes, to support user to adjust their layout, you can see
 [attrs.xml](./../src/main/res/values/attrs.xml) in detail, and we support totally customize style either, please look down.
 
-#### Step two: construct adapter
+### 2. Construct adapter
 Adapter's constructor has three parameters. The first one is `sender id`, the id of sender, the second one is `HoldersConfig object`,
 you can use this object to [construct your custom ViewHolder and layout](./customLayoutEn.md), the third one is implement of `ImageLoader`,
 use to display user's avatar, if this value is null, will not display avatar.([Click here to know more about ImageLoader](./imageLoadEn.md))
 
-
-```
+```java
 MsgListAdapter adapter = new MsgListAdapter<MyMessage>("0", holdersConfig, imageLoader);
 messageList.setAdapter(adapter);
 ```
 
-#### Step three：construct your model
+### 3. Construct model
 To be add messages, you need to implement IMessage, IUser interface into your existing model and override it's methods:
-
 
 ```java
 public class MyMessage implements IMessage {
@@ -157,7 +146,6 @@ public class MyMessage implements IMessage {
     }
 }
 ```
-
 MessageType above is an enum class in IMessage class, you need implement IUser interface, too:
 
 ```java
@@ -189,13 +177,11 @@ public class DefaultUser implements IUser {
     }
 }
 ```
-
 That's all! Now you can use your own message model to fill into adapter without type converting of any kind!
 
 ## Data management
 
-#### Adding new messages
-
+### Add new messages
 To add new message in message list is pretty easy, we support two ways to add new messages:
 
 - Add new message in the bottom of message list： `addToStart(IMESSAGE message, boolean scroll)`
@@ -230,20 +216,20 @@ mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
 });
 ```
 
-#### Delete message
+### Delete message
 Here are methods to delete message：
 
-- adapter.deleteById(String id) // according message id to delete
-- adapter.deleteByIds(String[] ids) // according message ids' array to delete
-- adapter.delete(IMessage message) // according message object to delete
-- adapter.delete(List<IMessage> messages) // according message objects' list to delete
-- adapter.clear() // delete all messages
+- *adapter.deleteById(String id)*: according message id to delete
+- *adapter.deleteByIds(String[] ids)*: according message ids' array to delete
+- *adapter.delete(IMessage message)*: according message object to delete
+- *adapter.delete(List<IMessage> messages)*: according message objects' list to delete
+- *adapter.clear()*: delete all messages
 
-#### Update message
+### Update message
 If message updated, you can invoke these methods to notify adapter to update message:
 
-- adapter.update(IMessage message) // message to be updated
-- adapter.update(String oldId, IMessage newMessage)
+- *adapter.update(IMessage message)*: message to be updated
+- *adapter.update(String oldId, IMessage newMessage)*
 
 
 ## Event handling
@@ -280,10 +266,3 @@ mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMes
     }
 });
 ```
-
-
-## Contribute
-Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
-
-## License
-MIT © [JiGuang](/LICENSE)
