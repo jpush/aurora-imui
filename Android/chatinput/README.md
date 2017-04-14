@@ -2,6 +2,46 @@
 这是一个聊天界面输入框组件，可以方便地结合 imui 使用，包含录音，选择图片，拍照等功能，提供了一些丰富的接口和回调供用户使用，
 还可以选择自定义样式。
 
+## 下载
+提供了以下几种方式添加依赖，只需要选择其中一种即可。
+
+- Gradle
+```
+compile 'cn.jiguang.imui:chatinput:0.0.1'
+```
+
+- Maven
+
+```
+<dependency>
+  <groupId>cn.jiguang.imui</groupId>
+  <artifactId>chatinput</artifactId>
+  <version>0.0.1</version>
+  <type>pom</type>
+</dependency>
+```
+
+- JitPack
+> project 下的 build.gradle
+
+```
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+
+```
+
+> module 的 build.gradle
+
+```
+dependencies {
+  compile 'com.github.jpush:imui:0.0.1'
+}
+```
+
 ## 用法
 使用 ChatInput 只需要两个步骤。
 
