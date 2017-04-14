@@ -46,6 +46,12 @@ protocol IMUIMessageModelProtocol {
    */
   var resizableBubbleImage: UIImage { get }
   
+  /**
+   *  @optional function
+   *
+   *  @return time lable string
+   */
+  var timeString: String { get }
   
   /**
    *  @optional function return media data
@@ -64,11 +70,21 @@ protocol IMUIMessageModelProtocol {
    *  if the message type is video ,should implement this function
    */
   var videoPath: String? { get }
+  
+  /**
+   *  @optional function
+   *
+   * return 
+   */
+  var isOutGoing: Bool { get }
 
 }
 
 extension IMUIMessageModelProtocol {
-  
+  var timeString: String {
+    return ""
+  }
+
   func mediaData() -> Data {
     return Data()
   }

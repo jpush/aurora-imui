@@ -44,7 +44,6 @@ class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.register(IMUITextMessageCell.self, forCellWithReuseIdentifier: IMUITextMessageCell.self.description())
     self.messageCollectionView.register(IMUIImageMessageCell.self, forCellWithReuseIdentifier: IMUIImageMessageCell.self.description())
     self.messageCollectionView.register(IMUIVoiceMessageCell.self, forCellWithReuseIdentifier: IMUIVoiceMessageCell.self.description())
-//    self.messageCollectionView.register(IMUILiveVideoMessageCell.self, forCellWithReuseIdentifier: IMUILiveVideoMessageCell.self.description())
     self.messageCollectionView.register(IMUIVideoMessageCell.self, forCellWithReuseIdentifier: IMUIVideoMessageCell.self.description())
     
     self.messageCollectionView.isScrollEnabled = true

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		622532191EA0C8A400F6927E /* IMUIMessageCellProtocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622532181EA0C8A400F6927E /* IMUIMessageCellProtocal.swift */; };
 		624442841E6C5CAE00D5F0EB /* MyMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624442831E6C5CAE00D5F0EB /* MyMessageModel.swift */; };
 		6245B9401E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6245B93F1E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift */; };
 		6245B95A1E9F7E2200DC6DB4 /* IMUIMessageMessageCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6245B9591E9F7E2200DC6DB4 /* IMUIMessageMessageCollectionViewDelegate.swift */; };
@@ -81,6 +82,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		622532181EA0C8A400F6927E /* IMUIMessageCellProtocal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCellProtocal.swift; sourceTree = "<group>"; };
 		624442831E6C5CAE00D5F0EB /* MyMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMessageModel.swift; sourceTree = "<group>"; };
 		6245B93F1E9F4F4E00DC6DB4 /* IMUIVideoMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVideoMessageCell.swift; sourceTree = "<group>"; };
 		6245B9591E9F7E2200DC6DB4 /* IMUIMessageMessageCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageMessageCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				62C869CA1E9B51AE00AA8FE9 /* IMUIMessageModelProtocol.swift */,
 				62C869CB1E9B51AE00AA8FE9 /* IMUIUserProtocol.swift */,
 				6245B9591E9F7E2200DC6DB4 /* IMUIMessageMessageCollectionViewDelegate.swift */,
+				622532181EA0C8A400F6927E /* IMUIMessageCellProtocal.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				62C869ED1E9B51AE00AA8FE9 /* StringExtension.swift in Sources */,
 				62AC1A8A1E5EC6A500E810B2 /* AppDelegate.swift in Sources */,
 				62C86A081E9B51AE00AA8FE9 /* IMUIMessageCollectionView.swift in Sources */,
+				622532191EA0C8A400F6927E /* IMUIMessageCellProtocal.swift in Sources */,
 				62C86A0C1E9B51AE00AA8FE9 /* IMUILiveVideoMessageCell.swift in Sources */,
 				62C86A071E9B51AE00AA8FE9 /* IMUIMessageBubbleView.swift in Sources */,
 			);

@@ -14,15 +14,6 @@ enum IMUIMessageCellType {
   case outgoing
 }
 
-protocol IMUIMessageCellProtocal {
-  func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?)
-  func didDisAppearCell()
-}
-
-extension IMUIMessageCellProtocal {
-  func didDisAppearCell() {}
-}
-
 class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   var bubbleView: IMUIMessageBubbleView
   var avatarImage: UIImageView
@@ -30,7 +21,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   var nameLabel: UILabel
   
   weak var delegate: IMUIMessageMessageCollectionViewDelegate?
-  weak var message: IMUIMessageModel?
+  var message: IMUIMessageModelProtocol?
   
   override init(frame: CGRect) {
 
@@ -70,16 +61,17 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     
   }
   
-  func setupData(with message: IMUIMessageModel) {
+  func setupData(with message: IMUIMessageModelProtocol) {
     self.avatarImage.image = message.fromUser.Avatar()
     self.bubbleView.backgroundColor = UIColor.init(netHex: 0xE7EBEF)
-    self.timeLabel.text = message.date.parseDate
+//    self.timeLabel.text = message.date.parseDate
+    self.timeLabel.text = message.timeString
     self.message = message
     
     self.bubbleView.setupBubbleImage(resizeBubbleImage: message.resizableBubbleImage)
   }
   
-  func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?) {
+  func presentCell(with message: IMUIMessageModelProtocol, delegate: IMUIMessageMessageCollectionViewDelegate?) {
     self.layoutCell(with: message.layout)
     self.setupData(with: message)
     self.delegate = delegate

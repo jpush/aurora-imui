@@ -58,6 +58,10 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
   internal var isOutGoing: Bool = true
   internal var date: Date
   
+  internal var timeString: String {
+    return date.parseDate
+  }
+  
   open var isNeedShowTime: Bool = false {
     didSet {
 //      cellLayout?.isNeedShowTime = isNeedShowTime

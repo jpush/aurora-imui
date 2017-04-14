@@ -31,7 +31,7 @@ class IMUILiveVideoMessageCell: IMUIBaseMessageCell {
     self.videoReader.isNeedToStopVideo = true
   }
   
-  override func presentCell(with message: IMUIMessageModel, delegate: IMUIMessageMessageCollectionViewDelegate?) {
+  override func presentCell(with message: IMUIMessageModelProtocol, delegate: IMUIMessageMessageCollectionViewDelegate?) {
     super.presentCell(with: message, delegate: delegate)
     self.layoutVideo(with: message.videoPath!)
     let layout = message.layout as! IMUIMessageCellLayout
