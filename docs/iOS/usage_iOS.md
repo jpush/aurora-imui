@@ -28,8 +28,7 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
 
   func didTapMessageCell(_ model: IMUIMessageModel){}
   
-  func didTapMessageBubble(_ model: IMUIMessageModel){
-  }
+  func didTapMessageBubble(_ model: IMUIMessageModel){}
 
   func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any){}
   
