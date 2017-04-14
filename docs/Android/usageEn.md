@@ -1,12 +1,12 @@
 # MessageList
 [中文文档](./usage.md)
 
-MessageList is a message list in chatting interface, use to display all kinds of messages, and is can be fully customize.
+MessageList is a message list in chatting interface, use to display all kinds of messages, and it can be fully customize.
 If you don't define your style, MessageList will use default style.
 
 ## Install
 
-We have support several current popular ways to add dependency. You can choose one of them.
+We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
