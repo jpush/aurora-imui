@@ -23,21 +23,19 @@ compile 'cn.jiguang.imui:imui:0.0.1'
 ```
 
 - JitPack
-在项目的 build.gradle 中加入：
 ```groovy
+// project/build.gradle
 allprojects {
-        repositories {
-           ...
-           maven { url 'https://jitpack.io' }
-        }
-}
-```
-
-在 Module 的 build.gradle 中加入：
-```groovy
-  dependencies {
-    compile 'com.github.jpush:imui:0.0.1'
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
   }
+}
+
+// module/build.gradle
+dependencies {
+  compile 'com.github.jpush:imui:0.0.1'
+}
 ```
 
 ## 使用
@@ -67,7 +65,7 @@ allprojects {
 ### 2. 构造 Adapter
 Adapter 的构造函数有三个参数：
 
-1. Sender Id: 发送方 Id(唯一标识)
+1. Sender Id: 发送方 Id(唯一标识)。
 2. HoldersConfig，可以用这个对象来[构造自定义的消息的 ViewHolder 及布局界面](./customLayout.md)。
 3. ImageLoader 的实例，用来展示头像。如果为空，将会隐藏头像。（[点击了解更多关于 ImageLoader 的内容](./imageLoader.md)）。
 
@@ -224,11 +222,11 @@ mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
 ### 更新消息
 如果消息改变了，可以调用以下接口来更新消息：
 
-- adapter.update(IMessage message)
-- adapter.update(String oldId, IMessage newMessage)
+- *adapter.update(IMessage message)*
+- *adapter.update(String oldId, IMessage newMessage)*
 
 ### 事件监听
-- OnMsgClickListener: 点击消息时触发
+- *OnMsgClickListener*: 点击消息触发
 ```java
 mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>() {
     @Override
@@ -238,7 +236,7 @@ mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>(
 });
 ```
 
-- OnAvatarClickListener: 点击头像时触发
+- *OnAvatarClickListener*: 点击头像触发
 ```java
 mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMessage>() {
     @Override
@@ -249,7 +247,7 @@ mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMes
 });
 ```
 
-- OnMsgLongClickListener: 长按消息触发
+- *OnMsgLongClickListener*: 长按消息触发
 ```java
 mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
     @Override
