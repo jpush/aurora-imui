@@ -27,7 +27,7 @@ Aurora IMUI 是一个简单易用的即时通讯 UI 库，包含了消息列表�
 
 ### Android
 - [MessageList](./docs/Android/usage.md)
-- [ChatInputView]()
+- [ChatInputView](./Android/chatinput/README.md)
 
 ### iOS
 - [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md)
