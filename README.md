@@ -1,3 +1,7 @@
+[![GitHub tag](https://img.shields.io/github/tag/strongloop/express.svg?style=plastic)](https://github.com/jpush/imui/releases)
+[]()
+[![support](https://img.shields.io/badge/support-iOS%20%26%20Android-brightgreen.svg)]()
+
 # Aurora IMUI
 [English document](./README_EN.md)
 
@@ -10,9 +14,9 @@ Aurora IMUI 是一个简单易用的即时通讯 UI 库，包含了消息列表�
 </p>
 
 ## 功能
-- [x] 提供完整的消息列表和输入视图
-- [x] 支持发送和展示文字、图片、语音及视频消息
-- [x] 可定制化的消息列表界面
+- [x] 消息列表和输入视图
+- [x] 发送和展示文字、图片、语音及视频消息
+- [x] 可定制化消息列表界面
 - [ ] 地理位置消息
 - [ ] 短视频消息
 - [ ] 自定义消息
