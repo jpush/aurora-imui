@@ -8,7 +8,7 @@ Aurora IMUI 是一个简单易用的即时通讯 UI 库，包含了消息列表�
 
 <p align="center">
     <a target="_blank">
-        <img src="https://github.com/huangminlinux/resource/blob/master/IMUIPick%402x.png" alt="JBox" width=960/>
+        <img src="https://github.com/huangminlinux/resource/blob/master/IMUIPick%402x.png" alt="IMUI" width=960/>
     </a>
 </p>
 

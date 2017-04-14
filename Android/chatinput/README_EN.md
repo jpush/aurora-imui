@@ -1,0 +1,171 @@
+## ChatInput
+
+[中文文档](./README.md)
+
+This is a input component in chatting interface, can combine Aurora IMUI conveniently. Including
+features like record voice and video, select photo, take picture etc, supports customize style either.
+
+
+## Download
+Provides several ways to add dependency, you can choose one of them:
+
+- Via Gradle
+```
+compile 'cn.jiguang.imui:chatinput:0.0.1'
+```
+
+- Via Maven
+
+```
+<dependency>
+  <groupId>cn.jiguang.imui</groupId>
+  <artifactId>chatinput</artifactId>
+  <version>0.0.1</version>
+  <type>pom</type>
+</dependency>
+```
+
+- Via JitPack
+> project's build.gradle
+
+```
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+
+```
+
+> module's build.gradle
+
+```
+dependencies {
+  compile 'com.github.jpush:imui:0.0.1'
+}
+```
+
+## Usage
+Using ChatInputView only need two steps.
+
+#### Step one: add `ChatInputView` in xml layout
+
+```
+    <cn.jiguang.imui.chatinput.ChatInputView
+        android:id="@+id/chat_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:cameraBtnIcon="@drawable/camera"
+        app:inputCursorDrawable="@drawable/jmui_text_cursor_bg"
+        app:inputEditTextBg="@drawable/jmui_chat_input_bg"
+        app:inputHint="@string/input_hint"
+        app:photoBtnIcon="@drawable/photo"
+        app:sendBtnIcon="@drawable/send"
+        app:voiceBtnIcon="@drawable/mic" />
+
+```
+
+#### Step two: init `ChatInputView`
+
+```
+ChatInputView chatInputView = (ChatInputView) findViewById(R.id.chat_input);
+chatInputView.setMenuContainerHeight(softInputHeight);
+```
+
+Attention please, **MUST** set MenuContainer's height after init ChatInputView. Best suggestion: get
+soft keyboard height from other activity(Like login Activity), then set soft keyboard height via:
+```
+ChatInputView chatinput = (ChatInputView) findViewById(R.id.chat_input);
+chatinput.setMenuContainerHeight(softKeyboardHeight);
+```
+
+As for how to get soft keyboard height, you can listen `onSizeChanged` method.
+Please [refer onSizeChanged in sample's MessageListActivity](./../sample/exampleui/src/main/java/imui/jiguang/cn/imuisample/messages/MessageListActivity.java#L340),
+and [onSizedChanged in sample's ChatView](./../sample/exampleui/src/main/java/imui/jiguang/cn/imuisample/views/ChatView.java#L102).
+
+
+## Import interface and event
+ChatInputView offers all kinds of click listener of button and event's callback, so that user can use
+event listener to do their stuff flexibly. Such as send message event etc.
+
+#### OnMenuClickListener
+First of all, `OnMenuClickListener` handling click event of menu item. Call `chatInputView.setMenuClickListener`
+can set this listener:
+```
+chatInput.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
+    @Override
+    public boolean onSubmit(CharSequence input) {
+         // click send button
+    }
+
+    @Override
+    public void onSendFiles(List<String> list) {
+        // choose photo or video files, then click send button fires this event
+    }
+
+    @Override
+    public void onVoiceClick() {
+        // fires when click mic button in menu item
+    }
+
+    @Override
+    public void onPhotoClick() {
+        // Fires when click photo button in menu item
+    }
+
+    @Override
+    public void onCameraClick() {
+        // Fires when click camera button in menu item
+    }
+
+     @Override
+     public void onVideoRecordFinished(String filePath) {
+         // Fires when finished recording video then click send button in video preview
+     }
+});
+```
+
+As for how to handle these events and what to do with these events, you can refer sample project for detail.
+
+#### RecordVoiceButton.RecordVoiceListener
+This is the interface of record voice, the way to use:
+
+```
+mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
+mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceButton.RecordVoiceListener() {
+    @Override
+    public void onStartRecord() {
+        // Show record voice interface
+        // set directory to save audio files
+        File rootDir = mContext.getFilesDir();
+        String fileDir = rootDir.getAbsolutePath() + "/voice";
+        mRecordVoiceBtn.setRecordVoiceFile(fileDir, new DateFormat().format("yyyy_MMdd_hhmmss",
+                Calendar.getInstance(Locale.CHINA)) + "");
+    }
+
+    @Override
+    public void onFinishRecord(File voiceFile, int duration) {
+        MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE);
+        message.setContentFile(voiceFile.getPath());
+        message.setDuration(duration);
+        mAdapter.addToStart(message, true);
+    }
+
+    @Override
+    public void onCancelRecord() {
+
+    }
+});
+```
+
+#### Set file path and file name that after taken picture
+setCameraCaptureFile(String path, String fileName)
+
+```
+// The first parameter is file path that saved at, second one is file name
+// Suggest calling this method when onCameraClick fires
+mChatInput.setCameraCaptureFile(path, fileName);
+
+```
