@@ -60,7 +60,7 @@ dependencies {
     app:sendTextColor="#7587A8"
     app:sendTextSize="18sp" />
 ```
-我们定义了很多样式，供用户调整布局，详细的属性可以参考 attr 文件。当然我们也支持完全自定义布局，下面会说到。
+我们定义了很多样式，供用户调整布局，详细的属性可以参考 [attrs.xml](./../src/main/res/values/attrs.xml) 文件，当然也支持完全自定义布局，下面会介绍到。
 
 ### 2. 构造 Adapter
 MsgListAdapter 的构造函数有三个参数：
