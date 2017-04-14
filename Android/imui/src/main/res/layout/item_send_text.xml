@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/aurora_msgitem_send_style">
+              style="@style/aurora_msgitem_send_style">
 
 
     <TextView
@@ -21,13 +21,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
-            android:text="sfada"
+            android:background="@drawable/aurora_sendtxt_bubble"
             android:paddingRight="20dp"
-            android:background="@drawable/aurora_sendtxt_bubble" />
+            android:text="sfada"/>
 
-        <cn.jiguang.imui.utils.CircleImageView
+        <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
-            style="@style/aurora_msgitem_sender_avatar_style" />
+            style="@style/aurora_msgitem_sender_avatar_style"/>
 
     </LinearLayout>
 

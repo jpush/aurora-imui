@@ -8,10 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
-import com.volokh.danylo.video_player_manager.meta.MetaData;
-import com.volokh.danylo.visibility_utils.items.ListItem;
-
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,8 +62,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private RecyclerView.LayoutManager mLayoutManager;
     private MessageListStyle mStyle;
 
-    public List<Wrapper> mItems;
-    private List<MESSAGE> mMessageList;
+    private List<Wrapper> mItems;
 
     public MsgListAdapter(String senderId, ImageLoader imageLoader) {
         this(senderId, new HoldersConfig(), imageLoader);
@@ -78,13 +73,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         mHolders = holders;
         mImageLoader = imageLoader;
         mItems = new ArrayList<>();
-        mMessageList = new ArrayList<>();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        VideoViewHolder holder;
-
         switch (viewType) {
             case TYPE_SEND_TXT:
                 return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendTxtHolder, true);
@@ -99,19 +91,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             case TYPE_RECEIVER_IMAGE:
                 return getHolder(parent, mHolders.mReceivePhotoLayout, mHolders.mReceivePhotoHolder, false);
             case TYPE_SEND_VIDEO:
-                holder = (VideoViewHolder) getHolder(parent, mHolders.mSendVideoLayout,
-                        mHolders.mSendVideoHolder, true);
-                if (holder != null) {
-                    holder.itemView.setTag(holder);
-                }
-                return holder;
+                return getHolder(parent, mHolders.mSendVideoLayout, mHolders.mSendVideoHolder, true);
             case TYPE_RECEIVE_VIDEO:
-                holder = (VideoViewHolder) getHolder(parent, mHolders.mReceiveVideoLayout,
-                        mHolders.mReceiveVideoHolder, false);
-                if (holder != null) {
-                    holder.itemView.setTag(holder);
-                }
-                return holder;
+                return getHolder(parent, mHolders.mReceiveVideoLayout, mHolders.mReceiveVideoHolder, false);
             default:
                 return null;
         }
@@ -204,7 +186,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public void addToStart(MESSAGE message, boolean scrollToBottom) {
         Wrapper<MESSAGE> element = new Wrapper<>(message);
         mItems.add(0, element);
-        mMessageList.add(0, message);
         notifyItemRangeInserted(0, 1);
         if (mLayoutManager != null && scrollToBottom) {
             mLayoutManager.scrollToPosition(0);
@@ -221,8 +202,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         if (reverse) {
             Collections.reverse(messages);
         }
-
-        mMessageList.addAll(messages);
 
         int oldSize = mItems.size();
         for (int i = 0; i < messages.size(); i++) {
@@ -247,14 +226,13 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     public List<MESSAGE> getMessageList() {
-//        List<MESSAGE> msgList = new ArrayList<>();
-//        for (Wrapper wrapper : mItems) {
-//            if (wrapper.item instanceof IMessage) {
-//                msgList.add((MESSAGE) wrapper.item);
-//            }
-//        }
-//        return msgList;
-        return mMessageList;
+        List<MESSAGE> msgList = new ArrayList<>();
+        for (Wrapper wrapper : mItems) {
+            if (wrapper.item instanceof IMessage) {
+                msgList.add((MESSAGE) wrapper.item);
+            }
+        }
+        return msgList;
     }
 
     /**
@@ -275,8 +253,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public void updateMessage(String oldId, MESSAGE newMessage) {
         int position = getMessagePositionById(oldId);
         if (position >= 0) {
-            mMessageList.set(position, newMessage);
-
             Wrapper<MESSAGE> element = new Wrapper<>(newMessage);
             mItems.set(position, element);
             notifyItemChanged(position);
@@ -300,7 +276,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public void deleteById(String id) {
         int index = getMessagePositionById(id);
         if (index >= 0) {
-            mMessageList.remove(index);
             mItems.remove(index);
             notifyItemRemoved(index);
         }
@@ -315,7 +290,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         for (MESSAGE message : messages) {
             int index = getMessagePositionById(message.getId());
             if (index >= 0) {
-                mMessageList.remove(index);
                 mItems.remove(index);
                 notifyItemRemoved(index);
             }
@@ -331,7 +305,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         for (String id : ids) {
             int index = getMessagePositionById(id);
             if (index >= 0) {
-                mMessageList.remove(index);
                 mItems.remove(index);
                 notifyItemRemoved(index);
             }
@@ -342,7 +315,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      * Clear messages list.
      */
     public void clear() {
-        mMessageList.clear();
         mItems.clear();
     }
 

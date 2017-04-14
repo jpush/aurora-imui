@@ -11,10 +11,12 @@ public abstract class BaseMessageViewHolder<MESSAGE extends IMessage>
         extends ViewHolder<MESSAGE> {
 
     protected Context mContext;
+
     protected float mDensity;
     protected int mPosition;
     protected boolean mIsSelected;
     protected ImageLoader mImageLoader;
+
     protected MsgListAdapter.OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
     protected MsgListAdapter.OnMsgClickListener<MESSAGE> mMsgClickListener;
     protected MsgListAdapter.OnAvatarClickListener<MESSAGE> mAvatarClickListener;

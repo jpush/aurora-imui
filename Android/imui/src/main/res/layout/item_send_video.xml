@@ -1,42 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               style="@style/aurora_msgitem_send_style">
 
     <TextView
         android:id="@+id/aurora_tv_msgitem_date"
         style="@style/aurora_msgitem_date_style"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="right"
-        android:orientation="horizontal">
+        android:layout_marginTop="8dp">
 
-        <FrameLayout
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="4dp">
-
-            <ImageView
-                android:id="@+id/aurora_iv_msgitem_cover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:visibility="gone"
-                />
-
-            <com.volokh.danylo.video_player_manager.ui.VideoPlayerView
-                android:id="@+id/aurora_vpv_msgitem_send"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                />
-        </FrameLayout>
-
-        <cn.jiguang.imui.utils.CircleImageView
+        <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
             style="@style/aurora_msgitem_sender_avatar_style"/>
-    </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/aurora_iv_msgitem_avatar"
+            android:layout_toStartOf="@+id/aurora_iv_msgitem_avatar"
+            android:background="@drawable/aurora_bg_video">
+
+            <cn.jiguang.imui.view.ShapeImageView
+                android:id="@+id/aurora_iv_msgitem_cover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                app:videomessage_radius="8dp"
+                />
+
+            <ImageView
+                android:id="@+id/aurora_iv_msgitem_play"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:src="@drawable/aurora_videomessage_play"/>
+
+            <TextView
+                android:id="@+id/aurora_tv_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="8dp"
+                android:textSize="12sp"
+                tools:text="00:02"/>
+        </FrameLayout>
+    </RelativeLayout>
 </LinearLayout>

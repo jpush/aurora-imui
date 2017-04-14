@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/aurora_msgitem_send_style">
-
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              style="@style/aurora_msgitem_send_style">
 
     <TextView
         android:id="@+id/aurora_tv_msgitem_date"
@@ -14,20 +14,21 @@
         android:gravity="right"
         android:orientation="horizontal">
 
-
-        <ImageView
+        <cn.jiguang.imui.view.ShapeImageView
             android:id="@+id/aurora_iv_msgitem_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="200dp"
-            android:maxHeight="200dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/aurora_bg_imagemsg_default"
+            android:maxHeight="200dp"
+            android:maxWidth="200dp"
             android:src="@drawable/aurora_picture_not_found"
-            android:layout_marginRight="3dp"/>
+            app:videomessage_radius="8dp"
+            />
 
-        <cn.jiguang.imui.utils.CircleImageView
+        <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
-            style="@style/aurora_msgitem_sender_avatar_style" />
+            style="@style/aurora_msgitem_sender_avatar_style"/>
 
     </LinearLayout>
 

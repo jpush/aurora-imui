@@ -1,4 +1,4 @@
-package cn.jiguang.imui.chatinput.utils;
+package cn.jiguang.imui.chatinput.model;
 
 import android.support.annotation.NonNull;
 
@@ -42,7 +42,6 @@ public class FileItem implements Comparable<FileItem> {
 
     public String getFileSize() {
         NumberFormat ddf1 = NumberFormat.getNumberInstance();
-        // 保留小数点后两位
         ddf1.setMaximumFractionDigits(2);
 
         String sizeDisplay;

@@ -1,10 +1,5 @@
-package cn.jiguang.imui.chatinput.utils;
+package cn.jiguang.imui.chatinput.model;
 
-import cn.jiguang.imui.chatinput.utils.FileItem;
-
-/**
- * 视频类
- */
 public class VideoItem extends FileItem {
 
     private long mDuration;

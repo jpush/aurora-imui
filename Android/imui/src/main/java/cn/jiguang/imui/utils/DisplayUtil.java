@@ -1,13 +1,12 @@
 package cn.jiguang.imui.utils;
 
 import android.content.Context;
+import android.util.TypedValue;
 
-/**
- * Created by hevin on 13/03/2017.
- */
+
 public class DisplayUtil {
     public static int dp2px(Context context, int dp) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                context.getResources().getDisplayMetrics());
     }
 }

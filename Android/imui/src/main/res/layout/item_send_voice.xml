@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
 
-        <cn.jiguang.imui.utils.CircleImageView
+        <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
             style="@style/aurora_msgitem_sender_avatar_style"/>
 

@@ -51,7 +51,7 @@
         <item name="android:layout_width">@dimen/aurora_width_msg_avatar</item>
         <item name="android:layout_height">@dimen/aurora_height_msg_avatar</item>
         <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
         <item name="android:src">@drawable/aurora_headicon_default</item>
         <item name="android:scaleType">fitXY</item>
     </style>
@@ -60,7 +60,7 @@
         <item name="android:layout_width">@dimen/aurora_width_msg_avatar</item>
         <item name="android:layout_height">@dimen/aurora_height_msg_avatar</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginRight">8dp</item>
         <item name="android:src">@drawable/aurora_headicon_default</item>
         <item name="android:scaleType">fitXY</item>
     </style>

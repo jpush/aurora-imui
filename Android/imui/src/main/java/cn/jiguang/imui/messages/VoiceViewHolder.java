@@ -17,7 +17,7 @@ import java.io.IOException;
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.utils.CircleImageView;
+import cn.jiguang.imui.view.CircleImageView;
 import cn.jiguang.imui.utils.DateFormatter;
 
 public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
@@ -74,7 +74,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         if (isAvatarExists && mImageLoader != null) {
             mImageLoader.loadImage(mAvatarIv, message.getUserInfo().getAvatar());
         }
-        int duration = message.getDuration();
+        long duration = message.getDuration();
         String lengthStr = duration + mContext.getString(R.string.aurora_symbol_second);
         int width = (int) (-0.04 * duration * duration + 4.526 * duration + 75.214);
         mMsgTv.setWidth((int) (width * mDensity));

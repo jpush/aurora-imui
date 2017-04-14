@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.SurfaceTexture;
@@ -73,8 +72,8 @@ import cn.jiguang.imui.chatinput.photo.PhotoAdapter;
 import cn.jiguang.imui.chatinput.record.ProgressButton;
 import cn.jiguang.imui.chatinput.record.RecordControllerView;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
-import cn.jiguang.imui.chatinput.utils.FileItem;
-import cn.jiguang.imui.chatinput.utils.VideoItem;
+import cn.jiguang.imui.chatinput.model.FileItem;
+import cn.jiguang.imui.chatinput.model.VideoItem;
 
 public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
@@ -145,14 +144,20 @@ public class ChatInputView extends LinearLayout
     private long mRecordTime;
     private boolean mPlaying = false;
     private MediaPlayer mMediaPlayer = new MediaPlayer();
+
     // To judge if it is record video mode
     private boolean mIsRecordVideoMode = false;
+
     // To judge if it is recording video now
     private boolean mIsRecordingVideo = false;
+
     // To judge if is finish recording video
     private boolean mFinishRecordingVideo = false;
+
     // Video file to be saved at
     private String mVideoFilePath;
+    private int mVideoDuration;
+
     // If audio file has been set
     private boolean mSetData;
     private FileInputStream mFIS;
@@ -246,12 +251,7 @@ public class ChatInputView extends LinearLayout
         mAlbumBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mContext instanceof Activity) {
-                    return;
-                }
-//                Intent intent = new Intent(Intent.ACTION_PICK,
-//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivity(intent, REQUEST_CODE_SELECT_PHOTO);
+
             }
         });
 
@@ -288,7 +288,6 @@ public class ChatInputView extends LinearLayout
         mChatInput.setBackground(mStyle.getInputEditTextBg());
         mInputMarginLeft.getLayoutParams().width = mStyle.getInputMarginLeft();
         mInputMarginRight.getLayoutParams().width = mStyle.getInputMarginRight();
-        //        setCursor(mStyle.getInputCursorDrawable());
         mVoiceBtn.setImageDrawable(mStyle.getVoiceBtnIcon());
         mVoiceBtn.setBackground(mStyle.getVoiceBtnBg());
         mPhotoBtn.setBackground(mStyle.getPhotoBtnBg());
@@ -299,9 +298,6 @@ public class ChatInputView extends LinearLayout
         mSendBtn.setImageDrawable(mStyle.getSendBtnIcon());
         mSendCountTv.setBackground(mStyle.getSendCountBg());
 
-        if (getPaddingLeft() == 0 && getPaddingRight() == 0 && getPaddingTop() == 0 && getPaddingBottom() == 0) {
-
-        }
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
 
@@ -435,8 +431,7 @@ public class ChatInputView extends LinearLayout
         } else if (view.getId() == R.id.aurora_ib_camera_capture) {
             // is record video mode
             if (mIsRecordVideoMode) {
-                // start recording
-                if (!mIsRecordingVideo) {
+                if (!mIsRecordingVideo) {   // start recording
                     mCameraSupport.startRecordingVideo();
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -448,8 +443,8 @@ public class ChatInputView extends LinearLayout
                         }
                     }, 200);
                     mIsRecordingVideo = true;
-                    // finish recording
-                } else {
+
+                } else {    // finish recording
                     mCameraSupport.finishRecordingVideo();
                     mIsRecordingVideo = false;
                     mIsRecordVideoMode = false;
@@ -458,7 +453,6 @@ public class ChatInputView extends LinearLayout
                     mRecordVideoBtn.setVisibility(GONE);
                     mSwitchCameraBtn.setBackgroundResource(R.drawable.aurora_preview_delete_video);
                     mSwitchCameraBtn.setVisibility(VISIBLE);
-                    // TODO play video
                     if (mVideoFilePath != null) {
                         playVideo();
                     }
@@ -466,7 +460,8 @@ public class ChatInputView extends LinearLayout
                 // if finished recording video, send it
             } else if (mFinishRecordingVideo) {
                 if (mListener != null) {
-                    mListener.onVideoRecordFinished(mVideoFilePath);
+                    VideoItem video = new VideoItem(mVideoFilePath, null, null, null, mMediaPlayer.getDuration());
+                    mListener.onVideoRecordFinished(video);
                     mFinishRecordingVideo = false;
                     mVideoFilePath = null;
                 }
@@ -1080,9 +1075,9 @@ public class ChatInputView extends LinearLayout
         /**
          * Fires when record video finished
          *
-         * @param filePath return video file path.
+         * @param video return video message object.
          */
-        void onVideoRecordFinished(String filePath);
+        void onVideoRecordFinished(VideoItem video);
     }
 
     public void dismissMenuAndResetSoftMode() {

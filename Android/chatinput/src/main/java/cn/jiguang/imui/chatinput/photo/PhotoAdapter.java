@@ -15,16 +15,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import cn.jiguang.imui.chatinput.utils.DisplayUtil;
-import cn.jiguang.imui.chatinput.utils.FileItem;
+import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.R;
-import cn.jiguang.imui.chatinput.utils.VideoItem;
+import cn.jiguang.imui.chatinput.model.VideoItem;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -66,11 +65,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     public void resetCheckedState() {
         mSendFiles.clear();
-        for (int i = 0; i < mSelectedItems.size(); i++) {
-            mSelectedItems.remove(i);
-            notifyDataSetChanged();
-        }
         mSelectedItems.clear();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -91,10 +87,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         }
 
         FileItem item = mPhotos.get(position);
-        String path = item.getFilePath();
-        File file = new File(path);
         Glide.with(mContext)
-                .load(file)
+                .load(item.getFilePath())
                 .placeholder(R.drawable.aurora_picture_not_found)
                 .crossFade()
                 .into(holder.ivPhoto);
@@ -102,12 +96,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         if (mSelectedItems.contains(position)) {    // Current photo is selected
             holder.ivTick.setVisibility(VISIBLE);
             holder.ivShadow.setVisibility(VISIBLE);
-            addSelectedAnimation(holder.ivPhoto, holder.ivShadow);
+            addSelectedAnimation(holder.container);
 
         } else if (holder.ivTick.getVisibility() == View.VISIBLE) { // Selected before, now have not been selected
-            holder.ivTick.setVisibility(GONE);
-            holder.ivShadow.setVisibility(GONE);
-            addDeselectedAnimation(holder.ivPhoto, holder.ivShadow);
+            holder.ivTick.setVisibility(View.GONE);
+            holder.ivShadow.setVisibility(View.GONE);
+            addDeselectedAnimation(holder.container);
         }
 
         final FileItem.Type fileItem = item.getType();
@@ -129,6 +123,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                 int p = holder.getAdapterPosition();
 
                 if (holder.ivTick.getVisibility() == GONE && !mSelectedItems.contains(p)) {
+                    holder.setIsRecyclable(false);
+
                     mSelectedItems.add(p);
                     mSendFiles.add(mPhotos.get(p));
 
@@ -141,6 +137,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                         mListener.onFileSelected();
                     }
                 } else {
+                    holder.setIsRecyclable(true);
+
                     mSelectedItems.remove(Integer.valueOf(p));
                     mSendFiles.remove(mPhotos.get(p));
 

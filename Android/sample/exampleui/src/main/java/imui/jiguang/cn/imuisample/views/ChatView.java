@@ -1,19 +1,11 @@
 package imui.jiguang.cn.imuisample.views;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.volokh.danylo.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
-import com.volokh.danylo.visibility_utils.calculator.ListItemsVisibilityCalculator;
-import com.volokh.danylo.visibility_utils.calculator.SingleListViewItemActiveCalculator;
-import com.volokh.danylo.visibility_utils.scroll_utils.ItemsPositionGetter;
-import com.volokh.danylo.visibility_utils.scroll_utils.RecyclerViewItemPositionGetter;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
@@ -27,8 +19,6 @@ import static cn.jiguang.imui.chatinput.ChatInputView.KEYBOARD_STATE_SHOW;
 
 
 public class ChatView extends RelativeLayout {
-
-    private Context mContext;
 
     private TextView mTitle;
     private MessageList mMsgList;
@@ -45,17 +35,14 @@ public class ChatView extends RelativeLayout {
 
     public ChatView(Context context) {
         super(context);
-        mContext = context;
     }
 
     public ChatView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
     }
 
     public ChatView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext = context;
     }
 
     public void initModule() {

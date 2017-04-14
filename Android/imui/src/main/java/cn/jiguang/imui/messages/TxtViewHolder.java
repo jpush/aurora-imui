@@ -7,7 +7,7 @@ import android.widget.TextView;
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.utils.CircleImageView;
+import cn.jiguang.imui.view.CircleImageView;
 import cn.jiguang.imui.utils.DateFormatter;
 
 public class TxtViewHolder<MESSAGE extends IMessage>

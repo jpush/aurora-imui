@@ -1,4 +1,4 @@
-package cn.jiguang.imui.utils;
+package cn.jiguang.imui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

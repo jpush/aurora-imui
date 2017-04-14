@@ -1,4 +1,4 @@
-package cn.jiguang.imui.utils;
+package cn.jiguang.imui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
