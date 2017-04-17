@@ -5,6 +5,7 @@ This is a input component in chatting interface, can combine Aurora IMUIMessageC
 
 ## Usage
 To use IMUIInputView only need two simple steps, or you can check out our sample project to try it yourself.
+
 **Setp one:** drag a view to your UIViewController (storyboard or xib), and adjust class to `IMUIInputView `
 
 **Setp two:** implement `IMUIInputViewDelegate`
