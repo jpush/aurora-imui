@@ -1,21 +1,13 @@
-//
-//  IMUIInputViewDelegate.swift
-//  IMUIChat
-//
-//  Created by oshumini on 2017/4/14.
-//  Copyright © 2017年 HXHG. All rights reserved.
-//
+# IMUIInputView
+This is a input component in chatting interface, can combine Aurora IMUIMessageCollection. Including features like record voice and video, select photo, take picture etc, supports customize style either.
 
-import Foundation
-import UIKit
-import Photos
+## Usage
+To use IMUIInputView only need two simple steps, or you can check out our sample project to try it yourself.
+- **Setp one:** drag a view to your UIViewController (storyboard or xib), and adjust class to `IMUIInputView `
 
+- **Setp two:** implement `IMUIInputViewDelegate`
+```
 /**
- *  The `IMUIInputViewDelegate` protocol defines the even callback delegate
- */
-protocol IMUIInputViewDelegate: NSObjectProtocol {
-  
-  /**
    *  Tells the delegate that user tap send button and text input string is not empty
    */
   func sendTextMessage(_ messageText: String)
@@ -64,18 +56,4 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
    *  Tells the delegate that user did shoot video in camera mode
    */
   func didShootVideo(videoPath: String, durationTime: Double)
-}
-
-
-extension IMUIInputViewDelegate {
-  func sendTextMessage(_ messageText: String) {}
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {}
-  func startRecordingVoice() {}
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double) {}
-  func cancelRecordingVoice() {}
-  func switchIntoSelectPhotoMode(photoBtn: UIButton) {}
-  func didSeletedGallery(AssetArr: [PHAsset]) {}
-  func switchIntoCameraMode(cameraBtn: UIButton) {}
-  func didShootPicture(picture: Data) {}
-  func didShootVideo(videoPath: String, durationTime: Double) {}
-}
+```

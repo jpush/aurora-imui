@@ -31,6 +31,7 @@ To implement the features above, you can use the following components:
 
 ### iOS
 - [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md)
+- [IMUIInputView](./docs/iOS/inputView_usage_english.md)
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).

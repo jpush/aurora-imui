@@ -31,6 +31,7 @@ Aurora IMUI 是一个简单易用的即时通讯 UI 库，包含了消息列表�
 
 ### iOS
 - [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md)
+- [IMUIInputView](./docs/iOS/inputView_usage.md)
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).

@@ -1,20 +1,11 @@
-//
-//  IMUIInputViewDelegate.swift
-//  IMUIChat
-//
-//  Created by oshumini on 2017/4/14.
-//  Copyright © 2017年 HXHG. All rights reserved.
-//
+# IMUIInputView
+这是一个聊天界面输入框组件，可以方便地结合 `IMUIMessageCollectionView` 使用，包含录音，选择图片，拍照等功能，提供了一些丰富的接口和回调供用户使用， 还可以选择自定义样式。
 
-import Foundation
-import UIKit
-import Photos
+## 用法
+**第一步：** 拖拽一个 View 到 UIViewController 中 （可以是 storyboard 和  xib），修改 class 为 `IMUIInputView `
+**第二步：** 实现 `IMUIInputViewDelegate` 方法
 
-/**
- *  The `IMUIInputViewDelegate` protocol defines the even callback delegate
- */
-protocol IMUIInputViewDelegate: NSObjectProtocol {
-  
+```
   /**
    *  Tells the delegate that user tap send button and text input string is not empty
    */
@@ -64,18 +55,4 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
    *  Tells the delegate that user did shoot video in camera mode
    */
   func didShootVideo(videoPath: String, durationTime: Double)
-}
-
-
-extension IMUIInputViewDelegate {
-  func sendTextMessage(_ messageText: String) {}
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {}
-  func startRecordingVoice() {}
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double) {}
-  func cancelRecordingVoice() {}
-  func switchIntoSelectPhotoMode(photoBtn: UIButton) {}
-  func didSeletedGallery(AssetArr: [PHAsset]) {}
-  func switchIntoCameraMode(cameraBtn: UIButton) {}
-  func didShootPicture(picture: Data) {}
-  func didShootVideo(videoPath: String, durationTime: Double) {}
-}
+```
