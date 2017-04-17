@@ -59,10 +59,10 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
         let type = info[UIImagePickerControllerMediaType] as! String
         if type == (kUTTypeImage as String) {
             let data = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage] as! UIImage)
-            self.inputViewDelegate?.finishSelectedPhoto([data!])
+            self.inputViewDelegate?.didSelectedPhoto([data!])
         }else if type == (kUTTypeMovie as String){
             let url = info[UIImagePickerControllerMediaURL] as! URL
-            self.inputViewDelegate?.finishSelectedVideo([url])
+            self.inputViewDelegate?.didSelectedVideo([url])
         }
         picker.dismiss(animated: true, completion: nil)
     }

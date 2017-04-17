@@ -16,64 +16,9 @@ enum IMUIInputStatus {
   case none
 }
 
-var IMUIFeatureViewHeight:CGFloat = 215
-var IMUIShowFeatureViewAnimationDuration = 0.25
+fileprivate var IMUIFeatureViewHeight:CGFloat = 215
+fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
 
-protocol IMUIInputViewDelegate: NSObjectProtocol {
-  
-  func sendTextMessage(_ messageText: String)
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton)
-  func sendPhotoMessage(_ imageArr: [UIImage])
-  
-  // RecordVoice
-  func switchOutOfRecordingVoiceMode(recordVoiceBtn: UIButton)
-  func startRecordingVoice()
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double)
-  func cancelRecordingVoice()
-  
-  // Photo
-  func switchIntoSelectPhotoMode(photoBtn: UIButton)
-  func switchOutOfSelectPhotoMode(photoBtn: UIButton)
-  func showMoreView()
-  func photoClick(photoBtn: UIButton)
-  func finishSelectedPhoto(_ photoArr: [Data])
-  func finishSelectedVideo(_ VideoArr: [URL])
-
-  func finishiSeletedGallery(AssetArr: [PHAsset])
-  // Camera
-  func switchIntoCameraMode(cameraBtn: UIButton)
-  func switchOutOfCameraMode()
-  func finishShootPicture(picture: Data)
-  func finishShootVideo(videoPath: String, durationTime: Double)
-}
-
-
-
-extension IMUIInputViewDelegate {
-  func sendTextMessage(_ messageText: String) {}
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {}
-  func sendPhotoMessage(_ imageArr: [UIImage]) {}
-  
-  // RecordVoice
-  func switchOutOfRecordingVoiceMode(recordVoiceBtn: UIButton) {}
-  func startRecordingVoice() {}
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double) {}
-  func cancelRecordingVoice() {}
-  
-  // Photo
-  func switchIntoSelectPhotoMode(photoBtn: UIButton) {}
-  func switchOutOfSelectPhotoMode(photoBtn: UIButton) {}
-  func showMoreView() {}
-  func photoClick(photoBtn: UIButton) {}
-  func finishSelectedPhoto(_ photoArr: [UIImage]) {}
-  func finishSelectedVideo(_ VideoArr: [URL]) {}
-  func finishiSeletedGallery(AssetArr: [PHAsset]) {}
-  // Camera
-  func switchIntoCameraMode(cameraBtn: UIButton) {}
-  func switchOutOfCameraMode() {}
-  func finishShootPicture(picture: Data) {}
-  func finishShootVideo(videoPath: String, durationTime: Double) {}
-}
 
 
 class IMUIInputView: UIView {
@@ -152,7 +97,7 @@ class IMUIInputView: UIView {
 
   @IBAction func clickSendBtn(_ sender: Any) {
     if IMUIGalleryDataManager.selectedAssets.count > 0 {
-      self.inputViewDelegate?.finishiSeletedGallery(AssetArr: IMUIGalleryDataManager.selectedAssets)
+      self.inputViewDelegate?.didSeletedGallery(AssetArr: IMUIGalleryDataManager.selectedAssets)
       self.featureView.clearAllSelectedGallery()
       self.updateSendBtnToPhotoSendStatus(with: 0)
       return

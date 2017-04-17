@@ -43,14 +43,14 @@ extension ViewController: IMUIInputViewDelegate {
     
   }
   
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double) {
+  func didRecordingVoice(_ voicePath: String, durationTime: Double) {
     let outGoingmessage = MyMessageModel(voicePath: voicePath, isOutGoing: true)
     let inCommingMessage = MyMessageModel(voicePath: voicePath, isOutGoing: false)
     self.messageCollectionView.appendMessage(with: outGoingmessage)
     self.messageCollectionView.appendMessage(with: inCommingMessage)
   }
   
-  func finishShootPicture(picture: Data) {
+  func didShootPicture(picture: Data) {
     let imgPath = self.getPath()
     do {
       try picture.write(to: URL(fileURLWithPath: imgPath))
@@ -66,25 +66,25 @@ extension ViewController: IMUIInputViewDelegate {
     
   }
   
-  func finishSelectedPhoto(_ photoArr: [Data]) {
+  func didSelectedPhoto(_ photoArr: [Data]) {
     for data in photoArr {
-      finishShootPicture(picture: data)
+      didShootPicture(picture: data)
     }
   }
   
-  func finishSelectedVideo(_ VideoArr: [URL]) {
+  func didSelectedVideo(_ VideoArr: [URL]) {
     
   }
   
   
-  func finishShootVideo(videoPath: String, durationTime: Double) {
+  func didShootVideo(videoPath: String, durationTime: Double) {
     let outGoingmessage = MyMessageModel(videoPath: videoPath, isOutGoing: true)
     let inCommingMessage = MyMessageModel(videoPath: videoPath, isOutGoing: false)
     self.messageCollectionView.appendMessage(with: outGoingmessage)
     self.messageCollectionView.appendMessage(with: inCommingMessage)
   }
   
-  func finishiSeletedGallery(AssetArr: [PHAsset]) {
+  func didSeletedGallery(AssetArr: [PHAsset]) {
     for asset in AssetArr {
       switch asset.mediaType {
       case .image:
@@ -93,7 +93,7 @@ extension ViewController: IMUIInputViewDelegate {
         
         imageManage.requestImage(for: asset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .aspectFill, options: option, resultHandler: { [weak self] (image, _) in
           let imageData = UIImagePNGRepresentation(image!)
-          self?.finishShootPicture(picture: imageData!)
+          self?.didShootPicture(picture: imageData!)
         })
         break
       default:

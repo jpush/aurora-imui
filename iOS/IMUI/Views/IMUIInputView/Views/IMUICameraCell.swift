@@ -280,7 +280,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           }
         }
       }, completed: { [unowned self] photoCaptureDelegate in
-        self.inputViewDelegate?.finishShootPicture(picture: photoCaptureDelegate.photoData!)
+        self.inputViewDelegate?.didShootPicture(picture: photoCaptureDelegate.photoData!)
         self.sessionQueue.async { [unowned self] in
           self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = nil
         }
@@ -319,7 +319,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       }
       
       let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
-      self.inputViewDelegate?.finishShootPicture(picture: imageData!)
+      self.inputViewDelegate?.didShootPicture(picture: imageData!)
       let image = UIImage(data: imageData!)
       UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
       
@@ -436,7 +436,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     let now:Date = Date()
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yy-MMMM-dd"
-//    recorderPath = "\(NSHomeDirectory())/Documents/"
     recorderPath = NSTemporaryDirectory()
     dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm-ss"
     recorderPath?.append("\(dateFormatter.string(from: now))-video.mp4")
@@ -461,7 +460,7 @@ extension IMUICameraCell: AVCaptureFileOutputRecordingDelegate {
   func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
     if error == nil {
       
-      self.inputViewDelegate?.finishShootVideo(videoPath: outputFileURL.path, durationTime: captureOutput.recordedDuration.seconds)
+      self.inputViewDelegate?.didShootVideo(videoPath: outputFileURL.path, durationTime: captureOutput.recordedDuration.seconds)
     } else {
       print("record video fail")
     }
