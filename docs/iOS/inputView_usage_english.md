@@ -9,7 +9,7 @@ To use IMUIInputView only need two simple steps, or you can check out our sample
 
 - **Setp two:** implement `IMUIInputViewDelegate`
 
-- Tells the delegate that user tap send button and text input string is not empty（**Note:**if selected photo in gallery mode,will send photo frist）
+- Tells the delegate that user tap send button and text input string is not empty（ **Note:** if selected photo in gallery mode,will send photo frist）
 ```
   func sendTextMessage(_ messageText: String)
 ```
