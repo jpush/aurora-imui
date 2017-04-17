@@ -23,17 +23,17 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
   func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton)
   
   /**
-   *  start record voice
+   *  Start record voice
    */
   func startRecordingVoice()
   
   /**
-   *  finish record voice
+   *  Finish record voice
    */
   func finishRecordingVoice(_ voicePath: String, durationTime: Double)
   
   /**
-   *  cancel record
+   *  Cancel record
    */
   func cancelRecordingVoice()
   
@@ -43,21 +43,23 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
   func switchIntoSelectPhotoMode(photoBtn: UIButton)
   
   /**
-   *  finish select Photo
+   *  Did selected Photo in gallery
    */
-  func didSelectedPhoto(_ photoArr: [Data])
-  
-  /**
-   *  finish select Photo
-   */
-  func didSelectedVideo(_ VideoArr: [URL])
   func didSeletedGallery(AssetArr: [PHAsset])
   
   /**
-   *  IMUIInputView will switch to camera moe
+   *  IMUIInputView will switch to camera mode
    */
   func switchIntoCameraMode(cameraBtn: UIButton)
+  
+  /**
+   *  Did shoot picture in camera mode
+   */
   func didShootPicture(picture: Data)
+  
+  /**
+   *  Did shoot video in camera mode
+   */
   func didShootVideo(videoPath: String, durationTime: Double)
 }
 
@@ -65,19 +67,11 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
 extension IMUIInputViewDelegate {
   func sendTextMessage(_ messageText: String) {}
   func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {}
-  
-  // RecordVoice
   func startRecordingVoice() {}
   func finishRecordingVoice(_ voicePath: String, durationTime: Double) {}
   func cancelRecordingVoice() {}
-  
-  // Photo
   func switchIntoSelectPhotoMode(photoBtn: UIButton) {}
-  func didSelectedPhoto(_ photoArr: [UIImage]) {}
-  func didSelectedVideo(_ VideoArr: [URL]) {}
   func didSeletedGallery(AssetArr: [PHAsset]) {}
-  
-  // Camera
   func switchIntoCameraMode(cameraBtn: UIButton) {}
   func didShootPicture(picture: Data) {}
   func didShootVideo(videoPath: String, durationTime: Double) {}

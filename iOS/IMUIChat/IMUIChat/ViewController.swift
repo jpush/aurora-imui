@@ -66,15 +66,11 @@ extension ViewController: IMUIInputViewDelegate {
     
   }
   
-  func didSelectedPhoto(_ photoArr: [Data]) {
-    for data in photoArr {
-      didShootPicture(picture: data)
-    }
-  }
-  
-  func didSelectedVideo(_ VideoArr: [URL]) {
-    
-  }
+//  func didSelectedPhoto(_ photoArr: [Data]) {
+//    for data in photoArr {
+//      didShootPicture(picture: data)
+//    }
+//  }
   
   
   func didShootVideo(videoPath: String, durationTime: Double) {

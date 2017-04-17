@@ -42,46 +42,13 @@ protocol IMUIFeatureCellProtocal {
 }
 
 // TODO: Need to  Restructure
-class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  @IBOutlet weak var showGalleryBtn: UIButton!
+class IMUIFeatureView: UIView {
+
   @IBOutlet weak var featureCollectionView: UICollectionView!
-  
-    @IBAction func showGalleryBtnPressed(_ sender: Any) {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = true
-        imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
-        self.rootViewController.present(imagePickerController, animated: true) {
-        }
-    }
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let type = info[UIImagePickerControllerMediaType] as! String
-        if type == (kUTTypeImage as String) {
-            let data = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage] as! UIImage)
-            self.inputViewDelegate?.didSelectedPhoto([data!])
-        }else if type == (kUTTypeMovie as String){
-            let url = info[UIImagePickerControllerMediaURL] as! URL
-            self.inputViewDelegate?.didSelectedVideo([url])
-        }
-        picker.dismiss(animated: true, completion: nil)
-    }
-
-    var rootViewController : UIViewController {
-      let appRootVC = UIApplication.shared.keyWindow?.rootViewController
-      var topVC = appRootVC
-      while (topVC?.presentedViewController != nil) {
-        topVC = topVC?.presentedViewController
-      }
-      return topVC!
-    }
-
   var view: UIView!
-
   var currentType:IMUIFeatureType = .none
   
   open weak var inputViewDelegate: IMUIInputViewDelegate?
-  
   weak var delegate: IMUIFeatureViewDelegate?
   
   open override func awakeFromNib() {
@@ -89,11 +56,8 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
     self.setupAllViews()
   }
   
-  
   required init?(coder aDecoder: NSCoder) {
-    
     super.init(coder: aDecoder)
-    
     view = Bundle.main.loadNibNamed("IMUIFeatureView", owner: self, options: nil)?[0] as! UIView
     self.addSubview(view)
     view.frame = self.bounds
@@ -104,7 +68,6 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
     self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: nil), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
     self.featureCollectionView.register(UINib(nibName: "IMUIGalleryCell", bundle: nil), forCellWithReuseIdentifier: "IMUIGalleryCell")
     self.featureCollectionView.register(UINib(nibName: "IMUICameraCell", bundle: nil), forCellWithReuseIdentifier: "IMUICameraCell")
-    self.showGalleryBtn.isHidden = true
     
     self.featureCollectionView.delegate = self
     self.featureCollectionView.dataSource = self
@@ -138,26 +101,22 @@ class IMUIFeatureView: UIView, UIImagePickerControllerDelegate, UINavigationCont
   }
   
   func layoutFeatureToRecordVoice() {
-    self.showGalleryBtn.isHidden = true
     self.featureCollectionView.bounces = false
     self.featureCollectionView.reloadData()
     
   }
   
   func layoutToGallery() {
-    self.showGalleryBtn.isHidden = false
     self.featureCollectionView.bounces = true
     self.featureCollectionView.reloadData()
   }
   
   func layoutTocCamera() {
-    self.showGalleryBtn.isHidden = true
     self.featureCollectionView.bounces = false
     self.featureCollectionView.reloadData()
   }
   
   func layoutToNone() {
-    self.showGalleryBtn.isHidden = true
     self.featureCollectionView.reloadData()
   }
   
