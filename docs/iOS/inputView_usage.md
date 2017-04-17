@@ -5,56 +5,65 @@
 
 ## 用法
 **第一步：** 拖拽一个 View 到 UIViewController 中 （可以是 storyboard 和  xib），修改 class 为 `IMUIInputView `
+
 **第二步：** 实现 `IMUIInputViewDelegate` 方法
 
+- 当用户点击发送按钮，并且输入框不为空，调用这个代理方法
+
 ```
-  /**
-   *  Tells the delegate that user tap send button and text input string is not empty
-   */
-  func sendTextMessage(_ messageText: String)
-  
-  /**
-   *  Tells the delegate that IMUIInputView will switch to recording voice mode
-   */
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton)
-  
-  /**
-   *  Tells the delegate that start record voice
-   */
-  func startRecordingVoice()
-  
-  /**
-   *  Tells the delegate when finish record voice
-   */
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double)
-  
-  /**
-   *  Tells the delegate that user cancel record
-   */
-  func cancelRecordingVoice()
-  
-  /**
-   *  Tells the delegate that IMUIInputView will switch to gallery
-   */
-  func switchIntoSelectPhotoMode(photoBtn: UIButton)
-  
-  /**
-   *  Tells the delegate that user did selected Photo in gallery
-   */
-  func didSeletedGallery(AssetArr: [PHAsset])
-  
-  /**
-   *  Tells the delegate that IMUIInputView will switch to camera mode
-   */
-  func switchIntoCameraMode(cameraBtn: UIButton)
-  
-  /**
-   *  Tells the delegate that user did shoot picture in camera mode
-   */
-  func didShootPicture(picture: Data)
-  
-  /**
-   *  Tells the delegate that user did shoot video in camera mode
-   */
+  func sendTextMessage(_ messageText: String)
+```
+
+- 当用户切换到录音模式时，调用这个代理方法
+
+```
+  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton)
+```
+
+- 开始录音是调用这个代理方法
+
+```
+  func startRecordingVoice()
+```
+
+- 完成录音后调用这个代理方法
+
+```
+  func finishRecordingVoice(_ voicePath: String, durationTime: Double)
+```
+
+- 取消录音调用这个代理方法
+
+```
+  func cancelRecordingVoice()
+```
+
+- 用户切换到相册模式时，调用这个代理方法
+
+```
+  func switchIntoSelectPhotoMode(photoBtn: UIButton)
+```
+
+- 在相册模式下选择了图片，用户点击发送按钮， 调用这个代理方法
+
+```
+  func didSeletedGallery(AssetArr: [PHAsset])
+```
+
+- 用户切换到相机模式时调用这个代理方法
+
+```
+  func switchIntoCameraMode(cameraBtn: UIButton)
+```
+
+- 相机模式下，用户完成照片拍摄，调用这个方法
+
+```
+  func didShootPicture(picture: Data)
+```
+
+- 相机模式下，用户完成视频拍摄，调用这个方法
+
+```
   func didShootVideo(videoPath: String, durationTime: Double)
 ```
