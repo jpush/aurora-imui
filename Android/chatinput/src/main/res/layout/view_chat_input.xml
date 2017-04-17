@@ -1,352 +1,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/aurora_bg_input_default">
+    android:background="@color/aurora_bg_input_default"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/aurora_ll_input_container"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <android.support.v4.widget.Space
             android:id="@+id/aurora_input_margin_left"
-            android:layout_width="20dp"
+            android:layout_width="16dp"
             android:layout_height="match_parent" />
 
         <EditText
             android:id="@+id/aurora_et_chat_input"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/aurora_edittext_bg"
             android:cursorVisible="true"
             android:inputType="textMultiLine"
-            android:padding="5dp"
-            android:textColor="#000000"
-            android:textCursorDrawable="@drawable/aurora_edittext_cursor_bg" />
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:textColor="@android:color/black"
+            android:textCursorDrawable="@drawable/aurora_edittext_cursor_bg"
+            android:textSize="18sp" />
 
         <android.support.v4.widget.Space
             android:id="@+id/aurora_input_margin_right"
-            android:layout_width="20dp"
+            android:layout_width="16dp"
             android:layout_height="match_parent" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <include
         android:id="@+id/aurora_ll_menuitem_container"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-
-            <ImageButton
-                android:id="@+id/aurora_menuitem_ib_mic"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/aurora_menuitem_mic"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/aurora_menuitem_ib_photo"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:src="@drawable/aurora_menuitem_photo" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/aurora_menuitem_ib_camera"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:src="@drawable/aurora_menuitem_camera" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:gravity="center">
-
-            <FrameLayout
-                android:id="@+id/aurora_menuitem_fl_send"
-                android:layout_width="55dp"
-                android:layout_height="match_parent">
-
-                <ImageButton
-                    android:id="@+id/aurora_menuitem_ib_send"
-                    android:layout_gravity="center"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/aurora_menuitem_send" />
-
-                <TextView
-                    android:id="@+id/aurora_menuitem_tv_send_count"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:textColor="@android:color/black"
-                    android:background="@drawable/aurora_menuitem_send_count_bg"
-                    android:gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginRight="5dp"
-                    android:elevation="4dp"
-                    android:textSize="10sp"
-                    android:ems="1"
-                    android:maxLines="1"
-                    android:layout_gravity="bottom|right"
-                    android:visibility="gone"/>
-
-            </FrameLayout>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
+        layout="@layout/layout_chatinput_menu" />
 
     <FrameLayout
         android:id="@+id/aurora_fl_menu_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="300dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:minHeight="280dp">
 
-        <RelativeLayout
+        <include
             android:id="@+id/aurora_rl_recordvoice_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible">
+            layout="@layout/layout_chatinput_recordvoice" />
 
-            <RelativeLayout
-                android:id="@+id/aurora_rl_recordvoice_top_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp">
+        <include
+            android:id="@+id/aurora_fl_selectphoto_container"
+            layout="@layout/layout_chatinput_selectphoto"
+            android:visibility="gone" />
 
-                <Chronometer
-                    android:id="@+id/aurora_chronometer_recordvoice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/aurora_chronometer_text_color"
-                    android:textSize="@dimen/aurora_textsize_chronometer"
-                    android:visibility="invisible"/>
-
-                <TextView
-                    android:id="@+id/aurora_tv_recordvoice_hint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/record_voice_hint" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/aurora_ll_recordvoice_preview_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
-                android:layout_below="@+id/aurora_rl_recordvoice_top_container"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <cn.jiguang.imui.chatinput.record.ProgressButton
-                    android:id="@+id/aurora_pb_recordvoice_play_audio"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    app:roundColor="#E1E1E3"
-                    app:roundProgressColor="#29B5EA"
-                    android:layout_gravity="center"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="bottom"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/aurora_btn_recordvoice_cancel"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cancel"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:textColor="#29B5EA"
-                        android:textSize="16sp"
-                        android:background="@drawable/aurora_recordvoice_left_btn_bg"/>
-
-                    <Button
-                        android:id="@+id/aurora_btn_recordvoice_send"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/send"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:textColor="#29B5EA"
-                        android:textSize="16sp"
-                        android:background="@drawable/aurora_recordvoice_right_btn_bg"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/aurora_ll_recordvoice_content_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:visibility="visible">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <cn.jiguang.imui.chatinput.record.RecordControllerView
-                        android:id="@+id/aurora_rcv_recordvoice_controller"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <cn.jiguang.imui.chatinput.record.RecordVoiceButton
-                        android:id="@+id/aurora_rvb_recordvoice_record"
-                        android:layout_width="@dimen/aurora_size_record_button"
-                        android:layout_height="@dimen/aurora_size_record_button"
-                        android:layout_gravity="center"
-                        android:background="@drawable/aurora_recordvoice_record_mic_pres"/>
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-
-
-        </RelativeLayout>
-
-       <FrameLayout
-           android:id="@+id/aurora_fl_selectphoto_container"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:visibility="gone">
-
-           <android.support.v7.widget.RecyclerView
-               android:id="@+id/aurora_rv_selectphoto_photo"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent" />
-
-           <ProgressBar
-               android:id="@+id/aurora_pb_selectphoto_progress"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_gravity="center"
-               android:visibility="gone"/>
-
-           <ImageButton
-               android:id="@+id/aurora_ib_selectphoto_album"
-               android:layout_width="@dimen/aurora_size_album_button"
-               android:layout_height="@dimen/aurora_size_album_button"
-               android:layout_gravity="bottom|right"
-               android:layout_marginRight="20dp"
-               android:layout_marginBottom="20dp"
-               android:background="@drawable/aurora_selectphoto_album"/>
-
-       </FrameLayout>
-
-        <FrameLayout
+        <include
             android:id="@+id/aurora_fl_camera_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="300dp"
-            android:visibility="gone">
-
-            <TextureView
-                android:id="@+id/aurora_txtv_camera_texture"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <ImageButton
-                android:id="@+id/aurora_ib_camera_close"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="top|left"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/aurora_preview_close_camera"
-                android:visibility="gone"/>
-
-            <ImageButton
-                android:id="@+id/aurora_ib_camera_full_screen"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_gravity="top|right"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/aurora_preview_full_screen"/>
-            
-            <ImageButton
-                android:id="@+id/aurora_ib_camera_record_video"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|left"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/aurora_preview_record_video" />
-            
-            <ImageButton
-                android:id="@+id/aurora_ib_camera_capture"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="bottom|center"
-                android:background="@drawable/aurora_menuitem_send_pres"/>
-
-            <ImageButton
-                android:id="@+id/aurora_ib_camera_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:background="@drawable/aurora_preview_switch_camera"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"/>
-
-
-        </FrameLayout>
+            layout="@layout/layout_chatinput_camera"
+            android:visibility="gone" />
 
     </FrameLayout>
-
 </LinearLayout>

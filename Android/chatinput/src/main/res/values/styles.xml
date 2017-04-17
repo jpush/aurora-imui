@@ -5,9 +5,8 @@
         <item name="android:windowActionModeOverlay">true</item>
     </style>
 
-
     <style name="ChatMessageInfo">
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="ChatHeaderTitle">
@@ -27,5 +26,10 @@
         <item name="android:background">@null</item>
         <item name="android:textAllCaps">true</item>
     </style>
-
+    
+    <style name="ChatInputIcon">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
 </resources>

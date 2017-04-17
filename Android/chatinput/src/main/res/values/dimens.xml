@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-->chat input<-->
-    <dimen name="aurora_elevation_send_btn">5dp</dimen>
-    <dimen name="aurora_size_send_btn_default">25dp</dimen>
-    <dimen name="aurora_radius_btn_default">5dp</dimen>
+    <!-- chat input start -->
+    <dimen name="aurora_elevation_send_btn">8dp</dimen>
+    <dimen name="aurora_size_send_btn_default">24dp</dimen>
+    <dimen name="aurora_radius_btn_default">8dp</dimen>
+
     <dimen name="aurora_margin_input_left">20dp</dimen>
     <dimen name="aurora_margin_input_right">20dp</dimen>
+
     <dimen name="aurora_textsize_input">17sp</dimen>
+
     <dimen name="aurora_padding_input_left">16sp</dimen>
     <dimen name="aurora_padding_input_right">16sp</dimen>
     <dimen name="aurora_padding_input_top">0dp</dimen>
     <dimen name="aurora_padding_input_bottom">0dp</dimen>
+
     <dimen name="aurora_textsize_chronometer">20sp</dimen>
     <dimen name="aurora_size_record_button">70dp</dimen>
     <dimen name="aurora_size_album_button">60dp</dimen>
-
-
+    <!-- chat input end -->
 
 </resources>

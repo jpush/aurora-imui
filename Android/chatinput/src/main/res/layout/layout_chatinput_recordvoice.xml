@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/aurora_rl_recordvoice_top_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp">
+
+        <Chronometer
+            android:id="@+id/aurora_chronometer_recordvoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/aurora_chronometer_text_color"
+            android:textSize="@dimen/aurora_textsize_chronometer"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/aurora_tv_recordvoice_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/record_voice_hint" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/aurora_ll_recordvoice_preview_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/aurora_rl_recordvoice_top_container"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <cn.jiguang.imui.chatinput.record.ProgressButton
+            android:id="@+id/aurora_pb_recordvoice_play_audio"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            app:roundColor="#E1E1E3"
+            app:roundProgressColor="#29B5EA" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/aurora_btn_recordvoice_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/aurora_recordvoice_left_btn_bg"
+                android:padding="8dp"
+                android:text="@string/cancel"
+                android:textColor="#29B5EA"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/aurora_btn_recordvoice_send"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/aurora_recordvoice_right_btn_bg"
+                android:padding="8dp"
+                android:text="@string/send"
+                android:textColor="#29B5EA"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/aurora_ll_recordvoice_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <cn.jiguang.imui.chatinput.record.RecordControllerView
+                android:id="@+id/aurora_rcv_recordvoice_controller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <cn.jiguang.imui.chatinput.record.RecordVoiceButton
+                android:id="@+id/aurora_rvb_recordvoice_record"
+                android:layout_width="@dimen/aurora_size_record_button"
+                android:layout_height="@dimen/aurora_size_record_button"
+                android:layout_gravity="center"
+                android:background="@drawable/aurora_recordvoice_record_mic_pres" />
+        </FrameLayout>
+    </LinearLayout>
+</RelativeLayout>
