@@ -30,8 +30,8 @@ Aurora IMUI 是一个简单易用的即时通讯 UI 库，包含了消息列表�
 - [ChatInputView](./Android/chatinput/README.md) (聊天输入组件)
 
 ### iOS
-- [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md)
-- [IMUIInputView](./docs/iOS/inputView_usage.md)
+- [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md) (消息列表)
+- [IMUIInputView](./docs/iOS/inputView_usage.md) (聊天输入组件)
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).

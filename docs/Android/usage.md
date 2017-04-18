@@ -39,7 +39,7 @@ dependencies {
 ```
 
 ## 使用
-使用 MessageList 只需几个简单的步骤，可以参考一下我们的 [demo](./../sample)。
+使用 MessageList 只需几个简单的步骤，可以参考一下 [demo](./../sample)。
 
 ### 1. 在布局文件中引用 MessageList：
 ```
@@ -75,7 +75,7 @@ messageList.setAdapter(adapter);
 ```
 
 ### 3.构造实体类
-包括消息、用户（以及以后的会话），需要实现我们的 IMessage、IUser 接口。例如：
+包括消息、用户（以及以后的会话），需要实现 IMessage、IUser 接口。例如：
 ```java
 public class MyMessage implements IMessage {
 
