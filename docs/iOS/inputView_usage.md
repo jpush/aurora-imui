@@ -29,7 +29,7 @@
 - 完成录音后调用这个代理方法
 
 ```
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double)
+  func finishRecordingVoice(_ voicePath: String, duration: Double)
 ```
 
 - 取消录音调用这个代理方法

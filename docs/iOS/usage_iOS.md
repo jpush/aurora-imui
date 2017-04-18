@@ -108,7 +108,7 @@ IMUIMessageCellLayout.cellWidth
 // 设置 Message Cell 的内边距
 IMUIMessageCellLayout.cellContentInset
 ```
-如果简单调整 默认布局 的配置项满足不了自己的布局需求，需要在构造方法中指定 自定义的布局, 自定义布局需要实现`IMUIMessageCellLayoutProtocal `。也可以继承 `IMUIMessageCellLayout` 类，更具自己的需求 override 方法。例如：
+如果简单调整 默认布局 的配置项满足不了自己的布局需求，需要在构造方法中指定 自定义的布局, 自定义布局需要实现`IMUIMessageCellLayoutProtocal `。也可以继承 `IMUIMessageCellLayout` 类，根据自己的需求 override 方法。例如：
 ```
 class MyMessageCellLayout: IMUIMessageCellLayout {
   
@@ -130,7 +130,7 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
 ```
 
 ## 未来计划
-- 消息更新
+- 消息状态更新
 - 自定义消息支持
 - 消息动画
 - React Native 版本
