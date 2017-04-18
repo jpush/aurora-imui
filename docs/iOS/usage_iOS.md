@@ -13,9 +13,9 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
 ## 使用
 使用 IMUIMessageCollectionView 只需要几个简单的步骤。
 
-第一步： 拖拽一个 View 到 UIViewController 中 （可以是 storyboard 和  xib），修改 class 为 `IMUIMessageCollectionView`
+第一步： 拖拽一个 View 到 UIViewController 中 （可以是 storyboard 和  xib），修改 class 为 `IMUIMessageCollectionView`。
 
-第二步： 实现 `IMUIMessageMessageCollectionViewDelegate` 方法
+第二步： 实现 `IMUIMessageMessageCollectionViewDelegate` 方法。
 ```
   @IBOutlet weak var messageCollectionView: IMUIMessageCollectionView!
   
@@ -46,16 +46,16 @@ protocol IMUIMessageModelProtocol {
   var layout: IMUIMessageCellLayoutProtocal { get }
 
   @optional
-//  文本消息 字符串
+  //  文本消息 字符串
   func textMessage() -> String
 
-//  音频数据
+  //  音频数据
   func mediaData() -> Data
 
-// 视频路径
+  // 视频路径
   var videoPath: String? { get }
 
-// 消息泡泡图片
+  // 消息泡泡图片
   var resizeBubbleImage: UIImage { get }
 }
 ```
@@ -79,11 +79,11 @@ public protocol IMUIUserProtocol {
   ```
 - 插入消息到指定位置
 ```
-  messageCollectionViewinsertMessage(with message: IMUIMessageModel) {
+  messageCollectionView.insertMessage(with message: IMUIMessageModel)
 ```
 - 插入一串消息到指定位置
 ```  
-  insertMessages(with messages:[IMUIMessageModel])
+  messageCollectionView.insertMessages(with messages:[IMUIMessageModel])
 ```
 
 ### 自定义布局
@@ -91,7 +91,7 @@ public protocol IMUIUserProtocol {
 如果需要在默认布局的基础上简单调整 message cell 内的元素，这里提供了简单的配置项
 ```
 // 设置头像的尺寸
-IMUIMessageCellLayout.avatarSize = 
+IMUIMessageCellLayout.avatarSize
 
 // 设置头像在 Cell 里面的偏移量
 IMUIMessageCellLayout.avatarOffsetToCell
