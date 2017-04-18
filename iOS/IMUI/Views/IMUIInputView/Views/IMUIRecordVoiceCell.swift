@@ -91,7 +91,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     self.resetSubViewsStyle()
     
     let finishiRecorder = recordHelper.finishRecordingCompletion()
-    self.inputViewDelegate?.finishRecordingVoice(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
+    self.inputViewDelegate?.finishRecordVoice(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
   }
   
   func resetSubViewsStyle() {

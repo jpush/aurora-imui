@@ -23,27 +23,27 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
   /**
    *  Tells the delegate that IMUIInputView will switch to recording voice mode
    */
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton)
+  func switchToMicrophoneMode(recordVoiceBtn: UIButton)
   
   /**
    *  Tells the delegate that start record voice
    */
-  func startRecordingVoice()
+  func startRecordVoice()
   
   /**
    *  Tells the delegate when finish record voice
    */
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double)
+  func finishRecordVoice(_ voicePath: String, durationTime: Double)
   
   /**
    *  Tells the delegate that user cancel record
    */
-  func cancelRecordingVoice()
+  func cancelRecordVoice()
   
   /**
    *  Tells the delegate that IMUIInputView will switch to gallery
    */
-  func switchIntoSelectPhotoMode(photoBtn: UIButton)
+  func switchToGalleryMode(photoBtn: UIButton)
   
   /**
    *  Tells the delegate that user did selected Photo in gallery
@@ -53,7 +53,7 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
   /**
    *  Tells the delegate that IMUIInputView will switch to camera mode
    */
-  func switchIntoCameraMode(cameraBtn: UIButton)
+  func switchToCameraMode(cameraBtn: UIButton)
   
   /**
    *  Tells the delegate that user did shoot picture in camera mode
@@ -61,21 +61,39 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
   func didShootPicture(picture: Data)
   
   /**
-   *  Tells the delegate that user did shoot video in camera mode
+   *  Tells the delegate when starting record video
    */
-  func didShootVideo(videoPath: String, durationTime: Double)
+  func startRecordVideo()
+  
+  /**
+   *  Tells the delegate when user did shoot video in camera mode
+   */
+  func finishRecordVideo(videoPath: String, durationTime: Double)
 }
+
+
 
 
 extension IMUIInputViewDelegate {
   func sendTextMessage(_ messageText: String) {}
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {}
-  func startRecordingVoice() {}
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double) {}
-  func cancelRecordingVoice() {}
-  func switchIntoSelectPhotoMode(photoBtn: UIButton) {}
+
+  func switchToMicrophoneMode(recordVoiceBtn: UIButton) {}
+  
+  func startRecordVoice() {}
+  
+  func finishRecordVoice(_ voicePath: String, durationTime: Double) {}
+  
+  func cancelRecordVoice() {}
+  
+  func switchToGalleryMode(photoBtn: UIButton) {}
+  
   func didSeletedGallery(AssetArr: [PHAsset]) {}
-  func switchIntoCameraMode(cameraBtn: UIButton) {}
+  
+  func switchToCameraMode(cameraBtn: UIButton) {}
+  
   func didShootPicture(picture: Data) {}
-  func didShootVideo(videoPath: String, durationTime: Double) {}
+  
+  func startRecordVideo() {}
+  
+  func finishRecordVideo(videoPath: String, durationTime: Double) {}
 }

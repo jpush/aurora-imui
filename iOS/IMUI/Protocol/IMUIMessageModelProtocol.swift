@@ -35,14 +35,14 @@ protocol IMUIMessageModelProtocol {
    *  @return the layout, `IMUIBaseMessageCell` will use it to layout message cell items
    */
   var layout: IMUIMessageCellLayoutProtocal { get }
-  
+ 
   /**
    *  @required function
    *
    *  @return the bubble background image
    *
    *  @warning the image must be resizable
-   *  just like that: bubbleImg.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 15, 9, 10), resizingMode: .tile)
+   *   just like that: bubbleImg.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 15, 9, 10), resizingMode: .tile)
    */
   var resizableBubbleImage: UIImage { get }
   
@@ -54,47 +54,50 @@ protocol IMUIMessageModelProtocol {
   var timeString: String { get }
   
   /**
-   *  @optional function return media data
-   *
-   *  @discussion don't get video data from this function
-   */
-  func mediaData() -> Data
-  
-  /**
+   *  text of message.
+   *  @return string
    *  @optional function if message type is text implement message text in this function
    */
-  func textMessage() -> String
+  func text() -> String
 
   /**
-   *  @optional function 
-   *  if the message type is video ,should implement this function
+   * If message type is photo, voice, video or file,
+   * get file path through this method.
+   * @return file path
    */
-  var videoPath: String? { get }
+  func mediaFilePath() -> String
+  
+  /**
+   * If message type is voice or video, get duration through this method.
+   * @return duration of audio or video
+   */
+  var duration: CGFloat { get }
   
   /**
    *  @optional function
    *
-   * return 
+   * return
    */
   var isOutGoing: Bool { get }
 
 }
 
 extension IMUIMessageModelProtocol {
+  
   var timeString: String {
     return ""
   }
-
-  func mediaData() -> Data {
-    return Data()
-  }
   
-  func textMessage() -> String {
+  func text() -> String {
     return ""
   }
   
-  var videoPath: String? {
-    return nil
+  func mediaFilePath() -> String {
+    return ""
+  }
+  
+  var duration: CGFloat {
+    return 0.0
   }
   
 }

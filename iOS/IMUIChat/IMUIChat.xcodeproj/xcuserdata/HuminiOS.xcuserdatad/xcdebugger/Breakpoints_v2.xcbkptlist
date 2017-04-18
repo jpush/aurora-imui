@@ -25,13 +25,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../IMUI/Views/IMUIInputView/Controllers/IMUIInputView.swift"
-            timestampString = "514188802.420766"
+            filePath = "../IMUI/Views/IMUIInputView/Views/IMUICameraCell.swift"
+            timestampString = "514220742.705387"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "showFeatureView()"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "capturePhotoBefore_iOS8()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../IMUI/Views/IMUIInputView/Views/IMUICameraCell.swift"
+            timestampString = "514220743.301921"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "332"
+            endingLineNumber = "332"
+            landmarkName = "capturePhotoBefore_iOS8()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

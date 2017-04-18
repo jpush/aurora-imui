@@ -30,7 +30,8 @@ class IMUIImageMessageCell: IMUIBaseMessageCell {
     
     let layout = message.layout as! IMUIMessageCellLayout
     self.imageView.frame = UIEdgeInsetsInsetRect(CGRect(origin: CGPoint.zero, size: layout.bubbleFrame.size), layout.bubbleContentInset)
-    self.layoutImage(image: UIImage(data: message.mediaData())!)
+    let image = UIImage(contentsOfFile: message.mediaFilePath())
+    self.layoutImage(image: image!)
   }
   
   func layoutImage(image: UIImage) {

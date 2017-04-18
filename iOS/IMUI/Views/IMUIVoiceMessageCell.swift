@@ -31,13 +31,19 @@ class IMUIVoiceMessageCell: IMUIBaseMessageCell {
     super.tapBubbleView()
     
         if isMediaActivity {
-          IMUIAudioPlayerHelper.sharedInstance.playAudioWithData((message?.mediaData())!,
-                                                                 progressCallback: { (currendTime, duration) in
-                                                                  
-                                                                  },
-                                                                 finishCallBack: {
-                                                                  self.isMediaActivity = false
-                                                                  })
+          do {
+            let voiceData = try Data(contentsOf: URL(fileURLWithPath: (message?.mediaFilePath())!))
+            IMUIAudioPlayerHelper.sharedInstance.playAudioWithData(voiceData,
+                                                                   progressCallback: { (currendTime, duration) in
+                                                                    
+            },
+                                                                   finishCallBack: {
+                                                                    self.isMediaActivity = false
+            })
+          } catch {
+            print("load voice file fail")
+          }
+          
         } else {
           IMUIAudioPlayerHelper.sharedInstance.stopAudio()
 

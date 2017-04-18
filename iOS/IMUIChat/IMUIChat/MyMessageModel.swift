@@ -10,13 +10,13 @@ import UIKit
 
 class MyMessageModel: IMUIMessageModel {
   open var myTextMessage: String = ""
+  
   var mediaPath: String = ""
   
-  override var videoPath: String! {
-    if self.type != .video { return nil }
-    
+  override func mediaFilePath() -> String {
     return mediaPath
   }
+
   
   override var resizableBubbleImage: UIImage {
     // return defoult message bubble
@@ -51,18 +51,8 @@ class MyMessageModel: IMUIMessageModel {
     self.init(msgId: "", fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .video, text: "", mediaPath: videoPath, layout:  nil)
   }
   
-  override func textMessage() -> String {
+  override func text() -> String {
     return self.myTextMessage
-  }
-  
-  override func mediaData() -> Data {
-    var mediaData: Data?
-    do {
-      mediaData = try Data(contentsOf: URL(fileURLWithPath: self.mediaPath))
-    } catch {
-      print("load voice data frome path fail")
-    }
-    return mediaData!
   }
   
   static func calculateTextContentSize(text: String) -> CGSize {
@@ -70,6 +60,7 @@ class MyMessageModel: IMUIMessageModel {
     
     return textSize
   }
+  
 }
 
 

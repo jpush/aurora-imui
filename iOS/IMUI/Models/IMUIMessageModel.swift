@@ -76,41 +76,42 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
   }
   internal var cellLayout: IMUIMessageCellLayoutProtocal?
   
-  public func textMessage() -> String {
+  func text() -> String {
     return ""
   }
   
-  public func mediaData() -> Data {
-    return Data()
-  }
-  
-  public var videoPath: String? {
-    return nil
+  func mediaFilePath() -> String {
+    return ""
   }
   
   open func calculateBubbleContentSize() -> CGSize {
     var bubbleContentSize: CGSize!
     switch type {
     case .image:
-      var imgHeight:CGFloat?
-      var imgWidth:CGFloat?
-      
-      let img:UIImage = UIImage(data: self.mediaData() as Data)!
-      
-      if img.size.height >= img.size.width {
-        imgHeight = CGFloat(135)
-        imgWidth = img.size.width/img.size.height * imgHeight!
-        imgWidth = (imgWidth! < 55) ? 55 : imgWidth
-      } else {
-        imgWidth = CGFloat(135)
-        imgHeight = img.size.height/img.size.width * imgWidth!
-        imgHeight = (imgHeight! < 55) ? 55 : imgHeight!
+      do {
+        var imgHeight:CGFloat?
+        var imgWidth:CGFloat?
+        let imageData = try Data(contentsOf: URL(fileURLWithPath: self.mediaFilePath()))
+        let img:UIImage = UIImage(data: imageData)!
+        
+        if img.size.height >= img.size.width {
+          imgHeight = CGFloat(135)
+          imgWidth = img.size.width/img.size.height * imgHeight!
+          imgWidth = (imgWidth! < 55) ? 55 : imgWidth
+        } else {
+          imgWidth = CGFloat(135)
+          imgHeight = img.size.height/img.size.width * imgWidth!
+          imgHeight = (imgHeight! < 55) ? 55 : imgHeight!
+        }
+        
+        bubbleContentSize = CGSize(width: imgWidth!, height: imgHeight!)
+        break
+      } catch {
+        print("load image file fail")
       }
-      
-      bubbleContentSize = CGSize(width: imgWidth!, height: imgHeight!)
-      break
+
     case .text:
-      let textSize  = self.textMessage().sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: UIFont.systemFont(ofSize: 18))
+      let textSize  = self.text().sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: UIFont.systemFont(ofSize: 18))
       
       bubbleContentSize = textSize
       break

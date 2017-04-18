@@ -74,7 +74,7 @@ class IMUIInputView: UIView {
     inputViewStatus = .microphone
     
     self.inputTextView.resignFirstResponder()
-    self.inputViewDelegate?.switchIntoRecordingVoiceMode(recordVoiceBtn: sender as! UIButton)
+    self.inputViewDelegate?.switchToMicrophoneMode(recordVoiceBtn: sender as! UIButton)
     self.featureView.layoutFeature(with: .voice)
     self.showFeatureView()
   }
@@ -84,7 +84,7 @@ class IMUIInputView: UIView {
     inputViewStatus = .photo
     
     inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchIntoSelectPhotoMode(photoBtn: sender as! UIButton)
+    inputViewDelegate?.switchToGalleryMode(photoBtn: sender as! UIButton)
     self.featureView.layoutFeature(with: .gallery)
     self.showFeatureView()
   }
@@ -94,7 +94,7 @@ class IMUIInputView: UIView {
     inputViewStatus = .camera
     
     inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchIntoCameraMode(cameraBtn: sender as! UIButton)
+    inputViewDelegate?.switchToCameraMode(cameraBtn: sender as! UIButton)
     self.featureView.layoutFeature(with: .camera)
     self.showFeatureView()
   }

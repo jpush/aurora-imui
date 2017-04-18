@@ -43,13 +43,6 @@ extension ViewController: IMUIInputViewDelegate {
     
   }
   
-  func didRecordingVoice(_ voicePath: String, durationTime: Double) {
-    let outGoingmessage = MyMessageModel(voicePath: voicePath, isOutGoing: true)
-    let inCommingMessage = MyMessageModel(voicePath: voicePath, isOutGoing: false)
-    self.messageCollectionView.appendMessage(with: outGoingmessage)
-    self.messageCollectionView.appendMessage(with: inCommingMessage)
-  }
-  
   func didShootPicture(picture: Data) {
     let imgPath = self.getPath()
     do {
@@ -66,16 +59,16 @@ extension ViewController: IMUIInputViewDelegate {
     
   }
   
-//  func didSelectedPhoto(_ photoArr: [Data]) {
-//    for data in photoArr {
-//      didShootPicture(picture: data)
-//    }
-//  }
-  
-  
-  func didShootVideo(videoPath: String, durationTime: Double) {
+  func finishRecordVideo(videoPath: String, durationTime: Double) {
     let outGoingmessage = MyMessageModel(videoPath: videoPath, isOutGoing: true)
     let inCommingMessage = MyMessageModel(videoPath: videoPath, isOutGoing: false)
+    self.messageCollectionView.appendMessage(with: outGoingmessage)
+    self.messageCollectionView.appendMessage(with: inCommingMessage)
+  }
+  
+  func finishRecordVoice(_ voicePath: String, durationTime: Double) {
+    let outGoingmessage = MyMessageModel(voicePath: voicePath, isOutGoing: true)
+    let inCommingMessage = MyMessageModel(voicePath: voicePath, isOutGoing: false)
     self.messageCollectionView.appendMessage(with: outGoingmessage)
     self.messageCollectionView.appendMessage(with: inCommingMessage)
   }

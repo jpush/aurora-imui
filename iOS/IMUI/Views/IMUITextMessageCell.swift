@@ -35,7 +35,7 @@ class IMUITextMessageCell: IMUIBaseMessageCell {
     let layout = message.layout
 
     self.textMessageLable.frame = UIEdgeInsetsInsetRect(CGRect(origin: CGPoint.zero, size: layout.bubbleFrame.size), layout.bubbleContentInset)
-    self.layoutToText(with: message.textMessage(), isOutGoing: message.isOutGoing)
+    self.layoutToText(with: message.text(), isOutGoing: message.isOutGoing)
   }
   
   func layoutToText(with text: String, isOutGoing: Bool) {
