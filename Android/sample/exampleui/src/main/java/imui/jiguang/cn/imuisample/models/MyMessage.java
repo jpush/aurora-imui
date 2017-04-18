@@ -73,7 +73,7 @@ public class MyMessage implements IMessage {
     }
 
     @Override
-    public String getContentFile() {
+    public String getContentFilePath() {
         return contentFile;
     }
 }

@@ -2,7 +2,6 @@ package cn.jiguang.imui.messages;
 
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,7 +41,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         boolean isAvatarExists = message.getUserInfo().getAvatar() != null
                 && !message.getUserInfo().getAvatar().isEmpty();
 
-        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(message.getContentFile(),
+        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(message.getContentFilePath(),
                 MediaStore.Images.Thumbnails.MINI_KIND);
         mImageCover.setImageBitmap(thumb);
         mImageCover.setOnClickListener(new View.OnClickListener() {

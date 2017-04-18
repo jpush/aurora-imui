@@ -139,7 +139,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mPosition = position;
         try {
             mMediaPlayer.reset();
-            mFIS = new FileInputStream(message.getContentFile());
+            mFIS = new FileInputStream(message.getContentFilePath());
             mFD = mFIS.getFD();
             mMediaPlayer.setDataSource(mFD);
             if (mIsEarPhoneOn) {

@@ -196,13 +196,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      * Add messages chronologically, to load last page of messages from history, use this method.
      *
      * @param messages Last page of messages.
-     * @param reverse  if need to reserve messages before adding.
      */
-    public void addToEnd(List<MESSAGE> messages, boolean reverse) {
-        if (reverse) {
-            Collections.reverse(messages);
-        }
-
+    public void addToEnd(List<MESSAGE> messages) {
         int oldSize = mItems.size();
         for (int i = 0; i < messages.size(); i++) {
             MESSAGE message = messages.get(i);

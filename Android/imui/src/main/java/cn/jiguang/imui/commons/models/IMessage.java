@@ -41,7 +41,7 @@ public interface IMessage {
 
     String getText();
 
-    String getContentFile();
+    String getContentFilePath();
 
     long getDuration();
 }

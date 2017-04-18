@@ -45,12 +45,12 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             mImageLoader.loadImage(mAvatarIv, message.getUserInfo().getAvatar());
         }
 
-        setPictureScale(message.getContentFile(), mPhotoIv);
+        setPictureScale(message.getContentFilePath(), mPhotoIv);
         ViewGroup.LayoutParams params = mPhotoIv.getLayoutParams();
         DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
         int maxWidth = dm.widthPixels / 2;
         int maxHeight = dm.heightPixels / 3;
-        Bitmap bitmap = BitmapLoader.getCompressBitmap(message.getContentFile(), maxWidth, maxHeight, mDensity);
+        Bitmap bitmap = BitmapLoader.getCompressBitmap(message.getContentFilePath(), maxWidth, maxHeight, mDensity);
         if (bitmap != null) {
             params.width = bitmap.getWidth();
             params.height = bitmap.getHeight();
