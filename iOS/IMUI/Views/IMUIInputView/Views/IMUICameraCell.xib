@@ -45,7 +45,7 @@
                                     <action selector="clickCameraSwitch:" destination="gTV-IL-0wX" eventType="touchUpInside" id="fMq-8f-Khm"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWo-yF-VkR">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWo-yF-VkR">
                                 <rect key="frame" x="281" y="171" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="D8R-d0-tFo"/>
@@ -56,7 +56,7 @@
                                     <action selector="clickToSwitchCamera:" destination="gTV-IL-0wX" eventType="touchUpInside" id="s8U-y1-fJ2"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRu-3Y-U22">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRu-3Y-U22">
                                 <rect key="frame" x="296" y="8" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Ld1-GH-7BE"/>

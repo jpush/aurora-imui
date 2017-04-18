@@ -104,9 +104,7 @@ extension ViewController: IMUIInputViewDelegate {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yy-MMMM-dd"
     recorderPath = "\(NSHomeDirectory())/Documents/"
-    
-    dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm-ss"
-    recorderPath?.append("\(dateFormatter.string(from: now))-image")
+    recorderPath?.append("\(NSDate.timeIntervalSinceReferenceDate)")
     return recorderPath!
   }
 }

@@ -64,7 +64,6 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   func setupData(with message: IMUIMessageModelProtocol) {
     self.avatarImage.image = message.fromUser.Avatar()
     self.bubbleView.backgroundColor = UIColor.init(netHex: 0xE7EBEF)
-//    self.timeLabel.text = message.date.parseDate
     self.timeLabel.text = message.timeString
     self.message = message
     

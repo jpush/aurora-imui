@@ -10,6 +10,7 @@ import UIKit
 import Photos
 
 enum IMUIInputStatus {
+  case text
   case microphone
   case photo
   case camera
@@ -23,7 +24,7 @@ fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
 
 class IMUIInputView: UIView {
   
-  public var inputViewStatus: IMUIInputStatus = .microphone
+  public var inputViewStatus: IMUIInputStatus = .none
   open weak var inputViewDelegate: IMUIInputViewDelegate? {
     didSet {
       self.featureView.inputViewDelegate = self.inputViewDelegate
@@ -70,6 +71,7 @@ class IMUIInputView: UIView {
   
   @IBAction func clickMicBtn(_ sender: Any) {
     self.leaveGalleryMode()
+    inputViewStatus = .microphone
     
     self.inputTextView.resignFirstResponder()
     self.inputViewDelegate?.switchIntoRecordingVoiceMode(recordVoiceBtn: sender as! UIButton)
@@ -79,6 +81,7 @@ class IMUIInputView: UIView {
   
   @IBAction func clickPhotoBtn(_ sender: Any) {
     self.leaveGalleryMode()
+    inputViewStatus = .photo
     
     inputTextView.resignFirstResponder()
     inputViewDelegate?.switchIntoSelectPhotoMode(photoBtn: sender as! UIButton)
@@ -88,6 +91,7 @@ class IMUIInputView: UIView {
   
   @IBAction func clickCameraBtn(_ sender: Any) {
     self.leaveGalleryMode()
+    inputViewStatus = .camera
     
     inputTextView.resignFirstResponder()
     inputViewDelegate?.switchIntoCameraMode(cameraBtn: sender as! UIButton)
@@ -125,8 +129,17 @@ class IMUIInputView: UIView {
     }
     
     UIView.animate(withDuration: duration) {
-      self.moreViewHeight.constant = bottomDistance
-      
+      switch self.inputViewStatus {
+        case .none:
+          self.moreViewHeight.constant = bottomDistance
+          break
+        case .text:
+          self.moreViewHeight.constant = bottomDistance
+          break
+        default:
+          self.moreViewHeight.constant = IMUIFeatureViewHeight
+          break
+      }
       self.superview?.layoutIfNeeded()
     }
   }
@@ -137,8 +150,8 @@ class IMUIInputView: UIView {
     }
   
   func showFeatureView() {
-    UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) { 
-      self.moreViewHeight.constant = IMUIFeatureViewHeight
+    UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) {
+      self.moreViewHeight.constant = 253
       self.superview?.layoutIfNeeded()
     }
   }
@@ -162,7 +175,7 @@ extension IMUIInputView: UITextViewDelegate {
   }
   
   func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-    self.featureView.layoutFeature(with: .none)
+    inputViewStatus = .text
     return true
   }
   

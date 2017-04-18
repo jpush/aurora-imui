@@ -170,6 +170,15 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         }
         session.beginConfiguration()
         session.sessionPreset = AVCaptureSessionPreset352x288
+//        let statusBarOrientation = UIApplication.shared.statusBarOrientation
+//        var initialVideoOrientation: AVCaptureVideoOrientation = .portrait
+//        if statusBarOrientation != .unknown {
+//          if let videoOrientation = statusBarOrientation.videoOrientation {
+//            initialVideoOrientation = videoOrientation
+//          }
+//        }
+        videoFileOutput?.connection(withMediaType: AVMediaTypeVideo).videoOrientation = self.cameraPreviewView.videoPreviewLayer.connection.videoOrientation
+                videoFileOutput?.connection(withMediaType: AVMediaTypeVideo).videoOrientation = .landscapeLeft
         session.commitConfiguration()
         videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputPath), recordingDelegate: self)
       } else {
@@ -363,6 +372,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           
           let statusBarOrientation = UIApplication.shared.statusBarOrientation
           var initialVideoOrientation: AVCaptureVideoOrientation = .portrait
+//          var initialVideoOrientation: AVCaptureVideoOrientation = .landscapeRight
           if statusBarOrientation != .unknown {
             if let videoOrientation = statusBarOrientation.videoOrientation {
               initialVideoOrientation = videoOrientation
