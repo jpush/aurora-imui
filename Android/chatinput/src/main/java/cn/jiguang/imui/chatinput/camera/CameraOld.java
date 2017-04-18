@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
+
 @SuppressWarnings("deprecation")
 public class CameraOld implements CameraSupport {
 
@@ -263,7 +265,7 @@ public class CameraOld implements CameraSupport {
         mMediaRecorder.stop();
         mMediaRecorder.reset();
         if (mCameraCallbackListener != null) {
-            mCameraCallbackListener.onRecordVideoCompleted(mNextVideoAbsolutePath);
+            mCameraCallbackListener.onFinishVideoRecord(mNextVideoAbsolutePath);
         }
     }
 }

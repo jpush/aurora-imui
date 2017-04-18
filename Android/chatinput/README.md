@@ -72,8 +72,10 @@ dependencies {
 ChatInputView chatInputView = (ChatInputView) findViewById(R.id.chat_input);
 chatInputView.setMenuContainerHeight(softInputHeight);
 ```
-初始化后一定要设置一下 MenuContainer 的高度，最好设置为软键盘的高度，否则会导致第一次打开菜单时高度不正常（此时
-打开软键盘会导致界面伸缩）。建议在跳转到聊天界面之前使用 onSizeChanged 方法监听软键盘的高度，然后在初始化的时候设置即可，
+**初始化后一定要设置一下 MenuContainer 的高度，最好设置为软键盘的高度，否则会导致第一次打开菜单时高度不正常（此时
+打开软键盘会导致界面伸缩）。**
+
+建议在跳转到聊天界面之前使用 onSizeChanged 方法监听软键盘的高度，然后在初始化的时候设置即可，
 关于监听软键盘高度的方法可以参考 sample 下的 MessageListActivity 及 ChatView 中的 onSizeChanged 相关方法。
 
 ## 重要接口及事件
@@ -82,10 +84,10 @@ ChatInputView 提供了各种按钮及事件的监听回调，所以用户可以
 #### OnMenuClickListener
 首先是输入框下面的菜单栏事件的监听，调用 chatInputView.setMenuClickListener 即可设置监听：
 ```
-chatInput.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
+chatInput.setMenuClickListener(new OnMenuClickListener() {
     @Override
-    public boolean onSubmit(CharSequence input) {
-         // 点击发送按钮事件
+    public boolean onSendTextMessage(CharSequence input) {
+         // 输入框输入文字后，点击发送按钮事件
     }
 
     @Override
@@ -94,22 +96,22 @@ chatInput.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
     }
 
     @Override
-    public void onVoiceClick() {
-        // 点击语音按钮触发事件
+    public void switchToMicrophoneMode() {
+        // 点击语音按钮触发事件，显示录音界面前触发此事件
     }
 
     @Override
-    public void onPhotoClick() {
-        // 点击图片按钮触发事件
+    public void switchToGalleryMode() {
+        // 点击图片按钮触发事件，显示图片选择界面前触发此事件
     }
 
     @Override
-    public void onCameraClick() {
-        // 点击拍照按钮触发事件
+    public void switchToCameraMode() {
+        // 点击拍照按钮触发事件，显示拍照界面前触发此事件
     }
     
      @Override
-     public void onVideoRecordFinished(String filePath) {
+     public void onFinishVideoRecord(VideoItem videoItem) {
          // 录完视频后，点击发送触发事件
      }
 });
@@ -121,7 +123,7 @@ chatInput.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
 
 ```
 mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
-mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceButton.RecordVoiceListener() {
+mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceListener() {
     @Override
     public void onStartRecord() {
         // Show record voice interface
@@ -135,8 +137,9 @@ mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceButton.RecordVoiceListener
     @Override
     public void onFinishRecord(File voiceFile, int duration) {
         MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE);
-        message.setContentFile(voiceFile.getPath());
+        message.setMediaFilePath(voiceFile.getPath());
         message.setDuration(duration);
+        message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
         mAdapter.addToStart(message, true);
     }
 

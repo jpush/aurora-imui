@@ -6,12 +6,27 @@ import java.util.Date;
 
 public interface IMessage {
 
-    String getId();
+    /**
+     * Message id.
+     * @return unique
+     */
+    String getMsgId();
 
-    IUser getUserInfo();
+    /**
+     * Get user info of message.
+     * @return UserInfo of message
+     */
+    IUser getFromUser();
 
-    Date getCreatedAt();
+    /**
+     * Time string that display in message list.
+     * @return Time string
+     */
+    String getTimeString();
 
+    /**
+     * Type of Message
+     */
     enum MessageType {
         SEND_TEXT,
         RECEIVE_TEXT,
@@ -37,11 +52,28 @@ public interface IMessage {
         }
     }
 
+    /**
+     * Type of message, enum.
+     * @return Message Type
+     */
     MessageType getType();
 
+    /**
+     * Text of message.
+     * @return text
+     */
     String getText();
 
-    String getContentFilePath();
+    /**
+     * If message type is photo, voice, video or file,
+     * get file path through this method.
+     * @return file path
+     */
+    String getMediaFilePath();
 
+    /**
+     * If message type is voice or video, get duration through this method.
+     * @return duration of audio or video
+     */
     long getDuration();
 }

@@ -22,6 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.jiguang.imui.chatinput.R;
+import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 
 
 public class RecordVoiceButton extends ImageButton {
@@ -438,27 +439,4 @@ public class RecordVoiceButton extends ImageButton {
         }
     }
 
-    /**
-     * Callback will invoked when record voice is finished
-     */
-    public interface RecordVoiceListener {
-
-        /**
-         * Fires when started recording.
-         */
-        void onStartRecord();
-
-        /**
-         * Fires when finished recording.
-         *
-         * @param voiceFile The audio file.
-         * @param duration  The duration of audio file, specified in seconds.
-         */
-        void onFinishRecord(File voiceFile, int duration);
-
-        /**
-         * Fires when canceled recording, will delete the audio file.
-         */
-        void onCancelRecord();
-    }
 }

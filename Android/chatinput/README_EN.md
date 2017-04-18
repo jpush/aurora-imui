@@ -94,10 +94,10 @@ event listener to do their stuff flexibly. Such as send message event etc.
 First of all, `OnMenuClickListener` handling click event of menu item. Call `chatInputView.setMenuClickListener`
 can set this listener:
 ```
-chatInput.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
+chatInput.setMenuClickListener(new OnMenuClickListener() {
     @Override
-    public boolean onSubmit(CharSequence input) {
-         // click send button
+    public boolean onSendTextMessage(CharSequence input) {
+         // After input content and click send button will fire this callback
     }
 
     @Override
@@ -106,22 +106,22 @@ chatInput.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
     }
 
     @Override
-    public void onVoiceClick() {
-        // fires when click mic button in menu item
+    public void switchToMicrophoneMode() {
+        // click mic button in menu item, fires before showing record voice widget
     }
 
     @Override
-    public void onPhotoClick() {
-        // Fires when click photo button in menu item
+    public void switchToGalleryMode() {
+        // click photo button in menu item, fires before showing select photo widget
     }
 
     @Override
-    public void onCameraClick() {
-        // Fires when click camera button in menu item
+    public void switchToCameraMode() {
+        // click camera button in menu item, fires before showing camera widget
     }
 
      @Override
-     public void onVideoRecordFinished(String filePath) {
+     public void onFinishVideoRecord(VideoItem videoItem) {
          // Fires when finished recording video then click send button in video preview
      }
 });
@@ -134,7 +134,7 @@ This is the interface of record voice, the way to use:
 
 ```
 mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
-mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceButton.RecordVoiceListener() {
+mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceListener() {
     @Override
     public void onStartRecord() {
         // Show record voice interface
@@ -148,8 +148,9 @@ mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceButton.RecordVoiceListener
     @Override
     public void onFinishRecord(File voiceFile, int duration) {
         MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE);
-        message.setContentFile(voiceFile.getPath());
+        message.setMediaFilePath(voiceFile.getPath());
         message.setDuration(duration);
+        message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
         mAdapter.addToStart(message, true);
     }
 

@@ -26,7 +26,7 @@ public class DefaultUser implements IUser {
     }
 
     @Override
-    public String getAvatar() {
+    public String getAvatarFilePath() {
         return avatar;
     }
 }

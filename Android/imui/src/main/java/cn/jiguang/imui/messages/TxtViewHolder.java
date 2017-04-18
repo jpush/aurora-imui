@@ -8,7 +8,6 @@ import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.view.CircleImageView;
-import cn.jiguang.imui.utils.DateFormatter;
 
 public class TxtViewHolder<MESSAGE extends IMessage>
         extends BaseMessageViewHolder<MESSAGE>
@@ -32,17 +31,19 @@ public class TxtViewHolder<MESSAGE extends IMessage>
     @Override
     public void onBind(final MESSAGE message) {
         mMsgTv.setText(message.getText());
-        mDateTv.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));
-        boolean isAvatarExists = message.getUserInfo().getAvatar() != null
-                && !message.getUserInfo().getAvatar().isEmpty();
+        if (message.getTimeString() != null) {
+            mDateTv.setText(message.getTimeString());
+        }
+        boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
+                && !message.getFromUser().getAvatarFilePath().isEmpty();
         if (isAvatarExists && mImageLoader != null) {
-            mImageLoader.loadImage(mAvatarIv, message.getUserInfo().getAvatar());
+            mImageLoader.loadImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
         } else if (mImageLoader == null) {
             mAvatarIv.setVisibility(View.GONE);
         }
         if (!mIsSender) {
             if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
-                mDisplayNameTv.setText(message.getUserInfo().getDisplayName());
+                mDisplayNameTv.setText(message.getFromUser().getDisplayName());
             }
         }
 

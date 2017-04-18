@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import cn.jiguang.imui.R;
@@ -212,7 +211,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             Wrapper wrapper = mItems.get(i);
             if (wrapper.item instanceof IMessage) {
                 MESSAGE message = (MESSAGE) wrapper.item;
-                if (message.getId().contentEquals(id)) {
+                if (message.getMsgId().contentEquals(id)) {
                     return i;
                 }
             }
@@ -236,7 +235,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      * @param message message to be updated.
      */
     public void updateMessage(MESSAGE message) {
-        updateMessage(message.getId(), message);
+        updateMessage(message.getMsgId(), message);
     }
 
     /**
@@ -260,7 +259,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      * @param message message to be deleted.
      */
     public void delete(MESSAGE message) {
-        deleteById(message.getId());
+        deleteById(message.getMsgId());
     }
 
     /**
@@ -283,7 +282,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      */
     public void delete(List<MESSAGE> messages) {
         for (MESSAGE message : messages) {
-            int index = getMessagePositionById(message.getId());
+            int index = getMessagePositionById(message.getMsgId());
             if (index >= 0) {
                 mItems.remove(index);
                 notifyItemRemoved(index);
@@ -403,7 +402,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     }
 
                     MESSAGE message = (wrapper.item);
-                    notifyItemChanged(getMessagePositionById(message.getId()));
+                    notifyItemChanged(getMessagePositionById(message.getMsgId()));
                 } else {
                     notifyMessageClicked(wrapper.item);
                 }

@@ -1,6 +1,5 @@
-package cn.jiguang.imui.chatinput.camera;
+package cn.jiguang.imui.chatinput.listener;
 
-import java.io.File;
 
 
 public interface OnCameraCallbackListener {
@@ -13,10 +12,14 @@ public interface OnCameraCallbackListener {
      */
     void onTakePictureCompleted(String photoPath);
 
+    void onStartVideoRecord();
+
     /**
      * Fires when record video finished.
      *
      * @param videoPath Return the absolute path of video file.
      */
-    void onRecordVideoCompleted(String videoPath);
+    void onFinishVideoRecord(String videoPath);
+
+    void onCancelVideoRecord();
 }

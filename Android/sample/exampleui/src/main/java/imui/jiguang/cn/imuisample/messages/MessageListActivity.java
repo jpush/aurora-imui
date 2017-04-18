@@ -20,13 +20,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
-import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
+import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
+import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.commons.ImageLoader;
@@ -73,9 +76,9 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mChatView.setKeyboardChangedListener(this);
         mChatView.setOnSizeChangedListener(this);
         mChatView.setOnTouchListener(this);
-        mChatView.setMenuClickListener(new ChatInputView.OnMenuClickListener() {
+        mChatView.setMenuClickListener(new OnMenuClickListener() {
             @Override
-            public boolean onSubmit(CharSequence input) {
+            public boolean onSendTextMessage(CharSequence input) {
                 if (input.length() == 0) {
                     return false;
                 }
@@ -104,7 +107,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                         throw new RuntimeException("Invalid FileItem type. Must be Type.Image or Type.Video");
                     }
 
-                    message.setContentFile(item.getFilePath());
+                    message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
+                    message.setMediaFilePath(item.getFilePath());
                     message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
 
                     final MyMessage fMsg = message;
@@ -118,7 +122,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
 
             @Override
-            public void onVoiceClick() {
+            public void switchToMicrophoneMode() {
                 if ((ActivityCompat.checkSelfPermission(MessageListActivity.this,
                         Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
                         && ActivityCompat.checkSelfPermission(mContext,
@@ -133,7 +137,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
 
             @Override
-            public void onPhotoClick() {
+            public void switchToGalleryMode() {
                 if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MessageListActivity.this, new String[]{
@@ -143,7 +147,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
 
             @Override
-            public void onCameraClick() {
+            public void switchToCameraMode() {
                 if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -159,9 +163,9 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
 
             @Override
-            public void onVideoRecordFinished(VideoItem video) {
+            public void onFinishVideoRecord(VideoItem video) {
                 final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
-                message.setContentFile(video.getFilePath());
+                message.setMediaFilePath(video.getFilePath());
                 message.setDuration(video.getDuration());
                 message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
                 MessageListActivity.this.runOnUiThread(new Runnable() {
@@ -173,7 +177,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
         });
 
-        mChatView.setRecordVoiceListener(new RecordVoiceButton.RecordVoiceListener() {
+        mChatView.setRecordVoiceListener(new RecordVoiceListener() {
             @Override
             public void onStartRecord() {
                 // Show record voice interface
@@ -187,8 +191,9 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             public void onFinishRecord(File voiceFile, int duration) {
                 MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE);
                 message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
-                message.setContentFile(voiceFile.getPath());
+                message.setMediaFilePath(voiceFile.getPath());
                 message.setDuration(duration);
+                message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                 mAdapter.addToStart(message, true);
             }
 
@@ -236,6 +241,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 message = new MyMessage(messages[i], IMessage.MessageType.SEND_TEXT);
                 message.setUserInfo(new DefaultUser("1", "IronMan", "ironman"));
             }
+            message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
             list.add(message);
         }
         return list;
@@ -279,7 +285,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMessage>() {
             @Override
             public void onAvatarClick(MyMessage message) {
-                DefaultUser userInfo = (DefaultUser) message.getUserInfo();
+                DefaultUser userInfo = (DefaultUser) message.getFromUser();
                 Toast.makeText(mContext, mContext.getString(R.string.avatar_click_hint),
                         Toast.LENGTH_SHORT).show();
                 // do something
@@ -288,8 +294,9 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
         MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
         message.setUserInfo(new DefaultUser("0", "Deadpool", "deadpool"));
+//        message.setTimeString();
 
-        mAdapter.addToEnd(mData, true);
+        mAdapter.addToEnd(mData);
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int page, int totalCount) {
@@ -306,7 +313,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mAdapter.addToEnd(mData, true);
+                mAdapter.addToEnd(mData);
             }
         }, 1000);
     }

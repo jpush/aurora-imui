@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.view.CircleImageView;
-import cn.jiguang.imui.utils.DateFormatter;
 
 
 public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHolder<Message>
@@ -36,12 +35,13 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
 
     @Override
     public void onBind(final Message message) {
-        mTextDate.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));
+        if (message.getTimeString() != null) {
+            mTextDate.setText(message.getTimeString());
+        }
+        boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
+                && !message.getFromUser().getAvatarFilePath().isEmpty();
 
-        boolean isAvatarExists = message.getUserInfo().getAvatar() != null
-                && !message.getUserInfo().getAvatar().isEmpty();
-
-        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(message.getContentFilePath(),
+        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(message.getMediaFilePath(),
                 MediaStore.Images.Thumbnails.MINI_KIND);
         mImageCover.setImageBitmap(thumb);
         mImageCover.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
 
         if (mImageLoader != null) {
             if (isAvatarExists) {
-                mImageLoader.loadImage(mImageAvatar, message.getUserInfo().getAvatar());
+                mImageLoader.loadImage(mImageAvatar, message.getFromUser().getAvatarFilePath());
             }
         }
 

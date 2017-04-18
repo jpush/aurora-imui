@@ -15,7 +15,6 @@ import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.BitmapLoader;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.view.CircleImageView;
-import cn.jiguang.imui.utils.DateFormatter;
 
 public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
@@ -38,19 +37,21 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 
     @Override
     public void onBind(final MESSAGE message) {
-        mDateTv.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));
-        boolean isAvatarExists = message.getUserInfo().getAvatar() != null
-                && !message.getUserInfo().getAvatar().isEmpty();
+        if (message.getTimeString() != null) {
+            mDateTv.setText(message.getTimeString());
+        }
+        boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
+                && !message.getFromUser().getAvatarFilePath().isEmpty();
         if (isAvatarExists && mImageLoader != null) {
-            mImageLoader.loadImage(mAvatarIv, message.getUserInfo().getAvatar());
+            mImageLoader.loadImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
         }
 
-        setPictureScale(message.getContentFilePath(), mPhotoIv);
+        setPictureScale(message.getMediaFilePath(), mPhotoIv);
         ViewGroup.LayoutParams params = mPhotoIv.getLayoutParams();
         DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
         int maxWidth = dm.widthPixels / 2;
         int maxHeight = dm.heightPixels / 3;
-        Bitmap bitmap = BitmapLoader.getCompressBitmap(message.getContentFilePath(), maxWidth, maxHeight, mDensity);
+        Bitmap bitmap = BitmapLoader.getCompressBitmap(message.getMediaFilePath(), maxWidth, maxHeight, mDensity);
         if (bitmap != null) {
             params.width = bitmap.getWidth();
             params.height = bitmap.getHeight();

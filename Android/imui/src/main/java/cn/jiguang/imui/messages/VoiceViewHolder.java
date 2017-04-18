@@ -18,7 +18,6 @@ import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.view.CircleImageView;
-import cn.jiguang.imui.utils.DateFormatter;
 
 public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
@@ -68,11 +67,13 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 
     @Override
     public void onBind(final MESSAGE message) {
-        mDateTv.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));
-        boolean isAvatarExists = message.getUserInfo().getAvatar() != null
-                && !message.getUserInfo().getAvatar().isEmpty();
+        if (message.getTimeString() != null) {
+            mDateTv.setText(message.getTimeString());
+        }
+        boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
+                && !message.getFromUser().getAvatarFilePath().isEmpty();
         if (isAvatarExists && mImageLoader != null) {
-            mImageLoader.loadImage(mAvatarIv, message.getUserInfo().getAvatar());
+            mImageLoader.loadImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
         }
         long duration = message.getDuration();
         String lengthStr = duration + mContext.getString(R.string.aurora_symbol_second);
@@ -139,7 +140,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mPosition = position;
         try {
             mMediaPlayer.reset();
-            mFIS = new FileInputStream(message.getContentFilePath());
+            mFIS = new FileInputStream(message.getMediaFilePath());
             mFD = mFIS.getFD();
             mMediaPlayer.setDataSource(mFD);
             if (mIsEarPhoneOn) {

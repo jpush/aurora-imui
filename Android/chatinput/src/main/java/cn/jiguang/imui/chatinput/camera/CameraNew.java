@@ -3,7 +3,6 @@ package cn.jiguang.imui.chatinput.camera;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -43,6 +42,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import cn.jiguang.imui.chatinput.R;
+import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 
 
 public class CameraNew implements CameraSupport {
@@ -448,6 +448,9 @@ public class CameraNew implements CameraSupport {
             return;
         }
         try {
+            if (mOnCameraCallbackListener != null) {
+                mOnCameraCallbackListener.onStartVideoRecord();
+            }
             closePreviewSession();
             setUpMediaRecorder();
             SurfaceTexture texture = mTextureView.getSurfaceTexture();
@@ -496,13 +499,16 @@ public class CameraNew implements CameraSupport {
                 file.delete();
             }
         }
+        if (mOnCameraCallbackListener != null) {
+            mOnCameraCallbackListener.onCancelVideoRecord();
+        }
     }
 
     @Override
     public void finishRecordingVideo() {
         resetRecordState();
         if (mOnCameraCallbackListener != null) {
-            mOnCameraCallbackListener.onRecordVideoCompleted(mNextVideoAbsolutePath);
+            mOnCameraCallbackListener.onFinishVideoRecord(mNextVideoAbsolutePath);
         }
     }
 

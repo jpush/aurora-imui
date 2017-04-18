@@ -8,6 +8,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
+import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
+import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
@@ -62,7 +64,7 @@ public class ChatView extends RelativeLayout {
         mTitle.setText(title);
     }
 
-    public void setMenuClickListener(ChatInputView.OnMenuClickListener listener) {
+    public void setMenuClickListener(OnMenuClickListener listener) {
         mChatInput.setMenuClickListener(listener);
     }
 
@@ -82,7 +84,7 @@ public class ChatView extends RelativeLayout {
         mChatInput.setCameraCaptureFile(path, fileName);
     }
 
-    public void setRecordVoiceListener(RecordVoiceButton.RecordVoiceListener listener) {
+    public void setRecordVoiceListener(RecordVoiceListener listener) {
         mRecordVoiceBtn.setRecordVoiceListener(listener);
     }
 

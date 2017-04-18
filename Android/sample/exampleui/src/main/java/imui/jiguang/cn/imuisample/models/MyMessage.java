@@ -13,7 +13,7 @@ public class MyMessage implements IMessage {
 
     private long id;
     private String text;
-    private Date createAt;
+    private String timeString;
     private MessageType type;
     private IUser user;
     private String contentFile;
@@ -28,12 +28,12 @@ public class MyMessage implements IMessage {
     }
 
     @Override
-    public String getId() {
+    public String getMsgId() {
         return String.valueOf(id);
     }
 
     @Override
-    public IUser getUserInfo() {
+    public IUser getFromUser() {
         if (user == null) {
             return new DefaultUser("0", "user1", null);
         }
@@ -44,7 +44,7 @@ public class MyMessage implements IMessage {
         this.user = user;
     }
 
-    public void setContentFile(String path) {
+    public void setMediaFilePath(String path) {
         this.contentFile = path;
     }
 
@@ -57,9 +57,13 @@ public class MyMessage implements IMessage {
         return duration;
     }
 
+    public void setTimeString(String timeString) {
+        this.timeString = timeString;
+    }
+
     @Override
-    public Date getCreatedAt() {
-        return createAt == null ? new Date() : createAt;
+    public String getTimeString() {
+        return timeString;
     }
 
     @Override
@@ -73,7 +77,7 @@ public class MyMessage implements IMessage {
     }
 
     @Override
-    public String getContentFilePath() {
+    public String getMediaFilePath() {
         return contentFile;
     }
 }

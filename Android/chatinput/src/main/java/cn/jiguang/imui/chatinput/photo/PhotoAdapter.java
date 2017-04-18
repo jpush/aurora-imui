@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import cn.jiguang.imui.chatinput.listener.OnFileSelectedListener;
 import cn.jiguang.imui.chatinput.utils.DisplayUtil;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.R;
@@ -195,13 +196,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         set.playTogether(valueAnimators);
         set.setDuration(150);
         set.start();
-    }
-
-    public interface OnFileSelectedListener {
-
-        void onFileSelected();
-
-        void onFileDeselected();
     }
 
     static final class PhotoViewHolder extends RecyclerView.ViewHolder {

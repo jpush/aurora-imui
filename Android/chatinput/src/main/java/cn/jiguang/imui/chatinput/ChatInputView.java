@@ -67,7 +67,9 @@ import java.util.Locale;
 import cn.jiguang.imui.chatinput.camera.CameraNew;
 import cn.jiguang.imui.chatinput.camera.CameraOld;
 import cn.jiguang.imui.chatinput.camera.CameraSupport;
-import cn.jiguang.imui.chatinput.camera.OnCameraCallbackListener;
+import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
+import cn.jiguang.imui.chatinput.listener.OnFileSelectedListener;
+import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.photo.PhotoAdapter;
 import cn.jiguang.imui.chatinput.record.ProgressButton;
 import cn.jiguang.imui.chatinput.record.RecordControllerView;
@@ -77,7 +79,7 @@ import cn.jiguang.imui.chatinput.model.VideoItem;
 
 public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
-        PhotoAdapter.OnFileSelectedListener, OnCameraCallbackListener {
+        OnFileSelectedListener, OnCameraCallbackListener {
 
     public static final byte KEYBOARD_STATE_SHOW = -3;
     public static final byte KEYBOARD_STATE_HIDE = -2;
@@ -461,7 +463,7 @@ public class ChatInputView extends LinearLayout
             } else if (mFinishRecordingVideo) {
                 if (mListener != null) {
                     VideoItem video = new VideoItem(mVideoFilePath, null, null, null, mMediaPlayer.getDuration());
-                    mListener.onVideoRecordFinished(video);
+                    mListener.onFinishVideoRecord(video);
                     mFinishRecordingVideo = false;
                     mVideoFilePath = null;
                 }
@@ -525,12 +527,12 @@ public class ChatInputView extends LinearLayout
 
             if (view.getId() == R.id.aurora_menuitem_ib_mic) {
                 if (mListener != null) {
-                    mListener.onVoiceClick();
+                    mListener.switchToMicrophoneMode();
                 }
                 showRecordVoiceLayout();
             } else if (view.getId() == R.id.aurora_menuitem_ib_photo) {
                 if (mListener != null) {
-                    mListener.onPhotoClick();
+                    mListener.switchToGalleryMode();
                 }
 
                 if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -557,7 +559,7 @@ public class ChatInputView extends LinearLayout
                 }
             } else if (view.getId() == R.id.aurora_menuitem_ib_camera) {
                 if (mListener != null) {
-                    mListener.onCameraClick();
+                    mListener.switchToCameraMode();
                 }
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                     if (mPhoto == null) {
@@ -820,7 +822,7 @@ public class ChatInputView extends LinearLayout
     }
 
     private boolean onSubmit() {
-        return mListener != null && mListener.onSubmit(mInput);
+        return mListener != null && mListener.onSendTextMessage(mInput);
     }
 
     public boolean getSoftInputState() {
@@ -1037,48 +1039,6 @@ public class ChatInputView extends LinearLayout
         return SystemClock.elapsedRealtime() - longTime;
     }
 
-    /**
-     * Menu items' callbacks
-     */
-    public interface OnMenuClickListener {
-
-        /**
-         * Fires when aurora_menuitem_send button is on click.
-         *
-         * @param input Input content
-         * @return boolean
-         */
-        boolean onSubmit(CharSequence input);
-
-        /**
-         * Files when aurora_menuitem_send photos or videos.
-         *
-         * @param list File paths that will aurora_menuitem_send.
-         */
-        void onSendFiles(List<FileItem> list);
-
-        /**
-         * Fires when voice button is on click.
-         */
-        void onVoiceClick();
-
-        /**
-         * Fires when aurora_menuitem_photo button is on click.
-         */
-        void onPhotoClick();
-
-        /**
-         * Fires when aurora_menuitem_camera button is on click.
-         */
-        void onCameraClick();
-
-        /**
-         * Fires when record video finished
-         *
-         * @param video return video message object.
-         */
-        void onVideoRecordFinished(VideoItem video);
-    }
 
     public void dismissMenuAndResetSoftMode() {
         mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
@@ -1188,15 +1148,25 @@ public class ChatInputView extends LinearLayout
         mListener.onSendFiles(list);
     }
 
+    @Override
+    public void onStartVideoRecord() {
+
+    }
+
     /**
      * Finished recording video callback
      *
      * @param videoPath Return the absolute path of video file.
      */
     @Override
-    public void onRecordVideoCompleted(String videoPath) {
+    public void onFinishVideoRecord(String videoPath) {
         Log.e("ChatInputView", "Video path: " + videoPath);
         mVideoFilePath = videoPath;
+    }
+
+    @Override
+    public void onCancelVideoRecord() {
+
     }
 
     private static class MyHandler extends Handler {
