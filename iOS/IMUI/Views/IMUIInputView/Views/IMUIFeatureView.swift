@@ -141,6 +141,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
   }
   
   func numberOfSections(in collectionView: UICollectionView) -> Int {
+    collectionView.collectionViewLayout.invalidateLayout()
     return 1
   }
   

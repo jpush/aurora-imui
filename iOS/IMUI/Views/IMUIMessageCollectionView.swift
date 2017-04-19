@@ -38,6 +38,7 @@ class IMUIMessageCollectionView: UIView {
   }
   
   func setupMessageCollectionView() {
+
     self.messageCollectionView.delegate = self
     self.messageCollectionView.dataSource = self
     
@@ -75,6 +76,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
   }
   
   func numberOfSections(in collectionView: UICollectionView) -> Int {
+    collectionView.collectionViewLayout.invalidateLayout()
     return 1
   }
   
@@ -127,6 +129,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
     let messageModel = self.chatDataManager[indexPath.item]
     self.delegate?.didTapMessageCell(messageModel)
   }
+
 
   func collectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
     let messageModel = self.chatDataManager[forItemAt.item]
