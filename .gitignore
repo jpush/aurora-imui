@@ -1,6 +1,6 @@
 
 # Created by https://www.gitignore.io/api/android,intellij
-
+.DS_Store
 ### Android ###
 # Built application files
 *.apk
