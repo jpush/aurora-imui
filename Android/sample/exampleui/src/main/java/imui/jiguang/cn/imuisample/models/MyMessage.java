@@ -1,8 +1,5 @@
 package imui.jiguang.cn.imuisample.models;
 
-import android.graphics.Rect;
-
-import java.util.Date;
 import java.util.UUID;
 
 import cn.jiguang.imui.commons.models.IMessage;
@@ -18,8 +15,6 @@ public class MyMessage implements IMessage {
     private IUser user;
     private String contentFile;
     private long duration;
-
-    private final Rect mCurrentViewRect = new Rect();
 
     public MyMessage(String text, MessageType type) {
         this.text = text;

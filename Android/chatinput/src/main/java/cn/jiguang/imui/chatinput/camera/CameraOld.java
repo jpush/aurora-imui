@@ -2,7 +2,10 @@ package cn.jiguang.imui.chatinput.camera;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.media.MediaRecorder;
@@ -45,6 +48,7 @@ public class CameraOld implements CameraSupport {
         ORIENTATIONS.append(Surface.ROTATION_180, 180);
         ORIENTATIONS.append(Surface.ROTATION_270, 270);
     }
+    private boolean mIsFacingBack = true;
 
     public CameraOld(Context context, TextureView textureView) {
         this.mContext = context;
@@ -52,9 +56,10 @@ public class CameraOld implements CameraSupport {
     }
 
     @Override
-    public CameraSupport open(int cameraId, int width, int height) {
+    public CameraSupport open(int cameraId, int width, int height, boolean isFacingBack) {
         this.mCameraId = cameraId;
         this.mCamera = Camera.open(cameraId);
+        mIsFacingBack = isFacingBack;
         Camera.Parameters params = mCamera.getParameters();
         /*获取摄像头支持的PictureSize列表*/
         List<Size> pictureSizeList = params.getSupportedPictureSizes();
@@ -125,10 +130,20 @@ public class CameraOld implements CameraSupport {
         mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] bytes, Camera camera) {
-                OutputStream outputStream = null;
                 try {
-                    outputStream = new FileOutputStream(mPhoto);
-                    outputStream.write(bytes);
+                    OutputStream outputStream = new FileOutputStream(mPhoto);
+                    // 前置摄像头水平翻转照片
+                    if (!mIsFacingBack) {
+                        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        int w = bmp.getWidth();
+                        int h = bmp.getHeight();
+                        Matrix matrix = new Matrix();
+                        matrix.postScale(-1, 1);
+                        Bitmap convertBmp = Bitmap.createBitmap(bmp, 0, 0, w, h, matrix, true);
+                        convertBmp.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    } else {
+                        outputStream.write(bytes);
+                    }
                     outputStream.close();
                     if (mCameraCallbackListener != null) {
                         mCameraCallbackListener.onTakePictureCompleted(mPhoto.getAbsolutePath());

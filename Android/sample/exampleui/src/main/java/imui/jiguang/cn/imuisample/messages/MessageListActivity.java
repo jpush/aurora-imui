@@ -84,6 +84,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 }
                 MyMessage message = new MyMessage(input.toString(), IMessage.MessageType.SEND_TEXT);
                 message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
+                message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                 mAdapter.addToStart(message, true);
                 return true;
             }

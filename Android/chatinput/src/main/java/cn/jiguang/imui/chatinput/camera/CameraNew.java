@@ -4,7 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -64,18 +67,21 @@ public class CameraNew implements CameraSupport {
     private int mHeight;
     private static SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
+
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 0);
         ORIENTATIONS.append(Surface.ROTATION_90, 90);
         ORIENTATIONS.append(Surface.ROTATION_180, 180);
         ORIENTATIONS.append(Surface.ROTATION_270, 270);
     }
+
     static {
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_0, 270);
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_90, 180);
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_180, 90);
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_270, 0);
     }
+
     private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private final static int REQUEST_CAMERA_PERMISSION = 200;
@@ -84,6 +90,7 @@ public class CameraNew implements CameraSupport {
     private MediaRecorder mMediaRecorder;
     private String mNextVideoAbsolutePath;
     private Integer mSensorOrientation;
+    private boolean mIsFacingBack = true;
 
     public CameraNew(final Context context, TextureView textureView) {
         this.mContext = context;
@@ -96,9 +103,10 @@ public class CameraNew implements CameraSupport {
     }
 
     @Override
-    public CameraSupport open(final int cameraId, int width, int height) {
+    public CameraSupport open(final int cameraId, int width, int height, boolean isFacingBack) {
         mWidth = width;
         mHeight = height;
+        mIsFacingBack = isFacingBack;
         try {
             mCameraId = cameraId + "";
             CameraCharacteristics characteristics = mManager.getCameraCharacteristics(mCameraId);
@@ -192,7 +200,7 @@ public class CameraNew implements CameraSupport {
     }
 
     private Size chooseVideoSize(Size[] choices) {
-        for (Size option: choices) {
+        for (Size option : choices) {
             if (option.getWidth() == option.getHeight() * 4 / 3 && option.getWidth() <= 1080) {
                 return option;
             }
@@ -245,6 +253,7 @@ public class CameraNew implements CameraSupport {
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
+
     public void stopBackgroundThread() {
         if (mBackgroundThread != null) {
             mBackgroundThread.quitSafely();
@@ -376,15 +385,20 @@ public class CameraNew implements CameraSupport {
     }
 
     private void save(byte[] bytes) throws IOException {
-        OutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(mPhoto);
+        OutputStream outputStream = new FileOutputStream(mPhoto);
+        // 前置摄像头水平翻转照片
+        if (!mIsFacingBack) {
+            Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            int w = bmp.getWidth();
+            int h = bmp.getHeight();
+            Matrix matrix = new Matrix();
+            matrix.postScale(-1, 1);
+            Bitmap convertBmp = Bitmap.createBitmap(bmp, 0, 0, w, h, matrix, true);
+            convertBmp.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        } else {
             outputStream.write(bytes);
-        } finally {
-            if (null != outputStream) {
-                outputStream.close();
-            }
         }
+        outputStream.close();
     }
 
     public void setUpMediaRecorder() {
@@ -415,23 +429,47 @@ public class CameraNew implements CameraSupport {
                 || rotation == Surface.ROTATION_180) && height > width ||
                 (rotation == Surface.ROTATION_90
                         || rotation == Surface.ROTATION_270) && width > height) {
-            switch(rotation) {
+            switch (rotation) {
                 case Surface.ROTATION_0:
-                    mMediaRecorder.setOrientationHint(90);
+                    Log.e(TAG, "Rotation 0");
+                    if (mIsFacingBack) {
+                        mMediaRecorder.setOrientationHint(90);
+                    } else {
+                        mMediaRecorder.setOrientationHint(270);
+                    }
                     break;
                 case Surface.ROTATION_90:
-                    mMediaRecorder.setOrientationHint(0);
+                    Log.e(TAG, "Rotation 90");
+                    if (mIsFacingBack) {
+                        mMediaRecorder.setOrientationHint(0);
+                    } else {
+                        mMediaRecorder.setOrientationHint(180);
+                    }
                     break;
                 case Surface.ROTATION_180:
-                    mMediaRecorder.setOrientationHint(270);
+                    Log.e(TAG, "Rotation 180");
+                    if (mIsFacingBack) {
+                        mMediaRecorder.setOrientationHint(270);
+                    } else {
+                        mMediaRecorder.setOrientationHint(90);
+                    }
                     break;
                 case Surface.ROTATION_270:
-                    mMediaRecorder.setOrientationHint(180);
+                    Log.e(TAG, "Rotation 270");
+                    if (mIsFacingBack) {
+                        mMediaRecorder.setOrientationHint(180);
+                    } else {
+                        mMediaRecorder.setOrientationHint(0);
+                    }
                     break;
                 default:
                     Log.e(TAG, "Unknown screen orientation. Defaulting to " +
                             "portrait.");
-                    mMediaRecorder.setOrientationHint(90);
+                    if (mIsFacingBack) {
+                        mMediaRecorder.setOrientationHint(90);
+                    } else {
+                        mMediaRecorder.setOrientationHint(270);
+                    }
                     break;
             }
         }

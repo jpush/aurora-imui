@@ -1,7 +1,7 @@
-# MessageList
+# 消息列表
 [English Document](./usageEn.md)
 
-MessageList 是聊天的消息列表，用于展示各种类型消息，支持丰富的自定义扩展。如果不做自定义则使用默认样式。
+聊天的消息列表，用于展示各种类型消息，支持丰富的自定义扩展。如果不做自定义则使用默认样式。
 
 ## 安装
 提供了以下几种方式添加依赖，只需要选择其中一种即可。
@@ -39,7 +39,7 @@ dependencies {
 ```
 
 ## 使用
-使用 MessageList 只需几个简单的步骤，可以参考一下 [demo](./../sample)。
+使用消息列表只需几个简单的步骤，可以参考一下 [demo](./../sample)。
 
 ### 1. 在布局文件中引用 MessageList：
 ```
@@ -81,11 +81,11 @@ public class MyMessage implements IMessage {
 
     private long id;
     private String text;
-    private Date createAt;
+    private String timeString;
     private MessageType type;
     private IUser user;
     private String contentFile;
-    private int duration;
+    private long duration;
 
     public MyMessage(String text, MessageType type) {
         this.text = text;
@@ -94,12 +94,12 @@ public class MyMessage implements IMessage {
     }
 
     @Override
-    public String getId() {
+    public String getMsgId() {
         return String.valueOf(id);
     }
 
     @Override
-    public IUser getUserInfo() {
+    public IUser getFromUser() {
         if (user == null) {
             return new DefaultUser("0", "user1", null);
         }
@@ -110,22 +110,26 @@ public class MyMessage implements IMessage {
         this.user = user;
     }
 
-    public void setContentFile(String path) {
+    public void setMediaFilePath(String path) {
         this.contentFile = path;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
 
     @Override
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 
+    public void setTimeString(String timeString) {
+        this.timeString = timeString;
+    }
+
     @Override
-    public Date getCreatedAt() {
-        return createAt == null ? new Date() : createAt;
+    public String getTimeString() {
+        return timeString;
     }
 
     @Override
@@ -139,7 +143,7 @@ public class MyMessage implements IMessage {
     }
 
     @Override
-    public String getContentFile() {
+    public String getMediaFilePath() {
         return contentFile;
     }
 }
@@ -169,7 +173,7 @@ public class DefaultUser implements IUser {
     }
 
     @Override
-    public String getAvatar() {
+    public String getAvatarFilePath() {
         return avatar;
     }
 }
@@ -186,14 +190,14 @@ public class DefaultUser implements IUser {
 adapter.addToStart(message, true);
 ```
 
-- *addToEnd(List<IMessage> messages, boolean reverse)*
+- *addToEnd(List<IMessage> messages)*
 ```java
-// 在消息列表的顶部加入消息，第二个参数表示是否在插入前是否反转列表。
-adapter.addToEnd(messages, true);
+// 在消息列表的顶部加入消息
+adapter.addToEnd(messages);
 ```
 
 - 滚动列表加载历史消息
-设置监听 OnLoadMoreListener，当滚动列表时就会触发 onLoadMore 事件，例如：
+设置监听 `OnLoadMoreListener`，当滚动列表时就会触发 `onLoadMore` 事件，例如：
 ```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
     @Override
