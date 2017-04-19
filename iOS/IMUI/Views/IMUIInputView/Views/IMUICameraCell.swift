@@ -23,7 +23,7 @@ private enum LivePhotoMode {
 }
 
 
-// TODO: Need to  Restructure
+// TODO: Need to Restructure
 @available(iOS 8.0, *)
 class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
 
@@ -37,6 +37,8 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   
   weak var delegate: IMUIInputViewDelegate?
   
+  var isActivity = true
+  
   var inputViewDelegate: IMUIInputViewDelegate? {
     set {
       self.delegate = newValue
@@ -45,6 +47,39 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     get {
       return self.delegate
     }
+  }
+  
+  func activateMedia() {
+    isActivity = true
+    sessionQueue.async {
+      switch self.setupResult {
+      case .success:
+        self.session.startRunning()
+        self.isSessionRunning = self.session.isRunning
+        
+      case .notAuthorized:
+        print("AVCam doesn't have permission to use the camera, please change privacy settings")
+        
+      case .configurationFailed:
+        print("Unable to capture media")
+      }
+    }
+    
+    self.videoRecordBtn.isHidden = true
+    self.videoRecordBtn.isSelected = false
+    self.cameraShotBtn.isHidden = false
+    self.cameraShotBtn.isSelected = false
+    self.switchCameraModeBtn.isSelected = false
+    isPhotoMode = true
+  }
+  
+  func inactivateMedia() {
+    isActivity = false
+    if videoFileOutput!.isRecording {
+      videoFileOutput?.stopRecording()
+    }
+
+    self.session.stopRunning()
   }
   
   private var _inProgressPhotoCaptureDelegates: Any?
@@ -125,24 +160,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     
     sessionQueue.async { [unowned self] in
       self.configureSession()
-    }
-  }
-  
-  
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    sessionQueue.async {
-      switch self.setupResult {
-      case .success:
-        self.session.startRunning()
-        self.isSessionRunning = self.session.isRunning
-        
-      case .notAuthorized:
-        print("AVCam doesn't have permission to use the camera, please change privacy settings")
-        
-      case .configurationFailed:
-        print("Unable to capture media")
-      }
     }
   }
   
@@ -429,7 +446,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     
     session.commitConfiguration()
   }
-
   
   func getPath() -> String {
     var recorderPath:String? = nil
@@ -459,8 +475,18 @@ extension UIInterfaceOrientation {
 extension IMUICameraCell: AVCaptureFileOutputRecordingDelegate {
   func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
     if error == nil {
-      self.inputViewDelegate?.finishRecordVideo(videoPath: outputFileURL.path, durationTime: captureOutput.recordedDuration.seconds)
-      print("fsdfa")
+      if isActivity {
+        self.inputViewDelegate?.finishRecordVideo(videoPath: outputFileURL.path, durationTime: captureOutput.recordedDuration.seconds)
+      } else {
+        let fileManager = FileManager()
+        if fileManager.fileExists(atPath: outputFileURL.path) {
+          do {
+            try fileManager.removeItem(at: URL(fileURLWithPath: outputFileURL.path))
+          } catch {
+            print("removefile fail")
+          }
+        }
+      }
     } else {
       print("record video fail")
     }

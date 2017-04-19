@@ -39,6 +39,19 @@ extension IMUIFeatureViewDelegate {
 
 protocol IMUIFeatureCellProtocal {
   var inputViewDelegate: IMUIInputViewDelegate? { set get }
+  func activateMedia()
+  func inactivateMedia()
+}
+
+extension IMUIFeatureCellProtocal {
+  var inputViewDelegate: IMUIInputViewDelegate? {
+    
+    get { return nil }
+    set { }
+  }
+  
+  func activateMedia() {}
+  func inactivateMedia() {}
 }
 
 // TODO: Need to  Restructure
@@ -183,6 +196,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
       break
     }
     var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocal
+    cell.activateMedia()
     cell.inputViewDelegate = self.inputViewDelegate!
     return cell as! UICollectionViewCell
   }
@@ -194,6 +208,11 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
       galleryCell.clicked()
       self.updateSelectedAssets()
     }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
+    let endDisplayingCell = didEndDisplaying as! IMUIFeatureCellProtocal
+    endDisplayingCell.inactivateMedia()
   }
   
   func updateSelectedAssets() {

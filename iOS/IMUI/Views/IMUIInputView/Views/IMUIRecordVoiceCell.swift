@@ -38,6 +38,10 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     }
   }
   
+  func inactivateMedia() {
+    recordHelper.stopRecord()
+  }
+  
   lazy var recordHelper = IMUIRecordVoiceHelper()
   
   override func awakeFromNib() {

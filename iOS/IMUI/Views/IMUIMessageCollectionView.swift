@@ -118,8 +118,10 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
     let cell: IMUIMessageCellProtocal = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentify, for: indexPath) as! IMUIMessageCellProtocal
     
     cell.presentCell(with: messageModel, delegate: delegate)
-    
-    self.delegate?.willDisplayMessageCell(messageModel, cell: cell)
+    self.delegate?.messageCollectionView(collectionView,
+                                         willDisplayMessageCell: cell as! UICollectionViewCell,
+                                         forItemAt: indexPath,
+                                         model: messageModel)
     
     return cell as! UICollectionViewCell
   }
@@ -127,12 +129,20 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
   func collectionView(_ collectionView: UICollectionView,
                       didSelectItemAt indexPath: IndexPath) {
     let messageModel = self.chatDataManager[indexPath.item]
-    self.delegate?.didTapMessageCell(messageModel)
+    
+    self.delegate?.messageCollectionView(collectionView, forItemAt: indexPath, model: messageModel)
   }
 
 
-  func collectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
     let messageModel = self.chatDataManager[forItemAt.item]
-    self.delegate?.didEndDisplaying(messageModel, cell: didEndDisplaying)
+    self.delegate?.messageCollectionView(collectionView, didEndDisplaying: didEndDisplaying, forItemAt: forItemAt, model: messageModel)
+  }
+}
+
+
+extension IMUIMessageCollectionView: UIScrollViewDelegate {
+  func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    self.delegate?.messageCollectionView(self.messageCollectionView)
   }
 }

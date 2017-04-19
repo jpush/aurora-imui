@@ -93,7 +93,6 @@ extension ViewController: IMUIInputViewDelegate {
   
   func getPath() -> String {
     var recorderPath:String? = nil
-    let now:Date = Date()
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yy-MMMM-dd"
     recorderPath = "\(NSHomeDirectory())/Documents/"
@@ -107,19 +106,32 @@ extension ViewController: IMUIInputViewDelegate {
 extension ViewController: IMUIMessageMessageCollectionViewDelegate {
 
 
-  func didTapMessageCell(_ model: IMUIMessageModel) {
-    print("\(model)")
+  func messageCollectionView(_: UICollectionView, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {
+  
   }
   
-  func didTapMessageBubble(_ model: IMUIMessageModel) {
-    print("tap bubble \(model)")
+  
+  func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {
+    self.showToast(alert: "tap message bubble")
   }
   
-  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any) {
+  
+  func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {
+  
+  }
+  
+  func messageCollectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {
+  
+  }
+  
+  func messageCollectionView(_ willBeginDragging: UICollectionView) {
+    self.myInputView.hideFeatureView()
+  }
+  
+  func showToast(alert: String) {
     
-  }
-  
-  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any) {
-    
+    let toast = UIAlertView(title: alert, message: nil, delegate: nil, cancelButtonTitle: nil)
+    toast.show()
+    toast.dismiss(withClickedButtonIndex: 0, animated: true)
   }
 }

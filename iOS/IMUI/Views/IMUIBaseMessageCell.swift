@@ -77,6 +77,6 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   }
   
   func tapBubbleView() {
-    self.delegate?.didTapMessageCell(self.message!)
+    self.delegate?.messageCollectionView(didTapMessageBubbleInCell: self, model: self.message!)
   }
 }

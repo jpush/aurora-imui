@@ -124,22 +124,13 @@ class IMUIInputView: UIView {
     let keyboardValue = dic.object(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
     let bottomDistance = UIScreen.main.bounds.size.height - keyboardValue.cgRectValue.origin.y
     let duration = Double(dic.object(forKey: UIKeyboardAnimationDurationUserInfoKey) as! NSNumber)
-    if bottomDistance > 10.0 {
-      IMUIFeatureViewHeight = bottomDistance
-    }
     
     UIView.animate(withDuration: duration) {
-      switch self.inputViewStatus {
-        case .none:
-          self.moreViewHeight.constant = bottomDistance
-          break
-        case .text:
-          self.moreViewHeight.constant = bottomDistance
-          break
-        default:
-          self.moreViewHeight.constant = IMUIFeatureViewHeight
-          break
-      }
+
+    if bottomDistance > 10.0 {
+      IMUIFeatureViewHeight = bottomDistance
+      self.moreViewHeight.constant = IMUIFeatureViewHeight
+    }
       self.superview?.layoutIfNeeded()
     }
   }

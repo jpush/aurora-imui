@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  *  The `IMUIMessageMessageCollectionViewDelegate` protocol defines the even callback delegate
@@ -15,27 +16,41 @@ protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
   /**
    *  Tells the delegate that user tap message cell
    */
-  func didTapMessageCell(_ model: IMUIMessageModelProtocol)
+  func messageCollectionView(_: UICollectionView, forItemAt: IndexPath, model: IMUIMessageModelProtocol)
   
   /**
    *  Tells the delegate that user tap message bubble
    */
-  func didTapMessageBubble(_ model: IMUIMessageModelProtocol)
+  func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol)
   
   /**
    *  Tells the delegate that the message cell will show in screen
    */
-  func willDisplayMessageCell(_ model: IMUIMessageModelProtocol, cell: Any)
+  func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol)
   
   /**
    *  Tells the delegate that message cell end displaying
    */
-  func didEndDisplaying(_ model: IMUIMessageModelProtocol, cell: Any)
+  func messageCollectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol)
+  
+  /**
+   *  Tells the delegate when messageCollection beginDragging
+   */
+  func messageCollectionView(_ willBeginDragging: UICollectionView)
+
 }
 
 extension IMUIMessageMessageCollectionViewDelegate {
-  func didTapMessageCell(_ model: IMUIMessageModelProtocol) {}
-  func didTapMessageBubble(_ model: IMUIMessageModelProtocol){}
-  func willDisplayMessageCell(_ model: IMUIMessageModelProtocol, cell: Any) {}
-  func didEndDisplaying(_ model: IMUIMessageModelProtocol, cell: Any) {}
+  
+  func messageCollectionView(_: UICollectionView, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  
+  
+  func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
+  
+  
+  func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  
+  func messageCollectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  
+  func messageCollectionView(_ willBeginDragging: UICollectionView){}
 }
