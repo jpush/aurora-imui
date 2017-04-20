@@ -79,7 +79,7 @@ import cn.jiguang.imui.chatinput.model.VideoItem;
 
 public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
-        OnFileSelectedListener, OnCameraCallbackListener {
+        OnFileSelectedListener {
 
     public static final byte KEYBOARD_STATE_SHOW = -3;
     public static final byte KEYBOARD_STATE_HIDE = -2;
@@ -132,6 +132,7 @@ public class ChatInputView extends LinearLayout
     private ImageButton mFullScreenBtn;
     private ImageButton mRecordVideoBtn;
     private OnMenuClickListener mListener;
+    private OnCameraCallbackListener mCameraListener;
     private ChatInputStyle mStyle;
     private InputMethodManager mImm;
     private Window mWindow;
@@ -324,6 +325,10 @@ public class ChatInputView extends LinearLayout
         mListener = listener;
     }
 
+    public void setOnCameraCallbackListener(OnCameraCallbackListener listener) {
+        mCameraListener = listener;
+    }
+
     @Override
     public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
@@ -446,7 +451,7 @@ public class ChatInputView extends LinearLayout
                     mIsRecordingVideo = true;
 
                 } else {    // finish recording
-                    mCameraSupport.finishRecordingVideo();
+                    mVideoFilePath = mCameraSupport.finishRecordingVideo();
                     mIsRecordingVideo = false;
                     mIsRecordVideoMode = false;
                     mFinishRecordingVideo = true;
@@ -462,7 +467,9 @@ public class ChatInputView extends LinearLayout
             } else if (mFinishRecordingVideo) {
                 if (mListener != null) {
                     VideoItem video = new VideoItem(mVideoFilePath, null, null, null, mMediaPlayer.getDuration());
-                    mListener.onFinishVideoRecord(video);
+                    List<FileItem> list = new ArrayList<>();
+                    list.add(video);
+                    mListener.onSendFiles(list);
                     mFinishRecordingVideo = false;
                     mVideoFilePath = null;
                 }
@@ -687,7 +694,7 @@ public class ChatInputView extends LinearLayout
         } else {
             mCameraSupport = new CameraOld(getContext(), mTextureView);
         }
-        mCameraSupport.setCameraCallbackListener(this);
+        mCameraSupport.setCameraCallbackListener(mCameraListener);
         mCameraSupport.setOutputFile(mPhoto);
         for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
             Camera.CameraInfo info = new Camera.CameraInfo();
@@ -1142,39 +1149,6 @@ public class ChatInputView extends LinearLayout
         }
         cursor.close();
         return true;
-    }
-
-    @Override
-    public void onTakePictureCompleted(String photoPath) {
-        FileItem photo = new FileItem(photoPath, null, null, null);
-        photo.setType(FileItem.Type.Image);
-
-        List<FileItem> list = new ArrayList<>();
-        FileItem item = new FileItem(photoPath, null, null, null);
-        item.setType(FileItem.Type.Image);
-        list.add(item);
-        mListener.onSendFiles(list);
-    }
-
-    @Override
-    public void onStartVideoRecord() {
-
-    }
-
-    /**
-     * Finished recording video callback
-     *
-     * @param videoPath Return the absolute path of video file.
-     */
-    @Override
-    public void onFinishVideoRecord(String videoPath) {
-        Log.e("ChatInputView", "Video path: " + videoPath);
-        mVideoFilePath = videoPath;
-    }
-
-    @Override
-    public void onCancelVideoRecord() {
-
     }
 
     private static class MyHandler extends Handler {

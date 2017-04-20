@@ -209,9 +209,7 @@ public class CameraOld implements CameraSupport {
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        if (mNextVideoAbsolutePath == null || mNextVideoAbsolutePath.isEmpty()) {
-            mNextVideoAbsolutePath = getVideoFilePath(activity);
-        }
+        mNextVideoAbsolutePath = getVideoFilePath(activity);
         mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
         mMediaRecorder.setVideoFrameRate(30);
         mMediaRecorder.setVideoEncodingBitRate(10000000);
@@ -276,11 +274,12 @@ public class CameraOld implements CameraSupport {
     }
 
     @Override
-    public void finishRecordingVideo() {
+    public String finishRecordingVideo() {
         mMediaRecorder.stop();
         mMediaRecorder.reset();
         if (mCameraCallbackListener != null) {
             mCameraCallbackListener.onFinishVideoRecord(mNextVideoAbsolutePath);
         }
+        return mNextVideoAbsolutePath;
     }
 }

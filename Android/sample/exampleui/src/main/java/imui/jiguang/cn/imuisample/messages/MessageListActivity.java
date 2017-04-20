@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
+import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
@@ -162,20 +163,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 String fileDir = rootDir.getAbsolutePath() + "/photo";
                 mChatView.setCameraCaptureFile(fileDir, "temp_photo");
             }
-
-            @Override
-            public void onFinishVideoRecord(VideoItem video) {
-                final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
-                message.setMediaFilePath(video.getFilePath());
-                message.setDuration(video.getDuration());
-                message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
-                MessageListActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.addToStart(message, true);
-                    }
-                });
-            }
         });
 
         mChatView.setRecordVoiceListener(new RecordVoiceListener() {
@@ -200,6 +187,32 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public void onCancelRecord() {
+
+            }
+        });
+
+        mChatView.setOnCameraCallbackListener(new OnCameraCallbackListener() {
+            @Override
+            public void onTakePictureCompleted(String photoPath) {
+                MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
+                message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
+                message.setMediaFilePath(photoPath);
+                message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
+                mAdapter.addToStart(message, true);
+            }
+
+            @Override
+            public void onStartVideoRecord() {
+
+            }
+
+            @Override
+            public void onFinishVideoRecord(String videoPath) {
+
+            }
+
+            @Override
+            public void onCancelVideoRecord() {
 
             }
         });

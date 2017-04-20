@@ -14,5 +14,5 @@ public interface CameraSupport {
     void setCameraCallbackListener(OnCameraCallbackListener listener);
     void startRecordingVideo();
     void cancelRecordingVideo();
-    void finishRecordingVideo();
+    String finishRecordingVideo();
 }

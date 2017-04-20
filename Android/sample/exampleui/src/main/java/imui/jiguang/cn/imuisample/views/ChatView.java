@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
+import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
@@ -86,6 +87,10 @@ public class ChatView extends RelativeLayout {
 
     public void setRecordVoiceListener(RecordVoiceListener listener) {
         mRecordVoiceBtn.setRecordVoiceListener(listener);
+    }
+
+    public void setOnCameraCallbackListener(OnCameraCallbackListener listener) {
+        mChatInput.setOnCameraCallbackListener(listener);
     }
 
     public void setKeyboardChangedListener(OnKeyboardChangedListener listener) {

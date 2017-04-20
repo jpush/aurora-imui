@@ -92,7 +92,7 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
 
     @Override
     public void onSendFiles(List<String> list) {
-        // 选中文件后，点击发送按钮触发此事件
+        // 选中文件或者录制完视频后，点击发送按钮触发此事件
     }
 
     @Override
@@ -109,16 +109,11 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
     public void switchToCameraMode() {
         // 点击拍照按钮触发事件，显示拍照界面前触发此事件
     }
-    
-     @Override
-     public void onFinishVideoRecord(VideoItem videoItem) {
-         // 录完视频后，点击发送触发事件
-     }
 });
 ```
 关于上述事件的处理，可以参考 sample 中的 MessageListActivity 对于事件的处理。
 
-#### RecordVoiceButton.RecordVoiceListener
+#### RecordVoiceListener
 这是录音的接口，使用方式：
 
 ```
@@ -149,6 +144,37 @@ mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceListener() {
     }
 });
 ```
+
+#### OnCameraCallbackListener
+这是相机相关的接口，使用方式：
+```
+mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
+    @Override
+    public void onTakePictureCompleted(String photoPath) {
+        MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
+        message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
+        message.setMediaFilePath(photoPath);
+        message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
+        mAdapter.addToStart(message, true);
+    }
+                                       
+    @Override
+    public void onStartVideoRecord() {
+                                       
+    }
+                                       
+    @Override
+    public void onFinishVideoRecord(String videoPath) {
+        // 请注意，点击发送视频的事件会回调给 onSendFiles，这个是在录制完视频后触发的                               
+    }
+                                       
+    @Override
+    public void onCancelVideoRecord() {
+                                       
+    }
+});
+```
+
 
 #### 设置拍照后保存的文件
 setCameraCaptureFile(String path, String fileName)

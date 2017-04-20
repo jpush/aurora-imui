@@ -4,7 +4,6 @@ package cn.jiguang.imui.chatinput.listener;
 import java.util.List;
 
 import cn.jiguang.imui.chatinput.model.FileItem;
-import cn.jiguang.imui.chatinput.model.VideoItem;
 
 /**
  * Menu items' callbacks
@@ -42,11 +41,4 @@ public interface OnMenuClickListener {
      * Fires when camera button is on click.
      */
     void switchToCameraMode();
-
-    /**
-     * Fires when record video finished
-     *
-     * @param video VideoItem extends FileItem, can get video's file path and duration.
-     */
-    void onFinishVideoRecord(VideoItem video);
 }

@@ -9,6 +9,11 @@ public class VideoItem extends FileItem {
         mDuration = duration;
     }
 
+    @Override
+    public Type getType() {
+        return Type.Video;
+    }
+
     public long getDuration() {
         return mDuration;
     }

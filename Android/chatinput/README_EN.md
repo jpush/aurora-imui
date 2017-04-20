@@ -102,7 +102,8 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
 
     @Override
     public void onSendFiles(List<String> list) {
-        // choose photo or video files, then click send button fires this event
+        // chose photo or video files or finished recording video, 
+        // then click send button fires this event.
     }
 
     @Override
@@ -119,17 +120,12 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
     public void switchToCameraMode() {
         // click camera button in menu item, fires before showing camera widget
     }
-
-     @Override
-     public void onFinishVideoRecord(VideoItem videoItem) {
-         // Fires when finished recording video then click send button in video preview
-     }
 });
 ```
 
 As for how to handle these events and what to do with these events, you can refer sample project for detail.
 
-#### RecordVoiceButton.RecordVoiceListener
+#### RecordVoiceListener
 This is the interface of record voice, the way to use:
 
 ```
@@ -157,6 +153,38 @@ mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceListener() {
     @Override
     public void onCancelRecord() {
 
+    }
+});
+```
+
+#### OnCameraCallbackListener
+This is interface related to camera, usage like：
+```
+mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
+    @Override
+    public void onTakePictureCompleted(String photoPath) {
+        MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
+        message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
+        message.setMediaFilePath(photoPath);
+        message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
+        mAdapter.addToStart(message, true);
+    }
+                                       
+    @Override
+    public void onStartVideoRecord() {
+                                       
+    }
+                                       
+    @Override
+    public void onFinishVideoRecord(String videoPath) {
+        // Fires when finished recording video.
+        // Pay attention here, when you finished recording video and click send
+        // button in screen, will fire onSendFiles() method.
+    }
+                                       
+    @Override
+    public void onCancelVideoRecord() {
+                                       
     }
 });
 ```

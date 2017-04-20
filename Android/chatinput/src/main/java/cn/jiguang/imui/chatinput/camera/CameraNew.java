@@ -414,9 +414,7 @@ public class CameraNew implements CameraSupport {
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
         mMediaRecorder.setVideoFrameRate(30);
-        if (mNextVideoAbsolutePath == null || mNextVideoAbsolutePath.isEmpty()) {
-            mNextVideoAbsolutePath = getVideoFilePath(activity);
-        }
+        mNextVideoAbsolutePath = getVideoFilePath(activity);
         mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
         mMediaRecorder.setVideoEncodingBitRate(10000000);
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
@@ -543,11 +541,12 @@ public class CameraNew implements CameraSupport {
     }
 
     @Override
-    public void finishRecordingVideo() {
+    public String finishRecordingVideo() {
         resetRecordState();
         if (mOnCameraCallbackListener != null) {
             mOnCameraCallbackListener.onFinishVideoRecord(mNextVideoAbsolutePath);
         }
+        return mNextVideoAbsolutePath;
     }
 
     private void resetRecordState() {
