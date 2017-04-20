@@ -194,11 +194,16 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mChatView.setOnCameraCallbackListener(new OnCameraCallbackListener() {
             @Override
             public void onTakePictureCompleted(String photoPath) {
-                MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
+                final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
                 message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                 message.setMediaFilePath(photoPath);
                 message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
-                mAdapter.addToStart(message, true);
+                MessageListActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.addToStart(message, true);
+                    }
+                });
             }
 
             @Override
