@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              style="@style/aurora_msgitem_send_style">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/aurora_msgitem_send_style">
 
     <TextView
         android:id="@+id/aurora_tv_msgitem_date"
-        style="@style/aurora_msgitem_date_style"/>
+        style="@style/aurora_msgitem_date_style" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
 
         <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
-            style="@style/aurora_msgitem_receiver_avatar_style"/>
+            style="@style/aurora_msgitem_receiver_avatar_style" />
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -29,15 +29,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                app:videomessage_radius="8dp"
-                />
+                app:videomessage_radius="8dp" />
 
             <ImageView
                 android:id="@+id/aurora_iv_msgitem_play"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:src="@drawable/aurora_videomessage_play"/>
+                android:src="@drawable/aurora_videomessage_play" />
 
             <TextView
                 android:id="@+id/aurora_tv_duration"
@@ -46,7 +45,8 @@
                 android:layout_gravity="right|bottom"
                 android:layout_marginBottom="4dp"
                 android:layout_marginRight="8dp"
-                android:textSize="12sp"/>
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
         </FrameLayout>
     </RelativeLayout>
 </LinearLayout>

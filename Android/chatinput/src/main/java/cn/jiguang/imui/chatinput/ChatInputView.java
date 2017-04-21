@@ -88,6 +88,7 @@ public class ChatInputView extends LinearLayout
     public static final int REQUEST_CODE_TAKE_PHOTO = 0x0001;
     public static final int REQUEST_CODE_SELECT_PHOTO = 0x0002;
 
+    // Send text start
     private EditText mChatInput;
     private FrameLayout mSendBtnFl;
     private ImageButton mSendBtn;
@@ -112,7 +113,7 @@ public class ChatInputView extends LinearLayout
     private TextView mRecordHintTv;
     private RecordVoiceButton mRecordVoiceBtn;
 
-    // select photo start
+    // Select photo start
     private ImageButton mPhotoBtn;
     private ImageButton mAlbumBtn;
 
@@ -123,6 +124,7 @@ public class ChatInputView extends LinearLayout
 
     private List<FileItem> mMedias; // All photo or video files
     private List<FileItem> mSendFiles = new ArrayList<>(); // Photo or video files to be sent.
+    // Select photo end
 
     private FrameLayout mCameraFl;
     private TextureView mTextureView;
@@ -195,6 +197,7 @@ public class ChatInputView extends LinearLayout
     private void init(Context context) {
         mContext = context;
         inflate(context, R.layout.view_chat_input, this);
+
         mChatInput = (EditText) findViewById(R.id.aurora_et_chat_input);
         mVoiceBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_mic);
         mPhotoBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_photo);

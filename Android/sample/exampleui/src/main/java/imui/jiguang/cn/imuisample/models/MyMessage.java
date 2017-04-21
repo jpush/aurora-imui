@@ -13,7 +13,7 @@ public class MyMessage implements IMessage {
     private String timeString;
     private MessageType type;
     private IUser user;
-    private String contentFile;
+    private String mediaFilePath;
     private long duration;
 
     public MyMessage(String text, MessageType type) {
@@ -40,7 +40,7 @@ public class MyMessage implements IMessage {
     }
 
     public void setMediaFilePath(String path) {
-        this.contentFile = path;
+        this.mediaFilePath = path;
     }
 
     public void setDuration(long duration) {
@@ -73,6 +73,6 @@ public class MyMessage implements IMessage {
 
     @Override
     public String getMediaFilePath() {
-        return contentFile;
+        return mediaFilePath;
     }
 }

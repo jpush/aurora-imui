@@ -4,12 +4,14 @@ package imui.jiguang.cn.imuisample.messages;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -286,9 +288,18 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>() {
             @Override
             public void onMessageClick(MyMessage message) {
-                Toast.makeText(mContext, mContext.getString(R.string.message_click_hint),
-                        Toast.LENGTH_SHORT).show();
                 // do something
+                if (message.getType() == IMessage.MessageType.RECEIVE_VIDEO
+                        || message.getType() == IMessage.MessageType.SEND_VIDEO) {
+                    if (!TextUtils.isEmpty(message.getMediaFilePath())) {
+                        Intent intent = new Intent(MessageListActivity.this, VideoActivity.class);
+                        intent.putExtra(VideoActivity.VIDEO_PATH, message.getMediaFilePath());
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(mContext, mContext.getString(R.string.message_click_hint),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
