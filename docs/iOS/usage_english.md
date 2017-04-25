@@ -7,13 +7,13 @@ IMUIMessageCollectionView is a message list in chatting interface, use to displa
 #### Manual
 Copy `IMUI` folder to your project. That's it.
 
-- **Note:** Make sure that `Info.plist` include  camera , Microphone, Photo Library permission
+- **Note:** Make sure that `Info.plist` include  camera , Microphone, Photo Library permission.
 
 ## Usage
 To use IMUIMessageCollectionView only need three simple steps, or you can check out our [sample project](https://github.com/jpush/imui/tree/master/iOS/IMUIChat) to try it yourself.
-- **Setp one:** drag a view to your UIViewController (storyboard or xib), and adjust class to `IMUIMessageCollectionView`
+- **Setp one:** drag a view to your UIViewController (storyboard or xib), and adjust class to `IMUIMessageCollectionView`.
 
-- **Setp two:** implement `IMUIMessageMessageCollectionViewDelegate`
+- **Setp two:** implement `IMUIMessageMessageCollectionViewDelegate`.
 
 ```
   @IBOutlet weak var messageCollectionView: IMUIMessageCollectionView!
@@ -24,41 +24,50 @@ To use IMUIMessageCollectionView only need three simple steps, or you can check 
   }
 
 // MARK - IMUIMessageMessageCollectionViewDelegate 
-  func didTapMessageCell(_ model: IMUIMessageModel) {
-  }
+  func messageCollectionView(_: UICollectionView, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
   
-  func didTapMessageBubble(_ model: IMUIMessageModel) {
-  }
-
-  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any) {
-  }
-
-  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any) {
-  }
+  
+  func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
+  
+  
+  func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  
+  func messageCollectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  
+  func messageCollectionView(_ willBeginDragging: UICollectionView){}
 ```
-- **Setp three:** construct your model
+- **Setp three:** construct your model.
 
-**1.** To be add messages, you need to implement `IMUIMessageModelProtocol` protocol into your existing mode
+**1.** To be add messages, you need to implement `IMUIMessageModelProtocol` protocol into your existing mode.
 ```
   protocol IMUIMessageModelProtocol {
   @request
   var msgId: String { get }
-  
   var fromUser: IMUIUserProtocol { get }
-  
   var layout: IMUIMessageCellLayoutProtocal { get }
+  // 消息为发出的消息
+  var isOutGoing: Bool { get }
   
-  var resizableBubbleImage: UIImage { get }
+  @optional
   
-  @optional
-  func mediaData() -> Data
+  // return time lable string
+  var timeString: String { get }
   
-  func textMessage() -> String
+  // return text message's string
+  func text() -> String
 
-  var videoPath: String? { get }
+  // return media(image, voice, video ) file path
+  func mediaFilePath() -> String
+
+  // return duration of audio or video
+  var duration: CGFloat { get }
+
+  // the bubble background image
+  // @warning the image must be resizable just like that: bubbleImg.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 15, 9, 10), resizingMode: .tile)
+  var resizeBubbleImage: UIImage { get }
 ```
 
-**2.** Construct your user model , to implement `IMUIUserProtocol` protocal
+**2.** Construct your user model , to implement `IMUIUserProtocol` protocal.
 
 ```
 public protocol IMUIUserProtocol {
@@ -71,7 +80,7 @@ public protocol IMUIUserProtocol {
 
 ## Data management
 #### add new message
-To add new message in message list is pretty easy, we support some way to add message to `IMUIMessageCollectionView`
+To add new message in message list is pretty easy, we support some way to add message to `IMUIMessageCollectionView`.
 - append message to bottom 
 ```
 messageCollectionView.appendMessage(with message: IMUIMessageModel)

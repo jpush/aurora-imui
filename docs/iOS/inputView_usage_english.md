@@ -17,27 +17,27 @@ To use IMUIInputView only need two simple steps, or you can check out our sample
 
 - Tells the delegate that IMUIInputView will switch to recording voice mode
 ```
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton)
+  func switchToMicrophoneMode(recordVoiceBtn: UIButton)
 ```
 
 - Tells the delegate that start record voice
 ```
-  func startRecordingVoice()
+  func startRecordVoice()
 ```
 
 - Tells the delegate when finish record voice
 ```
-  func finishRecordingVoice(_ voicePath: String, durationTime: Double)
+  func finishRecordVoice(_ voicePath: String, durationTime: Double)
 ```
 
 - Tells the delegate that user cancel record
 ```
-  func cancelRecordingVoice()
+  func cancelRecordVoice()
 ```
 
 - Tells the delegate that IMUIInputView will switch to gallery
 ```
-  func switchIntoSelectPhotoMode(photoBtn: UIButton)
+  func switchToGalleryMode(photoBtn: UIButton)
 ```
 
 - Tells the delegate that user did selected Photo in gallery
@@ -47,7 +47,7 @@ To use IMUIInputView only need two simple steps, or you can check out our sample
 
 - Tells the delegate that IMUIInputView will switch to camera mode
 ```
-  func switchIntoCameraMode(cameraBtn: UIButton)
+  func switchToCameraMode(cameraBtn: UIButton)
 ```
 
 - Tells the delegate that user did shoot picture in camera mode
@@ -55,7 +55,12 @@ To use IMUIInputView only need two simple steps, or you can check out our sample
   func didShootPicture(picture: Data)
 ```
 
+  Tells the delegate when starting record video
+```
+  func startRecordVideo()
+```
+
 - Tells the delegate that user did shoot video in camera mode
 ```
-  func didShootVideo(videoPath: String, durationTime: Double)
+  func finishRecordVideo(videoPath: String, durationTime: Double)
 ```

@@ -6,9 +6,9 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
 
 ## 安装
 #### 手动安装
-复制 `IMUI` 目录拖拽到自己工程中
+复制 `IMUI` 目录拖拽到自己工程中。
 
-**注意：** 确保自己工程中 `Info.plist` 包含 camera , Microphone 和 Photo Library 权限
+**注意：** 确保自己工程中 `Info.plist` 包含 camera , Microphone 和 Photo Library 权限。
 
 ## 使用
 使用 IMUIMessageCollectionView 只需要几个简单的步骤。
@@ -26,13 +26,17 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
 
 // MARK - IMUIMessageMessageCollectionViewDelegate 
 
-  func didTapMessageCell(_ model: IMUIMessageModel){}
-  
-  func didTapMessageBubble(_ model: IMUIMessageModel){}
-
-  func willDisplayMessageCell(_ model: IMUIMessageModel, cell: Any){}
-  
-  func didEndDisplaying(_ model: IMUIMessageModel, cell: Any){}
+  func messageCollectionView(_: UICollectionView, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  
+  
+  func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
+  
+  
+  func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  
+  func messageCollectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  
+  func messageCollectionView(_ willBeginDragging: UICollectionView){}
 ```
 
 第三步： 构造实体类型
@@ -44,16 +48,22 @@ protocol IMUIMessageModelProtocol {
   var msgId: String { get }
   var fromUser: IMUIUserProtocol { get }
   var layout: IMUIMessageCellLayoutProtocal { get }
-
+  // 消息为发出的消息
+  var isOutGoing: Bool { get }
+  
   @optional
-  //  文本消息 字符串
-  func textMessage() -> String
+  
+  // 消息的时间
+  var timeString: String { get }
+  
+  //  文本消息字符串
+  func text() -> String
 
-  //  音频数据
-  func mediaData() -> Data
+  // 媒体文件路径
+  func mediaFilePath() -> String
 
-  // 视频路径
-  var videoPath: String? { get }
+  // 语音和视频的时长
+  var duration: CGFloat { get }
 
   // 消息泡泡图片
   var resizeBubbleImage: UIImage { get }
@@ -88,7 +98,7 @@ public protocol IMUIUserProtocol {
 
 ### 自定义布局
 创建 Message 对象的时候需要指定布局信息，如果不指定则会使用默认布局 `IMUIMessageCellLayout`。
-如果需要在默认布局的基础上简单调整 message cell 内的元素，这里提供了简单的配置项
+如果需要在默认布局的基础上简单调整 message cell 内的元素，这里提供了简单的配置项。
 ```
 // 设置头像的尺寸
 IMUIMessageCellLayout.avatarSize
@@ -108,7 +118,7 @@ IMUIMessageCellLayout.cellWidth
 // 设置 Message Cell 的内边距
 IMUIMessageCellLayout.cellContentInset
 ```
-如果简单调整 默认布局 的配置项满足不了自己的布局需求，需要在构造方法中指定 自定义的布局, 自定义布局需要实现`IMUIMessageCellLayoutProtocal `。也可以继承 `IMUIMessageCellLayout` 类，根据自己的需求 override 方法。例如：
+如果简单调整 默认布局 的配置项满足局需求，需要不了自己的布在构造方法中指定 自定义的布局, 自定义布局需要实现`IMUIMessageCellLayoutProtocal `。也可以继承 `IMUIMessageCellLayout` 类，根据自己的需求 override 方法。例如：
 ```
 class MyMessageCellLayout: IMUIMessageCellLayout {
   
