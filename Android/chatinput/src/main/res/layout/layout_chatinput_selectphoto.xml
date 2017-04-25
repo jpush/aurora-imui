@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/aurora_rv_selectphoto_photo"
+        android:id="@+id/aurora_recyclerview_selectphoto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <ProgressBar
-        android:id="@+id/aurora_pb_selectphoto_progress"
+        android:id="@+id/aurora_progressbar_selectphoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <ImageButton
-        android:id="@+id/aurora_ib_selectphoto_album"
+        android:id="@+id/aurora_imagebtn_selectphoto_album"
         android:layout_width="@dimen/aurora_size_album_button"
         android:layout_height="@dimen/aurora_size_album_button"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/aurora_selectphoto_album"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 </FrameLayout>

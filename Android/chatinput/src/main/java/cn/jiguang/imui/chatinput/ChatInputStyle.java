@@ -13,33 +13,41 @@ public class ChatInputStyle extends Style {
     private static final int DEFAULT_MAX_LINES = 4;
 
     private Drawable inputEditTextBg;
+
     private int inputMarginLeft;
     private int inputMarginRight;
     private int inputMaxLines;
-    private String inputHint;
+
     private String inputText;
     private int inputTextSize;
     private int inputTextColor;
-    private int inputHintColor;
-    private Drawable inputCursorDrawable;
 
-    private Drawable voiceBtnBg;
-    private Drawable voiceBtnIcon;
-    private Drawable photoBtnBg;
-    private Drawable photoBtnIcon;
-    private Drawable cameraBtnBg;
-    private Drawable cameraBtnIcon;
-    private Drawable sendBtnBg;
-    private Drawable sendBtnIcon;
-    private Drawable sendCountBg;
+    private String inputHint;
+    private int inputHintColor;
 
     private int inputDefaultPaddingLeft;
     private int inputDefaultPaddingRight;
     private int inputDefaultPaddingTop;
     private int inputDefaultPaddingBottom;
 
+    private Drawable inputCursorDrawable;
+
+    private Drawable voiceBtnBg;
+    private Drawable voiceBtnIcon;
+
+    private Drawable photoBtnBg;
+    private Drawable photoBtnIcon;
+
+    private Drawable cameraBtnBg;
+    private Drawable cameraBtnIcon;
+
+    private Drawable sendBtnBg;
+    private Drawable sendBtnIcon;
+    private Drawable sendCountBg;
+
     public static ChatInputStyle parse(Context context, AttributeSet attrs) {
         ChatInputStyle style = new ChatInputStyle(context, attrs);
+
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChatInputView);
         style.inputEditTextBg = typedArray.getDrawable(R.styleable.ChatInputView_inputEditTextBg);
         style.inputMarginLeft = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginLeft,

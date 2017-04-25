@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:baselineAligned="false"
-    android:orientation="horizontal">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="48dp"
+              android:baselineAligned="false"
+              android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -12,38 +12,19 @@
         android:layout_weight="1"
         android:gravity="center">
 
-        <ImageButton
-            android:id="@+id/aurora_menuitem_ib_mic"
-            style="@style/ChatInputIcon"
-            android:background="@android:color/transparent"
-            android:src="@drawable/aurora_menuitem_mic" />
-    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_voice"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center">
-
-        <ImageButton
-            android:id="@+id/aurora_menuitem_ib_photo"
-            style="@style/ChatInputIcon"
-            android:background="@android:color/transparent"
-            android:src="@drawable/aurora_menuitem_photo" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center">
-
-        <ImageButton
-            android:id="@+id/aurora_menuitem_ib_camera"
-            style="@style/ChatInputIcon"
-            android:background="@android:color/transparent"
-            android:src="@drawable/aurora_menuitem_camera" />
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_voice"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:src="@drawable/aurora_menuitem_mic"/>
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -54,7 +35,51 @@
         android:gravity="center">
 
         <FrameLayout
-            android:id="@+id/aurora_menuitem_fl_send"
+            android:id="@+id/aurora_framelayout_menuitem_photo"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_photo"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:src="@drawable/aurora_menuitem_photo"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_camera"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_camera"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:src="@drawable/aurora_menuitem_camera"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_send"
             android:layout_width="48dp"
             android:layout_height="match_parent">
 
@@ -65,7 +90,7 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:background="@drawable/aurora_menuitem_send"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"/>
 
             <TextView
                 android:id="@+id/aurora_menuitem_tv_send_count"
@@ -82,7 +107,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
                 android:visibility="gone"
-                tools:text="11" />
+                tools:text="11"/>
         </FrameLayout>
     </LinearLayout>
 </LinearLayout>

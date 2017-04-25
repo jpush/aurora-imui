@@ -21,7 +21,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import cn.jiguang.imui.chatinput.listener.OnFileSelectedListener;
-import cn.jiguang.imui.chatinput.utils.DisplayUtil;
+import cn.jiguang.imui.chatinput.utils.ViewUtil;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.R;
 import cn.jiguang.imui.chatinput.model.VideoItem;
@@ -33,21 +33,17 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     private Context mContext;
 
-    private List<FileItem> mPhotos;
-    private List<FileItem> mSendFiles;
-
-    private List<Integer> mSelectedItems;
+    private List<FileItem> mMedias = new ArrayList<>();
+    private List<FileItem> mSendFiles = new ArrayList<>();
+    private List<Integer> mSelectedItems = new ArrayList<>();
 
     private OnFileSelectedListener mListener;
 
     private int mPhotoSide;    // length of side
 
     public PhotoAdapter(List<FileItem> list, int height) {
-        mSelectedItems = new ArrayList<>();
-        if (list == null) {
-            mPhotos = new ArrayList<>();
-        } else {
-            mPhotos = list;
+        if (list != null) {
+            mMedias = list;
         }
         mPhotoSide = height;
     }
@@ -60,10 +56,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         mListener = listener;
     }
 
-    public void setSelectedFiles(List<FileItem> list) {
-        mSendFiles = list;
-    }
-
     public void resetCheckedState() {
         mSendFiles.clear();
         mSelectedItems.clear();
@@ -73,8 +65,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     @Override
     public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-
-        View layout = LayoutInflater.from(mContext)
+        View layout = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_photo_select, parent, false);
         return new PhotoViewHolder(layout);
     }
@@ -83,11 +74,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     public void onBindViewHolder(final PhotoViewHolder holder, int position) {
         if (holder.container.getMeasuredWidth() != mPhotoSide) {
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(mPhotoSide, mPhotoSide);
-            layoutParams.rightMargin = DisplayUtil.dp2px(mContext, 8);
+            layoutParams.rightMargin = ViewUtil.dpToPx(8);
             holder.container.setLayoutParams(layoutParams);
         }
 
-        FileItem item = mPhotos.get(position);
+        FileItem item = mMedias.get(position);
         Glide.with(mContext)
                 .load(item.getFilePath())
                 .placeholder(R.drawable.aurora_picture_not_found)
@@ -127,7 +118,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                     holder.setIsRecyclable(false);
 
                     mSelectedItems.add(p);
-                    mSendFiles.add(mPhotos.get(p));
+                    mSendFiles.add(mMedias.get(p));
 
                     holder.ivTick.setVisibility(VISIBLE);
                     holder.ivShadow.setVisibility(VISIBLE);
@@ -141,7 +132,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                     holder.setIsRecyclable(true);
 
                     mSelectedItems.remove(Integer.valueOf(p));
-                    mSendFiles.remove(mPhotos.get(p));
+                    mSendFiles.remove(mMedias.get(p));
 
                     holder.ivTick.setVisibility(GONE);
                     holder.ivShadow.setVisibility(GONE);
@@ -158,12 +149,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     @Override
     public int getItemCount() {
-        return mPhotos.size();
+        return mMedias.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mPhotos.get(position).getType().getCode();
+        return mMedias.get(position).getType().getCode();
     }
 
     private void addDeselectedAnimation(View... views) {

@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/aurora_bg_input_default"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/aurora_bg_input_default"
+              android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/aurora_ll_input_container"
@@ -14,7 +14,7 @@
         <android.support.v4.widget.Space
             android:id="@+id/aurora_input_margin_left"
             android:layout_width="16dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
         <EditText
             android:id="@+id/aurora_et_chat_input"
@@ -28,18 +28,18 @@
             android:paddingRight="4dp"
             android:textColor="@android:color/black"
             android:textCursorDrawable="@drawable/aurora_edittext_cursor_bg"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <android.support.v4.widget.Space
             android:id="@+id/aurora_input_margin_right"
             android:layout_width="16dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
     <include
         android:id="@+id/aurora_ll_menuitem_container"
-        layout="@layout/layout_chatinput_menu" />
+        layout="@layout/layout_chatinput_menu"/>
 
     <FrameLayout
         android:id="@+id/aurora_fl_menu_container"
@@ -50,17 +50,18 @@
 
         <include
             android:id="@+id/aurora_rl_recordvoice_container"
-            layout="@layout/layout_chatinput_recordvoice" />
+            layout="@layout/layout_chatinput_recordvoice"/>
 
-        <include
-            android:id="@+id/aurora_fl_selectphoto_container"
-            layout="@layout/layout_chatinput_selectphoto"
-            android:visibility="gone" />
+        <cn.jiguang.imui.chatinput.photo.SelectPhotoView
+            android:id="@+id/aurora_view_selectphoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
 
         <include
             android:id="@+id/aurora_fl_camera_container"
             layout="@layout/layout_chatinput_camera"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
     </FrameLayout>
 </LinearLayout>

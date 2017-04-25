@@ -58,8 +58,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
     private InputMethodManager mImm;
     private Window mWindow;
-    private String mReceiverAvatar;
-    private String mSenderAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,9 +273,10 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 imageView.setImageResource(getResources().getIdentifier(url, "drawable", getPackageName()));
             }
         };
-        MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
+
         // Use default layout
-        mAdapter = new MsgListAdapter<MyMessage>("0", holdersConfig, imageLoader);
+        MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
+        mAdapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
 
         // If you want to customise your layout, try to create custom ViewHolder:
         // holdersConfig.setSenderTxtMsg(CustomViewHolder.class, layoutRes);
