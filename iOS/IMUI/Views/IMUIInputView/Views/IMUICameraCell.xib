@@ -45,7 +45,7 @@
                                     <action selector="clickCameraSwitch:" destination="gTV-IL-0wX" eventType="touchUpInside" id="fMq-8f-Khm"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWo-yF-VkR">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWo-yF-VkR">
                                 <rect key="frame" x="281" y="171" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="D8R-d0-tFo"/>

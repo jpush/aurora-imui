@@ -63,7 +63,7 @@ protocol IMUIMessageModelProtocol {
   /**
    * If message type is photo, voice, video or file,
    * get file path through this method.
-   * @return file path
+   * @return media file path
    */
   func mediaFilePath() -> String
   

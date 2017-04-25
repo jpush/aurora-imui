@@ -35,6 +35,12 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   @IBOutlet weak var resizeCameraPreviewBtn: UIButton!
   @IBOutlet weak var cameraPreviewView: IMUICameraPreviewView!
   
+  var currentCameraDeviceType: AVCaptureDevicePosition = .back
+//  var backCameraVideoCapture: AVCaptureDevice?
+//  var frontCameraVideoCapture: AVCaptureDevice?
+  
+  var currentCameraDevice: AVCaptureDeviceInput?
+  
   weak var delegate: IMUIInputViewDelegate?
   
   var isActivity = true
@@ -47,6 +53,145 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     get {
       return self.delegate
     }
+  }
+  
+  override func awakeFromNib() {
+    super.awakeFromNib()
+    self.videoRecordBtn.isHidden = true
+    
+    cameraPreviewView.session = session
+    
+    switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) {
+    case .authorized:
+      // The user has previously granted access to the camera.
+      break
+      
+    case .notDetermined:
+      sessionQueue.suspend()
+      AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { [unowned self] granted in
+        if !granted {
+          self.setupResult = .notAuthorized
+        }
+        self.sessionQueue.resume()
+      })
+      
+    default:
+      // The user has previously denied access.
+      setupResult = .notAuthorized
+    }
+    
+    sessionQueue.async { [unowned self] in
+      self.configureSession()
+    }
+  }
+  
+  private func configureSession() {
+    if setupResult != .success {
+      return
+    }
+    
+    session.beginConfiguration()
+    session.sessionPreset = AVCaptureSessionPresetPhoto
+    
+    do {
+      var defaultVideoDevice: AVCaptureDevice?
+      
+      if #available(iOS 10.0, *) {
+        if let dualCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .back) {
+          defaultVideoDevice = dualCameraDevice
+          currentCameraDeviceType = .back
+        }
+        else if let backCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .back) {
+          defaultVideoDevice = backCameraDevice
+          currentCameraDeviceType = .back
+        }
+        else if let frontCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
+          
+          defaultVideoDevice = frontCameraDevice
+          currentCameraDeviceType = .front
+        }
+      } else {
+        
+        defaultVideoDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        
+        currentCameraDeviceType = .back
+      }
+      
+      let videoDeviceInput = try AVCaptureDeviceInput(device: defaultVideoDevice)
+      currentCameraDevice = videoDeviceInput
+      if session.canAddInput(videoDeviceInput) {
+        session.addInput(videoDeviceInput)
+        self.videoDeviceInput = videoDeviceInput
+        
+        DispatchQueue.main.async {
+          
+          let statusBarOrientation = UIApplication.shared.statusBarOrientation
+          var initialVideoOrientation: AVCaptureVideoOrientation = .portrait
+          if statusBarOrientation != .unknown {
+            if let videoOrientation = statusBarOrientation.videoOrientation {
+              initialVideoOrientation = videoOrientation
+            }
+          }
+          
+          self.cameraPreviewView.videoPreviewLayer.connection.videoOrientation = initialVideoOrientation
+        }
+      } else {
+        print("Could not add video device input to the session")
+        setupResult = .configurationFailed
+        session.commitConfiguration()
+        return
+      }
+    } catch {
+      print("Could not create video device input: \(error)")
+      setupResult = .configurationFailed
+      session.commitConfiguration()
+      return
+    }
+    
+    do {
+      let audioDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
+      let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice)
+      
+      if session.canAddInput(audioDeviceInput) {
+        session.addInput(audioDeviceInput)
+      } else {
+        print("Could not add audio device input to the session")
+      }
+    } catch {
+      print("Could not create audio device input: \(error)")
+    }
+    
+    // configure output
+    
+    if #available(iOS 10.0, *) {
+      self.photoOutput = AVCapturePhotoOutput()
+      
+      if session.canAddOutput(self.photoOutput!) {
+        session.addOutput(self.photoOutput)
+        self.photoOutput?.isHighResolutionCaptureEnabled = true
+        self.photoOutput?.isLivePhotoCaptureEnabled = (self.photoOutput?.isLivePhotoCaptureSupported)!
+        livePhotoMode = (photoOutput?.isLivePhotoCaptureSupported)! ? .on : .off
+      } else {
+        print("Could not add photo output to the session")
+        setupResult = .configurationFailed
+        session.commitConfiguration()
+        return
+      }
+    } else {
+      if session.canAddOutput(stillImageOutput) {
+        session.addOutput(stillImageOutput)
+      }
+    }
+    
+    videoFileOutput = AVCaptureMovieFileOutput()
+    if session.canAddOutput(videoFileOutput) {
+      session.addOutput(videoFileOutput)
+      let maxDuration = CMTime(seconds: 20, preferredTimescale: 1)
+      videoFileOutput?.maxRecordedDuration = maxDuration
+      videoFileOutput?.minFreeDiskSpaceLimit = 1000
+    }
+    
+    session.commitConfiguration()
   }
   
   func activateMedia() {
@@ -71,6 +216,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     self.cameraShotBtn.isSelected = false
     self.switchCameraModeBtn.isSelected = false
     isPhotoMode = true
+//    self.chooseCamera(with: .back)
   }
   
   func inactivateMedia() {
@@ -80,6 +226,93 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     }
 
     self.session.stopRunning()
+  }
+  
+  func chooseCamera(with cameraDevicePosition: AVCaptureDevicePosition) {
+    // remove current camera device
+    session.beginConfiguration()
+    session.removeInput(currentCameraDevice)
+    
+    // add new camera device
+
+    var defaultVideoDevice: AVCaptureDevice?
+    
+    if #available(iOS 10.0, *) {
+      if cameraDevicePosition == .front {
+        if let frontCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
+          defaultVideoDevice = frontCameraDevice
+          currentCameraDeviceType = .front
+        }
+      }
+      
+      if cameraDevicePosition == .back {
+      
+        if let dualCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .back) {
+          if defaultVideoDevice == nil {
+            defaultVideoDevice = dualCameraDevice
+            currentCameraDeviceType = .back
+          }
+          
+        } else if let backCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .back) {
+          if defaultVideoDevice == nil {
+            defaultVideoDevice = backCameraDevice
+            currentCameraDeviceType = .back
+          }
+        }
+      }
+    
+    } else {
+      
+      for device in AVCaptureDevice.devices() {
+        if (device as AnyObject).hasMediaType( AVMediaTypeVideo ) {
+          if (device as AnyObject).position == cameraDevicePosition {
+            defaultVideoDevice = device as? AVCaptureDevice
+            currentCameraDeviceType = cameraDevicePosition
+          }
+        }
+      }
+      
+      if defaultVideoDevice == nil {
+        defaultVideoDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        currentCameraDeviceType = .back
+      }
+    }
+    
+    do {
+      let videoDeviceInput = try AVCaptureDeviceInput(device: defaultVideoDevice)
+      
+      currentCameraDevice = videoDeviceInput
+      
+      if session.canAddInput(videoDeviceInput) {
+        session.addInput(videoDeviceInput)
+        session.commitConfiguration()
+        self.videoDeviceInput = videoDeviceInput
+        
+        DispatchQueue.main.async {
+          
+          let statusBarOrientation = UIApplication.shared.statusBarOrientation
+          var initialVideoOrientation: AVCaptureVideoOrientation = .portrait
+          if statusBarOrientation != .unknown {
+            if let videoOrientation = statusBarOrientation.videoOrientation {
+              initialVideoOrientation = videoOrientation
+            }
+          }
+          
+          self.cameraPreviewView.videoPreviewLayer.connection.videoOrientation = initialVideoOrientation
+          
+        }
+      } else {
+        print("Could not add video device input to the session")
+        setupResult = .configurationFailed
+        session.commitConfiguration()
+        return
+      }
+    } catch {
+      print("add camera device fail")
+      setupResult = .configurationFailed
+      session.commitConfiguration()
+    }
+
   }
   
   private var _inProgressPhotoCaptureDelegates: Any?
@@ -133,35 +366,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   private var sessionRunningObserveContext = 0
   private let sessionQueue = DispatchQueue(label: "session queue", attributes: [], target: nil) // Communicate with the session and other session objects on this
   
-  override func awakeFromNib() {
-    super.awakeFromNib()
-    self.videoRecordBtn.isHidden = true
-    
-    cameraPreviewView.session = session
-    
-    switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) {
-    case .authorized:
-      // The user has previously granted access to the camera.
-      break
-      
-    case .notDetermined:
-      sessionQueue.suspend()
-      AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { [unowned self] granted in
-        if !granted {
-          self.setupResult = .notAuthorized
-        }
-        self.sessionQueue.resume()
-      })
-      
-    default:
-      // The user has previously denied access.
-      setupResult = .notAuthorized
-    }
-    
-    sessionQueue.async { [unowned self] in
-      self.configureSession()
-    }
-  }
   
   // -MARK: Click Event
   @IBAction func clickCameraSwitch(_ sender: Any) {
@@ -222,6 +426,14 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   }
   
   @IBAction func clickToSwitchCamera(_ sender: Any) {
+    switch currentCameraDeviceType {
+    case .back:
+      self.chooseCamera(with: .front)
+      break
+    default:
+      self.chooseCamera(with: .back)
+      break
+    }
     
   }
   
@@ -260,6 +472,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       if photoSettings.availablePreviewPhotoPixelFormatTypes.count > 0 {
         photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String : photoSettings.availablePreviewPhotoPixelFormatTypes.first!]
       }
+      
       if self.livePhotoMode == .on && (self.photoOutput?.isLivePhotoCaptureSupported)! { // Live Photo capture is not supported in movie mode.
         let livePhotoMovieFileName = NSUUID().uuidString
         let livePhotoMovieFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((livePhotoMovieFileName as NSString).appendingPathExtension("mov")!)
@@ -341,110 +554,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
       
     }
-  }
-  
-  private func configureSession() {
-    
-    if setupResult != .success {
-      return
-    }
-    
-    session.beginConfiguration()
-    session.sessionPreset = AVCaptureSessionPresetPhoto
-    
-    do {
-      var defaultVideoDevice: AVCaptureDevice?
-      
-      if #available(iOS 10.0, *) {
-        if let dualCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .back) {
-          defaultVideoDevice = dualCameraDevice
-        }
-        else if let backCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .back) {
-          defaultVideoDevice = backCameraDevice
-        }
-        else if let frontCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
-          
-          defaultVideoDevice = frontCameraDevice
-        }
-      } else {
-        defaultVideoDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-      }
-      
-      let videoDeviceInput = try AVCaptureDeviceInput(device: defaultVideoDevice)
-      
-      if session.canAddInput(videoDeviceInput) {
-        session.addInput(videoDeviceInput)
-        self.videoDeviceInput = videoDeviceInput
-        
-        DispatchQueue.main.async {
-          
-          let statusBarOrientation = UIApplication.shared.statusBarOrientation
-          var initialVideoOrientation: AVCaptureVideoOrientation = .portrait
-          if statusBarOrientation != .unknown {
-            if let videoOrientation = statusBarOrientation.videoOrientation {
-              initialVideoOrientation = videoOrientation
-            }
-          }
-          
-          self.cameraPreviewView.videoPreviewLayer.connection.videoOrientation = initialVideoOrientation
-        }
-      } else {
-        print("Could not add video device input to the session")
-        setupResult = .configurationFailed
-        session.commitConfiguration()
-        return
-      }
-    } catch {
-      print("Could not create video device input: \(error)")
-      setupResult = .configurationFailed
-      session.commitConfiguration()
-      return
-    }
-
-    do {
-      let audioDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
-      let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice)
-      
-      if session.canAddInput(audioDeviceInput) {
-        session.addInput(audioDeviceInput)
-      } else {
-        print("Could not add audio device input to the session")
-      }
-    } catch {
-      print("Could not create audio device input: \(error)")
-    }
-    
-    // configure output
-    
-    if #available(iOS 10.0, *) {
-      self.photoOutput = AVCapturePhotoOutput()
-      
-      if session.canAddOutput(self.photoOutput!) {
-        session.addOutput(self.photoOutput)
-        self.photoOutput?.isHighResolutionCaptureEnabled = true
-        self.photoOutput?.isLivePhotoCaptureEnabled = (self.photoOutput?.isLivePhotoCaptureSupported)!
-        livePhotoMode = (photoOutput?.isLivePhotoCaptureSupported)! ? .on : .off
-      } else {
-        print("Could not add photo output to the session")
-        setupResult = .configurationFailed
-        session.commitConfiguration()
-        return
-      }
-    } else {
-      if session.canAddOutput(stillImageOutput) {
-        session.addOutput(stillImageOutput)
-      }
-    }
-    
-    videoFileOutput = AVCaptureMovieFileOutput()
-    if session.canAddOutput(videoFileOutput) {
-      session.addOutput(videoFileOutput)
-      let maxDuration = CMTime(seconds: 20, preferredTimescale: 1)
-      videoFileOutput?.maxRecordedDuration = maxDuration
-      videoFileOutput?.minFreeDiskSpaceLimit = 1000
-    }
-    
-    session.commitConfiguration()
   }
   
   func getPath() -> String {

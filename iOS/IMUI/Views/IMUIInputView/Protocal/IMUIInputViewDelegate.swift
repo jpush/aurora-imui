@@ -72,8 +72,6 @@ protocol IMUIInputViewDelegate: NSObjectProtocol {
 }
 
 
-
-
 extension IMUIInputViewDelegate {
   func sendTextMessage(_ messageText: String) {}
 
