@@ -26,6 +26,10 @@ android {
                     "$project.rootDir/tools/proguard-rules-debug.pro"
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
