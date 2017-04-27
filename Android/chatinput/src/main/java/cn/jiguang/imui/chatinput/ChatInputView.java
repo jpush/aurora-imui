@@ -86,7 +86,6 @@ public class ChatInputView extends LinearLayout
     private ImageButton mVoiceBtn;
     private ImageButton mPhotoBtn;
     private ImageButton mCameraBtn;
-    //    private FrameLayout mSendBtnFl;
     private ImageButton mSendBtn;
 
     private LinearLayout mChatInputContainer;
@@ -190,7 +189,6 @@ public class ChatInputView extends LinearLayout
         cameraBtnContainer.setOnClickListener(onMenuItemClickListener);
         mSendBtn.setOnClickListener(onMenuItemClickListener);
 
-
         mSendCountTv = (TextView) findViewById(R.id.aurora_menuitem_tv_send_count);
         mInputMarginLeft = (Space) findViewById(R.id.aurora_input_margin_left);
         mInputMarginRight = (Space) findViewById(R.id.aurora_input_margin_right);
@@ -218,6 +216,7 @@ public class ChatInputView extends LinearLayout
 
         mSelectPhotoView = (SelectPhotoView) findViewById(R.id.aurora_view_selectphoto);
         mSelectPhotoView.setOnFileSelectedListener(this);
+        mSelectPhotoView.initData();
 
         mMenuContainer.setVisibility(GONE);
 
@@ -312,16 +311,12 @@ public class ChatInputView extends LinearLayout
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         mInput = s;
 
-        if (mSelectPhotoView.getSelectFiles() == null
-                || mSelectPhotoView.getSelectFiles().size() > 0) {
-            return;
-        }
-
-        if (s.length() >= 1 && start == 0 && before == 0) { // Starting input
-            triggerSendButtonAnimation(mSendBtn, true, false);
-        }
-        if (s.length() == 0 && before >= 1) { // clear content
-            triggerSendButtonAnimation(mSendBtn, false, false);
+        if (mSelectPhotoView.getSelectFiles() == null || mSelectPhotoView.getSelectFiles().size() == 0) {
+            if (s.length() >= 1 && start == 0 && before == 0) { // Starting input
+                triggerSendButtonAnimation(mSendBtn, true, false);
+            } else if (s.length() == 0 && before >= 1) { // Clear content
+                triggerSendButtonAnimation(mSendBtn, false, false);
+            }
         }
     }
 
@@ -372,17 +367,13 @@ public class ChatInputView extends LinearLayout
                 if (mListener != null) {
                     mListener.switchToGalleryMode();
                 }
-
                 if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
-
-                // Show menu item
                 dismissRecordVoiceLayout();
                 dismissCameraLayout();
                 mSelectPhotoView.setVisibility(VISIBLE);
-                mSelectPhotoView.initData();
 
             } else if (view.getId() == R.id.aurora_framelayout_menuitem_camera) {
                 if (mListener != null) {

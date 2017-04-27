@@ -11,14 +11,13 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.graphics.drawable.shapes.Shape;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import java.util.Arrays;
 
 import cn.jiguang.imui.R;
 
 
-public class ShapeImageView extends ImageView {
+public class ShapeImageView extends android.support.v7.widget.AppCompatImageView {
 
     private Paint mPaint;
     private Shape mShape;
