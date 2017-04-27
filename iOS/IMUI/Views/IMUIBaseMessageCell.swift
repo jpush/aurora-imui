@@ -16,9 +16,9 @@ enum IMUIMessageCellType {
 
 class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   var bubbleView: IMUIMessageBubbleView
-  var avatarImage: UIImageView
-  var timeLabel: UILabel
-  var nameLabel: UILabel
+  lazy var avatarImage = UIImageView()
+  lazy var timeLabel = UILabel()
+  lazy var nameLabel = UILabel()
   
   weak var delegate: IMUIMessageMessageCollectionViewDelegate?
   var message: IMUIMessageModelProtocol?
@@ -26,9 +26,6 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   override init(frame: CGRect) {
 
     bubbleView = IMUIMessageBubbleView(frame: CGRect.zero)
-    avatarImage = UIImageView()
-    timeLabel = UILabel()
-    nameLabel = UILabel()
     super.init(frame: frame)
     
     self.contentView.addSubview(self.bubbleView)
@@ -36,10 +33,16 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.contentView.addSubview(self.timeLabel)
     self.contentView.addSubview(self.nameLabel)
     
-    let gesture = UITapGestureRecognizer(target: self, action: #selector(self.tapBubbleView))
-    gesture.numberOfTapsRequired = 1
+    let bubbleGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapBubbleView))
+    bubbleGesture.numberOfTapsRequired = 1
     self.bubbleView.isUserInteractionEnabled = true
-    self.bubbleView.addGestureRecognizer(gesture)
+    self.bubbleView.addGestureRecognizer(bubbleGesture)
+    
+    let avatarGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapHeaderImage))
+    avatarGesture.numberOfTapsRequired = 1
+    avatarImage.isUserInteractionEnabled = true
+    avatarImage.addGestureRecognizer(avatarGesture)
+    
     self.nameLabel.frame = IMUIMessageCellLayout.nameLabelFrame
     self.setupSubViews()
   }
@@ -78,5 +81,9 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   
   func tapBubbleView() {
     self.delegate?.messageCollectionView(didTapMessageBubbleInCell: self, model: self.message!)
+  }
+  
+  func tapHeaderImage() {
+    self.delegate?.messageCollectionView(didTapHeaderImageInCell: self, model: self.message!)
   }
 }

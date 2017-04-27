@@ -24,6 +24,10 @@ protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
   func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol)
   
   /**
+   *  Tells the delegate that user tap header image in message cell
+   */
+  func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageModelProtocol)
+  /**
    *  Tells the delegate that the message cell will show in screen
    */
   func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol)
@@ -47,6 +51,7 @@ extension IMUIMessageMessageCollectionViewDelegate {
   
   func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
   
+  func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
   
   func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
   

@@ -115,6 +115,9 @@ extension ViewController: IMUIMessageMessageCollectionViewDelegate {
     self.showToast(alert: "tap message bubble")
   }
   
+  func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {
+    self.showToast(alert: "tap header image")
+  }
   
   func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {
   
