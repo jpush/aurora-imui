@@ -374,6 +374,7 @@ public class ChatInputView extends LinearLayout
                 dismissRecordVoiceLayout();
                 dismissCameraLayout();
                 mSelectPhotoView.setVisibility(VISIBLE);
+                mSelectPhotoView.initData();
 
             } else if (view.getId() == R.id.aurora_framelayout_menuitem_camera) {
                 if (mListener != null) {
