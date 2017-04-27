@@ -336,13 +336,6 @@ public class ChatInputView extends LinearLayout
     private OnClickListener onMenuItemClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (mMenuContainer.getVisibility() != VISIBLE) {
-                dismissSoftInputAndShowMenu();
-            } else if (view.getId() == mLastClickId) {
-                dismissMenuAndResetSoftMode();
-                return;
-            }
-
             if (view.getId() == R.id.aurora_menuitem_ib_send) {
                 // Allow send text and photos at the same time.
                 if (onSubmit()) {
@@ -357,51 +350,61 @@ public class ChatInputView extends LinearLayout
                     mSelectPhotoView.resetCheckState();
                     dismissMenuLayout();
                 }
-            } else if (view.getId() == R.id.aurora_framelayout_menuitem_voice) {
-                if (mListener != null) {
-                    mListener.switchToMicrophoneMode();
-                }
-                showRecordVoiceLayout();
 
-            } else if (view.getId() == R.id.aurora_framelayout_menuitem_photo) {
-                if (mListener != null) {
-                    mListener.switchToGalleryMode();
-                }
-                if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
+            } else {
+                if (mMenuContainer.getVisibility() != VISIBLE) {
+                    dismissSoftInputAndShowMenu();
+                } else if (view.getId() == mLastClickId) {
+                    dismissMenuAndResetSoftMode();
                     return;
                 }
-                dismissRecordVoiceLayout();
-                dismissCameraLayout();
-                mSelectPhotoView.setVisibility(VISIBLE);
-                mSelectPhotoView.initData();
 
-            } else if (view.getId() == R.id.aurora_framelayout_menuitem_camera) {
-                if (mListener != null) {
-                    mListener.switchToCameraMode();
-                }
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                    if (mPhoto == null) {
-                        String path = getContext().getFilesDir().getAbsolutePath() + "/photo";
-                        File destDir = new File(path);
-                        if (!destDir.exists()) {
-                            destDir.mkdirs();
+                if (view.getId() == R.id.aurora_framelayout_menuitem_voice) {
+                    if (mListener != null) {
+                        mListener.switchToMicrophoneMode();
+                    }
+                    showRecordVoiceLayout();
+
+                } else if (view.getId() == R.id.aurora_framelayout_menuitem_photo) {
+                    if (mListener != null) {
+                        mListener.switchToGalleryMode();
+                    }
+                    if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                    dismissRecordVoiceLayout();
+                    dismissCameraLayout();
+                    mSelectPhotoView.setVisibility(VISIBLE);
+                    mSelectPhotoView.initData();
+
+                } else if (view.getId() == R.id.aurora_framelayout_menuitem_camera) {
+                    if (mListener != null) {
+                        mListener.switchToCameraMode();
+                    }
+                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                        if (mPhoto == null) {
+                            String path = getContext().getFilesDir().getAbsolutePath() + "/photo";
+                            File destDir = new File(path);
+                            if (!destDir.exists()) {
+                                destDir.mkdirs();
+                            }
+                            mPhoto = new File(destDir,
+                                    DateFormat.format("yyyy_MMdd_hhmmss", Calendar.getInstance(Locale.CHINA))
+                                            + ".png");
                         }
-                        mPhoto = new File(destDir,
-                                DateFormat.format("yyyy_MMdd_hhmmss", Calendar.getInstance(Locale.CHINA))
-                                        + ".png");
+                        if (mCameraSupport == null) {
+                            initCamera();
+                        }
+                        showCameraLayout();
+                    } else {
+                        Toast.makeText(getContext(), getContext().getString(R.string.sdcard_not_exist_toast),
+                                Toast.LENGTH_SHORT).show();
                     }
-                    if (mCameraSupport == null) {
-                        initCamera();
-                    }
-                    showCameraLayout();
-                } else {
-                    Toast.makeText(getContext(), getContext().getString(R.string.sdcard_not_exist_toast),
-                            Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            mLastClickId = view.getId();
+                mLastClickId = view.getId();
+            }
         }
     };
 
