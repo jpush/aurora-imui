@@ -10,57 +10,59 @@ To use IMUIInputView only need two simple steps, or you can check out our sample
 
 **Setp two:** implement `IMUIInputViewDelegate`
 
-- Tells the delegate that user tap send button and text input string is not empty（ **Note:** if selected photo in gallery mode,will send photo frist）
+- Tells the delegate that user tap send button and text input string is not empty（ **Note:** if selected photo in gallery mode,will send photo frist）:
 ```
   func sendTextMessage(_ messageText: String)
 ```
 
-- Tells the delegate that IMUIInputView will switch to recording voice mode
+- Tells the delegate that IMUIInputView will switch to recording voice mode:
 ```
   func switchToMicrophoneMode(recordVoiceBtn: UIButton)
 ```
 
-- Tells the delegate that start record voice
+- Tells the delegate that start record voice:
 ```
   func startRecordVoice()
 ```
 
-- Tells the delegate when finish record voice
+- Tells the delegate when finish record voice:
 ```
   func finishRecordVoice(_ voicePath: String, durationTime: Double)
 ```
 
-- Tells the delegate that user cancel record
+- Tells the delegate that user cancel record:
 ```
   func cancelRecordVoice()
 ```
 
-- Tells the delegate that IMUIInputView will switch to gallery
+- Tells the delegate that IMUIInputView will switch to gallery:
 ```
   func switchToGalleryMode(photoBtn: UIButton)
 ```
 
-- Tells the delegate that user did selected Photo in gallery
+- Tells the delegate that user did selected Photo in gallery:
 ```
   func didSeletedGallery(AssetArr: [PHAsset])
 ```
 
-- Tells the delegate that IMUIInputView will switch to camera mode
+- Tells the delegate that IMUIInputView will switch to camera mode:
 ```
   func switchToCameraMode(cameraBtn: UIButton)
 ```
 
-- Tells the delegate that user did shoot picture in camera mode
+- Tells the delegate that user did shoot picture in camera mode:
 ```
   func didShootPicture(picture: Data)
 ```
 
-  Tells the delegate when starting record video
+- Tells the delegate when starting record video:
+
 ```
   func startRecordVideo()
 ```
 
-- Tells the delegate that user did shoot video in camera mode
+- Tells the delegate that user did shoot video in camera mode:
 ```
   func finishRecordVideo(videoPath: String, durationTime: Double)
 ```
+

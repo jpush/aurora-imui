@@ -82,16 +82,16 @@ public protocol IMUIUserProtocol {
 ## Data management
 #### add new message
 To add new message in message list is pretty easy, we support some way to add message to `IMUIMessageCollectionView`.
-- append message to bottom 
+- append message to bottom:
 ```
 messageCollectionView.appendMessage(with message: IMUIMessageModel)
 ```
 
-- insert message cell to top
+- insert message cell to top:
 ```
 messageCollectionViewinsertMessage(with message: IMUIMessageModel)
 ```
-- insert messages cell to top
+- insert messages cell to top:
 ```
   insertMessages(with messages:[IMUIMessageModel])
 ```

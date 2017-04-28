@@ -8,66 +8,67 @@
 
 **第二步：** 实现 `IMUIInputViewDelegate` 方法。
 
-- 当用户点击发送按钮，并且输入框不为空，调用这个代理方法
+- 当用户点击发送按钮，并且输入框不为空，调用这个代理方法：
 
 ```
     func sendTextMessage(_ messageText: String)
 ```
 
-- 当用户切换到录音模式时，调用这个代理方法
+- 当用户切换到录音模式时，调用这个代理方法：
 
 ```
     func switchToMicrophoneMode(recordVoiceBtn: UIButton)
 ```
 
-- 开始录音是调用这个代理方法
+- 开始录音是调用这个代理方法：
 
 ```
     func startRecordVoice()
 ```
 
-- 完成录音后调用这个代理方法
+- 完成录音后调用这个代理方法：
 
 ```
     func finishRecordVoice(_ voicePath: String, durationTime: Double)
 ```
 
-- 取消录音调用这个代理方法
+- 取消录音调用这个代理方法：
 
 ```
     func cancelRecordVoice()
 ```
 
-- 用户切换到相册模式时，调用这个代理方法
+- 用户切换到相册模式时，调用这个代理方法：
 
 ```
     func switchToGalleryMode(photoBtn: UIButton)
 ```
 
-- 在相册模式下选择了图片，用户点击发送按钮， 调用这个代理方法
+- 在相册模式下选择了图片，用户点击发送按钮， 调用这个代理方法：
 
 ```
     func didSeletedGallery(AssetArr: [PHAsset])
 ```
 
-- 用户切换到相机模式时调用这个代理方法
+- 用户切换到相机模式时调用这个代理方法：
 
 ```
     func switchToCameraMode(cameraBtn: UIButton)
 ```
 
-- 相机模式下，用户完成照片拍摄，调用这个方法
+- 相机模式下，用户完成照片拍摄，调用这个方法：
 
 ```
     func didShootPicture(picture: Data)
 ```
 
-- 开始录制视频调用这个方法
+- 开始录制视频调用这个方法：
 ```
     func startRecordVideo()
 ```
-- 相机模式下，用户完成视频拍摄，调用这个方法
+- 相机模式下，用户完成视频拍摄，调用这个方法：
 
 ```
     func finishRecordVideo(videoPath: String, durationTime: Double)
 ```
+

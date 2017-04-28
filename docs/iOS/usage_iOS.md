@@ -42,7 +42,7 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
 ```
 
 第三步： 构造实体类型
-- 构建消息类型， 实现 `IMUIMessageModelProtocol` 协议
+- 构建消息类型， 实现 `IMUIMessageModelProtocol` 协议：
 
 ```
 protocol IMUIMessageModelProtocol {
@@ -72,7 +72,7 @@ protocol IMUIMessageModelProtocol {
 }
 ```
 
-- 构建用户类型， 实现 `IMUIUserProtocol` 协议
+- 构建用户类型， 实现 `IMUIUserProtocol` 协议：
 ```
 public protocol IMUIUserProtocol {
 @request
@@ -85,15 +85,15 @@ public protocol IMUIUserProtocol {
 ### 数据管理
 
 增加新的消息
-- 插入消息到底部
+- 插入消息到底部：
 ```
   messageCollectionView.appendMessage(with message: IMUIMessageModel)
 ```
-- 插入消息到指定位置
+- 插入消息到指定位置：
 ```
   messageCollectionView.insertMessage(with message: IMUIMessageModel)
 ```
-- 插入一串消息到指定位置
+- 插入一串消息到指定位置：
 ```  
   messageCollectionView.insertMessages(with messages:[IMUIMessageModel])
 ```
