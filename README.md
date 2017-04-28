@@ -3,9 +3,14 @@
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-604798367-red.svg)]()
 
 # Aurora IMUI
-[English document](./README_EN.md)
 
-Aurora IMUI 是一个简单易用的即时通讯 UI 库，包含了消息列表和输入视图，目前已支持文字、图片、语音及视频消息的发送和展示等功能，也能根据自己的需求自定义界面。
+[English Document](./README_EN.md)
+
+Aurora IMUI 是个通用的即时通讯（IM）UI 库，不特定于任何 IM SDK。
+
+本 UI 库提供了消息列表与输入视图两个常用组件，目前已支持消息类型有：文字、图片、语音、视频。默认包含多套界面风格，也能根据自己的需要自定义。
+
+同步支持 Android、iOS 平台。计划支持 React Native。
 
 <p align="center">
     <a target="_blank">
@@ -14,28 +19,44 @@ Aurora IMUI 是一个简单易用的即时通讯 UI 库，包含了消息列表�
 </p>
 
 ## 功能
-- [x] 消息列表和输入视图
-- [x] 发送和展示文字、图片、语音及视频消息
-- [x] 可定制化消息列表界面
-- [ ] 地理位置消息
-- [ ] 短视频消息
-- [ ] 自定义消息
-- [ ] 支持 Rect Native
-- [ ] ...
+
+可以基于本 UI 库实现的功能：
+
+- 消息列表的展示；
+  - 支持多种消息类型；
+  - 对每种消息类型的点击、长按处理；
+  - 支持用户头像；
+- 消息输入：
+  - 支持多种消息类型；
+  - 语音输入组件；
+  - 相册照片选取组件；
+  - 视频拍摄；
+
+当前支持展示与输入的消息类型：
+
+- 文字
+- 图片
+- 语音
+- 视频
 
 ## 使用
-要实现上述功能，您需要使用以下组件：
+
+当前提供的组件：
 
 ### Android
+
 - [MessageList](./docs/Android/usage.md) (消息列表)
 - [ChatInputView](./Android/chatinput/README.md) (聊天输入组件)
 
 ### iOS
+
 - [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md) (消息列表)
 - [IMUIInputView](./docs/iOS/inputView_usage.md) (聊天输入组件)
 
 ## Contribute
+
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
 
 ## License
+
 MIT © [JiGuang](/LICENSE)
