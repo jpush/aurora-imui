@@ -3,14 +3,11 @@
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-604798367-red.svg)]()
 
 # Aurora IMUI
+[中文文档](./README_CH.md)
 
-[English Document](./README_EN.md)
+Aurora IMUI is a easy use UI library for instant messaging, without any specific IM SDK limits.  Provide message list, chat input view components currently. Supporting message types include: text, image, voice and video. We provide default interface styles, and also support for customization.
 
-Aurora IMUI 是个通用的即时通讯（IM）UI 库，不特定于任何 IM SDK。
-
-本 UI 库提供了消息列表、输入视图等常用组件，支持常见的消息类型：文字、图片、语音、视频等。默认包含多套界面风格，也能根据自己的需要自定义。
-
-同步支持 Android、iOS 平台。计划支持 React Native。
+Now is supports Android and iOS, we will going to support React Native either.
 
 <p align="center">
     <a target="_blank">
@@ -18,45 +15,43 @@ Aurora IMUI 是个通用的即时通讯（IM）UI 库，不特定于任何 IM SD
     </a>
 </p>
 
-## 功能
+## Features
 
-可以基于本 UI 库实现的功能：
+With Aurora IMUI, you can implement these features:
 
-- 消息列表的展示；
-  - 支持多种消息类型；
-  - 对每种消息类型的点击、长按处理；
-  - 支持用户头像；
-- 消息输入：
-  - 支持多种消息类型；
-  - 语音输入组件；
-  - 相册照片选取组件；
-  - 视频拍摄；
+- Displaying message list:
+  - supports multiple message types；
+  - supports click & long click events for each type of message;
+  - supports user avatar;
+- Message input：
+  - supports multiple message types；
+  - voice input component；
+  - photo album select component；
+  - recorde video or take picture；
 
-当前支持展示与输入的消息类型：
+Currently supported for display and input messages types:
 
-- 文字
-- 图片
-- 语音
-- 视频
+- Text
+- Image
+- Voice
+- Video
 
-## 使用
 
-当前提供的组件：
+
+## Usage
+
+Currently provided components:
 
 ### Android
-
-- [MessageList](./docs/Android/usage.md) (消息列表)
-- [ChatInputView](./Android/chatinput/README.md) (聊天输入组件)
+- [MessageList](./docs/Android/usageEn.md)
+- [ChatInputView](./Android/chatinput/README_EN.md)
 
 ### iOS
-
-- [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md) (消息列表)
-- [IMUIInputView](./docs/iOS/inputView_usage.md) (聊天输入组件)
+- [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md)
+- [IMUIInputView](./docs/iOS/inputView_usage_english.md)
 
 ## Contribute
-
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
 
 ## License
-
 MIT © [JiGuang](/LICENSE)
