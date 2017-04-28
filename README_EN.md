@@ -5,7 +5,9 @@
 # Aurora IMUI
 [中文文档](./README.md)
 
-Aurora IMUI is a easy use UI library for instant messaging, contains message list and input view, can use together or apart of them, depends on your choice. Currently support text, photo, voice and video types of messages, you can custom your layout either.
+Aurora IMUI is a easy use UI library for instant messaging, without any specific IM SDK limits.  Provide message list, chat input view components currently. Supporting message types include: text, image, voice and video. We provide default interface styles, and also support for customization.
+
+Now is supports Android and iOS, we will going to support React Native either.
 
 <p align="center">
     <a target="_blank">
@@ -14,17 +16,31 @@ Aurora IMUI is a easy use UI library for instant messaging, contains message lis
 </p>
 
 ## Features
-- [x] Message list and input view.
-- [x] Send and display text, photo, voice, video messages
-- [x] Customizable message list layout
-- [ ] Location message
-- [ ] Short video message
-- [ ] Custom message
-- [ ] Supporting Rect Native
-- [ ] ...
+
+With Aurora IMUI, you can implement these features:
+
+- Displaying message list:
+  - supports multiple message types；
+  - supports click & long click events for each type of message;
+  - supports user avatar;
+- Message input：
+  - supports multiple message types；
+  - voice input component；
+  - photo album select component；
+  - recorde video or take picture；
+
+Currently supported for display and input messages types:
+
+- Text
+- Image
+- Voice
+- Video
+
+
 
 ## Usage
-To implement the features above, you can use the following components:
+
+Currently provided components:
 
 ### Android
 - [MessageList](./docs/Android/usageEn.md)
