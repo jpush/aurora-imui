@@ -27,6 +27,7 @@ protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
    *  Tells the delegate that user tap header image in message cell
    */
   func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageModelProtocol)
+  
   /**
    *  Tells the delegate that the message cell will show in screen
    */

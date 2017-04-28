@@ -16,6 +16,7 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
 第一步： 拖拽一个 View 到 UIViewController 中 （可以是 storyboard 和  xib），修改 class 为 `IMUIMessageCollectionView`。
 
 第二步： 实现 `IMUIMessageMessageCollectionViewDelegate` 方法。
+
 ```
   @IBOutlet weak var messageCollectionView: IMUIMessageCollectionView!
   
@@ -31,6 +32,7 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
   
   func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
   
+  func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageModelProtocol)
   
   func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
   
@@ -86,7 +88,7 @@ public protocol IMUIUserProtocol {
 - 插入消息到底部
 ```
   messageCollectionView.appendMessage(with message: IMUIMessageModel)
-  ```
+```
 - 插入消息到指定位置
 ```
   messageCollectionView.insertMessage(with message: IMUIMessageModel)

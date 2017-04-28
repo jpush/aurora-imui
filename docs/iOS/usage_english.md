@@ -29,6 +29,7 @@ To use IMUIMessageCollectionView only need three simple steps, or you can check 
   
   func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
   
+  func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageModelProtocol)
   
   func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
   
@@ -84,7 +85,7 @@ To add new message in message list is pretty easy, we support some way to add me
 - append message to bottom 
 ```
 messageCollectionView.appendMessage(with message: IMUIMessageModel)
-``` 
+```
 
 - insert message cell to top
 ```
