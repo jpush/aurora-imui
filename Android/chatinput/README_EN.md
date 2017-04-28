@@ -11,7 +11,7 @@ Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
 ```
-compile 'cn.jiguang.imui:chatinput:0.0.1'
+compile 'cn.jiguang.imui:chatinput:0.1.0'
 ```
 
 - Via Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.0.1'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ allprojects {
 
 ```
 dependencies {
-  compile 'com.github.jpush:imui:0.0.1'
+  compile 'com.github.jpush:imui:0.1.0'
 }
 ```
 

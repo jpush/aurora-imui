@@ -10,7 +10,7 @@
 
 - Gradle
 ```
-compile 'cn.jiguang.imui:chatinput:0.0.1'
+compile 'cn.jiguang.imui:chatinput:0.1.0'
 ```
 
 - Maven
@@ -19,7 +19,7 @@ compile 'cn.jiguang.imui:chatinput:0.0.1'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -41,7 +41,7 @@ allprojects {
 
 ```
 dependencies {
-  compile 'com.github.jpush:imui:0.0.1'
+  compile 'com.github.jpush:imui:0.1.0'
 }
 ```
 
@@ -72,8 +72,7 @@ dependencies {
 ChatInputView chatInputView = (ChatInputView) findViewById(R.id.chat_input);
 chatInputView.setMenuContainerHeight(softInputHeight);
 ```
-**初始化后一定要设置一下 MenuContainer 的高度，最好设置为软键盘的高度，否则会导致第一次打开菜单时高度不正常（此时
-打开软键盘会导致界面伸缩）。**
+**初始化后一定要设置一下 MenuContainer 的高度，最好设置为软键盘的高度，否则会导致第一次打开菜单时高度不正常（此时打开软键盘会导致界面伸缩）。**
 
 建议在跳转到聊天界面之前使用 onSizeChanged 方法监听软键盘的高度，然后在初始化的时候设置即可，
 关于监听软键盘高度的方法可以参考 sample 下的 MessageListActivity 及 ChatView 中的 onSizeChanged 相关方法。
