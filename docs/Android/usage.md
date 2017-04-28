@@ -9,7 +9,7 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:imui:0.0.1'
+compile 'cn.jiguang.imui:imui:0.1.0'
 ```
 
 - Maven
@@ -17,7 +17,7 @@ compile 'cn.jiguang.imui:imui:0.0.1'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>imui</artifactId>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -34,7 +34,7 @@ allprojects {
 
 // module/build.gradle
 dependencies {
-  compile 'com.github.jpush:imui:0.0.1'
+  compile 'com.github.jpush:imui:0.1.0'
 }
 ```
 
@@ -206,7 +206,7 @@ mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
              new Handler().postDelayed(new Runnable() {
                  @Override
                  public void run() {
-                     mAdapter.addToEnd(mData, true);
+                     mAdapter.addToEnd(mData);
                  }
              }, 1000);
         }
