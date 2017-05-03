@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import UIKit
 
-extension CMSampleBuffer {
+public extension CMSampleBuffer {
 
   
   func imageFromSampleBuffer_Type32BGRA(sampleBuffer: CMSampleBuffer) -> UIImage {

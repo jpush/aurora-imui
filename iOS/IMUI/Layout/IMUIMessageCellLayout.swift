@@ -16,39 +16,38 @@ import UIKit
  */
 open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
 
-  static var avatarSize: CGSize = CGSize(width: 40, height: 40)
+  public static var avatarSize: CGSize = CGSize(width: 40, height: 40)
   
-  static var avatarOffsetToCell: UIOffset = UIOffset(horizontal: 16, vertical: 16)
+  public static var avatarOffsetToCell: UIOffset = UIOffset(horizontal: 16, vertical: 16)
   
-  static var timeLabelFrame: CGRect = CGRect.zero
+  public static var timeLabelFrame: CGRect = CGRect.zero
   
-  static var nameLabelFrame: CGRect = CGRect.zero
+  public static var nameLabelFrame: CGRect = CGRect.zero
   
-  static var bubbleOffsetToAvatar: UIOffset = UIOffset(horizontal: 8, vertical: 0)
+  public static var bubbleOffsetToAvatar: UIOffset = UIOffset(horizontal: 8, vertical: 0)
   
-  static var cellWidth: CGFloat = 0
+  public static var cellWidth: CGFloat = 0
   
-  static var cellContentInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+  public static var cellContentInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
   
-  static var bubbleMaxWidth: CGFloat = 200.0
-  static var isNeedShowInComingAvatar = true
-  static var isNeedShowOutGoingAvtar = true
+  public static var bubbleMaxWidth: CGFloat = 200.0
+  public static var isNeedShowInComingAvatar = true
+  public static var isNeedShowOutGoingAvtar = true
   
   init(isOutGoingMessage: Bool,
-          isNeedShowTime: Bool,
-       bubbleContentSize: CGSize
-      ) {
+                 isNeedShowTime: Bool,
+              bubbleContentSize: CGSize) {
     self.isOutGoingMessage = isOutGoingMessage
     self.isNeedShowTime = isNeedShowTime
     self.bubbleContentSize = bubbleContentSize
     
   }
   
-  var isOutGoingMessage: Bool
+  open var isOutGoingMessage: Bool
   
-  var isNeedShowTime: Bool
+  open var isNeedShowTime: Bool
   
-  internal var bubbleContentSize: CGSize
+  open var bubbleContentSize: CGSize
   
   var bubbleSize: CGSize {
     let bubbleWidth = bubbleContentSize.width +

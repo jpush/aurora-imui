@@ -53,38 +53,38 @@ open class IMUIMessageModel: IMUIMessageModelProtocol {
     return ""
   }()
   
-  public var fromUser: IMUIUserProtocol
+  open var fromUser: IMUIUserProtocol
   
-  public var isOutGoing: Bool = true
-  internal var date: Date
+  open var isOutGoing: Bool = true
+  open var date: Date
   
-  public var timeString: String {
+  open var timeString: String {
     return date.parseDate
   }
   
-  public var isNeedShowTime: Bool = false {
+  open var isNeedShowTime: Bool = false {
     didSet {
 //      cellLayout?.isNeedShowTime = isNeedShowTime
     }
   }
   
-  public var status: IMUIMessageStatus
-  public var type: IMUIMessageType
+  open var status: IMUIMessageStatus
+  open var type: IMUIMessageType
   
-  public var layout: IMUIMessageCellLayoutProtocal {
+  open var layout: IMUIMessageCellLayoutProtocal {
     return cellLayout!
   }
-  internal var cellLayout: IMUIMessageCellLayoutProtocal?
+  open var cellLayout: IMUIMessageCellLayoutProtocal?
   
-  public func text() -> String {
+  open func text() -> String {
     return ""
   }
   
-  public func mediaFilePath() -> String {
+  open func mediaFilePath() -> String {
     return ""
   }
   
-  public func calculateBubbleContentSize() -> CGSize {
+  open func calculateBubbleContentSize() -> CGSize {
     var bubbleContentSize: CGSize!
     switch type {
     case .image:
@@ -148,7 +148,7 @@ open class IMUIMessageModel: IMUIMessageModelProtocol {
     }
   }
   
-  public var resizableBubbleImage: UIImage {
+  open var resizableBubbleImage: UIImage {
     var bubbleImg: UIImage?
     if isOutGoing {
       bubbleImg = UIImage.imuiImage(with: "outGoing_bubble")

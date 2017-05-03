@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension String {
+public extension String {
   func heightWithConstrainedWidth(width: CGFloat, font: UIFont) -> CGFloat {
     let boundingBox = self.sizeWithConstrainedWidth(with: width, font: font)
     return boundingBox.height

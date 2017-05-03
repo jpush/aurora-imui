@@ -140,14 +140,14 @@ open class IMUIInputView: UIView {
       self.inputTextViewHeight.constant = textViewFitSize.height
     }
   
-  func showFeatureView() {
+  open func showFeatureView() {
     UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) {
       self.moreViewHeight.constant = 253
       self.superview?.layoutIfNeeded()
     }
   }
   
-  func hideFeatureView() {
+  open func hideFeatureView() {
     UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) { 
       self.moreViewHeight.constant = 0
       self.superview?.layoutIfNeeded()

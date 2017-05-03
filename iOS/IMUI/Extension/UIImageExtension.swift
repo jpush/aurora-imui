@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension UIImage {
+public extension UIImage {
   class func imuiImage(with name: String) -> UIImage? {
     return UIImage(named: "IMUIAssets.bundle/image/\(name).png")
   }

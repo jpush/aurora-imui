@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension UIView {
+public extension UIView {
   
   
   var imui_left: CGFloat {
@@ -50,7 +50,7 @@ extension UIView {
     }
   }
 
-  var imui_bottom: CGFloat { // TODO: test
+  var imui_bottom: CGFloat {
     set {
       var frame = self.frame
       let distance = newValue - frame.origin.y
@@ -142,18 +142,7 @@ extension UIView {
     center.y += vector.dy
     self.center = center
   }
-//  
-//  - (UIViewController *)jmui_viewController{
-//  for (UIView* next = self; next; next = next.superview) {
-//  UIResponder* nextResponder = [next nextResponder];
-//  if ([nextResponder isKindOfClass:[UIViewController class]]) {
-//  return (UIViewController*)nextResponder;
-//  }
-//  }
-//  return nil;
-//  }
-//
-//
+
   func positionInLeftSide(with point: CGPoint) -> Bool {
     if point.x < self.imui_centerX {
       return true
