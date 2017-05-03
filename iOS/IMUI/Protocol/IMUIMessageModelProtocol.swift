@@ -82,7 +82,7 @@ public protocol IMUIMessageModelProtocol {
 
 }
 
-extension IMUIMessageModelProtocol {
+public extension IMUIMessageModelProtocol {
   
   var timeString: String {
     return ""

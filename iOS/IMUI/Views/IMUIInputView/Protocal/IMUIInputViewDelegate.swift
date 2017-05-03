@@ -72,7 +72,7 @@ public protocol IMUIInputViewDelegate: NSObjectProtocol {
 }
 
 
-extension IMUIInputViewDelegate {
+public extension IMUIInputViewDelegate {
   func sendTextMessage(_ messageText: String) {}
 
   func switchToMicrophoneMode(recordVoiceBtn: UIButton) {}

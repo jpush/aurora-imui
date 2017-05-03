@@ -46,7 +46,7 @@ public protocol IMUIMessageCellLayoutProtocal {
 }
 
 //  IMUIMessageCellLayoutProtocal default value
-extension IMUIMessageCellLayoutProtocal {
+public extension IMUIMessageCellLayoutProtocal {
   var avatarFrame: CGRect {
     return CGRect.zero
   }

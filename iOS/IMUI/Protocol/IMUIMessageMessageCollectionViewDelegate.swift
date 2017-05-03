@@ -45,7 +45,7 @@ public protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
 
 }
 
-extension IMUIMessageMessageCollectionViewDelegate {
+public extension IMUIMessageMessageCollectionViewDelegate {
   
   func messageCollectionView(_: UICollectionView, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
   

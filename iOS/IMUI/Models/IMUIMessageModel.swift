@@ -47,44 +47,44 @@ protocol IMUIMessageDataSource {
  *  It implements `IMUIMessageModelProtocol` protocal
  *
  */
-class IMUIMessageModel: IMUIMessageModelProtocol {
+open class IMUIMessageModel: IMUIMessageModelProtocol {
   
-  internal var msgId = {
+  public var msgId = {
     return ""
   }()
   
-  internal var fromUser: IMUIUserProtocol
+  public var fromUser: IMUIUserProtocol
   
-  internal var isOutGoing: Bool = true
+  public var isOutGoing: Bool = true
   internal var date: Date
   
-  internal var timeString: String {
+  public var timeString: String {
     return date.parseDate
   }
   
-  open var isNeedShowTime: Bool = false {
+  public var isNeedShowTime: Bool = false {
     didSet {
 //      cellLayout?.isNeedShowTime = isNeedShowTime
     }
   }
   
-  open var status: IMUIMessageStatus
-  open var type: IMUIMessageType
+  public var status: IMUIMessageStatus
+  public var type: IMUIMessageType
   
-  internal var layout: IMUIMessageCellLayoutProtocal {
+  public var layout: IMUIMessageCellLayoutProtocal {
     return cellLayout!
   }
   internal var cellLayout: IMUIMessageCellLayoutProtocal?
   
-  func text() -> String {
+  public func text() -> String {
     return ""
   }
   
-  func mediaFilePath() -> String {
+  public func mediaFilePath() -> String {
     return ""
   }
   
-  open func calculateBubbleContentSize() -> CGSize {
+  public func calculateBubbleContentSize() -> CGSize {
     var bubbleContentSize: CGSize!
     switch type {
     case .image:
@@ -148,7 +148,7 @@ class IMUIMessageModel: IMUIMessageModelProtocol {
     }
   }
   
-  var resizableBubbleImage: UIImage {
+  public var resizableBubbleImage: UIImage {
     var bubbleImg: UIImage?
     if isOutGoing {
       bubbleImg = UIImage.imuiImage(with: "outGoing_bubble")
