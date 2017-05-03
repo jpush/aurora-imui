@@ -9,7 +9,7 @@
 import UIKit
 
 
-class IMUIMessageCollectionView: UIView {
+open class IMUIMessageCollectionView: UIView {
 
   @IBOutlet var view: UIView!
   @IBOutlet weak var messageCollectionView: UICollectionView!
@@ -22,7 +22,7 @@ class IMUIMessageCollectionView: UIView {
   }
   
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     
     view = Bundle.main.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?[0] as! UIView
@@ -32,7 +32,7 @@ class IMUIMessageCollectionView: UIView {
     self.setupMessageCollectionView()
   }
   
-  override func layoutSubviews() {
+  override open func layoutSubviews() {
     super.layoutSubviews()
     IMUIMessageCellLayout.cellWidth = self.imui_width
   }
@@ -71,11 +71,11 @@ class IMUIMessageCollectionView: UIView {
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewDataSource {
   
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return self.chatDataManager.count
   }
   
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
+  public func numberOfSections(in collectionView: UICollectionView) -> Int {
     collectionView.collectionViewLayout.invalidateLayout()
     return 1
   }
@@ -92,7 +92,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
     return CGSize.zero
   }
   
-  func collectionView(_ collectionView: UICollectionView,
+  public func collectionView(_ collectionView: UICollectionView,
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
     var cellIdentify = ""
@@ -126,7 +126,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
     return cell as! UICollectionViewCell
   }
   
-  func collectionView(_ collectionView: UICollectionView,
+  public func collectionView(_ collectionView: UICollectionView,
                       didSelectItemAt indexPath: IndexPath) {
     let messageModel = self.chatDataManager[indexPath.item]
     
@@ -134,7 +134,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
   }
 
 
-  func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
+  public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
     let messageModel = self.chatDataManager[forItemAt.item]
     self.delegate?.messageCollectionView(collectionView, didEndDisplaying: didEndDisplaying, forItemAt: forItemAt, model: messageModel)
   }
@@ -142,7 +142,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
 
 
 extension IMUIMessageCollectionView: UIScrollViewDelegate {
-  func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+  public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
     self.delegate?.messageCollectionView(self.messageCollectionView)
   }
 }

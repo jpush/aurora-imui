@@ -22,9 +22,9 @@ fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
 
 
 
-class IMUIInputView: UIView {
+open class IMUIInputView: UIView {
   
-  public var inputViewStatus: IMUIInputStatus = .none
+  var inputViewStatus: IMUIInputStatus = .none
   open weak var inputViewDelegate: IMUIInputViewDelegate? {
     didSet {
       self.featureView.inputViewDelegate = self.inputViewDelegate
@@ -57,7 +57,7 @@ class IMUIInputView: UIView {
     self.sendNumberLabel.layer.shadowOpacity = 0.5
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     
     view = Bundle.main.loadNibNamed("IMUIInputView", owner: self, options: nil)?[0] as! UIView
@@ -161,11 +161,11 @@ class IMUIInputView: UIView {
 
 // MARK: - UITextViewDelegate
 extension IMUIInputView: UITextViewDelegate {
-  func textViewDidChange(_ textView: UITextView) {
+  public func textViewDidChange(_ textView: UITextView) {
     self.fitTextViewSize(textView)
   }
   
-  func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+  public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
     inputViewStatus = .text
     return true
   }
