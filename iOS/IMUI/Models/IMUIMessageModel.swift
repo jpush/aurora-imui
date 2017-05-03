@@ -33,7 +33,7 @@ public enum IMUIMessageReceiveStatus {
 }
 
 
-protocol IMUIMessageDataSource {
+public protocol IMUIMessageDataSource {
   func messageArray(with offset:NSNumber, limit:NSNumber) -> [IMUIMessageModelProtocol]
   
 }

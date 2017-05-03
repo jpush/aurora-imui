@@ -14,7 +14,7 @@ import UIKit
  *  'IMUIMessageCellLayoutProtocal' protocol.
  *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to layout cell's items
  */
-class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
+open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
 
   static var avatarSize: CGSize = CGSize(width: 40, height: 40)
   
@@ -70,14 +70,14 @@ class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   
   
   
-  var bubbleContentInset: UIEdgeInsets {
+  public var bubbleContentInset: UIEdgeInsets {
     return UIEdgeInsets.zero
   }
   
   
   
   // MARK - IMUIMessageCellLayoutProtocal
-  var avatarFrame: CGRect {
+  public var avatarFrame: CGRect {
     
     var avatarX: CGFloat
     if self.isOutGoingMessage {
@@ -101,7 +101,7 @@ class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
                   height: IMUIMessageCellLayout.avatarSize.height)
   }
   
-  var timeLabelFrame: CGRect {
+  public var timeLabelFrame: CGRect {
     if self.isNeedShowTime {
       let timeWidth = IMUIMessageCellLayout.cellWidth -
         cellContentInset.left -
@@ -116,7 +116,7 @@ class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
     }
   }
   
-  var cellHeight: CGFloat {
+  public var cellHeight: CGFloat {
     return  IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical +
       IMUIMessageCellLayout.timeLabelFrame.size.height +
       self.avatarFrame.origin.y +
@@ -125,7 +125,7 @@ class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
       cellContentInset.bottom
   }
   
-  var bubbleFrame: CGRect {
+  public var bubbleFrame: CGRect {
     var bubbleX:CGFloat
     
     if self.isOutGoingMessage {
@@ -151,7 +151,7 @@ class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
                   height: bubbleSize.height)
   }
   
-  var cellContentInset: UIEdgeInsets {
+  public var cellContentInset: UIEdgeInsets {
     return IMUIMessageCellLayout.cellContentInset
   }
 
