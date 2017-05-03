@@ -13,7 +13,7 @@ import UIKit
  *  The `IMUIMessageModelProtocol` protocol defines the common interface with message model objects
  *  It declares the required and optional methods which model should implement it
  */
-protocol IMUIMessageModelProtocol {
+public protocol IMUIMessageModelProtocol {
   
   /**
    *  @required function

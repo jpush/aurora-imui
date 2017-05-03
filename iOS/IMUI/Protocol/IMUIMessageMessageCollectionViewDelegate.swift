@@ -12,7 +12,7 @@ import UIKit
 /**
  *  The `IMUIMessageMessageCollectionViewDelegate` protocol defines the even callback delegate
  */
-protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
+public protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
   /**
    *  Tells the delegate that user tap message cell
    */

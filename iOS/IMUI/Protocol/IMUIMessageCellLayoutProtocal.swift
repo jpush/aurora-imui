@@ -12,7 +12,7 @@ import UIKit
 /**
  *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to display message cell item
  */
-protocol IMUIMessageCellLayoutProtocal {
+public protocol IMUIMessageCellLayoutProtocal {
   
   /**
    *  return message cell height

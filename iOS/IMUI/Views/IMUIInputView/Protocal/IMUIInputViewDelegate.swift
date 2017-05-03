@@ -13,7 +13,7 @@ import Photos
 /**
  *  The `IMUIInputViewDelegate` protocol defines the even callback delegate
  */
-protocol IMUIInputViewDelegate: NSObjectProtocol {
+public protocol IMUIInputViewDelegate: NSObjectProtocol {
   
   /**
    *  Tells the delegate that user tap send button and text input string is not empty
