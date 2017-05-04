@@ -60,7 +60,11 @@ open class IMUIInputView: UIView {
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     
-    view = Bundle.main.loadNibNamed("IMUIInputView", owner: self, options: nil)?[0] as! UIView
+//    view = Bundle.main.loadNibNamed("IMUIInputView", owner: self, options: nil)?[0] as! UIView
+    
+    let bundle = Bundle(for: IMUIInputView.self)
+    view = bundle.loadNibNamed("IMUIInputView", owner: self, options: nil)?.first as! UIView
+    
     self.addSubview(view)
     view.frame = self.bounds
     

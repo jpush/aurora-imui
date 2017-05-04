@@ -12,7 +12,7 @@ import Photos
 
 private var CellIdentifier = ""
 
-enum IMUIFeatureType {
+public enum IMUIFeatureType {
   case voice
   case gallery
   case camera
@@ -37,13 +37,13 @@ extension IMUIFeatureViewDelegate {
   func didChangeSelectedGallery() {}
 }
 
-protocol IMUIFeatureCellProtocal {
+public protocol IMUIFeatureCellProtocal {
   var inputViewDelegate: IMUIInputViewDelegate? { set get }
   func activateMedia()
   func inactivateMedia()
 }
 
-extension IMUIFeatureCellProtocal {
+public extension IMUIFeatureCellProtocal {
   var inputViewDelegate: IMUIInputViewDelegate? {
     
     get { return nil }
@@ -55,7 +55,7 @@ extension IMUIFeatureCellProtocal {
 }
 
 // TODO: Need to  Restructure
-class IMUIFeatureView: UIView {
+open class IMUIFeatureView: UIView {
 
   @IBOutlet weak var featureCollectionView: UICollectionView!
   var view: UIView!
@@ -69,9 +69,13 @@ class IMUIFeatureView: UIView {
     self.setupAllViews()
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    view = Bundle.main.loadNibNamed("IMUIFeatureView", owner: self, options: nil)?[0] as! UIView
+//    view = Bundle.main.loadNibNamed("IMUIFeatureView", owner: self, options: nil)?[0] as! UIView
+    
+    let bundle = Bundle(for: IMUIFeatureView.self)
+    view = bundle.loadNibNamed("IMUIFeatureView", owner: self, options: nil)?.first as! UIView
+    
     self.addSubview(view)
     view.frame = self.bounds
   }
@@ -142,7 +146,7 @@ class IMUIFeatureView: UIView {
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch currentType {
     case .gallery:
       return IMUIGalleryDataManager.allAssets.count
@@ -153,7 +157,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     }
   }
   
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
+  public func numberOfSections(in collectionView: UICollectionView) -> Int {
     collectionView.collectionViewLayout.invalidateLayout()
     return 1
   }
@@ -176,7 +180,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     return CGSize.zero
   }
   
-  func collectionView(_ collectionView: UICollectionView,
+  public func collectionView(_ collectionView: UICollectionView,
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
     switch currentType {
@@ -201,7 +205,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     return cell as! UICollectionViewCell
   }
   
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+  public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let cell = collectionView.cellForItem(at: indexPath)!
     if cell is IMUIGalleryCell {
       let galleryCell = cell as! IMUIGalleryCell
@@ -210,7 +214,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     }
   }
   
-  func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
+  public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
     let endDisplayingCell = didEndDisplaying as! IMUIFeatureCellProtocal
     endDisplayingCell.inactivateMedia()
   }
