@@ -34,7 +34,7 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   public static var isNeedShowInComingAvatar = true
   public static var isNeedShowOutGoingAvtar = true
   
-  init(isOutGoingMessage: Bool,
+  public init(isOutGoingMessage: Bool,
                  isNeedShowTime: Bool,
               bubbleContentSize: CGSize) {
     self.isOutGoingMessage = isOutGoingMessage
@@ -61,22 +61,20 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
     return CGSize(width: bubbleWidth, height: bubbleHeight)
   }
   
-  var bubbleContentFrame: CGRect {
+  open var bubbleContentFrame: CGRect {
     let bubbleContentPostion = CGPoint(x: bubbleContentInset.left,
                                        y: bubbleContentInset.top)
     return CGRect(origin: bubbleContentPostion, size: self.bubbleContentSize)
   }
   
   
+  // MARK - IMUIMessageCellLayoutProtocal
   
-  public var bubbleContentInset: UIEdgeInsets {
+  open var bubbleContentInset: UIEdgeInsets {
     return UIEdgeInsets.zero
   }
   
-  
-  
-  // MARK - IMUIMessageCellLayoutProtocal
-  public var avatarFrame: CGRect {
+  open var avatarFrame: CGRect {
     
     var avatarX: CGFloat
     if self.isOutGoingMessage {
@@ -100,7 +98,7 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
                   height: IMUIMessageCellLayout.avatarSize.height)
   }
   
-  public var timeLabelFrame: CGRect {
+  open var timeLabelFrame: CGRect {
     if self.isNeedShowTime {
       let timeWidth = IMUIMessageCellLayout.cellWidth -
         cellContentInset.left -
@@ -109,13 +107,13 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
       return CGRect(x: cellContentInset.left,
                     y: cellContentInset.top,
                     width: timeWidth,
-                    height: 20) // TODO: TEST code!
+                    height: 20)
     } else {
       return CGRect.zero
     }
   }
   
-  public var cellHeight: CGFloat {
+  open var cellHeight: CGFloat {
     return  IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical +
       IMUIMessageCellLayout.timeLabelFrame.size.height +
       self.avatarFrame.origin.y +
@@ -124,7 +122,7 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
       cellContentInset.bottom
   }
   
-  public var bubbleFrame: CGRect {
+  open var bubbleFrame: CGRect {
     var bubbleX:CGFloat
     
     if self.isOutGoingMessage {
@@ -150,7 +148,7 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
                   height: bubbleSize.height)
   }
   
-  public var cellContentInset: UIEdgeInsets {
+  open var cellContentInset: UIEdgeInsets {
     return IMUIMessageCellLayout.cellContentInset
   }
 
