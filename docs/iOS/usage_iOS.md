@@ -5,7 +5,17 @@ IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类
 
 
 ## 安装
-#### 手动集成
+#### [CocoaPods](https://cocoapods.org/)  (推荐)
+
+````ruby
+# For latest release in cocoapods
+pod ‘AuroraIMUI'
+````
+
+
+
+#### 手动集成 
+
 拷贝 `IMUI` 目录到自己工程中。
 
 **注意：** 确保自己工程中 `Info.plist` 包含 camera , Microphone 和 Photo Library 权限。

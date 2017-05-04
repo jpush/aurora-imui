@@ -4,7 +4,17 @@
 IMUIMessageCollectionView is a message list in chatting interface, use to display all kinds of messages, and it can be fully customize. If you don't define your style, IMUIMessageCollectionView will use default style.
 
 ## Install
+#### [CocoaPods](https://cocoapods.org/)  (recommended)
+
+````ruby
+# For latest release in cocoapods
+pod ‘AuroraIMUI'
+````
+
+
+
 #### Manual
+
 Copy `IMUI` folder to your project. That's it.
 
 - **Note:** Make sure that `Info.plist` include  camera , Microphone, Photo Library permission.
