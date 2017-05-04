@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		622271861EBB5B030062402B /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622271851EBB5B030062402B /* BundleExtension.swift */; };
 		622532191EA0C8A400F6927E /* IMUIMessageCellProtocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622532181EA0C8A400F6927E /* IMUIMessageCellProtocal.swift */; };
 		6225321D1EA0D42400F6927E /* IMUIInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6225321B1EA0D42400F6927E /* IMUIInputView.swift */; };
 		6225321E1EA0D42400F6927E /* IMUIInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6225321C1EA0D42400F6927E /* IMUIInputView.xib */; };
@@ -83,6 +84,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		622271851EBB5B030062402B /* BundleExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
 		622532181EA0C8A400F6927E /* IMUIMessageCellProtocal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCellProtocal.swift; sourceTree = "<group>"; };
 		6225321B1EA0D42400F6927E /* IMUIInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIInputView.swift; sourceTree = "<group>"; };
 		6225321C1EA0D42400F6927E /* IMUIInputView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIInputView.xib; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				62C869C01E9B51AE00AA8FE9 /* UIColorExtension.swift */,
 				62C869C11E9B51AE00AA8FE9 /* UIImageExtension.swift */,
 				62C869C21E9B51AE00AA8FE9 /* UIViewExtension.swift */,
+				622271851EBB5B030062402B /* BundleExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				622532201EA0D45C00F6927E /* IMUIInputViewDelegate.swift in Sources */,
 				62C86A211E9B568F00AA8FE9 /* IMUICameraCell.swift in Sources */,
 				62C86A111E9B564800AA8FE9 /* IMUIGalleryDataManager.swift in Sources */,
+				622271861EBB5B030062402B /* BundleExtension.swift in Sources */,
 				62C869E51E9B51AE00AA8FE9 /* IMUIAudioPlayerHelper.swift in Sources */,
 				62C869F41E9B51AE00AA8FE9 /* IMUIMessageModel.swift in Sources */,
 				62C869F61E9B51AE00AA8FE9 /* IMUIMessageModelProtocol.swift in Sources */,

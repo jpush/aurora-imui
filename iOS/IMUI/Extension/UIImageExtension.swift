@@ -11,7 +11,9 @@ import UIKit
 
 public extension UIImage {
   class func imuiImage(with name: String) -> UIImage? {
-    return UIImage(named: "IMUIAssets.bundle/image/\(name).png")
+    let bundle = Bundle.imuiBundle()
+    let imagePath = bundle.path(forResource: "IMUIAssets.bundle/image/\(name)", ofType: "png")
+    return UIImage(contentsOfFile: imagePath!)
   }
   
   var jpegRepresentationData: Data! {

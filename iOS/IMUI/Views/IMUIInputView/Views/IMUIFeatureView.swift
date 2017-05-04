@@ -73,7 +73,7 @@ open class IMUIFeatureView: UIView {
     super.init(coder: aDecoder)
 //    view = Bundle.main.loadNibNamed("IMUIFeatureView", owner: self, options: nil)?[0] as! UIView
     
-    let bundle = Bundle(for: IMUIFeatureView.self)
+    let bundle = Bundle.imuiBundle()
     view = bundle.loadNibNamed("IMUIFeatureView", owner: self, options: nil)?.first as! UIView
     
     self.addSubview(view)
@@ -82,9 +82,12 @@ open class IMUIFeatureView: UIView {
   
   func setupAllViews() {
 
-    self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: nil), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
-    self.featureCollectionView.register(UINib(nibName: "IMUIGalleryCell", bundle: nil), forCellWithReuseIdentifier: "IMUIGalleryCell")
-    self.featureCollectionView.register(UINib(nibName: "IMUICameraCell", bundle: nil), forCellWithReuseIdentifier: "IMUICameraCell")
+    let bundle = Bundle.imuiBundle()
+    
+    self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
+    self.featureCollectionView.register(UINib(nibName: "IMUIGalleryCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIGalleryCell")
+    self.featureCollectionView.register(UINib(nibName: "IMUICameraCell", bundle: bundle), forCellWithReuseIdentifier: "IMUICameraCell")
+
     
     self.featureCollectionView.delegate = self
     self.featureCollectionView.dataSource = self

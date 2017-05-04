@@ -15,7 +15,7 @@ open class IMUIMessageCollectionView: UIView {
   @IBOutlet weak var messageCollectionView: UICollectionView!
 
   var chatDataManager = IMUIChatDataManager()
-  weak var delegate: IMUIMessageMessageCollectionViewDelegate?
+  open weak var delegate: IMUIMessageMessageCollectionViewDelegate?
   
   open override func awakeFromNib() {
     super.awakeFromNib()
@@ -25,7 +25,7 @@ open class IMUIMessageCollectionView: UIView {
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     
-    let bundle = Bundle(for: IMUIMessageCollectionView.self)
+    let bundle = Bundle.imuiBundle()
     view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as! UIView
     
     self.addSubview(view)

@@ -62,7 +62,7 @@ open class IMUIInputView: UIView {
     
 //    view = Bundle.main.loadNibNamed("IMUIInputView", owner: self, options: nil)?[0] as! UIView
     
-    let bundle = Bundle(for: IMUIInputView.self)
+    let bundle = Bundle.imuiBundle()
     view = bundle.loadNibNamed("IMUIInputView", owner: self, options: nil)?.first as! UIView
     
     self.addSubview(view)
