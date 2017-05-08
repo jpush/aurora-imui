@@ -49,7 +49,7 @@ Ready components:
 - [MessageList](./docs/Android/usageEn.md)
 - [ChatInputView](./Android/chatinput/README_EN.md)
 
-### iOS
+### iOS (Swift)
 - [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md)
 - [IMUIInputView](./docs/iOS/inputView_usage_english.md)
 
