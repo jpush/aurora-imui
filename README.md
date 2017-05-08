@@ -46,9 +46,9 @@ Ready components:
 - [MessageList](./docs/Android/usageEn.md)
 - [ChatInputView](./Android/chatinput/README_EN.md)
 
-### iOS
-- [IMUIMessageCollectionView](./docs/iOS/usage_en.md)
-- [IMUIInputView](./docs/iOS/inputView_usage_en.md)
+### iOS (Swift)
+- [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md)
+- [IMUIInputView](./docs/iOS/inputView_usage_english.md)
 
 ## Contribute
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
