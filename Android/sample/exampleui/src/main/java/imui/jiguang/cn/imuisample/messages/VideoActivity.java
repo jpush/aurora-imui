@@ -2,10 +2,7 @@ package imui.jiguang.cn.imuisample.messages;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -13,12 +10,9 @@ import imui.jiguang.cn.imuisample.R;
 
 public class VideoActivity extends Activity {
 
-    public static final String VIDEO_PATH = "videoPath";
-
-    private static final String CURRENT_POSITION = "currentPosition";
+    public static final String VIDEO_PATH = "VIDEO_PATH";
 
     private VideoView mVideoView;
-    private MediaController mMediaController;
 
     private int mSavedCurrentPosition;
 
@@ -31,10 +25,10 @@ public class VideoActivity extends Activity {
 
         mVideoView = (VideoView) findViewById(R.id.videoview_video);
 
-        mMediaController = new MediaController(this);
-        mMediaController.setAnchorView(mVideoView);
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(mVideoView);
 
-        mVideoView.setMediaController(mMediaController);
+        mVideoView.setMediaController(mediaController);
         mVideoView.setVideoPath(videoPath);
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override

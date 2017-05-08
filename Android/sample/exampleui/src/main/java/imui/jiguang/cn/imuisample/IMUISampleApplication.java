@@ -1,14 +1,14 @@
 package imui.jiguang.cn.imuisample;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.app.Application;
 import android.os.StrictMode;
 
-public class MainActivity extends Activity {
+
+public class IMUISampleApplication extends Application {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate() {
+        super.onCreate();
 
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
