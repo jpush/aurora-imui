@@ -55,8 +55,12 @@ Aurora IMUI 是个通用的即时通讯（IM）UI 库，不特定于任何 IM SD
 
 ## Contribute
 
-Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
+欢迎提交 PR 与提出 Issues。
+
+有新功能需求的，请也提出 Issue，打上「new feature」标签。我们以大家对每个 new feature 的响应来确定优先级。
+
 
 ## License
 
 MIT © [JiGuang](/LICENSE)
+
