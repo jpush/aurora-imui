@@ -48,7 +48,7 @@ Aurora IMUI 是个通用的即时通讯（IM）UI 库，不特定于任何 IM SD
 - [MessageList](./docs/Android/usage.md) (消息列表)
 - [ChatInputView](./Android/chatinput/README.md) (聊天输入组件)
 
-### iOS
+### iOS (Swift)
 
 - [IMUIMessageCollectionView](./docs/iOS/usage_iOS.md) (消息列表)
 - [IMUIInputView](./docs/iOS/inputView_usage.md) (聊天输入组件)
