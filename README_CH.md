@@ -21,42 +21,35 @@ Aurora IMUI 是个通用的即时通讯（IM）UI 库，不特定于任何 IM SD
 ## 功能
 
 可以基于本 UI 库实现的功能：
-
 - 消息列表的展示；
   - 支持多种消息类型；
   - 对每种消息类型的点击、长按处理；
-  - 支持用户头像；
+  - 支持用户头像。
 - 消息输入：
   - 支持多种消息类型；
   - 语音输入组件；
   - 相册照片选取组件；
-  - 视频拍摄；
+  - 视频拍摄。
 
 当前支持展示与输入的消息类型：
-
 - 文字
 - 图片
 - 语音
 - 视频
 
 ## 使用
-
 当前提供的组件：
 
 ### Android
-
 - [MessageList](./docs/Android/usage.md) (消息列表)
 - [ChatInputView](./Android/chatinput/README.md) (聊天输入组件)
 
 ### iOS
-
 - [IMUIMessageCollectionView](./docs/iOS/usage_iOS_zh.md) (消息列表)
 - [IMUIInputView](./docs/iOS/inputView_usage_zh.md) (聊天输入组件)
 
 ## Contribute
-
 Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
 
 ## License
-
 MIT © [JiGuang](/LICENSE)
