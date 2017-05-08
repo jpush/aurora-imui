@@ -1,5 +1,5 @@
 # IMUIMessageCollectionView
-[中文文档](https://github.com/jpush/imui/blob/dev/docs/iOS/usage_iOS.md)
+[中文文档](https://github.com/jpush/imui/blob/dev/docs/iOS/usage_iOS_zh.md)
 
 IMUIMessageCollectionView is a message list in chatting interface, use to display all kinds of messages, and it can be fully customize. If you don't define your style, IMUIMessageCollectionView will use default style.
 
