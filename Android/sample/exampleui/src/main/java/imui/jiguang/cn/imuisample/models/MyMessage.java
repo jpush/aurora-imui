@@ -15,6 +15,7 @@ public class MyMessage implements IMessage {
     private IUser user;
     private String mediaFilePath;
     private long duration;
+    private String progress;
 
     public MyMessage(String text, MessageType type) {
         this.text = text;
@@ -52,6 +53,15 @@ public class MyMessage implements IMessage {
         return duration;
     }
 
+    public void setProgress(String progress) {
+        this.progress = progress;
+    }
+
+    @Override
+    public String getProgress() {
+        return progress;
+    }
+
     public void setTimeString(String timeString) {
         this.timeString = timeString;
     }
@@ -64,6 +74,11 @@ public class MyMessage implements IMessage {
     @Override
     public MessageType getType() {
         return type;
+    }
+
+    @Override
+    public MessageStatus getMessageStatus() {
+        return null;
     }
 
     @Override

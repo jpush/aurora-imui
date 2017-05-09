@@ -87,12 +87,16 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 if (mMsgClickListener != null) {
                     mMsgClickListener.onMessageClick(message);
                 }
+                // stop animation whatever this time is play or pause audio
+                if (mVoiceAnimation != null) {
+                    mVoiceAnimation.stop();
+                    mVoiceAnimation = null;
+                }
                 if (mIsSender) {
                     mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
                     mVoiceIv.setImageResource(mPlayReceiveAnim);
                 }
-
                 mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
                 // If audio is playing, pause
                 if (mMediaPlayer.isPlaying() && mPosition == getAdapterPosition()) {
