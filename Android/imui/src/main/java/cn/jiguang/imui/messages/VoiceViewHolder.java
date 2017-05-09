@@ -102,6 +102,11 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 if (mMediaPlayer.isPlaying() && mPosition == getAdapterPosition()) {
                     pauseVoice();
                     mVoiceAnimation.stop();
+                    if (mIsSender) {
+                        mVoiceIv.setImageResource(mSendDrawable);
+                    } else {
+                        mVoiceIv.setImageResource(mReceiveDrawable);
+                    }
                     // Start playing audio
                 } else {
                     // Restart playing audio
@@ -110,7 +115,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                         mMediaPlayer.start();
                         // start play audio
                     } else {
-                        playVoice(mPosition, message, true);
+                        playVoice(getAdapterPosition(), message, true);
                     }
                 }
             }
