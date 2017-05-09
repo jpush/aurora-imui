@@ -87,10 +87,10 @@ To use IMUIMessageCollectionView only need three simple steps, or you can check 
   2. Construct your user model, to implement `IMUIUserProtocol` protocal.
   ```swift
   public protocol IMUIUserProtocol {
-        @request
-        func userId() -> String
-        func displayName() -> String
-        func Avatar() -> UIImage
+      @request
+      func userId() -> String
+      func displayName() -> String
+      func Avatar() -> UIImage
   }
   ```
 
