@@ -6,29 +6,16 @@ IMUIMessageCollectionView is a message list in chatting interface, use to displa
 ## Install
 ### [CocoaPods](https://cocoapods.org/)  (recommended)
 
-````ruby
+```ruby
 # For latest release in cocoapods
 pod 'AuroraIMUI'
-````
+```
 
 ### Manual
 Copy `IMUI` folder to your project. That's it.
 
 >**Note:** Make sure that `Info.plist` include camera, Microphone, Photo Library permission.
-<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [IMUIMessageCollectionView](#imuimessagecollectionview)
-	- [Install](#install)
-		- [[CocoaPods](https://cocoapods.org/)  (recommended)](#cocoapodshttpscocoapodsorg-recommended)
-- [For latest release in cocoapods](#for-latest-release-in-cocoapods)
-		- [Manual](#manual)
-	- [Usage](#usage)
-		- [Data management](#data-management)
-			- [Add new message](#add-new-message)
-		- [Custom  Layout](#custom-layout)
-	- [Future plan](#future-plan)
-
-<!-- /TOC -->
 ## Usage
 To use IMUIMessageCollectionView only need three simple steps, or you can check out our [sample project](https://github.com/jpush/imui/tree/master/iOS/IMUIChat) to try it yourself.
 - **Step one:** drag a view to your UIViewController (storyboard or xib), and adjust class to `IMUIMessageCollectionView`.
@@ -44,20 +31,25 @@ To use IMUIMessageCollectionView only need three simple steps, or you can check 
   }
 
   // MARK - IMUIMessageMessageCollectionViewDelegate
-  func messageCollectionView(_: UICollectionView, forItemAt: IndexPath,
-     model: IMUIMessageModelProtocol) {}
+  func messageCollectionView(_: UICollectionView,
+                     forItemAt: IndexPath,
+                         model: IMUIMessageModelProtocol) {}
 
   func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell,
-     model: IMUIMessageModelProtocol) {}
+                                                 model: IMUIMessageModelProtocol) {}
 
   func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell,
-     model: IMUIMessageModelProtocol)
+                                               model: IMUIMessageModelProtocol)
 
-  func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell,a
-     forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  func messageCollectionView(_: UICollectionView,
+        willDisplayMessageCell: UICollectionViewCell,
+                     forItemAt: IndexPath,
+                         model: IMUIMessageModelProtocol) {}
 
-  func messageCollectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell,
-     forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
+  func messageCollectionView(_: UICollectionView,
+              didEndDisplaying: UICollectionViewCell,
+                     forItemAt: IndexPath,
+                         model: IMUIMessageModelProtocol) {}
 
   func messageCollectionView(_ willBeginDragging: UICollectionView){}
   ```
@@ -66,38 +58,39 @@ To use IMUIMessageCollectionView only need three simple steps, or you can check 
   1. To add messages, you need to implement `IMUIMessageModelProtocol` protocol into your existing mode.
   ```swift
   protocol IMUIMessageModelProtocol {
-  @request
-  var msgId: String { get }
-  var fromUser: IMUIUserProtocol { get }
-  var layout: IMUIMessageCellLayoutProtocal { get }
-  var isOutGoing: Bool { get }
+      @request
+      var msgId: String { get }
+      var fromUser: IMUIUserProtocol { get }
+      var layout: IMUIMessageCellLayoutProtocal { get }
+      var isOutGoing: Bool { get }
 
-  @optional
-  // return time lable string
-  var timeString: String { get }
+      @optional
+      // return time lable string
+      var timeString: String { get }
 
-  // return text message's string
-  func text() -> String
+      // return text message's string
+      func text() -> String
 
-  // return media(image, voice, video ) file path
-  func mediaFilePath() -> String
+      // return media(image, voice, video ) file path
+      func mediaFilePath() -> String
 
-  // return duration of audio or video
-  var duration: CGFloat { get }
+      // return duration of audio or video
+      var duration: CGFloat { get }
 
-  // the bubble background image
-  // @warning the image must be resizable just like this:
-  // bubbleImg.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 15, 9, 10), resizingMode: .tile)
-  var resizeBubbleImage: UIImage { get }
+      // the bubble background image
+      // @warning the image must be resizable just like this:
+      // bubbleImg.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 15, 9, 10), resizingMode: .tile)
+      var resizeBubbleImage: UIImage { get }
+  }
   ```
 
   2. Construct your user model, to implement `IMUIUserProtocol` protocal.
   ```swift
   public protocol IMUIUserProtocol {
-  @request
-    func userId() -> String
-    func displayName() -> String
-    func Avatar() -> UIImage
+        @request
+        func userId() -> String
+        func displayName() -> String
+        func Avatar() -> UIImage
   }
   ```
 
