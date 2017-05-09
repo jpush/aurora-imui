@@ -38,18 +38,26 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         if (message.getTimeString() != null) {
             mTextDate.setText(message.getTimeString());
         }
-        boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
-                && !message.getFromUser().getAvatarFilePath().isEmpty();
 
-        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(message.getMediaFilePath(),
-                MediaStore.Images.Thumbnails.MINI_KIND);
-        mImageCover.setImageBitmap(thumb);
+        mImageLoader.loadAvatarImage(mImageAvatar, message.getFromUser().getAvatarFilePath());
+        mImageLoader.loadImage(mImageCover, message.getMediaFilePath());
+
+        mImageAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mAvatarClickListener != null) {
+                    mAvatarClickListener.onAvatarClick(message);
+                }
+            }
+        });
+
         mImageCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mMsgClickListener.onMessageClick(message);
             }
         });
+
         mImageCover.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
@@ -63,21 +71,6 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
                 TimeUnit.MILLISECONDS.toMinutes(message.getDuration()),
                 TimeUnit.MILLISECONDS.toSeconds(message.getDuration()));
         mTvDuration.setText(durationStr);
-
-        if (mImageLoader != null) {
-            if (isAvatarExists) {
-                mImageLoader.loadImage(mImageAvatar, message.getFromUser().getAvatarFilePath());
-            }
-        }
-
-        mImageAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mAvatarClickListener != null) {
-                    mAvatarClickListener.onAvatarClick(message);
-                }
-            }
-        });
     }
 
     @Override

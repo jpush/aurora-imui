@@ -1,5 +1,6 @@
 package cn.jiguang.imui.messages;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -34,13 +35,9 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         if (message.getTimeString() != null) {
             mDateTv.setText(message.getTimeString());
         }
-        boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
-                && !message.getFromUser().getAvatarFilePath().isEmpty();
-        if (isAvatarExists && mImageLoader != null) {
-            mImageLoader.loadImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
-        } else if (mImageLoader == null) {
-            mAvatarIv.setVisibility(View.GONE);
-        }
+
+        mImageLoader.loadAvatarImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
+
         if (!mIsSender) {
             if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
                 mDisplayNameTv.setText(message.getFromUser().getDisplayName());

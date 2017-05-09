@@ -159,7 +159,7 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
 
         if (message.what == MSG_WHAT_SCAN_SUCCESS) {
             Collections.sort(mMedias);
-            mPhotoAdapter = new PhotoAdapter(mMedias, getMeasuredHeight());
+            mPhotoAdapter = new PhotoAdapter(mMedias);
             mPhotoAdapter.setOnPhotoSelectedListener(mOnFileSelectedListener);
             mRvPhotos.setAdapter(mPhotoAdapter);
         } else if (message.what == MSG_WHAT_SCAN_FAILED) {

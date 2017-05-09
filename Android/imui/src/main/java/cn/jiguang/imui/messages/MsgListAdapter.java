@@ -2,6 +2,7 @@ package cn.jiguang.imui.messages;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -51,7 +52,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private HoldersConfig mHolders;
     private OnLoadMoreListener mListener;
 
+    @NonNull
     private ImageLoader mImageLoader;
+
     private boolean mIsSelectedMode;
     private OnMsgClickListener<MESSAGE> mMsgClickListener;
     private OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
@@ -67,7 +70,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         this(senderId, new HoldersConfig(), imageLoader);
     }
 
-    public MsgListAdapter(String senderId, HoldersConfig holders, ImageLoader imageLoader) {
+    public MsgListAdapter(String senderId, HoldersConfig holders, @NonNull ImageLoader imageLoader) {
         mSenderId = senderId;
         mHolders = holders;
         mImageLoader = imageLoader;

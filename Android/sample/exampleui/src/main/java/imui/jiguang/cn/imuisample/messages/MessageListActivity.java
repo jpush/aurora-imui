@@ -21,6 +21,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -255,10 +258,10 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             MyMessage message;
             if (i % 2 == 0) {
                 message = new MyMessage(messages[i], IMessage.MessageType.RECEIVE_TEXT);
-                message.setUserInfo(new DefaultUser("0", "DeadPool", "deadpool"));
+                message.setUserInfo(new DefaultUser("0", "DeadPool", "R.drawable.deadpool"));
             } else {
                 message = new MyMessage(messages[i], IMessage.MessageType.SEND_TEXT);
-                message.setUserInfo(new DefaultUser("1", "IronMan", "ironman"));
+                message.setUserInfo(new DefaultUser("1", "IronMan", "R.drawable.ironman"));
             }
             message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
             list.add(message);
@@ -269,8 +272,33 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
     private void initMsgAdapter() {
         ImageLoader imageLoader = new ImageLoader() {
             @Override
-            public void loadImage(ImageView imageView, String url) {
-                imageView.setImageResource(getResources().getIdentifier(url, "drawable", getPackageName()));
+            public void loadAvatarImage(ImageView avatarImageView, String string) {
+                // You can use other image load libraries.
+                if (string.contains("R.drawable")) {
+                    Integer resId = getResources().getIdentifier(string.replace("R.drawable.", ""),
+                        "drawable", getPackageName());
+
+                    Glide.with(getApplicationContext())
+                            .load(resId)
+                            .placeholder(R.drawable.aurora_headicon_default)
+                            .into(avatarImageView);
+                } else {
+                    Glide.with(getApplicationContext())
+                            .load(string)
+                            .placeholder(R.drawable.aurora_headicon_default)
+                            .into(avatarImageView);
+                }
+            }
+
+            @Override
+            public void loadImage(ImageView imageView, String string) {
+                // You can use other image load libraries.
+                Glide.with(getApplicationContext())
+                        .load(string)
+                        .fitCenter()
+                        .placeholder(R.drawable.aurora_picture_not_found)
+                        .override(400, Target.SIZE_ORIGINAL)
+                        .into(imageView);
             }
         };
 
@@ -323,7 +351,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
         MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
         message.setUserInfo(new DefaultUser("0", "Deadpool", "deadpool"));
-//        message.setTimeString();
 
         mAdapter.addToEnd(mData);
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {

@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:minHeight="280dp">
+        android:minHeight="800dp">
 
         <include
             android:id="@+id/aurora_rl_recordvoice_container"

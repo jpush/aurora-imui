@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.listener.OnFileSelectedListener;
 import cn.jiguang.imui.chatinput.utils.ViewUtil;
 import cn.jiguang.imui.chatinput.model.FileItem;
@@ -39,13 +40,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     private OnFileSelectedListener mListener;
 
-    private int mPhotoSide;    // length of side
-
-    public PhotoAdapter(List<FileItem> list, int height) {
+    public PhotoAdapter(List<FileItem> list) {
         if (list != null) {
             mMedias = list;
         }
-        mPhotoSide = height;
     }
 
     public List<FileItem> getSelectedFiles() {
@@ -72,9 +70,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     @Override
     public void onBindViewHolder(final PhotoViewHolder holder, int position) {
-        if (holder.container.getMeasuredWidth() != mPhotoSide) {
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(mPhotoSide, mPhotoSide);
-            layoutParams.rightMargin = ViewUtil.dpToPx(8);
+        if (holder.container.getHeight() != ChatInputView.sMenuHeight) {
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                    ChatInputView.sMenuHeight, ChatInputView.sMenuHeight);
             holder.container.setLayoutParams(layoutParams);
         }
 
@@ -82,7 +80,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         Glide.with(mContext)
                 .load(item.getFilePath())
                 .placeholder(R.drawable.aurora_picture_not_found)
-                .crossFade()
                 .into(holder.ivPhoto);
 
         if (mSelectedItems.contains(position)) {    // Current photo is selected
@@ -190,7 +187,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     }
 
     static final class PhotoViewHolder extends RecyclerView.ViewHolder {
-
         View container;
         TextView tvDuration;
         ImageView ivPhoto;

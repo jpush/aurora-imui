@@ -70,11 +70,9 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         if (message.getTimeString() != null) {
             mDateTv.setText(message.getTimeString());
         }
-        boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
-                && !message.getFromUser().getAvatarFilePath().isEmpty();
-        if (isAvatarExists && mImageLoader != null) {
-            mImageLoader.loadImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
-        }
+
+        mImageLoader.loadAvatarImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
+
         long duration = message.getDuration();
         String lengthStr = duration + mContext.getString(R.string.aurora_symbol_second);
         int width = (int) (-0.04 * duration * duration + 4.526 * duration + 75.214);

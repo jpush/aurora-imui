@@ -53,7 +53,6 @@ public class ChatView extends RelativeLayout {
         mMsgList = (MessageList) findViewById(R.id.msg_list);
         mMenuLl = (LinearLayout) findViewById(R.id.aurora_ll_menuitem_container);
         mChatInput = (ChatInputView) findViewById(R.id.chat_input);
-        mChatInput.setMenuContainerHeight(500);
 
         mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
 
