@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">IMUIKit</string>
-
     <string name="aurora_font_fontFamily_medium">sans-serif</string>
     <string name="aurora_file_not_found_toast">File not found</string>
     <string name="aurora_symbol_second">\"</string>

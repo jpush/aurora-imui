@@ -1,8 +1,6 @@
 package cn.jiguang.imui.commons.models;
 
 
-import java.util.Date;
-
 
 public interface IMessage {
 
@@ -59,6 +57,23 @@ public interface IMessage {
     MessageType getType();
 
     /**
+     * Status of message, enum.
+     */
+    enum MessageStatus {
+        CREATED,
+        SEND_GOING,
+        SEND_SUCCEED,
+        SEND_FAILED,
+        SEND_DRAFT,
+        RECEIVE_GOING,
+        RECEIVE_SUCCEED,
+        RECEIVE_FAILED;
+    }
+
+    MessageStatus getMessageStatus();
+
+
+    /**
      * Text of message.
      * @return text
      */
@@ -76,4 +91,6 @@ public interface IMessage {
      * @return duration of audio or video
      */
     long getDuration();
+
+    String getProgress();
 }

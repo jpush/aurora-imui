@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">IMUIKit</string>
-
     <string name="font_fontFamily_medium">sans-serif</string>
 
     <!-- chat input start -->
