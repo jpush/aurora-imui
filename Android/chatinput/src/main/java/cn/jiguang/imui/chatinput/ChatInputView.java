@@ -246,6 +246,7 @@ public class ChatInputView extends LinearLayout
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !mShowSoftInput) {
                     mShowSoftInput = true;
                     invisibleMenuLayout();
+                    mChatInput.requestFocus();
                 }
                 return false;
             }
