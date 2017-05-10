@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: "$project.rootDir/tools/script-git-version.gradle"
 
 android {
     compileSdkVersion 25
@@ -12,7 +13,19 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    productFlavors {
+        dev {
+            versionCode gitVersionCodeTime
+            versionName gitVersionName
+            applicationId "imui.jiguang.cn.imuisample.dev"
+        }
 
+        prod {
+            versionCode gitVersionCode
+            versionName gitVersionName
+            applicationId "imui.jiguang.cn.imuisample"
+        }
     }
     buildTypes {
         release {
