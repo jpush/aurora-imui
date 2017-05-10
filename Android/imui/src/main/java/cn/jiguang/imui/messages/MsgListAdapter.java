@@ -1,6 +1,7 @@
 package cn.jiguang.imui.messages;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -63,6 +64,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private int mSelectedItemCount;
     private RecyclerView.LayoutManager mLayoutManager;
     private MessageListStyle mStyle;
+    private MediaPlayer mMediaPlayer = new MediaPlayer();
 
     private List<Wrapper> mItems;
 
@@ -161,6 +163,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mMsgLongClickListener = this.mMsgLongClickListener;
             ((BaseMessageViewHolder) holder).mMsgClickListener = this.mMsgClickListener;
             ((BaseMessageViewHolder) holder).mAvatarClickListener = this.mAvatarClickListener;
+            ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
         }
         holder.onBind(wrapper.item);
     }
@@ -773,5 +776,17 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         public DefaultVideoViewHolder(View itemView, boolean isSender) {
             super(itemView, isSender);
         }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        ViewHolderController.getInstance().remove(holder.getAdapterPosition());
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        ViewHolderController.getInstance().release();
     }
 }

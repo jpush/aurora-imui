@@ -1,6 +1,7 @@
 package cn.jiguang.imui.messages;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.view.View;
 
 import cn.jiguang.imui.commons.ImageLoader;
@@ -20,6 +21,7 @@ public abstract class BaseMessageViewHolder<MESSAGE extends IMessage>
     protected MsgListAdapter.OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
     protected MsgListAdapter.OnMsgClickListener<MESSAGE> mMsgClickListener;
     protected MsgListAdapter.OnAvatarClickListener<MESSAGE> mAvatarClickListener;
+    protected MediaPlayer mMediaPlayer;
 
     public BaseMessageViewHolder(View itemView) {
         super(itemView);

@@ -30,8 +30,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     protected TextView mLengthTv;
     protected ImageView mUnreadStatusIv;
     private boolean mSetData = false;
-    private int mPlayPosition = -1;
-    private final MediaPlayer mMediaPlayer = new MediaPlayer();
     private AnimationDrawable mVoiceAnimation;
     private FileInputStream mFIS;
     private FileDescriptor mFD;
@@ -40,6 +38,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private int mReceiveDrawable;
     private int mPlaySendAnim;
     private int mPlayReceiveAnim;
+    private ViewHolderController mController;
 
     public VoiceViewHolder(View itemView, boolean isSender) {
         super(itemView);
@@ -48,13 +47,15 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
         mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mVoiceIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_voice_anim);
-
-        if (isSender) {
-            mLengthTv = (TextView) itemView.findViewById(R.id.aurora_tv_voice_length);
-        } else {
+        mLengthTv = (TextView) itemView.findViewById(R.id.aurora_tv_voice_length);
+        if (!isSender) {
             mUnreadStatusIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_read_status);
         }
+        mController = ViewHolderController.getInstance();
+    }
 
+    @Override
+    public void onBind(final MESSAGE message) {
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
 
@@ -63,10 +64,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 return false;
             }
         });
-    }
-
-    @Override
-    public void onBind(final MESSAGE message) {
         if (message.getTimeString() != null) {
             mDateTv.setText(message.getTimeString());
         }
@@ -85,36 +82,36 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 if (mMsgClickListener != null) {
                     mMsgClickListener.onMessageClick(message);
                 }
+
                 // stop animation whatever this time is play or pause audio
-                if (mVoiceAnimation != null) {
-                    mVoiceAnimation.stop();
-                    mVoiceAnimation = null;
-                }
                 if (mIsSender) {
+                    mController.notifyAnimStop(mSendDrawable);
                     mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
+                    mController.notifyAnimStop(mReceiveDrawable);
                     mVoiceIv.setImageResource(mPlayReceiveAnim);
                 }
                 mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
+                mController.addView(getAdapterPosition(), mVoiceIv);
                 // If audio is playing, pause
-                if (mMediaPlayer.isPlaying() && mPosition == getAdapterPosition()) {
-                    pauseVoice();
-                    mVoiceAnimation.stop();
-                    if (mIsSender) {
-                        mVoiceIv.setImageResource(mSendDrawable);
+                if (mController.getLastPlayPosition() == getAdapterPosition()) {
+                    if (mMediaPlayer.isPlaying()) {
+                        pauseVoice();
+                        mVoiceAnimation.stop();
+                        if (mIsSender) {
+                            mVoiceIv.setImageResource(mSendDrawable);
+                        } else {
+                            mVoiceIv.setImageResource(mReceiveDrawable);
+                        }
+                    } else if (mSetData) {
+                        mMediaPlayer.start();
+                        mVoiceAnimation.start();
                     } else {
-                        mVoiceIv.setImageResource(mReceiveDrawable);
+                        playVoice(getAdapterPosition(), message);
                     }
                     // Start playing audio
                 } else {
-                    // Restart playing audio
-                    if (mSetData && mPosition == mPlayPosition) {
-                        mVoiceAnimation.start();
-                        mMediaPlayer.start();
-                        // start play audio
-                    } else {
-                        playVoice(getAdapterPosition(), message, true);
-                    }
+                    playVoice(getAdapterPosition(), message);
                 }
             }
         });
@@ -143,8 +140,8 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         });
     }
 
-    private void playVoice(int position, MESSAGE message, final boolean isSender) {
-        mPosition = position;
+    private void playVoice(int position, MESSAGE message) {
+        mController.setLastPlayPosition(position);
         try {
             mMediaPlayer.reset();
             mFIS = new FileInputStream(message.getMediaFilePath());
@@ -169,7 +166,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                     mVoiceAnimation.stop();
                     mp.reset();
                     mSetData = false;
-                    if (isSender) {
+                    if (mIsSender) {
                         mVoiceIv.setImageResource(mSendDrawable);
                     } else {
                         mVoiceIv.setImageResource(mReceiveDrawable);
