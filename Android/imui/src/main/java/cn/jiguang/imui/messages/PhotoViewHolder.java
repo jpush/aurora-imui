@@ -3,13 +3,13 @@ package cn.jiguang.imui.messages;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.view.CircleImageView;
 
 public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
@@ -78,7 +78,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         } else {
             mPhotoIv.setBackground(style.getReceivePhotoMsgBg());
         }
-        android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();
         mAvatarIv.setLayoutParams(layoutParams);

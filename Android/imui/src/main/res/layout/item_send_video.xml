@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="4dp">
 
         <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
@@ -21,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/aurora_iv_msgitem_avatar"
             android:layout_toStartOf="@+id/aurora_iv_msgitem_avatar"
             android:background="@drawable/aurora_bg_video">

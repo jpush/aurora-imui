@@ -45,15 +45,15 @@ import imui.jiguang.cn.imuisample.R;
 import imui.jiguang.cn.imuisample.models.DefaultUser;
 import imui.jiguang.cn.imuisample.models.MyMessage;
 import imui.jiguang.cn.imuisample.views.ChatView;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class MessageListActivity extends Activity implements ChatView.OnKeyboardChangedListener,
-        ChatView.OnSizeChangedListener, View.OnTouchListener {
+        ChatView.OnSizeChangedListener, View.OnTouchListener, EasyPermissions.PermissionCallbacks {
 
-    private final int REQUEST_RECORD_VOICE_PERMISSION = 0x0001;
-    private final int REQUEST_CAMERA_PERMISSION = 0x0002;
-    private final int REQUEST_PHOTO_PERMISSION = 0x0003;
-
-    private Context mContext;
+    private final int RC_RECORD_VOICE = 0x0001;
+    private final int RC_CAMERA = 0x0002;
+    private final int RC_PHOTO = 0x0003;
 
     private ChatView mChatView;
     private MsgListAdapter<MyMessage> mAdapter;
@@ -65,7 +65,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = this;
         setContentView(R.layout.chat_activity);
 
         this.mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -87,7 +86,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                     return false;
                 }
                 MyMessage message = new MyMessage(input.toString(), IMessage.MessageType.SEND_TEXT);
-                message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
+                message.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
                 message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                 mAdapter.addToStart(message, true);
                 return true;
@@ -114,7 +113,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
                     message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                     message.setMediaFilePath(item.getFilePath());
-                    message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
+                    message.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
 
                     final MyMessage fMsg = message;
                     MessageListActivity.this.runOnUiThread(new Runnable() {
@@ -128,43 +127,47 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public void switchToMicrophoneMode() {
-                if ((ActivityCompat.checkSelfPermission(MessageListActivity.this,
-                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(mContext,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(mContext,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-                    ActivityCompat.requestPermissions(MessageListActivity.this, new String[]{
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_VOICE_PERMISSION);
+                String[] perms = new String[]{
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                };
+
+                if (!EasyPermissions.hasPermissions(MessageListActivity.this, perms)) {
+                    EasyPermissions.requestPermissions(MessageListActivity.this,
+                            getResources().getString(R.string.rationale_record_voice),
+                            RC_RECORD_VOICE, perms);
                 }
             }
 
             @Override
             public void switchToGalleryMode() {
-                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MessageListActivity.this, new String[]{
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                    }, REQUEST_PHOTO_PERMISSION);
+                String[] perms = new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                };
+
+                if (!EasyPermissions.hasPermissions(MessageListActivity.this, perms)) {
+                    EasyPermissions.requestPermissions(MessageListActivity.this,
+                            getResources().getString(R.string.rationale_photo),
+                            RC_PHOTO, perms);
                 }
             }
 
             @Override
             public void switchToCameraMode() {
-                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                String[] perms = new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA
+                };
 
-                    ActivityCompat.requestPermissions((Activity) mContext, new String[]{
-                            Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    }, REQUEST_CAMERA_PERMISSION);
+                if (!EasyPermissions.hasPermissions(MessageListActivity.this, perms)) {
+                    EasyPermissions.requestPermissions(MessageListActivity.this,
+                            getResources().getString(R.string.rationale_camera),
+                            RC_CAMERA, perms);
+                } else {
+                    File rootDir = getFilesDir();
+                    String fileDir = rootDir.getAbsolutePath() + "/photo";
+                    mChatView.setCameraCaptureFile(fileDir, "temp_photo");
                 }
-
-                File rootDir = mContext.getFilesDir();
-                String fileDir = rootDir.getAbsolutePath() + "/photo";
-                mChatView.setCameraCaptureFile(fileDir, "temp_photo");
             }
         });
 
@@ -172,16 +175,16 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             @Override
             public void onStartRecord() {
                 // Show record voice interface
-                File rootDir = mContext.getFilesDir();
+                File rootDir = getFilesDir();
                 String fileDir = rootDir.getAbsolutePath() + "/voice";
-                mChatView.setRecordVoiceFile(fileDir, new DateFormat().format("yyyy_MMdd_hhmmss",
+                mChatView.setRecordVoiceFile(fileDir, DateFormat.format("yyyy_MMdd_hhmmss",
                         Calendar.getInstance(Locale.CHINA)) + "");
             }
 
             @Override
             public void onFinishRecord(File voiceFile, int duration) {
                 MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE);
-                message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
+                message.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
                 message.setMediaFilePath(voiceFile.getPath());
                 message.setDuration(duration);
                 message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
@@ -200,7 +203,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
                 message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                 message.setMediaFilePath(photoPath);
-                message.setUserInfo(new DefaultUser("1", "Ironman", "ironman"));
+                message.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
                 MessageListActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -229,24 +232,18 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_RECORD_VOICE_PERMISSION) {
-            if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                // Permission denied
-                Toast.makeText(mContext, "User denied permission, can't use record voice feature.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                // Permission denied
-                Toast.makeText(mContext, "User denied permission, can't use take aurora_menuitem_photo feature.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == REQUEST_PHOTO_PERMISSION) {
-            if (grantResults.length <= 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                // Permission denied
-                Toast.makeText(mContext, "User denied permission, can't use select aurora_menuitem_photo feature.",
-                        Toast.LENGTH_SHORT).show();
-            }
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).build().show();
         }
     }
 
@@ -254,7 +251,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         List<MyMessage> list = new ArrayList<>();
         Resources res = getResources();
         String[] messages = res.getStringArray(R.array.messages_array);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < messages.length; i++) {
             MyMessage message;
             if (i % 2 == 0) {
                 message = new MyMessage(messages[i], IMessage.MessageType.RECEIVE_TEXT);
@@ -276,12 +273,9 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 // You can use other image load libraries.
                 if (string.contains("R.drawable")) {
                     Integer resId = getResources().getIdentifier(string.replace("R.drawable.", ""),
-                        "drawable", getPackageName());
+                            "drawable", getPackageName());
 
-                    Glide.with(getApplicationContext())
-                            .load(resId)
-                            .placeholder(R.drawable.aurora_headicon_default)
-                            .into(avatarImageView);
+                    avatarImageView.setImageResource(resId);
                 } else {
                     Glide.with(getApplicationContext())
                             .load(string)
@@ -324,7 +318,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                         startActivity(intent);
                     }
                 } else {
-                    Toast.makeText(mContext, mContext.getString(R.string.message_click_hint),
+                    Toast.makeText(getApplicationContext(),
+                            getApplicationContext().getString(R.string.message_click_hint),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -333,7 +328,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
             @Override
             public void onMessageLongClick(MyMessage message) {
-                Toast.makeText(mContext, mContext.getString(R.string.message_long_click_hint),
+                Toast.makeText(getApplicationContext(),
+                        getApplicationContext().getString(R.string.message_long_click_hint),
                         Toast.LENGTH_SHORT).show();
                 // do something
             }
@@ -343,14 +339,15 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             @Override
             public void onAvatarClick(MyMessage message) {
                 DefaultUser userInfo = (DefaultUser) message.getFromUser();
-                Toast.makeText(mContext, mContext.getString(R.string.avatar_click_hint),
+                Toast.makeText(getApplicationContext(),
+                        getApplicationContext().getString(R.string.avatar_click_hint),
                         Toast.LENGTH_SHORT).show();
                 // do something
             }
         });
 
         MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
-        message.setUserInfo(new DefaultUser("0", "Deadpool", "deadpool"));
+        message.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
 
         mAdapter.addToEnd(mData);
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {

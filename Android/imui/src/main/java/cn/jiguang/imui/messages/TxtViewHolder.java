@@ -1,23 +1,22 @@
 package cn.jiguang.imui.messages;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.view.CircleImageView;
 
-public class TxtViewHolder<MESSAGE extends IMessage>
-        extends BaseMessageViewHolder<MESSAGE>
+public class TxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
     protected TextView mMsgTv;
     protected TextView mDateTv;
     protected TextView mDisplayNameTv;
-    protected CircleImageView mAvatarIv;
+    protected ImageView mAvatarIv;
+
     protected boolean mIsSender;
 
     public TxtViewHolder(View itemView, boolean isSender) {
@@ -25,7 +24,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         this.mIsSender = isSender;
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
-        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
+        mAvatarIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
     }
 
@@ -113,8 +112,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         return mMsgTv;
     }
 
-    public CircleImageView getAvatar() {
+    public ImageView getAvatar() {
         return mAvatarIv;
     }
-
 }

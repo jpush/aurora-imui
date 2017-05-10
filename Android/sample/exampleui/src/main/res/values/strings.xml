@@ -6,6 +6,12 @@
     <string name="message_long_click_hint">Message long press event</string>
     <string name="avatar_click_hint">Avatar click event</string>
 
+    <!-- Request permission start -->
+    <string name="rationale_record_voice">This app needs access microphone to record voice.</string>
+    <string name="rationale_photo">This app needs access photos.</string>
+    <string name="rationale_camera">This app needs access camera.</string>
+    <!-- Request permission end -->
+
     <string-array name="messages_array">
         <item>How are you</item>
         <item>Fine. And you?</item>

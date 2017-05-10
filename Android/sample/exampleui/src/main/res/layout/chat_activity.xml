@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/title_container"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:background="@color/chat_title_bg"
         android:gravity="center">
 
@@ -33,18 +33,18 @@
             android:id="@+id/msg_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:avatarHeight="50dp"
-            app:avatarWidth="50dp"
+            app:avatarHeight="48dp"
+            app:avatarWidth="48dp"
             app:bubbleMaxWidth="0.70"
             app:dateTextSize="14sp"
-            app:receiveBubblePaddingLeft="20dp"
-            app:receiveBubblePaddingRight="10dp"
+            app:receiveBubblePaddingLeft="16dp"
+            app:receiveBubblePaddingRight="8dp"
             app:receiveTextColor="#ffffff"
-            app:receiveTextSize="18sp"
-            app:sendBubblePaddingLeft="10dp"
-            app:sendBubblePaddingRight="20dp"
+            app:receiveTextSize="14sp"
+            app:sendBubblePaddingLeft="8dp"
+            app:sendBubblePaddingRight="16dp"
             app:sendTextColor="#7587A8"
-            app:sendTextSize="18sp" />
+            app:sendTextSize="14sp" />
 
     </LinearLayout>
 

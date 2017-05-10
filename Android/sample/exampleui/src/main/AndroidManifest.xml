@@ -16,7 +16,6 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".messages.MessageListActivity"
-            android:theme="@style/noTitle"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,5 +29,4 @@
 
         </activity>
     </application>
-
 </manifest>

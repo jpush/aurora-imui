@@ -17,7 +17,7 @@
     <style name="aurora_msgitem_receive_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingBottom">8dp</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -25,25 +25,25 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:paddingLeft">5dp</item>
-        <item name="android:paddingRight">5dp</item>
-        <item name="android:paddingTop">2dp</item>
-        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
     </style>
 
     <style name="aurora_msgitem_display_name_style">
         <item name="android:ems">5</item>
-        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColor">#545454</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:visibility">gone</item>
     </style>
 
     <style name="aurora_msgitem_send_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingBottom">8dp</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -52,7 +52,7 @@
         <item name="android:layout_height">@dimen/aurora_height_msg_avatar</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:src">@drawable/aurora_headicon_default</item>
+        <item name="android:layout_marginRight">4dp</item>
         <item name="android:scaleType">fitXY</item>
     </style>
 
@@ -61,7 +61,7 @@
         <item name="android:layout_height">@dimen/aurora_height_msg_avatar</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginRight">8dp</item>
-        <item name="android:src">@drawable/aurora_headicon_default</item>
+        <item name="android:layout_marginLeft">4dp</item>
         <item name="android:scaleType">fitXY</item>
     </style>
 
@@ -72,13 +72,10 @@
         <item name="android:focusable">true</item>
     </style>
 
-
     <style name="ChatHeaderLayout">
         <item name="android:padding">8dp</item>
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:layout_marginBottom">4dp</item>
         <item name="android:gravity">center</item>
     </style>
-
-
 </resources>

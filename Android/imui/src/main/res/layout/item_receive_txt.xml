@@ -5,13 +5,12 @@
 
     <TextView
         android:id="@+id/aurora_tv_msgitem_date"
-        style="@style/aurora_msgitem_date_style"/>
-
+        style="@style/aurora_msgitem_date_style" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="4dp">
 
         <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
@@ -19,23 +18,19 @@
 
         <TextView
             android:id="@+id/aurora_tv_msgitem_display_name"
+            style="@style/aurora_msgitem_display_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/aurora_msgitem_display_name_style"
-            android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"
-            />
+            android:layout_toRightOf="@id/aurora_iv_msgitem_avatar" />
 
         <TextView
             android:id="@+id/aurora_tv_msgitem_message"
             style="@style/aurora_msgitem_msg_txt_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_below="@id/aurora_tv_msgitem_display_name"
-            android:layout_marginLeft="3dp"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"
             android:background="@drawable/aurora_receivetxt_bubble" />
-
     </RelativeLayout>
-
 </LinearLayout>
