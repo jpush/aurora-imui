@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:imui:0.1.1'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>imui</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -190,21 +190,21 @@ To add new message in message list is pretty easy, we support two ways to add ne
 
 - Add new message in the bottom of message list： `addToStart(IMESSAGE message, boolean scroll)`
 
-```
+```java
 // add a new message in the bottom of message list, the second parameter implys whether to scroll to bottom.
 adapter.addToStart(message, true);
 ```
 
 - Add messages in the top of message list（Usually use this method to load last page of history messages）: `addToEnd(List<IMessage> messages)`
 
-```
-// Add messages to the top of message list
+```java
+// Add messages to the top of message list, messages should be orderd by date.
 adapter.addToEnd(messages);
 ```
 
 - Scroll to load history messages
 After adding this listener: `OnLoadMoreListener`，when scroll to top will fire `onLoadMore` event，for example：
-```
+```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
     @Override
     public void onLoadMore(int page, int totalCount) {
@@ -237,9 +237,8 @@ If message updated, you can invoke these methods to notify adapter to update mes
 
 
 ## Event handling
-- `OnMsgClickListener` Fires when click message
-
-```
+- `OnMsgClickListener` fires when click message.
+```java
 mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>() {
     @Override
     public void onMessageClick(MyMessage message) {
@@ -248,9 +247,8 @@ mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<MyMessage>(
 });
 ```
 
-- `OnAvatarClickListener` Fires when click avatar
-
-```
+- `OnAvatarClickListener` fires when click avatar.
+```java
 mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMessage>() {
     @Override
     public void onAvatarClick(MyMessage message) {
@@ -260,9 +258,8 @@ mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMes
 });
 ```
 
-- `OnMsgLongClickListener` Fires when long click message
-
-```
+- `OnMsgLongClickListener` fires when long click message.
+```java
 mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
     @Override
     public void onMessageLongClick(MyMessage message) {

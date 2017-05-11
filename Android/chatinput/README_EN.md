@@ -10,7 +10,7 @@ features like record voice and video, select photo, take picture etc, supports c
 Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
-```
+```groovy
 compile 'cn.jiguang.imui:chatinput:0.1.1'
 ```
 
@@ -28,19 +28,18 @@ compile 'cn.jiguang.imui:chatinput:0.1.1'
 - Via JitPack
 > project's build.gradle
 
-```
+```groov
 allprojects {
   repositories {
     ...
     maven { url 'https://jitpack.io' }
   }
 }
-
 ```
 
 > module's build.gradle
 
-```
+```groovy
 dependencies {
   compile 'com.github.jpush:imui:0.1.1'
 }
@@ -51,7 +50,7 @@ Using ChatInputView only need two steps.
 
 #### Step one: add `ChatInputView` in xml layout
 
-```
+```xml
     <cn.jiguang.imui.chatinput.ChatInputView
         android:id="@+id/chat_input"
         android:layout_width="match_parent"
@@ -64,19 +63,18 @@ Using ChatInputView only need two steps.
         app:photoBtnIcon="@drawable/photo"
         app:sendBtnIcon="@drawable/send"
         app:voiceBtnIcon="@drawable/mic" />
-
 ```
 
 #### Step two: init `ChatInputView`
 
-```
+```java
 ChatInputView chatInputView = (ChatInputView) findViewById(R.id.chat_input);
 chatInputView.setMenuContainerHeight(softInputHeight);
 ```
 
 Attention please, **MUST** set MenuContainer's height after init ChatInputView. Best suggestion: get
 soft keyboard height from other activity(Like login Activity), then set soft keyboard height via:
-```
+```java
 ChatInputView chatinput = (ChatInputView) findViewById(R.id.chat_input);
 chatinput.setMenuContainerHeight(softKeyboardHeight);
 ```
@@ -93,7 +91,7 @@ event listener to do their stuff flexibly. Such as send message event etc.
 #### OnMenuClickListener
 First of all, `OnMenuClickListener` handling click event of menu item. Call `chatInputView.setMenuClickListener`
 can set this listener:
-```
+```java
 chatInput.setMenuClickListener(new OnMenuClickListener() {
     @Override
     public boolean onSendTextMessage(CharSequence input) {
@@ -128,7 +126,7 @@ As for how to handle these events and what to do with these events, you can refe
 #### RecordVoiceListener
 This is the interface of record voice, the way to use:
 
-```
+```java
 mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
 mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceListener() {
     @Override
@@ -159,7 +157,7 @@ mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceListener() {
 
 #### OnCameraCallbackListener
 This is interface related to camera, usage like：
-```
+```java
 mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
     @Override
     public void onTakePictureCompleted(String photoPath) {
@@ -197,9 +195,8 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 #### Set file path and file name that after taken picture
 setCameraCaptureFile(String path, String fileName)
 
-```
+```java
 // The first parameter is file path that saved at, second one is file name
 // Suggest calling this method when onCameraClick fires
 mChatInput.setCameraCaptureFile(path, fileName);
-
 ```
