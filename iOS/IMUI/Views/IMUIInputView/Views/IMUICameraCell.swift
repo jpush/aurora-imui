@@ -221,8 +221,11 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   
   func inactivateMedia() {
     isActivity = false
-    if videoFileOutput!.isRecording {
-      videoFileOutput?.stopRecording()
+    
+    if let videofile = videoFileOutput {
+      if videofile.isRecording {
+        videoFileOutput?.stopRecording()
+      }
     }
 
     self.session.stopRunning()

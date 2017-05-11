@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import AVFoundation
 
 class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   static var buttonNormalWith: CGFloat = 46.0
@@ -72,30 +72,46 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   }
   
   @IBAction func startRecordVoice(_ sender: Any) {
-    self.swtichToPlayModeBtn.isHidden = false
-    self.cancelVoiceBtn.isHidden = false
 
-    UIView.animate(withDuration: 0.2) {
-      self.contentView.layoutIfNeeded()
+
+    switch AVAudioSession.sharedInstance().recordPermission() {
+      case AVAudioSessionRecordPermission.granted:
+        self.swtichToPlayModeBtn.isHidden = false
+        self.cancelVoiceBtn.isHidden = false
+        
+        UIView.animate(withDuration: 0.2) {
+          self.contentView.layoutIfNeeded()
+        }
+        
+        recordHelper.startRecordingWithPath(self.getRecorderPath(),
+                                            startRecordCompleted: {
+                                              
+        }) { (duration, meter) in
+          let seconds = Int(duration)
+          self.timeLable.text = "\(String(format: "%02d", seconds / 60)):\(String(format: "%02d", seconds % 60))"
+          
+        }
+      case AVAudioSessionRecordPermission.denied:
+        break
+      case AVAudioSessionRecordPermission.undetermined:
+        break
+      default:
+        break
     }
     
-    recordHelper.startRecordingWithPath(self.getRecorderPath(),
-                                        startRecordCompleted: { 
-                                          
-    }) { (duration, meter) in
-      let seconds = Int(duration)
-      self.timeLable.text = "\(String(format: "%02d", seconds / 60)):\(String(format: "%02d", seconds % 60))"
-      
-    }
+
   }
   
   func finishRecordVoice() {
-    self.swtichToPlayModeBtn.isHidden = true
-    self.cancelVoiceBtn.isHidden = true
-    self.resetSubViewsStyle()
+    if AVAudioSession.sharedInstance().recordPermission() == .granted {
+      self.swtichToPlayModeBtn.isHidden = true
+      self.cancelVoiceBtn.isHidden = true
+      self.resetSubViewsStyle()
+      
+      let finishiRecorder = recordHelper.finishRecordingCompletion()
+      self.inputViewDelegate?.finishRecordVoice(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
+    }
     
-    let finishiRecorder = recordHelper.finishRecordingCompletion()
-    self.inputViewDelegate?.finishRecordVoice(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
   }
   
   func resetSubViewsStyle() {
