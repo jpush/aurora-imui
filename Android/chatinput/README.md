@@ -10,7 +10,7 @@
 
 - Gradle
 ```
-compile 'cn.jiguang.imui:chatinput:0.1.0'
+compile 'cn.jiguang.imui:chatinput:0.1.1'
 ```
 
 - Maven
@@ -19,7 +19,7 @@ compile 'cn.jiguang.imui:chatinput:0.1.0'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -41,7 +41,7 @@ allprojects {
 
 ```
 dependencies {
-  compile 'com.github.jpush:imui:0.1.0'
+  compile 'com.github.jpush:imui:0.1.1'
 }
 ```
 
@@ -161,20 +161,20 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
             }
         });
     }
-                                       
+
     @Override
     public void onStartVideoRecord() {
-                                       
+
     }
-                                       
+
     @Override
     public void onFinishVideoRecord(String videoPath) {
         // 请注意，点击发送视频的事件会回调给 onSendFiles，这个是在录制完视频后触发的                               
     }
-                                       
+
     @Override
     public void onCancelVideoRecord() {
-                                       
+
     }
 });
 ```

@@ -11,7 +11,7 @@ Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
 ```
-compile 'cn.jiguang.imui:chatinput:0.1.0'
+compile 'cn.jiguang.imui:chatinput:0.1.1'
 ```
 
 - Via Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.1.0'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ allprojects {
 
 ```
 dependencies {
-  compile 'com.github.jpush:imui:0.1.0'
+  compile 'com.github.jpush:imui:0.1.1'
 }
 ```
 
@@ -102,7 +102,7 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
 
     @Override
     public void onSendFiles(List<String> list) {
-        // chose photo or video files or finished recording video, 
+        // chose photo or video files or finished recording video,
         // then click send button fires this event.
     }
 
@@ -174,22 +174,22 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
             }
         });
     }
-                                       
+
     @Override
     public void onStartVideoRecord() {
-                                       
+
     }
-                                       
+
     @Override
     public void onFinishVideoRecord(String videoPath) {
         // Fires when finished recording video.
         // Pay attention here, when you finished recording video and click send
         // button in screen, will fire onSendFiles() method.
     }
-                                       
+
     @Override
     public void onCancelVideoRecord() {
-                                       
+
     }
 });
 ```
