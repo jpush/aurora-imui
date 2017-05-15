@@ -53,7 +53,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'pub.devrel:easypermissions:0.4.0'
-    compile project(':imui')
+    compile project(':messagelist')
     compile project(':chatinput')
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
