@@ -1,5 +1,5 @@
 rootProject.name = 'sample'
 
-include ':exampleui', ':imui', ':chatinput'
-project(':imui').projectDir = new File(rootProject.projectDir, '../imui')
+include ':exampleui', ':messagelist', ':chatinput'
+project(':messagelist').projectDir = new File(rootProject.projectDir, '../messagelist')
 project(':chatinput').projectDir = new File(rootProject.projectDir, '../chatinput')
