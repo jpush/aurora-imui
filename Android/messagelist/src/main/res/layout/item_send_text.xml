@@ -1,29 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/aurora_msgitem_send_style">
+              style="@style/aurora_msgitem_send_style">
+
 
     <TextView
         android:id="@+id/aurora_tv_msgitem_date"
-        style="@style/aurora_msgitem_date_style" />
+        style="@style/aurora_msgitem_date_style"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="5dp"
         android:gravity="right"
         android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/aurora_ib_msgitem_resend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/aurora_send_msg_error"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/aurora_pb_msgitem_sending"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="3dp"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/aurora_tv_msgitem_message"
             style="@style/aurora_msgitem_msg_txt_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
             android:background="@drawable/aurora_sendtxt_bubble"
-            tools:text="sfada" />
+            android:paddingRight="20dp"
+            android:text="sfada"/>
 
         <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
-            style="@style/aurora_msgitem_sender_avatar_style" />
+            style="@style/aurora_msgitem_sender_avatar_style"/>
+
     </LinearLayout>
+
 </LinearLayout>

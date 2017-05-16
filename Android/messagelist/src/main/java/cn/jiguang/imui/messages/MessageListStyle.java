@@ -59,6 +59,8 @@ public class MessageListStyle extends Style {
     private Drawable receivePhotoMsgBg;
 
     private int windowWidth;
+    private Drawable sendingProgressDrawable;
+    private Drawable sendingIndeterminateDrawable;
 
     public static MessageListStyle parse(Context context, AttributeSet attrs) {
         MessageListStyle style = new MessageListStyle(context, attrs);
@@ -135,7 +137,8 @@ public class MessageListStyle extends Style {
 
         style.sendPhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_sendPhotoMsgBg);
         style.receivePhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_receivePhotoMsgBg);
-
+        style.sendingProgressDrawable = typedArray.getDrawable(R.styleable.MessageList_sendingProgressDrawable);
+        style.sendingIndeterminateDrawable = typedArray.getDrawable(R.styleable.MessageList_sendingIndeterminateDrawable);
         typedArray.recycle();
         return style;
     }
@@ -307,5 +310,13 @@ public class MessageListStyle extends Style {
 
     public Drawable getReceivePhotoMsgBg() {
         return receivePhotoMsgBg;
+    }
+
+    public Drawable getSendingIndeterminateDrawable() {
+        return sendingIndeterminateDrawable;
+    }
+
+    public Drawable getSendingProgressDrawable() {
+        return sendingProgressDrawable;
     }
 }

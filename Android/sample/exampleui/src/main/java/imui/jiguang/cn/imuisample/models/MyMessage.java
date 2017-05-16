@@ -78,7 +78,7 @@ public class MyMessage implements IMessage {
 
     @Override
     public MessageStatus getMessageStatus() {
-        return null;
+        return MessageStatus.SEND_SUCCEED;
     }
 
     @Override

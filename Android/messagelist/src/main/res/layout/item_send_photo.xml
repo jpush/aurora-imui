@@ -10,14 +10,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="5dp"
         android:gravity="right"
         android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/aurora_ib_msgitem_resend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/aurora_send_msg_error"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/aurora_pb_msgitem_sending"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="3dp"
+            android:visibility="visible"/>
 
         <cn.jiguang.imui.view.ShapeImageView
             android:id="@+id/aurora_iv_msgitem_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:background="@drawable/aurora_bg_imagemsg_default"
             android:maxHeight="200dp"
             android:maxWidth="200dp"
@@ -30,4 +50,5 @@
             style="@style/aurora_msgitem_sender_avatar_style"/>
 
     </LinearLayout>
+
 </LinearLayout>

@@ -2,21 +2,25 @@ package cn.jiguang.imui.messages;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
+import cn.jiguang.imui.view.CircleImageView;
 
-public class TxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
+public class TxtViewHolder<MESSAGE extends IMessage>
+        extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
     protected TextView mMsgTv;
     protected TextView mDateTv;
     protected TextView mDisplayNameTv;
-    protected ImageView mAvatarIv;
-
+    protected CircleImageView mAvatarIv;
+    protected ImageButton mResendIb;
+    protected ProgressBar mSendingPb;
     protected boolean mIsSender;
 
     public TxtViewHolder(View itemView, boolean isSender) {
@@ -24,8 +28,10 @@ public class TxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHold
         this.mIsSender = isSender;
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
-        mAvatarIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
+        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
+        mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
+        mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
     }
 
     @Override
@@ -34,12 +40,42 @@ public class TxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHold
         if (message.getTimeString() != null) {
             mDateTv.setText(message.getTimeString());
         }
-
-        mImageLoader.loadAvatarImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
-
+        boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
+                && !message.getFromUser().getAvatarFilePath().isEmpty();
+        if (isAvatarExists && mImageLoader != null) {
+            mImageLoader.loadAvatarImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
+        } else if (mImageLoader == null) {
+            mAvatarIv.setVisibility(View.GONE);
+        }
         if (!mIsSender) {
             if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
                 mDisplayNameTv.setText(message.getFromUser().getDisplayName());
+            }
+        } else {
+            switch (message.getMessageStatus()) {
+                case SEND_GOING:
+                    mSendingPb.setVisibility(View.VISIBLE);
+                    mResendIb.setVisibility(View.GONE);
+                    Log.i("TxtViewHolder", "sending message");
+                    break;
+                case SEND_FAILED:
+                    mSendingPb.setVisibility(View.GONE);
+                    Log.i("TxtViewHolder", "send message failed");
+                    mResendIb.setVisibility(View.VISIBLE);
+                    mResendIb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mMsgResendListener != null) {
+                                mMsgResendListener.onMessageResend(message);
+                            }
+                        }
+                    });
+                    break;
+                case SEND_SUCCEED:
+                    mSendingPb.setVisibility(View.GONE);
+                    mResendIb.setVisibility(View.GONE);
+                    Log.i("TxtViewHolder", "send message succeed");
+                    break;
             }
         }
 
@@ -87,6 +123,12 @@ public class TxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHold
                     style.getSendBubblePaddingTop(),
                     style.getSendBubblePaddingRight(),
                     style.getSendBubblePaddingBottom());
+            if (style.getSendingProgressDrawable() != null) {
+                mSendingPb.setProgressDrawable(style.getSendingProgressDrawable());
+            }
+            if (style.getSendingIndeterminateDrawable() != null) {
+                mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
+            }
         } else {
             mMsgTv.setBackground(style.getReceiveBubbleDrawable());
             mMsgTv.setTextColor(style.getReceiveBubbleTextColor());
@@ -112,7 +154,8 @@ public class TxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHold
         return mMsgTv;
     }
 
-    public ImageView getAvatar() {
+    public CircleImageView getAvatar() {
         return mAvatarIv;
     }
+
 }

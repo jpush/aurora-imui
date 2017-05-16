@@ -38,6 +38,8 @@
         <attr name="sendTextColor" format="color|reference"/>
         <attr name="sendTextSize" format="dimension|reference"/>
         <attr name="bubbleMaxWidth" format="float|reference"/>
+        <attr name="sendingProgressDrawable" format="reference" />
+        <attr name="sendingIndeterminateDrawable" format="reference" />
 
         <attr name="sendVoiceDrawable" format="reference"/>
         <attr name="receiveVoiceDrawable" format="reference"/>
