@@ -55,8 +55,8 @@
 
         <ImageButton
             android:id="@+id/aurora_ib_msgitem_resend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@id/aurora_fl_msgitem_voice_container"
@@ -65,15 +65,14 @@
             android:background="@drawable/aurora_send_msg_error"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/aurora_iv_msgitem_sending"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ProgressBar
+            android:id="@+id/aurora_pb_msgitem_sending"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
             android:layout_toLeftOf="@id/aurora_fl_msgitem_voice_container"
-            android:src="@drawable/aurora_send_msg_sending"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
     </RelativeLayout>
 

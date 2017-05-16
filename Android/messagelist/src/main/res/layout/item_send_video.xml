@@ -11,16 +11,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="8dp">
 
         <cn.jiguang.imui.view.CircleImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
             style="@style/aurora_msgitem_sender_avatar_style" />
 
         <FrameLayout
+            android:id="@+id/aurora_fl_msgitem_video_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/aurora_iv_msgitem_avatar"
             android:layout_toStartOf="@+id/aurora_iv_msgitem_avatar"
             android:background="@drawable/aurora_bg_video">
@@ -51,5 +53,28 @@
                 android:textSize="12sp"
                 tools:text="00:02" />
         </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/aurora_ib_msgitem_resend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/aurora_fl_msgitem_video_container"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            android:background="@drawable/aurora_send_msg_error"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/aurora_pb_msgitem_sending"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@id/aurora_fl_msgitem_video_container"
+            android:visibility="visible"/>
+
     </RelativeLayout>
+
 </LinearLayout>
