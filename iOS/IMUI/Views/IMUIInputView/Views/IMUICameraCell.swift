@@ -542,7 +542,11 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     }
     
     print("about to request a capture from: \(stillImageOutput)")
+    
     stillImageOutput.captureStillImageAsynchronously(from: videoConnection) { (imageSampleBuffer, error) in
+      if imageSampleBuffer == nil {
+        return
+      }
       let exifAttachments = CMGetAttachment(imageSampleBuffer!, kCGImagePropertyExifDictionary, nil)
       
       if (exifAttachments != nil) {
@@ -552,8 +556,10 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       }
       
       let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
+      
       self.inputViewDelegate?.didShootPicture(picture: imageData!)
       let image = UIImage(data: imageData!)
+      
       UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
       
     }

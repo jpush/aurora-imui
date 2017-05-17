@@ -71,7 +71,6 @@ open class IMUIFeatureView: UIView {
   
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-//    view = Bundle.main.loadNibNamed("IMUIFeatureView", owner: self, options: nil)?[0] as! UIView
     
     let bundle = Bundle.imuiBundle()
     view = bundle.loadNibNamed("IMUIFeatureView", owner: self, options: nil)?.first as! UIView

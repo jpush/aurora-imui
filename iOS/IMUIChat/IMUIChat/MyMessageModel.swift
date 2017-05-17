@@ -24,10 +24,11 @@ class MyMessageModel: IMUIMessageModel {
   }
   
   init(msgId: String, fromUser: MyUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocal?) {
+    
     self.myTextMessage = text
     self.mediaPath = mediaPath
     
-    super.init(msgId: msgId, fromUser: fromUser, isOutGoing: isOutGoing, date: date, status: status, type: type, cellLayout: layout)
+    super.init(msgId: msgId, messageStatus: .sending, fromUser: fromUser, isOutGoing: isOutGoing, date: date, status: status, type: type, cellLayout: layout)
   }
   
   convenience init(text: String, isOutGoing: Bool) {
@@ -35,8 +36,8 @@ class MyMessageModel: IMUIMessageModel {
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
                                        isNeedShowTime: false,
                                        bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text))
-    
-    self.init(msgId: "", fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
+    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
+    self.init(msgId: msgId, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
   }
 
   convenience init(voicePath: String, isOutGoing: Bool) {

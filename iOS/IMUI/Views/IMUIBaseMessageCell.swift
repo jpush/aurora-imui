@@ -19,6 +19,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   lazy var avatarImage = UIImageView()
   lazy var timeLabel = UILabel()
   lazy var nameLabel = UILabel()
+  weak var statusView: UIView?
   
   weak var delegate: IMUIMessageMessageCollectionViewDelegate?
   var message: IMUIMessageModelProtocol?
@@ -62,6 +63,34 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.avatarImage.frame = layout.avatarFrame
     self.bubbleView.frame = layout.bubbleFrame
     
+    if let view = self.statusView {
+      IMUIStatusViewCache.switchStatusViewToNotInUse(statusView: view as! IMUIMessageStatusViewProtocal)
+      view.removeFromSuperview()
+    } else {
+      self.removeStatusView()
+    }
+
+    
+    self.statusView = IMUIStatusViewCache.dequeue(statusView: layout.statusView) as? UIView
+    self.contentView.addSubview(self.statusView!)
+    
+    self.statusView!.frame = layout.statusViewFrame
+  }
+  
+  func removeStatusView() {
+    if let view = self.statusView {
+      IMUIStatusViewCache.switchStatusViewToNotInUse(statusView: view as! IMUIMessageStatusViewProtocal)
+      view.removeFromSuperview()
+    } else {
+      for view in self.contentView.subviews {
+        if let _ = view as? IMUIMessageStatusViewProtocal {
+          IMUIStatusViewCache.switchStatusViewToNotInUse(statusView: view as! IMUIMessageStatusViewProtocal)
+          view.removeFromSuperview()
+        }
+      }
+    }
+    
+    
   }
   
   func setupData(with message: IMUIMessageModelProtocol) {
@@ -71,6 +100,21 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.message = message
     
     self.bubbleView.setupBubbleImage(resizeBubbleImage: message.resizableBubbleImage)
+    
+    let statusView = self.statusView as! IMUIMessageStatusViewProtocal
+    switch message.messageStatus {
+    case .sending:
+      statusView.layoutSendingStatus()
+      break
+    case .failed:
+      statusView.layoutFailedStatus()
+      break
+    case .success:
+      statusView.layoutSuccessStatus()
+      break
+    default:
+      break
+    }
   }
   
   func presentCell(with message: IMUIMessageModelProtocol, delegate: IMUIMessageMessageCollectionViewDelegate?) {
@@ -85,5 +129,8 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   
   func tapHeaderImage() {
     self.delegate?.messageCollectionView(didTapHeaderImageInCell: self, model: self.message!)
+  }
+  
+  func didDisAppearCell() {
   }
 }

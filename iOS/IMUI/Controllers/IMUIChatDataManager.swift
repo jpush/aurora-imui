@@ -12,15 +12,16 @@ var needShowTimeInterval = Double.greatestFiniteMagnitude
 
 
 class IMUIChatDataManager: NSObject {
-  var allMessageArr = [IMUIMessageModel]()
+  var allMsgidArr = [String]()
   var allMessageDic = [String:IMUIMessageModel]()
   
   var count: Int {
-    return allMessageArr.count
+    return allMsgidArr.count
   }
   
   subscript(index: Int) -> IMUIMessageModel {
-    return allMessageArr[index]
+    let msgId = allMsgidArr[index]
+    return allMessageDic[msgId]!
   }
   
   subscript(msgId: String) -> IMUIMessageModel? {
@@ -28,28 +29,45 @@ class IMUIChatDataManager: NSObject {
   }
   
   var endIndex: Int {
-    return self.allMessageArr.endIndex
+    return allMsgidArr.endIndex
   }
   
   func cleanCache() {
-    self.allMessageArr.removeAll()
-    self.allMessageDic.removeAll()
+    allMsgidArr.removeAll()
+    allMessageDic.removeAll()
   }
   
+  func index(of message: IMUIMessageModel) -> Int {
+    return allMsgidArr.index(of: message.msgId)!
+  }
   
   open func appendMessage(with message: IMUIMessageModel) {
-    self.allMessageArr.append(message)
-    self.allMessageDic[message.msgId] = message
-    
-    if self.count > 1 {
-      self.setupNeedShowTime(between: message, and: self.allMessageArr[allMessageArr.endIndex - 1])
+    if self.count >= 1 {
+        self.setupNeedShowTime(between: message, and: self.allMessageDic[allMsgidArr.last!]!)
     }
+    
+    self.allMsgidArr.append(message.msgId)
+    self.allMessageDic[message.msgId] = message
+  }
+  
+  func updateMessage(with message: IMUIMessageModel) {
+    if message.msgId == "" {
+      print("the msgId is empty, cann't update message")
+      return
+    }
+    
+    allMessageDic[message.msgId] = message
   }
   
   func insertMessage(with message: IMUIMessageModel) {
-    self.allMessageArr.insert(message, at: 0)
+    if message.msgId == "" {
+      print("the msgId is empty, cann't insert message")
+      return
+    }
+    
+    self.allMsgidArr.insert(message.msgId, at: 0)
     self.allMessageDic[message.msgId] = message
-    self.setupNeedShowTime(between: message, and: self.allMessageArr[1])
+    self.setupNeedShowTime(between: message, and: allMessageDic[allMsgidArr[1]]!)
   }
   
   open func insertMessages(with messages:[IMUIMessageModel]) {

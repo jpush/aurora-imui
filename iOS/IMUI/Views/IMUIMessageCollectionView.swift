@@ -52,11 +52,15 @@ open class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.isScrollEnabled = true
   }
   
+  open func scrollToBottom(with animated: Bool) {
+    let endIndex = IndexPath(item: chatDataManager.endIndex - 1, section: 0)
+    self.messageCollectionView.scrollToItem(at: endIndex, at: .bottom, animated: animated)
+  }
+  
   open func appendMessage(with message: IMUIMessageModel) {
     self.chatDataManager.appendMessage(with: message)
     self.messageCollectionView.reloadData()
-    let endIndex = IndexPath(item: chatDataManager.endIndex - 1, section: 0)
-    self.messageCollectionView.scrollToItem(at: endIndex, at: .bottom, animated: true)
+    self.scrollToBottom(with: true)
   }
   
   open func insertMessage(with message: IMUIMessageModel) {
@@ -67,6 +71,17 @@ open class IMUIMessageCollectionView: UIView {
   open func insertMessages(with messages:[IMUIMessageModel]) {
     self.chatDataManager.insertMessages(with: messages)
     self.messageCollectionView.reloadData()
+  }
+  
+  open func updateMessage(with message:IMUIMessageModel) {
+    self.chatDataManager.updateMessage(with: message)
+    let index = chatDataManager.index(of: message)
+    let indexPath = IndexPath(item: index, section: 0)
+    self.messageCollectionView.reloadItems(at: [indexPath])
+  }
+  
+  deinit {
+    IMUIStatusViewCache.clearAllStatusViews()
   }
 }
 
@@ -138,6 +153,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
 
   public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
     let messageModel = self.chatDataManager[forItemAt.item]
+    (didEndDisplaying as! IMUIMessageCellProtocal).didDisAppearCell()
     self.delegate?.messageCollectionView(collectionView, didEndDisplaying: didEndDisplaying, forItemAt: forItemAt, model: messageModel)
   }
 }

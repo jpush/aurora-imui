@@ -43,6 +43,16 @@ public protocol IMUIMessageCellLayoutProtocal {
    *  return IMUIMessageBaseCell content inset
    */
   var cellContentInset: UIEdgeInsets { get }
+  
+  /**
+   *  return IMUIMessageBaseCell's status View
+   */
+  var statusView: IMUIMessageStatusViewProtocal { get }
+  
+  /**
+   *  return statusView's frame
+   */
+  var statusViewFrame: CGRect { get }
 }
 
 //  IMUIMessageCellLayoutProtocal default value
@@ -61,5 +71,9 @@ public extension IMUIMessageCellLayoutProtocal {
   
   var cellContentInset: UIEdgeInsets {
     return UIEdgeInsets.zero
+  }
+  
+  var statusViewFrame: CGRect {
+    return CGRect.zero
   }
 }

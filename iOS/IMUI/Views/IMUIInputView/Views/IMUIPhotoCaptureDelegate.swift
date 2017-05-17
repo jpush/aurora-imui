@@ -71,7 +71,7 @@ class IMUIPhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
   }
   
   func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingLivePhotoToMovieFileAt outputFileURL: URL, duration: CMTime, photoDisplay photoDisplayTime: CMTime, resolvedSettings: AVCaptureResolvedPhotoSettings, error: Error?) {
-    if let _ = error {
+    if let _ = error {0
       print("Error processing live photo companion movie: \(error)")
       return
     }

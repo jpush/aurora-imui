@@ -20,17 +20,23 @@ public enum IMUIMessageType {
 
 
 public enum IMUIMessageStatus {
+  // Sending message status
   case failed
   case sending
   case success
+  
+  // received message status
+  case mediaDownloading
+  case mediaDownloadFail
+  
 }
 
-
-public enum IMUIMessageReceiveStatus {
-  case failed
-  case sending
-  case success
-}
+//
+//public enum IMUIMessageReceiveStatus {
+//  case failed
+//  case sending
+//  case success
+//}
 
 
 public protocol IMUIMessageDataSource {
@@ -49,9 +55,11 @@ public protocol IMUIMessageDataSource {
  */
 open class IMUIMessageModel: IMUIMessageModelProtocol {
   
-  public var msgId = {
+  open var msgId = {
     return ""
   }()
+
+  open var messageStatus: IMUIMessageStatus
   
   open var fromUser: IMUIUserProtocol
   
@@ -132,13 +140,14 @@ open class IMUIMessageModel: IMUIMessageModelProtocol {
   }
   
   
-  public init(msgId: String, fromUser: IMUIUserProtocol, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, cellLayout: IMUIMessageCellLayoutProtocal?) {
+  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: IMUIUserProtocol, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, cellLayout: IMUIMessageCellLayoutProtocal?) {
     self.msgId = msgId
     self.fromUser = fromUser
     self.isOutGoing = isOutGoing
     self.date = date
     self.status = status
     self.type = type
+    self.messageStatus = messageStatus
     
     if let layout = cellLayout {
       self.cellLayout = layout
