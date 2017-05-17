@@ -8,6 +8,9 @@
 
 import UIKit
 import Photos
+class MyImageView: UIImageView {
+  
+}
 
 class ViewController: UIViewController {
 
@@ -15,10 +18,13 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var myInputView: IMUIInputView!
   
+  var imageViewArr = [MyImageView]()
+  
   let imageManage: PHCachingImageManager = PHCachingImageManager()
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    print("\(UIView())")
     self.myInputView.inputViewDelegate = self
     self.messageCollectionView.delegate = self
   }
@@ -45,6 +51,10 @@ extension ViewController: IMUIInputViewDelegate {
   
   func didShootPicture(picture: Data) {
     let imgPath = self.getPath()
+    
+    let imageView = MyImageView()
+    self.imageViewArr.append(imageView)
+    
     do {
       try picture.write(to: URL(fileURLWithPath: imgPath))
       DispatchQueue.main.async {

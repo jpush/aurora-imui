@@ -27,7 +27,7 @@ class IMUILiveVideoMessageCell: IMUIBaseMessageCell {
     super.layoutSubviews()
   }
   
-  func didDisAppearCell() {
+  override func didDisAppearCell() {
     self.videoReader.isNeedToStopVideo = true
   }
   

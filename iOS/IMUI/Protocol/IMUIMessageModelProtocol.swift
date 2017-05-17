@@ -74,11 +74,18 @@ public protocol IMUIMessageModelProtocol {
   var duration: CGFloat { get }
   
   /**
-   *  @optional function
+   *  @optional get function
    *
    * return
    */
   var isOutGoing: Bool { get }
+  
+  /**
+   *  @optional get function
+   *
+   * return
+   */
+  var messageStatus: IMUIMessageStatus { get }
 
 }
 
@@ -100,4 +107,7 @@ public extension IMUIMessageModelProtocol {
     return 0.0
   }
   
+  var messageStatus: IMUIMessageStatus {
+    return IMUIMessageStatus.success
+  }
 }
