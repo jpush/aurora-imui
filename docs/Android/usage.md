@@ -1,5 +1,5 @@
 # 消息列表
-[English Document](./usageEn.md)
+[English Document](./usage.md)
 
 聊天的消息列表，用于展示各种类型消息，支持丰富的自定义扩展。如果不做自定义则使用默认样式。
 
@@ -39,7 +39,7 @@ dependencies {
 ```
 
 ## 使用
-使用消息列表只需几个简单的步骤，可以参考一下 [demo](./../sample)。
+使用消息列表只需几个简单的步骤，可以参考一下 [demo](./../../Android/sample)。
 
 ### 1. 在布局文件中引用 MessageList：
 ```xml
