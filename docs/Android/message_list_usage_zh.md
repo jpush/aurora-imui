@@ -1,5 +1,5 @@
 # 消息列表
-[English Document](./usageEn.md)
+[English Document](./usage.md)
 
 聊天的消息列表，用于展示各种类型消息，支持丰富的自定义扩展。如果不做自定义则使用默认样式。
 
