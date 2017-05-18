@@ -42,7 +42,6 @@ public protocol IMUIMessageMessageCollectionViewDelegate: NSObjectProtocol {
    *  Tells the delegate when messageCollection beginDragging
    */
   func messageCollectionView(_ willBeginDragging: UICollectionView)
-
 }
 
 public extension IMUIMessageMessageCollectionViewDelegate {

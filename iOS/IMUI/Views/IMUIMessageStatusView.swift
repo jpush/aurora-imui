@@ -12,7 +12,11 @@ public class IMUIMessageDefaultStatusView: UIButton, IMUIMessageStatusViewProtoc
 
   static var lineWidth: CGFloat = 2
   
-  var progress: CGFloat = 0
+  var progress: CGFloat = 0 {
+    didSet {
+      self.setNeedsDisplay()
+    }
+  }
   var updater: CADisplayLink! = nil
   
   var progressLayer = CAShapeLayer()
@@ -37,7 +41,6 @@ public class IMUIMessageDefaultStatusView: UIButton, IMUIMessageStatusViewProtoc
       progress = 0
     }
     progress = progress + 1
-    self.setNeedsDisplay()
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -47,6 +50,7 @@ public class IMUIMessageDefaultStatusView: UIButton, IMUIMessageStatusViewProtoc
   
   override public func draw(_ rect: CGRect) {
     
+    if progress == 0 { return }
     
     let contex = UIGraphicsGetCurrentContext()
     contex!.saveGState()
@@ -72,18 +76,20 @@ public class IMUIMessageDefaultStatusView: UIButton, IMUIMessageStatusViewProtoc
   // MARK: - IMUIMessageStatusViewProtocal
   public func layoutFailedStatus() {
     self.isSelected = true
+    updater.isPaused = true
     self.progress = 0
-    updater.invalidate()
   }
   
   public func layoutSendingStatus() {
     self.isSelected = false
     updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+    updater.isPaused = false
   }
   
   public func layoutSuccessStatus() {
     self.isSelected = false
+    updater.isPaused = true
     self.progress = 0
-    updater.invalidate()
+    
   }
 }

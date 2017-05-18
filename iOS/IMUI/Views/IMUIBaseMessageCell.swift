@@ -63,15 +63,9 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.avatarImage.frame = layout.avatarFrame
     self.bubbleView.frame = layout.bubbleFrame
     
-    if let view = self.statusView {
-      IMUIStatusViewCache.switchStatusViewToNotInUse(statusView: view as! IMUIMessageStatusViewProtocal)
-      view.removeFromSuperview()
-    } else {
-      self.removeStatusView()
-    }
-
+    self.removeStatusView()
     
-    self.statusView = IMUIStatusViewCache.dequeue(statusView: layout.statusView) as? UIView
+    self.statusView = IMUIStatusViewCache.dequeue(layout: layout as! IMUIMessageCellLayoutProtocal) as? UIView
     self.contentView.addSubview(self.statusView!)
     
     self.statusView!.frame = layout.statusViewFrame
@@ -79,7 +73,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   
   func removeStatusView() {
     if let view = self.statusView {
-      IMUIStatusViewCache.switchStatusViewToNotInUse(statusView: view as! IMUIMessageStatusViewProtocal)
+      IMUIStatusViewCache.switchStatusViewToNotInUse(statusView: self.statusView as! IMUIMessageStatusViewProtocal)
       view.removeFromSuperview()
     } else {
       for view in self.contentView.subviews {
@@ -89,8 +83,6 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
         }
       }
     }
-    
-    
   }
   
   func setupData(with message: IMUIMessageModelProtocol) {

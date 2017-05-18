@@ -52,6 +52,18 @@ open class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.isScrollEnabled = true
   }
   
+  open subscript(index: Int) -> IMUIMessageModel {
+    return chatDataManager[index]
+  }
+  
+  open subscript(msgId: String) -> IMUIMessageModel? {
+    return chatDataManager[msgId]
+  }
+  
+  open var messageCount: Int {
+    return chatDataManager.count
+  }
+  
   open func scrollToBottom(with animated: Bool) {
     let endIndex = IndexPath(item: chatDataManager.endIndex - 1, section: 0)
     self.messageCollectionView.scrollToItem(at: endIndex, at: .bottom, animated: animated)
