@@ -14,6 +14,10 @@ open class IMUIMessageCollectionView: UIView {
   @IBOutlet var view: UIView!
   @IBOutlet weak var messageCollectionView: UICollectionView!
 
+  var viewCache = IMUIReuseViewCache()
+  
+  
+  
   var chatDataManager = IMUIChatDataManager()
   open weak var delegate: IMUIMessageMessageCollectionViewDelegate?
   
@@ -91,10 +95,6 @@ open class IMUIMessageCollectionView: UIView {
     let indexPath = IndexPath(item: index, section: 0)
     self.messageCollectionView.reloadItems(at: [indexPath])
   }
-  
-  deinit {
-    IMUIStatusViewCache.clearAllStatusViews()
-  }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -146,7 +146,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
     
     let cell: IMUIMessageCellProtocal = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentify, for: indexPath) as! IMUIMessageCellProtocal
     
-    cell.presentCell(with: messageModel, delegate: delegate)
+    cell.presentCell(with: messageModel, viewCache: viewCache, delegate: delegate)
     self.delegate?.messageCollectionView(collectionView,
                                          willDisplayMessageCell: cell as! UICollectionViewCell,
                                          forItemAt: indexPath,

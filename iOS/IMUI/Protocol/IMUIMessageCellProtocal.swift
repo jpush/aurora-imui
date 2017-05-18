@@ -8,11 +8,11 @@
 
 import Foundation
 
-public protocol IMUIMessageCellProtocal {
-  func presentCell(with message: IMUIMessageModelProtocol, delegate: IMUIMessageMessageCollectionViewDelegate?)
+protocol IMUIMessageCellProtocal {
+  func presentCell(with message: IMUIMessageModelProtocol, viewCache: IMUIReuseViewCache, delegate: IMUIMessageMessageCollectionViewDelegate?)
   func didDisAppearCell()
 }
 
-public extension IMUIMessageCellProtocal {
+extension IMUIMessageCellProtocal {
   func didDisAppearCell() {}
 }

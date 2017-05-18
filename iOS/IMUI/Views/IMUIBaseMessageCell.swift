@@ -58,14 +58,14 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func layoutCell(with layout: IMUIMessageCellLayoutProtocal) {
+  func layoutCell(with layout: IMUIMessageCellLayoutProtocal, viewCache: IMUIReuseViewCache) {
     self.timeLabel.frame = layout.timeLabelFrame
     self.avatarImage.frame = layout.avatarFrame
     self.bubbleView.frame = layout.bubbleFrame
     
-    self.removeStatusView()
+    self.removeStatusView(viewCache: viewCache)
     
-    self.statusView = IMUIStatusViewCache.dequeue(layout: layout as! IMUIMessageCellLayoutProtocal) as? UIView
+    self.statusView = viewCache.statusViewCache.dequeue(layout: layout as! IMUIMessageCellLayoutProtocal) as? UIView
     self.contentView.addSubview(self.statusView!)
     self.addGestureForStatusView()
     
@@ -83,14 +83,14 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.statusView?.addGestureRecognizer(statusViewGesture)
   }
   
-  func removeStatusView() {
+  func removeStatusView(viewCache: IMUIReuseViewCache) {
     if let view = self.statusView {
-      IMUIStatusViewCache.switchStatusViewToNotInUse(statusView: self.statusView as! IMUIMessageStatusViewProtocal)
+      viewCache.statusViewCache.switchStatusViewToNotInUse(statusView: self.statusView as! IMUIMessageStatusViewProtocal)
       view.removeFromSuperview()
     } else {
       for view in self.contentView.subviews {
         if let _ = view as? IMUIMessageStatusViewProtocal {
-          IMUIStatusViewCache.switchStatusViewToNotInUse(statusView: view as! IMUIMessageStatusViewProtocal)
+          viewCache.statusViewCache.switchStatusViewToNotInUse(statusView: view as! IMUIMessageStatusViewProtocal)
           view.removeFromSuperview()
         }
       }
@@ -126,8 +126,8 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     }
   }
   
-  func presentCell(with message: IMUIMessageModelProtocol, delegate: IMUIMessageMessageCollectionViewDelegate?) {
-    self.layoutCell(with: message.layout)
+  func presentCell(with message: IMUIMessageModelProtocol, viewCache: IMUIReuseViewCache, delegate: IMUIMessageMessageCollectionViewDelegate?) {
+    self.layoutCell(with: message.layout, viewCache: viewCache)
     self.setupData(with: message)
     self.delegate = delegate
   }
