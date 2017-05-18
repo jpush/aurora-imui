@@ -23,12 +23,12 @@ class MyMessageModel: IMUIMessageModel {
     return super.resizableBubbleImage
   }
   
-  init(msgId: String, fromUser: MyUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocal?) {
+  init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: MyUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocal?) {
     
     self.myTextMessage = text
     self.mediaPath = mediaPath
     
-    super.init(msgId: msgId, messageStatus: .sending, fromUser: fromUser, isOutGoing: isOutGoing, date: date, status: status, type: type, cellLayout: layout)
+    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, date: date, status: status, type: type, cellLayout: layout)
   }
   
   convenience init(text: String, isOutGoing: Bool) {
@@ -37,19 +37,19 @@ class MyMessageModel: IMUIMessageModel {
                                        isNeedShowTime: false,
                                        bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text))
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
-    self.init(msgId: msgId, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
+    self.init(msgId: msgId, messageStatus: .success, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
   }
 
   convenience init(voicePath: String, isOutGoing: Bool) {
-    self.init(msgId: "", fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .voice, text: "", mediaPath: voicePath, layout:  nil)
+    self.init(msgId: "", messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .voice, text: "", mediaPath: voicePath, layout:  nil)
   }
   
   convenience init(imagePath: String, isOutGoing: Bool) {
-    self.init(msgId: "", fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .image, text: "", mediaPath: imagePath, layout:  nil)
+    self.init(msgId: "", messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .image, text: "", mediaPath: imagePath, layout:  nil)
   }
   
   convenience init(videoPath: String, isOutGoing: Bool) {
-    self.init(msgId: "", fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .video, text: "", mediaPath: videoPath, layout:  nil)
+    self.init(msgId: "", messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .video, text: "", mediaPath: videoPath, layout:  nil)
   }
   
   override func text() -> String {
