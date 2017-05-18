@@ -30,7 +30,7 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   
   public static var cellContentInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
   
-  public static var statusViewSize: CGSize = CGSize(width: 20, height: 20)
+  public static var statusViewSize: CGSize = CGSize(width: 30, height: 30)
   
   public static var bubbleMaxWidth: CGFloat = 200.0
   public static var isNeedShowInComingAvatar = true

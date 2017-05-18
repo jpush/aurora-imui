@@ -28,7 +28,6 @@ public enum IMUIMessageStatus {
   // received message status
   case mediaDownloading
   case mediaDownloadFail
-  
 }
 
 //

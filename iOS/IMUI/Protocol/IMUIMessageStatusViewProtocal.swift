@@ -10,9 +10,15 @@ import Foundation
 import UIKit
 
 public protocol IMUIMessageStatusViewProtocal {
+  // outGoing message
   func layoutFailedStatus()
   func layoutSendingStatus()
   func layoutSuccessStatus()
+  
+  // inComming message
+  func layoutMediaDownloading()
+  func layoutMediaDownloadFail()
+  
   var statusViewID: String { get }
 }
 
@@ -20,5 +26,8 @@ public extension IMUIMessageStatusViewProtocal {
   func layoutFailedStatus() {}
   func layoutSendingStatus() {}
   func layoutSuccessStatus() {}
+  func layoutMediaDownloading() {}
+  func layoutMediaDownloadFail(){}
+  
   var statusViewID: String { return "" }
 }
