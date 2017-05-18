@@ -67,8 +67,20 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     
     self.statusView = IMUIStatusViewCache.dequeue(layout: layout as! IMUIMessageCellLayoutProtocal) as? UIView
     self.contentView.addSubview(self.statusView!)
+    self.addGestureForStatusView()
     
     self.statusView!.frame = layout.statusViewFrame
+  }
+  
+  func addGestureForStatusView() {
+    for recognizer in self.statusView?.gestureRecognizers ?? [] {
+      self.statusView?.removeGestureRecognizer(recognizer)
+    }
+    
+    let statusViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapSatusView))
+    statusViewGesture.numberOfTapsRequired = 1
+    self.statusView?.isUserInteractionEnabled = true
+    self.statusView?.addGestureRecognizer(statusViewGesture)
   }
   
   func removeStatusView() {
@@ -104,6 +116,11 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     case .success:
       statusView.layoutSuccessStatus()
       break
+    case .mediaDownloading:
+      statusView.layoutMediaDownloading()
+      break
+    case .mediaDownloadFail:
+      statusView.layoutMediaDownloadFail()
     default:
       break
     }
@@ -121,6 +138,10 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   
   func tapHeaderImage() {
     self.delegate?.messageCollectionView(didTapHeaderImageInCell: self, model: self.message!)
+  }
+  
+  func tapSatusView() {
+    self.delegate?.messageCollectionView(didTapStatusViewInCell: self, model: self.message!)
   }
   
   func didDisAppearCell() {

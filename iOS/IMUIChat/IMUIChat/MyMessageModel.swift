@@ -37,7 +37,7 @@ class MyMessageModel: IMUIMessageModel {
                                        isNeedShowTime: false,
                                        bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text))
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
-    self.init(msgId: msgId, messageStatus: .success, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
+    self.init(msgId: msgId, messageStatus: .failed, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
   }
 
   convenience init(voicePath: String, isOutGoing: Bool) {
