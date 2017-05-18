@@ -32,7 +32,7 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   
   public static var statusViewSize: CGSize = CGSize(width: 30, height: 30)
   
-  public static var bubbleMaxWidth: CGFloat = 200.0
+  public static var bubbleMaxWidth: CGFloat = 180.0
   public static var isNeedShowInComingAvatar = true
   public static var isNeedShowOutGoingAvtar = true
   

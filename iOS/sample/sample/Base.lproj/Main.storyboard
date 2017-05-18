@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1uI-gR-fKj" customClass="IMUIMessageCollectionView" customModule="sample" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="527"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gbo-EO-ukg" customClass="IMUIInputView" customModule="sample" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="535" width="375" height="132"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="1uI-gR-fKj" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="1Gn-M1-cHc"/>
+                            <constraint firstItem="1uI-gR-fKj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="EUY-uh-fwx"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="gbo-EO-ukg" secondAttribute="bottom" id="Ota-hy-0XV"/>
+                            <constraint firstItem="1uI-gR-fKj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Y0g-pE-Fj1"/>
+                            <constraint firstItem="gbo-EO-ukg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Y9g-wD-VYR"/>
+                            <constraint firstAttribute="trailing" secondItem="1uI-gR-fKj" secondAttribute="trailing" id="e9R-N1-p4o"/>
+                            <constraint firstAttribute="trailing" secondItem="gbo-EO-ukg" secondAttribute="trailing" id="fkm-5t-MAM"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="gbo-EO-ukg" secondAttribute="bottom" id="niS-l2-Blp"/>
+                            <constraint firstItem="gbo-EO-ukg" firstAttribute="top" secondItem="1uI-gR-fKj" secondAttribute="bottom" id="u1t-pH-x3e"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="messageCollectionView" destination="1uI-gR-fKj" id="0hw-dH-9I7"/>
+                        <outlet property="myInputView" destination="gbo-EO-ukg" id="tk5-7y-Ior"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="116" y="122.78860569715144"/>
+        </scene>
+    </scenes>
+</document>

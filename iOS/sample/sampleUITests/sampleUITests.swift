@@ -1,14 +1,14 @@
 //
-//  IMUIChatUITests.swift
-//  IMUIChatUITests
+//  sampleUITests.swift
+//  sampleUITests
 //
-//  Created by oshumini on 2017/2/23.
+//  Created by oshumini on 2017/5/18.
 //  Copyright © 2017年 HXHG. All rights reserved.
 //
 
 import XCTest
 
-class IMUIChatUITests: XCTestCase {
+class sampleUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()

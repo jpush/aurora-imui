@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIFileSharingEnabled</key>
+	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string></string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -19,14 +27,6 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string></string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
-	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
