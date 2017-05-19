@@ -1,5 +1,5 @@
 # IMUIInputView
-[中文文档](./inputView_usage_zh.md)
+[中文文档](./IMUIInputView_usage_zh.md)
 
 This is a input component in chatting interface, can combine Aurora IMUIMessageCollection. Including features like record voice and video, select photo, take picture etc, supports customize style either.
 

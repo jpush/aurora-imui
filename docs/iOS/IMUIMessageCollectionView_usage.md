@@ -1,5 +1,5 @@
 # IMUIMessageCollectionView
-[中文文档](https://github.com/jpush/imui/blob/dev/docs/iOS/usage_iOS_zh.md)
+[中文文档](./IMUIMessageCollectionView_usage_iOS_zh.md)
 
 IMUIMessageCollectionView is a message list in chatting interface, use to display all kinds of messages, and it can be fully customize. If you don't define your style, IMUIMessageCollectionView will use default style.
 
@@ -12,12 +12,12 @@ pod 'AuroraIMUI'
 ```
 
 ### Manual
-Copy `IMUI` folder to your project. That's it.
+Copy `IMUICommon`  and `IMUIMessageCollectionView` folder to your project. That's it.
 
 >**Note:** Make sure that `Info.plist` include camera, Microphone, Photo Library permission.
 
 ## Usage
-To use IMUIMessageCollectionView only need three simple steps, or you can check out our [sample project](https://github.com/jpush/imui/tree/master/iOS/IMUIChat) to try it yourself.
+To use IMUIMessageCollectionView only need three simple steps, or you can check out our [sample project](./../../iOS/sample) to try it yourself.
 - **Step one:** drag a view to your UIViewController (storyboard or xib), and adjust class to `IMUIMessageCollectionView`.
 
 - **Step two:** implement `IMUIMessageMessageCollectionViewDelegate`.
@@ -40,6 +40,9 @@ To use IMUIMessageCollectionView only need three simple steps, or you can check 
 
   func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell,
                                                model: IMUIMessageModelProtocol)
+
+  func messageCollectionView(didTapStatusViewInCell: UICollectionViewCell, 
+  									     model: IMUIMessageModelProtocol)
 
   func messageCollectionView(_: UICollectionView,
         willDisplayMessageCell: UICollectionViewCell,
@@ -112,7 +115,16 @@ To add new message in message list is pretty easy, we support some way to add me
   insertMessages(with messages:[IMUIMessageModel])
   ```
 
+- update message cell (you can use this function to update message's status or ):
+
+  ```
+  updateMessage(with message:IMUIMessageModel)
+  ```
+
+  ​
+
 ### Custom  Layout
+
 Create `MessageModel` object need to specify layout infomation, if not, will use default layout `IMUIMessageCellLayout`. Base on default layout, here offers simple configuration to adjust elements in `MessageCell`:
 
 ```swift
@@ -155,8 +167,3 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
 }
 ```
 
-## Future plan
-- Update message cell status;
-- Custom message;
-- Message animation;
-- React Native support.

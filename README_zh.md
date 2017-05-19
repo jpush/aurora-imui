@@ -46,6 +46,9 @@ Aurora IMUI 是个通用的即时通讯（IM）UI 库，不特定于任何 IM SD
 
 ### iOS (Swift)
 
+- [IMUIMessageCollectionView](./docs/iOS/IMUIMessageCollectionView_usage_iOS_zh.md)
+- [IMUIInputView](./docs/iOS/IMUIInputView_usage_zh.md)
+
 ## Contribute
 
 欢迎提交 PR 与提出 Issues。

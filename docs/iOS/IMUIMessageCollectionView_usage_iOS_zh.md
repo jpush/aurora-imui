@@ -1,5 +1,5 @@
 # IMUIMessageCollectionView
-[English document](./usage_en.md)
+[English document](./IMUIMessageCollectionView_usage.md)
 
 IMUIMessageCollectionView 是聊天界面的消息列表，用来展示各种类型的消息，可以支持丰富的自定义扩展。若不自定义，则使用默认样式。
 
@@ -11,12 +11,12 @@ pod 'AuroraIMUI'
 ```
 
 ### 手动集成
-拷贝 **IMUI** 目录到自己工程中。
+拷贝 `IMUICommon/` `IMUIMessageCollectionView/`  这两个目录到自己工程中。
 
 >**注意**：确保自己工程中 `Info.plist` 包含 camera , Microphone 和 Photo Library 权限。
 
 ## 使用
-使用 IMUIMessageCollectionView 只需要几个简单的步骤：
+使用 IMUIMessageCollectionView 只需要几个简单的步骤，可以参考 [sample 工程](./../../iOS/sample)：
 
 第一步：拖拽一个 View 到 UIViewController 中（可以是 storyboard 和 xib），修改 class 为 `IMUIMessageCollectionView`。
 
@@ -42,6 +42,9 @@ func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell,
 func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell,
                                              model: IMUIMessageModelProtocol) {}
 
+func messageCollectionView(didTapStatusViewInCell: UICollectionViewCell, 
+									     model: IMUIMessageModelProtocol)
+									     
 func messageCollectionView(_: UICollectionView,
       willDisplayMessageCell: UICollectionViewCell,
                    forItemAt: IndexPath,
@@ -111,7 +114,14 @@ messageCollectionView.insertMessage(with message: IMUIMessageModel)
 messageCollectionView.insertMessages(with messages:[IMUIMessageModel])
 ```
 
+- 消息更新 （也可用于消息状态更新）：
+
+```
+updateMessage(with message:IMUIMessageModel)
+```
+
 ### 自定义布局
+
 创建 Message 对象的时候需要指定布局信息，如果不指定则会使用默认布局 `IMUIMessageCellLayout`。
 如果需要在默认布局的基础上简单调整 message cell 内的元素，这里提供了简单的配置项：
 
@@ -157,8 +167,3 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
 }
 ```
 
-## 未来计划
-- 消息状态更新
-- 自定义消息支持
-- 消息动画
-- React Native 版本
