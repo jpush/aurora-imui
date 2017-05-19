@@ -43,7 +43,7 @@ Currently support for display and input message types:
 Ready components:
 
 ### Android
-- [MessageList](./docs/Android/usageEn.md)
+- [MessageList](./docs/Android/message_list_usage.md)
 - [ChatInputView](./Android/chatinput/README_EN.md)
 
 ### iOS (Swift)
