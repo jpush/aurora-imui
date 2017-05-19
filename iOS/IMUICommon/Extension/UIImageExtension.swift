@@ -10,11 +10,6 @@ import Foundation
 import UIKit
 
 public extension UIImage {
-  class func imuiImage(with name: String) -> UIImage? {
-    let bundle = Bundle.imuiBundle()
-    let imagePath = bundle.path(forResource: "IMUIAssets.bundle/image/\(name)", ofType: "png")
-    return UIImage(contentsOfFile: imagePath!)
-  }
   
   var jpegRepresentationData: Data! {
     return UIImageJPEGRepresentation(self, 1.0)    // QUALITY min = 0 / max = 1

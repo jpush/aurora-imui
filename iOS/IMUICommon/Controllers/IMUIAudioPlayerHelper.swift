@@ -9,13 +9,13 @@
 import UIKit
 import AVFoundation
 
-protocol IMUIAudioPlayerDelegate:NSObjectProtocol {
+public protocol IMUIAudioPlayerDelegate:NSObjectProtocol {
   func didAudioPlayerBeginPlay(_ AudioPlayer:AVAudioPlayer)
   func didAudioPlayerStopPlay(_ AudioPlayer:AVAudioPlayer)
   func didAudioPlayerPausePlay(_ AudioPlayer:AVAudioPlayer)
 }
 
-class IMUIAudioPlayerHelper: NSObject {
+public class IMUIAudioPlayerHelper: NSObject {
   
   static let sharedInstance = IMUIAudioPlayerHelper()
   
@@ -24,8 +24,8 @@ class IMUIAudioPlayerHelper: NSObject {
   weak var delegate:IMUIAudioPlayerDelegate?
 
   // play tick callback
-  typealias ProgressCallback = (_ currentTime: TimeInterval, _ duration: TimeInterval) -> ()
-  typealias FinishCallback = () -> ()
+  public typealias ProgressCallback = (_ currentTime: TimeInterval, _ duration: TimeInterval) -> ()
+  public typealias FinishCallback = () -> ()
   
   var playProgressCallback: ProgressCallback?
   var playFinishCallback: FinishCallback?
@@ -93,7 +93,7 @@ class IMUIAudioPlayerHelper: NSObject {
 
 // MARK: - AVAudioPlayerDelegate
 extension IMUIAudioPlayerHelper: AVAudioPlayerDelegate {
-  func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+  public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
     self.stopAudio()
     self.playFinishCallback?()
   }

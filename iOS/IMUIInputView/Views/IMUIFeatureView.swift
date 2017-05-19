@@ -72,7 +72,7 @@ open class IMUIFeatureView: UIView {
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     
-    let bundle = Bundle.imuiBundle()
+    let bundle = Bundle.imuiInputViewBundle()
     view = bundle.loadNibNamed("IMUIFeatureView", owner: self, options: nil)?.first as! UIView
     
     self.addSubview(view)
@@ -81,7 +81,7 @@ open class IMUIFeatureView: UIView {
   
   func setupAllViews() {
 
-    let bundle = Bundle.imuiBundle()
+    let bundle = Bundle.imuiInputViewBundle()
     
     self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
     self.featureCollectionView.register(UINib(nibName: "IMUIGalleryCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIGalleryCell")

@@ -54,10 +54,11 @@ public class IMUIMessageDefaultStatusView: UIButton, IMUIMessageStatusViewProtoc
     
     let contex = UIGraphicsGetCurrentContext()
     contex!.saveGState()
-    contex?.setLineWidth(IMUIProgressButton.lineWidth)
+    contex?.setLineWidth(IMUIMessageDefaultStatusView.lineWidth)
     
     // draw circular
-    let drawInRect = self.bounds.insetBy(dx: IMUIProgressButton.lineWidth, dy: IMUIProgressButton.lineWidth)
+    let drawInRect = self.bounds.insetBy(dx: IMUIMessageDefaultStatusView.lineWidth,
+                                         dy: IMUIMessageDefaultStatusView.lineWidth)
     contex?.strokePath()
     
     // draw progress circular
