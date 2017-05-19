@@ -3,7 +3,7 @@
 [![QQ Group](https://img.shields.io/badge/QQ%20Group-604798367-red.svg)]()
 
 # Aurora IMUI
-[中文文档](./README_CH.md)
+[中文文档](./README_zh.md)
 
 Aurora IMUI is a general IM UI components, which is not depending on any specific IM SDK.
 
