@@ -187,3 +187,9 @@ fastlane/test_output
 
 
 Android/sample/gradle/wrapper/
+
+*.bat
+
+Android/sample/gradlew
+
+Android/sample/gradle\.properties
