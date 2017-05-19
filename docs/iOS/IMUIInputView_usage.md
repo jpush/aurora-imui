@@ -3,7 +3,21 @@
 
 This is a input component in chatting interface, can combine Aurora IMUIMessageCollection. Including features like record voice and video, select photo, take picture etc, supports customize style either.
 
+## Install
+
+### [CocoaPods](https://cocoapods.org/)  (recommended)
+
+```ruby
+# For latest release in cocoapods
+pod 'AuroraIMUI'
+```
+### Manual
+Copy `IMUICommon`  and `IMUIInputView` folder to your project. That's it.
+
+> **Note:** Make sure that `Info.plist` include camera, Microphone, Photo Library permission.
+
 ## Usage
+
 To use IMUIInputView only need two simple steps, or you can check out our sample project to try it yourself.
 
 **Setp one:** drag a view to your UIViewController (storyboard or xib), and adjust class to `IMUIInputView `
