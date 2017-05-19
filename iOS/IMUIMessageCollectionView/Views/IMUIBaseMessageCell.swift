@@ -65,7 +65,7 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     
     self.removeStatusView(viewCache: viewCache)
     
-    self.statusView = viewCache.statusViewCache.dequeue(layout: layout as! IMUIMessageCellLayoutProtocal) as? UIView
+    self.statusView = viewCache.statusViewCache.dequeue(layout: layout ) as? UIView
     self.contentView.addSubview(self.statusView!)
     self.addGestureForStatusView()
     
@@ -107,22 +107,20 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     
     let statusView = self.statusView as! IMUIMessageStatusViewProtocal
     switch message.messageStatus {
-    case .sending:
-      statusView.layoutSendingStatus()
-      break
-    case .failed:
-      statusView.layoutFailedStatus()
-      break
-    case .success:
-      statusView.layoutSuccessStatus()
-      break
-    case .mediaDownloading:
-      statusView.layoutMediaDownloading()
-      break
-    case .mediaDownloadFail:
-      statusView.layoutMediaDownloadFail()
-    default:
-      break
+      case .sending:
+        statusView.layoutSendingStatus()
+        break
+      case .failed:
+        statusView.layoutFailedStatus()
+        break
+      case .success:
+        statusView.layoutSuccessStatus()
+        break
+      case .mediaDownloading:
+        statusView.layoutMediaDownloading()
+        break
+      case .mediaDownloadFail:
+        statusView.layoutMediaDownloadFail()
     }
   }
   

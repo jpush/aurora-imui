@@ -41,15 +41,18 @@ class MyMessageModel: IMUIMessageModel {
   }
 
   convenience init(voicePath: String, isOutGoing: Bool) {
-    self.init(msgId: "", messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .voice, text: "", mediaPath: voicePath, layout:  nil)
+    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
+    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .voice, text: "", mediaPath: voicePath, layout:  nil)
   }
   
   convenience init(imagePath: String, isOutGoing: Bool) {
-    self.init(msgId: "", messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .image, text: "", mediaPath: imagePath, layout:  nil)
+    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
+    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .image, text: "", mediaPath: imagePath, layout:  nil)
   }
   
   convenience init(videoPath: String, isOutGoing: Bool) {
-    self.init(msgId: "", messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .video, text: "", mediaPath: videoPath, layout:  nil)
+    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
+    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .video, text: "", mediaPath: videoPath, layout:  nil)
   }
   
   override func text() -> String {

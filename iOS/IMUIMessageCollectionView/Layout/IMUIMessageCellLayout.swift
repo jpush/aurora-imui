@@ -32,7 +32,9 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   
   public static var statusViewSize: CGSize = CGSize(width: 30, height: 30)
   
-  public static var bubbleMaxWidth: CGFloat = 180.0
+  public static var statusViewOffsetToBubble: UIOffset = UIOffset(horizontal: 12, vertical: 0)
+  
+  public static var bubbleMaxWidth: CGFloat = 170.0
   public static var isNeedShowInComingAvatar = true
   public static var isNeedShowOutGoingAvtar = true
   
@@ -160,12 +162,19 @@ open class IMUIMessageCellLayout: IMUIMessageCellLayoutProtocal {
   open var statusViewFrame: CGRect {
     
     var statusViewX: CGFloat = 0.0
-    var statusViewY: CGFloat = bubbleFrame.origin.y + bubbleFrame.size.height/2 - IMUIMessageCellLayout.statusViewSize.height/2
+    let statusViewY: CGFloat = bubbleFrame.origin.y +
+    bubbleFrame.size.height/2 -
+    IMUIMessageCellLayout.statusViewSize.height/2 -
+    IMUIMessageCellLayout.statusViewOffsetToBubble.vertical
     
     if isOutGoingMessage {
-      statusViewX = bubbleFrame.origin.x - 8 - IMUIMessageCellLayout.statusViewSize.width
+      statusViewX = bubbleFrame.origin.x -
+        IMUIMessageCellLayout.statusViewOffsetToBubble.horizontal -
+        IMUIMessageCellLayout.statusViewSize.width
     } else {
-      statusViewX = bubbleFrame.origin.x + bubbleFrame.size.width + 8
+      statusViewX = bubbleFrame.origin.x +
+        bubbleFrame.size.width +
+        IMUIMessageCellLayout.statusViewOffsetToBubble.horizontal
     }
     
     return CGRect(x: statusViewX,

@@ -61,7 +61,7 @@ class IMUIPhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
       photoData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
     }
     else {
-      print("Error capturing photo: \(error)")
+      print("Error capturing photo: \(String(describing: error))")
       return
     }
   }
@@ -71,8 +71,8 @@ class IMUIPhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
   }
   
   func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingLivePhotoToMovieFileAt outputFileURL: URL, duration: CMTime, photoDisplay photoDisplayTime: CMTime, resolvedSettings: AVCaptureResolvedPhotoSettings, error: Error?) {
-    if let _ = error {0
-      print("Error processing live photo companion movie: \(error)")
+    if let _ = error {
+      print("Error processing live photo companion movie: \(String(describing: error))")
       return
     }
     
@@ -99,14 +99,9 @@ class IMUIPhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
           creationRequest.addResource(with: .photo, data: photoData, options: nil)
           
           if let livePhotoCompanionMovieURL = self.livePhotoCompanionMovieURL {
-            if #available(iOS 9.0, *) {
               let livePhotoCompanionMovieFileResourceOptions = PHAssetResourceCreationOptions()
               livePhotoCompanionMovieFileResourceOptions.shouldMoveFile = true
               creationRequest.addResource(with: .pairedVideo, fileURL: livePhotoCompanionMovieURL, options: livePhotoCompanionMovieFileResourceOptions)
-            } else {
-              // Fallback on earlier versions
-            }
-            
           }
           
           }, completionHandler: { [unowned self] success, error in

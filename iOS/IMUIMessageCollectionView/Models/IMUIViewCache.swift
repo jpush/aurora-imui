@@ -23,7 +23,7 @@ class IMUIViewCache {
     
     if notInUseStatusViews.isEmpty {
       let view = layout.statusView as! UIView
-      inUseStatusViews[view.hashValue] = view as! IMUIMessageStatusViewProtocal
+      inUseStatusViews[view.hashValue] = view as? IMUIMessageStatusViewProtocal
       return view as! IMUIMessageStatusViewProtocal
     }
     
