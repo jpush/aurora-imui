@@ -91,6 +91,7 @@ public class CameraNew implements CameraSupport {
     private String mNextVideoAbsolutePath;
     private Integer mSensorOrientation;
     private boolean mIsFacingBack = true;
+    private Surface mSurface;
 
     public CameraNew(final Context context, TextureView textureView) {
         this.mContext = context;
@@ -176,10 +177,10 @@ public class CameraNew implements CameraSupport {
             mVideoSize = chooseVideoSize(map.getOutputSizes(MediaRecorder.class));
             mPreviewSize = getPreferredPreviewSize(sizes, rotatedWidth, rotatedHeight);
             texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-            Surface surface = new Surface(texture);
+            mSurface = new Surface(texture);
             mBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            mBuilder.addTarget(surface);
-            mCamera.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback() {
+            mBuilder.addTarget(mSurface);
+            mCamera.createCaptureSession(Arrays.asList(mSurface), new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(CameraCaptureSession cameraCaptureSession) {
                     if (null == mCamera) {
@@ -369,6 +370,9 @@ public class CameraNew implements CameraSupport {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
+                    if (mSurface != null) {
+                        mSurface.release();
+                    }
                     createCameraPreview();
                 }
             };

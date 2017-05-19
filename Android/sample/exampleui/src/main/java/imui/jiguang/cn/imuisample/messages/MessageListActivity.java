@@ -28,6 +28,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -264,6 +265,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
             list.add(message);
         }
+        Collections.reverse(list);
         return list;
     }
 

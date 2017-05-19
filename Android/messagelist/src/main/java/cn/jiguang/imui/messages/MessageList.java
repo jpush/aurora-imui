@@ -52,7 +52,7 @@ public class MessageList extends RecyclerView {
                 getContext(), LinearLayoutManager.VERTICAL, true);
         layoutManager.setStackFromEnd(true);
         setLayoutManager(layoutManager);
-
+        
         adapter.setLayoutManager(layoutManager);
         adapter.setStyle(mContext, mMsgListStyle);
         addOnScrollListener(new ScrollMoreListener(layoutManager, adapter));
