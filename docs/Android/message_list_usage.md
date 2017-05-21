@@ -267,3 +267,13 @@ mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMes
     }
 });
 ```
+
+- ‘OnMsgResendListener’ fires when click resend button.
+```java
+mAdapter.setMsgResendListener(new MsgListAdapter.OnMsgResendListener<MyMessage>() {
+    @Override
+    public void onMessageResend(MyMessage message) {
+       // resend message here
+    }
+ });
+```
