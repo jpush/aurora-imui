@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 
 ext {
     PUBLISH_GROUP_ID = 'cn.jiguang.imui'
-    PUBLISH_ARTIFACT_ID = 'imui'
-    PUBLISH_VERSION = '0.1.1'
+    PUBLISH_ARTIFACT_ID = 'messagelist'
+    PUBLISH_VERSION = '0.2.0'
 }
 
 android {
