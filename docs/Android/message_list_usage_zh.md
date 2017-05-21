@@ -1,5 +1,5 @@
 # 消息列表
-[English Document](./usageEn.md)
+[English Document](./message_list_usage.md)
 
 聊天的消息列表，用于展示各种类型消息，支持丰富的自定义扩展。如果不做自定义则使用默认样式。
 
@@ -259,4 +259,14 @@ mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMes
         // do something
     }
 });
+```
+
+- *OnMsgResendListener*: 点击重新发送按钮触发
+```java
+mAdapter.setMsgResendListener(new MsgListAdapter.OnMsgResendListener<MyMessage>() {
+    @Override
+    public void onMessageResend(MyMessage message) {
+       // resend message here
+    }
+ });
 ```
