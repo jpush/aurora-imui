@@ -9,15 +9,15 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:imui:0.1.1'
+compile 'cn.jiguang.imui:messagelist:0.2.0'
 ```
 
 - Maven
 ```
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
-  <artifactId>imui</artifactId>
-  <version>0.1.1</version>
+  <artifactId>messagelist</artifactId>
+  <version>0.2.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -34,7 +34,7 @@ allprojects {
 
 // module/build.gradle
 dependencies {
-  compile 'com.github.jpush:imui:0.1.1'
+  compile 'com.github.jpush:imui:0.2.0'
 }
 ```
 
