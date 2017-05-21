@@ -311,35 +311,27 @@ public class CameraNew implements CameraSupport {
         if (null == mCamera) {
             return;
         }
-        ImageReader reader = null;
         try {
             CameraCharacteristics characteristics = mManager.getCameraCharacteristics(mCamera.getId());
-            Size[] yuvSizes = null;
+            Size[] jpegSizes = null;
             if (characteristics != null) {
-                yuvSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-                        .getOutputSizes(ImageFormat.YUV_420_888);
+                jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+                        .getOutputSizes(ImageFormat.JPEG);
             }
             int width = 640;
             int height = 480;
-            if (yuvSizes != null && 0 < yuvSizes.length) {
-                width = yuvSizes[0].getWidth();
-                height = yuvSizes[0].getHeight();
+            if (jpegSizes != null && 0 < jpegSizes.length) {
+                width = jpegSizes[0].getWidth();
+                height = jpegSizes[0].getHeight();
             }
-            reader = ImageReader.newInstance(width, height, ImageFormat.YUV_420_888, 2);
+            final ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             List<Surface> outputSurfaces = new ArrayList<Surface>(2);
             outputSurfaces.add(reader.getSurface());
             outputSurfaces.add(new Surface(mTextureView.getSurfaceTexture()));
             final CaptureRequest.Builder builder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-            builder.set(CaptureRequest.EDGE_MODE, CaptureRequest.EDGE_MODE_OFF);
-            builder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE_ON);
-            builder.set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE, CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE_OFF);
-            builder.set(CaptureRequest.NOISE_REDUCTION_MODE, CaptureRequest.NOISE_REDUCTION_MODE_OFF);
-            builder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
-            builder.set(CaptureRequest.CONTROL_AE_LOCK, true);
-            builder.set(CaptureRequest.CONTROL_AWB_LOCK, true);
+            builder.addTarget(reader.getSurface());
             builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
             builder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(Integer.parseInt(mCameraId)));
-            builder.addTarget(reader.getSurface());
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader imageReader) {
@@ -393,10 +385,6 @@ public class CameraNew implements CameraSupport {
             }, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
-        } finally {
-            if (null != reader) {
-                reader.close();
-            }
         }
     }
 
