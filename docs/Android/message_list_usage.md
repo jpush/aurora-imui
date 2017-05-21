@@ -1,5 +1,5 @@
 # MessageList
-[中文文档](./usage.md)
+[中文文档](./message_list_usage_zh.md)
 
 MessageList is a message list in chatting interface, use to display all kinds of messages, and it can be fully customize.
 If you don't define your style, MessageList will use default style.
