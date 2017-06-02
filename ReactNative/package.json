@@ -1,7 +1,7 @@
 {
-  "name": "messagelist-react-native",
+  "name": "aurora-imui-react-native",
   "version": "0.2.2",
-  "description": "Aurora imui messagelist for react native",
+  "description": "Aurora IMUI for react native",
   "main": "index.js",
   "repository": {
     "type": "git",
