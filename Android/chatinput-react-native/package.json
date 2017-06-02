@@ -1,0 +1,21 @@
+{
+  "name": "chatinput-react-native",
+  "version": "0.2.1",
+  "description": "Aurora imui chatinput for react native",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jpush/aurora-imui"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "jpush"
+  ],
+  "author": "KenChoi, huminiOS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpush/aurora-imui/issues"
+  },
+  "homepage": "https://github.com/jpush/aurora-imui#readme"
+}

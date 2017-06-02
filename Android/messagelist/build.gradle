@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'cn.jiguang.imui'
     PUBLISH_ARTIFACT_ID = 'messagelist'
-    PUBLISH_VERSION = '0.2.0'
+    PUBLISH_VERSION = '0.3.0-beta'
 }
 
 android {

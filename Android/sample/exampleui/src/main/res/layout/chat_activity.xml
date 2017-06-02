@@ -53,14 +53,7 @@
         android:id="@+id/chat_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:cameraBtnIcon="@drawable/aurora_menuitem_camera"
-        app:inputCursorDrawable="@drawable/aurora_edittext_cursor_bg"
-        app:inputEditTextBg="@drawable/aurora_edittext_bg"
-        app:inputHint="@string/input_hint"
-        app:photoBtnIcon="@drawable/aurora_menuitem_photo"
-        app:sendBtnIcon="@drawable/aurora_menuitem_send"
-        app:voiceBtnIcon="@drawable/aurora_menuitem_mic" />
+        android:layout_alignParentBottom="true" />
 
 
 </imui.jiguang.cn.imuisample.views.ChatView>

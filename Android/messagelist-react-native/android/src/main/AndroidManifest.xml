@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="cn.jiguang.imui.messagelist">
+
+    <application>
+        <receiver android:name="cn.jiguang.imui.messagelist.ReactMsgListManager$RCTMsgListReceiver">
+            <intent-filter>
+                <action android:name="cn.jiguang.imui.messagelist.intent.MSGLIST" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

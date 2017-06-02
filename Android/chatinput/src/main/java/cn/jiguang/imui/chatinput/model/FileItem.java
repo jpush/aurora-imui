@@ -92,4 +92,13 @@ public class FileItem implements Comparable<FileItem> {
             return code;
         }
     }
+
+    @Override
+    public String toString() {
+        if (mType == Type.Image) {
+            return "{mediaType: image, " + "mediaPath: " + mFilePath + "}";
+        } else {
+            return "{mediaType: video, " + "mediaPath: " + mFilePath + "}";
+        }
+    }
 }
