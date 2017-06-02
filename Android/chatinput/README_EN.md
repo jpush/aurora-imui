@@ -56,13 +56,13 @@ Using ChatInputView only need two steps.
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:cameraBtnIcon="@drawable/camera"
-        app:inputCursorDrawable="@drawable/jmui_text_cursor_bg"
-        app:inputEditTextBg="@drawable/jmui_chat_input_bg"
-        app:inputHint="@string/input_hint"
-        app:photoBtnIcon="@drawable/photo"
-        app:sendBtnIcon="@drawable/send"
-        app:voiceBtnIcon="@drawable/mic" />
+        app:cameraBtnIcon="@drawable/aurora_menuitem_camera"
+        app:inputCursorDrawable="@drawable/aurora_edittext_cursor_bg"
+        app:inputEditTextBg="@drawable/aurora_edittext_bg"
+        app:inputHint="@string/chat_input_hint"
+        app:photoBtnIcon="@drawable/aurora_menuitem_photo"
+        app:sendBtnIcon="@drawable/aurora_menuitem_send"
+        app:voiceBtnIcon="@drawable/aurora_menuitem_mic" />
 ```
 
 #### Step two: init `ChatInputView`
