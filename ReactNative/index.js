@@ -1,5 +1,5 @@
-import ChatInput from './react-native-android/chatinput';
-import MessageList from './react-native-android/messagelist';
+import ChatInput from './chatinput';
+import MessageList from './messagelist';
 
 module.exports = {
 	ChatInput: ChatInput,
