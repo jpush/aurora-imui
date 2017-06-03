@@ -52,6 +52,13 @@ export default class MessageList extends Component {
     this.props.onStatusViewClick(event.nativeEvent.message);
   }
 
+  _onBeginDragMessageList(event: Event) {
+    if (!this.props.onStatusViewClick) {
+      return;
+    }
+    this.props.onBeginDragMessageList();
+  }
+
   render() {
     return (
       <View style={{flex:1}}>
@@ -72,6 +79,7 @@ MessageList.propTypes = {
   onMsgClick: PropTypes.func,
   onAvatarClick: PropTypes.func,
   onStatusViewClick: PropTypes.func,
+  onBeginDragMessageList: PropTypes.func,
   sendBubble: PropTypes.string,
   receiveBubble: PropTypes.string,
   sendBubbleTextColor: PropTypes.string,
@@ -83,7 +91,9 @@ MessageList.propTypes = {
   dateTextSize: PropTypes.number,
   dateTextColor: PropTypes.string,
   avatarSize: PropTypes.object,
-  showDisplayName: PropTypes.bool,
+  isShowDisplayName: PropTypes.bool,
+  isShowIncommingDisplayName: PropTypes.bool,
+  isShowOutgoingDisplayName: PropTypes.bool,
   ...View.propTypes
 };
 

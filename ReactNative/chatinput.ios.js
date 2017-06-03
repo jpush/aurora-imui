@@ -29,7 +29,7 @@ export default class ChatInput extends Component {
     this._onSwitchToMicrophoneMode = this._onSwitchToMicrophoneMode.bind(this);
     this._onSwitchGalleryMode = this._onSwitchGalleryMode.bind(this);
     this._onSwitchToCameraMode = this._onSwitchToCameraMode.bind(this);
-    this._onShowKeyboard = this._onShowKeyboard(this);
+    this._onShowKeyboard = this._onShowKeyboard.bind(this);
   }
 
   _onSendText(event: Event) {
@@ -109,11 +109,12 @@ export default class ChatInput extends Component {
     this.props.onSwitchToCameraMode();
   }
 
-    _onShowKeyboard() {
+  _onShowKeyboard(event: Event) {
     if (!this.props.onShowKeyboard) {
       return;
     }
-    this.props.onShowKeyboard();
+
+    this.props.onShowKeyboard(event.nativeEvent.keyboard_height);
   }
 
 
@@ -132,7 +133,7 @@ export default class ChatInput extends Component {
           onSwitchToMicrophoneMode={this._onSwitchToMicrophoneMode}
           onSwitchToGalleryMode={this._onSwitchGalleryMode}
           onSwitchToCameraMode={this._onSwitchToCameraMode}
-          onShowKeyboard={}
+          onShowKeyboard={this._onShowKeyboard}
       />
     );
   }
@@ -152,6 +153,7 @@ ChatInput.propTypes = {
   onSwitchToMicrophoneMode: PropTypes.func,
   onSwitchToGalleryMode: PropTypes.func,
   onSwitchToCameraMode: PropTypes.func,
+  onShowKeyboard: PropTypes.func,
   ...View.propTypes
 };
 
