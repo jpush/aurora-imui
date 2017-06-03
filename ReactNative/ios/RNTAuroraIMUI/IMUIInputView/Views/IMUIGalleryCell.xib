@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="IMUIGalleryCell" customModule="IMUIChat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="268" height="233"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="268" height="233"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ayW-Ft-UDv">
+                        <rect key="frame" x="0.0" y="0.0" width="268" height="233"/>
+                    </imageView>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3AA-7J-gEY">
+                        <rect key="frame" x="0.0" y="0.0" width="268" height="233"/>
+                        <color key="backgroundColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="0.64961723993288589" colorSpace="calibratedRGB"/>
+                    </view>
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IMUIAssets.bundle/image/feature_gallery_select.png" translatesAutoresizingMaskIntoConstraints="NO" id="rXG-G6-3Co">
+                        <rect key="frame" x="116" y="98.5" width="36" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="RoM-GY-Mhu"/>
+                            <constraint firstAttribute="width" constant="36" id="qVr-in-Dka"/>
+                        </constraints>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ovI-GS-mMT">
+                        <rect key="frame" x="0.0" y="0.0" width="268" height="233"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="rXG-G6-3Co" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="F6D-uZ-6HA"/>
+                <constraint firstAttribute="bottom" secondItem="ovI-GS-mMT" secondAttribute="bottom" id="KBz-b3-R2t"/>
+                <constraint firstItem="ayW-Ft-UDv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="MJX-Pi-Edv"/>
+                <constraint firstItem="3AA-7J-gEY" firstAttribute="top" secondItem="ayW-Ft-UDv" secondAttribute="top" id="Mzq-kG-HtP"/>
+                <constraint firstAttribute="trailing" secondItem="ayW-Ft-UDv" secondAttribute="trailing" id="Ryp-CA-cvy"/>
+                <constraint firstItem="3AA-7J-gEY" firstAttribute="bottom" secondItem="ayW-Ft-UDv" secondAttribute="bottom" id="UKC-Sg-aOw"/>
+                <constraint firstAttribute="bottom" secondItem="ayW-Ft-UDv" secondAttribute="bottom" id="aY6-Va-kfG"/>
+                <constraint firstItem="3AA-7J-gEY" firstAttribute="trailing" secondItem="ayW-Ft-UDv" secondAttribute="trailing" id="clq-G7-T91"/>
+                <constraint firstItem="ovI-GS-mMT" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="gLX-pz-5xt"/>
+                <constraint firstItem="ayW-Ft-UDv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="hrD-f5-E9s"/>
+                <constraint firstItem="rXG-G6-3Co" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="jgv-ED-rws"/>
+                <constraint firstItem="3AA-7J-gEY" firstAttribute="leading" secondItem="ayW-Ft-UDv" secondAttribute="leading" id="lpv-CQ-2O1"/>
+                <constraint firstItem="ovI-GS-mMT" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="y0S-9Y-kk1"/>
+                <constraint firstAttribute="trailing" secondItem="ovI-GS-mMT" secondAttribute="trailing" id="zTC-fj-cFq"/>
+            </constraints>
+            <size key="customSize" width="268" height="233"/>
+            <connections>
+                <outlet property="galleryImageView" destination="ayW-Ft-UDv" id="Rcv-wF-fbm"/>
+                <outlet property="grayView" destination="3AA-7J-gEY" id="CXN-2w-R1g"/>
+                <outlet property="mediaView" destination="ovI-GS-mMT" id="pqd-kp-Bcp"/>
+                <outlet property="selectImageView" destination="rXG-G6-3Co" id="csv-Qe-AzC"/>
+            </connections>
+            <point key="canvasLocation" x="-105" y="-58.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="IMUIAssets.bundle/image/feature_gallery_select.png" width="16" height="16"/>
+    </resources>
+</document>

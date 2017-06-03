@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="IMUIRecordVoiceCell" customModule="IMUIChat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="371" height="273"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="371" height="273"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CKc-US-mL2">
+                        <rect key="frame" x="118.5" y="47.5" width="134" height="28"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="134" id="cWb-G2-dPZ"/>
+                            <constraint firstAttribute="height" constant="28" id="oDV-rO-fEk"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <color key="textColor" red="0.56959438323974609" green="0.65279775857925415" blue="0.77752608060836792" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V0Y-vc-33C">
+                        <rect key="frame" x="42.5" y="93.5" width="46" height="46"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="46" id="BQD-8w-dQq"/>
+                            <constraint firstAttribute="height" constant="46" id="fpr-k8-o5X"/>
+                        </constraints>
+                        <state key="normal" image="IMUIAssets.bundle/image/feature_voice_play_btn.png"/>
+                        <state key="selected" image="IMUIAssets.bundle/image/feature_voice_play_btn_seleted.png"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kfg-6W-rbr">
+                        <rect key="frame" x="283.5" y="93.5" width="45" height="46"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="46" id="0tY-Lh-n3t"/>
+                            <constraint firstAttribute="width" constant="45" id="5R4-Qn-L02"/>
+                        </constraints>
+                        <state key="normal" image="IMUIAssets.bundle/image/feature_voice_delete_btn.png"/>
+                        <state key="selected" image="IMUIAssets.bundle/image/feature_voice_delete_btn_selected.png"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrY-VB-Zvt">
+                        <rect key="frame" x="130.5" y="101.5" width="110" height="110"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="110" id="5RD-Gg-I9e"/>
+                            <constraint firstAttribute="width" constant="110" id="a09-fM-yRc"/>
+                        </constraints>
+                        <size key="titleShadowOffset" width="3" height="0.0"/>
+                        <state key="normal" image="IMUIAssets.bundle/image/feature_record_voice_btn.png"/>
+                        <connections>
+                            <action selector="finishiRecordVoiceCallback:" destination="gTV-IL-0wX" eventType="touchUpInside" id="dOQ-jY-quv"/>
+                            <action selector="startRecordVoice:" destination="gTV-IL-0wX" eventType="touchDown" id="vNQ-hp-6uY"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kcv-8l-kQa" customClass="IMUIProgressButton" customModule="IMUIChat" customModuleProvider="target">
+                        <rect key="frame" x="130.5" y="101.5" width="110" height="110"/>
+                        <state key="normal" image="IMUIAssets.bundle/image/feature_play_voive_btn.png"/>
+                        <state key="selected" image="IMUIAssets.bundle/image/feature_pause_voice_btn.png"/>
+                        <connections>
+                            <action selector="playRecordedVoice:" destination="gTV-IL-0wX" eventType="touchUpInside" id="wMG-9d-isM"/>
+                        </connections>
+                    </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e6J-Zi-Odb">
+                        <rect key="frame" x="0.0" y="237" width="185.5" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="zHv-I5-FDA"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <state key="normal" title="Cancel">
+                            <color key="titleColor" red="0.0" green="0.6742900013923645" blue="0.92407369613647461" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="cancelPlayVoice:" destination="gTV-IL-0wX" eventType="touchUpInside" id="J3p-5v-63f"/>
+                        </connections>
+                    </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evV-wh-nrn">
+                        <rect key="frame" x="185.5" y="237" width="185.5" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="urA-0a-XOk"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <state key="normal" title="Send">
+                            <color key="titleColor" red="0.0" green="0.6742900013923645" blue="0.92407369613647461" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="sendRecordedVoice:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Bc1-nb-nhw"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="kcv-8l-kQa" firstAttribute="width" secondItem="IrY-VB-Zvt" secondAttribute="width" id="3NY-s2-ZD5"/>
+                <constraint firstItem="CKc-US-mL2" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="4na-Xd-gOv"/>
+                <constraint firstItem="kcv-8l-kQa" firstAttribute="centerX" secondItem="IrY-VB-Zvt" secondAttribute="centerX" id="5dQ-xC-U99"/>
+                <constraint firstAttribute="bottom" secondItem="evV-wh-nrn" secondAttribute="bottom" id="94l-dR-7bc"/>
+                <constraint firstItem="evV-wh-nrn" firstAttribute="leading" secondItem="e6J-Zi-Odb" secondAttribute="trailing" id="9GD-AD-VZR"/>
+                <constraint firstAttribute="trailing" secondItem="evV-wh-nrn" secondAttribute="trailing" id="CMd-dp-Zwg"/>
+                <constraint firstItem="V0Y-vc-33C" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" constant="-120" id="Gqj-eX-NNf"/>
+                <constraint firstItem="kcv-8l-kQa" firstAttribute="centerY" secondItem="IrY-VB-Zvt" secondAttribute="centerY" id="H1u-XM-lsh"/>
+                <constraint firstItem="kcv-8l-kQa" firstAttribute="height" secondItem="IrY-VB-Zvt" secondAttribute="height" id="H3I-TA-Lws"/>
+                <constraint firstItem="V0Y-vc-33C" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-20" id="HFH-Qk-OHd"/>
+                <constraint firstItem="IrY-VB-Zvt" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Hzf-Yc-X3t"/>
+                <constraint firstItem="kfg-6W-rbr" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-20" id="T5o-e7-0xI"/>
+                <constraint firstItem="e6J-Zi-Odb" firstAttribute="width" secondItem="evV-wh-nrn" secondAttribute="width" id="ZTw-4f-BMb"/>
+                <constraint firstItem="IrY-VB-Zvt" firstAttribute="top" secondItem="CKc-US-mL2" secondAttribute="bottom" constant="26" id="epQ-UM-aij"/>
+                <constraint firstItem="e6J-Zi-Odb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fXz-Gq-d50"/>
+                <constraint firstItem="IrY-VB-Zvt" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="20" id="oTI-ar-yi1"/>
+                <constraint firstAttribute="bottom" secondItem="e6J-Zi-Odb" secondAttribute="bottom" id="plc-8m-Skg"/>
+                <constraint firstItem="kfg-6W-rbr" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" constant="120" id="vCh-PH-8bP"/>
+            </constraints>
+            <size key="customSize" width="371" height="273"/>
+            <connections>
+                <outlet property="RecordVoiceBtn" destination="IrY-VB-Zvt" id="NX9-GB-sHz"/>
+                <outlet property="cancelVoiceBtn" destination="kfg-6W-rbr" id="MZm-OM-xzb"/>
+                <outlet property="cancelVoiceBtnHeight" destination="0tY-Lh-n3t" id="L7z-Wa-zVv"/>
+                <outlet property="cancelVoiceBtnWidth" destination="5R4-Qn-L02" id="eqc-Gd-EU6"/>
+                <outlet property="playCancelBtn" destination="e6J-Zi-Odb" id="cmy-67-AJP"/>
+                <outlet property="playVoiceBtn" destination="kcv-8l-kQa" id="rRm-IX-k4o"/>
+                <outlet property="playVoiceBtnHeight" destination="fpr-k8-o5X" id="zo0-57-SGd"/>
+                <outlet property="playVoiceBtnWidth" destination="BQD-8w-dQq" id="Hvz-k5-MgN"/>
+                <outlet property="recordVoiceBtn" destination="IrY-VB-Zvt" id="Vep-kZ-F8o"/>
+                <outlet property="sendVoiceBtn" destination="evV-wh-nrn" id="9kV-8E-cQQ"/>
+                <outlet property="swtichToPlayModeBtn" destination="V0Y-vc-33C" id="ERL-la-9eM"/>
+                <outlet property="timeLable" destination="CKc-US-mL2" id="Mbn-rt-LeL"/>
+            </connections>
+            <point key="canvasLocation" x="185.5" y="127.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="IMUIAssets.bundle/image/feature_pause_voice_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/feature_play_voive_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/feature_record_voice_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/feature_voice_delete_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/feature_voice_delete_btn_selected.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/feature_voice_play_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/feature_voice_play_btn_seleted.png" width="16" height="16"/>
+    </resources>
+</document>
