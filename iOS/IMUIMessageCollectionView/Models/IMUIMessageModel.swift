@@ -53,7 +53,7 @@ public protocol IMUIMessageDataSource {
  *
  */
 open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
-
+  
   @objc public var duration: CGFloat
 
   
@@ -66,15 +66,17 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
   open var fromUser: IMUIUserProtocol
   
   open var isOutGoing: Bool = true
-  open var date: Date
+  open var time: String
   
   open var timeString: String {
-    return date.parseDate
+    return time
   }
   
-  open var isNeedShowTime: Bool = false {
-    didSet {
-//      cellLayout?.isNeedShowTime = isNeedShowTime
+  open var isNeedShowTime: Bool  {
+    if timeString != "" {
+      return true
+    } else {
+      return false
     }
   }
   
@@ -121,9 +123,11 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
       }
 
     case .text:
-      let textSize  = self.text().sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: UIFont.systemFont(ofSize: 18))
-      
-      bubbleContentSize = textSize
+      if isOutGoing {
+        bubbleContentSize = self.text().sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageCell.outGoingTextFont)
+      } else {
+        bubbleContentSize = self.text().sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageCell.inComingTextFont)
+      }
       break
     case .voice:
       bubbleContentSize = CGSize(width: 80, height: 37)
@@ -142,11 +146,11 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
   }
   
   
-  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: IMUIUserProtocol, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: IMUIMessageType, cellLayout: IMUIMessageCellLayoutProtocal?) {
+  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: IMUIUserProtocol, isOutGoing: Bool, time: String, status: IMUIMessageStatus, type: IMUIMessageType, cellLayout: IMUIMessageCellLayoutProtocal?) {
     self.msgId = msgId
     self.fromUser = fromUser
     self.isOutGoing = isOutGoing
-    self.date = date
+    self.time = time
     self.status = status
     self.type = type
     self.messageStatus = messageStatus

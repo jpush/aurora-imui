@@ -28,7 +28,7 @@ class MyMessageModel: IMUIMessageModel {
     self.myTextMessage = text
     self.mediaPath = mediaPath
     
-    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, date: date, status: status, type: type, cellLayout: layout)
+    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: "", status: status, type: type, cellLayout: layout)
   }
   
   convenience init(text: String, isOutGoing: Bool) {

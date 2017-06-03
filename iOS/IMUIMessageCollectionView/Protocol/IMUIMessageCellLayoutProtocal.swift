@@ -53,6 +53,11 @@ import UIKit
    *  return statusView's frame
    */
   var statusViewFrame: CGRect { get }
+  
+  /**
+   *  return nameLabel's frame
+   */
+  var nameLabelFrame: CGRect { get }
 }
 
 //  IMUIMessageCellLayoutProtocal default value

@@ -14,7 +14,7 @@ enum IMUIMessageCellType {
   case outgoing
 }
 
-class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
+open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   var bubbleView: IMUIMessageBubbleView
   lazy var avatarImage = UIImageView()
   lazy var timeLabel = UILabel()
@@ -44,17 +44,18 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     avatarImage.isUserInteractionEnabled = true
     avatarImage.addGestureRecognizer(avatarGesture)
     
-    self.nameLabel.frame = IMUIMessageCellLayout.nameLabelFrame
+    nameLabel.font = IMUIMessageCellLayout.nameLabelTextFont
+    
     self.setupSubViews()
   }
   
   fileprivate func setupSubViews() {
     timeLabel.textAlignment = .center
-    timeLabel.textColor = UIColor.init(netHex: 0x90A6C4)
-    timeLabel.font = UIFont.systemFont(ofSize: 10)
+    timeLabel.textColor = IMUIMessageCellLayout.timeStringColor
+    timeLabel.font = IMUIMessageCellLayout.timeStringFont
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
@@ -62,13 +63,14 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.timeLabel.frame = layout.timeLabelFrame
     self.avatarImage.frame = layout.avatarFrame
     self.bubbleView.frame = layout.bubbleFrame
+    self.nameLabel.frame = layout.nameLabelFrame
     
     self.removeStatusView(viewCache: viewCache)
     
     self.statusView = viewCache.statusViewCache.dequeue(layout: layout ) as? UIView
     self.contentView.addSubview(self.statusView!)
     self.addGestureForStatusView()
-    
+    self.nameLabel.textColor = IMUIMessageCellLayout.nameLabelTextColor
     self.statusView!.frame = layout.statusViewFrame
   }
   
@@ -101,6 +103,8 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     self.avatarImage.image = message.fromUser.Avatar()
     self.bubbleView.backgroundColor = UIColor.init(netHex: 0xE7EBEF)
     self.timeLabel.text = message.timeString
+    self.nameLabel.text = message.fromUser.displayName()
+    
     self.message = message
     
     self.bubbleView.setupBubbleImage(resizeBubbleImage: message.resizableBubbleImage)
@@ -121,6 +125,12 @@ class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
         break
       case .mediaDownloadFail:
         statusView.layoutMediaDownloadFail()
+    }
+    
+    if message.isOutGoing {
+      self.nameLabel.textAlignment = .right
+    } else {
+      self.nameLabel.textAlignment = .left
     }
   }
   

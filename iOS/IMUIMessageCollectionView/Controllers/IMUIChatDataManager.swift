@@ -42,9 +42,6 @@ class IMUIChatDataManager: NSObject {
   }
   
   open func appendMessage(with message: IMUIMessageModel) {
-    if self.count >= 1 {
-        self.setupNeedShowTime(between: message, and: self.allMessageDic[allMsgidArr.last!]!)
-    }
     
     self.allMsgidArr.append(message.msgId)
     self.allMessageDic[message.msgId] = message
@@ -67,22 +64,11 @@ class IMUIChatDataManager: NSObject {
     
     self.allMsgidArr.insert(message.msgId, at: 0)
     self.allMessageDic[message.msgId] = message
-    self.setupNeedShowTime(between: message, and: allMessageDic[allMsgidArr[1]]!)
   }
   
   open func insertMessages(with messages:[IMUIMessageModel]) {
     for element in messages {
       self.insertMessage(with: element)
     }
-  }
-  
-  open func setupNeedShowTime(between earlyMessage: IMUIMessageModel, and lateMessage: IMUIMessageModel) {
-    let earlyDate = earlyMessage.date
-    let lateDate = lateMessage.date
-    let timeInterval = earlyDate.timeIntervalSince(lateDate)
-    if timeInterval >= needShowTimeInterval {
-      lateMessage.isNeedShowTime = true
-    }
-    
   }
 }
