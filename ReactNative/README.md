@@ -9,12 +9,12 @@ react-native link
 
 ## Usage
 
-- Android
+- ### Android
 
   - Add Package:
-  
+
   > MainApplication.java
-  
+
   ```
   @Override
   protected List<ReactPackage> getPackages() {
@@ -24,74 +24,46 @@ react-native link
       );
   }
   ```
-  
-- import IMUI from 'aurora-imui-react-native';
-  
- > yourComponent.js
-  
+
+  - import IMUI from 'aurora-imui-react-native';
+
+ > [Android Example usage](./sample/react-native-android/pages/chat_activity.js)
+
 ```
-  var {
-    NativeModules
-  } = ReactNative;
   import IMUI from 'aurora-imui-react-native';
   var MessageList = IMUI.MessageList;
   var ChatInput = IMUI.ChatInput;
-  const ReactMsgListModule = NativeModules.MsgListModule;
-  
-  
-  export default class YourComponent extends React.Component {
-  ...
-  
-  render() {
-    return (
-      <View style = { styles.container }>
-      // Custom your messagelist by using react props, see our style document below for detail.
-      <MessageList
-        style = {{width: Dimensions.get('window').width, height: 500}}
-        onMsgClick = {this.onMsgClick}
-        onMsgLongClick = {this.onMsgLongClick}
-        onAvatarClick = {this.onAvatarClick} 
-        onMsgResend = {this.onMsgResend}
-        sendBubble = {"send_msg"}
-        receiveBubble = {"null"}
-        receiveBubbleTextColor = {'#ffffff'}
-        sendBubbleTextSize = {18}
-        receiveBubbleTextSize = {14}
-        sendBubblePressedColor = {'#dddddd'}
-      />
-      <View style= {{flex:1}}>
-        <ChatInput
-          style = {{width: Dimensions.get('window').width, height: 200}}
-          menuContainerHeight = {200}
-          onSendText = {this.onSendText}
-          onSendGalleryFiles = {this.onSendGalleryFiles}
-          onTakePicture = {this.onTakePicture}
-          onStartRecordVideo = {this.onStartRecordVideo}
-          onFinishRecordVideo = {this.onFinishRecordVideo}
-          onCancelRecordVideo = {this.onCancelRecordVideo}
-          onStartRecordVoice = {this.onStartRecordVoice}
-          onFinishRecordVoice = {this.onFinishRecordVoice}
-          onCancelRecordVoice = {this.onCancelRecordVoice}
-          onSwitchToMicrophoneMode = {this.onSwitchToMicrophoneMode}
-          onSwitchToGalleryMode = {this.onSwitchToGalleryMode}
-          onSwitchToCameraMode = {this.onSwitchToCameraMode}
-        />
-      </View>
-    </View>
-  );
-}
-}
+  const ReactMsgListModule = NativeModules.MsgListModule; 
 ```
 
+
+- ### iOS
+
+  - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
+  - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RNTAuroraIMUI.framework
+  - Before build you project ,you should build RNTAuroraIMUI.framework
+  - Use it in ReactJS
+>[iOS Example usage](./sample/index.ios.js)
+```
+// For use IMUI you should Use get InputView, MessageListView, and RNTAuroraIController
+
+import IMUI from 'aurora-imui-react-native'
+var InputView = IMUI.ChatInput; // the inputView component
+var MessageListView = IMUI.MessageList; // the messageList component
+const AuroraIController = NativeModules.RNTAuroraIController; //  the IMUI controller, use it to add message to messageList.
+```
+
+
+
 ## Data format
-  
+
 By using MessageList, you need define `message` object and `fromUser` object.
-  
+
 - message object format:
-  
+
 **status must be one of the four values: "send_succeed", "send_failed", "send_going", "download_failed", 
 if you haven't define this property, default value is "send_succeed".**
- 
+
  ```
   message = {  // text message
     msgId: "msgid",
@@ -130,10 +102,10 @@ message = {  // video message
     mediaPath: "voice path"
     fromUser: {}
 }
-  ```
-  
-   - fromUser object format:
-  
+ ```
+
+-    fromUser object format:
+
   ```
   fromUser = {
     userId: ""
@@ -141,28 +113,27 @@ message = {  // video message
     avatarPath: "avatar image path"
   }
   ```
-  
- 
- 
+
+
   ## Event Handling
-  
+
   ### MessageList click event
     - onAvatarClick {message: {message json}} :Fires when click avatar
 
     - onMsgClick {message: {message json} : Fires when click message bubble
-    
+
     - onStatusViewClick {message: {message json}}  Fires when click status view
-    
+
     - onBeginDragMessageList (iOS only)
-    
+
   ### MessageList append/update/insert message event:
-  
+
   For append/update/insert message to MessageList, you will use `MsgListModule`(Native Module) to send event to native.
-  
-   - appendMessages([message])
+
+- appendMessages([message])
 
  example:
-   
+
 ```
 var messages = [{
 	msgId: "1",
@@ -178,7 +149,7 @@ var messages = [{
 	timeString: "10:00",
 }];
 ReactMsgListModule.appendMessages(messages);
- ```
+```
 
 - updateMessage(message)
 
@@ -200,7 +171,7 @@ var message = {
 };
 ReactMsgListModule.updateMessage(message);
 ```
-    
+
 - insertMessagesToTop([message])
 
 example:
@@ -250,9 +221,9 @@ same to top
 - receiveBubbleTextColor: PropTypes.string,
 
 - sendBubbleTextSize: PropTypes.number,
-  
+
 - receiveBubbleTextSize: PropTypes.number,
-  
+
 
 This Padding object includes four properties: left, top, right, bottom. eg: {left 5, top: 5, right: 15, bottom: 5}
 
@@ -271,4 +242,4 @@ Size object include width and height properties.
 - avatarSize: PropTypes.object -- Example: avatarSize = {width: 50, height: 50}
 
 - showDisplayName: PropTypes.bool, 
-  
+
