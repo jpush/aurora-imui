@@ -25,9 +25,9 @@ react-native link
   }
   ```
   
-  - import IMUI from 'aurora-imui-react-native';
+- import IMUI from 'aurora-imui-react-native';
   
-  > yourComponent.js
+ > yourComponent.js
   
 ```
   var {
@@ -236,7 +236,7 @@ ReactMsgListModule.insertMessagesToTop(messages);
 
 ### MessageList custom style
 
-**In android, if your want to define you chatting bubble, you need to put a drawable file 
+**In android, if your want to define your chatting bubble, you need to put a drawable file 
 in drawable folder, and that image file must be [nine patch drawable file](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html), 
 see our example for detail.**
 - sendBubble: PropTypes.string -- The name of the nine patch file.
