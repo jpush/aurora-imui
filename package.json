@@ -1,6 +1,6 @@
 {
-    "name": "testhm1",
-    "version": "1.6.54",
+    "name": "aurora-imui-react-native",
+    "version": "0.3.0",
     "description": "aurora imui plugin for react native application",
     "main": "index.js",
 
