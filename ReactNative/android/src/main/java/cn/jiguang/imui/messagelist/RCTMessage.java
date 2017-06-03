@@ -94,18 +94,17 @@ public class RCTMessage implements IMessage {
     }
 
 
-
     @Override
     public MessageStatus getMessageStatus() {
         switch (this.status) {
-            case "send_succeed":
-                return MessageStatus.SEND_SUCCEED;
             case "send_failed":
                 return MessageStatus.SEND_FAILED;
             case "send_going":
                 return MessageStatus.SEND_GOING;
-            default:
+            case "download_failed":
                 return MessageStatus.RECEIVE_FAILED;
+            default:
+                return MessageStatus.SEND_SUCCEED;
         }
     }
 
@@ -139,6 +138,7 @@ public class RCTMessage implements IMessage {
     public void setProgress(String progress) {
         this.progress = progress;
     }
+
     @Override
     public String getProgress() {
         return this.progress;

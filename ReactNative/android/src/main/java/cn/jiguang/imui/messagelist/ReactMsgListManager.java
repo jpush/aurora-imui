@@ -180,56 +180,20 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
         messageList.setReceiveBubbleTextSize(size);
     }
 
-    @ReactProp(name = "sendBubblePressedColor")
-    public void setSendBubblePressedColor(MessageList messageList, String color) {
-        int colorRes = Color.parseColor(color);
-        messageList.setSendBubblePressedColor(colorRes);
+    @ReactProp(name = "sendBubblePadding")
+    public void setSendBubblePadding(MessageList messageList, ReadableMap map) {
+        messageList.setSendBubblePaddingLeft(map.getInt("left"));
+        messageList.setSendBubblePaddingTop(map.getInt("top"));
+        messageList.setSendBubblePaddingRight(map.getInt("right"));
+        messageList.setSendBubblePaddingBottom(map.getInt("bottom"));
     }
 
-    @ReactProp(name = "receiveBubblePressedColor")
-    public void setReceiveBubblePressedColor(MessageList messageList, String color) {
-        int colorRes = Color.parseColor(color);
-        messageList.setReceiveBubblePressedColor(colorRes);
-    }
-
-    @ReactProp(name = "sendBubblePaddingLeft")
-    public void setSendBubblePaddingLeft(MessageList messageList, int paddingLeft) {
-        messageList.setSendBubblePaddingLeft(paddingLeft);
-    }
-
-    @ReactProp(name = "sendBubblePaddingTop")
-    public void setSendBubblePaddingTop(MessageList messageList, int paddingTop) {
-        messageList.setSendBubblePaddingTop(paddingTop);
-    }
-
-    @ReactProp(name = "sendBubblePaddingRight")
-    public void setSendBubblePaddingRight(MessageList messageList, int paddingRight) {
-        messageList.setSendBubblePaddingRight(paddingRight);
-    }
-
-    @ReactProp(name = "sendBubblePaddingBottom")
-    public void setSendBubblePaddingBottom(MessageList messageList, int paddingBottom) {
-        messageList.setSendBubblePaddingBottom(paddingBottom);
-    }
-
-    @ReactProp(name = "receiveBubblePaddingLeft")
-    public void setReceiveBubblePaddingLeft(MessageList messageList, int paddingLeft) {
-        messageList.setReceiveBubblePaddingLeft(paddingLeft);
-    }
-
-    @ReactProp(name = "receiveBubblePaddingTop")
-    public void setReceiveBubblePaddingTop(MessageList messageList, int paddingTop) {
-        messageList.setReceiveBubblePaddingTop(paddingTop);
-    }
-
-    @ReactProp(name = "receiveBubblePaddingRight")
-    public void setReceiveBubblePaddingRight(MessageList messageList, int paddingRight) {
-        messageList.setReceiveBubblePaddingRight(paddingRight);
-    }
-
-    @ReactProp(name = "receiveBubblePaddingBottom")
-    public void setReceiveBubblePaddingBottom(MessageList messageList, int paddingBottom) {
-        messageList.setReceiveBubblePaddingBottom(paddingBottom);
+    @ReactProp(name = "receiveBubblePadding")
+    public void setReceiveBubblePaddingLeft(MessageList messageList, ReadableMap map) {
+        messageList.setReceiveBubblePaddingLeft(map.getInt("left"));
+        messageList.setReceiveBubblePaddingTop(map.getInt("top"));
+        messageList.setReceiveBubblePaddingRight(map.getInt("right"));
+        messageList.setReceiveBubblePaddingBottom(map.getInt("bottom"));
     }
 
     @ReactProp(name = "dateTextSize")
@@ -248,27 +212,23 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
         messageList.setDatePadding(padding);
     }
 
-    @ReactProp(name = "avatarWidth")
-    public void setAvatarWidth(MessageList messageList, int width) {
-        messageList.setAvatarWidth(width);
-    }
-
-    @ReactProp(name = "avatarHeight")
-    public void setAvatarHeight(MessageList messageList, int height) {
-        messageList.setAvatarHeight(height);
+    @ReactProp(name = "avatarSize")
+    public void setAvatarWidth(MessageList messageList, ReadableMap map) {
+        messageList.setAvatarWidth(map.getInt("width"));
+        messageList.setAvatarHeight(map.getInt("height"));
     }
 
     /**
      * if showDisplayName equals 1, then show display name.
      * @param messageList MessageList
-     * @param showDisplayName 1 or 0
+     * @param isShowDisplayName boolean
      */
-    @ReactProp(name = "showDisplayName")
-    public void setShowDisplayName(MessageList messageList, int showDisplayName) {
-        messageList.setShowDisplayName(showDisplayName);
+    @ReactProp(name = "isShowDisplayName")
+    public void setShowDisplayName(MessageList messageList, boolean isShowDisplayName) {
+        if (isShowDisplayName) {
+            messageList.setShowDisplayName(1);
+        }
     }
-
-
 
     @SuppressWarnings("unchecked")
     private BroadcastReceiver RCTMsgListReceiver = new BroadcastReceiver() {

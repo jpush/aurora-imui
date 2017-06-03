@@ -79,16 +79,13 @@ MessageList.propTypes = {
   receiveBubbleTextColor: PropTypes.string,
   sendBubbleTextSize: PropTypes.number,
   receiveBubbleTextSize: PropTypes.number,
-  sendBubblePressedColor: PropTypes.string,
-  receiveBubblePressedColor: PropTypes.string,
   sendBubblePadding: PropTypes.object,
   receiveBubblePadding: PropTypes.object,
   dateTextSize: PropTypes.number,
   dateTextColor: PropTypes.string,
   datePadding: PropTypes.number,
-  avatarWidth: PropTypes.number,
-  avatarHeight: PropTypes.number,
-  showDisplayName: PropTypes.bool,
+  avatarSize: PropTypes.object,
+  isShowDisplayName: PropTypes.bool,
   ...View.propTypes
 };
 
