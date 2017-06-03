@@ -1,7 +1,7 @@
 {
     "name": "testhm1",
-    "version": "1.6.40",
-    "description": "a imui plugin for react native application",
+    "version": "1.6.54",
+    "description": "aurora imui plugin for react native application",
     "main": "index.js",
 
     "repository": {
@@ -16,15 +16,18 @@
     "author": "KenChoi, huminiOS",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/jpush/jpush-react-native/issues"
+        "url": "https://github.com/jpush/aurora-imui/issues"
     },
     "files": [
         "iOS/IMUICommon",
         "iOS/IMUIInputView",
         "iOS/IMUIMessageCollectionView",
-        "ReactNative/"
+        "ReactNative/android/",
+        "ReactNative/ios/",
+        "ReactNative/*.js",
+        "ReactNative/package.json"
     ],
-    "homepage": "https://github.com/jpush/jpush-react-native#readme",
+    "homepage": "https://github.com/jpush/aurora-imui",
     "rnpm": {
         "ios": {
             "sharedLibraries": [
