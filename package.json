@@ -1,0 +1,108 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "testhm1@1.6.39",
+        "scope": null,
+        "escapedName": "testhm1",
+        "name": "testhm1",
+        "rawSpec": "1.6.39",
+        "spec": "1.6.39",
+        "type": "version"
+      },
+      "/Users/HuminiOS/Desktop/myproject/reactNative/testp"
+    ]
+  ],
+  "_from": "testhm1@1.6.39",
+  "_id": "testhm1@1.6.39",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/testhm1",
+  "_nodeVersion": "6.6.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/testhm1-1.6.39.tgz_1496480227705_0.12172791082412004"
+  },
+  "_npmUser": {
+    "name": "huminios",
+    "email": "380108184@qq.com"
+  },
+  "_npmVersion": "3.10.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "testhm1@1.6.39",
+    "scope": null,
+    "escapedName": "testhm1",
+    "name": "testhm1",
+    "rawSpec": "1.6.39",
+    "spec": "1.6.39",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/testhm1/-/testhm1-1.6.39.tgz",
+  "_shasum": "b8cdf5dcd1fdadf8d6b5ef3aeffe84a257f2242f",
+  "_shrinkwrap": null,
+  "_spec": "testhm1@1.6.39",
+  "_where": "/Users/HuminiOS/Desktop/myproject/reactNative/testp",
+  "author": {
+    "name": "KenChoi, huminiOS"
+  },
+  "bugs": {
+    "url": "https://github.com/jpush/jpush-react-native/issues"
+  },
+  "dependencies": {},
+  "description": "a imui plugin for react native application",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "b8cdf5dcd1fdadf8d6b5ef3aeffe84a257f2242f",
+    "tarball": "https://registry.npmjs.org/testhm1/-/testhm1-1.6.39.tgz"
+  },
+  "files": [
+    "iOS/IMUICommon",
+    "iOS/IMUIInputView",
+    "iOS/IMUIMessageCollectionView",
+    "ReactNative/"
+  ],
+  "gitHead": "6c8e9e0fdbb7904c9eda29d2b28f99392357e742",
+  "homepage": "https://github.com/jpush/jpush-react-native#readme",
+  "keywords": [
+    "react",
+    "native",
+    "imui"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "huminios",
+      "email": "380108184@qq.com"
+    }
+  ],
+  "name": "testhm1",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/huangminlinux/aurora-imui.git"
+  },
+  "rnpm": {
+    "ios": {
+      "sharedLibraries": [
+        "libz",
+        "CoreTelephony",
+        "CFNetwork",
+        "CoreFoundation",
+        "SystemConfiguration",
+        "Foundation",
+        "UIKit",
+        "CoreGraphics"
+      ]
+    }
+  },
+  "scripts": {},
+  "version": "1.6.39"
+}
