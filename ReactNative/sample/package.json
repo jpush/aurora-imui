@@ -1,0 +1,27 @@
+{
+  "name": "TestRNIMUI",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "aurora-imui-react-native": "^0.3.0",
+    "react": "^15.4.0",
+    "react-native": "^0.41.2",
+    "react-native-material-ui": "^1.12.0",
+    "react-native-popup-dialog": "^0.7.29",
+    "react-timer-mixin": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.22.0",
+    "webpack": "^2.2.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
