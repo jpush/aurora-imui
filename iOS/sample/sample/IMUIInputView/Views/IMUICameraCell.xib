@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="IMUICameraCell" customModule="IMUIChat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="364" height="245"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="364" height="245"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xKF-0A-AxD" customClass="IMUICameraPreviewView" customModule="IMUIChat" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="364" height="245"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sF-mM-jBR">
+                                <rect key="frame" x="25" y="171" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="lAY-BH-WwM"/>
+                                    <constraint firstAttribute="height" constant="60" id="nWM-aq-22g"/>
+                                </constraints>
+                                <state key="normal" image="IMUIAssets.bundle/image/camera_recordVD_btn.png"/>
+                                <state key="selected" image="IMUIAssets.bundle/image/switch_camera_photo_btn.png"/>
+                                <connections>
+                                    <action selector="clickToChangeCameraMode:" destination="gTV-IL-0wX" eventType="touchUpInside" id="nr2-d0-6Ow"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUn-vc-ITV">
+                                <rect key="frame" x="154" y="173" width="56" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="9ss-qg-mPw"/>
+                                    <constraint firstAttribute="width" constant="56" id="VMs-Gz-uuk"/>
+                                </constraints>
+                                <state key="normal" image="IMUIAssets.bundle/image/camera_send_message_btn.png"/>
+                                <state key="selected" image="IMUIAssets.bundle/image/camera_recordVD_big_btn.png"/>
+                                <connections>
+                                    <action selector="clickCameraSwitch:" destination="gTV-IL-0wX" eventType="touchUpInside" id="fMq-8f-Khm"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWo-yF-VkR">
+                                <rect key="frame" x="281" y="171" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="D8R-d0-tFo"/>
+                                    <constraint firstAttribute="height" constant="60" id="WFX-kf-GbQ"/>
+                                </constraints>
+                                <state key="normal" image="IMUIAssets.bundle/image/switch_camera_btn.png"/>
+                                <connections>
+                                    <action selector="clickToSwitchCamera:" destination="gTV-IL-0wX" eventType="touchUpInside" id="s8U-y1-fJ2"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IRu-3Y-U22">
+                                <rect key="frame" x="296" y="8" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Ld1-GH-7BE"/>
+                                    <constraint firstAttribute="width" constant="60" id="bi9-q7-rfd"/>
+                                </constraints>
+                                <state key="normal" image="IMUIAssets.bundle/image/camera_fullscreen_Btn.png"/>
+                                <connections>
+                                    <action selector="clickToAdjustCameraViewSize:" destination="gTV-IL-0wX" eventType="touchUpInside" id="D5N-bo-Tur"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jr9-zZ-ylD">
+                                <rect key="frame" x="154" y="173" width="56" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="8XH-GP-Oix"/>
+                                    <constraint firstAttribute="width" constant="56" id="o3q-Gz-eTq"/>
+                                </constraints>
+                                <state key="normal" image="IMUIAssets.bundle/image/video_record_btn_to_play.png"/>
+                                <state key="selected" image="IMUIAssets.bundle/image/video_record_btn_to_stop.png"/>
+                                <connections>
+                                    <action selector="clickVideoRecordSwitch:" destination="gTV-IL-0wX" eventType="touchUpInside" id="um9-S9-LIN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="FWo-yF-VkR" secondAttribute="trailing" constant="23" id="0jj-xk-eSH"/>
+                            <constraint firstAttribute="trailing" secondItem="IRu-3Y-U22" secondAttribute="trailing" constant="8" id="4Hg-wn-arU"/>
+                            <constraint firstItem="3sF-mM-jBR" firstAttribute="centerY" secondItem="xUn-vc-ITV" secondAttribute="centerY" id="8HB-Fc-Anx"/>
+                            <constraint firstItem="xUn-vc-ITV" firstAttribute="centerX" secondItem="xKF-0A-AxD" secondAttribute="centerX" id="SUN-qz-bAM"/>
+                            <constraint firstItem="IRu-3Y-U22" firstAttribute="top" secondItem="xKF-0A-AxD" secondAttribute="top" constant="8" id="Vva-8b-FMT"/>
+                            <constraint firstItem="3sF-mM-jBR" firstAttribute="leading" secondItem="xKF-0A-AxD" secondAttribute="leading" constant="25" id="Ykf-iK-1yC"/>
+                            <constraint firstItem="FWo-yF-VkR" firstAttribute="centerY" secondItem="xUn-vc-ITV" secondAttribute="centerY" id="jd6-Sx-Rk9"/>
+                            <constraint firstItem="jr9-zZ-ylD" firstAttribute="centerX" secondItem="xUn-vc-ITV" secondAttribute="centerX" id="mm2-FJ-KLM"/>
+                            <constraint firstItem="jr9-zZ-ylD" firstAttribute="centerY" secondItem="xUn-vc-ITV" secondAttribute="centerY" id="sD1-EM-GIw"/>
+                            <constraint firstAttribute="bottom" secondItem="xUn-vc-ITV" secondAttribute="bottom" constant="16" id="x32-VD-Ztl"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="xKF-0A-AxD" secondAttribute="bottom" id="cix-HF-TWC"/>
+                <constraint firstItem="xKF-0A-AxD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="hmX-61-15f"/>
+                <constraint firstAttribute="trailing" secondItem="xKF-0A-AxD" secondAttribute="trailing" id="nLL-4M-1Td"/>
+                <constraint firstItem="xKF-0A-AxD" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="yeE-WW-XtB"/>
+            </constraints>
+            <size key="customSize" width="364" height="245"/>
+            <connections>
+                <outlet property="cameraPreviewView" destination="xKF-0A-AxD" id="6NT-bI-g6G"/>
+                <outlet property="cameraShotBtn" destination="xUn-vc-ITV" id="GxZ-Nb-gFK"/>
+                <outlet property="resizeCameraPreviewBtn" destination="IRu-3Y-U22" id="r9z-2a-uBA"/>
+                <outlet property="switchCameraDeviceBtn" destination="FWo-yF-VkR" id="Bbe-IB-Kzs"/>
+                <outlet property="switchCameraModeBtn" destination="3sF-mM-jBR" id="N57-4k-A3a"/>
+                <outlet property="videoRecordBtn" destination="jr9-zZ-ylD" id="Vkz-YH-U8c"/>
+            </connections>
+            <point key="canvasLocation" x="182" y="149.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="IMUIAssets.bundle/image/camera_fullscreen_Btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/camera_recordVD_big_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/camera_recordVD_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/camera_send_message_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/switch_camera_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/switch_camera_photo_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/video_record_btn_to_play.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/video_record_btn_to_stop.png" width="16" height="16"/>
+    </resources>
+</document>

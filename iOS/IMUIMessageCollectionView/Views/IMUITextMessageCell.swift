@@ -8,9 +8,13 @@
 
 import UIKit
 
-class IMUITextMessageCell: IMUIBaseMessageCell {
+open class IMUITextMessageCell: IMUIBaseMessageCell {
 
-
+  open static var outGoingTextColor = UIColor(netHex: 0x7587A8)
+  open static var inComingTextColor = UIColor.white
+  
+  open static var outGoingTextFont = UIFont.systemFont(ofSize: 18)
+  open static var inComingTextFont = UIFont.systemFont(ofSize: 18)
   
   var textMessageLable = IMUITextView()
   
@@ -18,14 +22,13 @@ class IMUITextMessageCell: IMUIBaseMessageCell {
     super.init(frame: frame)
     self.bubbleView.addSubview(textMessageLable)
     textMessageLable.numberOfLines = 0
-    textMessageLable.font = UIFont.systemFont(ofSize: 18)
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func layoutSubviews() {
+  override open func layoutSubviews() {
     super.layoutSubviews()
   }
   
@@ -41,9 +44,11 @@ class IMUITextMessageCell: IMUIBaseMessageCell {
   func layoutToText(with text: String, isOutGoing: Bool) {
     textMessageLable.text = text
     if isOutGoing {
-      textMessageLable.textColor = UIColor(netHex: 0x7587A8)
+      textMessageLable.textColor = IMUITextMessageCell.outGoingTextColor
+      textMessageLable.font = IMUITextMessageCell.outGoingTextFont
     } else {
-      textMessageLable.textColor = UIColor.white
+      textMessageLable.textColor = IMUITextMessageCell.inComingTextColor
+      textMessageLable.font = IMUITextMessageCell.inComingTextFont
     }
   }
   

@@ -190,6 +190,13 @@ public class MessageListStyle extends Style {
         return showDisplayName;
     }
 
+    public void setReceiveBubbleDrawable(int resId) {
+        Drawable drawable = ContextCompat.getDrawable(mContext, resId);
+        if (drawable != null) {
+            this.receiveBubbleDrawable = resId;
+        }
+    }
+
     public Drawable getReceiveBubbleDrawable() {
         if (receiveBubbleDrawable == -1) {
             return getMessageSelector(receiveBubbleColor, receiveBubbleSelectedColor, receiveBubblePressedColor,
@@ -209,6 +216,140 @@ public class MessageListStyle extends Style {
 
     public int getReceiveBubbleSelectedColor() {
         return receiveBubbleSelectedColor;
+    }
+
+    public void setDateTextSize(float dateTextSize) {
+        this.dateTextSize = dateTextSize;
+    }
+
+    public void setDateTextColor(int dateTextColor) {
+        this.dateTextColor = dateTextColor;
+    }
+
+    public void setDatePadding(int datePadding) {
+        this.datePadding = datePadding;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    public void setAvatarWidth(int avatarWidth) {
+        this.avatarWidth = avatarWidth;
+    }
+
+    public void setAvatarHeight(int avatarHeight) {
+        this.avatarHeight = avatarHeight;
+    }
+
+    public void setShowDisplayName(int showDisplayName) {
+        this.showDisplayName = showDisplayName;
+    }
+
+    public void setReceiveBubbleColor(int receiveBubbleColor) {
+        this.receiveBubbleColor = receiveBubbleColor;
+    }
+
+    public void setReceiveBubblePressedColor(int receiveBubblePressedColor) {
+        this.receiveBubblePressedColor = receiveBubblePressedColor;
+    }
+
+    public void setReceiveBubbleSelectedColor(int receiveBubbleSelectedColor) {
+        this.receiveBubbleSelectedColor = receiveBubbleSelectedColor;
+    }
+
+    public void setReceiveBubbleTextSize(float receiveBubbleTextSize) {
+        this.receiveBubbleTextSize = receiveBubbleTextSize;
+    }
+
+    public void setReceiveBubbleTextColor(int receiveBubbleTextColor) {
+        this.receiveBubbleTextColor = receiveBubbleTextColor;
+    }
+
+    public void setReceiveBubblePaddingLeft(int receiveBubblePaddingLeft) {
+        this.receiveBubblePaddingLeft = receiveBubblePaddingLeft;
+    }
+
+    public void setReceiveBubblePaddingTop(int receiveBubblePaddingTop) {
+        this.receiveBubblePaddingTop = receiveBubblePaddingTop;
+    }
+
+    public void setReceiveBubblePaddingRight(int receiveBubblePaddingRight) {
+        this.receiveBubblePaddingRight = receiveBubblePaddingRight;
+    }
+
+    public void setReceiveBubblePaddingBottom(int receiveBubblePaddingBottom) {
+        this.receiveBubblePaddingBottom = receiveBubblePaddingBottom;
+    }
+
+    public void setSendBubbleColor(int sendBubbleColor) {
+        this.sendBubbleColor = sendBubbleColor;
+    }
+
+    public void setSendBubblePressedColor(int sendBubblePressedColor) {
+        this.sendBubblePressedColor = sendBubblePressedColor;
+    }
+
+    public void setSendBubbleSelectedColor(int sendBubbleSelectedColor) {
+        this.sendBubbleSelectedColor = sendBubbleSelectedColor;
+    }
+
+    public void setSendBubbleTextSize(float sendBubbleTextSize) {
+        this.sendBubbleTextSize = sendBubbleTextSize;
+    }
+
+    public void setSendBubbleTextColor(int sendBubbleTextColor) {
+        this.sendBubbleTextColor = sendBubbleTextColor;
+    }
+
+    public void setSendBubblePaddingLeft(int sendBubblePaddingLeft) {
+        this.sendBubblePaddingLeft = sendBubblePaddingLeft;
+    }
+
+    public void setSendBubblePaddingTop(int sendBubblePaddingTop) {
+        this.sendBubblePaddingTop = sendBubblePaddingTop;
+    }
+
+    public void setSendBubblePaddingRight(int sendBubblePaddingRight) {
+        this.sendBubblePaddingRight = sendBubblePaddingRight;
+    }
+
+    public void setSendBubblePaddingBottom(int sendBubblePaddingBottom) {
+        this.sendBubblePaddingBottom = sendBubblePaddingBottom;
+    }
+
+    public void setSendVoiceDrawable(int sendVoiceDrawable) {
+        Drawable drawable = ContextCompat.getDrawable(mContext, sendVoiceDrawable);
+        if (drawable != null) {
+            this.sendVoiceDrawable = sendVoiceDrawable;
+        }
+    }
+
+    public void setReceiveVoiceDrawable(int receiveVoiceDrawable) {
+        Drawable drawable = ContextCompat.getDrawable(mContext, receiveVoiceDrawable);
+        if (drawable != null) {
+            this.receiveVoiceDrawable = receiveVoiceDrawable;
+        }
+    }
+
+    public void setPlaySendVoiceAnim(int playSendVoiceAnim) {
+        this.playSendVoiceAnim = playSendVoiceAnim;
+    }
+
+    public void setPlayReceiveVoiceAnim(int playReceiveVoiceAnim) {
+        this.playReceiveVoiceAnim = playReceiveVoiceAnim;
+    }
+
+    public void setBubbleMaxWidth(float bubbleMaxWidth) {
+        this.bubbleMaxWidth = bubbleMaxWidth;
+    }
+
+    public void setSendingProgressDrawable(Drawable sendingProgressDrawable) {
+        this.sendingProgressDrawable = sendingProgressDrawable;
+    }
+
+    public void setSendingIndeterminateDrawable(Drawable sendingIndeterminateDrawable) {
+        this.sendingIndeterminateDrawable = sendingIndeterminateDrawable;
     }
 
     public float getReceiveBubbleTextSize() {
@@ -233,6 +374,13 @@ public class MessageListStyle extends Style {
 
     public int getReceiveBubblePaddingBottom() {
         return receiveBubblePaddingBottom;
+    }
+
+    public void setSendBubbleDrawable(int resId) {
+        Drawable drawable = ContextCompat.getDrawable(mContext, resId);
+        if (drawable != null) {
+            this.sendBubbleDrawable = resId;
+        }
     }
 
     public Drawable getSendBubbleDrawable() {

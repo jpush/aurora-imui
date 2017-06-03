@@ -1,0 +1,45 @@
+{
+    "name": "aurora-imui-react-native",
+    "version": "0.3.0",
+    "description": "aurora imui plugin for react native application",
+    "main": "index.js",
+
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:jpush/aurora-imui.git"
+    },
+    "keywords": [
+        "react",
+        "native",
+        "imui"
+    ],
+    "author": "KenChoi, huminiOS",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jpush/aurora-imui/issues"
+    },
+    "files": [
+        "iOS/IMUICommon",
+        "iOS/IMUIInputView",
+        "iOS/IMUIMessageCollectionView",
+        "ReactNative/android/",
+        "ReactNative/ios/",
+        "ReactNative/*.js",
+        "ReactNative/package.json"
+    ],
+    "homepage": "https://github.com/jpush/aurora-imui",
+    "rnpm": {
+        "ios": {
+            "sharedLibraries": [
+                "libz",
+                "CoreTelephony",
+                "CFNetwork",
+                "CoreFoundation",
+                "SystemConfiguration",
+                "Foundation",
+                "UIKit",
+                "CoreGraphics"
+            ]
+        }
+    }
+}

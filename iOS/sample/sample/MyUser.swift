@@ -9,10 +9,10 @@
 import Foundation
 import UIKit
 
-class MyUser: IMUIUserProtocol {
+class MyUser: NSObject, IMUIUserProtocol {
   
-  public init() {
-    
+  public override init() {
+    super.init()
   }
   
   func userId() -> String {

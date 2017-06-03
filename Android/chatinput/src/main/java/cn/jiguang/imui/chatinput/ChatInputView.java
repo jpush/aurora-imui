@@ -264,17 +264,17 @@ public class ChatInputView extends LinearLayout
         mChatInput.setTextSize(TypedValue.COMPLEX_UNIT_PX, mStyle.getInputTextSize());
         mChatInput.setTextColor(mStyle.getInputTextColor());
         mChatInput.setHintTextColor(mStyle.getInputHintColor());
-        mChatInput.setBackground(mStyle.getInputEditTextBg());
+        mChatInput.setBackgroundResource(mStyle.getInputEditTextBg());
         mInputMarginLeft.getLayoutParams().width = mStyle.getInputMarginLeft();
         mInputMarginRight.getLayoutParams().width = mStyle.getInputMarginRight();
-        mVoiceBtn.setImageDrawable(mStyle.getVoiceBtnIcon());
+        mVoiceBtn.setImageResource(mStyle.getVoiceBtnIcon());
         mVoiceBtn.setBackground(mStyle.getVoiceBtnBg());
         mPhotoBtn.setBackground(mStyle.getPhotoBtnBg());
-        mPhotoBtn.setImageDrawable(mStyle.getPhotoBtnIcon());
+        mPhotoBtn.setImageResource(mStyle.getPhotoBtnIcon());
         mCameraBtn.setBackground(mStyle.getCameraBtnBg());
-        mCameraBtn.setImageDrawable(mStyle.getCameraBtnIcon());
+        mCameraBtn.setImageResource(mStyle.getCameraBtnIcon());
         mSendBtn.setBackground(mStyle.getSendBtnBg());
-        mSendBtn.setImageDrawable(mStyle.getSendBtnIcon());
+        mSendBtn.setImageResource(mStyle.getSendBtnIcon());
         mSendCountTv.setBackground(mStyle.getSendCountBg());
 
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">IMUIRNExample</string>
+    <string name="input_hint">Send message</string>
+</resources>

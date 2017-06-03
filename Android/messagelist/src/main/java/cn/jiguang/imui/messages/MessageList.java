@@ -58,4 +58,130 @@ public class MessageList extends RecyclerView {
         addOnScrollListener(new ScrollMoreListener(layoutManager, adapter));
         super.setAdapter(adapter);
     }
+
+    public void setSendBubbleDrawable(int resId) {
+        mMsgListStyle.setSendBubbleDrawable(resId);
+    }
+
+    public void setSendBubbleColor(int color) {
+        mMsgListStyle.setSendBubbleColor(color);
+    }
+
+    public void setSendBubblePressedColor(int color) {
+        mMsgListStyle.setSendBubblePressedColor(color);
+    }
+
+    public void setSendBubbleTextSize(int size) {
+        mMsgListStyle.setSendBubbleTextSize(size);
+    }
+
+    public void setSendBubbleTextColor(int color) {
+        mMsgListStyle.setSendBubbleTextColor(color);
+    }
+
+    public void setSendBubblePaddingLeft(int paddingLeft) {
+        mMsgListStyle.setSendBubblePaddingLeft(paddingLeft);
+    }
+
+    public void setSendBubblePaddingTop(int paddingTop) {
+        mMsgListStyle.setSendBubblePaddingTop(paddingTop);
+    }
+
+    public void setSendBubblePaddingRight(int paddingRight) {
+        mMsgListStyle.setSendBubblePaddingRight(paddingRight);
+    }
+
+    public void setSendBubblePaddingBottom(int paddingBottom) {
+        mMsgListStyle.setSendBubblePaddingBottom(paddingBottom);
+    }
+
+    public void setReceiveBubbleDrawable(int resId) {
+        mMsgListStyle.setReceiveBubbleDrawable(resId);
+    }
+
+    public void setReceiveBubbleColor(int color) {
+        mMsgListStyle.setReceiveBubbleColor(color);
+    }
+
+    public void setReceiveBubblePressedColor(int color) {
+        mMsgListStyle.setReceiveBubblePressedColor(color);
+    }
+
+    public void setReceiveBubbleTextSize(int size) {
+        mMsgListStyle.setReceiveBubbleTextSize(size);
+    }
+
+    public void setReceiveBubbleTextColor(int color) {
+        mMsgListStyle.setReceiveBubbleTextColor(color);
+    }
+
+    public void setReceiveBubblePaddingLeft(int paddingLeft) {
+        mMsgListStyle.setReceiveBubblePaddingLeft(paddingLeft);
+    }
+
+    public void setReceiveBubblePaddingTop(int paddingTop) {
+        mMsgListStyle.setReceiveBubblePaddingTop(paddingTop);
+    }
+
+    public void setReceiveBubblePaddingRight(int paddingRight) {
+        mMsgListStyle.setReceiveBubblePaddingRight(paddingRight);
+    }
+
+    public void setReceiveBubblePaddingBottom(int paddingBottom) {
+        mMsgListStyle.setReceiveBubblePaddingBottom(paddingBottom);
+    }
+
+    public void setDateTextSize(int size) {
+        mMsgListStyle.setDateTextSize(size);
+    }
+
+    public void setDateTextColor(int color) {
+        mMsgListStyle.setDateTextColor(color);
+    }
+
+    public void setDatePadding(int padding) {
+        mMsgListStyle.setDatePadding(padding);
+    }
+
+    public void setAvatarWidth(int width) {
+        mMsgListStyle.setAvatarWidth(width);
+    }
+
+    public void setAvatarHeight(int height) {
+        mMsgListStyle.setAvatarHeight(height);
+    }
+
+    public void setShowDisplayName(int showDisplayName) {
+        mMsgListStyle.setShowDisplayName(showDisplayName);
+    }
+
+    public void setSendVoiceDrawable(int resId) {
+        mMsgListStyle.setSendVoiceDrawable(resId);
+    }
+
+    public void setReceiveVoiceDrawable(int resId) {
+        mMsgListStyle.setReceiveVoiceDrawable(resId);
+    }
+
+    public void setPlaySendVoiceAnim(int playSendVoiceAnim) {
+        mMsgListStyle.setPlaySendVoiceAnim(playSendVoiceAnim);
+    }
+
+    public void setPlayReceiveVoiceAnim(int playReceiveVoiceAnim) {
+        mMsgListStyle.setPlayReceiveVoiceAnim(playReceiveVoiceAnim);
+    }
+
+    public void setBubbleMaxWidth(float maxWidth) {
+        mMsgListStyle.setBubbleMaxWidth(maxWidth);
+    }
+
+    public void setSendingProgressDrawable(String drawableName, String packageName) {
+        int resId = getResources().getIdentifier(drawableName, "drawable", packageName);
+        mMsgListStyle.setSendingProgressDrawable(getResources().getDrawable(resId));
+    }
+
+    public void setSendingIndeterminateDrawable(String drawableName, String packageName) {
+        int resId = getResources().getIdentifier(drawableName, "drawable", packageName);
+        mMsgListStyle.setSendingIndeterminateDrawable(getResources().getDrawable(resId));
+    }
 }

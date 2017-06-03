@@ -12,7 +12,7 @@ public class ChatInputStyle extends Style {
 
     private static final int DEFAULT_MAX_LINES = 4;
 
-    private Drawable inputEditTextBg;
+    private int inputEditTextBg;
 
     private int inputMarginLeft;
     private int inputMarginRight;
@@ -30,26 +30,27 @@ public class ChatInputStyle extends Style {
     private int inputDefaultPaddingTop;
     private int inputDefaultPaddingBottom;
 
-    private Drawable inputCursorDrawable;
+    private int inputCursorDrawable;
 
     private Drawable voiceBtnBg;
-    private Drawable voiceBtnIcon;
+    private int voiceBtnIcon;
 
     private Drawable photoBtnBg;
-    private Drawable photoBtnIcon;
+    private int photoBtnIcon;
 
     private Drawable cameraBtnBg;
-    private Drawable cameraBtnIcon;
+    private int cameraBtnIcon;
 
     private Drawable sendBtnBg;
-    private Drawable sendBtnIcon;
+    private int sendBtnIcon;
     private Drawable sendCountBg;
 
     public static ChatInputStyle parse(Context context, AttributeSet attrs) {
         ChatInputStyle style = new ChatInputStyle(context, attrs);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChatInputView);
-        style.inputEditTextBg = typedArray.getDrawable(R.styleable.ChatInputView_inputEditTextBg);
+        style.inputEditTextBg = typedArray.getResourceId(R.styleable.ChatInputView_inputEditTextBg,
+                R.drawable.aurora_edittext_bg);
         style.inputMarginLeft = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginLeft,
                 style.getDimension(R.dimen.aurora_margin_input_left));
         style.inputMarginRight = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginRight,
@@ -63,16 +64,17 @@ public class ChatInputStyle extends Style {
                 style.getColor(R.color.aurora_text_color_input));
         style.inputHintColor = typedArray.getColor(R.styleable.ChatInputView_inputHintColor,
                 style.getColor(R.color.aurora_hint_color_input));
-        style.inputCursorDrawable = typedArray.getDrawable(R.styleable.ChatInputView_inputCursorDrawable);
+        style.inputCursorDrawable = typedArray.getResourceId(R.styleable.ChatInputView_inputCursorDrawable,
+                R.drawable.aurora_edittext_cursor_bg);
 
         style.voiceBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_voiceBtnBg);
-        style.voiceBtnIcon = typedArray.getDrawable(R.styleable.ChatInputView_voiceBtnIcon);
+        style.voiceBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_voiceBtnIcon, R.drawable.aurora_menuitem_mic);
         style.photoBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_photoBtnBg);
-        style.photoBtnIcon = typedArray.getDrawable(R.styleable.ChatInputView_photoBtnIcon);
+        style.photoBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_photoBtnIcon, R.drawable.aurora_menuitem_photo);
         style.cameraBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_cameraBtnBg);
-        style.cameraBtnIcon = typedArray.getDrawable(R.styleable.ChatInputView_cameraBtnIcon);
+        style.cameraBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_cameraBtnIcon, R.drawable.aurora_menuitem_camera);
         style.sendBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_sendBtnBg);
-        style.sendBtnIcon = typedArray.getDrawable(R.styleable.ChatInputView_sendBtnIcon);
+        style.sendBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_sendBtnIcon, R.drawable.aurora_menuitem_send);
         style.sendCountBg = typedArray.getDrawable(R.styleable.ChatInputView_sendCountBg);
         typedArray.recycle();
 
@@ -92,11 +94,11 @@ public class ChatInputStyle extends Style {
         return this.voiceBtnBg;
     }
 
-    public Drawable getVoiceBtnIcon() {
+    public int getVoiceBtnIcon() {
         return this.voiceBtnIcon;
     }
 
-    public Drawable getInputEditTextBg() {
+    public int getInputEditTextBg() {
         return this.inputEditTextBg;
     }
 
@@ -132,7 +134,7 @@ public class ChatInputStyle extends Style {
         return this.inputHintColor;
     }
 
-    public Drawable getInputCursorDrawable() {
+    public int getInputCursorDrawable() {
         return this.inputCursorDrawable;
     }
 
@@ -140,7 +142,7 @@ public class ChatInputStyle extends Style {
         return photoBtnBg;
     }
 
-    public Drawable getPhotoBtnIcon() {
+    public int getPhotoBtnIcon() {
         return photoBtnIcon;
     }
 
@@ -148,11 +150,11 @@ public class ChatInputStyle extends Style {
         return cameraBtnBg;
     }
 
-    public Drawable getCameraBtnIcon() {
+    public int getCameraBtnIcon() {
         return cameraBtnIcon;
     }
 
-    public Drawable getSendBtnIcon() {
+    public int getSendBtnIcon() {
         return sendBtnIcon;
     }
 

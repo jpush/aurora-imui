@@ -12,7 +12,7 @@ import UIKit
 /**
  *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to display message cell item
  */
-public protocol IMUIMessageCellLayoutProtocal {
+@objc public protocol IMUIMessageCellLayoutProtocal: NSObjectProtocol {
   
   /**
    *  return message cell height
@@ -53,6 +53,11 @@ public protocol IMUIMessageCellLayoutProtocal {
    *  return statusView's frame
    */
   var statusViewFrame: CGRect { get }
+  
+  /**
+   *  return nameLabel's frame
+   */
+  var nameLabelFrame: CGRect { get }
 }
 
 //  IMUIMessageCellLayoutProtocal default value
