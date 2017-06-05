@@ -10,7 +10,7 @@ import UIKit
 
 
 
-open class RNTMessageModel: IMUIMessageModel {
+open class RCTMessageModel: IMUIMessageModel {
   static let kMsgKeyStatus = "status"
   static let kMsgStatusSuccess = "send_succeed"
   static let kMsgStatusSending = "send_going"
@@ -54,7 +54,7 @@ open class RNTMessageModel: IMUIMessageModel {
     return super.resizableBubbleImage
   }
   
-  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RNTUser, isOutGoing: Bool, time: String, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocal?) {
+  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocal?) {
     
     self.myTextMessage = text
     self.mediaPath = mediaPath
@@ -64,12 +64,12 @@ open class RNTMessageModel: IMUIMessageModel {
   
   public convenience init(messageDic: NSDictionary) {
     
-    let msgId = messageDic.object(forKey: RNTMessageModel.kMsgKeyMsgId) as! String
-    let msgTypeString = messageDic.object(forKey: RNTMessageModel.kMsgKeyMsgType) as? String
-    let statusString = messageDic.object(forKey: RNTMessageModel.kMsgKeyStatus) as? String
-    let isOutgoing = messageDic.object(forKey: RNTMessageModel.kMsgKeyisOutgoing) as? Bool
+    let msgId = messageDic.object(forKey: RCTMessageModel.kMsgKeyMsgId) as! String
+    let msgTypeString = messageDic.object(forKey: RCTMessageModel.kMsgKeyMsgType) as? String
+    let statusString = messageDic.object(forKey: RCTMessageModel.kMsgKeyStatus) as? String
+    let isOutgoing = messageDic.object(forKey: RCTMessageModel.kMsgKeyisOutgoing) as? Bool
     
-    let timeString = messageDic.object(forKey: RNTMessageModel.ktimeString) as? String
+    let timeString = messageDic.object(forKey: RCTMessageModel.ktimeString) as? String
     var needShowTime = false
     if let timeString = timeString {
       if timeString != "" {
@@ -77,14 +77,14 @@ open class RNTMessageModel: IMUIMessageModel {
       }
     }
 
-    var mediaPath = messageDic.object(forKey: RNTMessageModel.kMsgKeyMediaFilePath) as? String
+    var mediaPath = messageDic.object(forKey: RCTMessageModel.kMsgKeyMediaFilePath) as? String
     if let _ = mediaPath {
       
     } else {
       mediaPath = ""
     }
     
-    var text = messageDic.object(forKey: RNTMessageModel.kMsgKeyText) as? String
+    var text = messageDic.object(forKey: RCTMessageModel.kMsgKeyText) as? String
     if let _ = text {
       
     } else {
@@ -93,29 +93,29 @@ open class RNTMessageModel: IMUIMessageModel {
     
     var msgType: IMUIMessageType?
     // TODO: duration
-    let userDic = messageDic.object(forKey: RNTMessageModel.kMsgKeyFromUser) as? NSDictionary
-    let user = RNTUser(userDic: userDic!)
+    let userDic = messageDic.object(forKey: RCTMessageModel.kMsgKeyFromUser) as? NSDictionary
+    let user = RCTUser(userDic: userDic!)
     
     var textLayout: MyMessageCellLayout?
     
     if let typeString = msgTypeString {
-      if typeString == RNTMessageModel.kMsgTypeText {
+      if typeString == RCTMessageModel.kMsgTypeText {
         msgType = .text
         textLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing!,
                                        isNeedShowTime: needShowTime,
-                                       bubbleContentSize: RNTMessageModel.calculateTextContentSize(text: text!, isOutGoing: isOutgoing!))
+                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text!, isOutGoing: isOutgoing!))
       }
       
-      if typeString == RNTMessageModel.kMsgTypeImage {
+      if typeString == RCTMessageModel.kMsgTypeImage {
         msgType = .image
       }
       
-      if typeString == RNTMessageModel.kMsgTypeVoice {
+      if typeString == RCTMessageModel.kMsgTypeVoice {
         
         msgType = .voice
       }
       
-      if typeString == RNTMessageModel.kMsgTypeVideo {
+      if typeString == RCTMessageModel.kMsgTypeVideo {
         msgType = .video
       }
     }
@@ -123,23 +123,23 @@ open class RNTMessageModel: IMUIMessageModel {
     var msgStatus = IMUIMessageStatus.success
     if let statusString = statusString {
       
-      if statusString == RNTMessageModel.kMsgStatusSuccess {
+      if statusString == RCTMessageModel.kMsgStatusSuccess {
         msgStatus = .success
       }
       
-      if statusString == RNTMessageModel.kMsgStatusFail {
+      if statusString == RCTMessageModel.kMsgStatusFail {
         msgStatus = .failed
       }
       
-      if statusString == RNTMessageModel.kMsgStatusSending {
+      if statusString == RCTMessageModel.kMsgStatusSending {
         msgStatus = .sending
       }
       
-      if statusString == RNTMessageModel.kMsgStatusDownloadFail {
+      if statusString == RCTMessageModel.kMsgStatusDownloadFail {
         msgStatus = .mediaDownloadFail
       }
       
-      if statusString == RNTMessageModel.kMsgStatusDownloading {
+      if statusString == RCTMessageModel.kMsgStatusDownloading {
         msgStatus = .mediaDownloading
       }
       
@@ -149,24 +149,24 @@ open class RNTMessageModel: IMUIMessageModel {
 
   }
   
-  convenience init(msgId: String, text: String, isOutGoing: Bool, user: RNTUser) {
+  convenience init(msgId: String, text: String, isOutGoing: Bool, user: RCTUser) {
 
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
                                        isNeedShowTime: false,
-                                       bubbleContentSize: RNTMessageModel.calculateTextContentSize(text: text, isOutGoing: isOutGoing))
+                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text, isOutGoing: isOutGoing))
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
     self.init(msgId: msgId, messageStatus: .failed, fromUser: user, isOutGoing: isOutGoing, time: "", status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
   }
 
-  convenience init(msgId: String, voicePath: String, isOutGoing: Bool, user: RNTUser) {
+  convenience init(msgId: String, voicePath: String, isOutGoing: Bool, user: RCTUser) {
     self.init(msgId: msgId, messageStatus: .sending, fromUser: user, isOutGoing: isOutGoing, time: "", status: .success, type: .voice, text: "", mediaPath: voicePath, layout:  nil)
   }
   
-  convenience init(msgId: String, imagePath: String, isOutGoing: Bool, user: RNTUser) {
+  convenience init(msgId: String, imagePath: String, isOutGoing: Bool, user: RCTUser) {
     self.init(msgId: msgId, messageStatus: .sending, fromUser: user, isOutGoing: isOutGoing, time: "", status: .success, type: .image, text: "", mediaPath: imagePath, layout:  nil)
   }
   
-  convenience init(msgId: String, videoPath: String, isOutGoing: Bool, user: RNTUser) {
+  convenience init(msgId: String, videoPath: String, isOutGoing: Bool, user: RCTUser) {
     self.init(msgId: msgId, messageStatus: .sending, fromUser: user, isOutGoing: isOutGoing, time: "", status: .success, type: .video, text: "", mediaPath: videoPath, layout:  nil)
   }
   
@@ -186,27 +186,27 @@ open class RNTMessageModel: IMUIMessageModel {
     get {
       
       var messageDic = NSMutableDictionary()
-      messageDic.setValue(self.msgId, forKey: RNTMessageModel.kMsgKeyMsgId)
-      messageDic.setValue(self.isOutGoing, forKey: RNTMessageModel.kMsgKeyisOutgoing)
+      messageDic.setValue(self.msgId, forKey: RCTMessageModel.kMsgKeyMsgId)
+      messageDic.setValue(self.isOutGoing, forKey: RCTMessageModel.kMsgKeyisOutgoing)
 
       switch self.type {
       case .text:
-        messageDic.setValue(RNTMessageModel.kMsgTypeText, forKey: RNTMessageModel.kMsgKeyMsgType)
-        messageDic.setValue(self.text(), forKey: RNTMessageModel.kMsgKeyText)
+        messageDic.setValue(RCTMessageModel.kMsgTypeText, forKey: RCTMessageModel.kMsgKeyMsgType)
+        messageDic.setValue(self.text(), forKey: RCTMessageModel.kMsgKeyText)
         break
       case .image:
-        messageDic.setValue(RNTMessageModel.kMsgTypeImage, forKey: RNTMessageModel.kMsgKeyMsgType)
-        messageDic.setValue(self.mediaPath, forKey: RNTMessageModel.kMsgKeyMediaFilePath)
+        messageDic.setValue(RCTMessageModel.kMsgTypeImage, forKey: RCTMessageModel.kMsgKeyMsgType)
+        messageDic.setValue(self.mediaPath, forKey: RCTMessageModel.kMsgKeyMediaFilePath)
         break
       case .voice:
-        messageDic.setValue(RNTMessageModel.kMsgTypeVoice, forKey: RNTMessageModel.kMsgKeyMsgType)
-        messageDic.setValue(self.mediaPath, forKey: RNTMessageModel.kMsgKeyMediaFilePath)
-        messageDic.setValue(self.duration, forKey: RNTMessageModel.kMsgKeyDuration)
+        messageDic.setValue(RCTMessageModel.kMsgTypeVoice, forKey: RCTMessageModel.kMsgKeyMsgType)
+        messageDic.setValue(self.mediaPath, forKey: RCTMessageModel.kMsgKeyMediaFilePath)
+        messageDic.setValue(self.duration, forKey: RCTMessageModel.kMsgKeyDuration)
         break
       case .video:
-        messageDic.setValue(RNTMessageModel.kMsgTypeVideo, forKey: RNTMessageModel.kMsgKeyMsgType)
-        messageDic.setValue(self.mediaPath, forKey: RNTMessageModel.kMsgKeyMediaFilePath)
-        messageDic.setValue(self.duration, forKey: RNTMessageModel.kMsgKeyDuration)
+        messageDic.setValue(RCTMessageModel.kMsgTypeVideo, forKey: RCTMessageModel.kMsgKeyMsgType)
+        messageDic.setValue(self.mediaPath, forKey: RCTMessageModel.kMsgKeyMediaFilePath)
+        messageDic.setValue(self.duration, forKey: RCTMessageModel.kMsgKeyDuration)
         break
       case .custom:
         break
@@ -218,19 +218,19 @@ open class RNTMessageModel: IMUIMessageModel {
       var msgStatus = ""
       switch self.status {
       case .success:
-        msgStatus = RNTMessageModel.kMsgStatusSuccess
+        msgStatus = RCTMessageModel.kMsgStatusSuccess
         break
       case .sending:
-        msgStatus = RNTMessageModel.kMsgStatusSending
+        msgStatus = RCTMessageModel.kMsgStatusSending
         break
       case .failed:
-        msgStatus = RNTMessageModel.kMsgStatusFail
+        msgStatus = RCTMessageModel.kMsgStatusFail
         break
       case .mediaDownloading:
-        msgStatus = RNTMessageModel.kMsgStatusDownloading
+        msgStatus = RCTMessageModel.kMsgStatusDownloading
         break
       case .mediaDownloadFail:
-        msgStatus = RNTMessageModel.kMsgStatusDownloadFail
+        msgStatus = RCTMessageModel.kMsgStatusDownloadFail
         break
       }
       
@@ -238,7 +238,7 @@ open class RNTMessageModel: IMUIMessageModel {
       let userDic = NSMutableDictionary()
       userDic.setValue(self.fromUser.userId(), forKey: "userId")
       userDic.setValue(self.fromUser.displayName(), forKey: "diaplayName")
-      let user = self.fromUser as! RNTUser
+      let user = self.fromUser as! RCTUser
       userDic.setValue(user.rAvatarFilePath, forKey: "avatarPath")
       
       messageDic.setValue(userDic, forKey: "fromUser")

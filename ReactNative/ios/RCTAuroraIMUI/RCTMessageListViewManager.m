@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <React/RCTViewManager.h>
-#import "RNTMessageListView.h"
-#import <RNTAuroraIMUI/RNTAuroraIMUI-Swift.h>
+#import "RCTMessageListView.h"
+#import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
 
-@interface RNTMessageListViewManager : RCTViewManager <IMUIMessageMessageCollectionViewDelegate>
+@interface RCTMessageListViewManager : RCTViewManager <IMUIMessageMessageCollectionViewDelegate>
 
 //@property (nonatomic, copy) RCTBubblingEventBlock messageListEventCallBack;
-@property (strong, nonatomic)RNTMessageListView *messageList;
+@property (strong, nonatomic)RCTMessageListView *messageList;
 
 /// Tells the delegate that user tap message cell
 - (void)messageCollectionView:(UICollectionView * _Nonnull)_ forItemAt:(NSIndexPath * _Nonnull)forItemAt model:(id <IMUIMessageModelProtocol> _Nonnull)model;
@@ -33,7 +33,7 @@
 
 @end
 
-@implementation RNTMessageListViewManager
+@implementation RCTMessageListViewManager
 
 RCT_EXPORT_VIEW_PROPERTY(onAvatarClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onMsgClick, RCTBubblingEventBlock)
@@ -52,10 +52,10 @@ RCT_EXPORT_MODULE()
 {
 //  let bundle = Bundle.imuiBundle()
 //  view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as! UIView
-  NSBundle *bundle = [NSBundle bundleForClass: [RNTMessageListView class]];
+  NSBundle *bundle = [NSBundle bundleForClass: [RCTMessageListView class]];
   
   
-  _messageList = [[bundle loadNibNamed:@"RNTMessageListView" owner:self options: nil] objectAtIndex:0];
+  _messageList = [[bundle loadNibNamed:@"RCTMessageListView" owner:self options: nil] objectAtIndex:0];
   _messageList.messageList.delegate = self;
   
   
@@ -64,7 +64,7 @@ RCT_EXPORT_MODULE()
   
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextColor, NSString, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
   if (color != nil) {
@@ -73,7 +73,7 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextColor, NSString, RNTMessageListView) {
   
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextColor, NSString, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:@"colorString"];
   if (color != nil) {
@@ -81,23 +81,23 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextColor, NSString, RNTMessageListView) {
   }
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextSize, NSNumber, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextSize, NSNumber, RCTMessageListView) {
   NSNumber *textSize = [RCTConvert NSNumber: json];
   IMUITextMessageCell.outGoingTextFont = [UIFont systemFontOfSize:[textSize floatValue]];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextSize, NSNumber, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextSize, NSNumber, RCTMessageListView) {
   NSNumber *textSize = [RCTConvert NSNumber: json];
   IMUITextMessageCell.inComingTextFont = [UIFont systemFontOfSize:[textSize floatValue]];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(dateTextSize, NSNumber, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(dateTextSize, NSNumber, RCTMessageListView) {
   NSNumber *dateTextSize = [RCTConvert NSNumber: json];
   IMUIMessageCellLayout.timeStringFont = [UIFont systemFontOfSize: [dateTextSize floatValue]];
   
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(dateTextColor, NSString, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(dateTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:@"colorString"];
   if (color != nil) {
@@ -105,30 +105,30 @@ RCT_CUSTOM_VIEW_PROPERTY(dateTextColor, NSString, RNTMessageListView) {
   }
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(avatarSize, NSDictionary, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(avatarSize, NSDictionary, RCTMessageListView) {
   NSDictionary *avatarSize = [RCTConvert NSDictionary: json];
   NSNumber *width = avatarSize[@"width"];
   NSNumber *height = avatarSize[@"height"];
   IMUIMessageCellLayout.avatarSize = CGSizeMake([width floatValue], [height floatValue]);
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(isShowDisplayName, BOOL, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(isShowDisplayName, BOOL, RCTMessageListView) {
   BOOL needShowDisPlayName = [RCTConvert BOOL: json];
   IMUIMessageCellLayout.isNeedShowInComingName = needShowDisPlayName;
   IMUIMessageCellLayout.isNeedShowOutGoingName = needShowDisPlayName;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(isShowOutgoingDisplayName, BOOL, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(isShowOutgoingDisplayName, BOOL, RCTMessageListView) {
   BOOL needShowDisPlayName = [RCTConvert BOOL: json];
   IMUIMessageCellLayout.isNeedShowOutGoingName = needShowDisPlayName;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(isShowIncommingDisplayName, BOOL, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(isShowIncommingDisplayName, BOOL, RCTMessageListView) {
   BOOL needShowDisPlayName = [RCTConvert BOOL: json];
   IMUIMessageCellLayout.isNeedShowInComingName = needShowDisPlayName;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(sendBubblePadding, NSDictionary, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(sendBubblePadding, NSDictionary, RCTMessageListView) {
   NSDictionary *bubblePadding = [RCTConvert NSDictionary: json];
   NSNumber *left = bubblePadding[@"left"];
   NSNumber *top = bubblePadding[@"top"];
@@ -137,7 +137,7 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubblePadding, NSDictionary, RNTMessageListView) {
   MyMessageCellLayout.outgoingPadding = UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]);
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RNTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView) {
   NSDictionary *bubblePadding = [RCTConvert NSDictionary: json];
   NSNumber *left = bubblePadding[@"left"];
   NSNumber *top = bubblePadding[@"top"];
@@ -146,8 +146,8 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RNTMessageListView)
   MyMessageCellLayout.incommingPadding = UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]);
 }
 
-- (RNTMessageModel *)convertMessageDicToModel:(NSDictionary *)message {
-  return [[RNTMessageModel alloc] initWithMessageDic: message];
+- (RCTMessageModel *)convertMessageDicToModel:(NSDictionary *)message {
+  return [[RCTMessageModel alloc] initWithMessageDic: message];
 }
 
 // - MARK: IMUIMessageCollectionViewDelegate
@@ -156,7 +156,7 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RNTMessageListView)
 //  if(!_messageList.onEventCallBack) { return; }
 //  
 //  NSMutableDictionary *event = @{}.mutableCopy;
-//  RNTMessageModel *message = model;
+//  RCTMessageModel *message = model;
 //  NSDictionary *msgDic = message.messageDictionary;
 //  event[@"message"] = msgDic;
 //  event[@"type"] = type;
@@ -175,7 +175,7 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RNTMessageListView)
 - (void)messageCollectionViewWithDidTapMessageBubbleInCell:(UICollectionViewCell *)didTapMessageBubbleInCell model:(id)model {
 
     if(!_messageList.onMsgClick) { return; }
-    RNTMessageModel *message = model;
+    RCTMessageModel *message = model;
     NSDictionary *messageDic = message.messageDictionary;
     _messageList.onMsgClick((@{@"message": messageDic}));
 }
@@ -189,7 +189,7 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RNTMessageListView)
 - (void)messageCollectionViewWithDidTapHeaderImageInCell:(UICollectionViewCell * _Nonnull)didTapHeaderImageInCell model:(id <IMUIMessageModelProtocol> _Nonnull)model {
 
   if(!_messageList.onAvatarClick) { return; }
-  RNTMessageModel *message = model;
+  RCTMessageModel *message = model;
   NSDictionary *messageDic = message.messageDictionary;
   _messageList.onAvatarClick(@{@"message": messageDic});
 }
@@ -197,7 +197,7 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RNTMessageListView)
 - (void)messageCollectionViewWithDidTapStatusViewInCell:(UICollectionViewCell * _Nonnull)didTapStatusViewInCell model:(id <IMUIMessageModelProtocol> _Nonnull)model {
 
   if(!_messageList.onStatusViewClick) { return; }
-  RNTMessageModel *message = model;
+  RCTMessageModel *message = model;
   NSDictionary *messageDic = message.messageDictionary;
   _messageList.onStatusViewClick((@{@"message": messageDic}));
 }

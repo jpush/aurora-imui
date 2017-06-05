@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-open class RNTUser: NSObject, IMUIUserProtocol {
+open class RCTUser: NSObject, IMUIUserProtocol {
   open var rUserId: String?
   open var rDisplayName: String?
   open var rAvatarFilePath: String?

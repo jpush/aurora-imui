@@ -1,6 +1,6 @@
 //
-//  RNTAuroraIMUI-Bridging-Header.h
-//  RNTAuroraIMUI
+//  RCTAuroraIMUI-Bridging-Header.h
+//  RCTAuroraIMUI
 //
 //  Created by oshumini on 2017/5/27.
 //  Copyright © 2017年 HXHG. All rights reserved.

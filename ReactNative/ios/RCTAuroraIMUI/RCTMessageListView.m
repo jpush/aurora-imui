@@ -1,18 +1,18 @@
 //
-//  RNTMessageListView.m
+//  RCTMessageListView.m
 //  imuiDemo
 //
 //  Created by oshumini on 2017/5/26.
 //  Copyright © 2017年 Facebook. All rights reserved.
 //
 
-#import "RNTMessageListView.h"
+#import "RCTMessageListView.h"
 #import <CoreGraphics/CoreGraphics.h>
-#import "RNTInputView.h"
-#import <RNTAuroraIMUI/RNTAuroraIMUI-Swift.h>
-#import "RNTAuroraIController.h"
+#import "RCTInputView.h"
+#import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
+#import "RCTAuroraIModule.h"
 
-@implementation RNTMessageListView
+@implementation RCTMessageListView
 
 - (instancetype)init {
   self = [super init];
@@ -20,8 +20,8 @@
 }
 
 
-- (RNTMessageModel *)convertMessageDicToModel:(NSDictionary *)message {
-  return [[RNTMessageModel alloc] initWithMessageDic: message];
+- (RCTMessageModel *)convertMessageDicToModel:(NSDictionary *)message {
+  return [[RCTMessageModel alloc] initWithMessageDic: message];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -52,7 +52,7 @@
   NSArray *messages = [[notification object] copy];
   
   for (NSDictionary *message in messages) {
-    RNTMessageModel * messageModel = [self convertMessageDicToModel:message];
+    RCTMessageModel * messageModel = [self convertMessageDicToModel:message];
     
     dispatch_async(dispatch_get_main_queue(), ^{
       [self.messageList appendMessageWith: messageModel];
@@ -65,7 +65,7 @@
   
   NSMutableArray *messageModels = @[].mutableCopy;
   for (NSDictionary *message in messages) {
-    RNTMessageModel * messageModel = [self convertMessageDicToModel: message];
+    RCTMessageModel * messageModel = [self convertMessageDicToModel: message];
     
     dispatch_async(dispatch_get_main_queue(), ^{
       [self.messageList appendMessageWith: messageModel];
@@ -75,7 +75,7 @@
 
 - (void)updateMessage:(NSNotification *) notification {
   NSDictionary *message = [notification object];
-  RNTMessageModel * messageModel = [self convertMessageDicToModel: message];
+  RCTMessageModel * messageModel = [self convertMessageDicToModel: message];
   
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.messageList updateMessageWith: messageModel];

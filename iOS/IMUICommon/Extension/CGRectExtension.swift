@@ -1,6 +1,6 @@
 //
 //  CGRectExtension.swift
-//  RNTAuroraIMUI
+//  RCTAuroraIMUI
 //
 //  Created by oshumini on 2017/6/3.
 //  Copyright © 2017年 HXHG. All rights reserved.

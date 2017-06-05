@@ -157,4 +157,4 @@ ChatInput.propTypes = {
   ...View.propTypes
 };
 
-var RCTChatInput = requireNativeComponent('RNTInputView', ChatInput);
+var RCTChatInput = requireNativeComponent('RCTInputView', ChatInput);

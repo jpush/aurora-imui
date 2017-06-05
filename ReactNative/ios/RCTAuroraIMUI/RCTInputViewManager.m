@@ -1,5 +1,5 @@
 //
-//  RNTInputViewManager.m
+//  RCTInputViewManager.m
 //  imuiDemo
 //
 //  Created by oshumini on 2017/5/27.
@@ -8,16 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import <React/RCTViewManager.h>
-#import "RNTInputView.h"
-#import <RNTAuroraIMUI/RNTAuroraIMUI-Swift.h>
+#import "RCTInputView.h"
+#import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
 #import <Photos/Photos.h>
 
-@interface RNTInputViewManager : RCTViewManager <IMUIInputViewDelegate>
+@interface RCTInputViewManager : RCTViewManager <IMUIInputViewDelegate>
 
-@property (strong, nonatomic)RNTInputView *rntInputView;
+@property (strong, nonatomic)RCTInputView *rctInputView;
 @end
 
-@implementation RNTInputViewManager
+@implementation RCTInputViewManager
 
 //RCT_EXPORT_VIEW_PROPERTY(onEventCallBack, RCTBubblingEventBlock)
 
@@ -40,55 +40,55 @@ RCT_EXPORT_VIEW_PROPERTY(onShowKeyboard, RCTBubblingEventBlock)
 RCT_EXPORT_MODULE()
 - (UIView *)view
 {
-  NSBundle *bundle = [NSBundle bundleForClass: [RNTInputView class]];
-  _rntInputView = [[bundle loadNibNamed:@"RNTInputView" owner:self options: nil] objectAtIndex:0];
-  _rntInputView.imuiIntputView.inputViewDelegate = self;
+  NSBundle *bundle = [NSBundle bundleForClass: [RCTInputView class]];
+  _rctInputView = [[bundle loadNibNamed:@"RCTInputView" owner:self options: nil] objectAtIndex:0];
+  _rctInputView.imuiIntputView.inputViewDelegate = self;
   
-  return _rntInputView;
+  return _rctInputView;
 }
 
 /// Tells the delegate that user tap send button and text input string is not empty
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {
-  if(!_rntInputView.onSendText) { return; }
+  if(!_rctInputView.onSendText) { return; }
   
-  _rntInputView.onSendText(@{@"text": messageText});
+  _rctInputView.onSendText(@{@"text": messageText});
 }
 
 /// Tells the delegate that IMUIInputView will switch to recording voice mode
 - (void)switchToMicrophoneModeWithRecordVoiceBtn:(UIButton * _Nonnull)recordVoiceBtn {
 
-  if(!_rntInputView.onSwitchToMicrophoneMode) { return; }
-  _rntInputView.onSwitchToMicrophoneMode(@{});
+  if(!_rctInputView.onSwitchToMicrophoneMode) { return; }
+  _rctInputView.onSwitchToMicrophoneMode(@{});
 }
 
 /// Tells the delegate that start record voice
 - (void)startRecordVoice {
-  if(!_rntInputView.onStartRecordVoice) { return; }
-  _rntInputView.onStartRecordVoice(@{});
+  if(!_rctInputView.onStartRecordVoice) { return; }
+  _rctInputView.onStartRecordVoice(@{});
 }
 
 /// Tells the delegate when finish record voice
 - (void)finishRecordVoice:(NSString * _Nonnull)voicePath durationTime:(double)durationTime {
-  if(!_rntInputView.onFinishRecordVoice) { return; }
-  _rntInputView.onFinishRecordVoice(@{@"mediaPath": voicePath, @"durationTime": @(durationTime)});
+  if(!_rctInputView.onFinishRecordVoice) { return; }
+  _rctInputView.onFinishRecordVoice(@{@"mediaPath": voicePath, @"durationTime": @(durationTime)});
 }
 
 /// Tells the delegate that user cancel record
 - (void)cancelRecordVoice {
-  if(!_rntInputView.onCancelRecordVoice) { return; }
-  _rntInputView.onCancelRecordVoice(@{});
+  if(!_rctInputView.onCancelRecordVoice) { return; }
+  _rctInputView.onCancelRecordVoice(@{});
 }
 
 /// Tells the delegate that IMUIInputView will switch to gallery
 - (void)switchToGalleryModeWithPhotoBtn:(UIButton * _Nonnull)photoBtn {
-  if(!_rntInputView.onSwitchToGalleryMode) { return; }
-  _rntInputView.onSwitchToGalleryMode(@{});
+  if(!_rctInputView.onSwitchToGalleryMode) { return; }
+  _rctInputView.onSwitchToGalleryMode(@{});
 }
 
 /// Tells the delegate that user did selected Photo in gallery
 - (void)didSeletedGalleryWithAssetArr:(NSArray<PHAsset *> * _Nonnull)AssetArr {
   
-  if(!_rntInputView.onSendGalleryFiles) { return; }
+  if(!_rctInputView.onSendGalleryFiles) { return; }
   __block NSMutableArray *imagePathArr = @[].mutableCopy;
   
   for (PHAsset *asset in AssetArr) {
@@ -118,7 +118,7 @@ RCT_EXPORT_MODULE()
   
 //  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //    sleep(1);
-      _rntInputView.onSendGalleryFiles(@{@"mediaFiles": imagePathArr});
+      _rctInputView.onSendGalleryFiles(@{@"mediaFiles": imagePathArr});
 //  });
   
   
@@ -126,37 +126,37 @@ RCT_EXPORT_MODULE()
 
 /// Tells the delegate that IMUIInputView will switch to camera mode
 - (void)switchToCameraModeWithCameraBtn:(UIButton * _Nonnull)cameraBtn {
-  if(!_rntInputView.onSwitchToCameraMode) { return; }
-  _rntInputView.onSwitchToCameraMode(@{});
+  if(!_rctInputView.onSwitchToCameraMode) { return; }
+  _rctInputView.onSwitchToCameraMode(@{});
 }
 
 /// Tells the delegate that user did shoot picture in camera mode
 - (void)didShootPictureWithPicture:(NSData * _Nonnull)picture {
   
-  if(!_rntInputView.onTakePicture) { return; }
+  if(!_rctInputView.onTakePicture) { return; }
   // TODO: save to file
   NSString *filePath = [self getPath];
   
   [picture writeToFile: filePath atomically: false];
-  _rntInputView.onTakePicture(@{@"mediaPath": filePath});
+  _rctInputView.onTakePicture(@{@"mediaPath": filePath});
 }
 
 /// Tells the delegate when starting record video
 - (void)startRecordVideo {
-  if(!_rntInputView.onStartRecordVideo) { return; }
-  _rntInputView.onStartRecordVideo(@{});
+  if(!_rctInputView.onStartRecordVideo) { return; }
+  _rctInputView.onStartRecordVideo(@{});
 }
 
 /// Tells the delegate when user did shoot video in camera mode
 - (void)finishRecordVideoWithVideoPath:(NSString * _Nonnull)videoPath durationTime:(double)durationTime {
   
-  if(!_rntInputView.onFinishRecordVideo) { return; }
-  _rntInputView.onFinishRecordVideo(@{@"mediaPath": videoPath, @"durationTime": @(durationTime)});
+  if(!_rctInputView.onFinishRecordVideo) { return; }
+  _rctInputView.onFinishRecordVideo(@{@"mediaPath": videoPath, @"durationTime": @(durationTime)});
 }
 
 - (void)keyBoardWillShowWithHeight:(CGFloat)height durationTime:(double)durationTime {
-  if(!_rntInputView.onShowKeyboard) { return; }
-  _rntInputView.onShowKeyboard(@{@"keyboard_height": @(height), @"durationTime": @(durationTime)});
+  if(!_rctInputView.onShowKeyboard) { return; }
+  _rctInputView.onShowKeyboard(@{@"keyboard_height": @(height), @"durationTime": @(durationTime)});
 }
 
 - (NSString *)getPath {//"\(NSHomeDirectory())/Documents/"

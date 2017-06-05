@@ -1,18 +1,18 @@
 //
-//  RNTMessageListView.h
+//  RCTMessageListView.h
 //  imuiDemo
 //
 //  Created by oshumini on 2017/5/26.
 //  Copyright © 2017年 Facebook. All rights reserved.
 //
 
-#import <RNTAuroraIMUI/RNTAuroraIMUI-Swift.h>
+#import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
 #import <UIKit/UIKit.h>
 
 #import <React/RCTComponent.h>
 
 
-@interface RNTMessageListView : UIView
+@interface RCTMessageListView : UIView
 @property(weak, nonatomic) IBOutlet IMUIMessageCollectionView *messageList;
 @property(nonatomic, copy) RCTBubblingEventBlock onAvatarClick;
 @property(nonatomic, copy) RCTBubblingEventBlock onMsgClick;

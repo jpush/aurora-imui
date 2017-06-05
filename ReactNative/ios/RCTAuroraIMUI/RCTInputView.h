@@ -1,5 +1,5 @@
 //
-//  RNTInputView.h
+//  RCTInputView.h
 //  imuiDemo
 //
 //  Created by oshumini on 2017/5/27.
@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <RNTAuroraIMUI/RNTAuroraIMUI-Swift.h>
+#import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
 
 #import <React/RCTComponent.h>
 
-@interface RNTInputView : UIView
+@interface RCTInputView : UIView
 @property (weak, nonatomic) IBOutlet IMUIInputView *imuiIntputView;
 
 @property (nonatomic, copy) RCTBubblingEventBlock onEventCallBack;

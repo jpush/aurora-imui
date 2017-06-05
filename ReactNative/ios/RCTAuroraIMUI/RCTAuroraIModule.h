@@ -1,6 +1,6 @@
 //
-//  AuroraIMUIController.h
-//  RNTAuroraIMUI
+//  RCTAuroraIModule.h
+//  RCTAuroraIMUI
 //
 //  Created by oshumini on 2017/6/1.
 //  Copyright © 2017年 HXHG. All rights reserved.
@@ -22,6 +22,6 @@
 #define kScrollToBottom @"kScrollToBottom"
 #define kHidenFeatureView @"kHidenFeatureView"
 
-@interface RNTAuroraIController : NSObject <RCTBridgeModule>
+@interface RCTAuroraIModule : NSObject <RCTBridgeModule>
 
 @end

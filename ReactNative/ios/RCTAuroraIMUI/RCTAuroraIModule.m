@@ -1,25 +1,25 @@
 //
-//  AuroraIMUIController.m
-//  RNTAuroraIMUI
+//  RCTAuroraIModule.m
+//  RCTAuroraIModule
 //
 //  Created by oshumini on 2017/6/1.
 //  Copyright © 2017年 HXHG. All rights reserved.
 //
 
-#import "RNTAuroraIController.h"
+#import "RCTAuroraIModule.h"
 
-@interface RNTAuroraIController () {
+@interface RCTAuroraIModule () {
 }
 
 @end
 
-@implementation RNTAuroraIController
+@implementation RCTAuroraIModule
 RCT_EXPORT_MODULE();
 
 @synthesize bridge = _bridge;
 
 + (id)allocWithZone:(NSZone *)zone {
-  static RNTAuroraIController *sharedInstance = nil;
+  static RCTAuroraIModule *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [super allocWithZone:zone];

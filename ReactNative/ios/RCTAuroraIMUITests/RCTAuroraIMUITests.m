@@ -1,18 +1,18 @@
 //
-//  RNTAuroraIMUITests.m
-//  RNTAuroraIMUITests
+//  RCTAuroraIMUITests.m
+//  RCTAuroraIMUITests
 //
-//  Created by oshumini on 2017/5/27.
+//  Created by oshumini on 2017/6/5.
 //  Copyright © 2017年 HXHG. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 
-@interface RNTAuroraIMUITests : XCTestCase
+@interface RCTAuroraIMUITests : XCTestCase
 
 @end
 
-@implementation RNTAuroraIMUITests
+@implementation RCTAuroraIMUITests
 
 - (void)setUp {
     [super setUp];
