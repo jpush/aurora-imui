@@ -33,7 +33,7 @@ react-native link
   import IMUI from 'aurora-imui-react-native';
   var MessageList = IMUI.MessageList;
   var ChatInput = IMUI.ChatInput;
-  const ReactMsgListModule = NativeModules.MsgListModule; 
+  const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
 ```
 
 

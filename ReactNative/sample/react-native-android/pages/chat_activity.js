@@ -17,7 +17,7 @@ var {
 
 var MessageList = IMUI.MessageList;
 var ChatInput = IMUI.ChatInput;
-const ReactMsgListModule = NativeModules.MsgListModule;
+const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
 
 export default class ChatActivity extends React.Component {
 
@@ -28,6 +28,12 @@ export default class ChatActivity extends React.Component {
 			groupNum: '(1)',
 			inputContent: '',
 			recordText: '按住 说话',
+			menuContainerHeight: 800,
+			chatInputStyle: {
+				width: Dimensions.get('window').width,
+				height: 100
+			}
+
 		};
 
 		this.onMsgClick = this.onMsgClick.bind(this);
@@ -76,15 +82,51 @@ export default class ChatActivity extends React.Component {
 			fromUser: {
 				userId: "1",
 				displayName: "Ken",
-				avatarPath: "R.drawable.ironman"
+				avatarPath: "ironman"
 			},
 			timeString: "10:00",
 		}];
-		ReactMsgListModule.appendMessages(messages);
+		AuroraIMUIModule.appendMessages(messages);
 	}
 
 	onSendGalleryFiles(mediaFiles) {
 		console.log("will send media files: " + mediaFiles);
+		for (var i = 0; i < mediaFiles.length; i++) {
+			var mediaFile = mediaFiles[i];
+			console.log("mediaFile: " + mediaFile);
+			var messages;
+			if (mediaFile.mediaType == "image") {
+				messages = [{
+					msgId: "1",
+					status: "send_going",
+					msgType: "image",
+					isOutgoing: true,
+					mediaPath: mediaFile.mediaPath,
+					fromUser: {
+						userId: "1",
+						displayName: "ken",
+						avatarPath: "ironman"
+					},
+					timeString: "10:00"
+				}];
+			} else {
+				messages = [{
+					msgId: "1",
+					status: "send_going",
+					msgType: "video",
+					isOutgoing: true,
+					mediaPath: mediaFile.mediaPath,
+					duration: mediaFile.duration,
+					fromUser: {
+						userId: "1",
+						displayName: "ken",
+						avatarPath: "ironman"
+					},
+					timeString: "10:00"
+				}];
+			}
+			AuroraIMUIModule.appendMessages(messages);
+		}
 	}
 
 	onStartRecordVideo() {
@@ -112,11 +154,25 @@ export default class ChatActivity extends React.Component {
 	}
 
 	onSwitchToMicrophoneMode() {
-		console.log("switch to microphone mode");
+		console.log("switch to microphone mode, set menuContainerHeight : " + this.state.menuContainerHeight);
+		this.setState({
+			chatInputStyle: {
+				width: Dimensions.get('window').width,
+				height: 300
+			},
+			menuContainerHeight: 800,
+		});
 	}
 
 	onSwitchToGalleryMode() {
 		console.log("switch to gallery mode");
+		this.setState({
+			chatInputStyle: {
+				width: Dimensions.get('window').width,
+				height: 300
+			},
+			menuContainerHeight: 800
+		});
 	}
 
 	onSwitchToCameraMode() {
@@ -126,25 +182,22 @@ export default class ChatActivity extends React.Component {
 	componentDidMount() {
 		this.timer = setTimeout(() => {
 			console.log("updating message! ");
-			this.setState({
-				action: {
-					"actionType": "update_message",
-					messages: [{
-						msgId: "1",
-						status: "send_succeed",
-						msgType: "text",
-						text: "Hello world",
-						isOutgoing: true,
-						fromUser: {
-							userId: "1",
-							displayName: "Ken",
-							avatarPath: "ironman"
-						},
-						timeString: "10:00",
-					}]
-				}
-			})
+			var messages = [{
+				msgId: "1",
+				status: "send_succeed",
+				msgType: "text",
+				text: "Hello world",
+				isOutgoing: true,
+				fromUser: {
+					userId: "1",
+					displayName: "Ken",
+					avatarPath: "ironman"
+				},
+				timeString: "10:00",
+			}];
+			AuroraIMUIModule.appendMessages(messages);
 		}, 5000);
+
 	}
 
 	componentWillUnmount() {
@@ -155,7 +208,7 @@ export default class ChatActivity extends React.Component {
 		return (
 			<View style = { styles.container }>
 				<MessageList
-					style = {{width: Dimensions.get('window').width, height: 500}}
+					style = {{flex: 1}}
 					onMsgClick = {this.onMsgClick}
 					onMsgLongClick = {this.onMsgLongClick}
 					onAvatarClick = {this.onAvatarClick} 
@@ -167,10 +220,9 @@ export default class ChatActivity extends React.Component {
 					receiveBubbleTextSize = {14}
 					sendBubblePressedColor = {'#dddddd'}
 				/>
-				<View style= {{flex:1}}>
 					<ChatInput
-						style = {{width: Dimensions.get('window').width, height: 200}}
-						menuContainerHeight = {200}
+						style = {this.state.chatInputStyle}
+						menuContainerHeight = {this.state.menuContainerHeight}
 						onSendText = {this.onSendText}
 						onSendGalleryFiles = {this.onSendGalleryFiles}
 						onTakePicture = {this.onTakePicture}
@@ -185,7 +237,6 @@ export default class ChatActivity extends React.Component {
 						onSwitchToCameraMode = {this.onSwitchToCameraMode}
 
 					/>
-				</View>
 			</View>
 		);
 	}
@@ -195,86 +246,4 @@ var styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
-	titlebar: {
-		height: 40,
-		flexDirection: 'row',
-		backgroundColor: '#3f80dc',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-	},
-	backBtn: {
-		left: 0,
-		width: 40,
-		height: 40,
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	title: {
-		fontSize: 20,
-		color: '#ffffff',
-	},
-	rightBtn: {
-		right: 0,
-		width: 40,
-		height: 40,
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	content: {
-		flex: 1,
-	},
-	inputContent: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		height: 50,
-		backgroundColor: '#e5e5e5',
-	},
-	voiceBtn: {
-		marginLeft: 10,
-	},
-	voice: {
-		width: 25,
-		height: 30,
-	},
-	textInput: {
-		flex: 1,
-		fontSize: 16,
-		padding: 5,
-	},
-	moreMenu: {
-		marginLeft: 5,
-		marginRight: 10,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	sendBtn: {
-		backgroundColor: '#3f80dc',
-		borderRadius: 5,
-		marginLeft: 5,
-		marginRight: 5,
-		padding: 5,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	sendText: {
-		color: '#ffffff',
-		fontSize: 14,
-	},
-	keyboardBtn: {
-		marginLeft: 10,
-		marginRight: 10,
-	},
-	recordBtn: {
-		flex: 1,
-		borderRadius: 5,
-		marginRight: 5,
-		backgroundColor: '#3f80dc',
-		padding: 5,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	recordText: {
-		fontSize: 14,
-		color: '#ffffff',
-	}
 });

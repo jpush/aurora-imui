@@ -12,4 +12,4 @@ if (!__DEV__) {
 	};
 }
 
-AppRegistry.registerComponent('TestRNIMUIExample', () => App);
+AppRegistry.registerComponent('RNIMUIExample', () => App);

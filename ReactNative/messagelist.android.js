@@ -54,15 +54,13 @@ export default class MessageList extends Component {
 
   render() {
     return (
-      <View style={{flex:1}}>
-        <RCTMessageList 
+      <RCTMessageList 
           {...this.props} 
           onMsgClick={this._onMsgClick}
           onAvatarClick={this._onAvatarClick}
           onMsgLongClick={this._onMsgLongClick}
           onStatusViewClick={this._onStatusViewClick}
         />
-      </View>
     );
   }
 
