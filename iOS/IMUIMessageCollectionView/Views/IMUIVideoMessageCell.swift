@@ -46,7 +46,7 @@ class IMUIVideoMessageCell: IMUIBaseMessageCell {
   override func presentCell(with message: IMUIMessageModelProtocol, viewCache: IMUIReuseViewCache , delegate: IMUIMessageMessageCollectionViewDelegate?) {
     super.presentCell(with: message, viewCache: viewCache, delegate: delegate)
     self.layoutVideo(with: message.mediaFilePath())
-    let layout = message.layout as! IMUIMessageCellLayout
+    let layout = message.layout
     self.videoView.frame = UIEdgeInsetsInsetRect(CGRect(origin: CGPoint.zero, size: layout.bubbleFrame.size), layout.bubbleContentInset)
   }
   

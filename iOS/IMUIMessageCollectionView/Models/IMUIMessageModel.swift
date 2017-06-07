@@ -9,7 +9,7 @@
 import UIKit
 
 
-public enum IMUIMessageType {
+@objc public enum IMUIMessageType: Int {
   case text
   case image
   case voice
@@ -163,7 +163,7 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
       self.cellLayout = layout
     } else {
       let bubbleSize = self.calculateBubbleContentSize()
-      self.cellLayout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleSize)
+      self.cellLayout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleSize, bubbleContentInsets: UIEdgeInsets.zero)
     }
   }
   

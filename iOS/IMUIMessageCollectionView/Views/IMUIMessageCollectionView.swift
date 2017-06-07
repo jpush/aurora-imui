@@ -77,11 +77,11 @@ open class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.isScrollEnabled = true
   }
   
-  open subscript(index: Int) -> IMUIMessageModel {
+  open subscript(index: Int) -> IMUIMessageModelProtocol {
     return chatDataManager[index]
   }
   
-  open subscript(msgId: String) -> IMUIMessageModel? {
+  open subscript(msgId: String) -> IMUIMessageModelProtocol? {
     return chatDataManager[msgId]
   }
   

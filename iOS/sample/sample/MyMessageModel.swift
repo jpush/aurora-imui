@@ -35,7 +35,7 @@ class MyMessageModel: IMUIMessageModel {
 
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
                                        isNeedShowTime: false,
-                                       bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text))
+                                       bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text), bubbleContentInsets: UIEdgeInsets.zero)
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
     self.init(msgId: msgId, messageStatus: .failed, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
   }
@@ -71,9 +71,9 @@ class MyMessageModel: IMUIMessageModel {
 //MARK - IMUIMessageCellLayoutProtocal
 class MyMessageCellLayout: IMUIMessageCellLayout {
   
-  override init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize) {
+  override init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize, bubbleContentInsets: UIEdgeInsets) {
     
-    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize)
+    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize, bubbleContentInsets: UIEdgeInsets.zero)
   }
   
   override var bubbleContentInset: UIEdgeInsets {
