@@ -107,7 +107,7 @@
   _messagemediaPath = mediaPath;
   _isOutGoing = isOutGoing;
   _messageStatus = messageStatus;
-  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing isNeedShowTime:false bubbleContentSize: CGSizeMake(100, 46) bubbleContentInsets: UIEdgeInsetsZero];
+  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing isNeedShowTime:false bubbleContentSize: CGSizeMake(80, 37) bubbleContentInsets: UIEdgeInsetsZero];
   _type = IMUIMessageTypeVoice;
 }
 
@@ -123,7 +123,8 @@
   _messagemediaPath = mediaPath;
   _isOutGoing = isOutGoing;
   _messageStatus = messageStatus;
-  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing isNeedShowTime:false bubbleContentSize: CGSizeMake(100, 100)bubbleContentInsets: UIEdgeInsetsZero];
+  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing isNeedShowTime:false bubbleContentSize: CGSizeMake(120, 160)bubbleContentInsets: UIEdgeInsetsZero];
+  
   _type = IMUIMessageTypeImage;
 }
 
@@ -139,7 +140,7 @@
   _messagemediaPath = mediaPath;
   _isOutGoing = isOutGoing;
   _messageStatus = messageStatus;
-  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing isNeedShowTime:false bubbleContentSize: CGSizeMake(100, 100) bubbleContentInsets: UIEdgeInsetsZero];
+  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing isNeedShowTime:false bubbleContentSize: CGSizeMake(120, 160) bubbleContentInsets: UIEdgeInsetsZero];
   _type = IMUIMessageTypeVideo;
 }
 

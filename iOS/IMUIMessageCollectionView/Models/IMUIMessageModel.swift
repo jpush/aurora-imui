@@ -141,7 +141,6 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
     default:
       break
     }
-    
     return bubbleContentSize
   }
   

@@ -74,7 +74,6 @@
 }
 /// Tells the delegate that user did selected Photo in gallery
 - (void)didSeletedGalleryWithAssetArr:(NSArray<PHAsset *> * _Nonnull)AssetArr {
-  __block NSMutableArray *imagePathArr = @[].mutableCopy;
   
   for (PHAsset *asset in AssetArr) {
     switch (asset.mediaType) {
@@ -82,10 +81,9 @@
         
         PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
         options.synchronous  = YES;
-        PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
-        [imageManage requestImageForAsset: asset
+        [[PHImageManager defaultManager] requestImageForAsset: asset
                                targetSize: CGSizeMake(100.0, 100.0)
-                              contentMode:PHImageContentModeDefault
+                              contentMode:PHImageContentModeAspectFill
                                   options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                     NSData *imageData = UIImagePNGRepresentation(result);
                                     NSString *filePath = [self getPath];
