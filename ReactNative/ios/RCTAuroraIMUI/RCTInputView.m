@@ -27,8 +27,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hidenFeatureView)
                                                  name:kHidenFeatureView object:nil];
+    [self addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
   }
   return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+  if (object == self && [keyPath isEqualToString:@"bounds"]) {
+    [self.imuiIntputView.featureView.featureCollectionView reloadData];
+  }
 }
 
 - (void)hidenFeatureView {
@@ -42,6 +50,9 @@
   [super awakeFromNib];
 }
 
+- (void)dealloc {
+  [self removeObserver:self forKeyPath:@"bounds"];
+}
                                                                            
 
 @end

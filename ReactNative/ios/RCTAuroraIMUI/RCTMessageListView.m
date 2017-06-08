@@ -44,8 +44,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(scrollToBottom:)
                                                  name:kScrollToBottom object:nil];
+    [self addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
   }
   return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+  if (object == self && [keyPath isEqualToString:@"bounds"]) {
+    [self.messageList scrollToBottomWith: YES];
+  }
 }
 
 - (void)appendMessages:(NSNotification *) notification {
@@ -97,5 +105,6 @@
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver: self];
+  [self removeObserver:self forKeyPath:@"bounds"];
 }
 @end

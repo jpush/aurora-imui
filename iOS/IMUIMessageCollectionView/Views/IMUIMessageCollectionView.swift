@@ -12,7 +12,7 @@ import UIKit
 open class IMUIMessageCollectionView: UIView {
 
   @IBOutlet var view: UIView!
-  @IBOutlet weak var messageCollectionView: UICollectionView!
+  @IBOutlet open weak var messageCollectionView: UICollectionView!
 
   var viewCache = IMUIReuseViewCache()
   
