@@ -56,6 +56,7 @@ export default class ChatActivity extends React.Component {
 		this.onSwitchToGalleryMode = this.onSwitchToGalleryMode.bind(this);
 		this.onSwitchToCameraMode = this.onSwitchToCameraMode.bind(this);
 		this.onTouchEditText = this.onTouchEditText.bind(this);
+		this.onPullToRefresh = this.onPullToRefresh.bind(this);
 	}
 
 	componentWillMount() {}
@@ -85,6 +86,48 @@ export default class ChatActivity extends React.Component {
 				height: 100
 			},
 		});
+	}
+
+	onPullToRefresh() {
+		console.log("pull to refresh! Will load history messages insert to top of MessageList");
+		var messages = [{
+			msgId: "1",
+			status: "send_succeed",
+			msgType: "text",
+			text: "history3",
+			isOutgoing: false,
+			fromUser: {
+				userId: "1",
+				displayName: "Ken",
+				avatarPath: "ironman"
+			},
+			timeString: "9:30",
+		}, {
+			msgId: "1",
+			status: "send_succeed",
+			msgType: "text",
+			text: "history2",
+			isOutgoing: true,
+			fromUser: {
+				userId: "1",
+				displayName: "Ken",
+				avatarPath: "ironman"
+			},
+			timeString: "9:20",
+		}, {
+			msgId: "1",
+			status: "send_succeed",
+			msgType: "text",
+			text: "history1",
+			isOutgoing: false,
+			fromUser: {
+				userId: "1",
+				displayName: "Ken",
+				avatarPath: "ironman"
+			},
+			timeString: "9:10",
+		}];
+		AuroraIMUIModule.insertMessagesToTop(messages);
 	}
 
 	onSendText(text) {
@@ -337,6 +380,7 @@ export default class ChatActivity extends React.Component {
 					onAvatarClick = {this.onAvatarClick} 
 					onStatusViewClick = {this.onStatusViewClick}
 					onTouchMsgList = {this.onTouchMsgList}
+					onPullToRefresh = {this.onPullToRefresh}
 					sendBubble = {"send_msg"}
 					receiveBubble = {"null"}
 					receiveBubbleTextColor = {'#ffffff'}
