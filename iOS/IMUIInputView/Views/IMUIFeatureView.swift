@@ -57,7 +57,7 @@ public extension IMUIFeatureCellProtocal {
 // TODO: Need to  Restructure
 open class IMUIFeatureView: UIView {
 
-  @IBOutlet weak var featureCollectionView: UICollectionView!
+  @IBOutlet open weak var featureCollectionView: UICollectionView!
   var view: UIView!
   var currentType:IMUIFeatureType = .none
   

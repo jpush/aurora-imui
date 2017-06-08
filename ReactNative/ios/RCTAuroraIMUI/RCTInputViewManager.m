@@ -100,7 +100,7 @@ RCT_EXPORT_MODULE()
         PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
         [imageManage requestImageForAsset: asset
                                targetSize: CGSizeMake(100.0, 100.0)
-                              contentMode:PHImageContentModeDefault
+                              contentMode: PHImageContentModeAspectFill
                                   options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                     NSData *imageData = UIImagePNGRepresentation(result);
                                     NSString *filePath = [self getPath];

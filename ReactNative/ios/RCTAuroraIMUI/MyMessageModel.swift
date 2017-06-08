@@ -103,7 +103,7 @@ open class RCTMessageModel: IMUIMessageModel {
         msgType = .text
         textLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing!,
                                        isNeedShowTime: needShowTime,
-                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text!, isOutGoing: isOutgoing!))
+                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text!, isOutGoing: isOutgoing!), bubbleContentInsets: UIEdgeInsets.zero)
       }
       
       if typeString == RCTMessageModel.kMsgTypeImage {
@@ -153,7 +153,7 @@ open class RCTMessageModel: IMUIMessageModel {
 
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
                                        isNeedShowTime: false,
-                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text, isOutGoing: isOutGoing))
+                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text, isOutGoing: isOutGoing), bubbleContentInsets: UIEdgeInsets.zero)
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
     self.init(msgId: msgId, messageStatus: .failed, fromUser: user, isOutGoing: isOutGoing, time: "", status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
   }
@@ -254,9 +254,9 @@ open class MyMessageCellLayout: IMUIMessageCellLayout {
   open static var outgoingPadding = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 15)
   open static var incommingPadding = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 10)
   
-  override init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize) {
+  override init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize, bubbleContentInsets: UIEdgeInsets) {
     
-    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize)
+    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize, bubbleContentInsets: bubbleContentInsets)
   }
   
   open override var bubbleContentInset: UIEdgeInsets {

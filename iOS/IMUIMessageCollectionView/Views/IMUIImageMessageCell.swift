@@ -28,7 +28,7 @@ class IMUIImageMessageCell: IMUIBaseMessageCell {
   override func presentCell(with message: IMUIMessageModelProtocol, viewCache: IMUIReuseViewCache , delegate: IMUIMessageMessageCollectionViewDelegate?) {
     super.presentCell(with: message, viewCache: viewCache, delegate: delegate)
     
-    let layout = message.layout as! IMUIMessageCellLayout
+    let layout = message.layout
     self.imageView.frame = UIEdgeInsetsInsetRect(CGRect(origin: CGPoint.zero, size: layout.bubbleFrame.size), layout.bubbleContentInset)
     let image = UIImage(contentsOfFile: message.mediaFilePath())
     self.layoutImage(image: image!)
