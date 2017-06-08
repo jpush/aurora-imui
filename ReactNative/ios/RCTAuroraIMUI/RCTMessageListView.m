@@ -44,15 +44,78 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(scrollToBottom:)
                                                  name:kScrollToBottom object:nil];
+    
     [self addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
+    
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+      [_messageList.messageCollectionView addSubview:refreshControl];
+      _messageList.messageCollectionView.alwaysBounceVertical = YES;
+    });
   }
   return self;
 }
 
+- (void)refresh:(UIRefreshControl *)refreshControl
+{
+  NSLog(@"start refresh");
+  [self performSelector:@selector(endRefresh:) withObject:refreshControl afterDelay:0.5f];
+}
+
+- (void)endRefresh:(UIRefreshControl *)refreshControl
+{
+  [refreshControl endRefreshing];
+  if (_delegate != nil) {
+    [_delegate onPullToRefreshMessageList];
+  }
+  NSLog(@"end refresh");
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+  decelerate = YES;
+  if (scrollView.contentOffset.y < 100.0) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"正在刷新"];
+    });
+    [_refreshControl beginRefreshing];
+    [self loadData];
+  }
+}
+
+// 设置刷新状态
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+  if (scrollView.contentOffset.y >= 100.0) {
+    _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新"];
+  }
+  else if (!scrollView.decelerating) {
+    _refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"松开刷新"];
+  }
+}
+
+// 结束刷新
+- (void) endRefreshControl
+{
+  [_refreshControl endRefreshing];
+}
+
+// 刷新的回调方法
+- (void) loadData
+{
+  [self endRefreshControl];
+  // [self performSelector:@selector(endRefreshControl) withObject:nil afterDelay:2];
+}
+
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
   if (object == self && [keyPath isEqualToString:@"bounds"]) {
-    [self.messageList scrollToBottomWith: YES];
+    
+//    [self.messageList scrollToBottomWith: NO];
+//    [self.messageList.messageCollectionView reloadData];
   }
 }
 

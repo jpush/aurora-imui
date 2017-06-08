@@ -22,6 +22,7 @@ export default class MessageList extends Component {
     this._onMsgLongClick = this._onMsgLongClick.bind(this);
     this._onAvatarClick = this._onAvatarClick.bind(this);
     this._onStatusViewClick = this._onStatusViewClick.bind(this);
+    this._onPullToRefresh = this._onPullToRefresh(this);
   }
 
   _onMsgClick(event: Event) {
@@ -59,6 +60,14 @@ export default class MessageList extends Component {
     this.props.onBeginDragMessageList();
   }
 
+  _onPullToRefresh(event: Event) {
+    console.log("huangmin888")
+    if (!this.props.onPullToRefresh) {
+      return;
+    }
+    this.props.onPullToRefresh();
+  }
+
   render() {
     return (
       <RCTMessageList 
@@ -78,6 +87,7 @@ MessageList.propTypes = {
   onAvatarClick: PropTypes.func,
   onStatusViewClick: PropTypes.func,
   onBeginDragMessageList: PropTypes.func,
+  onPullToRefresh: PropTypes.func,
   sendBubble: PropTypes.string,
   receiveBubble: PropTypes.string,
   sendBubbleTextColor: PropTypes.string,

@@ -11,15 +11,22 @@
 
 #import <React/RCTComponent.h>
 
+@protocol RCTMessageListDelegate <NSObject>
+@optional
+- (void)onPullToRefreshMessageList;
+@end
 
 @interface RCTMessageListView : UIView
+@property(weak, nonatomic) id<RCTMessageListDelegate> delegate;
 @property(weak, nonatomic) IBOutlet IMUIMessageCollectionView *messageList;
+@property(strong, nonatomic)UIRefreshControl *refreshControl;
+
 @property(nonatomic, copy) RCTBubblingEventBlock onAvatarClick;
 @property(nonatomic, copy) RCTBubblingEventBlock onMsgClick;
 @property(nonatomic, copy) RCTBubblingEventBlock onStatusViewClick;
 
 @property(nonatomic, copy) RCTBubblingEventBlock onBeginDragMessageList;
-
+@property (nonatomic, copy) RCTBubblingEventBlock onPullToRefresh;
 
 // custom layout
 @property(strong, nonatomic) NSString *sendBubbleTextColor;

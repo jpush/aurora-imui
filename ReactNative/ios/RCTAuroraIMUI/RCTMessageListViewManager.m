@@ -40,13 +40,9 @@ RCT_EXPORT_VIEW_PROPERTY(onMsgClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onStatusViewClick, RCTBubblingEventBlock)
 
 RCT_EXPORT_VIEW_PROPERTY(onBeginDragMessageList, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onPullToRefresh, RCTBubblingEventBlock)
 
-//@property (nonatomic, copy) RCTBubblingEventBlock onTapHeader;
-//@property (nonatomic, copy) RCTBubblingEventBlock onTapContentBubbel;
-//@property (nonatomic, copy) RCTBubblingEventBlock onTapStatusView;
-//@property (nonatomic, copy) RCTBubblingEventBlock onTapMessageCell;
-//
-//@property (nonatomic, copy) RCTBubblingEventBlock onBeginDragMessageList;
+
 RCT_EXPORT_MODULE()
 - (UIView *)view
 {
@@ -54,10 +50,9 @@ RCT_EXPORT_MODULE()
 //  view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as! UIView
   NSBundle *bundle = [NSBundle bundleForClass: [RCTMessageListView class]];
   
-  
   _messageList = [[bundle loadNibNamed:@"RCTMessageListView" owner:self options: nil] objectAtIndex:0];
   _messageList.messageList.delegate = self;
-  
+  _messageList.delegate = self;
   
   
   return _messageList;
@@ -217,4 +212,9 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
   _messageList.onBeginDragMessageList(@{});
 }
 
+- (void)onPullToRefreshMessageList {
+  if(!_messageList.onPullToRefresh) { return; }
+  
+  _messageList.onPullToRefresh(@{});
+}
 @end
