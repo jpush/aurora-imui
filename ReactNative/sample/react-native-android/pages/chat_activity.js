@@ -94,16 +94,16 @@ export default class ChatActivity extends React.Component {
 			msgId: "1",
 			status: "send_succeed",
 			msgType: "text",
-			text: "history3",
+			text: "history1",
 			isOutgoing: false,
 			fromUser: {
 				userId: "1",
 				displayName: "Ken",
 				avatarPath: "ironman"
 			},
-			timeString: "9:30",
+			timeString: "9:00",
 		}, {
-			msgId: "1",
+			msgId: "2",
 			status: "send_succeed",
 			msgType: "text",
 			text: "history2",
@@ -115,17 +115,17 @@ export default class ChatActivity extends React.Component {
 			},
 			timeString: "9:20",
 		}, {
-			msgId: "1",
+			msgId: "3",
 			status: "send_succeed",
 			msgType: "text",
-			text: "history1",
+			text: "history3",
 			isOutgoing: false,
 			fromUser: {
 				userId: "1",
 				displayName: "Ken",
 				avatarPath: "ironman"
 			},
-			timeString: "9:10",
+			timeString: "9:30",
 		}];
 		AuroraIMUIModule.insertMessagesToTop(messages);
 	}
@@ -150,6 +150,7 @@ export default class ChatActivity extends React.Component {
 
 	onSendGalleryFiles(mediaFiles) {
 		console.log("will send media files: " + mediaFiles);
+		AuroraIMUIModule.scrollToBottom();
 		for (var i = 0; i < mediaFiles.length; i++) {
 			var mediaFile = mediaFiles[i];
 			console.log("mediaFile: " + mediaFile);
@@ -190,6 +191,7 @@ export default class ChatActivity extends React.Component {
 
 	onStartRecordVideo() {
 		console.log("start record video");
+		AuroraIMUIModule.scrollToBottom();
 	}
 
 	onFinishRecordVideo(mediaPath) {
@@ -262,6 +264,7 @@ export default class ChatActivity extends React.Component {
 
 	async onSwitchToMicrophoneMode() {
 		console.log("switch to microphone mode, set menuContainerHeight : " + this.state.menuContainerHeight);
+		AuroraIMUIModule.scrollToBottom();
 		try {
 			const granted = await PermissionsAndroid.request(
 				PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, {
@@ -288,6 +291,7 @@ export default class ChatActivity extends React.Component {
 
 	async onSwitchToGalleryMode() {
 		console.log("switch to gallery mode");
+		AuroraIMUIModule.scrollToBottom();
 		try {
 			const granted = await PermissionsAndroid.request(
 				PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
@@ -315,6 +319,7 @@ export default class ChatActivity extends React.Component {
 
 	async onSwitchToCameraMode() {
 		console.log("switch to camera mode");
+		AuroraIMUIModule.scrollToBottom();
 		try {
 			const granted = await PermissionsAndroid.request(
 				PermissionsAndroid.PERMISSIONS.CAMERA, {

@@ -310,8 +310,8 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
             } else if (intent.getAction().equals(RCT_INSERT_MESSAGES_ACTION)) {
                 String[] messages = intent.getStringArrayExtra("messages");
                 List<RCTMessage> list = new ArrayList<>();
-                for (String rctMsgStr : messages) {
-                    final RCTMessage rctMessage = gson.fromJson(rctMsgStr, RCTMessage.class);
+                for (int i = messages.length - 1; i > -1; i--) {
+                    final RCTMessage rctMessage = gson.fromJson(messages[i], RCTMessage.class);
                     list.add(rctMessage);
                 }
                 Log.d("RCTMessageListManager", "Add send message to top, messages: " + list.toString());

@@ -117,14 +117,17 @@ message = {  // video message
 
   ## Event Handling
 
-  ### MessageList click event
-    - onAvatarClick {message: {message json}} :Fires when click avatar
+  ### MessageList Event
+- onAvatarClick {message: {message json}} :Fires when click avatar
 
-    - onMsgClick {message: {message json} : Fires when click message bubble
+- onMsgClick {message: {message json} : Fires when click message bubble
 
-    - onStatusViewClick {message: {message json}}  Fires when click status view
+- onStatusViewClick {message: {message json}}  Fires when click status view
 
-    - onBeginDragMessageList (iOS only)
+- onPullToRefresh  Fires when pull MessageList to top, example usage: please refer sample's onPullToRefresh method.
+
+
+- onBeginDragMessageList (iOS only)
 
   ### MessageList append/update/insert message event:
 
@@ -148,7 +151,7 @@ var messages = [{
 	},
 	timeString: "10:00",
 }];
-ReactMsgListModule.appendMessages(messages);
+AuroraIMUIModule.appendMessages(messages);
 ```
 
 - updateMessage(message)
@@ -169,38 +172,54 @@ var message = {
 	},
 	timeString: "10:00",
 };
-ReactMsgListModule.updateMessage(message);
+AuroraIMUIModule.updateMessage(message);
 ```
 
 - insertMessagesToTop([message])
+
+  **Notice that the order of message array must be sorted in chronological order**
 
 example:
 
 ```
 var messages = [{
-  msgId: "1",
+    msgId: "1",
+    status: "send_succeed",
+    msgType: "text",
+    text: "This",
+    isOutgoing: true,
+    fromUser: {
+	  userId: "1",
+	  displayName: "Ken",
+	  avatarPath: "ironman"
+    },
+    timeString: "10:00",
+  },{
+    msgId: "2",
 	status: "send_succeed",
 	msgType: "text",
-	text: text,
+	text: "is",
 	isOutgoing: true,
 	fromUser: {
 		userId: "1",
 		displayName: "Ken",
 		avatarPath: "ironman"
-	},
-	timeString: "10:00",
-	},{
-  msgId: "2",
-	status: "send_going",
+    },
+    timeString: "10:10",
+},{
+    msgId: "3",
+	status: "send_succeed",
 	msgType: "text",
-	text: "Hello",
+	text: "example",
 	isOutgoing: true,
 	fromUser: {
 		userId: "1",
 		displayName: "Ken",
 		avatarPath: "ironman"
-  }];
-ReactMsgListModule.insertMessagesToTop(messages);
+    },
+    timeString: "10:20",
+}];
+AuroraIMUIModule.insertMessagesToTop(messages);
 ```
 
 ## Style 
