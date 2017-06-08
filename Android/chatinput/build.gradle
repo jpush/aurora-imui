@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'cn.jiguang.imui'
     PUBLISH_ARTIFACT_ID = 'chatinput'
-    PUBLISH_VERSION = '0.3.1-beta'
+    PUBLISH_VERSION = '0.3.4-beta'
 }
 
 android {
