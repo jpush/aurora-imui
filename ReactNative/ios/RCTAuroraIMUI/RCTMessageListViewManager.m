@@ -59,6 +59,42 @@ RCT_EXPORT_MODULE()
   
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(sendBubble, NSDictionary, RCTMessageListView) {
+  NSDictionary *bubbleDic = [RCTConvert NSDictionary: json];
+  NSString *bubbleName = bubbleDic[@"imageName"];
+  
+  if (bubbleName == nil) { return; }
+  if (bubbleDic[@"padding"] == nil) { return; }
+  
+  NSNumber *top = bubbleDic[@"padding"][@"top"];
+  NSNumber *right = bubbleDic[@"padding"][@"right"];
+  NSNumber *left = bubbleDic[@"padding"][@"left"];
+  NSNumber *bottom = bubbleDic[@"padding"][@"bottom"];
+  
+  UIImage *bubbleImg = [UIImage imageNamed:bubbleName];
+  bubbleImg = [bubbleImg resizableImageWithCapInsets: UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]) resizingMode: UIImageResizingModeTile];
+  RCTMessageModel.outgoingBubbleImage = bubbleImg;
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(receiveBubble, NSDictionary, RCTMessageListView) {
+  NSDictionary *bubbleDic = [RCTConvert NSDictionary: json];
+  NSString *bubbleName = bubbleDic[@"imageName"];
+  
+  if (bubbleName == nil) { return; }
+  if (bubbleDic[@"padding"] == nil) { return; }
+  
+  NSNumber *top = bubbleDic[@"padding"][@"top"];
+  NSNumber *right = bubbleDic[@"padding"][@"right"];
+  NSNumber *left = bubbleDic[@"padding"][@"left"];
+  NSNumber *bottom = bubbleDic[@"padding"][@"bottom"];
+  
+  UIImage *bubbleImg = [UIImage imageNamed:bubbleName];
+  bubbleImg = [bubbleImg resizableImageWithCapInsets: UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]) resizingMode: UIImageResizingModeTile];
+  RCTMessageModel.incommingBubbleImage = bubbleImg;
+  
+}
+
+
 RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
