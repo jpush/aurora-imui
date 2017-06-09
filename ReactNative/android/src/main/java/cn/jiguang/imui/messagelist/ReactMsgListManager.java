@@ -185,16 +185,18 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
     }
 
     @ReactProp(name = "sendBubble")
-    public void setSendBubble(MessageList messageList, String resName) {
-        int resId = mContext.getResources().getIdentifier(resName, "drawable", mContext.getPackageName());
+    public void setSendBubble(MessageList messageList, ReadableMap map) {
+        int resId = mContext.getResources().getIdentifier(map.getString("imageName"),
+                "drawable", mContext.getPackageName());
         if (resId != 0) {
             messageList.setSendBubbleDrawable(resId);
         }
     }
 
     @ReactProp(name = "receiveBubble")
-    public void setReceiveBubble(MessageList messageList, String resName) {
-        int resId = mContext.getResources().getIdentifier(resName, "drawable", mContext.getPackageName());
+    public void setReceiveBubble(MessageList messageList, ReadableMap map) {
+        int resId = mContext.getResources().getIdentifier(map.getString("imageName"),
+                "drawable", mContext.getPackageName());
         if (resId != 0) {
             messageList.setReceiveBubbleDrawable(resId);
         }

@@ -386,8 +386,7 @@ export default class ChatActivity extends React.Component {
 					onStatusViewClick = {this.onStatusViewClick}
 					onTouchMsgList = {this.onTouchMsgList}
 					onPullToRefresh = {this.onPullToRefresh}
-					sendBubble = {"send_msg"}
-					receiveBubble = {"null"}
+					sendBubble = {{imageName:"send_msg", padding: 10}}
 					receiveBubbleTextColor = {'#ffffff'}
 					sendBubbleTextSize = {18}
 					receiveBubbleTextSize = {14}
