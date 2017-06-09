@@ -52,29 +52,27 @@ dependencies {
 - ### iOS
 
   - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
-  - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RNTAuroraIMUI.framework
-  - 构建你的项目之前，你需要构建 RNTAuroraIMUI.framework
-  - 在 JS 中使用：
-
-```
-// For use IMUI you should Use get InputView, MessageListView, and RNTAuroraIController
-
-import IMUI from 'aurora-imui-react-native'
-var InputView = IMUI.ChatInput; // the inputView component
-var MessageListView = IMUI.MessageList; // the messageList component
-const AuroraIController = NativeModules.RNTAuroraIController; //  the IMUI controller, use it to add message to messageList.
-```
+  - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RCTAuroraIMUI.framework
+  - 构建你的项目之前，你需要构建 RCTAuroraIMUI.framework
 
 - ## 用法
+```
+import {
+  NativeModules,
+} from 'react-native';
+
+import IMUI from 'aurora-imui-react-native';
+var MessageList = IMUI.MessageList;
+var ChatInput = IMUI.ChatInput;
+const AuroraIMUIModule = NativeModules.AuroraIMUIModule;// the IMUI controller, use it to add message to messageList.
+
+// render() 中加入视图标签
+<MessageListView />
+<InputView />
+```
+详情可以参考 iOS Android 示例
 > [Android Example 用法](./sample/react-native-android/pages/chat_activity.js)
 > [iOS Example usage](./sample/index.ios.js)
-```
-  import IMUI from 'aurora-imui-react-native';
-  var MessageList = IMUI.MessageList;
-  var ChatInput = IMUI.ChatInput;
-  const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
-```
-
 ## 数据格式
 
 使用 MessageList，你需要定义 `message` 对象和 `fromUser` 对象。
@@ -146,7 +144,7 @@ message = {  // video message
 - onPullToRefresh  滚动 MessageList 到顶部时，下拉触发, 案例用法: 参考 sample 中的聊天组件中的 onPullToRefresh  方法。
 
 
-- onBeginDragMessageList (iOS only)
+- onBeginDragMessageList (iOS only) 用于调整布局
 
   ### MessageList append/update/insert 消息事件:
 
@@ -246,10 +244,10 @@ AuroraIMUIModule.insertMessagesToTop(messages);
 ### MessageList 自定义样式
 
 **在 Android 中，如果你想要自定义消息气泡，你需要将一张点九图放在 drawable 文件夹下。 [点九图介绍](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html)，详情参考 sample。**
-- sendBubble: PropTypes.string -- 点九图的名字
+- sendBubble: PropTypes.string -- 点九图的名字(Android only)
 
 
-- receiveBubble: PropTypes.string — 同上
+- receiveBubble: PropTypes.string — 同上(Android only)
 
 - sendBubbleTextColor: PropTypes.string,
 
@@ -260,7 +258,7 @@ AuroraIMUIModule.insertMessagesToTop(messages);
 - receiveBubbleTextSize: PropTypes.number,
 
 
-padding 对象包括四个属性: left, top, right, bottom. eg: {left 5, top: 5, right: 15, bottom: 5}
+padding 对象包括四个属性: left, top, right, bottom. eg: {left: 5, top: 5, right: 15, bottom: 5}
 
 - sendBubblePadding: PropTypes.object
 

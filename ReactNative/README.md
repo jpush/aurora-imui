@@ -26,7 +26,7 @@ dependencies {
 
 
 
-## Usage
+## Configuration
 
 - ### Android
 
@@ -46,41 +46,30 @@ dependencies {
 
   - import IMUI from 'aurora-imui-react-native';
 
- > [Android Example usage](./sample/react-native-android/pages/chat_activity.js)
-
-```
-  import IMUI from 'aurora-imui-react-native';
-  var MessageList = IMUI.MessageList;
-  var ChatInput = IMUI.ChatInput;
-  const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
-```
-
 
 - ### iOS
 
   - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
   - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RNTAuroraIMUI.framework
   - Before build you project ,you should build RNTAuroraIMUI.framework
-  - Use it in ReactJS
->[iOS Example usage](./sample/index.ios.js)
+
+## Usage
 ```
-// For use IMUI you should Use get InputView, MessageListView, and RNTAuroraIController
-
-import IMUI from 'aurora-imui-react-native'
-var InputView = IMUI.ChatInput; // the inputView component
-var MessageListView = IMUI.MessageList; // the messageList component
-const AuroraIController = NativeModules.RNTAuroraIController; //  the IMUI controller, use it to add message to messageList.
+  import IMUI from 'aurora-imui-react-native';
+  var MessageList = IMUI.MessageList;
+  var ChatInput = IMUI.ChatInput;
+  const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
 ```
-
-
-
+Refer to iOS,Android example
+> [iOS Example usage](./sample/index.ios.js)
+> [Android Example usage](./sample/react-native-android/pages/chat_activity.js)
 ## Data format
 
 By using MessageList, you need define `message` object and `fromUser` object.
 
 - message object format:
 
-**status must be one of the four values: "send_succeed", "send_failed", "send_going", "download_failed", 
+** status must be one of the four values: "send_succeed", "send_failed", "send_going", "download_failed", 
 if you haven't define this property, default value is "send_succeed".**
 
  ```
@@ -252,9 +241,9 @@ see our example for detail.**
 
 same to top
 
-- receiveBubble: PropTypes.string,
+- receiveBubble: PropTypes.string, (Android Only)
 
-- sendBubbleTextColor: PropTypes.string,
+- sendBubbleTextColor: PropTypes.string, (Android Only)
 
 - receiveBubbleTextColor: PropTypes.string,
 
