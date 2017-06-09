@@ -48,10 +48,25 @@ open class RCTMessageModel: IMUIMessageModel {
     return mediaPath
   }
 
+  static open var outgoingBubbleImage: UIImage = {
+    var bubbleImg = UIImage.imuiImage(with: "outGoing_bubble")
+    bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 10, 9, 15), resizingMode: .tile)
+    return bubbleImg!
+  }()
+  
+  static open var incommingBubbleImage: UIImage = {
+    var bubbleImg = UIImage.imuiImage(with: "inComing_bubble")
+    bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 15, 9, 10), resizingMode: .tile)
+    return bubbleImg!
+  }()
   
   override open var resizableBubbleImage: UIImage {
     // return defoult message bubble
-    return super.resizableBubbleImage
+    if isOutGoing {
+      return RCTMessageModel.outgoingBubbleImage
+    } else {
+      return RCTMessageModel.incommingBubbleImage
+    }
   }
   
   public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocal?) {
