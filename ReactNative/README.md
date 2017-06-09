@@ -230,6 +230,34 @@ var messages = [{
 AuroraIMUIModule.insertMessagesToTop(messages);
 ```
 
+### ChatInput Event
+
+- onSendText: input the text and click send button
+
+- onSendGalleryFiles: select gallery photo and click send button will send this event
+
+- onTakePicture: take picture from carmera will send this event
+
+- onStartRecordVideo: start to record video button will send this event
+
+- onFinishRecordVideo: finish recorded video will send this event
+
+- onCancelRecordVideo: cancel recorded video will send this event
+
+- onStartRecordVoice: start to record voice will send this event 
+
+- onFinishRecordVoice: finish  record voice will send this event
+
+- onCancelRecordVoice: cancel recorded voice will send this event
+
+- onSwitchToMicrophoneMode: click the microphone button in feature view will send this event
+
+- onSwitchToGalleryMode: click the gallery button in feature view will send this event
+
+- onSwitchToCameraMode: click the camera button in feature view will send this event
+
+- onTouchEditText:（Android only）click text input view will send this event
+
 ## Style 
 
 ### MessageList custom style
