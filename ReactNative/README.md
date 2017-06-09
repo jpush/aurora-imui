@@ -234,9 +234,12 @@ AuroraIMUIModule.insertMessagesToTop(messages);
 
 ### MessageList custom style
 
-**In android, if your want to define your chatting bubble, you need to put a drawable file 
-in drawable folder, and that image file must be [nine patch drawable file](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html), 
-see our example for detail.**
+**In android, if your want to define your chatting bubble, you need to put a drawable file in drawable folder, and that image file must be [nine patch drawable file](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html), see our example for detail.**
+
+
+
+**In iOS, if your want to define your chatting bubble,you need to put a image file to you xcode,and specifies ` sendBubble.imageName` or `receiveBubble.imageName` to image name. if you need to set the default avatar, you need put you default avatar image to you xcode,and adjust the image name to `defoult_header`,see our example for detail.**
+
 - sendBubble: PropTypes.object :
 ```
 // eg:
