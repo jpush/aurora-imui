@@ -244,10 +244,16 @@ AuroraIMUIModule.insertMessagesToTop(messages);
 ### MessageList 自定义样式
 
 **在 Android 中，如果你想要自定义消息气泡，你需要将一张点九图放在 drawable 文件夹下。 [点九图介绍](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html)，详情参考 sample。**
-- sendBubble: PropTypes.string -- 点九图的名字(Android only)
+- sendBubble: PropTypes.object:
+```
+// eg:
+	{ 
+		imageName:"inComing_bubble",
+		padding:{left:10,top:10,right:15,bottom:10}
+	}
+```
 
-
-- receiveBubble: PropTypes.string — 同上(Android only)
+- receiveBubble: PropTypes.object — 同上
 
 - sendBubbleTextColor: PropTypes.string,
 
@@ -258,7 +264,17 @@ AuroraIMUIModule.insertMessagesToTop(messages);
 - receiveBubbleTextSize: PropTypes.number,
 
 
-padding 对象包括四个属性: left, top, right, bottom. eg: {left: 5, top: 5, right: 15, bottom: 5}
+padding 对象包括四个属性: left, top, right, bottom. 
+
+```
+ // eg:
+ {
+ 	left: 5, 
+ 	top: 5, 
+ 	right: 15, 
+ 	bottom: 5
+ }
+```
 
 - sendBubblePadding: PropTypes.object
 
