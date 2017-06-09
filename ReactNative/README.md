@@ -234,16 +234,24 @@ AuroraIMUIModule.insertMessagesToTop(messages);
 
 ### MessageList custom style
 
-**In android, if your want to define your chatting bubble, you need to put a drawable file 
-in drawable folder, and that image file must be [nine patch drawable file](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html), 
-see our example for detail.**
-- sendBubble: PropTypes.string -- The name of the nine patch file.
+**In android, if your want to define your chatting bubble, you need to put a drawable file in drawable folder, and that image file must be [nine patch drawable file](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html), see our example for detail.**
 
-same to top
 
-- receiveBubble: PropTypes.string, (Android Only)
 
-- sendBubbleTextColor: PropTypes.string, (Android Only)
+**In iOS, if your want to define your chatting bubble,you need to put a image file to you xcode,and specifies ` sendBubble.imageName` or `receiveBubble.imageName` to image name. if you need to set the default avatar, you need put you default avatar image to you xcode,and adjust the image name to `defoult_header`,see our example for detail.**
+
+- sendBubble: PropTypes.object :
+```
+// eg:
+	{ 
+		imageName:"inComing_bubble",
+		padding:{left:10,top:10,right:15,bottom:10}
+	}
+```
+
+- receiveBubble: PropTypes.object,
+
+- sendBubbleTextColor: PropTypes.string,
 
 - receiveBubbleTextColor: PropTypes.string,
 
@@ -252,8 +260,16 @@ same to top
 - receiveBubbleTextSize: PropTypes.number,
 
 
-This Padding object includes four properties: left, top, right, bottom. eg: {left 5, top: 5, right: 15, bottom: 5}
-
+This Padding object includes four properties: left, top, right, bottom. 
+```
+ // eg:
+ {
+ 	left: 5, 
+ 	top: 5, 
+ 	right: 15, 
+ 	bottom: 5
+ }
+```
 - sendBubblePadding: PropTypes.object
 
 - receiveBubblePadding: PropTypes.object
