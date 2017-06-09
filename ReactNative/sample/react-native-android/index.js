@@ -1,13 +1,15 @@
-import { AppRegistry } from 'react-native';
-import App from './App';
+import {
+	AppRegistry
+} from 'react-native';
+import App from './pages/chat_activity';
 
 if (!__DEV__) {
-    globel.console = {
-        info: () => {},
-        log: () => {},
-        warn: () => {},
-        error: () => {},
-    };
+	globel.console = {
+		info: () => {},
+		log: () => {},
+		warn: () => {},
+		error: () => {},
+	};
 }
 
-AppRegistry.registerComponent('App', () => App);
+AppRegistry.registerComponent('RNIMUIExample', () => App);

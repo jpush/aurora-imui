@@ -471,6 +471,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         mLayoutManager = layoutManager;
     }
 
+    public RecyclerView.LayoutManager getLayoutManager() {
+        return mLayoutManager;
+    }
+
     public void setStyle(Context context, MessageListStyle style) {
         mContext = context;
         mStyle = style;

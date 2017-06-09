@@ -83,9 +83,16 @@ import UIKit
   /**
    *  @optional get function
    *
-   * return
+   * return get current message status
    */
   var messageStatus: IMUIMessageStatus { get }
+  
+  /**
+   *  @optional get function
+   *
+   * return message's type
+   */
+  var type: IMUIMessageType { get }
 
 }
 

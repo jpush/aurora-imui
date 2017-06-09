@@ -30,6 +30,7 @@ export default class ChatInput extends Component {
     this._onSwitchToMicrophoneMode = this._onSwitchToMicrophoneMode.bind(this);
     this._onSwitchGalleryMode = this._onSwitchGalleryMode.bind(this);
     this._onSwitchToCameraMode = this._onSwitchToCameraMode.bind(this);
+    this._onTouchEditText = this._onTouchEditText.bind(this);
   }
 
   _onSendText(event: Event) {
@@ -116,6 +117,12 @@ export default class ChatInput extends Component {
     this.props.onSwitchToCameraMode();
   }
 
+  _onTouchEditText() {
+    if (!this.props.onTouchEditText) {
+      return;
+    }
+    this.props.onTouchEditText();
+  }
 
   render() {
     return (
@@ -133,6 +140,7 @@ export default class ChatInput extends Component {
           onSwitchToMicrophoneMode={this._onSwitchToMicrophoneMode}
           onSwitchToGalleryMode={this._onSwitchGalleryMode}
           onSwitchToCameraMode={this._onSwitchToCameraMode}
+          onTouchEditText={this._onTouchEditText}
       />
     );
   }
@@ -141,6 +149,7 @@ export default class ChatInput extends Component {
 
 ChatInput.propTypes = {
   menuContainerHeight: PropTypes.number,
+  isDismissMenuContainer: PropTypes.bool,
   onSendText: PropTypes.func,
   onSendGalleryFiles: PropTypes.func,
   onTakePicture: PropTypes.func,
@@ -153,6 +162,7 @@ ChatInput.propTypes = {
   onSwitchToMicrophoneMode: PropTypes.func,
   onSwitchToGalleryMode: PropTypes.func,
   onSwitchToCameraMode: PropTypes.func,
+  onTouchEditText: PropTypes.func,
   ...View.propTypes
 };
 

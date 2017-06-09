@@ -35,6 +35,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   @IBOutlet weak var resizeCameraPreviewBtn: UIButton!
   @IBOutlet weak var cameraPreviewView: IMUICameraPreviewView!
   
+  var inConfiging: Bool = false
   var currentCameraDeviceType: AVCaptureDevicePosition = .back
 //  var backCameraVideoCapture: AVCaptureDevice?
 //  var frontCameraVideoCapture: AVCaptureDevice?
@@ -91,6 +92,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     }
     
     session.beginConfiguration()
+    self.inConfiging = true
     session.sessionPreset = AVCaptureSessionPresetPhoto
     
     do {
@@ -139,12 +141,14 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         print("Could not add video device input to the session")
         setupResult = .configurationFailed
         session.commitConfiguration()
+        self.inConfiging = false
         return
       }
     } catch {
       print("Could not create video device input: \(error)")
       setupResult = .configurationFailed
       session.commitConfiguration()
+      self.inConfiging = false
       return
     }
     
@@ -175,6 +179,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         print("Could not add photo output to the session")
         setupResult = .configurationFailed
         session.commitConfiguration()
+        self.inConfiging = false
         return
       }
     } else {
@@ -192,6 +197,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     }
     
     session.commitConfiguration()
+    self.inConfiging = false
   }
   
   func activateMedia() {
@@ -227,13 +233,15 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         videoFileOutput?.stopRecording()
       }
     }
-
-    self.session.stopRunning()
+    if !self.inConfiging {
+      self.session.stopRunning()
+    }
   }
   
   func chooseCamera(with cameraDevicePosition: AVCaptureDevicePosition) {
     // remove current camera device
     session.beginConfiguration()
+    self.inConfiging = true
     session.removeInput(currentCameraDevice)
     
     // add new camera device
@@ -289,6 +297,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       if session.canAddInput(videoDeviceInput) {
         session.addInput(videoDeviceInput)
         session.commitConfiguration()
+        self.inConfiging = false
         self.videoDeviceInput = videoDeviceInput
         
         DispatchQueue.main.async {
@@ -308,12 +317,14 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         print("Could not add video device input to the session")
         setupResult = .configurationFailed
         session.commitConfiguration()
+        self.inConfiging = false
         return
       }
     } catch {
       print("add camera device fail")
       setupResult = .configurationFailed
       session.commitConfiguration()
+      self.inConfiging = false
     }
 
   }
@@ -393,8 +404,10 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           
         }
         session.beginConfiguration()
+        self.inConfiging = true
         session.sessionPreset = AVCaptureSessionPreset352x288
         session.commitConfiguration()
+        self.inConfiging = false
         videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputPath), recordingDelegate: self)
       } else {
         videoFileOutput?.stopRecording()
@@ -419,8 +432,10 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         
       }
       session.beginConfiguration()
+      self.inConfiging = true
       session.sessionPreset = AVCaptureSessionPreset352x288
       session.commitConfiguration()
+      self.inConfiging = false
       videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputPath), recordingDelegate: self)
     } else {
       videoFileOutput?.stopRecording()

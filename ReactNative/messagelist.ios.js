@@ -22,6 +22,7 @@ export default class MessageList extends Component {
     this._onMsgLongClick = this._onMsgLongClick.bind(this);
     this._onAvatarClick = this._onAvatarClick.bind(this);
     this._onStatusViewClick = this._onStatusViewClick.bind(this);
+    this._onPullToRefresh = this._onPullToRefresh(this);
   }
 
   _onMsgClick(event: Event) {
@@ -59,17 +60,23 @@ export default class MessageList extends Component {
     this.props.onBeginDragMessageList();
   }
 
+  _onPullToRefresh(event: Event) {
+    console.log("huangmin888")
+    if (!this.props.onPullToRefresh) {
+      return;
+    }
+    this.props.onPullToRefresh();
+  }
+
   render() {
     return (
-      <View style={{flex:1}}>
-        <RCTMessageList 
+      <RCTMessageList 
           {...this.props} 
           onMsgClick={this._onMsgClick}
           onAvatarClick={this._onAvatarClick}
           onMsgLongClick={this._onMsgLongClick}
           onStatusViewClick={this._onStatusViewClick}
-        />
-      </View>
+      />
     );
   }
 
@@ -80,8 +87,11 @@ MessageList.propTypes = {
   onAvatarClick: PropTypes.func,
   onStatusViewClick: PropTypes.func,
   onBeginDragMessageList: PropTypes.func,
+  onPullToRefresh: PropTypes.func,
   sendBubble: PropTypes.string,
   receiveBubble: PropTypes.string,
+  sendBubble: PropTypes.object,
+  receiveBubble: PropTypes.object,
   sendBubbleTextColor: PropTypes.string,
   receiveBubbleTextColor: PropTypes.string,
   sendBubbleTextSize: PropTypes.number,
@@ -97,7 +107,7 @@ MessageList.propTypes = {
   ...View.propTypes
 };
 
-var RCTMessageList = requireNativeComponent('RNTMessageListView', MessageList);
+var RCTMessageList = requireNativeComponent('RCTMessageListView', MessageList);
 
 var styles = StyleSheet.create({
 

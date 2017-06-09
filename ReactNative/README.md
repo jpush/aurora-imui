@@ -1,5 +1,7 @@
 ## IMUI for React Native
 
+[中文文档](./README_zh.md)
+
 ## Install
 
 ```
@@ -7,7 +9,24 @@ npm install aurora-imui-react-native --save
 react-native link
 ```
 
-## Usage
+If link Android failed, you need modify `settings.gradle`:
+
+```
+include ':app', ':aurora-imui-react-native'
+project(':aurora-imui-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/aurora-imui-react-native/ReactNative/android')
+```
+
+And add dependency in your app's `build.gradle`:
+
+```
+dependencies {
+    compile project(':aurora-imui-react-native')
+}
+```
+
+
+
+## Configuration
 
 - ### Android
 
@@ -27,41 +46,30 @@ react-native link
 
   - import IMUI from 'aurora-imui-react-native';
 
- > [Android Example usage](./sample/react-native-android/pages/chat_activity.js)
-
-```
-  import IMUI from 'aurora-imui-react-native';
-  var MessageList = IMUI.MessageList;
-  var ChatInput = IMUI.ChatInput;
-  const ReactMsgListModule = NativeModules.MsgListModule; 
-```
-
 
 - ### iOS
 
   - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
   - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RNTAuroraIMUI.framework
   - Before build you project ,you should build RNTAuroraIMUI.framework
-  - Use it in ReactJS
->[iOS Example usage](./sample/index.ios.js)
+
+## Usage
 ```
-// For use IMUI you should Use get InputView, MessageListView, and RNTAuroraIController
-
-import IMUI from 'aurora-imui-react-native'
-var InputView = IMUI.ChatInput; // the inputView component
-var MessageListView = IMUI.MessageList; // the messageList component
-const AuroraIController = NativeModules.RNTAuroraIController; //  the IMUI controller, use it to add message to messageList.
+  import IMUI from 'aurora-imui-react-native';
+  var MessageList = IMUI.MessageList;
+  var ChatInput = IMUI.ChatInput;
+  const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
 ```
-
-
-
+Refer to iOS,Android example
+> [iOS Example usage](./sample/index.ios.js)
+> [Android Example usage](./sample/react-native-android/pages/chat_activity.js)
 ## Data format
 
 By using MessageList, you need define `message` object and `fromUser` object.
 
 - message object format:
 
-**status must be one of the four values: "send_succeed", "send_failed", "send_going", "download_failed", 
+** status must be one of the four values: "send_succeed", "send_failed", "send_going", "download_failed", 
 if you haven't define this property, default value is "send_succeed".**
 
  ```
@@ -117,14 +125,17 @@ message = {  // video message
 
   ## Event Handling
 
-  ### MessageList click event
-    - onAvatarClick {message: {message json}} :Fires when click avatar
+  ### MessageList Event
+- onAvatarClick {message: {message json}} :Fires when click avatar
 
-    - onMsgClick {message: {message json} : Fires when click message bubble
+- onMsgClick {message: {message json} : Fires when click message bubble
 
-    - onStatusViewClick {message: {message json}}  Fires when click status view
+- onStatusViewClick {message: {message json}}  Fires when click status view
 
-    - onBeginDragMessageList (iOS only)
+- onPullToRefresh  Fires when pull MessageList to top, example usage: please refer sample's onPullToRefresh method.
+
+
+- onBeginDragMessageList (iOS only)
 
   ### MessageList append/update/insert message event:
 
@@ -148,7 +159,7 @@ var messages = [{
 	},
 	timeString: "10:00",
 }];
-ReactMsgListModule.appendMessages(messages);
+AuroraIMUIModule.appendMessages(messages);
 ```
 
 - updateMessage(message)
@@ -169,52 +180,76 @@ var message = {
 	},
 	timeString: "10:00",
 };
-ReactMsgListModule.updateMessage(message);
+AuroraIMUIModule.updateMessage(message);
 ```
 
 - insertMessagesToTop([message])
+
+  **Notice that the order of message array must be sorted in chronological order**
 
 example:
 
 ```
 var messages = [{
-  msgId: "1",
+    msgId: "1",
+    status: "send_succeed",
+    msgType: "text",
+    text: "This",
+    isOutgoing: true,
+    fromUser: {
+	  userId: "1",
+	  displayName: "Ken",
+	  avatarPath: "ironman"
+    },
+    timeString: "10:00",
+  },{
+    msgId: "2",
 	status: "send_succeed",
 	msgType: "text",
-	text: text,
+	text: "is",
 	isOutgoing: true,
 	fromUser: {
 		userId: "1",
 		displayName: "Ken",
 		avatarPath: "ironman"
-	},
-	timeString: "10:00",
-	},{
-  msgId: "2",
-	status: "send_going",
+    },
+    timeString: "10:10",
+},{
+    msgId: "3",
+	status: "send_succeed",
 	msgType: "text",
-	text: "Hello",
+	text: "example",
 	isOutgoing: true,
 	fromUser: {
 		userId: "1",
 		displayName: "Ken",
 		avatarPath: "ironman"
-  }];
-ReactMsgListModule.insertMessagesToTop(messages);
+    },
+    timeString: "10:20",
+}];
+AuroraIMUIModule.insertMessagesToTop(messages);
 ```
 
 ## Style 
 
 ### MessageList custom style
 
-**In android, if your want to define your chatting bubble, you need to put a drawable file 
-in drawable folder, and that image file must be [nine patch drawable file](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html), 
-see our example for detail.**
-- sendBubble: PropTypes.string -- The name of the nine patch file.
+**In android, if your want to define your chatting bubble, you need to put a drawable file in drawable folder, and that image file must be [nine patch drawable file](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html), see our example for detail.**
 
-same to top
 
-- receiveBubble: PropTypes.string,
+
+**In iOS, if your want to define your chatting bubble,you need to put a image file to you xcode,and specifies ` sendBubble.imageName` or `receiveBubble.imageName` to image name. if you need to set the default avatar, you need put you default avatar image to you xcode,and adjust the image name to `defoult_header`,see our example for detail.**
+
+- sendBubble: PropTypes.object :
+```
+// eg:
+	{ 
+		imageName:"inComing_bubble",
+		padding:{left:10,top:10,right:15,bottom:10}
+	}
+```
+
+- receiveBubble: PropTypes.object,
 
 - sendBubbleTextColor: PropTypes.string,
 
@@ -225,8 +260,16 @@ same to top
 - receiveBubbleTextSize: PropTypes.number,
 
 
-This Padding object includes four properties: left, top, right, bottom. eg: {left 5, top: 5, right: 15, bottom: 5}
-
+This Padding object includes four properties: left, top, right, bottom. 
+```
+ // eg:
+ {
+ 	left: 5, 
+ 	top: 5, 
+ 	right: 15, 
+ 	bottom: 5
+ }
+```
 - sendBubblePadding: PropTypes.object
 
 - receiveBubblePadding: PropTypes.object

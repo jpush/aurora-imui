@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ph2-eX-QbU" customClass="IMUIMessageCollectionView" customModule="sampleObjectC" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="550"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="toh-3b-3ir" customClass="IMUIInputView" customModule="sampleObjectC" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="550" width="375" height="117"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="toh-3b-3ir" secondAttribute="bottom" id="0cJ-wJ-76E"/>
+                            <constraint firstItem="toh-3b-3ir" firstAttribute="top" secondItem="ph2-eX-QbU" secondAttribute="bottom" id="21A-RY-6x7"/>
+                            <constraint firstItem="toh-3b-3ir" firstAttribute="top" secondItem="ph2-eX-QbU" secondAttribute="bottom" id="5Gg-v6-rdX"/>
+                            <constraint firstItem="ph2-eX-QbU" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="9a0-Qa-a1E"/>
+                            <constraint firstItem="ph2-eX-QbU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="CUe-hk-zEU"/>
+                            <constraint firstAttribute="trailing" secondItem="ph2-eX-QbU" secondAttribute="trailing" id="Ii8-5l-sku"/>
+                            <constraint firstAttribute="trailing" secondItem="toh-3b-3ir" secondAttribute="trailing" id="Pqu-3I-Hrd"/>
+                            <constraint firstItem="toh-3b-3ir" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="iLa-6V-zrV"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imuiInputView" destination="toh-3b-3ir" id="4a4-gh-uUG"/>
+                        <outlet property="messageList" destination="ph2-eX-QbU" id="uVS-lX-OS8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="116" y="123.68815592203899"/>
+        </scene>
+    </scenes>
+</document>

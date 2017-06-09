@@ -19,7 +19,7 @@ public class RCTMessage implements IMessage {
     public static final String IS_OUTGOING = "isOutgoing";
     private final String TIME_STRING = "timeString";
     private final String TEXT = "text";
-    private final String MEDIA_FILE_PATH = "mediaFilePath";
+    private final String MEDIA_FILE_PATH = "mediaPath";
     private final String DURATION = "duration";
     private final String PROGRESS = "progress";
     private final String FROM_USER = "fromUser";

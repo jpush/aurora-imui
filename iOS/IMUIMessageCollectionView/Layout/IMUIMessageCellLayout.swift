@@ -51,10 +51,12 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocal {
   
   public init(isOutGoingMessage: Bool,
                  isNeedShowTime: Bool,
-              bubbleContentSize: CGSize) {
+              bubbleContentSize: CGSize,
+            bubbleContentInsets: UIEdgeInsets) {
     self.isOutGoingMessage = isOutGoingMessage
     self.isNeedShowTime = isNeedShowTime
     self.bubbleContentSize = bubbleContentSize
+    self.bubbleContentInsets = bubbleContentInsets
     
   }
   
@@ -63,6 +65,7 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocal {
   open var isNeedShowTime: Bool
   
   open var bubbleContentSize: CGSize
+  open var bubbleContentInsets: UIEdgeInsets
   
   open var bubbleSize: CGSize {
     let bubbleWidth = bubbleContentSize.width +
@@ -135,7 +138,7 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocal {
   
   // MARK - IMUIMessageCellLayoutProtocal
   open var bubbleContentInset: UIEdgeInsets {
-    return UIEdgeInsets.zero
+    return bubbleContentInsets
   }
   
   open var nameLabelFrame: CGRect {

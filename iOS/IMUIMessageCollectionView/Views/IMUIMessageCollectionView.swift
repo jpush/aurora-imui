@@ -12,7 +12,7 @@ import UIKit
 open class IMUIMessageCollectionView: UIView {
 
   @IBOutlet var view: UIView!
-  @IBOutlet weak var messageCollectionView: UICollectionView!
+  @IBOutlet open weak var messageCollectionView: UICollectionView!
 
   var viewCache = IMUIReuseViewCache()
   
@@ -77,11 +77,11 @@ open class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.isScrollEnabled = true
   }
   
-  open subscript(index: Int) -> IMUIMessageModel {
+  open subscript(index: Int) -> IMUIMessageModelProtocol {
     return chatDataManager[index]
   }
   
-  open subscript(msgId: String) -> IMUIMessageModel? {
+  open subscript(msgId: String) -> IMUIMessageModelProtocol? {
     return chatDataManager[msgId]
   }
   

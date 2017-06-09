@@ -74,6 +74,9 @@ export default class TestRNIMUI extends Component {
       AuroraIController.hidenFeatureView(true)
     }
 
+  onPullToRefresh = () => {
+      console.log("on pull to refresh")
+    }
 
   onSendText = (text) => {
 
@@ -169,7 +172,7 @@ export default class TestRNIMUI extends Component {
         onStatusViewClick={this.onStatusViewClick}
         onTapMessageCell={this.onTapMessageCell}
         onBeginDragMessageList={this.onBeginDragMessageList}
-        
+        onPullToRefresh={this.onPullToRefresh}
         avatarSize={{width:40,height:40}}
         sendBubbleTextSize={18}
         sendBubbleTextColor={"000000"}
