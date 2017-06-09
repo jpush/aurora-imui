@@ -1,5 +1,5 @@
 //
-//  RCTAuroraIModule.h
+//  RCTAuroraIMUIModule.h
 //  RCTAuroraIMUI
 //
 //  Created by oshumini on 2017/6/1.
@@ -22,6 +22,6 @@
 #define kScrollToBottom @"kScrollToBottom"
 #define kHidenFeatureView @"kHidenFeatureView"
 
-@interface RCTAuroraIModule : NSObject <RCTBridgeModule>
+@interface RCTAuroraIMUIModule : NSObject <RCTBridgeModule>
 
 @end

@@ -1,25 +1,25 @@
 //
-//  RCTAuroraIModule.m
-//  RCTAuroraIModule
+//  RCTAuroraIMUIModule.m
+//  RCTAuroraIMUIModule
 //
 //  Created by oshumini on 2017/6/1.
 //  Copyright © 2017年 HXHG. All rights reserved.
 //
 
-#import "RCTAuroraIModule.h"
+#import "RCTAuroraIMUIModule.h"
 
-@interface RCTAuroraIModule () {
+@interface RCTAuroraIMUIModule () {
 }
 
 @end
 
-@implementation RCTAuroraIModule
+@implementation RCTAuroraIMUIModule
 RCT_EXPORT_MODULE();
 
 @synthesize bridge = _bridge;
 
 + (id)allocWithZone:(NSZone *)zone {
-  static RCTAuroraIModule *sharedInstance = nil;
+  static RCTAuroraIMUIModule *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [super allocWithZone:zone];

@@ -25,7 +25,7 @@ dependencies {
 
 
 
-## 用法
+## 配置
 
 - ### Android
 
@@ -45,14 +45,8 @@ dependencies {
 
   - import IMUI from 'aurora-imui-react-native';
 
- > [Android Example 用法](./sample/react-native-android/pages/chat_activity.js)
 
-```
-  import IMUI from 'aurora-imui-react-native';
-  var MessageList = IMUI.MessageList;
-  var ChatInput = IMUI.ChatInput;
-  const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
-```
+
 
 
 - ### iOS
@@ -61,7 +55,7 @@ dependencies {
   - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RNTAuroraIMUI.framework
   - 构建你的项目之前，你需要构建 RNTAuroraIMUI.framework
   - 在 JS 中使用：
->[iOS Example usage](./sample/index.ios.js)
+
 ```
 // For use IMUI you should Use get InputView, MessageListView, and RNTAuroraIController
 
@@ -71,7 +65,15 @@ var MessageListView = IMUI.MessageList; // the messageList component
 const AuroraIController = NativeModules.RNTAuroraIController; //  the IMUI controller, use it to add message to messageList.
 ```
 
-
+- ## 用法
+> [Android Example 用法](./sample/react-native-android/pages/chat_activity.js)
+> [iOS Example usage](./sample/index.ios.js)
+```
+  import IMUI from 'aurora-imui-react-native';
+  var MessageList = IMUI.MessageList;
+  var ChatInput = IMUI.ChatInput;
+  const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
+```
 
 ## 数据格式
 

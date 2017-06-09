@@ -10,7 +10,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "RCTInputView.h"
 #import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
-#import "RCTAuroraIModule.h"
+#import "RCTAuroraIMUIModule.h"
 
 @implementation RCTMessageListView
 

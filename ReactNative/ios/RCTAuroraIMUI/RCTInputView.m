@@ -7,7 +7,7 @@
 //
 
 #import "RCTInputView.h"
-#import "RCTAuroraIModule.h"
+#import "RCTAuroraIMUIModule.h"
 
 @implementation RCTInputView
 

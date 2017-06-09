@@ -27,8 +27,8 @@
 		624B82901EE5710E006C3C03 /* MyMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9731EE55CB200EC43AE /* MyMessageModel.swift */; };
 		624B82911EE5710E006C3C03 /* MyUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9741EE55CB200EC43AE /* MyUser.swift */; };
 		624B82921EE5710E006C3C03 /* RCTSwiftBridgeModule.h in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9751EE55CB200EC43AE /* RCTSwiftBridgeModule.h */; };
-		624B82931EE5710E006C3C03 /* RCTAuroraIModule.h in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9761EE55CB200EC43AE /* RCTAuroraIModule.h */; };
-		624B82941EE5710E006C3C03 /* RCTAuroraIModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9771EE55CB200EC43AE /* RCTAuroraIModule.m */; };
+		624B82931EE5710E006C3C03 /* RCTAuroraIMUIModule.h in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9761EE55CB200EC43AE /* RCTAuroraIMUIModule.h */; };
+		624B82941EE5710E006C3C03 /* RCTAuroraIMUIModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9771EE55CB200EC43AE /* RCTAuroraIMUIModule.m */; };
 		624B82951EE5710E006C3C03 /* RCTAuroraIMUI-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9781EE55CB200EC43AE /* RCTAuroraIMUI-Bridging-Header.h */; };
 		624B82961EE5710E006C3C03 /* RCTInputView.h in Sources */ = {isa = PBXBuildFile; fileRef = 623EA97A1EE55CB200EC43AE /* RCTInputView.h */; };
 		624B82971EE5710E006C3C03 /* RCTInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA97B1EE55CB200EC43AE /* RCTInputView.m */; };
@@ -87,7 +87,7 @@
 		624B82D61EE5710E006C3C03 /* RCTAuroraIMUI.h in Sources */ = {isa = PBXBuildFile; fileRef = 623EA99B1EE55D0800EC43AE /* RCTAuroraIMUI.h */; };
 		624B82DA1EE57482006C3C03 /* RCTInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 623EA97C1EE55CB200EC43AE /* RCTInputView.xib */; };
 		624B82DB1EE57482006C3C03 /* RCTMessageListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 623EA9801EE55CB200EC43AE /* RCTMessageListView.xib */; };
-		624B82DD1EE57653006C3C03 /* RCTAuroraIModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9771EE55CB200EC43AE /* RCTAuroraIModule.m */; };
+		624B82DD1EE57653006C3C03 /* RCTAuroraIMUIModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9771EE55CB200EC43AE /* RCTAuroraIMUIModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,8 +120,8 @@
 		623EA9731EE55CB200EC43AE /* MyMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMessageModel.swift; sourceTree = "<group>"; };
 		623EA9741EE55CB200EC43AE /* MyUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUser.swift; sourceTree = "<group>"; };
 		623EA9751EE55CB200EC43AE /* RCTSwiftBridgeModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTSwiftBridgeModule.h; sourceTree = "<group>"; };
-		623EA9761EE55CB200EC43AE /* RCTAuroraIModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTAuroraIModule.h; sourceTree = "<group>"; };
-		623EA9771EE55CB200EC43AE /* RCTAuroraIModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTAuroraIModule.m; sourceTree = "<group>"; };
+		623EA9761EE55CB200EC43AE /* RCTAuroraIMUIModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTAuroraIMUIModule.h; sourceTree = "<group>"; };
+		623EA9771EE55CB200EC43AE /* RCTAuroraIMUIModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTAuroraIMUIModule.m; sourceTree = "<group>"; };
 		623EA9781EE55CB200EC43AE /* RCTAuroraIMUI-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAuroraIMUI-Bridging-Header.h"; sourceTree = "<group>"; };
 		623EA97A1EE55CB200EC43AE /* RCTInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTInputView.h; sourceTree = "<group>"; };
 		623EA97B1EE55CB200EC43AE /* RCTInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTInputView.m; sourceTree = "<group>"; };
@@ -230,8 +230,8 @@
 				623EA9731EE55CB200EC43AE /* MyMessageModel.swift */,
 				623EA9741EE55CB200EC43AE /* MyUser.swift */,
 				623EA9751EE55CB200EC43AE /* RCTSwiftBridgeModule.h */,
-				623EA9761EE55CB200EC43AE /* RCTAuroraIModule.h */,
-				623EA9771EE55CB200EC43AE /* RCTAuroraIModule.m */,
+				623EA9761EE55CB200EC43AE /* RCTAuroraIMUIModule.h */,
+				623EA9771EE55CB200EC43AE /* RCTAuroraIMUIModule.m */,
 				623EA9781EE55CB200EC43AE /* RCTAuroraIMUI-Bridging-Header.h */,
 				623EA97A1EE55CB200EC43AE /* RCTInputView.h */,
 				623EA97B1EE55CB200EC43AE /* RCTInputView.m */,
@@ -623,7 +623,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				624B82DD1EE57653006C3C03 /* RCTAuroraIModule.m in Sources */,
+				624B82DD1EE57653006C3C03 /* RCTAuroraIMUIModule.m in Sources */,
 				623EAA311EE55D4200EC43AE /* IMUIInputViewManager.m in Sources */,
 				623EAA321EE55D4200EC43AE /* RCTInputViewManager.m in Sources */,
 				623EAA331EE55D4200EC43AE /* RCTMessageListViewManager.m in Sources */,
@@ -639,8 +639,8 @@
 				624B82901EE5710E006C3C03 /* MyMessageModel.swift in Sources */,
 				624B82911EE5710E006C3C03 /* MyUser.swift in Sources */,
 				624B82921EE5710E006C3C03 /* RCTSwiftBridgeModule.h in Sources */,
-				624B82931EE5710E006C3C03 /* RCTAuroraIModule.h in Sources */,
-				624B82941EE5710E006C3C03 /* RCTAuroraIModule.m in Sources */,
+				624B82931EE5710E006C3C03 /* RCTAuroraIMUIModule.h in Sources */,
+				624B82941EE5710E006C3C03 /* RCTAuroraIMUIModule.m in Sources */,
 				624B82951EE5710E006C3C03 /* RCTAuroraIMUI-Bridging-Header.h in Sources */,
 				624B82961EE5710E006C3C03 /* RCTInputView.h in Sources */,
 				624B82971EE5710E006C3C03 /* RCTInputView.m in Sources */,
