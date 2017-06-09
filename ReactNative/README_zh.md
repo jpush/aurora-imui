@@ -1,22 +1,21 @@
 ## IMUI for React Native
 
-[中文文档](./README_zh.md)
-
-## Install
+## 安装
 
 ```
 npm install aurora-imui-react-native --save
 react-native link
 ```
 
-If link Android failed, you need modify `settings.gradle`:
+如果 link 安卓失败，需要手动修改一下 `settings.gradle` 中的引用路径：
 
 ```
 include ':app', ':aurora-imui-react-native'
 project(':aurora-imui-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/aurora-imui-react-native/ReactNative/android')
+
 ```
 
-And add dependency in your app's `build.gradle`:
+然后在 app 的 `build.gradle`中引用：
 
 ```
 dependencies {
@@ -26,11 +25,11 @@ dependencies {
 
 
 
-## Usage
+## 用法
 
 - ### Android
 
-  - Add Package:
+  - 引入 Package:
 
   > MainApplication.java
 
@@ -46,7 +45,7 @@ dependencies {
 
   - import IMUI from 'aurora-imui-react-native';
 
- > [Android Example usage](./sample/react-native-android/pages/chat_activity.js)
+ > [Android Example 用法](./sample/react-native-android/pages/chat_activity.js)
 
 ```
   import IMUI from 'aurora-imui-react-native';
@@ -60,8 +59,8 @@ dependencies {
 
   - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
   - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RNTAuroraIMUI.framework
-  - Before build you project ,you should build RNTAuroraIMUI.framework
-  - Use it in ReactJS
+  - 构建你的项目之前，你需要构建 RNTAuroraIMUI.framework
+  - 在 JS 中使用：
 >[iOS Example usage](./sample/index.ios.js)
 ```
 // For use IMUI you should Use get InputView, MessageListView, and RNTAuroraIController
@@ -74,14 +73,13 @@ const AuroraIController = NativeModules.RNTAuroraIController; //  the IMUI contr
 
 
 
-## Data format
+## 数据格式
 
-By using MessageList, you need define `message` object and `fromUser` object.
+使用 MessageList，你需要定义 `message` 对象和 `fromUser` 对象。
 
-- message object format:
+- `message` 对象格式:
 
-**status must be one of the four values: "send_succeed", "send_failed", "send_going", "download_failed", 
-if you haven't define this property, default value is "send_succeed".**
+**status 必须为以下四个值之一: "send_succeed", "send_failed", "send_going", "download_failed"，如果没有定义这个属性， 默认值是 "send_succeed".**
 
  ```
   message = {  // text message
@@ -123,7 +121,7 @@ message = {  // video message
 }
  ```
 
--    fromUser object format:
+-    `fromUser` 对象格式:
 
   ```
   fromUser = {
@@ -134,23 +132,23 @@ message = {  // video message
   ```
 
 
-  ## Event Handling
+  ## 事件处理
 
-  ### MessageList Event
-- onAvatarClick {message: {message json}} :Fires when click avatar
+  ### MessageList 事件
+- onAvatarClick {message: {message json}} : 点击头像触发
 
-- onMsgClick {message: {message json} : Fires when click message bubble
+- onMsgClick {message: {message json} :  点击消息气泡触发
 
-- onStatusViewClick {message: {message json}}  Fires when click status view
+- onStatusViewClick {message: {message json}}  点击消息状态按钮触发
 
-- onPullToRefresh  Fires when pull MessageList to top, example usage: please refer sample's onPullToRefresh method.
+- onPullToRefresh  滚动 MessageList 到顶部时，下拉触发, 案例用法: 参考 sample 中的聊天组件中的 onPullToRefresh  方法。
 
 
 - onBeginDragMessageList (iOS only)
 
-  ### MessageList append/update/insert message event:
+  ### MessageList append/update/insert 消息事件:
 
-  For append/update/insert message to MessageList, you will use `MsgListModule`(Native Module) to send event to native.
+  插入，更新，增加消息到 MessageList, 你需要使用 AuroraIMUIModule (Native Module) 来发送事件到 Native。
 
 - appendMessages([message])
 
@@ -196,7 +194,7 @@ AuroraIMUIModule.updateMessage(message);
 
 - insertMessagesToTop([message])
 
-  **Notice that the order of message array must be sorted in chronological order**
+  **消息数组的顺序排列要按照时间顺序排列**
 
 example:
 
@@ -241,18 +239,15 @@ var messages = [{
 AuroraIMUIModule.insertMessagesToTop(messages);
 ```
 
-## Style 
+## 样式 
 
-### MessageList custom style
+### MessageList 自定义样式
 
-**In android, if your want to define your chatting bubble, you need to put a drawable file 
-in drawable folder, and that image file must be [nine patch drawable file](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html), 
-see our example for detail.**
-- sendBubble: PropTypes.string -- The name of the nine patch file.
+**在 Android 中，如果你想要自定义消息气泡，你需要将一张点九图放在 drawable 文件夹下。 [点九图介绍](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html)，详情参考 sample。**
+- sendBubble: PropTypes.string -- 点九图的名字
 
-same to top
 
-- receiveBubble: PropTypes.string,
+- receiveBubble: PropTypes.string — 同上
 
 - sendBubbleTextColor: PropTypes.string,
 
@@ -263,7 +258,7 @@ same to top
 - receiveBubbleTextSize: PropTypes.number,
 
 
-This Padding object includes four properties: left, top, right, bottom. eg: {left 5, top: 5, right: 15, bottom: 5}
+padding 对象包括四个属性: left, top, right, bottom. eg: {left 5, top: 5, right: 15, bottom: 5}
 
 - sendBubblePadding: PropTypes.object
 
@@ -273,11 +268,10 @@ This Padding object includes four properties: left, top, right, bottom. eg: {lef
 
 - dateTextColor: PropTypes.string,
 
-- datePadding: PropTypes.number -- This is a number property, means padding left/top/right/bottom value is same.
+- datePadding: PropTypes.number -- 与上面的不同，这个属性内边距是一样的
 
-Size object include width and height properties.
 
-- avatarSize: PropTypes.object -- Example: avatarSize = {width: 50, height: 50}
+- avatarSize: PropTypes.object -- 这个对象有宽高两个属性，Example: avatarSize = {width: 50, height: 50}
 
 - showDisplayName: PropTypes.bool, 
 
