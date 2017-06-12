@@ -45,7 +45,8 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private final int TYPE_GROUP_CHANGE = 10;
 
     // Custom message
-    private final int TYPE_CUSTOM_TXT = 11;
+    private final int TYPE_CUSTOM_SEND_MSG = 11;
+    private final int TYPE_CUSTOM_RECEIVE_MSG = 12;
 
     private Context mContext;
     private String mSenderId;
@@ -96,8 +97,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mSendVideoLayout, mHolders.mSendVideoHolder, true);
             case TYPE_RECEIVE_VIDEO:
                 return getHolder(parent, mHolders.mReceiveVideoLayout, mHolders.mReceiveVideoHolder, false);
+            case TYPE_CUSTOM_SEND_MSG:
+                return getHolder(parent, mHolders.mCustomSendMsgLayout, mHolders.mCustomSendMsgHolder, true);
             default:
-                return null;
+                return getHolder(parent, mHolders.mCustomReceiveMsgLayout, mHolders.mCustomReceiveMsgHolder, false);
         }
     }
 
@@ -123,11 +126,13 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_SEND_VIDEO;
                 case RECEIVE_VIDEO:
                     return TYPE_RECEIVE_VIDEO;
+                case SEND_CUSTOM:
+                    return TYPE_CUSTOM_SEND_MSG;
                 default:
-                    return TYPE_CUSTOM_TXT;
+                    return TYPE_CUSTOM_RECEIVE_MSG;
             }
         }
-        return TYPE_CUSTOM_TXT;
+        return TYPE_CUSTOM_SEND_MSG;
     }
 
     private <HOLDER extends ViewHolder> ViewHolder getHolder(ViewGroup parent, @LayoutRes int layout,
@@ -552,6 +557,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendVideoHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveVideoHolder;
 
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mCustomSendMsgHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mCustomReceiveMsgHolder;
+
         private int mSendTxtLayout;
         private int mReceiveTxtLayout;
 
@@ -563,6 +571,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         private int mSendVideoLayout;
         private int mReceiveVideoLayout;
+
+        private int mCustomSendMsgLayout;
+        private int mCustomReceiveMsgLayout;
 
         public HoldersConfig() {
             mSendTxtHolder = DefaultTxtViewHolder.class;
@@ -756,6 +767,18 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
          */
         public void setReceiveVideoLayout(@LayoutRes int layout) {
             this.mReceiveVideoLayout = layout;
+        }
+
+        public void setSendCustomMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                     @LayoutRes int layout) {
+            this.mCustomSendMsgHolder = holder;
+            this.mCustomSendMsgLayout = layout;
+        }
+
+        public void setReceiveCustomMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                        @LayoutRes int layout) {
+            this.mCustomReceiveMsgHolder = holder;
+            this.mCustomReceiveMsgLayout = layout;
         }
 
     }

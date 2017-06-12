@@ -42,7 +42,10 @@ public interface IMessage {
         RECEIVE_LOCATION,
 
         SEND_FILE,
-        RECEIVE_FILE;
+        RECEIVE_FILE,
+
+        SEND_CUSTOM,
+        RECEIVE_CUSTOM;
 
         public String type;
 

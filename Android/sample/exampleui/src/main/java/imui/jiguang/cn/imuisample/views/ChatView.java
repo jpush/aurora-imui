@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
+import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
@@ -102,6 +103,10 @@ public class ChatView extends RelativeLayout {
 
     public void setOnTouchListener(OnTouchListener listener) {
         mMsgList.setOnTouchListener(listener);
+    }
+
+    public void setOnTouchEditTextListener(OnClickEditTextListener listener) {
+        mChatInput.setOnClickEditTextListener(listener);
     }
 
     @Override

@@ -246,7 +246,9 @@ public class ChatInputView extends LinearLayout
         mChatInput.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                mEditTextListener.onTouchEditText();
+                if (mEditTextListener != null) {
+                    mEditTextListener.onTouchEditText();
+                }
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !mShowSoftInput) {
                     mShowSoftInput = true;
                     invisibleMenuLayout();
