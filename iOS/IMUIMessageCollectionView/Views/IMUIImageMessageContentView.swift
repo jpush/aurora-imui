@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocal {
+public class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocal {
 
   var imageView = UIImageView()
   
@@ -17,11 +17,11 @@ class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocal {
     self.addSubview(imageView)
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func layoutContentView(message: IMUIMessageModelProtocol) {
+  public func layoutContentView(message: IMUIMessageModelProtocol) {
     
     imageView.frame = CGRect(origin: CGPoint.zero, size: message.layout.bubbleContentSize)
     imageView.image = UIImage(contentsOfFile: message.mediaFilePath())

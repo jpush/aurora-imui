@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class IMUIVideoMessageContentView: UIView, IMUIMessageContentViewProtocal {
+public class IMUIVideoMessageContentView: UIView, IMUIMessageContentViewProtocal {
 
   lazy var videoView = UIImageView()
   lazy var playBtn = UIButton()
@@ -27,11 +27,11 @@ class IMUIVideoMessageContentView: UIView, IMUIMessageContentViewProtocal {
     videoDuration.font = UIFont.systemFont(ofSize: 10.0)
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func layoutContentView(message: IMUIMessageModelProtocol) {
+  public func layoutContentView(message: IMUIMessageModelProtocol) {
     let layout = message.layout
     self.layoutVideo(with: message.mediaFilePath())
     videoView.frame = CGRect(origin: CGPoint.zero, size: layout.bubbleContentSize)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IMUITextMessageContentView: UIView, IMUIMessageContentViewProtocal {
+@objc open class IMUITextMessageContentView: UIView, IMUIMessageContentViewProtocal {
   open static var outGoingTextColor = UIColor(netHex: 0x7587A8)
   open static var inComingTextColor = UIColor.white
   
@@ -23,11 +23,11 @@ class IMUITextMessageContentView: UIView, IMUIMessageContentViewProtocal {
     textMessageLable.numberOfLines = 0
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func layoutContentView(message: IMUIMessageModelProtocol) {
+  public func layoutContentView(message: IMUIMessageModelProtocol) {
     
     textMessageLable.frame = CGRect(origin: CGPoint.zero, size: message.layout.bubbleContentSize)
     

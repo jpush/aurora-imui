@@ -41,9 +41,9 @@ extension ViewController: IMUIInputViewDelegate {
   
   func sendTextMessage(_ messageText: String) {
     let outGoingmessage = MyMessageModel(text: messageText, isOutGoing: true)
-    let inCommingMessage = MyMessageModel(text: messageText, isOutGoing: false)
+//    let inCommingMessage = MyMessageModel(text: messageText, isOutGoing: false)
     self.messageCollectionView.appendMessage(with: outGoingmessage)
-    self.messageCollectionView.appendMessage(with: inCommingMessage)
+//    self.messageCollectionView.appendMessage(with: inCommingMessage)
   }
   
   func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {
@@ -60,9 +60,9 @@ extension ViewController: IMUIInputViewDelegate {
       try picture.write(to: URL(fileURLWithPath: imgPath))
       DispatchQueue.main.async {
         let outGoingmessage = MyMessageModel(imagePath: imgPath, isOutGoing: true)
-        let inCommingMessage = MyMessageModel(imagePath: imgPath, isOutGoing: false)
+//        let inCommingMessage = MyMessageModel(imagePath: imgPath, isOutGoing: false)
         self.messageCollectionView.appendMessage(with: outGoingmessage)
-        self.messageCollectionView.appendMessage(with: inCommingMessage)
+//        self.messageCollectionView.appendMessage(with: inCommingMessage)
       }
     } catch {
       print("write image file error")

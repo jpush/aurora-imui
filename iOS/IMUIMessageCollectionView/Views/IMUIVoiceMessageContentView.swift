@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocal {
+public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocal {
 
   var voiceImg = UIImageView()
   fileprivate var isMediaActivity = false
@@ -23,11 +23,11 @@ class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocal {
     self.addGestureRecognizer(gesture)
   }
   
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func layoutContentView(message: IMUIMessageModelProtocol) {
+  public func layoutContentView(message: IMUIMessageModelProtocol) {
     self.message = message
     self.layoutToVoice(isOutGoing: message.isOutGoing)
     
