@@ -99,7 +99,6 @@ open class IMUIInputView: UIView {
       DispatchQueue.main.async {
         self.featureView.layoutFeature(with: .voice)
         self.showFeatureView()
-        NSLog("huangmin onSwitch to mic 2")
       }
     }
   }

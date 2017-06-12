@@ -87,12 +87,12 @@ import UIKit
    */
   var messageStatus: IMUIMessageStatus { get }
   
-  /**
-   *  @optional get function
-   *
-   * return message's type
-   */
-  var type: IMUIMessageType { get }
+//  /**
+//   *  @optional get function
+//   *
+//   * return message's type
+//   */
+//  var type: IMUIMessageType { get }
 
 }
 
