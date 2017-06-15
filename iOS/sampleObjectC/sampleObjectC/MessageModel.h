@@ -33,35 +33,45 @@
 
 @property (nonatomic, readonly) enum IMUIMessageStatus messageStatus;
 
-@property (assign, nonatomic) enum IMUIMessageType type;
+@property (assign, nonatomic) NSString *type;
 
-- (void)setupTextMessage:(NSString *)msgId
-                fromUser:(id <IMUIUserProtocol>)fromUser
-              timeString:(NSString *)timeString
-                    text:(NSString *) text
-              isOutgoing:(BOOL)isOutGoing
-                  status:(IMUIMessageStatus) messageStatus;
 
-- (void)setupVoiceMessage:(NSString *)msgId
+//- (instancetype)initWithIsOutGoingMessage:(BOOL)isOutgoing
+//                           isNeedShowTime:(BOOL)isNeedShowTime
+//                        bubbleContentSize:(CGSize)bubbleContentSize
+//                      bubbleContentInsets:(UIEdgeInsets)contentInset
+//                              contentType:(NSString *)contentType;
+
+
+- (instancetype)initWithText:(NSString *)text
+           messageId:(NSString *)msgId
+            fromUser:(id <IMUIUserProtocol>)fromUser
+            timeString:(NSString *)timeString
+            isOutgoing:(BOOL)isOutGoing
+                status:(IMUIMessageStatus) messageStatus;
+
+- (instancetype)initWithImagePath:(NSString *) mediaPath
+           messageId:(NSString *)msgId
+            fromUser:(id <IMUIUserProtocol>)fromUser
+          timeString:(NSString *)timeString
+          isOutgoing:(BOOL)isOutGoing
+              status:(IMUIMessageStatus) messageStatus;
+
+- (instancetype)initWithVoicePath:(NSString *) mediaPath
+                messageId:(NSString *)msgId
                  fromUser:(id <IMUIUserProtocol>)fromUser
                timeString:(NSString *)timeString
-                mediaPath:(NSString *) mediaPath
                isOutgoing:(BOOL)isOutGoing
                    status:(IMUIMessageStatus) messageStatus;
 
-- (void)setupImageMessage:(NSString *)msgId
+- (instancetype)initWithVideoPath:(NSString *) mediaPath
+                messageId:(NSString *)msgId
                  fromUser:(id <IMUIUserProtocol>)fromUser
                timeString:(NSString *)timeString
-                mediaPath:(NSString *) mediaPath
                isOutgoing:(BOOL)isOutGoing
                    status:(IMUIMessageStatus) messageStatus;
 
-- (void)setupVideoMessage:(NSString *)msgId
-                 fromUser:(id <IMUIUserProtocol>)fromUser
-               timeString:(NSString *)timeString
-                mediaPath:(NSString *) mediaPath
-               isOutgoing:(BOOL)isOutGoing
-                   status:(IMUIMessageStatus) messageStatu;
+
 @end
 
 

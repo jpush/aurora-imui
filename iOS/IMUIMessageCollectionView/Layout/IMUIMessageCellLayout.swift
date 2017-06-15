@@ -319,4 +319,27 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocal {
                   height: IMUIMessageCellLayout.statusViewSize.height)
     
   }
+  
+  open var bubbleContentView: IMUIMessageContentViewProtocal {
+    return IMUIDefaultContentView()
+  }
+  
+  open var bubbleContentType: String {
+    return "default"
+  }
+}
+
+class IMUIDefaultContentView: UIView, IMUIMessageContentViewProtocal{
+  
+  func layoutContentView(message message: IMUIMessageModelProtocol) {
+  
+  }
+  
+  func Activity() {
+  
+  }
+  
+  func inActivity () {
+  
+  }
 }

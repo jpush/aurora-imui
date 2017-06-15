@@ -35,6 +35,11 @@ import UIKit
   var bubbleFrame: CGRect { get }
   
   /**
+   *  return contents size in message bubble
+   */
+  var bubbleContentSize: CGSize { get }
+  
+  /**
    *  return contents inset in message bubble
    */
   var bubbleContentInset: UIEdgeInsets { get }
@@ -58,6 +63,16 @@ import UIKit
    *  return nameLabel's frame
    */
   var nameLabelFrame: CGRect { get }
+  
+  /**
+   *  return bubble content's View
+   */
+  var bubbleContentView: IMUIMessageContentViewProtocal { get }
+  
+  /**
+   *  return bubble content's type
+   */
+  var bubbleContentType: String { get }
 }
 
 //  IMUIMessageCellLayoutProtocal default value

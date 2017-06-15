@@ -69,10 +69,11 @@ open class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.dataSource = self
     
 //    self.messageCollectionView.register(IMUITextMessageCell.self, forCellWithReuseIdentifier: IMUITextMessageCell.self.description())
-    self.messageCollectionView.register(IMUITextMessageCell.self, forCellWithReuseIdentifier: "messageText")
-    self.messageCollectionView.register(IMUIImageMessageCell.self, forCellWithReuseIdentifier: IMUIImageMessageCell.self.description())
-    self.messageCollectionView.register(IMUIVoiceMessageCell.self, forCellWithReuseIdentifier: IMUIVoiceMessageCell.self.description())
-    self.messageCollectionView.register(IMUIVideoMessageCell.self, forCellWithReuseIdentifier: IMUIVideoMessageCell.self.description())
+//    self.messageCollectionView.register(IMUITextMessageCell.self, forCellWithReuseIdentifier: "messageText")
+//    self.messageCollectionView.register(IMUIImageMessageCell.self, forCellWithReuseIdentifier: IMUIImageMessageCell.self.description())
+//    self.messageCollectionView.register(IMUIVoiceMessageCell.self, forCellWithReuseIdentifier: IMUIVoiceMessageCell.self.description())
+//    self.messageCollectionView.register(IMUIVideoMessageCell.self, forCellWithReuseIdentifier: IMUIVideoMessageCell.self.description())
+    self.messageCollectionView.register(IMUIBaseMessageCell.self, forCellWithReuseIdentifier: IMUIBaseMessageCell.self.description())
     
     self.messageCollectionView.isScrollEnabled = true
   }
@@ -149,24 +150,24 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
 
     var cellIdentify = ""
     let messageModel = self.chatDataManager[indexPath.item]
-    
-    switch messageModel.type {
-    case .text:
-//      cellIdentify = IMUITextMessageCell.self.description()
-      cellIdentify = "messageText"
-      break
-    case .image:
-      cellIdentify = IMUIImageMessageCell.self.description()
-      break
-    case .voice:
-      cellIdentify = IMUIVoiceMessageCell.self.description()
-      break
-    case .video:
-      cellIdentify = IMUIVideoMessageCell.self.description()
-      break
-    default:
-      break
-    }
+    cellIdentify = IMUIBaseMessageCell.self.description()
+//    switch messageModel.type {
+//    case .text:
+////      cellIdentify = IMUITextMessageCell.self.description()
+//      cellIdentify = "messageText"
+//      break
+//    case .image:
+//      cellIdentify = IMUIImageMessageCell.self.description()
+//      break
+//    case .voice:
+//      cellIdentify = IMUIVoiceMessageCell.self.description()
+//      break
+//    case .video:
+//      cellIdentify = IMUIVideoMessageCell.self.description()
+//      break
+//    default:
+//      break
+//    }
     
     let cell: IMUIMessageCellProtocal = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentify, for: indexPath) as! IMUIMessageCellProtocal
     

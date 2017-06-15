@@ -20,6 +20,8 @@
 
 @property (nonatomic, readonly) CGRect bubbleFrame;
 
+@property (nonatomic, readonly) CGSize bubbleContentSize;
+
 @property (nonatomic, readonly) UIEdgeInsets bubbleContentInset;
 
 @property (nonatomic, readonly) UIEdgeInsets cellContentInset;
@@ -30,8 +32,13 @@
 
 @property (nonatomic, readonly) CGRect nameLabelFrame;
 
+@property (nonatomic, readonly, strong) id <IMUIMessageContentViewProtocal> _Nonnull bubbleContentView;
+
+@property (nonatomic, copy) NSString * _Nonnull bubbleContentType;
+
 - (instancetype)initWithIsOutGoingMessage:(BOOL)isOutgoing
                            isNeedShowTime:(BOOL)isNeedShowTime
                         bubbleContentSize:(CGSize)bubbleContentSize
-                      bubbleContentInsets:(UIEdgeInsets)contentInset;
+                      bubbleContentInsets:(UIEdgeInsets)contentInset
+                              contentType:(NSString *)contentType;
 @end
