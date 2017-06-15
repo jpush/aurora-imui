@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc open class IMUITextMessageContentView: UIView, IMUIMessageContentViewProtocal {
+@objc open class IMUITextMessageContentView: UIView, IMUIMessageContentViewProtocol {
   open static var outGoingTextColor = UIColor(netHex: 0x7587A8)
   open static var inComingTextColor = UIColor.white
   

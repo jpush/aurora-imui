@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocal {
+public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol {
 
   var voiceImg = UIImageView()
   fileprivate var isMediaActivity = false

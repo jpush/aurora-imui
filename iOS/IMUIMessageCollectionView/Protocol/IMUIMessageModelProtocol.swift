@@ -34,7 +34,7 @@ import UIKit
    *
    *  @return the layout, `IMUIBaseMessageCell` will use it to layout message cell items
    */
-  var layout: IMUIMessageCellLayoutProtocal { get }
+  var layout: IMUIMessageCellLayoutProtocol { get }
  
   /**
    *  @required function
@@ -86,13 +86,6 @@ import UIKit
    * return get current message status
    */
   var messageStatus: IMUIMessageStatus { get }
-  
-//  /**
-//   *  @optional get function
-//   *
-//   * return message's type
-//   */
-//  var type: IMUIMessageType { get }
 
 }
 
@@ -109,10 +102,6 @@ public extension IMUIMessageModelProtocol {
   func mediaFilePath() -> String {
     return ""
   }
-  
-//  var duration: CGFloat {
-//    return 0.0
-//  }
   
   var messageStatus: IMUIMessageStatus {
     return IMUIMessageStatus.success

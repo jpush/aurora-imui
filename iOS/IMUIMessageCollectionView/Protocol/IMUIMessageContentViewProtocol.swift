@@ -1,5 +1,5 @@
 //
-//  IMUIMessageContentViewProtocal.swift
+//  IMUIMessageContentViewProtocol.swift
 //  sample
 //
 //  Created by oshumini on 2017/6/11.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@objc public protocol IMUIMessageContentViewProtocal: NSObjectProtocol {
+@objc public protocol IMUIMessageContentViewProtocol: NSObjectProtocol {
 //  var contentType: String { get }
   
   func layoutContentView(message: IMUIMessageModelProtocol)

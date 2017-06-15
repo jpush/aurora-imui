@@ -14,7 +14,7 @@ import UIKit
  *  'IMUIMessageCellLayoutProtocal' protocol.
  *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to layout cell's items
  */
-open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocal {
+open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
 
   public static var avatarSize: CGSize = CGSize(width: 40, height: 40)
   
@@ -291,7 +291,7 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocal {
     return IMUIMessageCellLayout.cellContentInset
   }
   
-  open var statusView: IMUIMessageStatusViewProtocal {
+  open var statusView: IMUIMessageStatusViewProtocol {
     return IMUIMessageDefaultStatusView()
   }
 
@@ -320,7 +320,7 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocal {
     
   }
   
-  open var bubbleContentView: IMUIMessageContentViewProtocal {
+  open var bubbleContentView: IMUIMessageContentViewProtocol {
     return IMUIDefaultContentView()
   }
   
@@ -329,7 +329,7 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocal {
   }
 }
 
-class IMUIDefaultContentView: UIView, IMUIMessageContentViewProtocal{
+class IMUIDefaultContentView: UIView, IMUIMessageContentViewProtocol{
   
   func layoutContentView(message message: IMUIMessageModelProtocol) {
   

@@ -23,12 +23,12 @@ class MyMessageModel: IMUIMessageModel {
     return super.resizableBubbleImage
   }
   
-  init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: MyUser, isOutGoing: Bool, date: Date, status: IMUIMessageStatus, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocal) {
+  init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: MyUser, isOutGoing: Bool, date: Date, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocol) {
     
     self.myTextMessage = text
     self.mediaPath = mediaPath
     
-    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: "", status: status, type: type, cellLayout: layout)
+    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: "", type: type, cellLayout: layout)
   }
   
   convenience init(text: String, isOutGoing: Bool) {
@@ -37,7 +37,7 @@ class MyMessageModel: IMUIMessageModel {
                                        isNeedShowTime: false,
                                        bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text), bubbleContentInsets: UIEdgeInsets.zero, type: "text")
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
-    self.init(msgId: msgId, messageStatus: .failed, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: "text", text: text, mediaPath: "", layout:  myLayout)
+    self.init(msgId: msgId, messageStatus: .failed, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "text", text: text, mediaPath: "", layout:  myLayout)
   }
 
   convenience init(voicePath: String, isOutGoing: Bool) {
@@ -45,7 +45,7 @@ class MyMessageModel: IMUIMessageModel {
                                        isNeedShowTime: false,
                                        bubbleContentSize: CGSize(width: 80, height: 37), bubbleContentInsets: UIEdgeInsets.zero, type: "voice")
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
-    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: "voice", text: "", mediaPath: voicePath, layout:  myLayout)
+    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "voice", text: "", mediaPath: voicePath, layout:  myLayout)
   }
   
   convenience init(imagePath: String, isOutGoing: Bool) {
@@ -53,7 +53,7 @@ class MyMessageModel: IMUIMessageModel {
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
                                        isNeedShowTime: false,
                                        bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: "image")
-    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: "image", text: "", mediaPath: imagePath, layout:  myLayout)
+    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "image", text: "", mediaPath: imagePath, layout:  myLayout)
   }
   
   convenience init(videoPath: String, isOutGoing: Bool) {
@@ -61,7 +61,7 @@ class MyMessageModel: IMUIMessageModel {
                                        isNeedShowTime: false,
                                        bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: "video")
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
-    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), status: .success, type: "video", text: "", mediaPath: videoPath, layout:  myLayout)
+    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "video", text: "", mediaPath: videoPath, layout:  myLayout)
   }
   
   override func text() -> String {
@@ -96,7 +96,7 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
     }
   }
   
-  override var bubbleContentView: IMUIMessageContentViewProtocal {
+  override var bubbleContentView: IMUIMessageContentViewProtocol {
     if type == "text" {
       return IMUITextMessageContentView()
     }

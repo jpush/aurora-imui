@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocal {
+public class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocol {
 
   var imageView = UIImageView()
   

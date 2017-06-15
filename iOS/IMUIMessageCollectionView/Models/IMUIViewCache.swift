@@ -18,7 +18,7 @@ class IMUIViewCache<T> {
    *  @parameter statusView: if there are not status view in notInUseStatusViews will return layout.statusView
    *
    */
-  func dequeue(layout: IMUIMessageCellLayoutProtocal) -> T {
+  func dequeue(layout: IMUIMessageCellLayoutProtocol) -> T {
     print("statusView in use count \(self.inUseViews.count)  not in use count \(self.notInUseViews.count)")
     
     if notInUseViews.isEmpty {
@@ -37,7 +37,7 @@ class IMUIViewCache<T> {
     return layout.statusView as! T
   }
   
-  func dequeueContentView(layout: IMUIMessageCellLayoutProtocal) -> T {
+  func dequeueContentView(layout: IMUIMessageCellLayoutProtocol) -> T {
     print("statusView in use count \(self.inUseViews.count)  not in use count \(self.notInUseViews.count)")
     
     if notInUseViews.isEmpty {
@@ -63,9 +63,7 @@ class IMUIViewCache<T> {
       notInUseViews[view.hashValue] = reuseView
       print("switchViewToNotInUse")
     }
-    
 
-    
   }
   
   func clearAllViews() {

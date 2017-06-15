@@ -12,8 +12,6 @@
 @interface MessageLayout()
 @property(strong, nonatomic)IMUIMessageCellLayout *layout;
 @property(assign, nonatomic)BOOL isOutgoing;
-//bubbleContentType
-
 @end
 
 @implementation MessageLayout
@@ -68,7 +66,7 @@
   return _layout.cellContentInset;
 }
 
-- (id <IMUIMessageStatusViewProtocal> _Nonnull)statusView {
+- (id <IMUIMessageStatusViewProtocol> _Nonnull)statusView {
   return _layout.statusView;
 }
 
@@ -80,7 +78,7 @@
   return _layout.nameLabelFrame;
 }
 
-- (id <IMUIMessageContentViewProtocal> _Nonnull)bubbleContentView {
+- (id <IMUIMessageContentViewProtocol> _Nonnull)bubbleContentView {
   if ([_bubbleContentType isEqual: @"Text"]) {
     return [IMUITextMessageContentView new];
   }

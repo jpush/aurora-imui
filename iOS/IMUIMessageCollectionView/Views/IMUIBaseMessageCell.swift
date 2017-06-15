@@ -14,14 +14,14 @@ enum IMUIMessageCellType {
   case outgoing
 }
 
-open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
+open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
   var bubbleView: IMUIMessageBubbleView
   lazy var avatarImage = UIImageView()
   lazy var timeLabel = UILabel()
   lazy var nameLabel = UILabel()
   
   weak var statusView: UIView?
-  weak var bubbleContentView: IMUIMessageContentViewProtocal?
+  weak var bubbleContentView: IMUIMessageContentViewProtocol?
   var bubbleContentType = ""
   
   weak var delegate: IMUIMessageMessageCollectionViewDelegate?
@@ -62,7 +62,7 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func layoutCell(with layout: IMUIMessageCellLayoutProtocal, viewCache: IMUIReuseViewCache) {
+  func layoutCell(with layout: IMUIMessageCellLayoutProtocol, viewCache: IMUIReuseViewCache) {
     self.timeLabel.frame = layout.timeLabelFrame
     self.avatarImage.frame = layout.avatarFrame
     self.bubbleView.frame = layout.bubbleFrame
@@ -98,12 +98,12 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   
   func removeStatusView(viewCache: IMUIReuseViewCache) {
     if let view = self.statusView {
-      viewCache.statusViewCache.switchViewToNotInUse(reuseView: self.statusView as! IMUIMessageStatusViewProtocal)
+      viewCache.statusViewCache.switchViewToNotInUse(reuseView: self.statusView as! IMUIMessageStatusViewProtocol)
       view.removeFromSuperview()
     } else {
       for view in self.contentView.subviews {
-        if let _ = view as? IMUIMessageStatusViewProtocal {
-          viewCache.statusViewCache.switchViewToNotInUse(reuseView: view as! IMUIMessageStatusViewProtocal)
+        if let _ = view as? IMUIMessageStatusViewProtocol {
+          viewCache.statusViewCache.switchViewToNotInUse(reuseView: view as! IMUIMessageStatusViewProtocol)
           view.removeFromSuperview()
         }
       }
@@ -112,8 +112,8 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
   
   func removeBubbleContentView(viewCache: IMUIReuseViewCache, contentType: String) {
     for view in self.bubbleView.subviews {
-      if let _ = view as? IMUIMessageContentViewProtocal {
-        viewCache[self.bubbleContentType]?.switchViewToNotInUse(reuseView: view as! IMUIMessageContentViewProtocal)
+      if let _ = view as? IMUIMessageContentViewProtocol {
+        viewCache[self.bubbleContentType]?.switchViewToNotInUse(reuseView: view as! IMUIMessageContentViewProtocol)
         view.removeFromSuperview()
       }
     }
@@ -129,7 +129,7 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocal {
     
     self.bubbleView.setupBubbleImage(resizeBubbleImage: message.resizableBubbleImage)
     
-    let statusView = self.statusView as! IMUIMessageStatusViewProtocal
+    let statusView = self.statusView as! IMUIMessageStatusViewProtocol
     switch message.messageStatus {
       case .sending:
         statusView.layoutSendingStatus()

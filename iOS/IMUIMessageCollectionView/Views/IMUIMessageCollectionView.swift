@@ -68,11 +68,6 @@ open class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.delegate = self
     self.messageCollectionView.dataSource = self
     
-//    self.messageCollectionView.register(IMUITextMessageCell.self, forCellWithReuseIdentifier: IMUITextMessageCell.self.description())
-//    self.messageCollectionView.register(IMUITextMessageCell.self, forCellWithReuseIdentifier: "messageText")
-//    self.messageCollectionView.register(IMUIImageMessageCell.self, forCellWithReuseIdentifier: IMUIImageMessageCell.self.description())
-//    self.messageCollectionView.register(IMUIVoiceMessageCell.self, forCellWithReuseIdentifier: IMUIVoiceMessageCell.self.description())
-//    self.messageCollectionView.register(IMUIVideoMessageCell.self, forCellWithReuseIdentifier: IMUIVideoMessageCell.self.description())
     self.messageCollectionView.register(IMUIBaseMessageCell.self, forCellWithReuseIdentifier: IMUIBaseMessageCell.self.description())
     
     self.messageCollectionView.isScrollEnabled = true
@@ -96,23 +91,23 @@ open class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.scrollToItem(at: endIndex, at: .bottom, animated: animated)
   }
   
-  open func appendMessage(with message: IMUIMessageModel) {
+  open func appendMessage(with message: IMUIMessageModelProtocol) {
     self.chatDataManager.appendMessage(with: message)
     self.messageCollectionView.reloadData()
     self.scrollToBottom(with: true)
   }
   
-  open func insertMessage(with message: IMUIMessageModel) {
+  open func insertMessage(with message: IMUIMessageModelProtocol) {
     self.chatDataManager.insertMessage(with: message)
     self.messageCollectionView.reloadData()
   }
   
-  open func insertMessages(with messages:[IMUIMessageModel]) {
+  open func insertMessages(with messages:[IMUIMessageModelProtocol]) {
     self.chatDataManager.insertMessages(with: messages)
     self.messageCollectionView.reloadData()
   }
   
-  open func updateMessage(with message:IMUIMessageModel) {
+  open func updateMessage(with message:IMUIMessageModelProtocol) {
     self.chatDataManager.updateMessage(with: message)
     if let index = chatDataManager.index(of: message) {
       let indexPath = IndexPath(item: index, section: 0)
@@ -169,7 +164,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
 //      break
 //    }
     
-    let cell: IMUIMessageCellProtocal = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentify, for: indexPath) as! IMUIMessageCellProtocal
+    let cell: IMUIMessageCellProtocol = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentify, for: indexPath) as! IMUIMessageCellProtocol
     
     cell.presentCell(with: messageModel, viewCache: viewCache, delegate: delegate)
     self.delegate?.messageCollectionView?(collectionView,
@@ -190,7 +185,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
 
   public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
     let messageModel = self.chatDataManager[forItemAt.item]
-    (didEndDisplaying as! IMUIMessageCellProtocal).didDisAppearCell()
+    (didEndDisplaying as! IMUIMessageCellProtocol).didDisAppearCell()
     self.delegate?.messageCollectionView?(collectionView, didEndDisplaying: didEndDisplaying, forItemAt: forItemAt, model: messageModel)
   }
 }

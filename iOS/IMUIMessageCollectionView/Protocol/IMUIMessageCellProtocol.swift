@@ -1,5 +1,5 @@
 //
-//  IMUIMessageCellProtocal.swift
+//  IMUIMessageCellProtocol.swift
 //  IMUIChat
 //
 //  Created by oshumini on 2017/4/14.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol IMUIMessageCellProtocal {
+protocol IMUIMessageCellProtocol {
   func presentCell(with message: IMUIMessageModelProtocol, viewCache: IMUIReuseViewCache, delegate: IMUIMessageMessageCollectionViewDelegate?)
   func didDisAppearCell()
 }
 
-extension IMUIMessageCellProtocal {
+extension IMUIMessageCellProtocol {
   func didDisAppearCell() {}
 }

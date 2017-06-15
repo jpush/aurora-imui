@@ -48,21 +48,3 @@ import UIKit
    */
   @objc optional func messageCollectionView(_ willBeginDragging: UICollectionView)
 }
-
-//public extension IMUIMessageMessageCollectionViewDelegate {
-//  
-//  func messageCollectionView(_: UICollectionView, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
-//  
-//  
-//  func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
-//  
-//  func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
-//
-//  func messageCollectionView(didTapStatusViewInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {}
-//  
-//  func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
-//  
-//  func messageCollectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {}
-//  
-//  func messageCollectionView(_ willBeginDragging: UICollectionView){}
-//}

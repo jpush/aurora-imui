@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IMUIMessageDefaultStatusView: UIButton, IMUIMessageStatusViewProtocal {
+public class IMUIMessageDefaultStatusView: UIButton, IMUIMessageStatusViewProtocol {
 
   public func layoutMediaDownloading() {
     

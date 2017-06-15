@@ -1,5 +1,5 @@
 //
-//  IMUIMessageCellLayoutProtocal.swift
+//  IMUIMessageCellLayoutProtocol.swift
 //  IMUIChat
 //
 //  Created by oshumini on 2017/4/9.
@@ -12,7 +12,7 @@ import UIKit
 /**
  *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to display message cell item
  */
-@objc public protocol IMUIMessageCellLayoutProtocal: NSObjectProtocol {
+@objc public protocol IMUIMessageCellLayoutProtocol: NSObjectProtocol {
   
   /**
    *  return message cell height
@@ -52,7 +52,7 @@ import UIKit
   /**
    *  return IMUIMessageBaseCell's status View
    */
-  var statusView: IMUIMessageStatusViewProtocal { get }
+  var statusView: IMUIMessageStatusViewProtocol { get }
   
   /**
    *  return statusView's frame
@@ -67,7 +67,7 @@ import UIKit
   /**
    *  return bubble content's View
    */
-  var bubbleContentView: IMUIMessageContentViewProtocal { get }
+  var bubbleContentView: IMUIMessageContentViewProtocol { get }
   
   /**
    *  return bubble content's type
@@ -76,7 +76,7 @@ import UIKit
 }
 
 //  IMUIMessageCellLayoutProtocal default value
-public extension IMUIMessageCellLayoutProtocal {
+public extension IMUIMessageCellLayoutProtocol {
   var avatarFrame: CGRect {
     return CGRect.zero
   }

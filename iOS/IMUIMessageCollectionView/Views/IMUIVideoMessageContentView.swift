@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-public class IMUIVideoMessageContentView: UIView, IMUIMessageContentViewProtocal {
+public class IMUIVideoMessageContentView: UIView, IMUIMessageContentViewProtocol {
 
   lazy var videoView = UIImageView()
   lazy var playBtn = UIButton()

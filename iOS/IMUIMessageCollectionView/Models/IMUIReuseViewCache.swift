@@ -10,16 +10,16 @@ import Foundation
 import UIKit
 
 class IMUIReuseViewCache {
-  var statusViewCache = IMUIViewCache<IMUIMessageStatusViewProtocal>()
+  var statusViewCache = IMUIViewCache<IMUIMessageStatusViewProtocol>()
   
-  var bubbleContentViewCache = [String:IMUIViewCache<IMUIMessageContentViewProtocal>]()
+  var bubbleContentViewCache = [String:IMUIViewCache<IMUIMessageContentViewProtocol>]()
   
-  subscript(bubbleContentType: String) -> IMUIViewCache<IMUIMessageContentViewProtocal>? {
+  subscript(bubbleContentType: String) -> IMUIViewCache<IMUIMessageContentViewProtocol>? {
     if let contentViewCache = bubbleContentViewCache[bubbleContentType] {
       return contentViewCache
     }
     
-    bubbleContentViewCache[bubbleContentType] = IMUIViewCache<IMUIMessageContentViewProtocal>()
+    bubbleContentViewCache[bubbleContentType] = IMUIViewCache<IMUIMessageContentViewProtocol>()
     return bubbleContentViewCache[bubbleContentType]
   }
 }
