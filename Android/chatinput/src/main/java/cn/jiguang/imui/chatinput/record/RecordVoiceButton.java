@@ -125,9 +125,6 @@ public class RecordVoiceButton extends ImageButton {
                     mControllerView.setRecordButton(this);
                     mSetController = true;
                 }
-                if (mControllerView != null) {
-                    mControllerView.onActionDown();
-                }
 //                this.setText(mStyle.getTapDownText());
                 mIsPressed = true;
                 time1 = System.currentTimeMillis();
@@ -270,6 +267,9 @@ public class RecordVoiceButton extends ImageButton {
         try {
             if (mListener != null) {
                 mListener.onStartRecord();
+            }
+            if (mControllerView != null) {
+                mControllerView.onActionDown();
             }
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
