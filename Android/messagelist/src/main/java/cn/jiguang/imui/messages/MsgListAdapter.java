@@ -3,6 +3,7 @@ package cn.jiguang.imui.messages;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.support.annotation.LayoutRes;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -61,7 +62,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private OnMsgResendListener<MESSAGE> mMsgResendListener;
     private SelectionListener mSelectionListener;
     private int mSelectedItemCount;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     private MessageListStyle mStyle;
     private MediaPlayer mMediaPlayer = new MediaPlayer();
 
@@ -472,7 +473,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         mAvatarClickListener = listener;
     }
 
-    public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
+    public void setLayoutManager(LinearLayoutManager layoutManager) {
         mLayoutManager = layoutManager;
     }
 

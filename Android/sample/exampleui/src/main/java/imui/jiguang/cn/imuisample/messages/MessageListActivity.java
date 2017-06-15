@@ -378,6 +378,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         });
 
         mChatView.setAdapter(mAdapter);
+        mAdapter.getLayoutManager().scrollToPosition(0);
     }
 
     private void loadNextPage() {
