@@ -44,3 +44,16 @@ holdersConfig.setReceiverTxtMsg(CustomViewHolder.class, layoutRes);
 ```
 
 这样就完成了自定义界面。
+
+
+
+### 新增自定义类型的消息接口
+
+新增 `SEND_CUSTOM`  和 `RECEIVE_CUSTOM` 消息类型。可以用 `HoldersConfig` 对象设置这两种自定义消息的布局和适配器：
+
+```
+MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
+holdersConfig.setSendCustomMsg(CustomMessageViewHolder.class, layoutRes);
+holdersConfig.setReceiveCustomMsg(CustomMessageViewHolder.class, layoutRes);
+```
+
