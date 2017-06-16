@@ -13,6 +13,7 @@ class MessageEventCollectionViewCell: UICollectionViewCell {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    
     self.contentView.addSubview(eventLabel)
     eventLabel.frame = CGRect(x: 0, y: 0, width: 300, height: 20)
     eventLabel.textColor = UIColor(netHex: 0x7587A8)
