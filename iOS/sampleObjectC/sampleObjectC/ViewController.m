@@ -12,6 +12,8 @@
 #import "sampleObjectC-Swift.h"
 #import "MessageModel.h"
 #import "UserModel.h"
+#import "MessageEventCollectionViewCell.h"
+#import "MessageEventModel.h"
 
 @interface ViewController ()<IMUIInputViewDelegate, IMUIMessageMessageCollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet IMUIMessageCollectionView *messageList;
@@ -25,6 +27,8 @@
   [super viewDidLoad];
   self.messageList.delegate = self;
   self.imuiInputView.inputViewDelegate = self;
+  [self.messageList.messageCollectionView registerClass:[MessageEventCollectionViewCell class] forCellWithReuseIdentifier:[[MessageEventCollectionViewCell class] description]];
+  
 }
 
 
@@ -43,10 +47,17 @@
 // - MARK: IMUIInputViewDelegate
 /// Tells the delegate that user tap send button and text input string is not empty
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {
-  MessageModel *message = [MessageModel new];
+  
   NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
-  [message setupTextMessage:msgId fromUser:[UserModel new] timeString:@"" text:messageText isOutgoing:YES status:IMUIMessageStatusSuccess];
-  [self.messageList appendMessageWith:message];
+//  MessageModel *message = [[MessageModel alloc] initWithText:messageText
+//                                                   messageId:msgId
+//                                                    fromUser:[UserModel new]
+//                                                  timeString:@""
+//                                                  isOutgoing:true
+//                                                      status:IMUIMessageStatusSuccess];
+//  [self.messageList appendMessageWith:message];
+  MessageEventModel *event = [[MessageEventModel alloc] initWithMsgId:msgId eventText:messageText];
+  [self.messageList appendMessageWith: event];
 }
 /// Tells the delegate that IMUIInputView will switch to recording voice mode
 - (void)switchToMicrophoneModeWithRecordVoiceBtn:(UIButton * _Nonnull)recordVoiceBtn {
@@ -58,10 +69,14 @@
 }
 /// Tells the delegate when finish record voice
 - (void)finishRecordVoice:(NSString * _Nonnull)voicePath durationTime:(double)durationTime {
-  MessageModel *message = [MessageModel new];
+  
   NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
-
-  [message setupVoiceMessage:msgId fromUser:[UserModel new] timeString:@"" mediaPath:voicePath isOutgoing:true status:IMUIMessageStatusSuccess];
+  MessageModel *message = [[MessageModel alloc] initWithVoicePath:voicePath
+                                                        messageId:msgId
+                                                         fromUser:[UserModel new]
+                                                       timeString:@""
+                                                       isOutgoing:true
+                                                           status:IMUIMessageStatusSuccess];
   [_messageList appendMessageWith: message];
 }
 
@@ -88,9 +103,15 @@
                                     NSData *imageData = UIImagePNGRepresentation(result);
                                     NSString *filePath = [self getPath];
                                     if ([imageData writeToFile: filePath atomically: true]) {
-                                      MessageModel *message = [MessageModel new];
+
                                       NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
-                                      [message setupImageMessage:msgId fromUser:[UserModel new] timeString:@"" mediaPath:filePath isOutgoing:true status: IMUIMessageStatusSuccess];
+                                      MessageModel *message = [[MessageModel alloc] initWithImagePath:filePath
+                                                                                            messageId:msgId
+                                                                                             fromUser:[UserModel new]
+                                                                                           timeString:@""
+                                                                                           isOutgoing:true
+                                                                                               status:IMUIMessageStatusSuccess];
+
                                       [_messageList appendMessageWith: message];
                                     }
                                   }];
@@ -109,11 +130,15 @@
 }
 /// Tells the delegate that user did shoot picture in camera mode
 - (void)didShootPictureWithPicture:(NSData * _Nonnull)picture {
-  MessageModel *message = [MessageModel new];
   NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
   NSString *imagePath = [self getPath];
   if ([picture writeToFile: imagePath atomically: true]) {
-    [message setupImageMessage:msgId fromUser:[UserModel new] timeString:@"" mediaPath:imagePath isOutgoing:true status: IMUIMessageStatusSuccess];
+    MessageModel *message = [[MessageModel alloc] initWithImagePath:imagePath
+                                                          messageId:msgId
+                                                           fromUser:[UserModel new]
+                                                         timeString:@""
+                                                         isOutgoing:true
+                                                             status:IMUIMessageStatusSuccess];
     [_messageList appendMessageWith: message];
   }
 
@@ -126,9 +151,14 @@
 }
 /// Tells the delegate when user did shoot video in camera mode
 - (void)finishRecordVideoWithVideoPath:(NSString * _Nonnull)videoPath durationTime:(double)durationTime {
-  MessageModel *message = [MessageModel new];
   NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
-  [message setupVideoMessage:msgId fromUser:[UserModel new] timeString:@"" mediaPath:videoPath isOutgoing:true status:IMUIMessageStatusSuccess];
+
+  MessageModel *message = [[MessageModel alloc] initWithVideoPath:videoPath
+                                                        messageId:msgId
+                                                         fromUser:[UserModel new]
+                                                       timeString:@""
+                                                       isOutgoing:true
+                                                           status:IMUIMessageStatusSuccess];
   [_messageList appendMessageWith: message];
 }
 
@@ -142,5 +172,24 @@
   
 }
 
+
+- (UICollectionViewCell * _Nullable)messageCollectionViewWithMessageCollectionView:(UICollectionView * _Nonnull)messageCollectionView forItemAt:(NSIndexPath * _Nonnull)forItemAt messageModel:(id <IMUIMessageProtocol> _Nonnull)messageModel SWIFT_WARN_UNUSED_RESULT {
+  if ([messageModel isKindOfClass: [MessageEventModel class]]) {
+    MessageEventCollectionViewCell *cell = [messageCollectionView dequeueReusableCellWithReuseIdentifier:[[MessageEventCollectionViewCell class] description] forIndexPath:forItemAt];
+    MessageEventModel *event = (MessageEventModel *)messageModel;
+    [cell presentCell: event.evenText];
+    return cell;
+  } else {
+    return nil;
+  }
+}
+
+- (NSNumber * _Nullable)messageCollectionViewWithMessageCollectionView:(UICollectionView * _Nonnull)messageCollectionView heightForItemAtIndexPath:(NSIndexPath * _Nonnull)forItemAt messageModel:(id <IMUIMessageProtocol> _Nonnull)messageModel SWIFT_WARN_UNUSED_RESULT {
+  if ([messageModel isKindOfClass: [MessageEventModel class]]) {
+    return @(20.0);
+  } else {
+    return nil;
+  }
+}
 
 @end

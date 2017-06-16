@@ -52,3 +52,15 @@ holdersConfig.setSendPhotoMsg(CustomViewHolder.class, layoutRes);
 ```
 
 That's all! Please try it by yourself!
+
+
+
+### Add custom message Interface
+
+Add `SEND_CUSTOM`  and `RECEIVE_CUSTOM` message type. You can use `HoldersConfig` set these kinds of message's ViewHolder and layout：
+
+```
+MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
+holdersConfig.setSendCustomMsg(CustomMessageViewHolder.class, layoutRes);
+holdersConfig.setReceiveCustomMsg(CustomMessageViewHolder.class, layoutRes);
+```

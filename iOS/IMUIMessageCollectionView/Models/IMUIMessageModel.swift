@@ -9,16 +9,6 @@
 import UIKit
 
 
-@objc public enum IMUIMessageType: Int {
-  case text
-  case image
-  case voice
-  case video
-  case location
-  case custom
-}
-
-
 @objc public enum IMUIMessageStatus: UInt {
   // Sending message status
   case failed
@@ -29,14 +19,6 @@ import UIKit
   case mediaDownloading
   case mediaDownloadFail
 }
-
-//
-//public enum IMUIMessageReceiveStatus {
-//  case failed
-//  case sending
-//  case success
-//}
-
 
 public protocol IMUIMessageDataSource {
   func messageArray(with offset:NSNumber, limit:NSNumber) -> [IMUIMessageModelProtocol]
@@ -80,13 +62,12 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
     }
   }
   
-  open var status: IMUIMessageStatus
-  open var type: IMUIMessageType
+  open var type: String
   
-  open var layout: IMUIMessageCellLayoutProtocal {
+  open var layout: IMUIMessageCellLayoutProtocol {
     return cellLayout!
   }
-  open var cellLayout: IMUIMessageCellLayoutProtocal?
+  open var cellLayout: IMUIMessageCellLayoutProtocol?
   
   open func text() -> String {
     return ""
@@ -96,74 +77,18 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
     return ""
   }
   
-  open func calculateBubbleContentSize() -> CGSize {
-    var bubbleContentSize: CGSize!
-    switch type {
-    case .image:
-      do {
-        var imgHeight:CGFloat?
-        var imgWidth:CGFloat?
-        let imageData = try Data(contentsOf: URL(fileURLWithPath: self.mediaFilePath()))
-        let img:UIImage = UIImage(data: imageData)!
-        
-        if img.size.height >= img.size.width {
-          imgHeight = CGFloat(135)
-          imgWidth = img.size.width/img.size.height * imgHeight!
-          imgWidth = (imgWidth! < 55) ? 55 : imgWidth
-        } else {
-          imgWidth = CGFloat(135)
-          imgHeight = img.size.height/img.size.width * imgWidth!
-          imgHeight = (imgHeight! < 55) ? 55 : imgHeight!
-        }
-        
-        bubbleContentSize = CGSize(width: imgWidth!, height: imgHeight!)
-        break
-      } catch {
-        print("load image file fail")
-      }
-
-    case .text:
-      if isOutGoing {
-        bubbleContentSize = self.text().sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageCell.outGoingTextFont)
-      } else {
-        bubbleContentSize = self.text().sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageCell.inComingTextFont)
-      }
-      break
-    case .voice:
-      bubbleContentSize = CGSize(width: 80, height: 37)
-      break
-    case .video:
-      bubbleContentSize = CGSize(width: 120, height: 160)
-      break
-    case .location:
-      bubbleContentSize = CGSize(width: 200, height: 200)
-      break
-    default:
-      break
-    }
-    return bubbleContentSize
-  }
-  
-  
-  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: IMUIUserProtocol, isOutGoing: Bool, time: String, status: IMUIMessageStatus, type: IMUIMessageType, cellLayout: IMUIMessageCellLayoutProtocal?) {
+  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: IMUIUserProtocol, isOutGoing: Bool, time: String, type: String, cellLayout: IMUIMessageCellLayoutProtocol) {
     self.msgId = msgId
     self.fromUser = fromUser
     self.isOutGoing = isOutGoing
     self.time = time
-    self.status = status
     self.type = type
     self.messageStatus = messageStatus
     
     self.duration = 0.0
     
     super.init()
-    
-    if let layout = cellLayout {
-      self.cellLayout = layout
-    } else {
-      let bubbleSize = self.calculateBubbleContentSize()
-      self.cellLayout = IMUIMessageCellLayout(isOutGoingMessage: isOutGoing, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleSize, bubbleContentInsets: UIEdgeInsets.zero)
-    }
+      self.cellLayout = cellLayout
   }
   
   open var resizableBubbleImage: UIImage {

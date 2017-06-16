@@ -35,6 +35,7 @@ import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
+import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
@@ -229,6 +230,13 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             }
         });
+
+        mChatView.setOnTouchEditTextListener(new OnClickEditTextListener() {
+            @Override
+            public void onTouchEditText() {
+                mAdapter.getLayoutManager().scrollToPosition(0);
+            }
+        });
     }
 
     @Override
@@ -370,6 +378,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         });
 
         mChatView.setAdapter(mAdapter);
+        mAdapter.getLayoutManager().scrollToPosition(0);
     }
 
     private void loadNextPage() {

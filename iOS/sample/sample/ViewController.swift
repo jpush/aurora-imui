@@ -27,6 +27,8 @@ class ViewController: UIViewController {
     print("\(UIView())")
     self.myInputView.inputViewDelegate = self
     self.messageCollectionView.delegate = self
+    
+    self.messageCollectionView.messageCollectionView.register(MessageEventCollectionViewCell.self, forCellWithReuseIdentifier: MessageEventCollectionViewCell.self.description())
   }
   
   override func didReceiveMemoryWarning() {
@@ -40,10 +42,14 @@ class ViewController: UIViewController {
 extension ViewController: IMUIInputViewDelegate {
   
   func sendTextMessage(_ messageText: String) {
-    let outGoingmessage = MyMessageModel(text: messageText, isOutGoing: true)
-    let inCommingMessage = MyMessageModel(text: messageText, isOutGoing: false)
-    self.messageCollectionView.appendMessage(with: outGoingmessage)
-    self.messageCollectionView.appendMessage(with: inCommingMessage)
+//    let outGoingmessage = MyMessageModel(text: messageText, isOutGoing: true)
+//    let inCommingMessage = MyMessageModel(text: messageText, isOutGoing: false)
+//    self.messageCollectionView.appendMessage(with: outGoingmessage)
+//    self.messageCollectionView.appendMessage(with: inCommingMessage)
+    
+    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
+    let event = MessageEventModel(msgId: msgId, eventText: messageText)
+    self.messageCollectionView.appendMessage(with: event)
   }
   
   func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {
@@ -60,9 +66,9 @@ extension ViewController: IMUIInputViewDelegate {
       try picture.write(to: URL(fileURLWithPath: imgPath))
       DispatchQueue.main.async {
         let outGoingmessage = MyMessageModel(imagePath: imgPath, isOutGoing: true)
-        let inCommingMessage = MyMessageModel(imagePath: imgPath, isOutGoing: false)
+//        let inCommingMessage = MyMessageModel(imagePath: imgPath, isOutGoing: false)
         self.messageCollectionView.appendMessage(with: outGoingmessage)
-        self.messageCollectionView.appendMessage(with: inCommingMessage)
+//        self.messageCollectionView.appendMessage(with: inCommingMessage)
       }
     } catch {
       print("write image file error")
@@ -116,29 +122,46 @@ extension ViewController: IMUIInputViewDelegate {
 // MARK - IMUIMessageMessageCollectionViewDelegate
 extension ViewController: IMUIMessageMessageCollectionViewDelegate {
 
-
-  func messageCollectionView(_: UICollectionView, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {
-  
+// custom view
+  func messageCollectionView(messageCollectionView: UICollectionView, forItemAt: IndexPath, messageModel: IMUIMessageProtocol) -> UICollectionViewCell? {
+    if messageModel is MessageEventModel {
+      var cellIdentify = MessageEventCollectionViewCell.self.description()
+      let cell = messageCollectionView.dequeueReusableCell(withReuseIdentifier: cellIdentify, for: forItemAt) as! MessageEventCollectionViewCell
+      let message = messageModel as! MessageEventModel
+      cell.presentCell(eventText: message.eventText)
+      return cell
+    } else {
+      return nil
+    }
+    
   }
   
+  func messageCollectionView(messageCollectionView: UICollectionView, heightForItemAtIndexPath forItemAt: IndexPath, messageModel: IMUIMessageProtocol) -> NSNumber? {
+    if messageModel is MessageEventModel {
+      return 20.0
+    } else {
+      return nil
+    }
+  }
   
-  func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {
+  func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageProtocol) {
     self.showToast(alert: "tap message bubble")
   }
   
-  func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {
+  func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageProtocol) {
     self.showToast(alert: "tap header image")
   }
   
-  func messageCollectionView(didTapStatusViewInCell: UICollectionViewCell, model: IMUIMessageModelProtocol) {
+  func messageCollectionView(didTapStatusViewInCell: UICollectionViewCell, model: IMUIMessageProtocol) {
     self.showToast(alert: "tap status View")
   }
+
   
-  func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {
+  func messageCollectionView(_: UICollectionView, willDisplayMessageCell: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageProtocol) {
   
   }
   
-  func messageCollectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageModelProtocol) {
+  func messageCollectionView(_: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath, model: IMUIMessageProtocol) {
   
   }
   

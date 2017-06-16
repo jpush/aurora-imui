@@ -167,3 +167,55 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
 }
 ```
 
+#### Custom Bubble Content
+
+if you want to show your view in message's bubble, you should implement two functions defined in `IMUIMessageCellLayoutProtocal` , just like following:
+
+```swift
+// return bubble content's View, this view will should in messageBubble. (NOTE: bubbleContentView must be a subclass of uiview, and you shouldn't store bubbleContentView yourself)
+var bubbleContentView: IMUIMessageContentViewProtocol { get }
+  
+// return bubble content's type,
+var bubbleContentType: String { get }
+```
+
+#### Custom Status View
+
+if you want to use your custom UIView as statusView, you can implement two functions defined in `IMUIMessageCellLayoutProtocal` , just like following:
+
+```swift
+// return status View ,(NOTE: statusView must be a subclass of uiview, and you shouldn't store statusView yourself)
+var statusView: IMUIMessageStatusViewProtocol { get }
+
+// return statusView's frame in message cell
+var statusViewFrame: CGRect { get }
+```
+
+### Fully custom messages
+
+If the above method does not meet your needs (such as event messages only need a label for the display of the message), you need to use a fully custom layout, in this way you can show `UICollectionviewCell` in `IMUIMessageCollectionView`  . To use fully customize the message, you need the following steps:
+
+- **Step one:** construct your message model, you model need comfort `IMUIMessageProtocol`
+
+ ```swift
+  var msgId: String { get }
+ ```
+- **Step two:** implement two functions defined in `IMUIMessageMessageCollectionViewDelegate`,  just like following:
+
+  ```swift
+  // return your UICollectionViewCell
+  func messageCollectionView(messageCollectionView: UICollectionView, forItemAt: IndexPath, messageModel: IMUIMessageProtocol) -> UICollectionViewCell?
+
+  // return your UIcollectionViewCell's height
+  func messageCollectionView(messageCollectionView: UICollectionView, heightForItemAtIndexPath forItemAt: IndexPath, messageModel: IMUIMessageProtocol) -> NSNumber?
+  ```
+
+- **Step three:** send you message instance to message list：
+
+    ```
+    // messageCollectionView is an instance of IMUIMessageCollectionView
+    messageCollectionView.appendMessage(with message: IMUIMessageModel)
+    ```
+
+    ​
+

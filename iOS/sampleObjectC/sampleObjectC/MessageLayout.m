@@ -27,11 +27,13 @@
   return self;
 }
 
-- (instancetype)initWithIsOutGoingMessage:(BOOL)isOutgoing isNeedShowTime:(BOOL)isNeedShowTime bubbleContentSize:(CGSize)bubbleContentSize bubbleContentInsets:(UIEdgeInsets)contentInset {
+- (instancetype)initWithIsOutGoingMessage:(BOOL)isOutgoing isNeedShowTime:(BOOL)isNeedShowTime bubbleContentSize:(CGSize)bubbleContentSize bubbleContentInsets:(UIEdgeInsets)contentInset contentType:(NSString *)contentType {
+  
   self = [super init];
   if (self) {
     _layout = [[IMUIMessageCellLayout alloc] initWithIsOutGoingMessage: isOutgoing isNeedShowTime: isNeedShowTime bubbleContentSize: bubbleContentSize bubbleContentInsets: contentInset];
     _isOutgoing = isOutgoing;
+    _bubbleContentType = contentType;
   }
   return self;
 }
@@ -52,6 +54,10 @@
   return _layout.bubbleFrame;
 }
 
+- (CGSize) bubbleContentSize {
+  return _layout.bubbleContentSize;
+}
+
 - (UIEdgeInsets)bubbleContentInset {
   return _layout.bubbleContentInset;
 }
@@ -60,7 +66,7 @@
   return _layout.cellContentInset;
 }
 
-- (id <IMUIMessageStatusViewProtocal> _Nonnull)statusView {
+- (id <IMUIMessageStatusViewProtocol> _Nonnull)statusView {
   return _layout.statusView;
 }
 
@@ -70,5 +76,29 @@
 
 - (CGRect)nameLabelFrame {
   return _layout.nameLabelFrame;
+}
+
+- (id <IMUIMessageContentViewProtocol> _Nonnull)bubbleContentView {
+  if ([_bubbleContentType isEqual: @"Text"]) {
+    return [IMUITextMessageContentView new];
+  }
+  
+  if ([_bubbleContentType isEqual: @"Voice"]) {
+    return [IMUIVoiceMessageContentView new];
+  }
+
+  if ([_bubbleContentType isEqual: @"Image"]) {
+    return [IMUIImageMessageContentView new];
+  }
+  
+  if ([_bubbleContentType isEqual: @"Video"]) {
+    return [IMUIVideoMessageContentView new];
+  }
+  
+  return [IMUITextMessageContentView new];
+}
+
+- (NSString * _Nonnull)bubbleContentType {
+  return _bubbleContentType;
 }
 @end

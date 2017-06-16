@@ -13,14 +13,8 @@ import UIKit
  *  The `IMUIMessageModelProtocol` protocol defines the common interface with message model objects
  *  It declares the required and optional methods which model should implement it
  */
-@objc public protocol IMUIMessageModelProtocol: NSObjectProtocol {
+@objc public protocol IMUIMessageModelProtocol: IMUIMessageProtocol {
   
-  /**
-   *  @required function
-   *
-   *  @return message id to identifies this message
-   */
-  var msgId: String { get }
   
   /**
    *  @required function
@@ -34,7 +28,7 @@ import UIKit
    *
    *  @return the layout, `IMUIBaseMessageCell` will use it to layout message cell items
    */
-  var layout: IMUIMessageCellLayoutProtocal { get }
+  var layout: IMUIMessageCellLayoutProtocol { get }
  
   /**
    *  @required function
@@ -86,35 +80,24 @@ import UIKit
    * return get current message status
    */
   var messageStatus: IMUIMessageStatus { get }
-  
-  /**
-   *  @optional get function
-   *
-   * return message's type
-   */
-  var type: IMUIMessageType { get }
 
 }
 
-public extension IMUIMessageModelProtocol {
-  
-  var timeString: String {
-    return ""
-  }
-  
-  func text() -> String {
-    return ""
-  }
-  
-  func mediaFilePath() -> String {
-    return ""
-  }
-  
-//  var duration: CGFloat {
-//    return 0.0
+//public extension IMUIMessageModelProtocol {
+//  
+//  var timeString: String {
+//    return ""
 //  }
-  
-  var messageStatus: IMUIMessageStatus {
-    return IMUIMessageStatus.success
-  }
-}
+//  
+//  func text() -> String {
+//    return ""
+//  }
+//  
+//  func mediaFilePath() -> String {
+//    return ""
+//  }
+//  
+//  var messageStatus: IMUIMessageStatus {
+//    return IMUIMessageStatus.success
+//  }
+//}

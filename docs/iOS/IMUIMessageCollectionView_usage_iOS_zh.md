@@ -166,4 +166,54 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
   }
 }
 ```
+## 自定义消息
 
+#### 定义消息内容
+如果想要定义消息泡泡中的内容，需要实现 `IMUIMessageCellLayoutProtocol` 的如下两个方法：
+```swift
+// 自定义的 message BubbleView 必须是 UIView 的子类, 对 bubbleContentView 的事件交给开发者那边自行处理 (NOTE：使用的时候无需对 bubbleContentView 做缓存，内部会做缓存)
+var bubbleContentView: IMUIMessageContentViewProtocol { get }
+
+// 用于标识 bubbleContentView， （NOTE：不同类型的消息 bubbleContentType 不能一样）
+var bubbleContentType: String { get }
+```
+
+#### 自定义 statusView
+
+如果想要修改 statusView 需要实现 `IMUIMessageCellLayoutProtocol` 的如下两个方法：
+
+```swift
+// statusView 必须是 UIView 的子类，(NOTE：使用的时候无需对 statusView 做缓存，内部会做缓存)
+var statusView: IMUIMessageStatusViewProtocol { get }
+
+// 返回 statusView 的位置信息
+var statusViewFrame: CGRect { get }
+```
+
+#### 完全自定义消息
+
+如果上述的方式无法满足你的需求（比如事件消息只需要一个 label 用于显示消息），需要使用完全自定义的布局方式，这种方式可以在 `IMUIMessageCollectionView` 中显示自己定义的 `UICollectionviewCell`。下面是完全自定义消息的步骤：
+
+- **第一步：**构建 Message Model 需要遵从 `IMUIMessageProtocol` 协议
+   ```
+    var msgId: String { get }
+   ```
+
+- **第二步：**实现 `IMUIMessageMessageCollectionViewDelegate` 中的如下两个方法。
+
+  ```swift
+  // 用于返回自定定义的 UICollectionViewCell 的高度
+  func messageCollectionView(messageCollectionView: UICollectionView, forItemAt: IndexPath, messageModel: IMUIMessageProtocol) -> UICollectionViewCell?
+
+  // 用于返回自己定义的 UICollectionviewCell 的高度
+  func messageCollectionView(messageCollectionView: UICollectionView, heightForItemAtIndexPath forItemAt: IndexPath, messageModel: IMUIMessageProtocol) -> NSNumber?
+  ```
+
+- **第三步：**把构建好的消息发往 `IMUIMessageCollectionView`
+
+   ```
+   // messageCollectionView 为 IMUIMessageCollectionView 的实例
+   messageCollectionView.appendMessage(with message: IMUIMessageModel)
+   ```
+
+   ​
