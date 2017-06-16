@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 
 @objc public protocol IMUIMessageContentViewProtocol: NSObjectProtocol {
-//  var contentType: String { get }
-  
   func layoutContentView(message: IMUIMessageModelProtocol)
   
   @objc optional func Activity()

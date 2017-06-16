@@ -9,6 +9,7 @@
 import UIKit
 
 class MyMessageModel: IMUIMessageModel {
+  
   open var myTextMessage: String = ""
   
   var mediaPath: String = ""
@@ -64,6 +65,11 @@ class MyMessageModel: IMUIMessageModel {
     self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "video", text: "", mediaPath: videoPath, layout:  myLayout)
   }
   
+//  convenience init(eventText: String) {
+//    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
+//    self.init(msgId: msgId, messageStatus: .success, fromUser: MyUser(), isOutGoing: true, date: Date(), type: "event", text: "", mediaPath: "", layout: MyMessageCellLayout())
+//  }
+  
   override func text() -> String {
     return self.myTextMessage
   }
@@ -73,7 +79,6 @@ class MyMessageModel: IMUIMessageModel {
     
     return textSize
   }
-  
 }
 
 

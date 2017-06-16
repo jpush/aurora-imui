@@ -167,3 +167,25 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
 }
 ```
 
+#### 定义消息内容
+如果想要定义消息泡泡中的内容，需要实现 `IMUIMessageCellLayoutProtocol` 的如下两个方法：
+```swift
+// 自定义的 message BubbleView 必须是 UIView 的子类, 对 bubbleContentView 的事件交给开发者那边自行处理 (NOTE：使用的时候无需对 bubbleContentView 做缓存，内部会做缓存)
+var bubbleContentView: IMUIMessageContentViewProtocol { get }
+
+// 用于标识 bubbleContentView， （NOTE：不同类型的消息 bubbleContentType 不能一样）
+var bubbleContentType: String { get }
+```
+
+#### 自定义 statusView
+
+如果想要修改 statusView 需要实现 `IMUIMessageCellLayoutProtocol` 的如下两个方法：
+
+```swift
+// statusView 必须是 UIView 的子类，(NOTE：使用的时候无需对 statusView 做缓存，内部会做缓存)
+var statusView: IMUIMessageStatusViewProtocol { get }
+
+// 返回 statusView 的位置信息
+var statusViewFrame: CGRect { get }
+```
+

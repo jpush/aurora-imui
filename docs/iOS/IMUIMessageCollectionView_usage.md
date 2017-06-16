@@ -167,3 +167,27 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
 }
 ```
 
+#### Custom Bubble Content
+
+if you want to show your view in message's bubble, you should implement two functions defined in `IMUIMessageCellLayoutProtocal` , just like following:
+
+```swift
+// return bubble content's View, this view will should in messageBubble. (NOTE: bubbleContentView must be a subclass of uiview, and you shouldn't store bubbleContentView yourself)
+var bubbleContentView: IMUIMessageContentViewProtocol { get }
+  
+// return bubble content's type,
+var bubbleContentType: String { get }
+```
+
+#### Custom Status View
+
+if you want to use your custom UIView as statusView, you can implement two functions defined in `IMUIMessageCellLayoutProtocal` , just like following:
+
+```swift
+// return status View ,(NOTE: statusView must be a subclass of uiview, and you shouldn't store statusView yourself)
+var statusView: IMUIMessageStatusViewProtocol { get }
+
+// return statusView's frame in message cell
+var statusViewFrame: CGRect { get }
+```
+

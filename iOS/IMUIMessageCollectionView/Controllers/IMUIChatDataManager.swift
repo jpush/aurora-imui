@@ -13,18 +13,18 @@ var needShowTimeInterval = Double.greatestFiniteMagnitude
 
 class IMUIChatDataManager: NSObject {
   var allMsgidArr = [String]()
-  var allMessageDic = [String:IMUIMessageModelProtocol]()
+  var allMessageDic = [String:IMUIMessageProtocol]()
   
   var count: Int {
     return allMsgidArr.count
   }
   
-  subscript(index: Int) -> IMUIMessageModelProtocol {
+  subscript(index: Int) -> IMUIMessageProtocol {
     let msgId = allMsgidArr[index]
     return allMessageDic[msgId]!
   }
   
-  subscript(msgId: String) -> IMUIMessageModelProtocol? {
+  subscript(msgId: String) -> IMUIMessageProtocol? {
     return allMessageDic[msgId]
   }
   
@@ -37,16 +37,16 @@ class IMUIChatDataManager: NSObject {
     allMessageDic.removeAll()
   }
   
-  func index(of message: IMUIMessageModelProtocol) -> Int? {
+  func index(of message: IMUIMessageProtocol) -> Int? {
     return allMsgidArr.index(of: message.msgId)
   }
   
-  open func appendMessage(with message: IMUIMessageModelProtocol) {
+  open func appendMessage(with message: IMUIMessageProtocol) {
     self.allMsgidArr.append(message.msgId)
     self.allMessageDic[message.msgId] = message
   }
   
-  func updateMessage(with message: IMUIMessageModelProtocol) {
+  func updateMessage(with message: IMUIMessageProtocol) {
     if message.msgId == "" {
       print("the msgId is empty, cann't update message")
       return
@@ -55,7 +55,7 @@ class IMUIChatDataManager: NSObject {
     allMessageDic[message.msgId] = message
   }
   
-  func insertMessage(with message: IMUIMessageModelProtocol) {
+  func insertMessage(with message: IMUIMessageProtocol) {
     if message.msgId == "" {
       print("the msgId is empty, cann't insert message")
       return
@@ -65,7 +65,7 @@ class IMUIChatDataManager: NSObject {
     self.allMessageDic[message.msgId] = message
   }
   
-  open func insertMessages(with messages:[IMUIMessageModelProtocol]) {
+  open func insertMessages(with messages:[IMUIMessageProtocol]) {
     for element in messages {
       self.insertMessage(with: element)
     }
