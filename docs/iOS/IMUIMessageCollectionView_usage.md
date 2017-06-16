@@ -191,3 +191,31 @@ var statusView: IMUIMessageStatusViewProtocol { get }
 var statusViewFrame: CGRect { get }
 ```
 
+### Fully custom messages
+
+If the above method does not meet your needs (such as event messages only need a label for the display of the message), you need to use a fully custom layout, in this way you can show `UICollectionviewCell` in `IMUIMessageCollectionView`  . To use fully customize the message, you need the following steps:
+
+- **Step one:** construct your message model, you model need comfort `IMUIMessageProtocol`
+
+ ```swift
+  var msgId: String { get }
+ ```
+- **Step two:** implement two functions defined in `IMUIMessageMessageCollectionViewDelegate`,  just like following:
+
+  ```swift
+  // return your UICollectionViewCell
+  func messageCollectionView(messageCollectionView: UICollectionView, forItemAt: IndexPath, messageModel: IMUIMessageProtocol) -> UICollectionViewCell?
+
+  // return your UIcollectionViewCell's height
+  func messageCollectionView(messageCollectionView: UICollectionView, heightForItemAtIndexPath forItemAt: IndexPath, messageModel: IMUIMessageProtocol) -> NSNumber?
+  ```
+
+- **Step three:** send you message instance to message list：
+
+    ```
+    // messageCollectionView is an instance of IMUIMessageCollectionView
+    messageCollectionView.appendMessage(with message: IMUIMessageModel)
+    ```
+
+    ​
+
