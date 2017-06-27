@@ -69,12 +69,12 @@ open class RCTMessageModel: IMUIMessageModel {
     }
   }
   
-  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, status: IMUIMessageStatus, type: IMUIMessageType, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocal?) {
+  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocol) {
     
     self.myTextMessage = text
     self.mediaPath = mediaPath
     
-    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: time, status: status, type: type, cellLayout: layout)
+    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: time, type: type, cellLayout: layout)
   }
   
   public convenience init(messageDic: NSDictionary) {
@@ -106,32 +106,40 @@ open class RCTMessageModel: IMUIMessageModel {
       text = ""
     }
     
-    var msgType: IMUIMessageType?
+    var msgType: String?
     // TODO: duration
     let userDic = messageDic.object(forKey: RCTMessageModel.kMsgKeyFromUser) as? NSDictionary
     let user = RCTUser(userDic: userDic!)
     
-    var textLayout: MyMessageCellLayout?
+    var messageLayout: MyMessageCellLayout?
     
     if let typeString = msgTypeString {
+      msgType = typeString
       if typeString == RCTMessageModel.kMsgTypeText {
-        msgType = .text
-        textLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing!,
+        
+        messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
                                        isNeedShowTime: needShowTime,
-                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text!, isOutGoing: isOutgoing!), bubbleContentInsets: UIEdgeInsets.zero)
+                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text!, isOutGoing: isOutgoing!), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeText)
       }
       
       if typeString == RCTMessageModel.kMsgTypeImage {
-        msgType = .image
+        messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
+                                            isNeedShowTime: false,
+                                            bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeImage)
       }
       
       if typeString == RCTMessageModel.kMsgTypeVoice {
+        messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
+                                           isNeedShowTime: false,
+                                           bubbleContentSize: CGSize(width: 80, height: 37), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeVoice)
         
-        msgType = .voice
       }
       
       if typeString == RCTMessageModel.kMsgTypeVideo {
-        msgType = .video
+
+        messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
+                            isNeedShowTime: false,
+                            bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeVideo)
       }
     }
     
@@ -160,29 +168,8 @@ open class RCTMessageModel: IMUIMessageModel {
       
     }
     
-    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing!, time: timeString!, status: msgStatus, type: msgType!, text: text!, mediaPath: mediaPath!, layout:  textLayout)
+    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing ?? true, time: timeString!, type: msgType!, text: text!, mediaPath: mediaPath!, layout:  messageLayout!)
 
-  }
-  
-  convenience init(msgId: String, text: String, isOutGoing: Bool, user: RCTUser) {
-
-    let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
-                                       isNeedShowTime: false,
-                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text, isOutGoing: isOutGoing), bubbleContentInsets: UIEdgeInsets.zero)
-    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
-    self.init(msgId: msgId, messageStatus: .failed, fromUser: user, isOutGoing: isOutGoing, time: "", status: .success, type: .text, text: text, mediaPath: "", layout:  myLayout)
-  }
-
-  convenience init(msgId: String, voicePath: String, isOutGoing: Bool, user: RCTUser) {
-    self.init(msgId: msgId, messageStatus: .sending, fromUser: user, isOutGoing: isOutGoing, time: "", status: .success, type: .voice, text: "", mediaPath: voicePath, layout:  nil)
-  }
-  
-  convenience init(msgId: String, imagePath: String, isOutGoing: Bool, user: RCTUser) {
-    self.init(msgId: msgId, messageStatus: .sending, fromUser: user, isOutGoing: isOutGoing, time: "", status: .success, type: .image, text: "", mediaPath: imagePath, layout:  nil)
-  }
-  
-  convenience init(msgId: String, videoPath: String, isOutGoing: Bool, user: RCTUser) {
-    self.init(msgId: msgId, messageStatus: .sending, fromUser: user, isOutGoing: isOutGoing, time: "", status: .success, type: .video, text: "", mediaPath: videoPath, layout:  nil)
   }
   
   override open func text() -> String {
@@ -191,9 +178,9 @@ open class RCTMessageModel: IMUIMessageModel {
   
   static func calculateTextContentSize(text: String, isOutGoing: Bool) -> CGSize {
     if isOutGoing {
-      return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageCell.outGoingTextFont)
+      return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageContentView.outGoingTextFont)
     } else {
-      return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageCell.inComingTextFont)
+      return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageContentView.inComingTextFont)
     }
   }
   
@@ -205,25 +192,25 @@ open class RCTMessageModel: IMUIMessageModel {
       messageDic.setValue(self.isOutGoing, forKey: RCTMessageModel.kMsgKeyisOutgoing)
 
       switch self.type {
-      case .text:
+      case "text":
         messageDic.setValue(RCTMessageModel.kMsgTypeText, forKey: RCTMessageModel.kMsgKeyMsgType)
         messageDic.setValue(self.text(), forKey: RCTMessageModel.kMsgKeyText)
         break
-      case .image:
+      case "image":
         messageDic.setValue(RCTMessageModel.kMsgTypeImage, forKey: RCTMessageModel.kMsgKeyMsgType)
         messageDic.setValue(self.mediaPath, forKey: RCTMessageModel.kMsgKeyMediaFilePath)
         break
-      case .voice:
+      case "voice":
         messageDic.setValue(RCTMessageModel.kMsgTypeVoice, forKey: RCTMessageModel.kMsgKeyMsgType)
         messageDic.setValue(self.mediaPath, forKey: RCTMessageModel.kMsgKeyMediaFilePath)
         messageDic.setValue(self.duration, forKey: RCTMessageModel.kMsgKeyDuration)
         break
-      case .video:
+      case "video":
         messageDic.setValue(RCTMessageModel.kMsgTypeVideo, forKey: RCTMessageModel.kMsgKeyMsgType)
         messageDic.setValue(self.mediaPath, forKey: RCTMessageModel.kMsgKeyMediaFilePath)
         messageDic.setValue(self.duration, forKey: RCTMessageModel.kMsgKeyDuration)
         break
-      case .custom:
+      case "custom":
         break
         
       default:
@@ -231,7 +218,7 @@ open class RCTMessageModel: IMUIMessageModel {
       }
       
       var msgStatus = ""
-      switch self.status {
+      switch self.messageStatus {
       case .success:
         msgStatus = RCTMessageModel.kMsgStatusSuccess
         break
@@ -269,20 +256,49 @@ open class MyMessageCellLayout: IMUIMessageCellLayout {
   open static var outgoingPadding = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 15)
   open static var incommingPadding = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 10)
   
-  override init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize, bubbleContentInsets: UIEdgeInsets) {
-    
-    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize, bubbleContentInsets: bubbleContentInsets)
+  var type: String
+  
+  init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize, bubbleContentInsets: UIEdgeInsets, type: String) {
+    self.type = type
+    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize, bubbleContentInsets: UIEdgeInsets.zero)
   }
   
   open override var bubbleContentInset: UIEdgeInsets {
+    if type != RCTMessageModel.kMsgTypeText {
+      return UIEdgeInsets.zero
+    }
     
     if isOutGoingMessage {
       return MyMessageCellLayout.outgoingPadding
     } else {
-      return MyMessageCellLayout.outgoingPadding
+      return MyMessageCellLayout.incommingPadding
     }
   }
   
+  open override var bubbleContentView: IMUIMessageContentViewProtocol {
+    if type == "text" {
+      return IMUITextMessageContentView()
+    }
+    
+    if type == "image" {
+      return IMUIImageMessageContentView()
+    }
+    
+    if type == "voice" {
+      return IMUIVoiceMessageContentView()
+    }
+    
+    if type == "video" {
+      return IMUIVideoMessageContentView()
+    }
+    
+    
+    return IMUIDefaultContentView()
+  }
+  
+  open override var bubbleContentType: String {
+    return type
+  }
+  
 }
-
 

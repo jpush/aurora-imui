@@ -99,7 +99,7 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
   if (color != nil) {
-    IMUITextMessageCell.outGoingTextColor = color;
+    IMUITextMessageContentView.outGoingTextColor = color;
   }
   
 }
@@ -108,18 +108,18 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:@"colorString"];
   if (color != nil) {
-    IMUITextMessageCell.inComingTextColor = color;
+    IMUITextMessageContentView.inComingTextColor = color;
   }
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextSize, NSNumber, RCTMessageListView) {
   NSNumber *textSize = [RCTConvert NSNumber: json];
-  IMUITextMessageCell.outGoingTextFont = [UIFont systemFontOfSize:[textSize floatValue]];
+  IMUITextMessageContentView.outGoingTextFont = [UIFont systemFontOfSize:[textSize floatValue]];
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextSize, NSNumber, RCTMessageListView) {
   NSNumber *textSize = [RCTConvert NSNumber: json];
-  IMUITextMessageCell.inComingTextFont = [UIFont systemFontOfSize:[textSize floatValue]];
+  IMUITextMessageContentView.inComingTextFont = [UIFont systemFontOfSize:[textSize floatValue]];
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(dateTextSize, NSNumber, RCTMessageListView) {
