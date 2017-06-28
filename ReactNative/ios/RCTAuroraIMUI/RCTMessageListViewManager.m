@@ -248,9 +248,46 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
   _messageList.onBeginDragMessageList(@{});
 }
 
+
+/// return a messageCell, it will show in messageList. Can use it to show message event or anything.
+/// @optional function
+/// (NOTE:  1. You need append a model in IMUIMessageMessageCollectionView frist.
+/// 2. If it is not a custom message, you should return nil)
+- (UICollectionViewCell * _Nullable)messageCollectionViewWithMessageCollectionView:(UICollectionView * _Nonnull)messageCollectionView forItemAt:(NSIndexPath * _Nonnull)forItemAt messageModel:(id <IMUIMessageProtocol> _Nonnull)messageModel SWIFT_WARN_UNUSED_RESULT {
+  
+  if ([messageModel isKindOfClass: MessageEventModel.class]) {
+    
+    static NSString *cellIdentify = nil;
+    if (cellIdentify == nil) {
+      cellIdentify = [[MessageEventCollectionViewCell class] description];
+      [messageCollectionView registerClass:[MessageEventCollectionViewCell class] forCellWithReuseIdentifier:cellIdentify];
+    }
+    
+    MessageEventCollectionViewCell *cell = [messageCollectionView  dequeueReusableCellWithReuseIdentifier: cellIdentify forIndexPath: forItemAt];
+    MessageEventModel *event = messageModel;
+    [cell presentCellWithEvent: event];
+    return cell;
+  } else {
+    return nil;
+  }
+}
+
+- (NSNumber * _Nullable)messageCollectionViewWithMessageCollectionView:(UICollectionView * _Nonnull)messageCollectionView heightForItemAtIndexPath:(NSIndexPath * _Nonnull)forItemAt messageModel:(id <IMUIMessageProtocol> _Nonnull)messageModel SWIFT_WARN_UNUSED_RESULT {
+  
+  if ([messageModel isKindOfClass: MessageEventModel.class]) {
+    MessageEventModel *event = messageModel;
+    return @([event cellHeight]);
+  } else {
+    return nil;
+  }
+}
+
+
 - (void)onPullToRefreshMessageList {
   if(!_messageList.onPullToRefresh) { return; }
   
   _messageList.onPullToRefresh(@{});
 }
+
+
 @end

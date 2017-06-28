@@ -88,6 +88,8 @@
 		624B82DA1EE57482006C3C03 /* RCTInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 623EA97C1EE55CB200EC43AE /* RCTInputView.xib */; };
 		624B82DB1EE57482006C3C03 /* RCTMessageListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 623EA9801EE55CB200EC43AE /* RCTMessageListView.xib */; };
 		624B82DD1EE57653006C3C03 /* RCTAuroraIMUIModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9771EE55CB200EC43AE /* RCTAuroraIMUIModule.m */; };
+		624F239F1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624F239D1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift */; };
+		624F23A01F039DBF00D11E4E /* MessageEventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624F239E1F039DBF00D11E4E /* MessageEventModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,6 +195,8 @@
 		623EA9F61EE55D2000EC43AE /* IMUITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUITextView.swift; sourceTree = "<group>"; };
 		623EA9F71EE55D2000EC43AE /* IMUIVideoMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVideoMessageCell.swift; sourceTree = "<group>"; };
 		623EA9F81EE55D2000EC43AE /* IMUIVoiceMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVoiceMessageCell.swift; sourceTree = "<group>"; };
+		624F239D1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEventCollectionViewCell.swift; sourceTree = "<group>"; };
+		624F239E1F039DBF00D11E4E /* MessageEventModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEventModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +231,8 @@
 				623EA9701EE55CB200EC43AE /* imuiDemo-Bridging-Header.h */,
 				623EA9711EE55CB200EC43AE /* IMUIInputViewManager.m */,
 				623EA9721EE55CB200EC43AE /* Info.plist */,
+				624F239D1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift */,
+				624F239E1F039DBF00D11E4E /* MessageEventModel.swift */,
 				623EA9731EE55CB200EC43AE /* MyMessageModel.swift */,
 				623EA9741EE55CB200EC43AE /* MyUser.swift */,
 				623EA9751EE55CB200EC43AE /* RCTSwiftBridgeModule.h */,
@@ -646,6 +652,7 @@
 				624B82971EE5710E006C3C03 /* RCTInputView.m in Sources */,
 				624B82991EE5710E006C3C03 /* RCTInputViewManager.m in Sources */,
 				624B829A1EE5710E006C3C03 /* RCTMessageListView.h in Sources */,
+				624F23A01F039DBF00D11E4E /* MessageEventModel.swift in Sources */,
 				624B829B1EE5710E006C3C03 /* RCTMessageListView.m in Sources */,
 				624B829D1EE5710E006C3C03 /* RCTMessageListViewManager.m in Sources */,
 				624B829E1EE5710E006C3C03 /* IMUIAudioPlayerHelper.swift in Sources */,
@@ -695,6 +702,7 @@
 				624B82D21EE5710E006C3C03 /* IMUITextMessageCell.swift in Sources */,
 				624B82D31EE5710E006C3C03 /* IMUITextView.swift in Sources */,
 				624B82D41EE5710E006C3C03 /* IMUIVideoMessageCell.swift in Sources */,
+				624F239F1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift in Sources */,
 				624B82D51EE5710E006C3C03 /* IMUIVoiceMessageCell.swift in Sources */,
 				624B82D61EE5710E006C3C03 /* RCTAuroraIMUI.h in Sources */,
 			);
