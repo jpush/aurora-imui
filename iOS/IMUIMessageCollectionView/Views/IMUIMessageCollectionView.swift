@@ -177,7 +177,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
   public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
     let messageModel = self.chatDataManager[forItemAt.item]
     
-    if messageModel is IMUIMessageModelProtocol {
+    if messageModel.self is IMUIMessageModelProtocol.Type {
       (didEndDisplaying as! IMUIMessageCellProtocol).didDisAppearCell()
       self.delegate?.messageCollectionView?(collectionView, didEndDisplaying: didEndDisplaying, forItemAt: forItemAt, model: messageModel)
     }
