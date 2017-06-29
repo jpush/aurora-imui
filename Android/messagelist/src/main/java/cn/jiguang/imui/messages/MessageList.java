@@ -143,6 +143,14 @@ public class MessageList extends RecyclerView {
         mMsgListStyle.setDatePadding(padding);
     }
 
+    public void setEventTextColor(int color) {
+        mMsgListStyle.setEventTextColor(color);
+    }
+
+    public void setEventTextPadding(int padding) {
+        mMsgListStyle.setEventTextPadding(padding);
+    }
+
     public void setAvatarWidth(int width) {
         mMsgListStyle.setAvatarWidth(width);
     }

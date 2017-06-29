@@ -20,6 +20,8 @@ public class MessageListStyle extends Style {
     private float dateTextSize;
     private int dateTextColor;
     private int datePadding;
+    private int eventPadding;
+    private int eventTextColor;
     private String dateFormat;
 
     private int avatarWidth;
@@ -72,6 +74,10 @@ public class MessageListStyle extends Style {
                 ContextCompat.getColor(context, R.color.aurora_msg_date_text_color));
         style.datePadding = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePadding,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_date_text));
+        style.eventPadding = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventPadding,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_event_text));
+        style.eventTextColor = typedArray.getColor(R.styleable.MessageList_eventTextColor,
+                ContextCompat.getColor(context, R.color.aurora_msg_event_text_color));
         style.dateFormat = typedArray.getString(R.styleable.MessageList_dateFormat);
 
         style.avatarWidth = typedArray.getDimensionPixelSize(R.styleable.MessageList_avatarWidth,
@@ -228,6 +234,22 @@ public class MessageListStyle extends Style {
 
     public void setDatePadding(int datePadding) {
         this.datePadding = datePadding;
+    }
+
+    public void setEventTextPadding(int padding) {
+        this.eventPadding = padding;
+    }
+
+    public int getEventPadding() {
+        return this.eventPadding;
+    }
+
+    public void setEventTextColor(int eventTextColor) {
+        this.eventTextColor = eventTextColor;
+    }
+
+    public int getEventTextColor() {
+        return this.eventTextColor;
     }
 
     public void setDateFormat(String dateFormat) {

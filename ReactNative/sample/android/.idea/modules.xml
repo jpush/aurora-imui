@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TestRNIMUI.iml" filepath="$PROJECT_DIR$/TestRNIMUI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../node_modules/aurora-imui-react-native/ReactNative/android/aurora-imui-react-native.iml" filepath="$PROJECT_DIR$/../node_modules/aurora-imui-react-native/ReactNative/android/aurora-imui-react-native.iml" />
-      <module fileurl="file://$PROJECT_DIR$/imuirnexample/imuirnexample.iml" filepath="$PROJECT_DIR$/imuirnexample/imuirnexample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1689738967/aurora-imui-react-native.iml" filepath="$PROJECT_DIR$/.idea/modules/1689738967/aurora-imui-react-native.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/imuirnexample/imuirnexample.iml" filepath="$PROJECT_DIR$/.idea/modules/imuirnexample/imuirnexample.iml" />
     </modules>
   </component>
 </project>

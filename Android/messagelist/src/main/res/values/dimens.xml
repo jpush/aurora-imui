@@ -8,6 +8,7 @@
     <!-->Message List<-->
     <dimen name="aurora_size_date_text">16sp</dimen>
     <dimen name="aurora_padding_date_text">5dp</dimen>
+    <dimen name="aurora_padding_event_text">5dp</dimen>
     <dimen name="aurora_width_msg_avatar">50dp</dimen>
     <dimen name="aurora_height_msg_avatar">50dp</dimen>
     <dimen name="aurora_size_receive_text">18sp</dimen>
