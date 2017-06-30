@@ -135,7 +135,7 @@ export default class ChatActivity extends React.Component {
 		var messages = [{
 			msgId: "1",
 			status: "send_going",
-			msgType: "text",
+			msgType: "event",
 			text: text,
 			isOutgoing: true,
 			fromUser: {
@@ -146,6 +146,7 @@ export default class ChatActivity extends React.Component {
 			timeString: "10:00",
 		}];
 		AuroraIMUIModule.appendMessages(messages);
+		this.forceUpdate();
 	}
 
 	onSendGalleryFiles(mediaFiles) {

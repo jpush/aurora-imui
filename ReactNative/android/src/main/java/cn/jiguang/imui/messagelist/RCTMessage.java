@@ -76,6 +76,8 @@ public class RCTMessage implements IMessage {
                     return MessageType.SEND_VOICE;
                 case "image":
                     return MessageType.SEND_IMAGE;
+                case "event":
+                    return MessageType.EVENT;
                 default:
                     return MessageType.SEND_VIDEO;
             }
@@ -87,6 +89,8 @@ public class RCTMessage implements IMessage {
                     return MessageType.RECEIVE_VOICE;
                 case "image":
                     return MessageType.RECEIVE_IMAGE;
+                case "event":
+                    return MessageType.EVENT;
                 default:
                     return MessageType.RECEIVE_VIDEO;
             }

@@ -147,6 +147,10 @@ public class MessageList extends RecyclerView {
         mMsgListStyle.setEventTextColor(color);
     }
 
+    public void setEventTextSize(int size) {
+        mMsgListStyle.setEventTextSize(size);
+    }
+
     public void setEventTextPadding(int padding) {
         mMsgListStyle.setEventTextPadding(padding);
     }

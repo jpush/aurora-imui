@@ -26,5 +26,7 @@ public class EventViewHolder<MESSAGE extends IMessage>
     @Override
     public void applyStyle(MessageListStyle style) {
         mEvent.setTextColor(style.getEventTextColor());
+        mEvent.setTextSize(style.getEventTextSize());
+        mEvent.setPadding(style.getEventPadding(), style.getEventPadding(), style.getEventPadding(), style.getEventPadding());
     }
 }
