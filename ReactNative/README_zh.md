@@ -119,6 +119,12 @@ message = {  // video message
     mediaPath: "voice path"
     fromUser: {}
 }
+
+message = {  // event message
+    msgId: "msgid",
+    msgType: "event",
+    text: "the event text"
+}
  ```
 
 -    `fromUser` 对象格式:
