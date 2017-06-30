@@ -275,6 +275,22 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
         }
     }
 
+    @ReactProp(name = "eventMsgTxtColor")
+    public void setEventTextColor(MessageList messageList, String color) {
+        int colorRes = Color.parseColor(color);
+        messageList.setEventTextColor(colorRes);
+    }
+
+    @ReactProp(name = "eventMsgTxtPadding")
+    public void setEventTextPadding(MessageList messageList, int padding) {
+        messageList.setEventTextPadding(padding);
+    }
+
+    @ReactProp(name = "eventMsgTxtSize")
+    public void setEventTextSize(MessageList messageList, int size) {
+        messageList.setEventTextSize(size);
+    }
+
     @SuppressWarnings("unchecked")
     private BroadcastReceiver RCTMsgListReceiver = new BroadcastReceiver() {
         @Override

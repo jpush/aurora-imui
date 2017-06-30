@@ -392,6 +392,8 @@ export default class ChatActivity extends React.Component {
 					sendBubbleTextSize = {18}
 					receiveBubbleTextSize = {14}
 					sendBubblePressedColor = {'#dddddd'}
+					eventMsgTxtColor = {'#ffffff'}
+					eventMsgTxtSize = {16}
 				/>
 					<ChatInput
 						style = {this.state.chatInputStyle}
