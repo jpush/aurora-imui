@@ -49,7 +49,7 @@ public class ViewHolderController {
     }
 
     public void remove(int position) {
-        if (mData.size() > 0) {
+        if (null != mData && mData.size() > 0) {
             mData.remove(position);
         }
     }
