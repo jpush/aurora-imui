@@ -8,6 +8,9 @@
         <attr name="dateTextColor" format="color|reference"/>
         <attr name="dateFormat" format="string|reference"/>
         <attr name="datePadding" format="dimension|reference"/>
+        <attr name="eventTextSize" format="dimension|reference" />
+        <attr name="eventTextColor" format="color|reference" />
+        <attr name="eventPadding" format="dimension|reference" />
 
         <attr name="avatarWidth" format="dimension|reference"/>
         <attr name="avatarHeight" format="dimension|reference"/>

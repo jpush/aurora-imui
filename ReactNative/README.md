@@ -78,7 +78,7 @@ if you haven't define this property, default value is "send_succeed".**
     status: "send_going",
     msgType: "text",
     isOutgoing: true,
-    text: "text"
+    text: "text",
     fromUser: {}
 }
 
@@ -86,8 +86,8 @@ message = {  // image message
     msgId: "msgid",
     msgType: "image",
     isOutGoing: true,
-    progress: "progress string"
-    mediaPath: "image path"
+    progress: "progress string",
+    mediaPath: "image path",
     fromUser: {}
 }
 
@@ -96,8 +96,8 @@ message = {  // voice message
     msgId: "msgid",
     msgType: "voice",
     isOutGoing: true,
-    duration: number
-    mediaPath: "voice path"
+    duration: number,
+    mediaPath: "voice path",
     fromUser: {}
 }
 
@@ -106,9 +106,15 @@ message = {  // video message
     status: "send_failed",
     msgType: "video",
     isOutGoing: true,
-    druation: number
-    mediaPath: "voice path"
+    druation: number,
+    mediaPath: "voice path",
     fromUser: {}
+}
+
+message = {  // event message
+    msgId: "msgid",
+    msgType: "event",
+    text: "the event text"
 }
  ```
 
@@ -116,8 +122,8 @@ message = {  // video message
 
   ```
   fromUser = {
-    userId: ""
-    displayName: ""
+    userId: "",
+    displayName: "",
     avatarPath: "avatar image path"
   }
   ```

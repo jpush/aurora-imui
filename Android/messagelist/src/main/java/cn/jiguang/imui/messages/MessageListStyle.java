@@ -20,6 +20,9 @@ public class MessageListStyle extends Style {
     private float dateTextSize;
     private int dateTextColor;
     private int datePadding;
+    private int eventPadding;
+    private float eventTextSize;
+    private int eventTextColor;
     private String dateFormat;
 
     private int avatarWidth;
@@ -66,12 +69,19 @@ public class MessageListStyle extends Style {
         MessageListStyle style = new MessageListStyle(context, attrs);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MessageList);
         int dateTextSizePixel = typedArray.getDimensionPixelSize(R.styleable.MessageList_dateTextSize,
-                context.getResources().getDimensionPixelOffset(R.dimen.aurora_size_date_text));
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_size_date_text));
         style.dateTextSize = getSPTextSize(context, dateTextSizePixel);
         style.dateTextColor = typedArray.getColor(R.styleable.MessageList_dateTextColor,
                 ContextCompat.getColor(context, R.color.aurora_msg_date_text_color));
         style.datePadding = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePadding,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_date_text));
+        int eventTextSizePixel = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventTextSize,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_size_event_text));
+        style.eventTextSize = getSPTextSize(context, eventTextSizePixel);
+        style.eventPadding = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventPadding,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_event_text));
+        style.eventTextColor = typedArray.getColor(R.styleable.MessageList_eventTextColor,
+                ContextCompat.getColor(context, R.color.aurora_msg_event_text_color));
         style.dateFormat = typedArray.getString(R.styleable.MessageList_dateFormat);
 
         style.avatarWidth = typedArray.getDimensionPixelSize(R.styleable.MessageList_avatarWidth,
@@ -228,6 +238,30 @@ public class MessageListStyle extends Style {
 
     public void setDatePadding(int datePadding) {
         this.datePadding = datePadding;
+    }
+
+    public void setEventTextPadding(int padding) {
+        this.eventPadding = padding;
+    }
+
+    public int getEventPadding() {
+        return this.eventPadding;
+    }
+
+    public void setEventTextColor(int eventTextColor) {
+        this.eventTextColor = eventTextColor;
+    }
+
+    public int getEventTextColor() {
+        return this.eventTextColor;
+    }
+
+    public void setEventTextSize(int textSize) {
+        this.eventTextSize = textSize;
+    }
+
+    public float getEventTextSize() {
+        return this.eventTextSize;
     }
 
     public void setDateFormat(String dateFormat) {

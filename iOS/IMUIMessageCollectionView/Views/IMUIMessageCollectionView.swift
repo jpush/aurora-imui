@@ -91,12 +91,12 @@ open class IMUIMessageCollectionView: UIView {
   
   open func insertMessage(with message: IMUIMessageProtocol) {
     self.chatDataManager.insertMessage(with: message)
-    self.messageCollectionView.reloadData()
+    self.messageCollectionView.reloadDataNoScroll()
   }
   
   open func insertMessages(with messages:[IMUIMessageProtocol]) {
     self.chatDataManager.insertMessages(with: messages)
-    self.messageCollectionView.reloadData()
+    self.messageCollectionView.reloadDataNoScroll()
   }
   
   open func updateMessage(with message:IMUIMessageProtocol) {
@@ -177,7 +177,7 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
   public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
     let messageModel = self.chatDataManager[forItemAt.item]
     
-    if messageModel is IMUIMessageModelProtocol {
+    if messageModel.self is IMUIMessageModelProtocol.Type {
       (didEndDisplaying as! IMUIMessageCellProtocol).didDisAppearCell()
       self.delegate?.messageCollectionView?(collectionView, didEndDisplaying: didEndDisplaying, forItemAt: forItemAt, model: messageModel)
     }
@@ -189,5 +189,22 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
 extension IMUIMessageCollectionView: UIScrollViewDelegate {
   public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
     self.delegate?.messageCollectionView?(self.messageCollectionView)
+  }
+}
+
+public extension UICollectionView {
+  func reloadDataNoScroll() {
+    var currentOffset = self.contentOffset
+    let contentSizeBeforeInsert = self.collectionViewLayout.collectionViewContentSize
+    
+    self.reloadData();
+    
+    let contentSizeAfterInsert = self.collectionViewLayout.collectionViewContentSize
+    
+    let deltaHeight = contentSizeAfterInsert.height - contentSizeBeforeInsert.height
+    currentOffset.y += (deltaHeight > 0 ? deltaHeight : 0)
+    print("the currentOffset\(currentOffset.y)")
+    print("the currentOffset\(currentOffset)")
+    self.setContentOffset(currentOffset, animated: false)
   }
 }

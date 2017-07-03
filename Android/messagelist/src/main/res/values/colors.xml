@@ -7,6 +7,7 @@
 
     <!-->Message List<-->
     <color name="aurora_msg_date_text_color">#4e4e4e</color>
+    <color name="aurora_msg_event_text_color">#ffffff</color>
     <color name="aurora_msg_receive_bubble_default_color">#2977fa</color>
     <color name="aurora_msg_receive_bubble_pressed_color">#005af2</color>
     <color name="aurora_msg_receive_bubble_selected_color">#0e63f0</color>

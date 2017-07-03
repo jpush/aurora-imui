@@ -4,7 +4,7 @@ apply from: "$project.rootDir/tools/script-git-version.gradle"
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
-    flavorDimensions "prod"
+    flavorDimensions "versionCode"
 
     defaultConfig {
         applicationId "imui.jiguang.cn.imuisample"
@@ -20,12 +20,14 @@ android {
             versionCode gitVersionCodeTime
             versionName gitVersionName
             applicationId "imui.jiguang.cn.imuisample.dev"
+            dimension "versionCode"
         }
 
         prod {
             versionCode gitVersionCode
             versionName gitVersionName
             applicationId "imui.jiguang.cn.imuisample"
+            dimension "versionCode"
         }
     }
     buildTypes {

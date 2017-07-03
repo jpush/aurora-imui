@@ -67,8 +67,8 @@ We have define many kinds of attributes, to support user to adjust their layout,
 
 ### 2. Construct adapter
 Adapter's constructor has three parameters. The first one is `sender id`, the id of sender, the second one is `HoldersConfig object`,
-you can use this object to [construct your custom ViewHolder and layout](./customLayoutEn.md), the third one is implement of `ImageLoader`,
-use to display user's avatar, if this value is null, will not display avatar.([Click here to know more about ImageLoader](./imageLoadEn.md))
+you can use this object to [construct your custom ViewHolder and layout](./custom_layout.md), the third one is implement of `ImageLoader`,
+use to display user's avatar, if this value is null, will not display avatar.([Click here to know more about ImageLoader](./image_loader.md))
 
 ```java
 MsgListAdapter adapter = new MsgListAdapter<MyMessage>("0", holdersConfig, imageLoader);

@@ -47,7 +47,6 @@
     
     [self addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
     
-    
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -86,11 +85,17 @@
   NSArray *messages = [[notification object] copy];
   
   for (NSDictionary *message in messages) {
-    RCTMessageModel * messageModel = [self convertMessageDicToModel:message];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self.messageList appendMessageWith: messageModel];
-    });
+    if([message[@"msgType"] isEqual: @"event"]) {
+      MessageEventModel *event = [[MessageEventModel alloc] initWithMessageDic:message];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self.messageList appendMessageWith: event];
+      });
+    } else {
+      RCTMessageModel * messageModel = [self convertMessageDicToModel:message];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self.messageList appendMessageWith: messageModel];
+      });
+    }
   }
 }
 
@@ -100,11 +105,12 @@
   NSMutableArray *messageModels = @[].mutableCopy;
   for (NSDictionary *message in messages) {
     RCTMessageModel * messageModel = [self convertMessageDicToModel: message];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self.messageList appendMessageWith: messageModel];
-    });
+    [messageModels addObject: messageModel];
   }
+  
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.messageList insertMessagesWith:messageModels];
+  });
 }
 
 - (void)updateMessage:(NSNotification *) notification {

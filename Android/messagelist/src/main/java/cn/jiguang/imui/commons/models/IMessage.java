@@ -26,6 +26,7 @@ public interface IMessage {
      * Type of Message
      */
     enum MessageType {
+        EVENT,
         SEND_TEXT,
         RECEIVE_TEXT,
 
