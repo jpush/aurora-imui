@@ -66,8 +66,8 @@ dependencies {
 MsgListAdapter 的构造函数有三个参数：
 
 1. Sender Id: 发送方 Id(唯一标识)。
-2. HoldersConfig，可以用这个对象来[构造自定义消息的 ViewHolder 及布局界面](./customLayout.md)。
-3. ImageLoader 的实例，用来展示头像。如果为空，将会隐藏头像。（[点击](./imageLoader.md)了解更多关于 ImageLoader 的内容）。
+2. HoldersConfig，可以用这个对象来[构造自定义消息的 ViewHolder 及布局界面](./custom_layout_zh.md)。
+3. ImageLoader 的实例，用来展示头像。如果为空，将会隐藏头像。（[点击](./image_loader_zh.md)了解更多关于 ImageLoader 的内容）。
 
 ```java
 MsgListAdapter adapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
