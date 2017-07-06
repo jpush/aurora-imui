@@ -6,17 +6,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
+
 public class ScrollMoreListener extends RecyclerView.OnScrollListener {
 
     private RecyclerView.LayoutManager mLayoutManager;
-    private OnLoadMoreListener mListener;
+    private MsgListAdapter mAdapter;
     private int mCurrentPage = 0;
     private int mPreviousTotalItemCount = 0;
     private boolean mLoading = false;
+    private boolean mScrolled = false;
 
-    public ScrollMoreListener(LinearLayoutManager layoutManager, OnLoadMoreListener listener) {
+    public ScrollMoreListener(LinearLayoutManager layoutManager, MsgListAdapter adapter) {
         this.mLayoutManager = layoutManager;
-        this.mListener = listener;
+        mAdapter = adapter;
     }
 
     private int getLastVisibleItem(int[] lastVisibleItemPositions) {
@@ -33,7 +38,10 @@ public class ScrollMoreListener extends RecyclerView.OnScrollListener {
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        if (mListener != null) {
+        if (dy != 0) {
+            mScrolled = true;
+        }
+        if (mAdapter != null) {
             int lastVisibleItemPosition = 0;
             int totalItemCount = mLayoutManager.getItemCount();
             if (mLayoutManager instanceof StaggeredGridLayoutManager) {
@@ -62,10 +70,30 @@ public class ScrollMoreListener extends RecyclerView.OnScrollListener {
             int visibleThreshold = 5;
             if (!mLoading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
                 mCurrentPage++;
-                mListener.onLoadMore(mCurrentPage, totalItemCount);
+                mAdapter.onLoadMore(mCurrentPage, totalItemCount);
                 mLoading = true;
             }
         }
+    }
+
+    @Override
+    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        switch (newState) {
+            case SCROLL_STATE_IDLE:
+                if (mAdapter.getScrolling() && mScrolled) {
+                    mAdapter.setScrolling(false);
+                    mAdapter.notifyDataSetChanged();
+                }
+                mScrolled = false;
+                break;
+            case SCROLL_STATE_DRAGGING:
+//                mAdapter.setScrolling(false);
+                break;
+            case SCROLL_STATE_SETTLING:
+//                mAdapter.setScrolling(true);
+                break;
+        }
+        super.onScrollStateChanged(recyclerView, newState);
     }
 
     interface OnLoadMoreListener {

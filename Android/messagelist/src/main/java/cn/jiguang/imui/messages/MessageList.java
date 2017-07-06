@@ -7,28 +7,32 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 
 import cn.jiguang.imui.commons.models.IMessage;
 
 
-public class MessageList extends RecyclerView {
+public class MessageList extends RecyclerView implements GestureDetector.OnGestureListener {
 
     private Context mContext;
 
     private MessageListStyle mMsgListStyle;
+    private final GestureDetector mGestureDetector;
+    private MsgListAdapter mAdapter;
 
     public MessageList(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public MessageList(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        parseStyle(context, attrs);
+        this(context, attrs, 0);
     }
 
     public MessageList(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         parseStyle(context, attrs);
+        mGestureDetector = new GestureDetector(context, this);
     }
 
     @SuppressWarnings("ResourceType")
@@ -44,6 +48,7 @@ public class MessageList extends RecyclerView {
      * @param <MESSAGE> Message model extends IMessage.
      */
     public <MESSAGE extends IMessage> void setAdapter(MsgListAdapter<MESSAGE> adapter) {
+        mAdapter = adapter;
         SimpleItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setSupportsChangeAnimations(false);
         setItemAnimator(itemAnimator);
@@ -195,5 +200,38 @@ public class MessageList extends RecyclerView {
     public void setSendingIndeterminateDrawable(String drawableName, String packageName) {
         int resId = getResources().getIdentifier(drawableName, "drawable", packageName);
         mMsgListStyle.setSendingIndeterminateDrawable(getResources().getDrawable(resId));
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        if (Math.abs(velocityY) > 4000) {
+            mAdapter.setScrolling(true);
+        }
+        return false;
     }
 }

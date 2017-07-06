@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
+import cn.jiguang.imui.utils.BitmapCache;
 import cn.jiguang.imui.view.CircleImageView;
 
 
@@ -51,9 +52,12 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();
 
-        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(message.getMediaFilePath(),
-                MediaStore.Images.Thumbnails.MINI_KIND);
-        mImageCover.setImageBitmap(thumb);
+        if (BitmapCache.getInstance().getBitmapFromMemCache(message.getMediaFilePath()) == null) {
+            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(message.getMediaFilePath(),
+                    MediaStore.Images.Thumbnails.MINI_KIND);
+            BitmapCache.getInstance().setBitmapCache(message.getMediaFilePath(), thumb);
+        }
+        mImageCover.setImageBitmap(BitmapCache.getInstance().getBitmapFromMemCache(message.getMediaFilePath()));
         mImageCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

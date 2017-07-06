@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -372,6 +373,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             @Override
             public void onLoadMore(int page, int totalCount) {
                 if (totalCount < mData.size()) {
+                    Log.i("MessageListActivity", "Loading next page");
                     loadNextPage();
                 }
             }
