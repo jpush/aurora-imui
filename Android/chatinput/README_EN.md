@@ -123,6 +123,20 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
 
 As for how to handle these events and what to do with these events, you can refer sample project for detail.
 
+
+
+### OnClickEditTextListener
+
+Callback of click EditText，fires when click EidtText, usage：
+
+```
+mChatInput.setOnClickEditTextListener(new OnClickEditTextListener() {
+            @Override
+            public void onTouchEditText() {
+                mAdapter.getLayoutManager().scrollToPosition(0);
+            }
+        });
+```
 #### RecordVoiceListener
 This is the interface of record voice, the way to use:
 
