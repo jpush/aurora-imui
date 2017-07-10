@@ -10,7 +10,7 @@ We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.4.0'
+compile 'cn.jiguang.imui:messagelist:0.4.3'
 ```
 
 -  Maven：
@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:messagelist:0.4.0'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.3</version>
   <type>pom</type>
 </dependency>
 ```
@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.4.0'
+    compile 'com.github.jpush:imui:0.4.3'
 }
 ```
 
@@ -203,7 +203,7 @@ adapter.addToEnd(messages);
 ```
 
 - Scroll to load history messages
-After adding this listener: `OnLoadMoreListener`，when scroll to top will fire `onLoadMore` event，for example：
+  After adding this listener: `OnLoadMoreListener`，when scroll to top will fire `onLoadMore` event，for example：
 ```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
     @Override
