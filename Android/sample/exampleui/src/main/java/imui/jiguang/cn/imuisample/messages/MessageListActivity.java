@@ -372,7 +372,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int page, int totalCount) {
-                if (totalCount < mData.size()) {
+                if (totalCount <= mData.size()) {
                     Log.i("MessageListActivity", "Loading next page");
                     loadNextPage();
                 }

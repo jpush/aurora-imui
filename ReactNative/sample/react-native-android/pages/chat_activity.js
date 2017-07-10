@@ -35,6 +35,7 @@ export default class ChatActivity extends React.Component {
 				height: 100
 			},
 			isDismissMenuContainer: false,
+			updateUI: false,
 
 		};
 
@@ -146,7 +147,9 @@ export default class ChatActivity extends React.Component {
 			timeString: "10:00",
 		}];
 		AuroraIMUIModule.appendMessages(messages);
-		this.forceUpdate();
+		this.setState({
+			updateUI: true
+		});
 	}
 
 	onSendGalleryFiles(mediaFiles) {
@@ -381,6 +384,9 @@ export default class ChatActivity extends React.Component {
 			<View style = { styles.container }>
 				<MessageList
 					style = {{flex: 1}}
+					{...this.props}
+					ref = {com => this.view = com}
+					updateUI = {this.state.updateUI}
 					onMsgClick = {this.onMsgClick}
 					onMsgLongClick = {this.onMsgLongClick}
 					onAvatarClick = {this.onAvatarClick} 
