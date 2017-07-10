@@ -111,6 +111,24 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
 ```
 关于上述事件的处理，可以参考 sample 中的 MessageListActivity 对于事件的处理。
 
+
+
+### OnClickEditTextListener
+
+监听输入框点击事件，点击输入框后触发此事件。用法：
+
+```
+mChatInput.setOnClickEditTextListener(new OnClickEditTextListener() {
+            @Override
+            public void onTouchEditText() {
+                mAdapter.getLayoutManager().scrollToPosition(0);
+            }
+        });
+```
+
+
+
+
 ### RecordVoiceListener
 这是录音的接口，使用方式：
 
