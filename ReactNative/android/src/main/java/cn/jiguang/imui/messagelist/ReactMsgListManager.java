@@ -365,3 +365,4 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
         mContext.unregisterReceiver(RCTMsgListReceiver);
     }
 }
+ra

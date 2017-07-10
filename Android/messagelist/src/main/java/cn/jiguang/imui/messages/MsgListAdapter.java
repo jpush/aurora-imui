@@ -67,6 +67,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private MediaPlayer mMediaPlayer = new MediaPlayer();
 
     private List<Wrapper> mItems;
+    private boolean mScroll;
 
     public MsgListAdapter(String senderId, ImageLoader imageLoader) {
         this(senderId, new HoldersConfig(), imageLoader);
@@ -77,6 +78,14 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         mHolders = holders;
         mImageLoader = imageLoader;
         mItems = new ArrayList<>();
+    }
+
+    public void setScrolling(boolean scroll) {
+        this.mScroll = scroll;
+    }
+
+    public boolean getScrolling() {
+        return this.mScroll;
     }
 
     @Override
@@ -173,6 +182,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mAvatarClickListener = this.mAvatarClickListener;
             ((BaseMessageViewHolder) holder).mMsgResendListener = this.mMsgResendListener;
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
+            ((BaseMessageViewHolder) holder).mScroll = this.mScroll;
         }
         holder.onBind(wrapper.item);
     }
