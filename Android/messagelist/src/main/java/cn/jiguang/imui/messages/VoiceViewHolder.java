@@ -122,11 +122,10 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 //                    mVoiceAnimation.stop();
 //                    mVoiceAnimation = null;
 //                }
+                mController.notifyAnimStop();
                 if (mIsSender) {
-                    mController.notifyAnimStop(mSendDrawable);
                     mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
-                    mController.notifyAnimStop(mReceiveDrawable);
                     mVoiceIv.setImageResource(mPlayReceiveAnim);
                 }
                 mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
@@ -180,7 +179,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     }
 
     private void playVoice(int position, MESSAGE message) {
-        mController.setLastPlayPosition(position);
+        mController.setLastPlayPosition(position, mIsSender);
         try {
             mMediaPlayer.reset();
             mFIS = new FileInputStream(message.getMediaFilePath());
@@ -257,6 +256,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mDateTv.setTextColor(style.getDateTextColor());
         mSendDrawable = style.getSendVoiceDrawable();
         mReceiveDrawable = style.getReceiveVoiceDrawable();
+        mController.setDrawable(mSendDrawable, mReceiveDrawable);
         mPlaySendAnim = style.getPlaySendVoiceAnim();
         mPlayReceiveAnim = style.getPlayReceiveVoiceAnim();
         if (mIsSender) {

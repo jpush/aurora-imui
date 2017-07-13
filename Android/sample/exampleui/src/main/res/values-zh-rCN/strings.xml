@@ -6,6 +6,10 @@
     <string name="message_long_click_hint">长按消息事件</string>
     <string name="avatar_click_hint">头像点击事件</string>
 
+    <string name="rationale_record_voice">需要获取麦克风权限来录音</string>
+    <string name="rationale_photo">需要获取相册权限</string>
+    <string name="rationale_camera">需要获取相机权限</string>
+
     <string-array name="messages_array">
         <item>How are you</item>
         <item>Fine. And you?</item>
