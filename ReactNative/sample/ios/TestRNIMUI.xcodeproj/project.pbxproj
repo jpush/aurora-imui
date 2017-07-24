@@ -40,8 +40,6 @@
 		62E4D77D1EE2CB5A0034C645 /* defoult_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E4D77A1EE2CB5A0034C645 /* defoult_header.png */; };
 		62E4D77E1EE2CB5A0034C645 /* defoult_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E4D77B1EE2CB5A0034C645 /* defoult_header@2x.png */; };
 		62E4D77F1EE2CB5A0034C645 /* defoult_header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E4D77C1EE2CB5A0034C645 /* defoult_header@3x.png */; };
-		62E4D7801EE2CB8C0034C645 /* RNTAuroraIMUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E4D7751EE2CA540034C645 /* RNTAuroraIMUI.framework */; };
-		62E4D7811EE2CB8C0034C645 /* RNTAuroraIMUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62E4D7751EE2CA540034C645 /* RNTAuroraIMUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		696A092A75EB49F9893CEB4A /* libAuroraIMUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9024DBB0F8C946CC9113B791 /* libAuroraIMUI.a */; };
 		7D6F29F8BCF24EA5AA4708AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 538B9A705A5C4CE8B5A6DCFE /* Foundation.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -239,13 +237,6 @@
 			remoteGlobalIDString = 6239E6641EDDB1F700B9AC9C;
 			remoteInfo = AuroraIMUI;
 		};
-		62E4D7821EE2CB8D0034C645 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 754888D483EC410283740E58 /* RNTAuroraIMUI.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 626021F61ED96BA20038AB20;
-			remoteInfo = RNTAuroraIMUI;
-		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -261,20 +252,6 @@
 			remoteInfo = RCTText;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		62E4D7841EE2CB8D0034C645 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				62E4D7811EE2CB8C0034C645 /* RNTAuroraIMUI.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -329,7 +306,6 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				62E4D7801EE2CB8C0034C645 /* RNTAuroraIMUI.framework in Frameworks */,
 				696A092A75EB49F9893CEB4A /* libAuroraIMUI.a in Frameworks */,
 				348DCCF76DAD44E4936F1D44 /* libz.tbd in Frameworks */,
 				307FB5659D3C4EB294AF9621 /* CoreTelephony.framework in Frameworks */,
@@ -563,12 +539,10 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				62E4D7841EE2CB8D0034C645 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				62E4D7831EE2CB8D0034C645 /* PBXTargetDependency */,
 			);
 			name = TestRNIMUI;
 			productName = "Hello World";
@@ -998,11 +972,6 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* TestRNIMUI-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
-		62E4D7831EE2CB8D0034C645 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = RNTAuroraIMUI;
-			targetProxy = 62E4D7821EE2CB8D0034C645 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1021,7 +990,6 @@
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1046,7 +1014,6 @@
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RL64Y54S9V;
