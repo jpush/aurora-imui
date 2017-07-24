@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 var ReactNative = require('react-native');                
-const AuroraIController = NativeModules.RNTAuroraIController;
+const AuroraIController = NativeModules.AuroraIMUIModule;
 import IMUI from 'aurora-imui-react-native'
 var InputView = IMUI.ChatInput;
 var MessageListView = IMUI.MessageList;
