@@ -37,6 +37,8 @@
 		307FB5659D3C4EB294AF9621 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7F0FE7105BB48A0A6497FC3 /* CoreTelephony.framework */; };
 		348DCCF76DAD44E4936F1D44 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A858DC92C64A0E8C6F6170 /* libz.tbd */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		626F95191F2D8916009C6BB5 /* RCTAuroraIMUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 626F94D71F2D88AA009C6BB5 /* RCTAuroraIMUI.framework */; };
+		626F951A1F2D8916009C6BB5 /* RCTAuroraIMUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 626F94D71F2D88AA009C6BB5 /* RCTAuroraIMUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		62E4D77D1EE2CB5A0034C645 /* defoult_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E4D77A1EE2CB5A0034C645 /* defoult_header.png */; };
 		62E4D77E1EE2CB5A0034C645 /* defoult_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E4D77B1EE2CB5A0034C645 /* defoult_header@2x.png */; };
 		62E4D77F1EE2CB5A0034C645 /* defoult_header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62E4D77C1EE2CB5A0034C645 /* defoult_header@3x.png */; };
@@ -216,26 +218,33 @@
 			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
-		62E4D7741EE2CA540034C645 /* PBXContainerItemProxy */ = {
+		626F94D41F2D88AA009C6BB5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 754888D483EC410283740E58 /* RNTAuroraIMUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 626021F71ED96BA20038AB20;
-			remoteInfo = RNTAuroraIMUI;
-		};
-		62E4D7761EE2CA540034C645 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 754888D483EC410283740E58 /* RNTAuroraIMUI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 626022001ED96BA20038AB20;
-			remoteInfo = RNTAuroraIMUITests;
-		};
-		62E4D7781EE2CA540034C645 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 754888D483EC410283740E58 /* RNTAuroraIMUI.xcodeproj */;
+			containerPortal = 845E13558E3B41DA9C04B48B /* RCTAuroraIMUI.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6239E6641EDDB1F700B9AC9C;
 			remoteInfo = AuroraIMUI;
+		};
+		626F94D61F2D88AA009C6BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 845E13558E3B41DA9C04B48B /* RCTAuroraIMUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 623EA9991EE55D0800EC43AE;
+			remoteInfo = RCTAuroraIMUI;
+		};
+		626F94D81F2D88AA009C6BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 845E13558E3B41DA9C04B48B /* RCTAuroraIMUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 623EA9A11EE55D0800EC43AE;
+			remoteInfo = RCTAuroraIMUITests;
+		};
+		626F951B1F2D8916009C6BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 845E13558E3B41DA9C04B48B /* RCTAuroraIMUI.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 623EA9981EE55D0800EC43AE;
+			remoteInfo = RCTAuroraIMUI;
 		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -252,6 +261,20 @@
 			remoteInfo = RCTText;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		626F951D1F2D8916009C6BB5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				626F951A1F2D8916009C6BB5 /* RCTAuroraIMUI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -280,10 +303,10 @@
 		62E4D77A1EE2CB5A0034C645 /* defoult_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defoult_header.png; sourceTree = "<group>"; };
 		62E4D77B1EE2CB5A0034C645 /* defoult_header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defoult_header@2x.png"; sourceTree = "<group>"; };
 		62E4D77C1EE2CB5A0034C645 /* defoult_header@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defoult_header@3x.png"; sourceTree = "<group>"; };
-		754888D483EC410283740E58 /* RNTAuroraIMUI.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTAuroraIMUI.xcodeproj; path = "../node_modules/aurora-imui-react-native/ReactNative/ios/RNTAuroraIMUI.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8351D1952CE141A2BB2DEEDB /* CoreGraphics.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		845E13558E3B41DA9C04B48B /* RCTAuroraIMUI.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTAuroraIMUI.xcodeproj; path = "../node_modules/aurora-imui-react-native/ReactNative/ios/RCTAuroraIMUI.xcodeproj"; sourceTree = "<group>"; };
 		8A4D21099E94498E9BD93233 /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9024DBB0F8C946CC9113B791 /* libAuroraIMUI.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAuroraIMUI.a; sourceTree = "<group>"; };
 		B7F74DADC5BF4044A75B1E92 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -301,6 +324,7 @@
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
+				626F95191F2D8916009C6BB5 /* RCTAuroraIMUI.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
@@ -444,12 +468,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		62E4D7561EE2CA540034C645 /* Products */ = {
+		626F94CC1F2D88AA009C6BB5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				62E4D7751EE2CA540034C645 /* RNTAuroraIMUI.framework */,
-				62E4D7771EE2CA540034C645 /* RNTAuroraIMUITests.xctest */,
-				62E4D7791EE2CA540034C645 /* libAuroraIMUI.a */,
+				626F94D51F2D88AA009C6BB5 /* libAuroraIMUI.a */,
+				626F94D71F2D88AA009C6BB5 /* RCTAuroraIMUI.framework */,
+				626F94D91F2D88AA009C6BB5 /* RCTAuroraIMUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -477,7 +501,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				754888D483EC410283740E58 /* RNTAuroraIMUI.xcodeproj */,
+				845E13558E3B41DA9C04B48B /* RCTAuroraIMUI.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -539,10 +563,12 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				626F951D1F2D8916009C6BB5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				626F951C1F2D8916009C6BB5 /* PBXTargetDependency */,
 			);
 			name = TestRNIMUI;
 			productName = "Hello World";
@@ -629,6 +655,10 @@
 					ProjectRef = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
 				},
 				{
+					ProductGroup = 626F94CC1F2D88AA009C6BB5 /* Products */;
+					ProjectRef = 845E13558E3B41DA9C04B48B /* RCTAuroraIMUI.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
 				},
@@ -663,10 +693,6 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
-				},
-				{
-					ProductGroup = 62E4D7561EE2CA540034C645 /* Products */;
-					ProjectRef = 754888D483EC410283740E58 /* RNTAuroraIMUI.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -840,25 +866,25 @@
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		62E4D7751EE2CA540034C645 /* RNTAuroraIMUI.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RNTAuroraIMUI.framework;
-			remoteRef = 62E4D7741EE2CA540034C645 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		62E4D7771EE2CA540034C645 /* RNTAuroraIMUITests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RNTAuroraIMUITests.xctest;
-			remoteRef = 62E4D7761EE2CA540034C645 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		62E4D7791EE2CA540034C645 /* libAuroraIMUI.a */ = {
+		626F94D51F2D88AA009C6BB5 /* libAuroraIMUI.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libAuroraIMUI.a;
-			remoteRef = 62E4D7781EE2CA540034C645 /* PBXContainerItemProxy */;
+			remoteRef = 626F94D41F2D88AA009C6BB5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		626F94D71F2D88AA009C6BB5 /* RCTAuroraIMUI.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RCTAuroraIMUI.framework;
+			remoteRef = 626F94D61F2D88AA009C6BB5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		626F94D91F2D88AA009C6BB5 /* RCTAuroraIMUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RCTAuroraIMUITests.xctest;
+			remoteRef = 626F94D81F2D88AA009C6BB5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
@@ -972,6 +998,11 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* TestRNIMUI-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		626F951C1F2D8916009C6BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTAuroraIMUI;
+			targetProxy = 626F951B1F2D8916009C6BB5 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -990,6 +1021,7 @@
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -997,6 +1029,7 @@
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
 					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
 				);
 				INFOPLIST_FILE = TestRNIMUI/Info.plist;
@@ -1014,12 +1047,14 @@
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RL64Y54S9V;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
 					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
 				);
 				INFOPLIST_FILE = TestRNIMUI/Info.plist;
@@ -1048,6 +1083,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
 					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
 				);
 				INFOPLIST_FILE = "TestRNIMUI-tvOS/Info.plist";
@@ -1082,6 +1118,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
 					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
 				);
 				INFOPLIST_FILE = "TestRNIMUI-tvOS/Info.plist";

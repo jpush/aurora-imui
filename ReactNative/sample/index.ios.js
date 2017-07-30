@@ -67,6 +67,8 @@ export default class TestRNIMUI extends Component {
     
   onStatusViewClick = (message) => {
       console.log(message)
+      message.status = 'send_succeed'
+      AuroraIController.updateMessage(message)
     }
 
   onBeginDragMessageList = () => {
