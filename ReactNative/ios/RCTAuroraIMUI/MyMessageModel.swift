@@ -247,6 +247,7 @@ open class RCTMessageModel: IMUIMessageModel {
       
       messageDic.setValue(userDic, forKey: "fromUser")
       messageDic.setValue(self.msgId, forKey: "msgId")
+      messageDic.setValue(self.timeString, forKey: "timeString")
       return messageDic
     }
   }

@@ -86,6 +86,7 @@ export default class TestRNIMUI extends Component {
     
     message.msgType = "text"
     message.text = text
+    message.timeString = 'fsdafafaf'
     
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
