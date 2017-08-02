@@ -97,10 +97,17 @@ class IMUIRecordVoiceHelper: NSObject {
       print(error.localizedDescription)
     }
     
-    let recordSettings:[String : AnyObject] = [
-      AVFormatIDKey: NSNumber(value: kAudioFormatAppleIMA4 as UInt32),
-      AVNumberOfChannelsKey: 1 as AnyObject,
-      AVSampleRateKey : 16000.0 as AnyObject
+//    let recordSettings:[String : AnyObject] = [
+//      AVFormatIDKey: NSNumber(value: kAudioFormatAppleIMA4 as UInt32),
+//      AVNumberOfChannelsKey: 1 as AnyObject,
+//      AVSampleRateKey : 16000.0 as AnyObject
+//    ]
+    
+    let recordSettings = [
+      AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+      AVSampleRateKey: 16000,
+      AVNumberOfChannelsKey: 1,
+      AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
     ]
     
     do {

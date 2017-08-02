@@ -10,9 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -36,7 +34,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private boolean mSetData = false;
     private AnimationDrawable mVoiceAnimation;
     private FileInputStream mFIS;
-    private FileDescriptor mFD;
     private boolean mIsEarPhoneOn;
     private int mSendDrawable;
     private int mReceiveDrawable;
@@ -122,11 +119,10 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 //                    mVoiceAnimation.stop();
 //                    mVoiceAnimation = null;
 //                }
+                mController.notifyAnimStop();
                 if (mIsSender) {
-                    mController.notifyAnimStop(mSendDrawable);
                     mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
-                    mController.notifyAnimStop(mReceiveDrawable);
                     mVoiceIv.setImageResource(mPlayReceiveAnim);
                 }
                 mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
@@ -180,12 +176,11 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     }
 
     private void playVoice(int position, MESSAGE message) {
-        mController.setLastPlayPosition(position);
+        mController.setLastPlayPosition(position, mIsSender);
         try {
             mMediaPlayer.reset();
             mFIS = new FileInputStream(message.getMediaFilePath());
-            mFD = mFIS.getFD();
-            mMediaPlayer.setDataSource(mFD);
+            mMediaPlayer.setDataSource(mFIS.getFD());
             if (mIsEarPhoneOn) {
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
             } else {
@@ -212,9 +207,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                     }
                 }
             });
-        } catch (Exception e) {
-            Toast.makeText(mContext, mContext.getString(R.string.aurora_file_not_found_toast),
-                    Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -257,6 +250,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mDateTv.setTextColor(style.getDateTextColor());
         mSendDrawable = style.getSendVoiceDrawable();
         mReceiveDrawable = style.getReceiveVoiceDrawable();
+        mController.setDrawable(mSendDrawable, mReceiveDrawable);
         mPlaySendAnim = style.getPlaySendVoiceAnim();
         mPlayReceiveAnim = style.getPlayReceiveVoiceAnim();
         if (mIsSender) {

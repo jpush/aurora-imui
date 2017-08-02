@@ -64,7 +64,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private int mSelectedItemCount;
     private LinearLayoutManager mLayoutManager;
     private MessageListStyle mStyle;
-    private MediaPlayer mMediaPlayer = new MediaPlayer();
+    private MediaPlayer mMediaPlayer;
 
     private List<Wrapper> mItems;
     private boolean mScroll;
@@ -74,6 +74,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     public MsgListAdapter(String senderId, HoldersConfig holders, ImageLoader imageLoader) {
+        mMediaPlayer = new MediaPlayer();
         mSenderId = senderId;
         mHolders = holders;
         mImageLoader = imageLoader;

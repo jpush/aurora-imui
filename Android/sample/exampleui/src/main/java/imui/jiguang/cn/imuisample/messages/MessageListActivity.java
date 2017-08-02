@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -178,10 +179,13 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mChatView.setRecordVoiceListener(new RecordVoiceListener() {
             @Override
             public void onStartRecord() {
-                // Show record voice interface
-                File rootDir = getFilesDir();
-                String fileDir = rootDir.getAbsolutePath() + "/voice";
-                mChatView.setRecordVoiceFile(fileDir, DateFormat.format("yyyy_MMdd_hhmmss",
+                // set voice file path, after recording, audio file will save here
+                String path = Environment.getExternalStorageDirectory().getPath() + "/voice";
+                File destDir = new File(path);
+                if (!destDir.exists()) {
+                    destDir.mkdirs();
+                }
+                mChatView.setRecordVoiceFile(destDir.getPath(), DateFormat.format("yyyy-MM-dd-hhmmss",
                         Calendar.getInstance(Locale.CHINA)) + "");
             }
 
@@ -367,7 +371,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
         MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
         message.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
-
+        mAdapter.addToStart(message, true);
         mAdapter.addToEnd(mData);
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override

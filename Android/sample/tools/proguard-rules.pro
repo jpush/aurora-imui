@@ -27,3 +27,8 @@
     public static int d(...);
     public static int e(...);
 }
+
+-keep class cn.jiguang.imui.** {*;}
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
