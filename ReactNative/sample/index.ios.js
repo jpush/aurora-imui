@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 var ReactNative = require('react-native');                
-const AuroraIController = NativeModules.RNTAuroraIController;
+const AuroraIController = NativeModules.AuroraIMUIModule;
 import IMUI from 'aurora-imui-react-native'
 var InputView = IMUI.ChatInput;
 var MessageListView = IMUI.MessageList;
@@ -67,6 +67,8 @@ export default class TestRNIMUI extends Component {
     
   onStatusViewClick = (message) => {
       console.log(message)
+      message.status = 'send_succeed'
+      AuroraIController.updateMessage(message)
     }
 
   onBeginDragMessageList = () => {
@@ -84,6 +86,7 @@ export default class TestRNIMUI extends Component {
     
     message.msgType = "text"
     message.text = text
+    message.timeString = 'fsdafafaf'
     
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)

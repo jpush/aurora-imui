@@ -61,7 +61,6 @@ export default class MessageList extends Component {
   }
 
   _onPullToRefresh(event: Event) {
-    console.log("huangmin888")
     if (!this.props.onPullToRefresh) {
       return;
     }

@@ -84,12 +84,14 @@ open class RCTMessageModel: IMUIMessageModel {
     let statusString = messageDic.object(forKey: RCTMessageModel.kMsgKeyStatus) as? String
     let isOutgoing = messageDic.object(forKey: RCTMessageModel.kMsgKeyisOutgoing) as? Bool
     
-    let timeString = messageDic.object(forKey: RCTMessageModel.ktimeString) as? String
+    var timeString = messageDic.object(forKey: RCTMessageModel.ktimeString) as? String
     var needShowTime = false
     if let timeString = timeString {
       if timeString != "" {
         needShowTime = true
       }
+    } else {
+      timeString = ""
     }
 
     var mediaPath = messageDic.object(forKey: RCTMessageModel.kMsgKeyMediaFilePath) as? String
@@ -245,6 +247,7 @@ open class RCTMessageModel: IMUIMessageModel {
       
       messageDic.setValue(userDic, forKey: "fromUser")
       messageDic.setValue(self.msgId, forKey: "msgId")
+      messageDic.setValue(self.timeString, forKey: "timeString")
       return messageDic
     }
   }

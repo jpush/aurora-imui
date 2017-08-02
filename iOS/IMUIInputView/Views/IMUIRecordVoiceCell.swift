@@ -260,7 +260,8 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     recorderPath = "\(NSHomeDirectory())/Documents/"
     
     dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm-ss"
-    recorderPath?.append("\(dateFormatter.string(from: now))-MySound.ilbc")
+    recorderPath?.append("\(dateFormatter.string(from: now))-MySound.m4a")
+    print("\(recorderPath)")
     return recorderPath!
   }
   
