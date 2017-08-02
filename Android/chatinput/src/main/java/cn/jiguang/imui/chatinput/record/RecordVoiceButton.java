@@ -7,11 +7,11 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v7.widget.AppCompatImageButton;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
@@ -25,7 +25,7 @@ import cn.jiguang.imui.chatinput.R;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 
 
-public class RecordVoiceButton extends ImageButton {
+public class RecordVoiceButton extends AppCompatImageButton {
 
     private final static String TAG = "RecordVoiceButton";
 
@@ -93,7 +93,7 @@ public class RecordVoiceButton extends ImageButton {
             destDir.mkdirs();
         }
         //录音文件的命名格式
-        myRecAudioFile = new File(path, fileName + ".amr");
+        myRecAudioFile = new File(path, fileName + ".m4a");
         Log.i(TAG, "Create file success file path: " + myRecAudioFile.getAbsolutePath());
     }
 
@@ -222,6 +222,7 @@ public class RecordVoiceButton extends ImageButton {
                     FileInputStream fis = new FileInputStream(myRecAudioFile);
                     mp.setDataSource(fis.getFD());
                     mp.prepare();
+                    fis.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -273,8 +274,9 @@ public class RecordVoiceButton extends ImageButton {
             }
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+            // .m4a 格式可以在 iOS 上直接播放
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.HE_AAC);
             recorder.setOutputFile(myRecAudioFile.getAbsolutePath());
             myRecAudioFile.createNewFile();
             recorder.prepare();
