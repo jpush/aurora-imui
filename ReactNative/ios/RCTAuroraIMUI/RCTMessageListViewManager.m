@@ -106,7 +106,7 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextColor, NSString, RCTMessageListView) {
 
 RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
-  UIColor *color = [UIColor hexStringToUIColorWithHex:@"colorString"];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
   if (color != nil) {
     IMUITextMessageContentView.inComingTextColor = color;
   }
