@@ -106,7 +106,7 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextColor, NSString, RCTMessageListView) {
 
 RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
-  UIColor *color = [UIColor hexStringToUIColorWithHex:@"colorString"];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
   if (color != nil) {
     IMUITextMessageContentView.inComingTextColor = color;
   }
@@ -166,6 +166,12 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubblePadding, NSDictionary, RCTMessageListView) {
   NSNumber *right = bubblePadding[@"right"];
   NSNumber *bottom = bubblePadding[@"bottom"];
   MyMessageCellLayout.outgoingPadding = UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]);
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(avatarCornerRadius, NSDictionary, RCTMessageListView) {
+  NSNumber *cornerRadius = [RCTConvert NSNumber: json];
+  IMUIBaseMessageCell.avatarCornerRadius = [cornerRadius floatValue];
+  
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView) {

@@ -15,6 +15,8 @@ enum IMUIMessageCellType {
 }
 
 open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
+  open static var avatarCornerRadius:CGFloat = 0
+  
   var bubbleView: IMUIMessageBubbleView
   lazy var avatarImage = UIImageView()
   lazy var timeLabel = UILabel()
@@ -36,6 +38,8 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
     self.contentView.addSubview(self.avatarImage)
     self.contentView.addSubview(self.timeLabel)
     self.contentView.addSubview(self.nameLabel)
+    avatarImage.layer.masksToBounds = true
+    self.avatarImage.layer.cornerRadius = CGFloat(IMUIBaseMessageCell.avatarCornerRadius)
     
     let bubbleGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapBubbleView))
     bubbleGesture.numberOfTapsRequired = 1

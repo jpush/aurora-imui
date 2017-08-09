@@ -84,8 +84,9 @@ extension ViewController: IMUIInputViewDelegate {
   }
   
   func finishRecordVoice(_ voicePath: String, durationTime: Double) {
-    let outGoingmessage = MyMessageModel(voicePath: voicePath, isOutGoing: true)
-    let inCommingMessage = MyMessageModel(voicePath: voicePath, isOutGoing: false)
+    
+    let outGoingmessage = MyMessageModel(voicePath: voicePath, duration: CGFloat(durationTime), isOutGoing: true)
+    let inCommingMessage = MyMessageModel(voicePath: voicePath, duration: CGFloat(durationTime), isOutGoing: false)
     self.messageCollectionView.appendMessage(with: outGoingmessage)
     self.messageCollectionView.appendMessage(with: inCommingMessage)
   }
