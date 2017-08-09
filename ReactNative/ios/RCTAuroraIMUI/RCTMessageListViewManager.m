@@ -168,6 +168,12 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubblePadding, NSDictionary, RCTMessageListView) {
   MyMessageCellLayout.outgoingPadding = UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]);
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(avatarCornerRadius, NSDictionary, RCTMessageListView) {
+  NSNumber *cornerRadius = [RCTConvert NSNumber: json];
+  IMUIBaseMessageCell.avatarCornerRadius = [cornerRadius floatValue];
+  
+}
+
 RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView) {
   NSDictionary *bubblePadding = [RCTConvert NSDictionary: json];
   NSNumber *left = bubblePadding[@"left"];
