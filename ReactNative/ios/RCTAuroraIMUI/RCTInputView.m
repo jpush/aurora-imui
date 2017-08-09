@@ -35,7 +35,10 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
   if (object == self && [keyPath isEqualToString:@"bounds"]) {
-    [self.imuiIntputView.featureView.featureCollectionView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.imuiIntputView.featureView.featureCollectionView layoutSubviews];
+      [self.imuiIntputView.featureView.featureCollectionView reloadData];
+    });
   }
 }
 
