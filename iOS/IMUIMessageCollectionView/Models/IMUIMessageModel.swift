@@ -77,7 +77,7 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
     return ""
   }
   
-  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: IMUIUserProtocol, isOutGoing: Bool, time: String, type: String, cellLayout: IMUIMessageCellLayoutProtocol) {
+  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: IMUIUserProtocol, isOutGoing: Bool, time: String, type: String, cellLayout: IMUIMessageCellLayoutProtocol, duration: CGFloat?) {
     self.msgId = msgId
     self.fromUser = fromUser
     self.isOutGoing = isOutGoing
@@ -85,7 +85,7 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
     self.type = type
     self.messageStatus = messageStatus
     
-    self.duration = 0.0
+    self.duration = duration ?? 0.0
     
     super.init()
       self.cellLayout = cellLayout
