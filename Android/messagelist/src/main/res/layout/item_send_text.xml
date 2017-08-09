@@ -43,8 +43,9 @@
             android:paddingRight="20dp"
             android:text="sfada"/>
 
-        <cn.jiguang.imui.view.CircleImageView
+        <cn.jiguang.imui.view.RoundImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
+            android:contentDescription="@string/aurora_avatar_desc"
             style="@style/aurora_msgitem_sender_avatar_style"/>
 
     </LinearLayout>
