@@ -21,8 +21,10 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -38,16 +40,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.R;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 
-
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CameraNew implements CameraSupport {
 
     private static final String TAG = "CameraNew";
@@ -56,6 +61,7 @@ public class CameraNew implements CameraSupport {
     private CameraDevice mCamera;
     private CameraManager mManager;
     private File mPhoto;
+    private File mDir;
     private TextureView mTextureView;
     private String mCameraId;
     private Size mPreviewSize;
@@ -97,6 +103,15 @@ public class CameraNew implements CameraSupport {
         this.mContext = context;
         this.mManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         this.mTextureView = textureView;
+        initPhotoPath();
+    }
+
+    private void initPhotoPath() {
+        String path = mContext.getFilesDir().getAbsolutePath() + "/photo";
+        mDir = new File(path);
+        if (!mDir.exists()) {
+            mDir.mkdirs();
+        }
     }
 
     public void setCameraCallbackListener(OnCameraCallbackListener listener) {
@@ -302,11 +317,6 @@ public class CameraNew implements CameraSupport {
     }
 
     @Override
-    public void setOutputFile(File file) {
-        this.mPhoto = file;
-    }
-
-    @Override
     public void takePicture() {
         if (null == mCamera) {
             return;
@@ -389,6 +399,9 @@ public class CameraNew implements CameraSupport {
     }
 
     private void save(byte[] bytes) throws IOException {
+        mPhoto = new File(mDir,
+                new SimpleDateFormat("yyyy-MM-dd-HHmmss", Locale.getDefault()).format(new Date())
+                        + ".png");
         OutputStream outputStream = new FileOutputStream(mPhoto);
         // 前置摄像头水平翻转照片
         if (!mIsFacingBack) {

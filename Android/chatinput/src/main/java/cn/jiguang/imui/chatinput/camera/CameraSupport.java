@@ -9,7 +9,6 @@ public interface CameraSupport {
     CameraSupport open(int cameraId, int width, int height, boolean isFacingBack);
     int getOrientation(int cameraId);
     void release();
-    void setOutputFile(File file);
     void takePicture();
     void setCameraCallbackListener(OnCameraCallbackListener listener);
     void startRecordingVideo();

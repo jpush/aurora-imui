@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.media.MediaRecorder;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Surface;
@@ -19,9 +20,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 
@@ -33,6 +37,7 @@ public class CameraOld implements CameraSupport {
     private Camera mCamera;
     private TextureView mTextureView;
     private File mPhoto;
+    private File mDir;
     private Context mContext;
     private OnCameraCallbackListener mCameraCallbackListener;
     private MediaRecorder mMediaRecorder;
@@ -42,17 +47,20 @@ public class CameraOld implements CameraSupport {
     private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static SparseIntArray ORIENTATIONS = new SparseIntArray();
+
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 0);
         ORIENTATIONS.append(Surface.ROTATION_90, 90);
         ORIENTATIONS.append(Surface.ROTATION_180, 180);
         ORIENTATIONS.append(Surface.ROTATION_270, 270);
     }
+
     private boolean mIsFacingBack = true;
 
     public CameraOld(Context context, TextureView textureView) {
         this.mContext = context;
         this.mTextureView = textureView;
+        initPhotoPath();
     }
 
     @Override
@@ -120,9 +128,12 @@ public class CameraOld implements CameraSupport {
         releaseMediaRecorder();
     }
 
-    @Override
-    public void setOutputFile(File file) {
-        this.mPhoto = file;
+    private void initPhotoPath() {
+        String path = mContext.getFilesDir().getAbsolutePath() + "/photo";
+        mDir = new File(path);
+        if (!mDir.exists()) {
+            mDir.mkdirs();
+        }
     }
 
     @Override
@@ -131,6 +142,9 @@ public class CameraOld implements CameraSupport {
             @Override
             public void onPictureTaken(byte[] bytes, Camera camera) {
                 try {
+                    mPhoto = new File(mDir,
+                            new SimpleDateFormat("yyyy-MM-dd-HHmmss", Locale.getDefault()).format(new Date())
+                                    + ".png");
                     OutputStream outputStream = new FileOutputStream(mPhoto);
                     // 前置摄像头水平翻转照片
                     if (!mIsFacingBack) {

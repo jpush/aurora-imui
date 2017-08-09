@@ -150,7 +150,6 @@ public class ChatInputView extends LinearLayout
     private FileInputStream mFIS;
     private FileDescriptor mFD;
     private boolean mIsEarPhoneOn;
-
     private File mPhoto;
     private CameraSupport mCameraSupport;
     private int mCameraId = -1;
@@ -398,16 +397,6 @@ public class ChatInputView extends LinearLayout
                         mListener.switchToCameraMode();
                     }
                     if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                        if (mPhoto == null) {
-                            String path = getContext().getFilesDir().getAbsolutePath() + "/photo";
-                            File destDir = new File(path);
-                            if (!destDir.exists()) {
-                                destDir.mkdirs();
-                            }
-                            mPhoto = new File(destDir,
-                                    DateFormat.format("yyyy_MMdd_hhmmss", Calendar.getInstance(Locale.CHINA))
-                                            + ".png");
-                        }
                         if (mCameraSupport == null) {
                             initCamera();
                         }
@@ -685,7 +674,6 @@ public class ChatInputView extends LinearLayout
             mCameraSupport = new CameraOld(getContext(), mTextureView);
         }
         mCameraSupport.setCameraCallbackListener(mCameraListener);
-        mCameraSupport.setOutputFile(mPhoto);
         for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
             Camera.CameraInfo info = new Camera.CameraInfo();
             Camera.getCameraInfo(i, info);
@@ -966,12 +954,13 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * Set aurora_menuitem_camera capture file path and file name. If user didn't invoke this method, will save in
+     * Set camera capture file path and file name. If user didn't invoke this method, will save in
      * default path.
      *
      * @param path     Photo to be saved in.
      * @param fileName File name.
      */
+    @Deprecated
     public void setCameraCaptureFile(String path, String fileName) {
         File destDir = new File(path);
         if (!destDir.exists()) {
