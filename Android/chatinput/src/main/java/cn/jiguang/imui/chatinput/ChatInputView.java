@@ -20,7 +20,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.Space;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -49,9 +48,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.camera.CameraNew;
 import cn.jiguang.imui.chatinput.camera.CameraOld;
@@ -521,9 +518,6 @@ public class ChatInputView extends LinearLayout
                 // take picture and send it
             } else {
                 mCameraSupport.takePicture();
-                if (mIsFullScreen) {
-                    recoverScreen();
-                }
             }
         } else if (view.getId() == R.id.aurora_ib_camera_close) {
             try {
@@ -696,7 +690,7 @@ public class ChatInputView extends LinearLayout
                 public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width,
                                                         int height) {
                     Log.e("ChatInputView", "Texture size changed, Opening camera");
-                    if (mTextureView.getVisibility() == VISIBLE) {
+                    if (mTextureView.getVisibility() == VISIBLE && mCameraSupport != null) {
                         mCameraSupport.open(mCameraId, width, height, mIsBackCamera);
                     }
                 }
@@ -720,7 +714,7 @@ public class ChatInputView extends LinearLayout
     /**
      * Full screen mode
      */
-    private void fullScreen() {
+    public void fullScreen() {
         // hide top status bar
         Activity activity = (Activity) getContext();
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
@@ -739,7 +733,7 @@ public class ChatInputView extends LinearLayout
     /**
      * Recover screen
      */
-    private void recoverScreen() {
+    public void recoverScreen() {
         Activity activity = (Activity) getContext();
         WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
         attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);

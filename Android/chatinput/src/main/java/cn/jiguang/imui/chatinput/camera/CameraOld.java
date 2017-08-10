@@ -9,7 +9,6 @@ import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.media.MediaRecorder;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Surface;
