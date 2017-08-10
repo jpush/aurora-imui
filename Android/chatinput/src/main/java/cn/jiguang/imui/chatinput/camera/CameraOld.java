@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import cn.jiguang.imui.chatinput.listener.CameraEventListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 
 @SuppressWarnings("deprecation")
@@ -171,6 +172,11 @@ public class CameraOld implements CameraSupport {
     @Override
     public void setCameraCallbackListener(OnCameraCallbackListener listener) {
         mCameraCallbackListener = listener;
+    }
+
+    @Override
+    public void setCameraEventListener(CameraEventListener listener) {
+
     }
 
     public static Size getProperSize(List<Size> sizeList, float displayRatio) {

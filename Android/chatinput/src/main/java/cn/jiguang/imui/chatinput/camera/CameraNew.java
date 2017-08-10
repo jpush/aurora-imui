@@ -61,6 +61,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import cn.jiguang.imui.chatinput.R;
+import cn.jiguang.imui.chatinput.listener.CameraEventListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -190,6 +191,7 @@ public class CameraNew implements CameraSupport {
     }
 
     private static OnCameraCallbackListener mOnCameraCallbackListener;
+    private static CameraEventListener mCameraEventListener;
     private Size mVideoSize;
     private MediaRecorder mMediaRecorder;
     private String mNextVideoAbsolutePath;
@@ -279,8 +281,14 @@ public class CameraNew implements CameraSupport {
         }
     }
 
+    @Override
     public void setCameraCallbackListener(OnCameraCallbackListener listener) {
         mOnCameraCallbackListener = listener;
+    }
+
+    @Override
+    public void setCameraEventListener(CameraEventListener listener) {
+        mCameraEventListener = listener;
     }
 
     @Override
@@ -795,12 +803,15 @@ public class CameraNew implements CameraSupport {
                 } else {
                     output.write(bytes);
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
                 if (mOnCameraCallbackListener != null) {
                     mOnCameraCallbackListener.onTakePictureCompleted(mPhoto.getAbsolutePath());
                 }
+                if (mCameraEventListener != null) {
+                    mCameraEventListener.onFinishTakePicture();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
                 mImage.close();
                 if (null != output) {
                     try {
@@ -812,26 +823,6 @@ public class CameraNew implements CameraSupport {
             }
         }
 
-    }
-
-    private void save(byte[] bytes) throws IOException {
-        mPhoto = new File(mDir,
-                new SimpleDateFormat("yyyy-MM-dd-HHmmss", Locale.getDefault()).format(new Date())
-                        + ".jpg");
-        OutputStream outputStream = new FileOutputStream(mPhoto);
-        // 前置摄像头水平翻转照片
-        if (!mIsFacingBack) {
-            Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            int w = bmp.getWidth();
-            int h = bmp.getHeight();
-            Matrix matrix = new Matrix();
-            matrix.postScale(-1, 1);
-            Bitmap convertBmp = Bitmap.createBitmap(bmp, 0, 0, w, h, matrix, true);
-            convertBmp.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        } else {
-            outputStream.write(bytes);
-        }
-        outputStream.close();
     }
 
     public void setUpMediaRecorder() {

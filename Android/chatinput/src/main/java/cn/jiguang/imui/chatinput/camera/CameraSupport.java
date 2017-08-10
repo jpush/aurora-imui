@@ -1,7 +1,7 @@
 package cn.jiguang.imui.chatinput.camera;
 
-import java.io.File;
 
+import cn.jiguang.imui.chatinput.listener.CameraEventListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 
 
@@ -11,6 +11,7 @@ public interface CameraSupport {
     void release();
     void takePicture();
     void setCameraCallbackListener(OnCameraCallbackListener listener);
+    void setCameraEventListener(CameraEventListener listener);
     void startRecordingVideo();
     void cancelRecordingVideo();
     String finishRecordingVideo();
