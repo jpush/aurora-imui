@@ -198,14 +198,15 @@ export default class ChatActivity extends React.Component {
 		AuroraIMUIModule.scrollToBottom();
 	}
 
-	onFinishRecordVideo(mediaPath) {
-		console.log("finish record video, Path: " + mediaPath);
+	onFinishRecordVideo(mediaPath, duration) {
+		console.log("finish record video, Path: " + mediaPath + " duration: " + duration);
 		var messages = [{
 			msgId: "1",
 			status: "send_going",
 			msgType: "video",
 			isOutgoing: true,
 			mediaPath: mediaPath,
+			duration: duration,
 			fromUser: {
 				userId: "1",
 				displayName: "ken",
