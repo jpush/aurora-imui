@@ -105,7 +105,7 @@ message = {  // voice message
     msgId: "msgid",
     msgType: "voice",
     isOutGoing: true,
-    duration: number
+    duration: number, // 注意这个值有用户自己设置时长，单位秒
     mediaPath: "voice path"
     fromUser: {}
 }
@@ -322,6 +322,6 @@ padding 对象包括四个属性: left, top, right, bottom.
 
 
 - avatarSize: PropTypes.object -- 这个对象有宽高两个属性，Example: avatarSize = {width: 50, height: 50}
-
+- avatarCornerRadius: PropTypes.number — 设置头像圆角半径Example: avatarCornerRadius = {6}
 - showDisplayName: PropTypes.bool, 
 
