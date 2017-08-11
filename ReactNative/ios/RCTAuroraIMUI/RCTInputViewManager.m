@@ -70,7 +70,7 @@ RCT_EXPORT_MODULE()
 /// Tells the delegate when finish record voice
 - (void)finishRecordVoice:(NSString * _Nonnull)voicePath durationTime:(double)durationTime {
   if(!_rctInputView.onFinishRecordVoice) { return; }
-  _rctInputView.onFinishRecordVoice(@{@"mediaPath": voicePath, @"durationTime": @(durationTime)});
+  _rctInputView.onFinishRecordVoice(@{@"mediaPath": voicePath, @"duration": @(durationTime)});
 }
 
 /// Tells the delegate that user cancel record
