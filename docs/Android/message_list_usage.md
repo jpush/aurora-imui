@@ -10,7 +10,7 @@ We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.4.4'
+compile 'cn.jiguang.imui:messagelist:0.4.5'
 ```
 
 -  Maven：
@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:messagelist:0.4.4'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.4.4</version>
+  <version>0.4.5</version>
   <type>pom</type>
 </dependency>
 ```
@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.4.4'
+    compile 'com.github.jpush:imui:0.4.5'
 }
 ```
 

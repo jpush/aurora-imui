@@ -12,7 +12,7 @@
 
 - Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.4.4'
+compile 'cn.jiguang.imui:chatinput:0.4.5'
 ```
 
 - Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.4.4'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.4.4</version>
+  <version>0.4.5</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ compile 'cn.jiguang.imui:chatinput:0.4.4'
 
   ```groovy
   dependencies {
-    compile 'com.github.jpush:imui:0.4.4'
+    compile 'com.github.jpush:imui:0.4.5'
   }
   ```
 
@@ -196,9 +196,13 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 });
 ```
 
-### 设置拍照后保存的文件
+### 设置拍照后保存的文件(0.4.5 版本后弃用)
 `setCameraCaptureFile(String path, String fileName)`
+
+0.4.5 版本后拍照会返回默认路径。
+
 ```java
 // 参数分别是路径及文件名，建议在上面的 onCameraClick 触发时调用
+// 0.4.5 后弃用
 mChatInput.setCameraCaptureFile(path, fileName);
 ```
