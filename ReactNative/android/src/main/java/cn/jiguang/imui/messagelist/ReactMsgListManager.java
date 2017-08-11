@@ -291,6 +291,11 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
         messageList.setEventTextSize(size);
     }
 
+    @ReactProp(name = "avatarCornerRadius")
+    public void setAvatarCornerRadius(MessageList messageList, int radius) {
+        messageList.setAvatarRadius(radius);
+    }
+
     @SuppressWarnings("unchecked")
     private BroadcastReceiver RCTMsgListReceiver = new BroadcastReceiver() {
         @Override
@@ -365,4 +370,3 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
         mContext.unregisterReceiver(RCTMsgListReceiver);
     }
 }
-ra
