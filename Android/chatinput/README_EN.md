@@ -11,7 +11,7 @@ Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.4.3'
+compile 'cn.jiguang.imui:chatinput:0.4.5'
 ```
 
 - Via Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.4.3'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.4.3</version>
+  <version>0.4.5</version>
   <type>pom</type>
 </dependency>
 ```
@@ -41,7 +41,7 @@ allprojects {
 
 ```groovy
 dependencies {
-  compile 'com.github.jpush:imui:0.4.3'
+  compile 'com.github.jpush:imui:0.4.5'
 }
 ```
 
@@ -206,11 +206,14 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 });
 ```
 
-#### Set file path and file name that after taken picture
+#### Set file path and file name that after taken picture(Deprecated since 0.4.5)
 setCameraCaptureFile(String path, String fileName)
+
+Since 0.4.5, take picture will return default path.
 
 ```java
 // The first parameter is file path that saved at, second one is file name
 // Suggest calling this method when onCameraClick fires
+// Deprecated since 0.4.5
 mChatInput.setCameraCaptureFile(path, fileName);
 ```

@@ -15,14 +15,14 @@ import java.util.concurrent.TimeUnit;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.utils.BitmapCache;
-import cn.jiguang.imui.view.CircleImageView;
+import cn.jiguang.imui.view.RoundImageView;
 
 
 public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHolder<Message>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
     private final TextView mTextDate;
-    private final CircleImageView mImageAvatar;
+    private final RoundImageView mImageAvatar;
     private final ImageView mImageCover;
     private final ImageView mImagePlay;
     private final TextView mTvDuration;
@@ -34,7 +34,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         super(itemView);
         this.mIsSender = isSender;
         mTextDate = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
-        mImageAvatar = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
+        mImageAvatar = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mImageCover = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_cover);
         mImagePlay = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_play);
         mTvDuration = (TextView) itemView.findViewById(R.id.aurora_tv_duration);
@@ -135,5 +135,6 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();
         mImageAvatar.setLayoutParams(layoutParams);
+        mImageAvatar.setBorderRadius(style.getAvatarRadius());
     }
 }

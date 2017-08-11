@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'cn.jiguang.imui'
     PUBLISH_ARTIFACT_ID = 'messagelist'
-    PUBLISH_VERSION = '0.4.4'
+    PUBLISH_VERSION = '0.4.5'
 }
 
 android {
@@ -33,4 +33,4 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
+apply from: 'android-release-aar.gradle'

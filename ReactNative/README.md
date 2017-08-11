@@ -96,7 +96,7 @@ message = {  // voice message
     msgId: "msgid",
     msgType: "voice",
     isOutGoing: true,
-    duration: number,
+    duration: number, // this property will show in voice message bubble
     mediaPath: "voice path",
     fromUser: {}
 }
@@ -317,6 +317,6 @@ This Padding object includes four properties: left, top, right, bottom.
 Size object include width and height properties.
 
 - avatarSize: PropTypes.object -- Example: avatarSize = {width: 50, height: 50}
-
+- avatarCornerRadius: PropTypes.number — Example: avatarCornerRadius = {6}
 - showDisplayName: PropTypes.bool, 
 

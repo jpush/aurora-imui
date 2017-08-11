@@ -100,6 +100,7 @@ MessageList.propTypes = {
   dateTextSize: PropTypes.number,
   dateTextColor: PropTypes.string,
   avatarSize: PropTypes.object,
+  avatarCornerRadius: PropTypes.number,
   isShowDisplayName: PropTypes.bool,
   isShowIncommingDisplayName: PropTypes.bool,
   isShowOutgoingDisplayName: PropTypes.bool,

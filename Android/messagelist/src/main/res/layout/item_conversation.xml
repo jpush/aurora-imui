@@ -10,8 +10,9 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground">
 
-        <cn.jiguang.imui.view.CircleImageView
+        <cn.jiguang.imui.view.RoundImageView
             android:id="@+id/aurora_cir_conv_avatar"
+            android:contentDescription="@string/aurora_avatar_desc"
             android:layout_width="@dimen/aurora_width_conv_avatar"
             android:layout_height="@dimen/aurora_height_conv_avatar"
             android:layout_margin="16dp" />

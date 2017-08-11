@@ -17,7 +17,7 @@ import java.io.IOException;
 import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
-import cn.jiguang.imui.view.CircleImageView;
+import cn.jiguang.imui.view.RoundImageView;
 
 public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
@@ -25,7 +25,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private boolean mIsSender;
     private TextView mMsgTv;
     private TextView mDateTv;
-    private CircleImageView mAvatarIv;
+    private RoundImageView mAvatarIv;
     private ImageView mVoiceIv;
     private TextView mLengthTv;
     private ImageView mUnreadStatusIv;
@@ -46,7 +46,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         this.mIsSender = isSender;
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
-        mAvatarIv = (CircleImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
+        mAvatarIv = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mVoiceIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_voice_anim);
         mLengthTv = (TextView) itemView.findViewById(R.id.aurora_tv_voice_length);
         if (!isSender) {
@@ -271,5 +271,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();
         mAvatarIv.setLayoutParams(layoutParams);
+        mAvatarIv.setBorderRadius(style.getAvatarRadius());
     }
 }

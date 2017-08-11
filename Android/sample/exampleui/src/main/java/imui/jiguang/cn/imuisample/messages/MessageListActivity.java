@@ -171,7 +171,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 } else {
                     File rootDir = getFilesDir();
                     String fileDir = rootDir.getAbsolutePath() + "/photo";
-                    mChatView.setCameraCaptureFile(fileDir, "temp_photo");
+                    mChatView.setCameraCaptureFile(fileDir, new SimpleDateFormat("yyyy-MM-dd-hhmmss",
+                            Locale.getDefault()).format(new Date()));
                 }
             }
         });

@@ -35,6 +35,7 @@
             android:layout_height="match_parent"
             app:avatarHeight="48dp"
             app:avatarWidth="48dp"
+            app:avatarRadius="5dp"
             app:bubbleMaxWidth="0.70"
             app:dateTextSize="14sp"
             app:receiveBubblePaddingLeft="16dp"

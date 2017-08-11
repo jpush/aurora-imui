@@ -96,6 +96,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendTxtHolder, true);
             case TYPE_RECEIVE_TXT:
                 return getHolder(parent, mHolders.mReceiveTxtLayout, mHolders.mReceiveTxtHolder, false);
+            case TYPE_SEND_LOCATION:
+                return getHolder(parent, mHolders.mSendLocationLayout, mHolders.mSendLocationHolder, true);
+            case TYPE_RECEIVER_LOCATION:
+                return getHolder(parent, mHolders.mReceiveLocationLayout, mHolders.mReceiveLocationHolder, false);
             case TYPE_SEND_VOICE:
                 return getHolder(parent, mHolders.mSendVoiceLayout, mHolders.mSendVoiceHolder, true);
             case TYPE_RECEIVER_VOICE:
@@ -127,6 +131,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_SEND_TXT;
                 case RECEIVE_TEXT:
                     return TYPE_RECEIVE_TXT;
+                case SEND_LOCATION:
+                    return TYPE_SEND_LOCATION;
+                case RECEIVE_LOCATION:
+                    return TYPE_RECEIVER_LOCATION;
                 case SEND_VOICE:
                     return TYPE_SEND_VOICE;
                 case RECEIVE_VOICE:
@@ -564,6 +572,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendTxtHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveTxtHolder;
 
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendLocationHolder;
+        private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveLocationHolder;
+
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mSendVoiceHolder;
         private Class<? extends BaseMessageViewHolder<? extends IMessage>> mReceiveVoiceHolder;
 
@@ -580,6 +591,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
         private int mSendTxtLayout;
         private int mReceiveTxtLayout;
+
+        private int mSendLocationLayout;
+        private int mReceiveLocationLayout;
 
         private int mSendVoiceLayout;
         private int mReceiveVoiceLayout;
@@ -803,6 +817,19 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             this.mCustomReceiveMsgHolder = holder;
             this.mCustomReceiveMsgLayout = layout;
         }
+
+        public void setSendLocationMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                       @LayoutRes int layout) {
+            this.mSendLocationHolder = holder;
+            this.mSendLocationLayout = layout;
+        }
+
+        public void setReceiveLocationMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
+                                          @LayoutRes int layout) {
+            this.mReceiveLocationHolder = holder;
+            this.mReceiveLocationLayout = layout;
+        }
+
 
         public void setEventMessage(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
                                     @LayoutRes int layout) {

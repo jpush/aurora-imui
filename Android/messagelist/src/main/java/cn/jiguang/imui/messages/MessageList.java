@@ -168,6 +168,10 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setAvatarHeight(height);
     }
 
+    public void setAvatarRadius(int radius) {
+        mMsgListStyle.setAvatarRadius(radius);
+    }
+
     public void setShowDisplayName(int showDisplayName) {
         mMsgListStyle.setShowDisplayName(showDisplayName);
     }

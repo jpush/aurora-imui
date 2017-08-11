@@ -69,12 +69,12 @@ open class RCTMessageModel: IMUIMessageModel {
     }
   }
   
-  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocol) {
+  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocol, duration: CGFloat) {
     
     self.myTextMessage = text
     self.mediaPath = mediaPath
     
-    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: time, type: type, cellLayout: layout)
+    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: time, type: type, cellLayout: layout, duration: duration)
   }
   
   public convenience init(messageDic: NSDictionary) {
@@ -85,6 +85,9 @@ open class RCTMessageModel: IMUIMessageModel {
     let isOutgoing = messageDic.object(forKey: RCTMessageModel.kMsgKeyisOutgoing) as? Bool
     
     var timeString = messageDic.object(forKey: RCTMessageModel.ktimeString) as? String
+    let duration = messageDic.object(forKey: RCTMessageModel.kMsgKeyDuration) as? NSNumber
+    let durationTime = CGFloat(duration?.floatValue ?? 0.0)
+    
     var needShowTime = false
     if let timeString = timeString {
       if timeString != "" {
@@ -114,7 +117,6 @@ open class RCTMessageModel: IMUIMessageModel {
     let user = RCTUser(userDic: userDic!)
     
     var messageLayout: MyMessageCellLayout?
-    
     if let typeString = msgTypeString {
       msgType = typeString
       if typeString == RCTMessageModel.kMsgTypeText {
@@ -134,7 +136,6 @@ open class RCTMessageModel: IMUIMessageModel {
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
                                            isNeedShowTime: false,
                                            bubbleContentSize: CGSize(width: 80, height: 37), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeVoice)
-        
       }
       
       if typeString == RCTMessageModel.kMsgTypeVideo {
@@ -170,7 +171,7 @@ open class RCTMessageModel: IMUIMessageModel {
       
     }
     
-    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing ?? true, time: timeString!, type: msgType!, text: text!, mediaPath: mediaPath!, layout:  messageLayout!)
+    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing ?? true, time: timeString!, type: msgType!, text: text!, mediaPath: mediaPath!, layout:  messageLayout!,duration: durationTime)
 
   }
   
