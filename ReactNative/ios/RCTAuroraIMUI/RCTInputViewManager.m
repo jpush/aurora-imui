@@ -160,7 +160,10 @@ RCT_EXPORT_MODULE()
 }
 
 - (NSString *)getPath {//"\(NSHomeDirectory())/Documents/"
-  NSString *path = [NSString stringWithFormat:@"%@\/Documents\/%f", NSHomeDirectory(), NSDate.timeIntervalSinceReferenceDate];
+  CFUUIDRef udid = CFUUIDCreate(NULL);
+  NSString *udidString = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, udid));
+  
+  NSString *path = [NSString stringWithFormat:@"%@\/Documents\/%@.jpg", NSHomeDirectory(), udidString];
   return path;
 
 }
