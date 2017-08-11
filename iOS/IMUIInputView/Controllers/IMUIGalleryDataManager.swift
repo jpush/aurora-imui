@@ -28,7 +28,9 @@ class IMUIGalleryDataManager: NSObject {
     options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
     let assetFetchResult = PHAsset.fetchAssets(with: options)
     assetFetchResult.enumerateObjects({(asset, _, _) in
-      _allAssets.append(asset)
+      if asset.mediaType == .image {
+        _allAssets.append(asset)
+      }
     })
   }
   
