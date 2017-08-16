@@ -302,6 +302,10 @@ public class RecordVoiceButton extends AppCompatImageButton {
             }
             recorder.release();
             recorder = null;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(mContext, mContext.getString(R.string.aurora_record_voice_file_not_exist),
+                    Toast.LENGTH_SHORT).show();
         } catch (RuntimeException e) {
             Toast.makeText(mContext, mContext.getString(R.string.record_voice_permission_denied),
                     Toast.LENGTH_SHORT).show();

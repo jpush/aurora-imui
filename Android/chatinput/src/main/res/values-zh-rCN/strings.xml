@@ -16,6 +16,7 @@
     <string name="record_voice_permission_denied">
         请在应用的权限管理中将使用录音选项设置为允许，否则将无法使用录音功能
     </string>
+    <string name="aurora_record_voice_file_not_exist">文件不存在，请在录音前设置保存路径</string>
     <string name="file_not_found_toast">未找到文件</string>
     <string name="sdcard_not_prepare_toast">Sdcard 未准备好</string>
     <string name="record_video_failed">录音失败</string>
