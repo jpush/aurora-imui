@@ -1,6 +1,5 @@
 package cn.jiguang.imui.messages;
 
-import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -34,7 +33,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private boolean mSetData = false;
     private AnimationDrawable mVoiceAnimation;
     private FileInputStream mFIS;
-    private boolean mIsEarPhoneOn;
     private int mSendDrawable;
     private int mReceiveDrawable;
     private int mPlaySendAnim;
@@ -223,25 +221,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private void pauseVoice() {
         mMediaPlayer.pause();
         mSetData = true;
-    }
-
-    public void setAudioPlayByEarPhone(int state) {
-        AudioManager audioManager = (AudioManager) mContext
-                .getSystemService(Context.AUDIO_SERVICE);
-        int currVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
-        audioManager.setMode(AudioManager.MODE_IN_CALL);
-        if (state == 0) {
-            mIsEarPhoneOn = false;
-            audioManager.setSpeakerphoneOn(true);
-            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
-                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
-                    AudioManager.STREAM_VOICE_CALL);
-        } else {
-            mIsEarPhoneOn = true;
-            audioManager.setSpeakerphoneOn(false);
-            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume,
-                    AudioManager.STREAM_VOICE_CALL);
-        }
     }
 
     @Override
