@@ -11,7 +11,7 @@ Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.4.5'
+compile 'cn.jiguang.imui:chatinput:0.4.6'
 ```
 
 - Via Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.4.5'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.4.5</version>
+  <version>0.4.6</version>
   <type>pom</type>
 </dependency>
 ```
@@ -41,7 +41,7 @@ allprojects {
 
 ```groovy
 dependencies {
-  compile 'com.github.jpush:imui:0.4.5'
+  compile 'com.github.jpush:imui:0.4.6'
 }
 ```
 
@@ -105,18 +105,24 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
     }
 
     @Override
-    public void switchToMicrophoneMode() {
+    public boolean switchToMicrophoneMode() {
         // click mic button in menu item, fires before showing record voice widget
+      // return true will use default interface, otherwise you should return false and show your interface
+      return true;
     }
 
     @Override
-    public void switchToGalleryMode() {
+    public boolean switchToGalleryMode() {
         // click photo button in menu item, fires before showing select photo widget
+      // return true will use default interface, otherwise you should return false and show your interface
+      return true;
     }
 
     @Override
-    public void switchToCameraMode() {
+    public boolean switchToCameraMode() {
         // click camera button in menu item, fires before showing camera widget
+      // return true will use default interface, otherwise you should return false and show your interface
+      return true;
     }
 });
 ```

@@ -12,7 +12,7 @@
 
 - Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.4.5'
+compile 'cn.jiguang.imui:chatinput:0.4.6'
 ```
 
 - Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.4.5'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.4.5</version>
+  <version>0.4.6</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ compile 'cn.jiguang.imui:chatinput:0.4.5'
 
   ```groovy
   dependencies {
-    compile 'com.github.jpush:imui:0.4.5'
+    compile 'com.github.jpush:imui:0.4.6'
   }
   ```
 
@@ -94,18 +94,24 @@ chatInput.setMenuClickListener(new OnMenuClickListener() {
     }
 
     @Override
-    public void switchToMicrophoneMode() {
+    public boolean switchToMicrophoneMode() {
         // 点击语音按钮触发事件，显示录音界面前触发此事件
+        // 返回 true 表示使用默认的界面，若返回 false 应该自己实现界面
+        return true;
     }
 
     @Override
-    public void switchToGalleryMode() {
+    public boolean switchToGalleryMode() {
         // 点击图片按钮触发事件，显示图片选择界面前触发此事件
+        // 返回 true 表示使用默认的界面
+        return true;
     }
 
     @Override
-    public void switchToCameraMode() {
+    public boolean switchToCameraMode() {
         // 点击拍照按钮触发事件，显示拍照界面前触发此事件
+        // 返回 true 表示使用默认的界面
+        return true;
     }
 });
 ```

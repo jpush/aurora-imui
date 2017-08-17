@@ -1,6 +1,7 @@
 package cn.jiguang.imui.messages;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.LinearLayoutManager;
@@ -65,7 +66,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private LinearLayoutManager mLayoutManager;
     private MessageListStyle mStyle;
     private MediaPlayer mMediaPlayer;
-
+    private boolean mIsEarPhoneOn;
     private List<Wrapper> mItems;
     private boolean mScroll;
 
@@ -87,6 +88,33 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     public boolean getScrolling() {
         return this.mScroll;
+    }
+
+    public void setAudioPlayByEarPhone(int state) {
+        AudioManager audioManager = (AudioManager) mContext
+                .getSystemService(Context.AUDIO_SERVICE);
+        int currVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+        audioManager.setMode(AudioManager.MODE_IN_CALL);
+        if (state == 0) {
+            mIsEarPhoneOn = false;
+            audioManager.setSpeakerphoneOn(true);
+            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
+                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
+                    AudioManager.STREAM_VOICE_CALL);
+        } else {
+            mIsEarPhoneOn = true;
+            audioManager.setSpeakerphoneOn(false);
+            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume,
+                    AudioManager.STREAM_VOICE_CALL);
+        }
+    }
+
+    public void pauseVoice() {
+        try {
+            mMediaPlayer.pause();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -192,6 +220,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mMsgResendListener = this.mMsgResendListener;
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
             ((BaseMessageViewHolder) holder).mScroll = this.mScroll;
+            ((BaseMessageViewHolder) holder).mIsEarPhoneOn = this.mIsEarPhoneOn;
         }
         holder.onBind(wrapper.item);
     }

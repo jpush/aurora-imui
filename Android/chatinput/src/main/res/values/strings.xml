@@ -16,6 +16,7 @@
     <string name="record_voice_permission_denied">
         Please grant the voice permission, otherwise the recording function can not be enabled
     </string>
+    <string name="aurora_record_voice_file_not_exist">File not exist, please set record path first</string>
     <string name="file_not_found_toast">File not found</string>
     <string name="sdcard_not_prepare_toast">Sdcard not prepared</string>
     <string name="record_video_failed">Record video</string>

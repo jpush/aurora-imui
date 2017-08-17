@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -43,6 +44,7 @@ import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.commons.ImageLoader;
+import cn.jiguang.imui.commons.ViewHolder;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import imui.jiguang.cn.imuisample.R;
@@ -130,7 +132,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
 
             @Override
-            public void switchToMicrophoneMode() {
+            public boolean switchToMicrophoneMode() {
                 String[] perms = new String[]{
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -141,10 +143,11 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                             getResources().getString(R.string.rationale_record_voice),
                             RC_RECORD_VOICE, perms);
                 }
+                return true;
             }
 
             @Override
-            public void switchToGalleryMode() {
+            public boolean switchToGalleryMode() {
                 String[] perms = new String[]{
                         Manifest.permission.READ_EXTERNAL_STORAGE
                 };
@@ -154,10 +157,11 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                             getResources().getString(R.string.rationale_photo),
                             RC_PHOTO, perms);
                 }
+                return true;
             }
 
             @Override
-            public void switchToCameraMode() {
+            public boolean switchToCameraMode() {
                 String[] perms = new String[]{
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.CAMERA,
@@ -174,6 +178,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                     mChatView.setCameraCaptureFile(fileDir, new SimpleDateFormat("yyyy-MM-dd-hhmmss",
                             Locale.getDefault()).format(new Date()));
                 }
+                return true;
             }
         });
 
@@ -316,7 +321,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         // Use default layout
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
         mAdapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
-
         // If you want to customise your layout, try to create custom ViewHolder:
         // holdersConfig.setSenderTxtMsg(CustomViewHolder.class, layoutRes);
         // holdersConfig.setReceiverTxtMsg(CustomViewHolder.class, layoutRes);
