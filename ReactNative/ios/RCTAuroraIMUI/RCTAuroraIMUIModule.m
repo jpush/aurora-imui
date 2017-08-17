@@ -28,8 +28,18 @@ RCT_EXPORT_MODULE();
 }
 
 - (id)init {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(messageDidLoaded:)
+                                               name:kMessageListDidLoaded object:nil];
   self = [super init];
   return self;
+}
+
+- (void)messageDidLoaded:(NSNotification *) notification {
+  [self.bridge.eventDispatcher sendAppEventWithName:@"IMUIMessageListDidLoaded"
+                                               body:nil];
 }
 
 RCT_EXPORT_METHOD(appendMessages:(NSArray *)messages) {

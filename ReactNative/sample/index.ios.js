@@ -13,7 +13,9 @@ import {
   TouchableHighlight,
   NativeModules,
   requireNativeComponent,
-  Dimensions
+  Alert,
+  Dimensions,
+  DeviceEventEmitter
 } from 'react-native';
 
 var ReactNative = require('react-native');                
@@ -47,10 +49,27 @@ export default class TestRNIMUI extends Component {
   constructor(props) {
     super(props);
     this.state = { inputViewLayout: {width:window.width, height:86,}};
-
+    
     this.updateLayout = this.updateLayout.bind(this);
   }
 
+  componentDidMount() {
+    DeviceEventEmitter.addListener('IMUIMessageListDidLoaded',
+			() => {
+        // cb(registrationId);
+        var messages = []
+        for(var i=0; i<14; i++){
+          var message = constructNormalMessage()
+          message.msgType = "text"
+          message.text = "" + i
+          // messages.push(message)
+          AuroraIController.insertMessagesToTop([message])      
+        }
+      });
+      
+    
+    // AuroraIController.insertMessagesToTop(messages)
+  }
 
 
   updateLayout(layout) {
@@ -68,6 +87,7 @@ export default class TestRNIMUI extends Component {
   onStatusViewClick = (message) => {
       console.log(message)
       message.status = 'send_succeed'
+      message.fromUser.avatarPath = message.mediaPath
       AuroraIController.updateMessage(message)
     }
 
@@ -137,9 +157,9 @@ export default class TestRNIMUI extends Component {
       var message = constructNormalMessage()
       message.msgType = "image"
       message.mediaPath = mediaFiles[index].mediaPath
-
-      AuroraIController.appendMessages([message])
-      AuroraIController.scrollToBottom(true)
+      // AuroraIController.appendMessages([message])
+      AuroraIController.insertMessagesToTop([message])
+      // AuroraIController.scrollToBottom(true)
     }
   }
 

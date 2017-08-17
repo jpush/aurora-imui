@@ -461,6 +461,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		62139CDD1F416DAF00204F95 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				626F94D71F2D88AA009C6BB5 /* RCTAuroraIMUI.framework */,
+				1E35F35BE48B43978AB5AF9F /* libAuroraIMUI.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		626F95291F2D9630009C6BB5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -515,6 +524,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				E61DA4913E674314B03B8774 /* Frameworks */,
+				62139CDD1F416DAF00204F95 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
