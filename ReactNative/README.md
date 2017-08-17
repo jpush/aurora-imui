@@ -24,7 +24,7 @@ dependencies {
 }
 ```
 
-
+**Attention（Android）：We are using support v4 & v7 version 25.3.1, so you should modify buildToolsVersion and compileSdkVersion to 25 or later, you can refer to sample's configuration.**
 
 ## Configuration
 
@@ -35,6 +35,9 @@ dependencies {
   > MainApplication.java
 
   ```
+  import cn.jiguang.imui.messagelist.ReactIMUIPackage;
+  ...
+
   @Override
   protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(

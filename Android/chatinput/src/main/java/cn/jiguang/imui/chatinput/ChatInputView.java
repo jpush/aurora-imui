@@ -368,40 +368,35 @@ public class ChatInputView extends LinearLayout
                 }
 
                 if (view.getId() == R.id.aurora_framelayout_menuitem_voice) {
-                    if (mListener != null) {
-                        mListener.switchToMicrophoneMode();
+                    if (mListener != null && mListener.switchToMicrophoneMode()) {
+                        showRecordVoiceLayout();
                     }
-                    showRecordVoiceLayout();
-
                 } else if (view.getId() == R.id.aurora_framelayout_menuitem_photo) {
-                    if (mListener != null) {
-                        mListener.switchToGalleryMode();
-                    }
-                    if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    }
-                    dismissRecordVoiceLayout();
-                    dismissCameraLayout();
-                    mSelectPhotoView.setVisibility(VISIBLE);
-                    mSelectPhotoView.initData();
-                    if (mCameraSupport != null) {
-                        mCameraSupport.release();
-                        mCameraSupport = null;
-                    }
-
-                } else if (view.getId() == R.id.aurora_framelayout_menuitem_camera) {
-                    if (mListener != null) {
-                        mListener.switchToCameraMode();
-                    }
-                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                        if (mCameraSupport == null) {
-                            initCamera();
+                    if (mListener != null && mListener.switchToGalleryMode()) {
+                        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            return;
                         }
-                        showCameraLayout();
-                    } else {
-                        Toast.makeText(getContext(), getContext().getString(R.string.sdcard_not_exist_toast),
-                                Toast.LENGTH_SHORT).show();
+                        dismissRecordVoiceLayout();
+                        dismissCameraLayout();
+                        mSelectPhotoView.setVisibility(VISIBLE);
+                        mSelectPhotoView.initData();
+                        if (mCameraSupport != null) {
+                            mCameraSupport.release();
+                            mCameraSupport = null;
+                        }
+                    }
+                } else if (view.getId() == R.id.aurora_framelayout_menuitem_camera) {
+                    if (mListener != null && mListener.switchToCameraMode()) {
+                        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                            if (mCameraSupport == null) {
+                                initCamera();
+                            }
+                            showCameraLayout();
+                        } else {
+                            Toast.makeText(getContext(), getContext().getString(R.string.sdcard_not_exist_toast),
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
 
@@ -841,7 +836,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * Select aurora_menuitem_photo callback
+     * Select photo callback
      */
     @Override
     public void onFileSelected() {

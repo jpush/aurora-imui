@@ -173,7 +173,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         });
     }
 
-    private void playVoice(int position, MESSAGE message) {
+    public void playVoice(int position, MESSAGE message) {
         mController.setLastPlayPosition(position, mIsSender);
         try {
             mMediaPlayer.reset();

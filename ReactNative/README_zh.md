@@ -12,7 +12,6 @@ react-native link
 ```
 include ':app', ':aurora-imui-react-native'
 project(':aurora-imui-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/aurora-imui-react-native/ReactNative/android')
-
 ```
 
 然后在 app 的 `build.gradle`中引用：
@@ -23,7 +22,7 @@ dependencies {
 }
 ```
 
-
+**注意事项（Android）：我们使用了 support v4, v7 25.3.1 版本，因此需要将你的 build.gradle 中 buildToolsVersion 及 compiledSdkVersion 改为 25 以上。可以参考 sample 的配置。**
 
 ## 配置
 
@@ -34,6 +33,9 @@ dependencies {
   > MainApplication.java
 
   ```
+  import cn.jiguang.imui.messagelist.ReactIMUIPackage;
+  ...
+
   @Override
   protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
@@ -43,7 +45,6 @@ dependencies {
   }
   ```
 
-  - import IMUI from 'aurora-imui-react-native';
 
 
 

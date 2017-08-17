@@ -109,6 +109,14 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         }
     }
 
+    public void pauseVoice() {
+        try {
+            mMediaPlayer.pause();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
