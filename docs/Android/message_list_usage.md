@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.4.6'
+    compile 'com.github.jpush:imui:0.5.0'
 }
 ```
 

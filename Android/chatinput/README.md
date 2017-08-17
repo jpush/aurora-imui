@@ -42,7 +42,7 @@ compile 'cn.jiguang.imui:chatinput:0.4.6'
 
   ```groovy
   dependencies {
-    compile 'com.github.jpush:imui:0.4.6'
+    compile 'com.github.jpush:imui:0.5.0'
   }
   ```
 
