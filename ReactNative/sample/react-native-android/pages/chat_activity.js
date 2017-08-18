@@ -19,6 +19,7 @@ var {
 var MessageList = IMUI.MessageList;
 var ChatInput = IMUI.ChatInput;
 var AuroraIMUIController = IMUI.AuroraIMUIController;
+const IMUIMessageListDidLoad = "IMUIMessageListDidLoad";
 
 export default class ChatActivity extends React.Component {
 
@@ -356,7 +357,7 @@ export default class ChatActivity extends React.Component {
 	}
 
 	componentDidMount() {
-		AuroraIMUIController.addMessageListDidLoadedListener(() => {
+		AuroraIMUIController.addMessageListDidLoadListener(() => {
 			console.log("MessageList did load !");
 		});
 		this.timer = setTimeout(() => {
@@ -381,6 +382,7 @@ export default class ChatActivity extends React.Component {
 
 	componentWillUnmount() {
 		this.timer && clearTimeout(this.timer);
+		AuroraIMUIController.removeMessageListDidLoadListener(IMUIMessageListDidLoad);
 	}
 
 	render() {

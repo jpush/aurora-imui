@@ -244,26 +244,26 @@ var messages = [{
 AuroraIMUIController.insertMessagesToTop(messages);
 ```
 
-- addMessageListDidLoadedListener(cb)
+- addMessageListDidLoadListener(cb)
 
-  `AuroraIMUIController` 初始化会先于 `MessageListView` 完成，如果需要调用对 `MessageListView` 的所有操作(添加消息，删除消息，更新消息)需要在 `MessageListDidLoaded`事件触发后才会起作用。
+  `AuroraIMUIController` 初始化会先于 `MessageListView` 完成，如果需要调用对 `MessageListView` 的所有操作(添加消息，删除消息，更新消息)需要在 `MessageListDidLoad`事件触发后才会起作用。
 
   example:
 
   ```javascript
-  AuroraIMUIController.addMessageListDidLoadedListener(()=> {
+  AuroraIMUIController.addMessageListDidLoadListener(()=> {
     // do something ex: insert message to top
   })
   ```
 
-- removeMessageListDidLoadedListener(cb)
+- removeMessageListDidLoadListener(cb)
 
-  取消对 `MessageListDidLoaded` 事件的监听。
+  取消对 `MessageListDidLoad` 事件的监听。
 
   example:
 
   ```javascript
-  AuroraIMUIController.removeMessageListDidLoadedListener(cb)
+  AuroraIMUIController.removeMessageListDidLoadListener(cb)
   ```
 
 ### ChatInput 事件

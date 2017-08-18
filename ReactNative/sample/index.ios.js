@@ -67,7 +67,7 @@ export default class TestRNIMUI extends Component {
     //       AuroraIController.insertMessagesToTop([message])      
     //     }
     //   });
-      AuroraIController.addMessageListDidLoadedListener(() => {
+      AuroraIController.addMessageListDidLoadListener(() => {
         var messages = []
         for(var i=0; i<14; i++){
           var message = constructNormalMessage()

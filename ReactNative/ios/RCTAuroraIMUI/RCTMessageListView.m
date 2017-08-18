@@ -55,7 +55,7 @@
     });
   }
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:kMessageListDidLoaded object: nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:kMessageListDidLoad object: nil];
   
   return self;
 }
