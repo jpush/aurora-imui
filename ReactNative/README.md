@@ -239,6 +239,30 @@ var messages = [{
 AuroraIMUIController.insertMessagesToTop(messages);
 ```
 
+- addMessageListDidLoadedListener(cb)
+
+  AuroraIMUIController will be initialized first，show you need add this listener to get messageListDid load event. This is particularly useful in loading history messages.
+
+  example:
+
+  ```javascript
+  AuroraIMUIController.addMessageListDidLoadedListener(()=> {
+    // do something ex: insert message to top
+  })
+  ```
+
+- removeMessageListDidLoadedListener(cb)
+
+  remove MessageListDidLoaded listener.
+
+  example:
+
+  ```javascript
+  AuroraIMUIController.removeMessageListDidLoadedListener(cb)
+  ```
+
+  ​
+
 ### ChatInput Event
 
 - onSendText: input the text and click send button
