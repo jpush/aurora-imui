@@ -67,7 +67,9 @@ export default class TestRNIMUI extends Component {
     //       AuroraIController.insertMessagesToTop([message])      
     //     }
     //   });
+    Alert.alert("message did load listener","fasdfsadfsaf")
       AuroraIController.addMessageListDidLoadListener(() => {
+        Alert.alert("message did load listener","fasdfsadfsaf")
         var messages = []
         for(var i=0; i<14; i++){
           var message = constructNormalMessage()
@@ -138,7 +140,7 @@ export default class TestRNIMUI extends Component {
     var message = constructNormalMessage()
     message.msgType = "voice"
     message.mediaPath = mediaPath
-
+    message.duration = duration
     AuroraIController.appendMessages([message])
   }
 
