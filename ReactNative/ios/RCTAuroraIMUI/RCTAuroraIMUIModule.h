@@ -21,7 +21,7 @@
 #define kScrollToBottom @"kScrollToBottom"
 #define kScrollToBottom @"kScrollToBottom"
 #define kHidenFeatureView @"kHidenFeatureView"
-#define kMessageListDidLoaded @"kMessageListDidLoaded"
+#define kMessageListDidLoad @"kMessageListDidLoad"
 
 @interface RCTAuroraIMUIModule : NSObject <RCTBridgeModule>
 

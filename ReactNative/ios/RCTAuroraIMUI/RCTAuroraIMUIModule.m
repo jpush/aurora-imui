@@ -31,13 +31,13 @@ RCT_EXPORT_MODULE();
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(messageDidLoaded:)
-                                               name:kMessageListDidLoaded object:nil];
+                                           selector:@selector(messageDidLoad:)
+                                               name:kMessageListDidLoad object:nil];
   self = [super init];
   return self;
 }
 
-- (void)messageDidLoaded:(NSNotification *) notification {
+- (void)messageDidLoad:(NSNotification *) notification {
   [self.bridge.eventDispatcher sendAppEventWithName:@"IMUIMessageListDidLoaded"
                                                body:nil];
 }

@@ -239,26 +239,26 @@ var messages = [{
 AuroraIMUIController.insertMessagesToTop(messages);
 ```
 
-- addMessageListDidLoadedListener(cb)
+- addMessageListDidLoadListener(cb)
 
   AuroraIMUIController will be initialized first，show you need add this listener to get messageListDid load event. This is particularly useful in loading history messages.
 
   example:
 
   ```javascript
-  AuroraIMUIController.addMessageListDidLoadedListener(()=> {
+  AuroraIMUIController.addMessageListDidLoadListener(()=> {
     // do something ex: insert message to top
   })
   ```
 
-- removeMessageListDidLoadedListener(cb)
+- removeMessageListDidLoadListener(cb)
 
-  remove MessageListDidLoaded listener.
+  remove MessageListDidLoad listener.
 
   example:
 
   ```javascript
-  AuroraIMUIController.removeMessageListDidLoadedListener(cb)
+  AuroraIMUIController.removeMessageListDidLoadListener(cb)
   ```
 
   ​

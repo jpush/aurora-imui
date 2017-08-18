@@ -10,7 +10,7 @@ import MessageList from './ReactNative/messagelist';
 const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
 
 const listeners = {};
-const IMUIMessageListDidLoaded = "IMUIMessageListDidLoaded";
+const IMUIMessageListDidLoad = "IMUIMessageListDidLoad";
 
 class AuroraIMUIController {
 	/**
@@ -55,11 +55,11 @@ class AuroraIMUIController {
 	}
 
 	/**
-	 * add listener: messageList did Loaded will call cb
+	 * add listener: messageList did Load will call cb
 	 * @param {Function} cb 
 	 */
-	static addMessageListDidLoadedListener(cb) {
-		listeners[cb] = DeviceEventEmitter.addListener(IMUIMessageListDidLoaded,
+	static addMessageListDidLoadListener(cb) {
+		listeners[cb] = DeviceEventEmitter.addListener(IMUIMessageListDidLoad,
 			() => {
 				cb();
 			});
@@ -69,7 +69,7 @@ class AuroraIMUIController {
 	 * remove listener:
 	 * @param {Function} cb 
 	 */
-	static removeMessageListDidLoadedListener(cb) {
+	static removeMessageListDidLoadListener(cb) {
 		if (!listeners[cb]) {
 			return;
 		}
