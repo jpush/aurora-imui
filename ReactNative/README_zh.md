@@ -65,7 +65,7 @@ import {
 import IMUI from 'aurora-imui-react-native';
 var MessageList = IMUI.MessageList;
 var ChatInput = IMUI.ChatInput;
-const AuroraIMUIModule = NativeModules.AuroraIMUIModule;// the IMUI controller, use it to add message to messageList.
+const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, use it to operate  messageList.
 
 // render() 中加入视图标签
 <MessageListView />
@@ -153,7 +153,7 @@ message = {  // event message
 
   ### MessageList append/update/insert 消息事件:
 
-  插入，更新，增加消息到 MessageList, 你需要使用 AuroraIMUIModule (Native Module) 来发送事件到 Native。
+  插入，更新，增加消息到 MessageList, 你需要使用 AuroraIMUIController (Native Module) 来发送事件到 Native。
 
 - appendMessages([message])
 
@@ -173,7 +173,7 @@ var messages = [{
 	},
 	timeString: "10:00",
 }];
-AuroraIMUIModule.appendMessages(messages);
+AuroraIMUIController.appendMessages(messages);
 ```
 
 - updateMessage(message)
@@ -194,7 +194,7 @@ var message = {
 	},
 	timeString: "10:00",
 };
-AuroraIMUIModule.updateMessage(message);
+AuroraIMUIController.updateMessage(message);
 ```
 
 - insertMessagesToTop([message])
@@ -241,7 +241,7 @@ var messages = [{
     },
     timeString: "10:20",
 }];
-AuroraIMUIModule.insertMessagesToTop(messages);
+AuroraIMUIController.insertMessagesToTop(messages);
 ```
 
 ### ChatInput 事件
