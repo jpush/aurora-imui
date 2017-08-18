@@ -104,7 +104,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             }
 
             @Override
-            public void switchToMicrophoneMode() {
+            public boolean switchToMicrophoneMode() {
                 Activity activity = reactContext.getCurrentActivity();
                 String[] perms = new String[]{
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -121,18 +121,21 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 //                }
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
                         SWITCH_TO_MIC_EVENT, null);
+                return true;
             }
 
             @Override
-            public void switchToGalleryMode() {
+            public boolean switchToGalleryMode() {
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
                         SWITCH_TO_GALLERY_EVENT, null);
+                return true;
             }
 
             @Override
-            public void switchToCameraMode() {
+            public boolean switchToCameraMode() {
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
                         SWITCH_TO_CAMERA_EVENT, null);
+                return true;
             }
         });
 

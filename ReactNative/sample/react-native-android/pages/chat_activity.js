@@ -18,7 +18,7 @@ var {
 
 var MessageList = IMUI.MessageList;
 var ChatInput = IMUI.ChatInput;
-const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
+var AuroraIMUIController = IMUI.AuroraIMUIController;
 
 export default class ChatActivity extends React.Component {
 
@@ -128,7 +128,7 @@ export default class ChatActivity extends React.Component {
 			},
 			timeString: "9:30",
 		}];
-		AuroraIMUIModule.insertMessagesToTop(messages);
+		AuroraIMUIController.insertMessagesToTop(messages);
 	}
 
 	onSendText(text) {
@@ -146,7 +146,7 @@ export default class ChatActivity extends React.Component {
 			},
 			timeString: "10:00",
 		}];
-		AuroraIMUIModule.appendMessages(messages);
+		AuroraIMUIController.appendMessages(messages);
 		this.setState({
 			updateUI: true
 		});
@@ -154,7 +154,7 @@ export default class ChatActivity extends React.Component {
 
 	onSendGalleryFiles(mediaFiles) {
 		console.log("will send media files: " + mediaFiles);
-		AuroraIMUIModule.scrollToBottom();
+		AuroraIMUIController.scrollToBottom(true);
 		for (var i = 0; i < mediaFiles.length; i++) {
 			var mediaFile = mediaFiles[i];
 			console.log("mediaFile: " + mediaFile);
@@ -189,13 +189,13 @@ export default class ChatActivity extends React.Component {
 					timeString: "10:00"
 				}];
 			}
-			AuroraIMUIModule.appendMessages(messages);
+			AuroraIMUIController.appendMessages(messages);
 		}
 	}
 
 	onStartRecordVideo() {
 		console.log("start record video");
-		AuroraIMUIModule.scrollToBottom();
+		AuroraIMUIController.scrollToBottom(true);
 	}
 
 	onFinishRecordVideo(mediaPath, duration) {
@@ -214,7 +214,7 @@ export default class ChatActivity extends React.Component {
 			},
 			timeString: "10:00"
 		}];
-		AuroraIMUIModule.appendMessages(messages);
+		AuroraIMUIController.appendMessages(messages);
 	}
 
 	onCancelRecordVideo() {
@@ -242,7 +242,7 @@ export default class ChatActivity extends React.Component {
 			},
 			timeString: "10:00"
 		}];
-		AuroraIMUIModule.appendMessages(messages);
+		AuroraIMUIController.appendMessages(messages);
 	}
 
 	onCancelRecordVoice() {
@@ -264,12 +264,12 @@ export default class ChatActivity extends React.Component {
 			},
 			timeString: "10:00"
 		}];
-		AuroraIMUIModule.appendMessages(messages);
+		AuroraIMUIController.appendMessages(messages);
 	}
 
 	async onSwitchToMicrophoneMode() {
 		console.log("switch to microphone mode, set menuContainerHeight : " + this.state.menuContainerHeight);
-		AuroraIMUIModule.scrollToBottom();
+		AuroraIMUIController.scrollToBottom(true);
 		try {
 			const granted = await PermissionsAndroid.request(
 				PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, {
@@ -296,7 +296,7 @@ export default class ChatActivity extends React.Component {
 
 	async onSwitchToGalleryMode() {
 		console.log("switch to gallery mode");
-		AuroraIMUIModule.scrollToBottom();
+		AuroraIMUIController.scrollToBottom(true);
 		try {
 			const granted = await PermissionsAndroid.request(
 				PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
@@ -324,7 +324,7 @@ export default class ChatActivity extends React.Component {
 
 	async onSwitchToCameraMode() {
 		console.log("switch to camera mode");
-		AuroraIMUIModule.scrollToBottom();
+		AuroraIMUIController.scrollToBottom(true);
 		try {
 			const granted = await PermissionsAndroid.request(
 				PermissionsAndroid.PERMISSIONS.CAMERA, {
@@ -352,10 +352,13 @@ export default class ChatActivity extends React.Component {
 
 	onTouchEditText() {
 		console.log("will scroll to bottom");
-		AuroraIMUIModule.scrollToBottom();
+		AuroraIMUIController.scrollToBottom(true);
 	}
 
 	componentDidMount() {
+		AuroraIMUIController.addMessageListDidLoadedListener(() => {
+			console.log("MessageList did load !");
+		});
 		this.timer = setTimeout(() => {
 			console.log("updating message! ");
 			var messages = [{
@@ -371,7 +374,7 @@ export default class ChatActivity extends React.Component {
 				},
 				timeString: "10:00",
 			}];
-			AuroraIMUIModule.appendMessages(messages);
+			AuroraIMUIController.appendMessages(messages);
 		}, 5000);
 
 	}

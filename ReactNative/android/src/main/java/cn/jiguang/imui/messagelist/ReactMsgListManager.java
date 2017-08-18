@@ -181,6 +181,9 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
                         ON_PULL_TO_REFRESH_EVENT, null);
             }
         });
+        // 通知 AuroraIMUIModule 完成初始化 MessageList
+        Intent intent = new Intent(AuroraIMUIModule.RCT_MESSAGE_LIST_LOADED_ACTION);
+        reactContext.sendBroadcast(intent);
         return msgList;
     }
 
@@ -289,11 +292,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
     @ReactProp(name = "eventMsgTxtSize")
     public void setEventTextSize(MessageList messageList, int size) {
         messageList.setEventTextSize(size);
-    }
-
-    @ReactProp(name = "avatarCornerRadius")
-    public void setAvatarCornerRadius(MessageList messageList, int radius) {
-        messageList.setAvatarRadius(radius);
     }
 
     @SuppressWarnings("unchecked")

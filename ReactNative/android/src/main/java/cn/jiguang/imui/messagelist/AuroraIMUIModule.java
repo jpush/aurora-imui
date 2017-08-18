@@ -1,7 +1,10 @@
 package cn.jiguang.imui.messagelist;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -9,17 +12,20 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-
-/**
- * Created by caiyaoguan on 2017/6/2.
- */
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 public class AuroraIMUIModule extends ReactContextBaseJavaModule {
 
     private final String REACT_MSG_LIST_MODULE = "AuroraIMUIModule";
+    public static final String RCT_MESSAGE_LIST_LOADED_ACTION = "cn.jiguang.imui.messagelist.intent.messageLoaded";
+
+    private static final String MESSAGE_LIST_DID_LOAD_EVENT = "IMUIMessageListDidLoad";
 
     public AuroraIMUIModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(RCT_MESSAGE_LIST_LOADED_ACTION);
+        reactContext.registerReceiver(ModuleReceiver, intentFilter);
     }
 
     @Override
@@ -32,6 +38,25 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
         super.initialize();
 
     }
+
+    @Override
+    public void onCatalystInstanceDestroy() {
+        super.onCatalystInstanceDestroy();
+        getReactApplicationContext().unregisterReceiver(ModuleReceiver);
+    }
+
+    private BroadcastReceiver ModuleReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() == null) {
+                return;
+            }
+            if (intent.getAction().equals(RCT_MESSAGE_LIST_LOADED_ACTION)) {
+                getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit(MESSAGE_LIST_DID_LOAD_EVENT, null);
+            }
+        }
+    };
 
     @ReactMethod
     public void appendMessages(ReadableArray messages) {
@@ -110,7 +135,7 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void scrollToBottom() {
+    public void scrollToBottom(boolean flag) {
         Intent intent = new Intent();
         intent.setAction(ReactMsgListManager.RCT_SCROLL_TO_BOTTOM_ACTION);
         getReactApplicationContext().sendBroadcast(intent);
