@@ -19,10 +19,11 @@ import {
 } from 'react-native';
 
 var ReactNative = require('react-native');                
-const AuroraIController = NativeModules.AuroraIMUIModule;
+// const AuroraIController = NativeModules.AuroraIMUIModule;
 import IMUI from 'aurora-imui-react-native'
 var InputView = IMUI.ChatInput;
 var MessageListView = IMUI.MessageList;
+const AuroraIController = IMUI.AuroraIMUIController;
 const window = Dimensions.get('window');
 
 var themsgid = 1
@@ -54,9 +55,19 @@ export default class TestRNIMUI extends Component {
   }
 
   componentDidMount() {
-    DeviceEventEmitter.addListener('IMUIMessageListDidLoaded',
-			() => {
-        // cb(registrationId);
+    // DeviceEventEmitter.addListener('IMUIMessageListDidLoaded',
+		// 	() => {
+    //     // cb(registrationId);
+    //     var messages = []
+    //     for(var i=0; i<14; i++){
+    //       var message = constructNormalMessage()
+    //       message.msgType = "text"
+    //       message.text = "" + i
+    //       // messages.push(message)
+    //       AuroraIController.insertMessagesToTop([message])      
+    //     }
+    //   });
+      AuroraIController.addMessageListDidLoadedListener(() => {
         var messages = []
         for(var i=0; i<14; i++){
           var message = constructNormalMessage()
@@ -64,13 +75,10 @@ export default class TestRNIMUI extends Component {
           message.text = "" + i
           // messages.push(message)
           AuroraIController.insertMessagesToTop([message])      
-        }
+      }
+      // AuroraIController.insertMessagesToTop(messages)
       });
-      
-    
-    // AuroraIController.insertMessagesToTop(messages)
   }
-
 
   updateLayout(layout) {
     this.setState({inputViewLayout: layout})
