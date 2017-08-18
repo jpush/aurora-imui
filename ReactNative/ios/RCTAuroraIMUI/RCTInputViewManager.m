@@ -87,41 +87,41 @@ RCT_EXPORT_MODULE()
 
 /// Tells the delegate that user did selected Photo in gallery
 - (void)didSeletedGalleryWithAssetArr:(NSArray<PHAsset *> * _Nonnull)AssetArr {
-  
-  if(!_rctInputView.onSendGalleryFiles) { return; }
-  __block NSMutableArray *imagePathArr = @[].mutableCopy;
-  
-  for (PHAsset *asset in AssetArr) {
-    switch (asset.mediaType) {
-      case PHAssetMediaTypeImage: {
-        
-        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
-        options.synchronous  = YES;
-        PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
-        [imageManage requestImageForAsset: asset
-                               targetSize: CGSizeMake(100.0, 100.0)
-                              contentMode: PHImageContentModeAspectFill
-                                  options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                    NSData *imageData = UIImagePNGRepresentation(result);
-                                    NSString *filePath = [self getPath];
-                                    if ([imageData writeToFile: filePath atomically: true]) {
-                                      [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
-                                    }
-                                  }];
-        break;
+  dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+    if(!_rctInputView.onSendGalleryFiles) { return; }
+    __block NSMutableArray *imagePathArr = @[].mutableCopy;
+    
+    for (PHAsset *asset in AssetArr) {
+      switch (asset.mediaType) {
+        case PHAssetMediaTypeImage: {
+          
+          PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
+          options.synchronous  = YES;
+          options.networkAccessAllowed = YES;
+          PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
+          
+          [imageManage requestImageForAsset: asset
+                                 targetSize: CGSizeMake(asset.pixelWidth, asset.pixelHeight)
+                                contentMode: PHImageContentModeAspectFill
+                                    options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                                      NSData *imageData = UIImagePNGRepresentation(result);
+                                      NSString *filePath = [self getPath];
+                                      if ([imageData writeToFile: filePath atomically: true]) {
+                                        [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
+                                      }
+                                    }];
+          break;
+        }
+          
+        default:
+          break;
       }
-        
-      default:
-        break;
     }
-  }
-  
-//  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//    sleep(1);
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void){
       _rctInputView.onSendGalleryFiles(@{@"mediaFiles": imagePathArr});
-//  });
-  
-  
+    });
+  });
 }
 
 /// Tells the delegate that IMUIInputView will switch to camera mode

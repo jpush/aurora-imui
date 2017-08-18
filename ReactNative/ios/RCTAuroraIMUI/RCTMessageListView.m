@@ -54,6 +54,9 @@
       _messageList.messageCollectionView.alwaysBounceVertical = YES;
     });
   }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:kMessageListDidLoad object: nil];
+  
   return self;
 }
 

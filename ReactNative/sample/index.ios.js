@@ -13,14 +13,17 @@ import {
   TouchableHighlight,
   NativeModules,
   requireNativeComponent,
-  Dimensions
+  Alert,
+  Dimensions,
+  DeviceEventEmitter
 } from 'react-native';
 
 var ReactNative = require('react-native');                
-const AuroraIController = NativeModules.AuroraIMUIModule;
+// const AuroraIController = NativeModules.AuroraIMUIModule;
 import IMUI from 'aurora-imui-react-native'
 var InputView = IMUI.ChatInput;
 var MessageListView = IMUI.MessageList;
+const AuroraIController = IMUI.AuroraIMUIController;
 const window = Dimensions.get('window');
 
 var themsgid = 1
@@ -47,11 +50,23 @@ export default class TestRNIMUI extends Component {
   constructor(props) {
     super(props);
     this.state = { inputViewLayout: {width:window.width, height:86,}};
-
+    
     this.updateLayout = this.updateLayout.bind(this);
   }
 
+  componentDidMount() {  
+    AuroraIController.addMessageListDidLoadListener(() => {
 
+      var messages = []
+      for(var i=0; i<14; i++){
+        var message = constructNormalMessage()
+        message.msgType = "text"
+        message.text = "" + i
+        AuroraIController.insertMessagesToTop([message])      
+    }
+    AuroraIController.insertMessagesToTop(messages)
+    });
+  }
 
   updateLayout(layout) {
     this.setState({inputViewLayout: layout})
@@ -68,6 +83,7 @@ export default class TestRNIMUI extends Component {
   onStatusViewClick = (message) => {
       console.log(message)
       message.status = 'send_succeed'
+      message.fromUser.avatarPath = message.mediaPath
       AuroraIController.updateMessage(message)
     }
 
@@ -110,7 +126,7 @@ export default class TestRNIMUI extends Component {
     var message = constructNormalMessage()
     message.msgType = "voice"
     message.mediaPath = mediaPath
-
+    message.duration = duration
     AuroraIController.appendMessages([message])
   }
 
@@ -132,12 +148,19 @@ export default class TestRNIMUI extends Component {
   }
     
   onSendGalleryFiles = (mediaFiles) => {
-    console.log(mediaFiles)
+    
+
+    /**
+     * WARN: 这里返回的是原图，直接插入大会话列表会很大且耗内存.
+     * 应该做裁剪操作后再插入到 messageListView 中，
+     * 一般的 IM SDK 会提供裁剪操作，或者开发者手动进行裁剪。
+     * 
+     * 代码用例不做裁剪操作。
+     */ 
     for(index in mediaFiles) {
       var message = constructNormalMessage()
       message.msgType = "image"
       message.mediaPath = mediaFiles[index].mediaPath
-
       AuroraIController.appendMessages([message])
       AuroraIController.scrollToBottom(true)
     }

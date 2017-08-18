@@ -53,15 +53,15 @@ dependencies {
 - ### iOS
 
   - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
-  - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RNTAuroraIMUI.framework
-  - Before build you project ,you should build RNTAuroraIMUI.framework
+  - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RCTAuroraIMUI.framework
+  - Before build you project ,you should build RCTAuroraIMUI.framework
 
 ## Usage
 ```
   import IMUI from 'aurora-imui-react-native';
   var MessageList = IMUI.MessageList;
   var ChatInput = IMUI.ChatInput;
-  const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
+  const AuroraIMUIController = IMUI.AuroraIMUIController;
 ```
 Refer to iOS,Android example
 > [iOS Example usage](./sample/index.ios.js)
@@ -148,7 +148,7 @@ message = {  // event message
 
   ### MessageList append/update/insert message event:
 
-  For append/update/insert message to MessageList, you will use `MsgListModule`(Native Module) to send event to native.
+  For append/update/insert message to MessageList, you will use `AuroraIMUIController`(Native Module) to send event to native.
 
 - appendMessages([message])
 
@@ -168,7 +168,7 @@ var messages = [{
 	},
 	timeString: "10:00",
 }];
-AuroraIMUIModule.appendMessages(messages);
+AuroraIMUIController.appendMessages(messages);
 ```
 
 - updateMessage(message)
@@ -189,7 +189,7 @@ var message = {
 	},
 	timeString: "10:00",
 };
-AuroraIMUIModule.updateMessage(message);
+AuroraIMUIController.updateMessage(message);
 ```
 
 - insertMessagesToTop([message])
@@ -236,8 +236,32 @@ var messages = [{
     },
     timeString: "10:20",
 }];
-AuroraIMUIModule.insertMessagesToTop(messages);
+AuroraIMUIController.insertMessagesToTop(messages);
 ```
+
+- addMessageListDidLoadListener(cb)
+
+  AuroraIMUIController will be initialized first，show you need add this listener to get messageListDid load event. This is particularly useful in loading history messages.
+
+  example:
+
+  ```javascript
+  AuroraIMUIController.addMessageListDidLoadListener(()=> {
+    // do something ex: insert message to top
+  })
+  ```
+
+- removeMessageListDidLoadListener(cb)
+
+  remove MessageListDidLoad listener.
+
+  example:
+
+  ```javascript
+  AuroraIMUIController.removeMessageListDidLoadListener(cb)
+  ```
+
+  ​
 
 ### ChatInput Event
 

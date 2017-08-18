@@ -9,9 +9,12 @@
 
 #if __has_include(<React/RCTBridgeModule.h>)
 #import <React/RCTBridgeModule.h>
+#import <React/RCTEventDispatcher.h>
 #elif __has_include("RCTBridgeModule.h")
 #import "RCTBridgeModule.h"
+#import "RCTEventDispatcher.h"
 #elif __has_include("React/RCTBridgeModule.h")
+#import "React/RCTEventDispatcher.h"
 #import "React/RCTBridgeModule.h"
 #endif
 
@@ -21,6 +24,7 @@
 #define kScrollToBottom @"kScrollToBottom"
 #define kScrollToBottom @"kScrollToBottom"
 #define kHidenFeatureView @"kHidenFeatureView"
+#define kMessageListDidLoad @"kMessageListDidLoad"
 
 @interface RCTAuroraIMUIModule : NSObject <RCTBridgeModule>
 
