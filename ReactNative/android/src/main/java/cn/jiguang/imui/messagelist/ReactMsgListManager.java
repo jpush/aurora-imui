@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -30,13 +32,13 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.messages.MessageList;
@@ -68,6 +70,7 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
 
     private MsgListAdapter mAdapter;
     private ReactContext mContext;
+    private MessageList mMessageList;
 
     @Override
     public String getName() {
@@ -85,7 +88,8 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
         intentFilter.addAction(RCT_SCROLL_TO_BOTTOM_ACTION);
         reactContext.registerReceiver(RCTMsgListReceiver, intentFilter);
         mContext = reactContext;
-        final MessageList msgList = new MessageList(reactContext, null);
+        mMessageList = new MessageList(reactContext, null);
+        mMessageList.setHasFixedSize(true);
         // Use default layout
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
         ImageLoader imageLoader = new ImageLoader() {
@@ -115,13 +119,13 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
             }
         };
         mAdapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
-        msgList.setAdapter(mAdapter);
+        mMessageList.setAdapter(mAdapter);
         mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<RCTMessage>() {
             @Override
             public void onMessageClick(RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(msgList.getId(), ON_MSG_CLICK_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_MSG_CLICK_EVENT, event);
             }
         });
 
@@ -130,7 +134,7 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
             public void onMessageLongClick(RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(msgList.getId(), ON_MSG_LONG_CLICK_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_MSG_LONG_CLICK_EVENT, event);
             }
         });
 
@@ -139,7 +143,7 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
             public void onAvatarClick(RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(msgList.getId(), ON_AVATAR_CLICK_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_AVATAR_CLICK_EVENT, event);
             }
         });
 
@@ -148,16 +152,16 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
             public void onMessageResend(RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(msgList.getId(), ON_STATUS_VIEW_CLICK_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_STATUS_VIEW_CLICK_EVENT, event);
             }
         });
 
-        msgList.setOnTouchListener(new View.OnTouchListener() {
+        mMessageList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(msgList.getId(), ON_TOUCH_MSG_LIST_EVENT, null);
+                        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_TOUCH_MSG_LIST_EVENT, null);
                         if (reactContext.getCurrentActivity() != null) {
                             InputMethodManager imm = (InputMethodManager) reactContext.getCurrentActivity()
                                     .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -177,14 +181,14 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int i, int i1) {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(msgList.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(),
                         ON_PULL_TO_REFRESH_EVENT, null);
             }
         });
         // 通知 AuroraIMUIModule 完成初始化 MessageList
         Intent intent = new Intent(AuroraIMUIModule.RCT_MESSAGE_LIST_LOADED_ACTION);
         reactContext.sendBroadcast(intent);
-        return msgList;
+        return mMessageList;
     }
 
     @ReactProp(name = "sendBubble")
@@ -298,7 +302,7 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
     private BroadcastReceiver RCTMsgListReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Activity activity = mContext.getCurrentActivity();
+            final Activity activity = mContext.getCurrentActivity();
             Gson gson = new GsonBuilder().registerTypeAdapter(RCTMessage.class, new RCTMessageDeserializer())
                     .create();
             if (intent.getAction().equals(RCT_APPEND_MESSAGES_ACTION)) {
@@ -308,10 +312,14 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
                     Log.d("RCTMessageListManager", "Add message to start, message: " + rctMsgStr);
                     Log.d("RCTMessageListManager", "RCTMessage: " + rctMessage);
                     if (activity != null) {
+                        final DisplayMetrics dm = new DisplayMetrics();
+                        final WindowManager windowManager = activity.getWindowManager();
+                        windowManager.getDefaultDisplay().getMetrics(dm);
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 mAdapter.addToStart(rctMessage, true);
+                                mMessageList.smoothScrollToPosition(0);
                             }
                         });
                     }
@@ -357,14 +365,23 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
     }
 
     @Override
+    public @Nullable Map<String, Integer> getCommandsMap() {
+        return MapBuilder.of("registrationName", 1);
+    }
+
+    public void unregisterReceiver(MessageList view, int commandId, @Nullable ReadableArray array) {
+        mContext.unregisterReceiver(RCTMsgListReceiver);
+    }
+
+    @Override
     public void onDropViewInstance(MessageList view) {
         super.onDropViewInstance(view);
-
     }
 
     @Override
     public void onCatalystInstanceDestroy() {
-        super.onCatalystInstanceDestroy();
         mContext.unregisterReceiver(RCTMsgListReceiver);
+        super.onCatalystInstanceDestroy();
     }
+
 }
