@@ -245,7 +245,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mChatView.setOnTouchEditTextListener(new OnClickEditTextListener() {
             @Override
             public void onTouchEditText() {
-                mAdapter.getLayoutManager().scrollToPosition(0);
+//                mAdapter.getLayoutManager().scrollToPosition(0);
             }
         });
     }
@@ -431,6 +431,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         if (oldh - h > 300) {
             mChatView.setMenuHeight(oldh - h);
         }
+        mAdapter.getLayoutManager().scrollToPosition(0);
     }
 
     @Override

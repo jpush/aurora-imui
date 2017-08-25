@@ -53,6 +53,7 @@ import java.util.List;
 import cn.jiguang.imui.chatinput.camera.CameraNew;
 import cn.jiguang.imui.chatinput.camera.CameraOld;
 import cn.jiguang.imui.chatinput.camera.CameraSupport;
+import cn.jiguang.imui.chatinput.listener.CameraControllerListener;
 import cn.jiguang.imui.chatinput.listener.CameraEventListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
@@ -113,6 +114,7 @@ public class ChatInputView extends LinearLayout
     private OnMenuClickListener mListener;
     private OnCameraCallbackListener mCameraListener;
     private OnClickEditTextListener mEditTextListener;
+    private CameraControllerListener mCameraControllerListener;
 
     private ChatInputStyle mStyle;
 
@@ -306,6 +308,10 @@ public class ChatInputView extends LinearLayout
         mCameraListener = listener;
     }
 
+    public void setCameraControllerListener(CameraControllerListener listener) {
+        mCameraControllerListener = listener;
+    }
+
     public void setOnClickEditTextListener(OnClickEditTextListener listener) {
         mEditTextListener = listener;
     }
@@ -444,8 +450,14 @@ public class ChatInputView extends LinearLayout
         } else if (view.getId() == R.id.aurora_ib_camera_full_screen) {
             // full screen/recover screen button in texture view
             if (!mIsFullScreen) {
+                if (mCameraControllerListener != null) {
+                    mCameraControllerListener.onFullScreenClick();
+                }
                 fullScreen();
             } else {
+                if (mCameraControllerListener != null) {
+                    mCameraControllerListener.onRecoverScreenClick();
+                }
                 recoverScreen();
             }
 

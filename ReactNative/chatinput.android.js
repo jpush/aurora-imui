@@ -65,7 +65,7 @@ export default class ChatInput extends Component {
     if (!this.props.onFinishRecordVideo) {
       return;
     }
-    this.props.onFinishRecordVideo(event.nativeEvent.mediaPath);
+    this.props.onFinishRecordVideo(event.nativeEvent.mediaPath, event.nativeEvent.duration);
   }
 
   _cancelVideoRecord() {

@@ -3,6 +3,8 @@ package cn.jiguang.imui.messagelist;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -19,6 +21,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,6 +31,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
+import cn.jiguang.imui.chatinput.listener.CameraControllerListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
@@ -56,6 +60,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String FINISH_RECORD_VOICE_EVENT = "onFinishRecordVoice";
     private static final String CANCEL_RECORD_VOICE_EVENT = "onCancelRecordVoice";
     private static final String ON_TOUCH_EDIT_TEXT_EVENT = "onTouchEditText";
+    private static final String ON_FULL_SCREEN_EVENT = "onFullScreen";
     private final int REQUEST_PERMISSION = 0x0001;
 
     @Override
@@ -88,7 +93,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 }
                 WritableMap event = Arguments.createMap();
                 WritableArray array = new WritableNativeArray();
-                for (FileItem fileItem: list) {
+                for (FileItem fileItem : list) {
                     WritableMap map = new WritableNativeMap();
                     if (fileItem.getType().ordinal() == 0) {
                         map.putString("mediaType", "image");
@@ -158,6 +163,10 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             public void onFinishVideoRecord(String videoPath) {
                 WritableMap event = Arguments.createMap();
                 event.putString("mediaPath", videoPath);
+                MediaPlayer mediaPlayer = MediaPlayer.create(reactContext, Uri.parse(videoPath));
+                int duration = mediaPlayer.getDuration() / 1000;    // Millisecond to second.
+                mediaPlayer.release();
+                event.putInt("duration", duration);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
                         FINISH_RECORD_VIDEO_EVENT, event);
             }
@@ -203,6 +212,28 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                         ON_TOUCH_EDIT_TEXT_EVENT, null);
             }
         });
+        chatInput.setCameraControllerListener(new CameraControllerListener() {
+            @Override
+            public void onFullScreenClick() {
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(), ON_FULL_SCREEN_EVENT, null);
+                chatInput.bringToFront();
+            }
+
+            @Override
+            public void onRecoverScreenClick() {
+
+            }
+
+            @Override
+            public void onCloseCameraClick() {
+
+            }
+
+            @Override
+            public void onSwitchCameraModeClick() {
+
+            }
+        });
         return chatInput;
     }
 
@@ -221,7 +252,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
     @Override
     public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
-        return MapBuilder.<String, Object> builder()
+        return MapBuilder.<String, Object>builder()
                 .put(ON_SEND_TEXT_EVENT, MapBuilder.of("registrationName", ON_SEND_TEXT_EVENT))
                 .put(ON_SEND_FILES_EVENT, MapBuilder.of("registrationName", ON_SEND_FILES_EVENT))
                 .put(SWITCH_TO_MIC_EVENT, MapBuilder.of("registrationName", SWITCH_TO_MIC_EVENT))
@@ -235,6 +266,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 .put(FINISH_RECORD_VOICE_EVENT, MapBuilder.of("registrationName", FINISH_RECORD_VOICE_EVENT))
                 .put(CANCEL_RECORD_VOICE_EVENT, MapBuilder.of("registrationName", CANCEL_RECORD_VOICE_EVENT))
                 .put(ON_TOUCH_EDIT_TEXT_EVENT, MapBuilder.of("registrationName", ON_TOUCH_EDIT_TEXT_EVENT))
+                .put(ON_FULL_SCREEN_EVENT, MapBuilder.of("registrationName", ON_FULL_SCREEN_EVENT))
                 .build();
     }
 

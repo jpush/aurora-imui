@@ -14,11 +14,12 @@ var {
 	NativeModules,
 	StyleSheet,
 	PermissionsAndroid,
+	UIManager,
 } = ReactNative;
 
 var MessageList = IMUI.MessageList;
 var ChatInput = IMUI.ChatInput;
-var AuroraIMUIController = IMUI.AuroraIMUIController;
+const AuroraIMUIController = IMUI.AuroraIMUIController;
 const IMUIMessageListDidLoad = "IMUIMessageListDidLoad";
 
 export default class ChatActivity extends React.Component {
@@ -36,8 +37,6 @@ export default class ChatActivity extends React.Component {
 				height: 100
 			},
 			isDismissMenuContainer: false,
-			updateUI: false,
-
 		};
 
 		this.onMsgClick = this.onMsgClick.bind(this);
@@ -59,6 +58,7 @@ export default class ChatActivity extends React.Component {
 		this.onSwitchToCameraMode = this.onSwitchToCameraMode.bind(this);
 		this.onTouchEditText = this.onTouchEditText.bind(this);
 		this.onPullToRefresh = this.onPullToRefresh.bind(this);
+		this.onFullScreen = this.onFullScreen.bind(this);
 	}
 
 	componentWillMount() {}
@@ -137,7 +137,7 @@ export default class ChatActivity extends React.Component {
 		var messages = [{
 			msgId: "1",
 			status: "send_going",
-			msgType: "event",
+			msgType: "text",
 			text: text,
 			isOutgoing: true,
 			fromUser: {
@@ -149,7 +149,7 @@ export default class ChatActivity extends React.Component {
 		}];
 		AuroraIMUIController.appendMessages(messages);
 		this.setState({
-			updateUI: true
+			menuContainerHeight: this.state.menuContainerHeight == 1000 ? 999 : 1000
 		});
 	}
 
@@ -356,6 +356,13 @@ export default class ChatActivity extends React.Component {
 		AuroraIMUIController.scrollToBottom(true);
 	}
 
+	onFullScreen() {
+		this.setState({
+			menuContainerHeight: 1920
+		});
+		console.log("Set screen height to full screen");
+	}
+
 	componentDidMount() {
 		AuroraIMUIController.addMessageListDidLoadListener(() => {
 			console.log("MessageList did load !");
@@ -391,8 +398,7 @@ export default class ChatActivity extends React.Component {
 				<MessageList
 					style = {{flex: 1}}
 					{...this.props}
-					ref = {com => this.view = com}
-					updateUI = {this.state.updateUI}
+					ref = {(ref) => this.messageList = ref}
 					onMsgClick = {this.onMsgClick}
 					onMsgLongClick = {this.onMsgLongClick}
 					onAvatarClick = {this.onAvatarClick} 
@@ -424,6 +430,7 @@ export default class ChatActivity extends React.Component {
 						onSwitchToGalleryMode = {this.onSwitchToGalleryMode}
 						onSwitchToCameraMode = {this.onSwitchToCameraMode}
 						onTouchEditText = {this.onTouchEditText}
+						onFullScreen = {this.onFullScreen}
 					/>
 			</View>
 		);
