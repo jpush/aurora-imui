@@ -54,30 +54,18 @@ export default class TestRNIMUI extends Component {
     this.updateLayout = this.updateLayout.bind(this);
   }
 
-  componentDidMount() {
-    // DeviceEventEmitter.addListener('IMUIMessageListDidLoaded',
-		// 	() => {
-    //     // cb(registrationId);
-    //     var messages = []
-    //     for(var i=0; i<14; i++){
-    //       var message = constructNormalMessage()
-    //       message.msgType = "text"
-    //       message.text = "" + i
-    //       // messages.push(message)
-    //       AuroraIController.insertMessagesToTop([message])      
-    //     }
-    //   });
-      AuroraIController.addMessageListDidLoadListener(() => {
-        var messages = []
-        for(var i=0; i<14; i++){
-          var message = constructNormalMessage()
-          message.msgType = "text"
-          message.text = "" + i
-          // messages.push(message)
-          AuroraIController.insertMessagesToTop([message])      
-      }
-      // AuroraIController.insertMessagesToTop(messages)
-      });
+  componentDidMount() {  
+    AuroraIController.addMessageListDidLoadListener(() => {
+
+      var messages = []
+      for(var i=0; i<14; i++){
+        var message = constructNormalMessage()
+        message.msgType = "text"
+        message.text = "" + i
+        AuroraIController.insertMessagesToTop([message])      
+    }
+    AuroraIController.insertMessagesToTop(messages)
+    });
   }
 
   updateLayout(layout) {
@@ -138,7 +126,7 @@ export default class TestRNIMUI extends Component {
     var message = constructNormalMessage()
     message.msgType = "voice"
     message.mediaPath = mediaPath
-
+    message.duration = duration
     AuroraIController.appendMessages([message])
   }
 
@@ -160,14 +148,21 @@ export default class TestRNIMUI extends Component {
   }
     
   onSendGalleryFiles = (mediaFiles) => {
-    console.log(mediaFiles)
+    
+
+    /**
+     * WARN: 这里返回的是原图，直接插入大会话列表会很大且耗内存.
+     * 应该做裁剪操作后再插入到 messageListView 中，
+     * 一般的 IM SDK 会提供裁剪操作，或者开发者手动进行裁剪。
+     * 
+     * 代码用例不做裁剪操作。
+     */ 
     for(index in mediaFiles) {
       var message = constructNormalMessage()
       message.msgType = "image"
       message.mediaPath = mediaFiles[index].mediaPath
-      // AuroraIController.appendMessages([message])
-      AuroraIController.insertMessagesToTop([message])
-      // AuroraIController.scrollToBottom(true)
+      AuroraIController.appendMessages([message])
+      AuroraIController.scrollToBottom(true)
     }
   }
 

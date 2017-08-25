@@ -38,7 +38,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)messageDidLoad:(NSNotification *) notification {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"IMUIMessageListDidLoaded"
+  [self.bridge.eventDispatcher sendAppEventWithName:@"IMUIMessageListDidLoad"
                                                body:nil];
 }
 
