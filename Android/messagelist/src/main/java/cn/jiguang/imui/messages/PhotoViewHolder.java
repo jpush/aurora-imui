@@ -99,8 +99,8 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                     mResendIb.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (mMsgResendListener != null) {
-                                mMsgResendListener.onMessageResend(message);
+                            if (mMsgStatusViewClickListener != null) {
+                                mMsgStatusViewClickListener.onStatusViewClick(message);
                             }
                         }
                     });

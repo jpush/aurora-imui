@@ -51,8 +51,8 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             mUnreadStatusIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_read_status);
         } else {
             mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
-            mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
         }
+        mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
         mController = ViewHolderController.getInstance();
     }
 
@@ -92,14 +92,31 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                     mResendIb.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (mMsgResendListener != null) {
-                                mMsgResendListener.onMessageResend(message);
+                            if (mMsgStatusViewClickListener != null) {
+                                mMsgStatusViewClickListener.onStatusViewClick(message);
                             }
                         }
                     });
                     break;
                 case SEND_SUCCEED:
                     mSendingPb.setVisibility(View.GONE);
+                    mResendIb.setVisibility(View.GONE);
+                    break;
+            }
+        } else {
+            switch (message.getMessageStatus()) {
+                case RECEIVE_FAILED:
+                    mResendIb.setVisibility(View.VISIBLE);
+                    mResendIb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mMsgStatusViewClickListener != null) {
+                                mMsgStatusViewClickListener.onStatusViewClick(message);
+                            }
+                        }
+                    });
+                    break;
+                case RECEIVE_SUCCEED:
                     mResendIb.setVisibility(View.GONE);
                     break;
             }

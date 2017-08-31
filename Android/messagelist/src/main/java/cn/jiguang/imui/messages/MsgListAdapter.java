@@ -60,7 +60,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private OnMsgClickListener<MESSAGE> mMsgClickListener;
     private OnMsgLongClickListener<MESSAGE> mMsgLongClickListener;
     private OnAvatarClickListener<MESSAGE> mAvatarClickListener;
-    private OnMsgResendListener<MESSAGE> mMsgResendListener;
+    private OnMsgStatusViewClickListener<MESSAGE> mMsgStatusViewClickListener;
     private SelectionListener mSelectionListener;
     private int mSelectedItemCount;
     private LinearLayoutManager mLayoutManager;
@@ -217,7 +217,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mMsgLongClickListener = this.mMsgLongClickListener;
             ((BaseMessageViewHolder) holder).mMsgClickListener = this.mMsgClickListener;
             ((BaseMessageViewHolder) holder).mAvatarClickListener = this.mAvatarClickListener;
-            ((BaseMessageViewHolder) holder).mMsgResendListener = this.mMsgResendListener;
+            ((BaseMessageViewHolder) holder).mMsgStatusViewClickListener = this.mMsgStatusViewClickListener;
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
             ((BaseMessageViewHolder) holder).mScroll = this.mScroll;
             ((BaseMessageViewHolder) holder).mIsEarPhoneOn = this.mIsEarPhoneOn;
@@ -583,12 +583,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         void onAvatarClick(MESSAGE message);
     }
 
-    public void setMsgResendListener(OnMsgResendListener<MESSAGE> listener) {
-        this.mMsgResendListener = listener;
+    public void setMsgStatusViewClickListener(OnMsgStatusViewClickListener<MESSAGE> listener) {
+        this.mMsgStatusViewClickListener = listener;
     }
 
-    public interface OnMsgResendListener<MESSAGE extends IMessage> {
-        void onMessageResend(MESSAGE message);
+    public interface OnMsgStatusViewClickListener<MESSAGE extends IMessage> {
+        void onStatusViewClick(MESSAGE message);
     }
 
     /**
