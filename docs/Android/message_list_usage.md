@@ -10,7 +10,7 @@ We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.4.6'
+compile 'cn.jiguang.imui:messagelist:0.4.7'
 ```
 
 -  Maven：
@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:messagelist:0.4.6'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.4.6</version>
+  <version>0.4.7</version>
   <type>pom</type>
 </dependency>
 ```
@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.5.0'
+    compile 'com.github.jpush:imui:0.5.1'
 }
 ```
 
@@ -268,12 +268,12 @@ mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMes
 });
 ```
 
-- ‘OnMsgResendListener’ fires when click resend button.
+- `OnMsgStatusViewClickListener` fires when click message status view button.(previous name was OnMsgResendListener, modified after 0.4.7)
 ```java
-mAdapter.setMsgResendListener(new MsgListAdapter.OnMsgResendListener<MyMessage>() {
+mAdapter.setMsgStatusViewClickListener(new MsgListAdapter.OnMsgStatusViewClickListener<MyMessage>() {
     @Override
     public void onMessageResend(MyMessage message) {
-       // resend message here
+       //message status view click, resend or download here
     }
  });
 ```

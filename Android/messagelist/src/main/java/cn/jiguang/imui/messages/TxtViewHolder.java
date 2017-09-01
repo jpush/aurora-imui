@@ -66,8 +66,8 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                     mResendIb.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (mMsgResendListener != null) {
-                                mMsgResendListener.onMessageResend(message);
+                            if (mMsgStatusViewClickListener != null) {
+                                mMsgStatusViewClickListener.onStatusViewClick(message);
                             }
                         }
                     });
