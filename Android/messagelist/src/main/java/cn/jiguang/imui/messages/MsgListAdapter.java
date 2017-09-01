@@ -317,6 +317,23 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     /**
+     * Updates message or add message if oldId not exist.
+     * @param oldId             message id to be updated
+     * @param newMessage        message to be updated
+     * @param scrollToBottom    scroll to bottom flag
+     */
+    public void updateOrAddMessage(String oldId, MESSAGE newMessage, boolean scrollToBottom) {
+        int position = getMessagePositionById(oldId);
+        if (position >= 0) {
+            Wrapper<MESSAGE> element = new Wrapper<>(newMessage);
+            mItems.set(position, element);
+            notifyItemChanged(position);
+        } else {
+            addToStart(newMessage, scrollToBottom);
+        }
+    }
+
+    /**
      * Delete message.
      *
      * @param message message to be deleted.
