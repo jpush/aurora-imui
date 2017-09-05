@@ -63,7 +63,7 @@ try it yourself.
     app:sendTextSize="18sp" />
 ```
 We have define many kinds of attributes, to support user to adjust their layout, you can see
-[attrs.xml](./../src/main/res/values/attrs.xml) in detail, and we support totally customize style either, please look down.
+[attrs.xml](./../../Android/messagelist/src/main/res/values/attrs.xml) in detail, and we support totally customize style either, please look down.
 
 ### 2. Construct adapter
 Adapter's constructor has three parameters. The first one is `sender id`, the id of sender, the second one is `HoldersConfig object`,
