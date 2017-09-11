@@ -172,8 +172,12 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setAvatarRadius(radius);
     }
 
-    public void setShowDisplayName(int showDisplayName) {
-        mMsgListStyle.setShowDisplayName(showDisplayName);
+    public void setShowSenderDisplayName(int showDisplayName) {
+        mMsgListStyle.setShowSenderDisplayName(showDisplayName);
+    }
+
+    public void setShowReceiverDisplayName(int showDisplayName) {
+        mMsgListStyle.setShowReceiverDisplayName(showDisplayName);
     }
 
     public void setSendVoiceDrawable(int resId) {

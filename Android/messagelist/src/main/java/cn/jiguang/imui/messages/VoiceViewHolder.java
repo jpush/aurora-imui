@@ -24,6 +24,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private boolean mIsSender;
     private TextView mMsgTv;
     private TextView mDateTv;
+    private TextView mDisplayNameTv;
     private RoundImageView mAvatarIv;
     private ImageView mVoiceIv;
     private TextView mLengthTv;
@@ -49,8 +50,10 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mLengthTv = (TextView) itemView.findViewById(R.id.aurora_tv_voice_length);
         if (!isSender) {
             mUnreadStatusIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_read_status);
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_receiver_display_name);
         } else {
             mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_sender_display_name);
         }
         mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
         mController = ViewHolderController.getInstance();
@@ -79,7 +82,9 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         int width = (int) (-0.04 * duration * duration + 4.526 * duration + 75.214);
         mMsgTv.setWidth((int) (width * mDensity));
         mLengthTv.setText(lengthStr);
-
+        if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
+            mDisplayNameTv.setText(message.getFromUser().getDisplayName());
+        }
         if (mIsSender) {
             switch (message.getMessageStatus()) {
                 case SEND_GOING:
@@ -258,9 +263,15 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             if (style.getSendingIndeterminateDrawable() != null) {
                 mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
             }
+            if (style.getShowSenderDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
         } else {
             mVoiceIv.setImageResource(mReceiveDrawable);
             mMsgTv.setBackground(style.getReceiveBubbleDrawable());
+            if (style.getShowReceiverDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
         }
 
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();

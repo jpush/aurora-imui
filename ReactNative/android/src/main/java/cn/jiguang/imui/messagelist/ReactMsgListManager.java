@@ -147,9 +147,9 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> {
             }
         });
 
-        mAdapter.setMsgResendListener(new MsgListAdapter.OnMsgResendListener<RCTMessage>() {
+        mAdapter.setMsgStatusViewClickListener(new MsgListAdapter.OnMsgStatusViewClickListener<RCTMessage>() {
             @Override
-            public void onMessageResend(RCTMessage message) {
+            public void onStatusViewClick(RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_STATUS_VIEW_CLICK_EVENT, event);

@@ -23,6 +23,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
 
     private final TextView mTextDate;
     private final RoundImageView mImageAvatar;
+    private TextView mDisplayNameTv;
     private final ImageView mImageCover;
     private final ImageView mImagePlay;
     private final TextView mTvDuration;
@@ -41,6 +42,9 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         if (isSender) {
             mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
             mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_sender_display_name);
+        } else {
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_receiver_display_name);
         }
     }
 
@@ -77,7 +81,9 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
                 TimeUnit.MILLISECONDS.toMinutes(message.getDuration()),
                 TimeUnit.MILLISECONDS.toSeconds(message.getDuration()));
         mTvDuration.setText(durationStr);
-
+        if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
+            mDisplayNameTv.setText(message.getFromUser().getDisplayName());
+        }
         if (mIsSender) {
             switch (message.getMessageStatus()) {
                 case SEND_GOING:
@@ -130,7 +136,15 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
             if (style.getSendingIndeterminateDrawable() != null) {
                 mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
             }
+            if (style.getShowSenderDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (style.getShowReceiverDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
         }
+
         android.view.ViewGroup.LayoutParams layoutParams = mImageAvatar.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();

@@ -18,11 +18,21 @@
             android:contentDescription="@string/aurora_avatar_desc"
             style="@style/aurora_msgitem_sender_avatar_style" />
 
+        <TextView
+            android:id="@+id/aurora_tv_msgitem_sender_display_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textAlignment="textEnd"
+            style="@style/aurora_msgitem_sender_display_name_style"
+            android:layout_toLeftOf="@+id/aurora_iv_msgitem_avatar"
+            android:layout_toStartOf="@+id/aurora_iv_msgitem_avatar"/>
+
         <FrameLayout
             android:id="@+id/aurora_fl_msgitem_video_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/aurora_tv_msgitem_sender_display_name"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/aurora_iv_msgitem_avatar"
             android:layout_toStartOf="@+id/aurora_iv_msgitem_avatar"

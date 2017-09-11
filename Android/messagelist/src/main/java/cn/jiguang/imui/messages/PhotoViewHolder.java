@@ -18,10 +18,12 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 
     private boolean mIsSender;
     private TextView mDateTv;
+    private TextView mDisplayNameTv;
     private ImageView mPhotoIv;
     private RoundImageView mAvatarIv;
     private ProgressBar mSendingPb;
     private ImageButton mResendIb;
+
 
 
     public PhotoViewHolder(View itemView, boolean isSender) {
@@ -33,6 +35,9 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         if (mIsSender) {
             mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
             mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_sender_display_name);
+        } else {
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_receiver_display_name);
         }
     }
 
@@ -85,7 +90,9 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 return true;
             }
         });
-
+        if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
+            mDisplayNameTv.setText(message.getFromUser().getDisplayName());
+        }
         if (mIsSender) {
             switch (message.getMessageStatus()) {
                 case SEND_GOING:
@@ -127,7 +134,13 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             if (style.getSendingIndeterminateDrawable() != null) {
                 mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
             }
+            if (style.getShowSenderDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
         } else {
+            if (style.getShowReceiverDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
             mPhotoIv.setBackground(style.getReceivePhotoMsgBg());
         }
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();

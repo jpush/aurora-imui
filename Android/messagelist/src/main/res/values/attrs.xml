@@ -15,9 +15,13 @@
         <attr name="avatarWidth" format="dimension|reference"/>
         <attr name="avatarHeight" format="dimension|reference"/>
         <attr name="avatarRadius" format="dimension|reference" />
-        <attr name="showDisplayName" format="integer">
+        <attr name="showSenderDisplayName" format="integer">
             <enum name="HIDE" value="0"/>
             <enum name="SHOW" value="1"/>
+        </attr>
+        <attr name="showReceiverDisplayName" format="integer">
+            <enum name="HIDE" value="0" />
+            <enum name="SHOW" value="1" />
         </attr>
 
         <attr name="receiveBubbleDrawable" format="reference"/>

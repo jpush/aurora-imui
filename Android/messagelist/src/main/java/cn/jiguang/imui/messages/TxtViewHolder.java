@@ -16,13 +16,13 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
-    protected TextView mMsgTv;
-    protected TextView mDateTv;
-    protected TextView mDisplayNameTv;
-    protected RoundImageView mAvatarIv;
-    protected ImageButton mResendIb;
-    protected ProgressBar mSendingPb;
-    protected boolean mIsSender;
+    private TextView mMsgTv;
+    private TextView mDateTv;
+    private TextView mDisplayNameTv;
+    private RoundImageView mAvatarIv;
+    private ImageButton mResendIb;
+    private ProgressBar mSendingPb;
+    private boolean mIsSender;
 
     public TxtViewHolder(View itemView, boolean isSender) {
         super(itemView);
@@ -30,7 +30,11 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
         mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
         mAvatarIv = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
-        mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_display_name);
+        if (isSender) {
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_sender_display_name);
+        } else {
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_receiver_display_name);
+        }
         mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
         mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
     }
@@ -48,11 +52,10 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         } else if (mImageLoader == null) {
             mAvatarIv.setVisibility(View.GONE);
         }
-        if (!mIsSender) {
-            if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
-                mDisplayNameTv.setText(message.getFromUser().getDisplayName());
-            }
-        } else {
+        if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
+            mDisplayNameTv.setText(message.getFromUser().getDisplayName());
+        }
+        if (mIsSender) {
             switch (message.getMessageStatus()) {
                 case SEND_GOING:
                     mSendingPb.setVisibility(View.VISIBLE);
@@ -130,6 +133,9 @@ public class TxtViewHolder<MESSAGE extends IMessage>
             if (style.getSendingIndeterminateDrawable() != null) {
                 mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
             }
+            if (style.getShowSenderDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            }
         } else {
             mMsgTv.setBackground(style.getReceiveBubbleDrawable());
             mMsgTv.setTextColor(style.getReceiveBubbleTextColor());
@@ -138,7 +144,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                     style.getReceiveBubblePaddingTop(),
                     style.getReceiveBubblePaddingRight(),
                     style.getReceiveBubblePaddingBottom());
-            if (style.getShowDisplayName() == 1) {
+            if (style.getShowReceiverDisplayName() == 1) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
             }
         }
