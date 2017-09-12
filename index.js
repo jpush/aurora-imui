@@ -55,6 +55,13 @@ class AuroraIMUIController {
 	}
 
 	/**
+	 * stop play voice 
+	 */
+	static stopPlayVoice() {
+		AuroraIMUIModule.stopPlayVoice()
+	}
+	
+	/**
 	 * add listener: messageList did Loaded will call cb
 	 * @param {Function} cb 
 	 */

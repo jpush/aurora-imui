@@ -7,6 +7,7 @@
 //
 
 #import "RCTAuroraIMUIModule.h"
+#import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
 
 @interface RCTAuroraIMUIModule () {
 }
@@ -61,6 +62,10 @@ RCT_EXPORT_METHOD(scrollToBottom:(BOOL) animate) {
 
 RCT_EXPORT_METHOD(hidenFeatureView:(BOOL) animate) {
   [[NSNotificationCenter defaultCenter] postNotificationName:kHidenFeatureView object: @(animate)];
+}
+
+RCT_EXPORT_METHOD(stopPlayVoice) {
+  [[IMUIAudioPlayerHelper sharedInstance] stopAudio];
 }
 
 @end
