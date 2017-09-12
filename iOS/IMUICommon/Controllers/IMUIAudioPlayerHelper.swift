@@ -33,7 +33,24 @@ public class IMUIAudioPlayerHelper: NSObject {
   
   override init() {
     super.init()
+    NotificationCenter.default.addObserver(self, selector: #selector(sensorStateChange), name: NSNotification.Name.UIDeviceProximityStateDidChange, object: nil)
+  }
+  
+  func sensorStateChange() {
+    do {
+      if UIDevice.current.proximityState {
+        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+      } else {
+        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+      }
+    } catch let error as NSError {
+      print("set category fail \(error)")
+    }
     
+  }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
   }
   
   open func playAudioWithData(_ voiceData:Data, progressCallback: @escaping ProgressCallback, finishCallBack: @escaping FinishCallback) {
