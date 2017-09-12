@@ -102,8 +102,24 @@ export default class TestRNIMUI extends Component {
     
     message.msgType = "text"
     message.text = text
-    message.timeString = 'fsdafafaf'
+    // message.timeString = 'fsdafafaf'
     
+    var user = {
+      userId: "fasdf",
+      displayName: "asfddsfa",
+      avatarPath: ""
+    }
+    message.fromUser = user
+    var evenmessage = constructNormalMessage()
+    
+    message.msgType = "text"
+    message.text = text
+
+    var eventMessage = constructNormalMessage()
+    eventMessage.msgType ='event'
+    eventMessage.text = "fadsfasfasdfsadfasdf"
+
+    AuroraIController.appendMessages([eventMessage])
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
   }
@@ -192,6 +208,7 @@ export default class TestRNIMUI extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={{height: 64,backgroundColor: '#ff0000'}}/>
         <MessageListView style={styles.messageList}
         onAvatarClick={this.onAvatarClick}
         onMsgClick={this.onMsgClick}
@@ -201,8 +218,10 @@ export default class TestRNIMUI extends Component {
         onPullToRefresh={this.onPullToRefresh}
         avatarSize={{width:40,height:40}}
         sendBubbleTextSize={18}
-        sendBubbleTextColor={"000000"}
-        sendBubblePadding={{left:10,top:10,right:10,bottom:10}}
+        sendBubbleTextColor={"#7587A8"}
+        sendBubblePadding={{left:10,top:10,right:15,bottom:10}}
+        isShowIncommingDisplayName={true}
+        isShowOutgoingDisplayName={true}
         />
         <InputView style={this.state.inputViewLayout}
         onSendText={this.onSendText}

@@ -220,7 +220,7 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
         cellContentInset.right
       
       return CGRect(x: cellContentInset.left,
-                    y: cellContentInset.top,
+                    y: cellContentInset.top + 8,
                     width: timeWidth,
                     height: 20)
     } else {
