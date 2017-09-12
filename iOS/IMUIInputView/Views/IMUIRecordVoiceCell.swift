@@ -27,6 +27,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   
   
   weak var delegate: IMUIInputViewDelegate?
+  var finishiRecorderCache:(voiceFilePath: String, duration: TimeInterval)?
   
   var inputViewDelegate: IMUIInputViewDelegate? {
     set {
@@ -154,7 +155,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   }
   
   @IBAction func sendRecordedVoice(_ sender: Any) {
-    self.finishRecordVoice()
+    self.inputViewDelegate?.finishRecordVoice?(self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
   }
   
   @IBAction func playRecordedVoice(_ sender: IMUIProgressButton) {
@@ -234,7 +235,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       
       if self.swtichToPlayModeBtn.isSelected {
         self.switchToPlayVoiceModel()
-        self.recordHelper.stopRecord()
+        self.finishiRecorderCache = recordHelper.finishRecordingCompletion()
         return
       }
       
