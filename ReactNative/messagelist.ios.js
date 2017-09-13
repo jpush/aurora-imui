@@ -22,7 +22,7 @@ export default class MessageList extends Component {
     this._onMsgLongClick = this._onMsgLongClick.bind(this);
     this._onAvatarClick = this._onAvatarClick.bind(this);
     this._onStatusViewClick = this._onStatusViewClick.bind(this);
-    this._onPullToRefresh = this._onPullToRefresh(this);
+    this._onPullToRefresh = this._onPullToRefresh.bind(this);
   }
 
   _onMsgClick(event: Event) {
