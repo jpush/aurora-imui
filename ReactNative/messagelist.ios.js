@@ -83,6 +83,7 @@ export default class MessageList extends Component {
 
 MessageList.propTypes = {
   onMsgClick: PropTypes.func,
+  onMsgLongClick: PropTypes.func,
   onAvatarClick: PropTypes.func,
   onStatusViewClick: PropTypes.func,
   onBeginDragMessageList: PropTypes.func,
@@ -104,6 +105,7 @@ MessageList.propTypes = {
   isShowDisplayName: PropTypes.bool,
   isShowIncommingDisplayName: PropTypes.bool,
   isShowOutgoingDisplayName: PropTypes.bool,
+  isAllowPullToRefresh: PropTypes.bool,
   ...View.propTypes
 };
 
