@@ -47,10 +47,10 @@
     
     [self addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [_messageList.messageCollectionView addSubview:self.refreshControl];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-      [_messageList.messageCollectionView addSubview:refreshControl];
       _messageList.messageCollectionView.alwaysBounceVertical = YES;
     });
   }
@@ -58,6 +58,14 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:kMessageListDidLoad object: nil];
   
   return self;
+}
+
+- (void)setIsAllowPullToRefresh:(BOOL)isAllow {
+  if (isAllow) {
+    [_messageList.messageCollectionView addSubview: self.refreshControl];
+  } else {
+    [self.refreshControl removeFromSuperview];
+  }
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl

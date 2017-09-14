@@ -37,6 +37,7 @@
 
 RCT_EXPORT_VIEW_PROPERTY(onAvatarClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onMsgClick, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onMsgLongClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onStatusViewClick, RCTBubblingEventBlock)
 
 RCT_EXPORT_VIEW_PROPERTY(onBeginDragMessageList, RCTBubblingEventBlock)
@@ -157,6 +158,11 @@ RCT_CUSTOM_VIEW_PROPERTY(isShowOutgoingDisplayName, BOOL, RCTMessageListView) {
 RCT_CUSTOM_VIEW_PROPERTY(isShowIncommingDisplayName, BOOL, RCTMessageListView) {
   BOOL needShowDisPlayName = [RCTConvert BOOL: json];
   IMUIMessageCellLayout.isNeedShowInComingName = needShowDisPlayName;
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(isAllowPullToRefresh, BOOL, RCTMessageListView) {
+  BOOL needShowDisPlayName = [RCTConvert BOOL: json];
+  _messageList.isAllowPullToRefresh = needShowDisPlayName;
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(sendBubblePadding, NSDictionary, RCTMessageListView) {
