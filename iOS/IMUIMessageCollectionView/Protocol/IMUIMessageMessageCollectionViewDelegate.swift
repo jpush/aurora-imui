@@ -22,7 +22,11 @@ import UIKit
    *  Tells the delegate that user tap message bubble
    */
   @objc optional func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageProtocol)
-  
+
+  /**
+   *  Tells the delegate that user tap message bubble
+   */
+  @objc optional func messageCollectionView(beganLongTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageProtocol)
   /**
    *  Tells the delegate that user tap header image in message cell
    */
