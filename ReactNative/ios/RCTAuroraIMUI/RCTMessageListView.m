@@ -36,6 +36,9 @@
                                              selector:@selector(appendMessages:)
                                                  name:kAppendMessages object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(removeMessage:)
+                                                 name:kRemoveMessage object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(insertMessagesToTop:)
                                                  name:kInsertMessagesToTop object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -108,6 +111,13 @@
       });
     }
   }
+}
+
+- (void)removeMessage:(NSNotification *) notification {
+  NSString *messageId = [[notification object] copy];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.messageList removeMessage: messageId];
+  });
 }
 
 - (void)insertMessagesToTop:(NSNotification *) notification {

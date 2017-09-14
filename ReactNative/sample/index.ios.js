@@ -87,6 +87,9 @@ export default class TestRNIMUI extends Component {
       console.log(message)
     }
     
+  onMsgLongClick = () => {
+    Alert.alert('onMsgLongClick','onMsgLongClick') 
+  }
   onStatusViewClick = (message) => {
       console.log(message)
       message.status = 'send_succeed'
@@ -101,6 +104,7 @@ export default class TestRNIMUI extends Component {
 
   onPullToRefresh = () => {
       console.log("on pull to refresh")
+      Alert.alert('onPullToRefresh', 'onPullToRefresh')
     }
 
   onSendText = (text) => {
@@ -221,6 +225,7 @@ export default class TestRNIMUI extends Component {
         <MessageListView style={styles.messageList}
         onAvatarClick={this.onAvatarClick}
         onMsgClick={this.onMsgClick}
+        onMsgLongClick={this.onMsgLongClick}
         onStatusViewClick={this.onStatusViewClick}
         onTapMessageCell={this.onTapMessageCell}
         onBeginDragMessageList={this.onBeginDragMessageList}

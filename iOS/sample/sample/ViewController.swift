@@ -152,7 +152,6 @@ extension ViewController: IMUIMessageMessageCollectionViewDelegate {
   
   func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageProtocol) {
     self.showToast(alert: "tap header image")
-    messageCollectionView.removeMessage(with: model.msgId)
   }
   
   func messageCollectionView(didTapStatusViewInCell: UICollectionViewCell, model: IMUIMessageProtocol) {
