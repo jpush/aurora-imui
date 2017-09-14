@@ -67,6 +67,7 @@ open class IMUIFeatureView: UIView {
   open override func awakeFromNib() {
     super.awakeFromNib()
     self.setupAllViews()
+    self.addPhotoObserver()
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -77,6 +78,16 @@ open class IMUIFeatureView: UIView {
     
     self.addSubview(view)
     view.frame = self.bounds
+    
+    self.addPhotoObserver()
+  }
+  
+  func addPhotoObserver() {
+    PHPhotoLibrary.requestAuthorization { (status) in
+      if status == .authorized {
+        PHPhotoLibrary.shared().register(self)
+      }
+    }
   }
   
   func setupAllViews() {
@@ -224,4 +235,24 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     self.delegate?.didChangeSelectedGallery(with: IMUIGalleryDataManager.selectedAssets)
   }
   
+}
+
+
+extension IMUIFeatureView: PHPhotoLibraryChangeObserver {
+  public func photoLibraryDidChange(_ changeInstance: PHChange) {
+    
+    DispatchQueue.main.async {
+//      if let albumChanges = changeInstance.changeDetails(for:  PHAsset()) {
+//        var asset = albumChanges.objectAfterChanges! as! PHAsset
+//        
+//        PHImageManager.default().requestImage(for: asset, targetSize: self.frame.size, contentMode: PHImageContentMode.default, options: nil, resultHandler: { [weak self] (image, _) in
+//          print("fsa")
+//        })
+//        
+//        print("asset")
+//      }
+      IMUIGalleryDataManager.updateAssets()
+      self.featureCollectionView.reloadData()
+    }
+  }
 }
