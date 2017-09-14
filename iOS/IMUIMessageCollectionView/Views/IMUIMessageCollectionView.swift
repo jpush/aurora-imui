@@ -106,6 +106,12 @@ open class IMUIMessageCollectionView: UIView {
       self.messageCollectionView.reloadItems(at: [indexPath])
     }
   }
+  
+  open func removeMessage(with messageId: String) {
+    self.chatDataManager.removeMessage(with: messageId)
+    self.messageCollectionView.reloadDataNoScroll()
+  }
+  
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -175,6 +181,10 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
 
 
   public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
+    if forItemAt.item >= self.chatDataManager.count {
+      return
+    }
+    
     let messageModel = self.chatDataManager[forItemAt.item]
     
     if messageModel.self is IMUIMessageModelProtocol.Type {
