@@ -9,7 +9,7 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.4.7'
+compile 'cn.jiguang.imui:messagelist:0.4.8'
 ```
 
 - Maven
@@ -17,7 +17,7 @@ compile 'cn.jiguang.imui:messagelist:0.4.7'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.4.7</version>
+  <version>0.4.8</version>
   <type>pom</type>
 </dependency>
 ```
@@ -34,7 +34,7 @@ allprojects {
 
 // module/build.gradle
 dependencies {
-  compile 'com.github.jpush:imui:0.5.1'
+  compile 'com.github.jpush:imui:0.5.2'
 }
 ```
 
@@ -61,6 +61,31 @@ dependencies {
     app:sendTextSize="18sp" />
 ```
 我们定义了很多样式，供用户调整布局，详细的属性可以参考 [attrs.xml](./../../Android/messagelist/src/main/res/values/attrs.xml) 文件，当然也支持完全自定义布局，下面会介绍到。
+
+#### 设置 MessageList 自定义属性
+
+基本上所有的属性都支持在 xml 或在代码中设置，用户可自行选择。下面展示一下如何设置是否显示昵称。
+
+```Java
+MessageList messageList = (MessageList) findViewById(R.id.msg_list);
+```
+
+- 设置接收方或者发送方显示昵称，可以在上面的 xml 中设置 `showReceiverDisplayName` 及 `showSenderDisplayName` 为 1 或者 0. 1 表示展示昵称，0 为不展示。也可以在代码中设置：
+
+  ```Java
+  messageList.setShowSenderDisplayName(1);
+  messageList.setShowReceiverDisplayName(1);
+  ```
+
+- 禁止下拉刷新（0.4.8 新增接口），调用 `messageList.forbidScrollToRefresh(true)` 即可
+
+    ```Java
+    messageList.forbidScrollToRefresh(true);
+    ```
+
+
+
+
 
 ### 2. 构造 Adapter
 MsgListAdapter 的构造函数有三个参数：
@@ -214,7 +239,10 @@ mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
 });
 ```
 
+  ​
+
 ### 删除消息
+
 有如下删除消息的接口：
 
 - *adapter.deleteById(String id)*: 根据 message id 来删除消息

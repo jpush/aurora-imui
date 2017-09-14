@@ -10,7 +10,7 @@ We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.4.7'
+compile 'cn.jiguang.imui:messagelist:0.4.8'
 ```
 
 -  Maven：
@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:messagelist:0.4.7'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.4.7</version>
+  <version>0.4.8</version>
   <type>pom</type>
 </dependency>
 ```
@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.5.1'
+    compile 'com.github.jpush:imui:0.5.2'
 }
 ```
 
@@ -64,6 +64,27 @@ try it yourself.
 ```
 We have define many kinds of attributes, to support user to adjust their layout, you can see
 [attrs.xml](./../../Android/messagelist/src/main/res/values/attrs.xml) in detail, and we support totally customize style either, please look down.
+
+#### MessageList Custom Config
+
+Almost all attributes not only can be set in XML file but also can be set in code. Here is a example showing how to set show display name or not.
+
+```Java
+MessageList messageList = (MessageList) findViewById(R.id.msg_list);
+```
+
+- To show receiver or sender 's display name，you can set `showReceiverDisplayName` and  `showSenderDisplayName` to 1 in XML file above, you can also set in code like：
+
+  ```Java
+  messageList.setShowSenderDisplayName(1);
+  messageList.setShowReceiverDisplayName(1);
+  ```
+
+- Forbid pull to refresh（Added since 0.4.8），call `messageList.forbidScrollToRefresh(true)`, then `onLoadMore` would not trigger.
+
+    ```Java
+    messageList.forbidScrollToRefresh(true);
+    ```
 
 ### 2. Construct adapter
 Adapter's constructor has three parameters. The first one is `sender id`, the id of sender, the second one is `HoldersConfig object`,

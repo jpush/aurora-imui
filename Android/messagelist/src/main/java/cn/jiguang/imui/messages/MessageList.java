@@ -66,8 +66,8 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         super.setAdapter(adapter);
     }
 
-    public void forbidScroll(boolean disable) {
-        mScrollMoreListener.forbidScroll(disable);
+    public void forbidScrollToRefresh(boolean disable) {
+        mScrollMoreListener.forbidScrollToRefresh(disable);
     }
 
     public void setSendBubbleDrawable(int resId) {

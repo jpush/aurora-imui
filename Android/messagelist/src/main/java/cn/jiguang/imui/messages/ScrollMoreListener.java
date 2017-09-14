@@ -101,7 +101,7 @@ public class ScrollMoreListener extends RecyclerView.OnScrollListener {
         super.onScrollStateChanged(recyclerView, newState);
     }
 
-    public void forbidScroll(boolean disable) {
+    public void forbidScrollToRefresh(boolean disable) {
         mDisable = disable;
     }
 
