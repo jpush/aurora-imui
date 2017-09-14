@@ -24,7 +24,7 @@ import UIKit
   @objc optional func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageProtocol)
 
   /**
-   *  Tells the delegate that user tap message bubble
+   *  Tells the delegate that user long press message bubble
    */
   @objc optional func messageCollectionView(beganLongTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageProtocol)
   /**

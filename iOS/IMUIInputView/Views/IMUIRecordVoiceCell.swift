@@ -74,7 +74,6 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   
   @IBAction func startRecordVoice(_ sender: Any) {
 
-
     switch AVAudioSession.sharedInstance().recordPermission() {
       case AVAudioSessionRecordPermission.granted:
         self.swtichToPlayModeBtn.isHidden = false
@@ -94,7 +93,10 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         }
       case AVAudioSessionRecordPermission.denied:
         break
+      
       case AVAudioSessionRecordPermission.undetermined:
+        AVAudioSession.sharedInstance().requestRecordPermission({ (granted) in })
+        
         break
       default:
         break
