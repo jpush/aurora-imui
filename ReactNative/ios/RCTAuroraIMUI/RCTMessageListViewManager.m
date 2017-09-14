@@ -203,7 +203,7 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
 //  NSDictionary *msgDic = message.messageDictionary;
 //  event[@"message"] = msgDic;
 //  event[@"type"] = type;
-//  _messageList.onEventCallBack(event);/Users/HuminiOS/Desktop/myproject/reactNative/testheiheihei/index.ios.js
+//  _messageList.onEventCallBack(event);
 //}
 
 //- (void)sendEventWithType:(NSString *)type {
@@ -221,6 +221,14 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
     RCTMessageModel *message = model;
     NSDictionary *messageDic = message.messageDictionary;
     _messageList.onMsgClick((@{@"message": messageDic}));
+}
+
+/// Tells the delegate that user tap message bubble
+- (void)messageCollectionViewWithBeganLongTapMessageBubbleInCell:(UICollectionViewCell * _Nonnull)beganLongTapMessageBubbleInCell model:(id <IMUIMessageProtocol> _Nonnull)model {
+  if(!_messageList.onMsgLongClick) { return; }
+  RCTMessageModel *message = model;
+  NSDictionary *messageDic = message.messageDictionary;
+  _messageList.onMsgLongClick((@{@"message": messageDic}));
 }
 
 /// Tells the delegate that user tap message cell
