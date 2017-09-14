@@ -116,7 +116,7 @@
 - (void)removeMessage:(NSNotification *) notification {
   NSString *messageId = [[notification object] copy];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [self.messageList removeMessage: messageId];
+    [self.messageList removeMessageWith: messageId];
   });
 }
 

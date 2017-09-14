@@ -79,16 +79,17 @@ export default class TestRNIMUI extends Component {
   }
 
   onAvatarClick = (message) => {
-      console.log(message)
-      AuroraIController.stopPlayVoice()
+      // AuroraIController.stopPlayVoice()
+      Alert.alert()
+      AuroraIController.removeMessage(message.msgId)
     }
 
   onMsgClick = (message) => {
       console.log(message)
     }
     
-  onMsgLongClick = () => {
-    Alert.alert('onMsgLongClick','onMsgLongClick') 
+  onMsgLongClick = (message) => {
+    Alert.alert('message bubble on long press', 'message bubble on long press')
   }
   onStatusViewClick = (message) => {
       console.log(message)
@@ -104,7 +105,6 @@ export default class TestRNIMUI extends Component {
 
   onPullToRefresh = () => {
       console.log("on pull to refresh")
-      Alert.alert('onPullToRefresh', 'onPullToRefresh')
     }
 
   onSendText = (text) => {
@@ -221,7 +221,6 @@ export default class TestRNIMUI extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{height: 64,backgroundColor: '#ff0000'}}/>
         <MessageListView style={styles.messageList}
         onAvatarClick={this.onAvatarClick}
         onMsgClick={this.onMsgClick}
@@ -234,7 +233,7 @@ export default class TestRNIMUI extends Component {
         sendBubbleTextSize={18}
         sendBubbleTextColor={"#7587A8"}
         sendBubblePadding={{left:10,top:10,right:15,bottom:10}}
-        isShowIncommingDisplayName={true}
+        isShowIncomingDisplayName={true}
         isShowOutgoingDisplayName={true}
         isAllowPullToRefresh={this.state.isAllowPullToRefresh}
         />
