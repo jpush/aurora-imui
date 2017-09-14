@@ -138,10 +138,14 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
             }
             if (style.getShowSenderDisplayName() == 1) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
             }
         } else {
             if (style.getShowReceiverDisplayName() == 1) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
             }
         }
 

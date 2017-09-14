@@ -19,7 +19,7 @@ import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.view.RoundImageView;
 
 public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
-        implements MsgListAdapter.DefaultMessageViewHolder {
+        implements MsgListAdapter.DefaultMessageViewHolder, ViewHolderController.ReplayVoiceListener {
 
     private boolean mIsSender;
     private TextView mMsgTv;
@@ -57,6 +57,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         }
         mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
         mController = ViewHolderController.getInstance();
+        mController.setReplayVoiceListener(this);
     }
 
     @Override
@@ -140,6 +141,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 //                    mVoiceAnimation = null;
 //                }
                 mController.notifyAnimStop();
+                mController.setMessage(message);
                 if (mIsSender) {
                     mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
@@ -201,11 +203,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             mMediaPlayer.reset();
             mFIS = new FileInputStream(message.getMediaFilePath());
             mMediaPlayer.setDataSource(mFIS.getFD());
-            if (mIsEarPhoneOn) {
-                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
-            } else {
-                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            }
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
             mMediaPlayer.prepare();
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -265,12 +263,16 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             }
             if (style.getShowSenderDisplayName() == 1) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
             }
         } else {
             mVoiceIv.setImageResource(mReceiveDrawable);
             mMsgTv.setBackground(style.getReceiveBubbleDrawable());
             if (style.getShowReceiverDisplayName() == 1) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
             }
         }
 
@@ -279,5 +281,19 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         layoutParams.height = style.getAvatarHeight();
         mAvatarIv.setLayoutParams(layoutParams);
         mAvatarIv.setBorderRadius(style.getAvatarRadius());
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void replayVoice() {
+        pauseVoice();
+        mController.notifyAnimStop();
+        if (mIsSender) {
+            mVoiceIv.setImageResource(mPlaySendAnim);
+        } else {
+            mVoiceIv.setImageResource(mPlayReceiveAnim);
+        }
+        mVoiceAnimation = (AnimationDrawable) mVoiceIv.getBackground();
+        playVoice(mController.getLastPlayPosition(), (MESSAGE) mController.getMessage());
     }
 }

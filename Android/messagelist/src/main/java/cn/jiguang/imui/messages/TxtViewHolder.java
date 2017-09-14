@@ -135,6 +135,8 @@ public class TxtViewHolder<MESSAGE extends IMessage>
             }
             if (style.getShowSenderDisplayName() == 1) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
             }
         } else {
             mMsgTv.setBackground(style.getReceiveBubbleDrawable());
@@ -146,6 +148,8 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                     style.getReceiveBubblePaddingBottom());
             if (style.getShowReceiverDisplayName() == 1) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
             }
         }
         mDateTv.setTextSize(style.getDateTextSize());

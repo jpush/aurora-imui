@@ -24,7 +24,6 @@ public abstract class BaseMessageViewHolder<MESSAGE extends IMessage>
     protected MsgListAdapter.OnMsgStatusViewClickListener<MESSAGE> mMsgStatusViewClickListener;
     protected MediaPlayer mMediaPlayer;
     protected boolean mScroll;
-    protected boolean mIsEarPhoneOn;
 
     public BaseMessageViewHolder(View itemView) {
         super(itemView);

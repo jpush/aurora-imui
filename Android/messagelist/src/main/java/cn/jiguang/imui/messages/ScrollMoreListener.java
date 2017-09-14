@@ -18,6 +18,7 @@ public class ScrollMoreListener extends RecyclerView.OnScrollListener {
     private int mPreviousTotalItemCount = 0;
     private boolean mLoading = false;
     private boolean mScrolled = false;
+    private boolean mDisable = false;
 
     public ScrollMoreListener(LinearLayoutManager layoutManager, MsgListAdapter adapter) {
         this.mLayoutManager = layoutManager;
@@ -52,6 +53,10 @@ public class ScrollMoreListener extends RecyclerView.OnScrollListener {
                 lastVisibleItemPosition = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
             } else if (mLayoutManager instanceof GridLayoutManager) {
                 lastVisibleItemPosition = ((GridLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+            }
+
+            if (mDisable) {
+                return;
             }
 
             if (totalItemCount < mPreviousTotalItemCount) {
@@ -94,6 +99,10 @@ public class ScrollMoreListener extends RecyclerView.OnScrollListener {
                 break;
         }
         super.onScrollStateChanged(recyclerView, newState);
+    }
+
+    public void forbidScroll(boolean disable) {
+        mDisable = disable;
     }
 
     interface OnLoadMoreListener {

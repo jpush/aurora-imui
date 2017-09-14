@@ -20,6 +20,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
     private MessageListStyle mMsgListStyle;
     private final GestureDetector mGestureDetector;
     private MsgListAdapter mAdapter;
+    private ScrollMoreListener mScrollMoreListener;
 
     public MessageList(Context context) {
         this(context, null);
@@ -60,8 +61,13 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         
         adapter.setLayoutManager(layoutManager);
         adapter.setStyle(mContext, mMsgListStyle);
-        addOnScrollListener(new ScrollMoreListener(layoutManager, adapter));
+        mScrollMoreListener = new ScrollMoreListener(layoutManager, adapter);
+        addOnScrollListener(mScrollMoreListener);
         super.setAdapter(adapter);
+    }
+
+    public void forbidScroll(boolean disable) {
+        mScrollMoreListener.forbidScroll(disable);
     }
 
     public void setSendBubbleDrawable(int resId) {
