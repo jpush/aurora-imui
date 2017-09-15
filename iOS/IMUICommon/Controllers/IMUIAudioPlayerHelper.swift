@@ -94,6 +94,12 @@ public class IMUIAudioPlayerHelper: NSObject {
     UIDevice.current.isProximityMonitoringEnabled = true
   }
   
+  open func renewProgressCallback(_ identfy: String, progressCallback: @escaping ProgressCallback) {
+    if identfy == self.identify {
+      self.playProgressCallback = progressCallback
+    }
+  }
+  
   func trackAudio() {
     self.playProgressCallback?(self.identify ,player.currentTime, player.duration)
   }
