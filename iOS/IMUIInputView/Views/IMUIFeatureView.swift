@@ -240,19 +240,13 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
 
 extension IMUIFeatureView: PHPhotoLibraryChangeObserver {
   public func photoLibraryDidChange(_ changeInstance: PHChange) {
-    
-    DispatchQueue.main.async {
-//      if let albumChanges = changeInstance.changeDetails(for:  PHAsset()) {
-//        var asset = albumChanges.objectAfterChanges! as! PHAsset
-//        
-//        PHImageManager.default().requestImage(for: asset, targetSize: self.frame.size, contentMode: PHImageContentMode.default, options: nil, resultHandler: { [weak self] (image, _) in
-//          print("fsa")
-//        })
-//        
-//        print("asset")
-//      }
+    DispatchQueue.global(qos: .background).async {
       IMUIGalleryDataManager.updateAssets()
-      self.featureCollectionView.reloadData()
+      
+      DispatchQueue.main.async {
+        self.featureCollectionView.reloadData()
+      }
     }
+    
   }
 }
