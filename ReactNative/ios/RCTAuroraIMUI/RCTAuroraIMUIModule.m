@@ -47,6 +47,9 @@ RCT_EXPORT_METHOD(appendMessages:(NSArray *)messages) {
   [[NSNotificationCenter defaultCenter] postNotificationName:kAppendMessages object: messages];
 }
 
+RCT_EXPORT_METHOD(removeMessage:(NSString *)messageId) {
+  [[NSNotificationCenter defaultCenter] postNotificationName:kRemoveMessage object: messageId];
+}
 
 RCT_EXPORT_METHOD(updateMessage:(NSDictionary *)message) {
   [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateMessge object: message];

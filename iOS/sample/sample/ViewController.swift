@@ -42,14 +42,14 @@ class ViewController: UIViewController {
 extension ViewController: IMUIInputViewDelegate {
   
   func sendTextMessage(_ messageText: String) {
-//    let outGoingmessage = MyMessageModel(text: messageText, isOutGoing: true)
-//    let inCommingMessage = MyMessageModel(text: messageText, isOutGoing: false)
-//    self.messageCollectionView.appendMessage(with: outGoingmessage)
-//    self.messageCollectionView.appendMessage(with: inCommingMessage)
+    let outGoingmessage = MyMessageModel(text: messageText, isOutGoing: true)
+    let inCommingMessage = MyMessageModel(text: messageText, isOutGoing: false)
+    self.messageCollectionView.appendMessage(with: outGoingmessage)
+    self.messageCollectionView.appendMessage(with: inCommingMessage)
     
-    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
-    let event = MessageEventModel(msgId: msgId, eventText: messageText)
-    self.messageCollectionView.appendMessage(with: event)
+//    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
+//    let event = MessageEventModel(msgId: msgId, eventText: messageText)
+//    self.messageCollectionView.appendMessage(with: event)
   }
   
   func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {
@@ -147,6 +147,7 @@ extension ViewController: IMUIMessageMessageCollectionViewDelegate {
   
   func messageCollectionView(didTapMessageBubbleInCell: UICollectionViewCell, model: IMUIMessageProtocol) {
     self.showToast(alert: "tap message bubble")
+    
   }
   
   func messageCollectionView(didTapHeaderImageInCell: UICollectionViewCell, model: IMUIMessageProtocol) {

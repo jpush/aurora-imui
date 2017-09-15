@@ -39,6 +39,14 @@ class AuroraIMUIController {
 	}
 
 	/**
+	 * remove message from messageList
+	 * @param {String} messageId
+	 */
+	static removeMessage(messageId) {
+		AuroraIMUIModule.removeMessage(messageId)
+	}
+
+	/**
 	 * scroll messageList to bottom
 	 * @param {Boolean} animate 
 	 */
@@ -52,6 +60,20 @@ class AuroraIMUIController {
 	 */
 	static hidenFeatureView(animate) {
 		AuroraIMUIModule.hidenFeatureView(animate)
+	}
+
+	/**
+	 * stop play voice 
+	 */
+	static stopPlayVoice() {
+		AuroraIMUIModule.stopPlayVoice()
+	}
+
+	/**
+	 * pause play voice 
+	 */
+	static pauseVoice() {
+		AuroraIMUIModule.stopPlayVoice()
 	}
 
 	/**

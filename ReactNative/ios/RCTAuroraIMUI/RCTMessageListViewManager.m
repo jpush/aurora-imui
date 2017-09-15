@@ -155,7 +155,7 @@ RCT_CUSTOM_VIEW_PROPERTY(isShowOutgoingDisplayName, BOOL, RCTMessageListView) {
   IMUIMessageCellLayout.isNeedShowOutGoingName = needShowDisPlayName;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(isShowIncommingDisplayName, BOOL, RCTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(isShowIncomingDisplayName, BOOL, RCTMessageListView) {
   BOOL needShowDisPlayName = [RCTConvert BOOL: json];
   IMUIMessageCellLayout.isNeedShowInComingName = needShowDisPlayName;
 }

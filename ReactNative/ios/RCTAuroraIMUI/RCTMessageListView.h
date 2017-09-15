@@ -52,7 +52,7 @@
 
 @property(assign, nonatomic)BOOL isShowOutgoingDisplayName;
 
-@property(assign, nonatomic)BOOL isShowIncommingDisplayName;
+@property(assign, nonatomic)BOOL isShowIncomingDisplayName;
 
 @property(assign, nonatomic)BOOL isAllowPullToRefresh;
 

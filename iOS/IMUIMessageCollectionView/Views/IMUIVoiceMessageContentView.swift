@@ -38,10 +38,6 @@ public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol
   public func layoutContentView(message: IMUIMessageModelProtocol) {
     self.message = message
     
-    
-//    let asset = AVURLAsset(url: URL(fileURLWithPath: (message.mediaFilePath())), options: nil)
-//    let seconds = Int (CMTimeGetSeconds(asset.duration))
-    
     let seconds = Int(message.duration)
     if seconds/3600 > 0 {
       voiceDuration.text = "\(seconds/3600):\(String(format: "%02d", (seconds/3600)%60)):\(seconds%60)"
@@ -51,6 +47,11 @@ public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol
 
     self.layoutToVoice(isOutGoing: message.isOutGoing)
     
+    IMUIAudioPlayerHelper.sharedInstance.renewProgressCallback(message.msgId) { (id,currendTime, duration) in
+      if self.message?.msgId == id {
+        self.setImage(with: Int(currendTime*4)%3 + 1)
+      }
+    }
   }
   
   func onTapContentView() {

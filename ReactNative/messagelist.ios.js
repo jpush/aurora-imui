@@ -103,7 +103,7 @@ MessageList.propTypes = {
   avatarSize: PropTypes.object,
   avatarCornerRadius: PropTypes.number,
   isShowDisplayName: PropTypes.bool,
-  isShowIncommingDisplayName: PropTypes.bool,
+  isShowIncomingDisplayName: PropTypes.bool,
   isShowOutgoingDisplayName: PropTypes.bool,
   isAllowPullToRefresh: PropTypes.bool,
   ...View.propTypes
