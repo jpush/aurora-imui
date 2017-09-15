@@ -2,12 +2,12 @@ package cn.jiguang.imui.messagelist;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
@@ -20,12 +20,10 @@ import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,6 +61,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String ON_FULL_SCREEN_EVENT = "onFullScreen";
     private final int REQUEST_PERMISSION = 0x0001;
 
+    private boolean mIsShowSoftInput;
+
     @Override
     public String getName() {
         return REACT_CHAT_INPUT;
@@ -72,7 +72,18 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     protected ChatInputView createViewInstance(final ThemedReactContext reactContext) {
         final Activity activity = reactContext.getCurrentActivity();
         final ChatInputView chatInput = new ChatInputView(activity, null);
-        chatInput.setMenuContainerHeight(1000);
+        chatInput.getInputView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mIsShowSoftInput = true;
+                    chatInput.dismissMenuLayout();
+                    chatInput.getInputView().requestFocus();
+                    EventBus.getDefault().post(new ScrollEvent(false));
+                }
+                return false;
+            }
+        });
         // Use default layout
         chatInput.setMenuClickListener(new OnMenuClickListener() {
             @Override
@@ -110,7 +121,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToMicrophoneMode() {
-                Activity activity = reactContext.getCurrentActivity();
+                if (chatInput.getSoftInputState() || chatInput.getMenuState() == View.VISIBLE) {
+                    EventBus.getDefault().post(new ScrollEvent(false));
+                } else {
+                    EventBus.getDefault().post(new ScrollEvent(true));
+                }
                 String[] perms = new String[]{
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -131,6 +146,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToGalleryMode() {
+                if (chatInput.getSoftInputState() || chatInput.getMenuState() == View.VISIBLE) {
+                    EventBus.getDefault().post(new ScrollEvent(false));
+                } else {
+                    EventBus.getDefault().post(new ScrollEvent(true));
+                }
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
                         SWITCH_TO_GALLERY_EVENT, null);
                 return true;
@@ -138,6 +158,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToCameraMode() {
+                if (chatInput.getSoftInputState() || chatInput.getMenuState() == View.VISIBLE) {
+                    EventBus.getDefault().post(new ScrollEvent(false));
+                } else {
+                    EventBus.getDefault().post(new ScrollEvent(true));
+                }
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
                         SWITCH_TO_CAMERA_EVENT, null);
                 return true;
@@ -270,5 +295,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 .build();
     }
 
-
+    @Override
+    public void onDropViewInstance(ChatInputView view) {
+        super.onDropViewInstance(view);
+    }
 }

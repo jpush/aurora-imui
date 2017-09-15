@@ -1,10 +1,6 @@
 package cn.jiguang.imui.messagelist;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -13,6 +9,10 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class AuroraIMUIModule extends ReactContextBaseJavaModule {
 
@@ -23,9 +23,6 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
 
     public AuroraIMUIModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(RCT_MESSAGE_LIST_LOADED_ACTION);
-        reactContext.registerReceiver(ModuleReceiver, intentFilter);
     }
 
     @Override
@@ -36,61 +33,48 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
     @Override
     public void initialize() {
         super.initialize();
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onCatalystInstanceDestroy() {
         super.onCatalystInstanceDestroy();
-        getReactApplicationContext().unregisterReceiver(ModuleReceiver);
+        EventBus.getDefault().unregister(this);
     }
 
-    private BroadcastReceiver ModuleReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction() == null) {
-                return;
-            }
-            if (intent.getAction().equals(RCT_MESSAGE_LIST_LOADED_ACTION)) {
-                getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit(MESSAGE_LIST_DID_LOAD_EVENT, null);
-            }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(LoadedEvent event) {
+        Log.d(REACT_MSG_LIST_MODULE, "Message did load");
+        if (event.getAction().equals(RCT_MESSAGE_LIST_LOADED_ACTION)) {
+            getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit(MESSAGE_LIST_DID_LOAD_EVENT, null);
         }
-    };
+    }
 
     @ReactMethod
     public void appendMessages(ReadableArray messages) {
-        String[] rctMessages = new String[messages.size()];
+        RCTMessage[] rctMessages = new RCTMessage[messages.size()];
         for (int i = 0; i < messages.size(); i++) {
             RCTMessage rctMessage = configMessage(messages.getMap(i));
-            rctMessages[i] = rctMessage.toString();
+            rctMessages[i] = rctMessage;
         }
-        Intent intent = new Intent();
-        intent.setAction(ReactMsgListManager.RCT_APPEND_MESSAGES_ACTION);
-        intent.putExtra("messages", rctMessages);
-        getReactApplicationContext().sendBroadcast(intent);
+        EventBus.getDefault().post(new MessageEvent(rctMessages, ReactMsgListManager.RCT_APPEND_MESSAGES_ACTION));
     }
 
     @ReactMethod
     public void updateMessage(ReadableMap message) {
         RCTMessage rctMessage = configMessage(message);
-        Intent intent = new Intent();
-        intent.setAction(ReactMsgListManager.RCT_UPDATE_MESSAGE_ACTION);
-        intent.putExtra("message", rctMessage.toString());
-        getReactApplicationContext().sendBroadcast(intent);
+        EventBus.getDefault().post(new MessageEvent(rctMessage, ReactMsgListManager.RCT_UPDATE_MESSAGE_ACTION));
     }
 
     @ReactMethod
     public void insertMessagesToTop(ReadableArray messages) {
-        String[] rctMessages = new String[messages.size()];
+        RCTMessage[] rctMessages = new RCTMessage[messages.size()];
         for (int i = 0; i < messages.size(); i++) {
             RCTMessage rctMessage = configMessage(messages.getMap(i));
-            rctMessages[i] = rctMessage.toString();
+            rctMessages[i] = rctMessage;
         }
-        Intent intent = new Intent();
-        intent.setAction(ReactMsgListManager.RCT_INSERT_MESSAGES_ACTION);
-        intent.putExtra("messages", rctMessages);
-        getReactApplicationContext().sendBroadcast(intent);
+        EventBus.getDefault().post(new MessageEvent(rctMessages, ReactMsgListManager.RCT_INSERT_MESSAGES_ACTION));
     }
 
     private RCTMessage configMessage(ReadableMap message) {
@@ -136,9 +120,7 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void scrollToBottom(boolean flag) {
-        Intent intent = new Intent();
-        intent.setAction(ReactMsgListManager.RCT_SCROLL_TO_BOTTOM_ACTION);
-        getReactApplicationContext().sendBroadcast(intent);
+        EventBus.getDefault().post(new ScrollEvent(flag));
     }
 
 

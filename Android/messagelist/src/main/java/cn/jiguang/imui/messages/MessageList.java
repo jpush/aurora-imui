@@ -82,7 +82,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setSendBubblePressedColor(color);
     }
 
-    public void setSendBubbleTextSize(int size) {
+    public void setSendBubbleTextSize(float size) {
         mMsgListStyle.setSendBubbleTextSize(size);
     }
 
@@ -118,7 +118,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setReceiveBubblePressedColor(color);
     }
 
-    public void setReceiveBubbleTextSize(int size) {
+    public void setReceiveBubbleTextSize(float size) {
         mMsgListStyle.setReceiveBubbleTextSize(size);
     }
 
@@ -142,7 +142,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setReceiveBubblePaddingBottom(paddingBottom);
     }
 
-    public void setDateTextSize(int size) {
+    public void setDateTextSize(float size) {
         mMsgListStyle.setDateTextSize(size);
     }
 
@@ -158,7 +158,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setEventTextColor(color);
     }
 
-    public void setEventTextSize(int size) {
+    public void setEventTextSize(float size) {
         mMsgListStyle.setEventTextSize(size);
     }
 

@@ -272,7 +272,7 @@ public class MessageListStyle extends Style {
         return this.eventTextColor;
     }
 
-    public void setEventTextSize(int textSize) {
+    public void setEventTextSize(float textSize) {
         this.eventTextSize = textSize;
     }
 
