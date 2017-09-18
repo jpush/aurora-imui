@@ -3,12 +3,20 @@ package imui.jiguang.cn.imuisample.messages;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -32,6 +40,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
@@ -43,6 +53,7 @@ import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messages.MsgListAdapter;
+import cn.jiguang.imui.messages.ViewHolderController;
 import imui.jiguang.cn.imuisample.R;
 import imui.jiguang.cn.imuisample.models.DefaultUser;
 import imui.jiguang.cn.imuisample.models.MyMessage;
@@ -51,8 +62,9 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class MessageListActivity extends Activity implements ChatView.OnKeyboardChangedListener,
-        ChatView.OnSizeChangedListener, View.OnTouchListener, EasyPermissions.PermissionCallbacks {
+        ChatView.OnSizeChangedListener, View.OnTouchListener, EasyPermissions.PermissionCallbacks, SensorEventListener {
 
+    private final static String TAG = "MessageListActivity";
     private final int RC_RECORD_VOICE = 0x0001;
     private final int RC_CAMERA = 0x0002;
     private final int RC_PHOTO = 0x0003;
@@ -63,6 +75,11 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
     private InputMethodManager mImm;
     private Window mWindow;
+    private HeadsetDetectReceiver mReceiver;
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+    private PowerManager mPowerManager;
+    private PowerManager.WakeLock mWakeLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +88,16 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
         this.mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = getWindow();
-
+        registerProximitySensorListener();
         mChatView = (ChatView) findViewById(R.id.chat_view);
         mChatView.initModule();
         mChatView.setTitle("Deadpool");
         mData = getMessages();
         initMsgAdapter();
-
+        mReceiver = new HeadsetDetectReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
+        registerReceiver(mReceiver, intentFilter);
         mChatView.setKeyboardChangedListener(this);
         mChatView.setOnSizeChangedListener(this);
         mChatView.setOnTouchListener(this);
@@ -96,6 +116,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public void onSendFiles(List<FileItem> list) {
+                mChatView.getChatInputView().setSoftInputState(true);
                 if (list == null || list.isEmpty()) {
                     return;
                 }
@@ -129,6 +150,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public boolean switchToMicrophoneMode() {
+                mChatView.getChatInputView().setSoftInputState(true);
                 String[] perms = new String[]{
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -245,6 +267,82 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             }
         });
     }
+
+    private void registerProximitySensorListener() {
+        try {
+            mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            mWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, TAG);
+            mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+            mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        try {
+            if (audioManager.isBluetoothA2dpOn() || audioManager.isWiredHeadsetOn()) {
+                return;
+            }
+            if (mAdapter.getMediaPlayer().isPlaying()) {
+                float distance = event.values[0];
+                if (distance >= mSensor.getMaximumRange()) {
+                    mAdapter.setAudioPlayByEarPhone(0);
+                    setScreenOn();
+                } else {
+                    mAdapter.setAudioPlayByEarPhone(2);
+                    ViewHolderController.getInstance().replayVoice();
+                    setScreenOff();
+                }
+            } else {
+                if (mWakeLock != null && mWakeLock.isHeld()) {
+                    mWakeLock.release();
+                    mWakeLock = null;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setScreenOn() {
+        if (mWakeLock != null) {
+            mWakeLock.setReferenceCounted(false);
+            mWakeLock.release();
+            mWakeLock = null;
+        }
+    }
+
+    private void setScreenOff() {
+        if (mWakeLock == null) {
+            mWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, TAG);
+        }
+        mWakeLock.acquire();
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    private class HeadsetDetectReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
+                if (intent.hasExtra("state")) {
+                    int state = intent.getIntExtra("state", 0);
+                    mAdapter.setAudioPlayByEarPhone(state);
+                }
+            }
+        }
+    }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -424,43 +522,50 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
-        if (oldh - h > 300) {
-            mChatView.setMenuHeight(oldh - h);
-        }
+//        if (oldh - h > 300) {
+//            mChatView.setMenuHeight(oldh - h);
+//        }
         mAdapter.getLayoutManager().scrollToPosition(0);
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                ChatInputView chatInputView = mChatView.getChatInputView();
-
-                if (view.getId() == chatInputView.getInputView().getId()) {
-
-                    if (chatInputView.getMenuState() == View.VISIBLE
-                            && !chatInputView.getSoftInputState()) {
-                        chatInputView.dismissMenuAndResetSoftMode();
-                        return false;
-                    } else {
-                        return false;
-                    }
-                }
-                if (chatInputView.getMenuState() == View.VISIBLE) {
-                    chatInputView.dismissMenuLayout();
-                }
-                if (chatInputView.getSoftInputState()) {
-                    View v = getCurrentFocus();
-
-                    if (mImm != null && v != null) {
-                        mImm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                        mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                        chatInputView.setSoftInputState(false);
-                    }
-                }
-                break;
-        }
+//        switch (motionEvent.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                ChatInputView chatInputView = mChatView.getChatInputView();
+//
+//                if (view.getId() == chatInputView.getInputView().getId()) {
+//
+//                    if (chatInputView.getMenuState() == View.VISIBLE
+//                            && !chatInputView.getSoftInputState()) {
+//                        chatInputView.dismissMenuAndResetSoftMode();
+//                        return false;
+//                    } else {
+//                        return false;
+//                    }
+//                }
+//                if (chatInputView.getMenuState() == View.VISIBLE) {
+//                    chatInputView.dismissMenuLayout();
+//                }
+//                if (chatInputView.getSoftInputState()) {
+//                    View v = getCurrentFocus();
+//
+//                    if (mImm != null && v != null) {
+//                        mImm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//                        mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+//                                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//                        chatInputView.setSoftInputState(false);
+//                    }
+//                }
+//                break;
+//        }
         return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+        mSensorManager.unregisterListener(this);
     }
 }

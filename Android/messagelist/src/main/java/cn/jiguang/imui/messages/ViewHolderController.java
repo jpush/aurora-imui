@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import cn.jiguang.imui.commons.models.IMessage;
+
 
 public class ViewHolderController {
 
@@ -16,6 +18,8 @@ public class ViewHolderController {
     private boolean mIsSender;
     private int mSendDrawable;
     private int mReceiveDrawable;
+    private ReplayVoiceListener mListener;
+    private IMessage mMsg;
 
     private ViewHolderController() {
 
@@ -63,6 +67,22 @@ public class ViewHolderController {
         }
     }
 
+    public void setMessage(IMessage message) {
+        this.mMsg = message;
+    }
+
+    public IMessage getMessage() {
+        return mMsg;
+    }
+
+    public void setReplayVoiceListener(ReplayVoiceListener listener) {
+        this.mListener = listener;
+    }
+
+    public void replayVoice() {
+        mListener.replayVoice();
+    }
+
     public void release() {
         mData.clear();
         mData = null;
@@ -71,5 +91,9 @@ public class ViewHolderController {
     public void setDrawable(int sendDrawable, int receiveDrawable) {
         mSendDrawable = sendDrawable;
         mReceiveDrawable = receiveDrawable;
+    }
+
+    interface ReplayVoiceListener{
+        public void replayVoice();
     }
 }

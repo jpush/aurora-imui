@@ -3,6 +3,7 @@ package cn.jiguang.imui.messages;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,7 +67,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private LinearLayoutManager mLayoutManager;
     private MessageListStyle mStyle;
     private MediaPlayer mMediaPlayer;
-    private boolean mIsEarPhoneOn;
     private List<Wrapper> mItems;
     private boolean mScroll;
 
@@ -93,17 +93,18 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public void setAudioPlayByEarPhone(int state) {
         AudioManager audioManager = (AudioManager) mContext
                 .getSystemService(Context.AUDIO_SERVICE);
-        int currVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
-        audioManager.setMode(AudioManager.MODE_IN_CALL);
+        // 外放模式
         if (state == 0) {
-            mIsEarPhoneOn = false;
+            audioManager.setMode(AudioManager.MODE_NORMAL);
             audioManager.setSpeakerphoneOn(true);
-            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
-                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
-                    AudioManager.STREAM_VOICE_CALL);
-        } else {
-            mIsEarPhoneOn = true;
+            // 耳机模式
+        } else if (state == 1) {
             audioManager.setSpeakerphoneOn(false);
+            // 听筒模式
+        } else {
+            audioManager.setSpeakerphoneOn(false);
+            audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+            int currVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
             audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume,
                     AudioManager.STREAM_VOICE_CALL);
         }
@@ -115,6 +116,10 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mMediaPlayer;
     }
 
     @Override
@@ -220,7 +225,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mMsgStatusViewClickListener = this.mMsgStatusViewClickListener;
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
             ((BaseMessageViewHolder) holder).mScroll = this.mScroll;
-            ((BaseMessageViewHolder) holder).mIsEarPhoneOn = this.mIsEarPhoneOn;
         }
         holder.onBind(wrapper.item);
     }

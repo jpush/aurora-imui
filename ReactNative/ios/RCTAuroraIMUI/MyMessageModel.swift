@@ -128,20 +128,20 @@ open class RCTMessageModel: IMUIMessageModel {
       
       if typeString == RCTMessageModel.kMsgTypeImage {
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
-                                            isNeedShowTime: false,
+                                            isNeedShowTime: needShowTime,
                                             bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeImage)
       }
       
       if typeString == RCTMessageModel.kMsgTypeVoice {
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
-                                           isNeedShowTime: false,
+                                           isNeedShowTime: needShowTime,
                                            bubbleContentSize: CGSize(width: 80, height: 37), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeVoice)
       }
       
       if typeString == RCTMessageModel.kMsgTypeVideo {
 
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
-                            isNeedShowTime: false,
+                            isNeedShowTime: needShowTime,
                             bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeVideo)
       }
     }

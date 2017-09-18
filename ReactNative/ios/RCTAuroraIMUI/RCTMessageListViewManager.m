@@ -37,6 +37,7 @@
 
 RCT_EXPORT_VIEW_PROPERTY(onAvatarClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onMsgClick, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onMsgLongClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onStatusViewClick, RCTBubblingEventBlock)
 
 RCT_EXPORT_VIEW_PROPERTY(onBeginDragMessageList, RCTBubblingEventBlock)
@@ -154,9 +155,14 @@ RCT_CUSTOM_VIEW_PROPERTY(isShowOutgoingDisplayName, BOOL, RCTMessageListView) {
   IMUIMessageCellLayout.isNeedShowOutGoingName = needShowDisPlayName;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(isShowIncommingDisplayName, BOOL, RCTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(isShowIncomingDisplayName, BOOL, RCTMessageListView) {
   BOOL needShowDisPlayName = [RCTConvert BOOL: json];
   IMUIMessageCellLayout.isNeedShowInComingName = needShowDisPlayName;
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(isAllowPullToRefresh, BOOL, RCTMessageListView) {
+  BOOL needShowDisPlayName = [RCTConvert BOOL: json];
+  _messageList.isAllowPullToRefresh = needShowDisPlayName;
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(sendBubblePadding, NSDictionary, RCTMessageListView) {
@@ -197,7 +203,7 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
 //  NSDictionary *msgDic = message.messageDictionary;
 //  event[@"message"] = msgDic;
 //  event[@"type"] = type;
-//  _messageList.onEventCallBack(event);/Users/HuminiOS/Desktop/myproject/reactNative/testheiheihei/index.ios.js
+//  _messageList.onEventCallBack(event);
 //}
 
 //- (void)sendEventWithType:(NSString *)type {
@@ -215,6 +221,14 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
     RCTMessageModel *message = model;
     NSDictionary *messageDic = message.messageDictionary;
     _messageList.onMsgClick((@{@"message": messageDic}));
+}
+
+/// Tells the delegate that user tap message bubble
+- (void)messageCollectionViewWithBeganLongTapMessageBubbleInCell:(UICollectionViewCell * _Nonnull)beganLongTapMessageBubbleInCell model:(id <IMUIMessageProtocol> _Nonnull)model {
+  if(!_messageList.onMsgLongClick) { return; }
+  RCTMessageModel *message = model;
+  NSDictionary *messageDic = message.messageDictionary;
+  _messageList.onMsgLongClick((@{@"message": messageDic}));
 }
 
 /// Tells the delegate that user tap message cell

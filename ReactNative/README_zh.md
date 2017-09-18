@@ -151,7 +151,7 @@ message = {  // event message
 
 - onBeginDragMessageList (iOS only) 用于调整布局
 
-  ### MessageList append/update/insert 消息事件:
+### MessageList append/update/insert 消息方法:
 
   插入，更新，增加消息到 MessageList, 你需要使用 AuroraIMUIController (Native Module) 来发送事件到 Native。
 
@@ -265,6 +265,18 @@ AuroraIMUIController.insertMessagesToTop(messages);
   ```javascript
   AuroraIMUIController.removeMessageListDidLoadListener(cb)
   ```
+
+- stopPlayVoice()
+
+  停止正在播放的音频
+
+  example:
+
+  ```
+  AuroraIMUIController.stopPlayVoice()
+  ```
+
+  ​
 
 ### ChatInput 事件
 

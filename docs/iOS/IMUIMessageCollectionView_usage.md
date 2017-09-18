@@ -121,6 +121,12 @@ To add new message in message list is pretty easy, we support some way to add me
   updateMessage(with message:IMUIMessageModel)
   ```
 
+- remove message cell:
+
+  ```
+  removeMessage(with messageId: String)
+  ```
+
   ​
 
 ### Custom  Layout

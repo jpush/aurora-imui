@@ -120,6 +120,12 @@ messageCollectionView.insertMessages(with messages:[IMUIMessageModel])
 updateMessage(with message:IMUIMessageModel)
 ```
 
+- 删除消息：
+
+```
+removeMessage(with messageId: String)
+```
+
 ### 自定义布局
 
 创建 Message 对象的时候需要指定布局信息，如果不指定则会使用默认布局 `IMUIMessageCellLayout`。

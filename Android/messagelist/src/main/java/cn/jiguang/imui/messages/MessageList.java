@@ -20,6 +20,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
     private MessageListStyle mMsgListStyle;
     private final GestureDetector mGestureDetector;
     private MsgListAdapter mAdapter;
+    private ScrollMoreListener mScrollMoreListener;
 
     public MessageList(Context context) {
         this(context, null);
@@ -60,8 +61,13 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         
         adapter.setLayoutManager(layoutManager);
         adapter.setStyle(mContext, mMsgListStyle);
-        addOnScrollListener(new ScrollMoreListener(layoutManager, adapter));
+        mScrollMoreListener = new ScrollMoreListener(layoutManager, adapter);
+        addOnScrollListener(mScrollMoreListener);
         super.setAdapter(adapter);
+    }
+
+    public void forbidScrollToRefresh(boolean disable) {
+        mScrollMoreListener.forbidScrollToRefresh(disable);
     }
 
     public void setSendBubbleDrawable(int resId) {
@@ -76,7 +82,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setSendBubblePressedColor(color);
     }
 
-    public void setSendBubbleTextSize(int size) {
+    public void setSendBubbleTextSize(float size) {
         mMsgListStyle.setSendBubbleTextSize(size);
     }
 
@@ -112,7 +118,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setReceiveBubblePressedColor(color);
     }
 
-    public void setReceiveBubbleTextSize(int size) {
+    public void setReceiveBubbleTextSize(float size) {
         mMsgListStyle.setReceiveBubbleTextSize(size);
     }
 
@@ -136,7 +142,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setReceiveBubblePaddingBottom(paddingBottom);
     }
 
-    public void setDateTextSize(int size) {
+    public void setDateTextSize(float size) {
         mMsgListStyle.setDateTextSize(size);
     }
 
@@ -152,7 +158,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setEventTextColor(color);
     }
 
-    public void setEventTextSize(int size) {
+    public void setEventTextSize(float size) {
         mMsgListStyle.setEventTextSize(size);
     }
 
@@ -172,8 +178,12 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setAvatarRadius(radius);
     }
 
-    public void setShowDisplayName(int showDisplayName) {
-        mMsgListStyle.setShowDisplayName(showDisplayName);
+    public void setShowSenderDisplayName(int showDisplayName) {
+        mMsgListStyle.setShowSenderDisplayName(showDisplayName);
+    }
+
+    public void setShowReceiverDisplayName(int showDisplayName) {
+        mMsgListStyle.setShowReceiverDisplayName(showDisplayName);
     }
 
     public void setSendVoiceDrawable(int resId) {

@@ -7,18 +7,19 @@
         android:id="@+id/aurora_tv_msgitem_date"
         style="@style/aurora_msgitem_date_style"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:gravity="right"
+        android:gravity="end"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/aurora_ib_msgitem_resend"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
+            android:layout_toLeftOf="@+id/aurora_iv_msgitem_photo"
+            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:background="@drawable/aurora_send_msg_error"
             android:clickable="true"
@@ -29,14 +30,28 @@
             android:id="@+id/aurora_pb_msgitem_sending"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
+            android:layout_toLeftOf="@id/aurora_iv_msgitem_photo"
+            android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
             android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/aurora_tv_msgitem_sender_display_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textAlignment="textEnd"
+            style="@style/aurora_msgitem_sender_display_name_style"
+            android:layout_toLeftOf="@+id/aurora_iv_msgitem_avatar"
+            android:layout_toStartOf="@+id/aurora_iv_msgitem_avatar"/>
+
 
         <cn.jiguang.imui.view.ShapeImageView
             android:id="@+id/aurora_iv_msgitem_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/aurora_tv_msgitem_sender_display_name"
+            android:layout_toLeftOf="@+id/aurora_iv_msgitem_avatar"
             android:layout_marginRight="8dp"
             android:background="@drawable/aurora_bg_imagemsg_default"
             android:maxHeight="200dp"
@@ -50,6 +65,6 @@
             android:contentDescription="@string/aurora_avatar_desc"
             style="@style/aurora_msgitem_sender_avatar_style"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -27,6 +27,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   
   
   weak var delegate: IMUIInputViewDelegate?
+  var finishiRecorderCache:(voiceFilePath: String, duration: TimeInterval)?
   
   var inputViewDelegate: IMUIInputViewDelegate? {
     set {
@@ -73,7 +74,6 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   
   @IBAction func startRecordVoice(_ sender: Any) {
 
-
     switch AVAudioSession.sharedInstance().recordPermission() {
       case AVAudioSessionRecordPermission.granted:
         self.swtichToPlayModeBtn.isHidden = false
@@ -93,7 +93,10 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         }
       case AVAudioSessionRecordPermission.denied:
         break
+      
       case AVAudioSessionRecordPermission.undetermined:
+        AVAudioSession.sharedInstance().requestRecordPermission({ (granted) in })
+        
         break
       default:
         break
@@ -154,7 +157,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   }
   
   @IBAction func sendRecordedVoice(_ sender: Any) {
-    self.finishRecordVoice()
+    self.inputViewDelegate?.finishRecordVoice?(self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
   }
   
   @IBAction func playRecordedVoice(_ sender: IMUIProgressButton) {
@@ -177,12 +180,12 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     do {
       let voiceData = try Data(contentsOf: URL(fileURLWithPath: recordHelper.recordPath!))
 
-      IMUIAudioPlayerHelper.sharedInstance.playAudioWithData(voiceData, progressCallback: { (currentTime, duration) in
+      IMUIAudioPlayerHelper.sharedInstance.playAudioWithData("",voiceData, progressCallback: { (identify, currentTime, duration) in
         self.playVoiceBtn.progress = CGFloat(currentTime/duration)
         
-      }, finishCallBack: { 
+      }, finishCallBack: { (identify) in
         self.playVoiceBtn.isSelected = false
-      })
+      }, stopCallBack: {id in })
     } catch {
       print("fail to play recorded voice!")
       print(error)
@@ -234,7 +237,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       
       if self.swtichToPlayModeBtn.isSelected {
         self.switchToPlayVoiceModel()
-        self.recordHelper.stopRecord()
+        self.finishiRecorderCache = recordHelper.finishRecordingCompletion()
         return
       }
       

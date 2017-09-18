@@ -7,6 +7,7 @@
 //
 
 #import "RCTAuroraIMUIModule.h"
+#import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
 
 @interface RCTAuroraIMUIModule () {
 }
@@ -46,6 +47,9 @@ RCT_EXPORT_METHOD(appendMessages:(NSArray *)messages) {
   [[NSNotificationCenter defaultCenter] postNotificationName:kAppendMessages object: messages];
 }
 
+RCT_EXPORT_METHOD(removeMessage:(NSString *)messageId) {
+  [[NSNotificationCenter defaultCenter] postNotificationName:kRemoveMessage object: messageId];
+}
 
 RCT_EXPORT_METHOD(updateMessage:(NSDictionary *)message) {
   [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateMessge object: message];
@@ -61,6 +65,10 @@ RCT_EXPORT_METHOD(scrollToBottom:(BOOL) animate) {
 
 RCT_EXPORT_METHOD(hidenFeatureView:(BOOL) animate) {
   [[NSNotificationCenter defaultCenter] postNotificationName:kHidenFeatureView object: @(animate)];
+}
+
+RCT_EXPORT_METHOD(stopPlayVoice) {
+  [[IMUIAudioPlayerHelper sharedInstance] stopAudio];
 }
 
 @end

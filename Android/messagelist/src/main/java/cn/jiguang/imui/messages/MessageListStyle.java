@@ -28,7 +28,8 @@ public class MessageListStyle extends Style {
     private int avatarWidth;
     private int avatarHeight;
     private int avatarRadius;
-    private int showDisplayName;
+    private int showSenderDisplayName;
+    private int showReceiverDisplayName;
     private int receiveBubbleDrawable;
     private int receiveBubbleColor;
     private int receiveBubblePressedColor;
@@ -91,8 +92,8 @@ public class MessageListStyle extends Style {
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_height_msg_avatar));
         style.avatarRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_avatarRadius,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_radius_avatar_default));
-        style.showDisplayName = typedArray.getInt(R.styleable.MessageList_showDisplayName, 0);
-
+        style.showSenderDisplayName = typedArray.getInt(R.styleable.MessageList_showSenderDisplayName, 0);
+        style.showReceiverDisplayName = typedArray.getInt(R.styleable.MessageList_showReceiverDisplayName, 0);
         style.receiveBubbleDrawable = typedArray.getResourceId(R.styleable.MessageList_receiveBubbleDrawable, -1);
         style.receiveBubbleColor = typedArray.getColor(R.styleable.MessageList_receiveBubbleColor,
                 ContextCompat.getColor(context, R.color.aurora_msg_receive_bubble_default_color));
@@ -207,8 +208,12 @@ public class MessageListStyle extends Style {
         this.avatarRadius = radius;
     }
 
-    public int getShowDisplayName() {
-        return showDisplayName;
+    public int getShowSenderDisplayName() {
+        return showSenderDisplayName;
+    }
+
+    public int getShowReceiverDisplayName() {
+        return showReceiverDisplayName;
     }
 
     public void setReceiveBubbleDrawable(int resId) {
@@ -267,7 +272,7 @@ public class MessageListStyle extends Style {
         return this.eventTextColor;
     }
 
-    public void setEventTextSize(int textSize) {
+    public void setEventTextSize(float textSize) {
         this.eventTextSize = textSize;
     }
 
@@ -287,8 +292,12 @@ public class MessageListStyle extends Style {
         this.avatarHeight = avatarHeight;
     }
 
-    public void setShowDisplayName(int showDisplayName) {
-        this.showDisplayName = showDisplayName;
+    public void setShowSenderDisplayName(int showSenderDisplayName) {
+        this.showSenderDisplayName = showSenderDisplayName;
+    }
+
+    public void setShowReceiverDisplayName(int showReceiverDisplayName) {
+        this.showReceiverDisplayName = showReceiverDisplayName;
     }
 
     public void setReceiveBubbleColor(int receiveBubbleColor) {

@@ -23,6 +23,7 @@
 
 @property(nonatomic, copy) RCTBubblingEventBlock onAvatarClick;
 @property(nonatomic, copy) RCTBubblingEventBlock onMsgClick;
+@property(nonatomic, copy) RCTBubblingEventBlock onMsgLongClick;
 @property(nonatomic, copy) RCTBubblingEventBlock onStatusViewClick;
 
 @property(nonatomic, copy) RCTBubblingEventBlock onBeginDragMessageList;
@@ -51,7 +52,9 @@
 
 @property(assign, nonatomic)BOOL isShowOutgoingDisplayName;
 
-@property(assign, nonatomic)BOOL isShowIncommingDisplayName;
+@property(assign, nonatomic)BOOL isShowIncomingDisplayName;
+
+@property(assign, nonatomic)BOOL isAllowPullToRefresh;
 
 @property(strong, nonatomic) NSDictionary *sendBubblePadding;
 

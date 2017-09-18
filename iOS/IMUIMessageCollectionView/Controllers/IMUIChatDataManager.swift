@@ -55,6 +55,18 @@ class IMUIChatDataManager: NSObject {
     allMessageDic[message.msgId] = message
   }
   
+  func removeMessage(with messageId: String) {
+    if messageId == "" {
+      print("the msgId is empty, cann't update message")
+      return
+    }
+    allMessageDic.removeValue(forKey: messageId)
+    if let index = allMsgidArr.index(of: messageId) {
+      allMsgidArr.remove(at: index)
+    }
+  }
+  
+  
   func insertMessage(with message: IMUIMessageProtocol) {
     if message.msgId == "" {
       print("the msgId is empty, cann't insert message")

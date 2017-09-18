@@ -17,6 +17,7 @@ public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol
   fileprivate var isMediaActivity = false
   var message: IMUIMessageModelProtocol?
   var voiceDuration = UILabel()
+  fileprivate var voiceImageIndex = 0
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -37,10 +38,6 @@ public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol
   public func layoutContentView(message: IMUIMessageModelProtocol) {
     self.message = message
     
-    
-//    let asset = AVURLAsset(url: URL(fileURLWithPath: (message.mediaFilePath())), options: nil)
-//    let seconds = Int (CMTimeGetSeconds(asset.duration))
-    
     let seconds = Int(message.duration)
     if seconds/3600 > 0 {
       voiceDuration.text = "\(seconds/3600):\(String(format: "%02d", (seconds/3600)%60)):\(seconds%60)"
@@ -50,32 +47,64 @@ public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol
 
     self.layoutToVoice(isOutGoing: message.isOutGoing)
     
+    IMUIAudioPlayerHelper.sharedInstance.renewProgressCallback(message.msgId) { (id,currendTime, duration) in
+      if self.message?.msgId == id {
+        self.setImage(with: Int(currendTime*4)%3 + 1)
+      }
+    }
   }
   
   func onTapContentView() {
-    if !isMediaActivity {
+    if self.isMediaActivity {
+      self.isMediaActivity = false
+      IMUIAudioPlayerHelper.sharedInstance.stopAudio()
+      self.resetVoiceImage()
+    } else {
+      
       do {
         let voiceData = try Data(contentsOf: URL(fileURLWithPath: (message?.mediaFilePath())!))
         IMUIAudioPlayerHelper
           .sharedInstance
-          .playAudioWithData(voiceData,
-           progressCallback: { (currendTime, duration) in
-            
-        },
-             finishCallBack: {
-              self.isMediaActivity = false
-        })
+          .playAudioWithData((self.message?.msgId)!,voiceData,
+                             progressCallback: { (id,currendTime, duration) in
+                                if self.message?.msgId == id {
+                                  self.setImage(with: Int(currendTime*4)%3 + 1)
+                                }
+                              },
+                             finishCallBack: { id in
+                                if self.message?.msgId == id {
+                                  self.isMediaActivity = false
+                                  self.resetVoiceImage()
+                                }
+                              },
+                             stopCallBack: {id in
+                                if self.message?.msgId == id {
+                                  self.isMediaActivity = false
+                                  self.resetVoiceImage()
+                                }
+                              })
       } catch {
         print("load voice file fail")
       }
       
-    } else {
-      IMUIAudioPlayerHelper.sharedInstance.stopAudio()
-      
+      self.isMediaActivity = true
     }
-    
-    
-    isMediaActivity = !isMediaActivity
+  }
+  
+  func resetVoiceImage() {
+    if (message?.isOutGoing)! {
+      self.voiceImg.image = UIImage.imuiImage(with: "outgoing_voice_3")
+    } else {
+      self.voiceImg.image = UIImage.imuiImage(with: "incoming_voice_3")
+    }
+  }
+  
+  func setImage(with index:Int) {
+    if (message?.isOutGoing)! {
+      self.voiceImg.image = UIImage.imuiImage(with: "outgoing_voice_\(index)")
+    } else {
+      self.voiceImg.image = UIImage.imuiImage(with: "incoming_voice_\(index)")
+    }
   }
   
   func layoutToVoice(isOutGoing: Bool) {

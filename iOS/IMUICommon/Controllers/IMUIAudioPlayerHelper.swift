@@ -24,22 +24,51 @@ public class IMUIAudioPlayerHelper: NSObject {
   weak var delegate:IMUIAudioPlayerDelegate?
 
   // play tick callback
-  public typealias ProgressCallback = (_ currentTime: TimeInterval, _ duration: TimeInterval) -> ()
-  public typealias FinishCallback = () -> ()
+  public typealias ProgressCallback = (_ identify: String, _ currentTime: TimeInterval, _ duration: TimeInterval) -> ()
+  public typealias FinishCallback = (String) -> ()
+  public typealias StopCallback = (String) -> ()
   
   var playProgressCallback: ProgressCallback?
   var playFinishCallback: FinishCallback?
+  var playStopCallback: StopCallback?
+  
   var updater: CADisplayLink! = nil
+  var identify = ""
   
   override init() {
     super.init()
+    NotificationCenter.default.addObserver(self, selector: #selector(sensorStateChange), name: NSNotification.Name.UIDeviceProximityStateDidChange, object: nil)
+  }
+  
+  func sensorStateChange() {
+    do {
+      if UIDevice.current.proximityState {
+        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+      } else {
+        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+      }
+    } catch let error as NSError {
+      print("set category fail \(error)")
+    }
     
   }
   
-  open func playAudioWithData(_ voiceData:Data, progressCallback: @escaping ProgressCallback, finishCallBack: @escaping FinishCallback) {
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  open func playAudioWithData(_ identify: String,
+                              _ voiceData: Data,
+                              progressCallback: @escaping ProgressCallback,
+                              finishCallBack: @escaping FinishCallback,
+                              stopCallBack: @escaping StopCallback) {
+    self.stopAudio()
     do {
+      self.identify = identify
       self.playProgressCallback = progressCallback
       self.playFinishCallback = finishCallBack
+      self.playStopCallback = stopCallBack
+      
       try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
       updater = CADisplayLink(target: self, selector: #selector(self.trackAudio))
       updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
@@ -65,8 +94,14 @@ public class IMUIAudioPlayerHelper: NSObject {
     UIDevice.current.isProximityMonitoringEnabled = true
   }
   
+  open func renewProgressCallback(_ identfy: String, progressCallback: @escaping ProgressCallback) {
+    if identfy == self.identify {
+      self.playProgressCallback = progressCallback
+    }
+  }
+  
   func trackAudio() {
-    self.playProgressCallback?(player.currentTime, player.duration)
+    self.playProgressCallback?(self.identify ,player.currentTime, player.duration)
   }
   
   func pausePlayingAudio() {
@@ -81,10 +116,16 @@ public class IMUIAudioPlayerHelper: NSObject {
   }
   
   open func stopAudio() {
-    if self.player.isPlaying {
-      self.player.stop()
+    self.playProgressCallback = nil
+    updater?.invalidate()
+    if (self.player != nil) && self.player.isPlaying {
+      self.player?.stop()
     }
-    updater.invalidate()
+    
+//    DispatchQueue.main.async {
+      self.playStopCallback?(self.identify)
+//    }
+  
     UIDevice.current.isProximityMonitoringEnabled = false
     self.delegate?.didAudioPlayerStopPlay(self.player)
   }
@@ -95,6 +136,6 @@ public class IMUIAudioPlayerHelper: NSObject {
 extension IMUIAudioPlayerHelper: AVAudioPlayerDelegate {
   public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
     self.stopAudio()
-    self.playFinishCallback?()
+    self.playFinishCallback?(self.identify)
   }
 }

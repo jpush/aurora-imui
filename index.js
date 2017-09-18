@@ -39,6 +39,14 @@ class AuroraIMUIController {
 	}
 
 	/**
+	 * remove message from messageList
+	 * @param {String} messageId
+	 */
+	static removeMessage(messageId) {
+		AuroraIMUIModule.removeMessage(messageId)
+	}
+
+	/**
 	 * scroll messageList to bottom
 	 * @param {Boolean} animate 
 	 */
@@ -54,6 +62,27 @@ class AuroraIMUIController {
 		AuroraIMUIModule.hidenFeatureView(animate)
 	}
 
+	/**
+	 * stop play voice 
+	 */
+	static stopPlayVoice() {
+		AuroraIMUIModule.stopPlayVoice()
+	}
+
+	/**
+	 * pause play voice 
+	 */
+	static pauseVoice() {
+		AuroraIMUIModule.stopPlayVoice()
+	}
+
+	/**
+	 * stop play voice 
+	 */
+	static stopPlayVoice() {
+		AuroraIMUIModule.stopPlayVoice()
+	}
+	
 	/**
 	 * add listener: messageList did Loaded will call cb
 	 * @param {Function} cb 

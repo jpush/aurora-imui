@@ -42,9 +42,11 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
     self.avatarImage.layer.cornerRadius = CGFloat(IMUIBaseMessageCell.avatarCornerRadius)
     
     let bubbleGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapBubbleView))
+    let longPressBubbleGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longTapBubbleView))
     bubbleGesture.numberOfTapsRequired = 1
     self.bubbleView.isUserInteractionEnabled = true
     self.bubbleView.addGestureRecognizer(bubbleGesture)
+    self.bubbleView.addGestureRecognizer(longPressBubbleGesture)
     
     let avatarGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapHeaderImage))
     avatarGesture.numberOfTapsRequired = 1
@@ -167,6 +169,13 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
   
   func tapBubbleView() {
     self.delegate?.messageCollectionView?(didTapMessageBubbleInCell: self, model: self.message!)
+  }
+  
+  func longTapBubbleView(sender: UITapGestureRecognizer) {
+    if (sender.state == .began) {
+        self.delegate?.messageCollectionView?(beganLongTapMessageBubbleInCell: self, model: self.message!)
+    }
+    
   }
   
   func tapHeaderImage() {

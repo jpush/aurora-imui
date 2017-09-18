@@ -108,6 +108,9 @@ MessageList.propTypes = {
   eventMsgTxtPadding: PropTypes.number,
   eventMsgTxtSize: PropTypes.number,
   avatarCornerRadius: PropTypes.number,
+  isShowIncomingDisplayName: PropTypes.bool,
+  isShowOutgoingDisplayName: PropTypes.bool,
+  isAllowPullToRefresh: PropTypes.bool,
   ...View.propTypes
 };
 

@@ -146,7 +146,7 @@ message = {  // event message
 
 - onBeginDragMessageList (iOS only)
 
-  ### MessageList append/update/insert message event:
+### MessageList append/update/insert message function:
 
   For append/update/insert message to MessageList, you will use `AuroraIMUIController`(Native Module) to send event to native.
 
@@ -259,6 +259,16 @@ AuroraIMUIController.insertMessagesToTop(messages);
 
   ```javascript
   AuroraIMUIController.removeMessageListDidLoadListener(cb)
+  ```
+
+- stopPlayVoice()
+
+  stop play voice.
+
+  example:
+
+  ```
+  AuroraIMUIController.stopPlayVoice()
   ```
 
   ​

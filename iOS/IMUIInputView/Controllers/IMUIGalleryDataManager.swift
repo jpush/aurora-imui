@@ -15,16 +15,18 @@ class IMUIGalleryDataManager: NSObject {
   
   private static var _allAssets = [PHAsset]()
   static var allAssets : [PHAsset] {
-    get{
+    get {
       if _allAssets.count < 1 {
         updateAssets()
       }
+      
       return _allAssets
     }
   }
   
   class func updateAssets(){
     let options = PHFetchOptions()
+    _allAssets.removeAll()
     options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
     let assetFetchResult = PHAsset.fetchAssets(with: options)
     assetFetchResult.enumerateObjects({(asset, _, _) in

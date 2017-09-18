@@ -59,6 +59,8 @@ public class ChatView extends RelativeLayout {
 
         mMsgList = (MessageList) findViewById(R.id.msg_list);
         mMsgList.setHasFixedSize(true);
+//        mMsgList.setShowReceiverDisplayName(0);
+//        mMsgList.setShowSenderDisplayName(1);
     }
 
     public void setTitle(String title) {

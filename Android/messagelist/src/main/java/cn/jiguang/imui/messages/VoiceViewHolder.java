@@ -19,11 +19,12 @@ import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.view.RoundImageView;
 
 public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
-        implements MsgListAdapter.DefaultMessageViewHolder {
+        implements MsgListAdapter.DefaultMessageViewHolder, ViewHolderController.ReplayVoiceListener {
 
     private boolean mIsSender;
     private TextView mMsgTv;
     private TextView mDateTv;
+    private TextView mDisplayNameTv;
     private RoundImageView mAvatarIv;
     private ImageView mVoiceIv;
     private TextView mLengthTv;
@@ -49,11 +50,14 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mLengthTv = (TextView) itemView.findViewById(R.id.aurora_tv_voice_length);
         if (!isSender) {
             mUnreadStatusIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_read_status);
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_receiver_display_name);
         } else {
             mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
+            mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_sender_display_name);
         }
         mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
         mController = ViewHolderController.getInstance();
+        mController.setReplayVoiceListener(this);
     }
 
     @Override
@@ -79,7 +83,9 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         int width = (int) (-0.04 * duration * duration + 4.526 * duration + 75.214);
         mMsgTv.setWidth((int) (width * mDensity));
         mLengthTv.setText(lengthStr);
-
+        if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
+            mDisplayNameTv.setText(message.getFromUser().getDisplayName());
+        }
         if (mIsSender) {
             switch (message.getMessageStatus()) {
                 case SEND_GOING:
@@ -135,6 +141,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 //                    mVoiceAnimation = null;
 //                }
                 mController.notifyAnimStop();
+                mController.setMessage(message);
                 if (mIsSender) {
                     mVoiceIv.setImageResource(mPlaySendAnim);
                 } else {
@@ -196,11 +203,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             mMediaPlayer.reset();
             mFIS = new FileInputStream(message.getMediaFilePath());
             mMediaPlayer.setDataSource(mFIS.getFD());
-            if (mIsEarPhoneOn) {
-                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
-            } else {
-                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            }
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
             mMediaPlayer.prepare();
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -258,9 +261,19 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             if (style.getSendingIndeterminateDrawable() != null) {
                 mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
             }
+            if (style.getShowSenderDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
+            }
         } else {
             mVoiceIv.setImageResource(mReceiveDrawable);
             mMsgTv.setBackground(style.getReceiveBubbleDrawable());
+            if (style.getShowReceiverDisplayName() == 1) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
+            }
         }
 
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
@@ -268,5 +281,19 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         layoutParams.height = style.getAvatarHeight();
         mAvatarIv.setLayoutParams(layoutParams);
         mAvatarIv.setBorderRadius(style.getAvatarRadius());
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void replayVoice() {
+        pauseVoice();
+        mController.notifyAnimStop();
+        if (mIsSender) {
+            mVoiceIv.setImageResource(mPlaySendAnim);
+        } else {
+            mVoiceIv.setImageResource(mPlayReceiveAnim);
+        }
+        mVoiceAnimation = (AnimationDrawable) mVoiceIv.getBackground();
+        playVoice(mController.getLastPlayPosition(), (MESSAGE) mController.getMessage());
     }
 }

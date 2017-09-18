@@ -38,7 +38,7 @@ function constructNormalMessage() {
     message.timeString = ""
     var user = {
           userId: "",
-          displayName: "",
+          displayName: "replace your nickname",
           avatarPath: ""
     }
     message.fromUser = user
@@ -49,37 +49,48 @@ function constructNormalMessage() {
 export default class TestRNIMUI extends Component {
   constructor(props) {
     super(props);
-    this.state = { inputViewLayout: {width:window.width, height:86,}};
+    this.state = { 
+      inputViewLayout: {width:window.width, height:86,},
+      isAllowPullToRefresh: true,
+    };
     
     this.updateLayout = this.updateLayout.bind(this);
   }
 
   componentDidMount() {  
-    AuroraIController.addMessageListDidLoadListener(() => {
+    // AuroraIController.addMessageListDidLoadListener(() => {
 
-      var messages = []
-      for(var i=0; i<14; i++){
-        var message = constructNormalMessage()
-        message.msgType = "text"
-        message.text = "" + i
-        AuroraIController.insertMessagesToTop([message])      
-    }
-    AuroraIController.insertMessagesToTop(messages)
-    });
+    //   var messages = []
+    //   for(var i=0; i<14; i++){
+    //     var message = constructNormalMessage()
+    //     message.msgType = "text"
+    //     message.text = "" + i
+    //     AuroraIController.insertMessagesToTop([message])      
+    // }
+    // AuroraIController.insertMessagesToTop(messages)
+    // });
   }
 
+  componentWillUnmount() {
+
+  }
   updateLayout(layout) {
     this.setState({inputViewLayout: layout})
   }
 
   onAvatarClick = (message) => {
-      console.log(message)
+      // AuroraIController.stopPlayVoice()
+      Alert.alert()
+      AuroraIController.removeMessage(message.msgId)
     }
 
   onMsgClick = (message) => {
       console.log(message)
     }
     
+  onMsgLongClick = (message) => {
+    Alert.alert('message bubble on long press', 'message bubble on long press')
+  }
   onStatusViewClick = (message) => {
       console.log(message)
       message.status = 'send_succeed'
@@ -97,13 +108,29 @@ export default class TestRNIMUI extends Component {
     }
 
   onSendText = (text) => {
-
+    this.setState({isAllowPullToRefresh: !this.state.isAllowPullToRefresh})
     var message = constructNormalMessage()
     
     message.msgType = "text"
     message.text = text
-    message.timeString = 'fsdafafaf'
+    // message.timeString = 'fsdafafaf'
     
+    var user = {
+      userId: "fasdf",
+      displayName: "asfddsfa",
+      avatarPath: ""
+    }
+    message.fromUser = user
+    var evenmessage = constructNormalMessage()
+    
+    message.msgType = "text"
+    message.text = text
+
+    var eventMessage = constructNormalMessage()
+    eventMessage.msgType ='event'
+    eventMessage.text = "fadsfasfasdfsadfasdf"
+    eventMessage.fromUser = undefined
+    AuroraIController.appendMessages([eventMessage])
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
   }
@@ -126,6 +153,7 @@ export default class TestRNIMUI extends Component {
     var message = constructNormalMessage()
     message.msgType = "voice"
     message.mediaPath = mediaPath
+    message.timeString = "safsdfa"
     message.duration = duration
     AuroraIController.appendMessages([message])
   }
@@ -138,7 +166,7 @@ export default class TestRNIMUI extends Component {
     console.log("on start record video")
   }
 
-  onFinishRecordVideo = (mediaPath) => {
+  onFinishRecordVideo = (mediaPath,duration) => {
     var message = constructNormalMessage()
 
     message.msgType = "video"
@@ -161,6 +189,7 @@ export default class TestRNIMUI extends Component {
       var message = constructNormalMessage()
       message.msgType = "image"
       message.mediaPath = mediaFiles[index].mediaPath
+      message.timeString = "8:00"
       AuroraIController.appendMessages([message])
       AuroraIController.scrollToBottom(true)
     }
@@ -195,14 +224,18 @@ export default class TestRNIMUI extends Component {
         <MessageListView style={styles.messageList}
         onAvatarClick={this.onAvatarClick}
         onMsgClick={this.onMsgClick}
+        onMsgLongClick={this.onMsgLongClick}
         onStatusViewClick={this.onStatusViewClick}
         onTapMessageCell={this.onTapMessageCell}
         onBeginDragMessageList={this.onBeginDragMessageList}
         onPullToRefresh={this.onPullToRefresh}
         avatarSize={{width:40,height:40}}
         sendBubbleTextSize={18}
-        sendBubbleTextColor={"000000"}
-        sendBubblePadding={{left:10,top:10,right:10,bottom:10}}
+        sendBubbleTextColor={"#7587A8"}
+        sendBubblePadding={{left:10,top:10,right:15,bottom:10}}
+        isShowIncomingDisplayName={true}
+        isShowOutgoingDisplayName={true}
+        isAllowPullToRefresh={this.state.isAllowPullToRefresh}
         />
         <InputView style={this.state.inputViewLayout}
         onSendText={this.onSendText}
