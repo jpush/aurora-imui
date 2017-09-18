@@ -1,15 +1,14 @@
 //
-//  IMUICameraCell.swift
-//  IMUIChat
+//  IMUICameraView.swift
+//  sample
 //
-//  Created by oshumini on 2017/3/9.
+//  Created by oshumini on 2017/9/15.
 //  Copyright © 2017年 HXHG. All rights reserved.
 //
 
 import UIKit
 import Photos
 import AVFoundation
-
 
 private enum SessionSetupResult {
 		case success
@@ -22,11 +21,16 @@ private enum LivePhotoMode {
 		case off
 }
 
-
-// TODO: Need to Restructure
 @available(iOS 8.0, *)
-class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
+class IMUICameraView: UIView {
 
+  public typealias PathCallback = (String, Double) -> ()
+  public typealias DataCallback = (Data) -> ()
+  var recordVideoCallback: PathCallback?
+  var shootPictureCallback: DataCallback?
+  
+  @IBOutlet var view: UIView!
+  
   @IBOutlet weak var switchCameraModeBtn: UIButton!
   @IBOutlet weak var cameraShotBtn: UIButton!
   @IBOutlet weak var videoRecordBtn: UIButton!
@@ -35,33 +39,18 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   @IBOutlet weak var resizeCameraPreviewBtn: UIButton!
   @IBOutlet weak var cameraPreviewView: IMUICameraPreviewView!
   
-  @IBOutlet weak var cameraView: IMUICameraView!
-  
   var inConfiging: Bool = false
   var currentCameraDeviceType: AVCaptureDevicePosition = .back
-//  var backCameraVideoCapture: AVCaptureDevice?
-//  var frontCameraVideoCapture: AVCaptureDevice?
   
   var currentCameraDevice: AVCaptureDeviceInput?
   
-  weak var delegate: IMUIInputViewDelegate?
-  
   var isActivity = true
-  
-  var inputViewDelegate: IMUIInputViewDelegate? {
-    set {
-      self.delegate = newValue
-    }
-    
-    get {
-      return self.delegate
-    }
-  }
-  
-  override func awakeFromNib() {
+
+  open override func awakeFromNib() {
     super.awakeFromNib()
+  
     self.videoRecordBtn.isHidden = true
-    
+    self.layer.masksToBounds = true
     cameraPreviewView.session = session
     
     switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) {
@@ -86,6 +75,16 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     sessionQueue.async { [unowned self] in
       self.configureSession()
     }
+  }
+  
+  required public init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+
+    let bundle = Bundle.imuiInputViewBundle()
+    view = bundle.loadNibNamed("IMUICameraView", owner: self, options: nil)?.first as! UIView
+    
+    self.addSubview(view)
+    view.frame = self.bounds
   }
   
   private func configureSession() {
@@ -216,8 +215,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       case .configurationFailed:
         print("Unable to capture media")
       }
-      
-      self.cameraView.activateMedia()
     }
     
     self.videoRecordBtn.isHidden = true
@@ -226,11 +223,10 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     self.cameraShotBtn.isSelected = false
     self.switchCameraModeBtn.isSelected = false
     isPhotoMode = true
-//    self.chooseCamera(with: .back)
+    //    self.chooseCamera(with: .back)
   }
   
   func inactivateMedia() {
-    self.cameraView.inactivateMedia()
     isActivity = false
     
     if let videofile = videoFileOutput {
@@ -250,7 +246,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     session.removeInput(currentCameraDevice)
     
     // add new camera device
-
+    
     var defaultVideoDevice: AVCaptureDevice?
     
     if #available(iOS 10.0, *) {
@@ -262,7 +258,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       }
       
       if cameraDevicePosition == .back {
-      
+        
         if let dualCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .back) {
           if defaultVideoDevice == nil {
             defaultVideoDevice = dualCameraDevice
@@ -276,7 +272,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           }
         }
       }
-    
+      
     } else {
       
       for device in AVCaptureDevice.devices() {
@@ -331,7 +327,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       session.commitConfiguration()
       self.inConfiging = false
     }
-
+    
   }
   
   private var _inProgressPhotoCaptureDelegates: Any?
@@ -357,7 +353,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       self.cameraShotBtn.isSelected = !isPhotoMode
     }
   }
-
+  
   private let stillImageOutput = AVCaptureStillImageOutput()
   private let session = AVCaptureSession()
   private var setupResult: SessionSetupResult = .success
@@ -376,11 +372,11 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       _photoOutput = newValue
     }
   }
-
+  
   var videoDeviceInput: AVCaptureDeviceInput!
   private var livePhotoMode: LivePhotoMode = .off
   var backgroundRecordingID: UIBackgroundTaskIdentifier? = nil
-
+  
   private var isSessionRunning = false
   private var sessionRunningObserveContext = 0
   private let sessionQueue = DispatchQueue(label: "session queue", attributes: [], target: nil) // Communicate with the session and other session objects on this
@@ -395,7 +391,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         self.capturePhotoBefore_iOS8()
       }
     } else {
-
+      
       if !(videoFileOutput!.isRecording) {
         
         let outputPath = self.getPath()
@@ -418,14 +414,14 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         videoFileOutput?.stopRecording()
       }
     }
-
+    
   }
   
   @IBAction func clickVideoRecordSwitch(_ sender: Any) {
     videoRecordBtn.isSelected = !videoRecordBtn.isSelected
     
     if !(videoFileOutput!.isRecording) {
-
+      
       let outputPath = self.getPath()
       let fileManager = FileManager()
       if fileManager.fileExists(atPath: outputPath) {
@@ -445,7 +441,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     } else {
       videoFileOutput?.stopRecording()
     }
-
+    
   }
   
   @IBAction func clickToSwitchCamera(_ sender: Any) {
@@ -521,10 +517,10 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           let inProgressLivePhotoCapturesCount = self.inProgressLivePhotoCapturesCount
           DispatchQueue.main.async {
             if inProgressLivePhotoCapturesCount > 0 {
-
+              
             }
             else if inProgressLivePhotoCapturesCount == 0 {
-
+              
             }
               
             else {
@@ -533,7 +529,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
           }
         }
       }, completed: { [unowned self] photoCaptureDelegate in
-        self.inputViewDelegate?.didShootPicture?(picture: photoCaptureDelegate.photoData!)
+        self.shootPictureCallback?(photoCaptureDelegate.photoData!)
         self.sessionQueue.async { [unowned self] in
           self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = nil
         }
@@ -546,7 +542,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   }
   
   private func capturePhotoBefore_iOS8() {
-
+    
     stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
     
     var videoConnection: AVCaptureConnection? = nil
@@ -576,8 +572,8 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       }
       
       let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
-      
-      self.inputViewDelegate?.didShootPicture?(picture: imageData!)
+
+      self.shootPictureCallback?(imageData!)
       let image = UIImage(data: imageData!)
       
       UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
@@ -597,24 +593,24 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   }
 }
 
-//extension UIInterfaceOrientation {
-//  var videoOrientation: AVCaptureVideoOrientation? {
-//    switch self {
-//    case .portrait: return .portrait
-//    case .portraitUpsideDown: return .portraitUpsideDown
-//    case .landscapeLeft: return .landscapeLeft
-//    case .landscapeRight: return .landscapeRight
-//    default: return nil
-//    }
-//  }
-//}
+extension UIInterfaceOrientation {
+  var videoOrientation: AVCaptureVideoOrientation? {
+    switch self {
+    case .portrait: return .portrait
+    case .portraitUpsideDown: return .portraitUpsideDown
+    case .landscapeLeft: return .landscapeLeft
+    case .landscapeRight: return .landscapeRight
+    default: return nil
+    }
+  }
+}
 
 
-extension IMUICameraCell: AVCaptureFileOutputRecordingDelegate {
+extension IMUICameraView: AVCaptureFileOutputRecordingDelegate {
   func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
     if error == nil {
       if isActivity {
-        self.inputViewDelegate?.finishRecordVideo?(videoPath: outputFileURL.path, durationTime: captureOutput.recordedDuration.seconds)
+        self.recordVideoCallback?(outputFileURL.path, captureOutput.recordedDuration.seconds)
       } else {
         let fileManager = FileManager()
         if fileManager.fileExists(atPath: outputFileURL.path) {
@@ -632,6 +628,8 @@ extension IMUICameraCell: AVCaptureFileOutputRecordingDelegate {
   }
   
   func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-
+    
   }
+
+
 }
