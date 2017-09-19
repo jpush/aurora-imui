@@ -26,8 +26,8 @@ class IMUICameraView: UIView {
 
   public typealias PathCallback = (String, Double) -> ()
   public typealias DataCallback = (Data) -> ()
-  var recordVideoCallback: PathCallback?
-  var shootPictureCallback: DataCallback?
+  public var recordVideoCallback: PathCallback?
+  public var shootPictureCallback: DataCallback?
   
   @IBOutlet var view: UIView!
   

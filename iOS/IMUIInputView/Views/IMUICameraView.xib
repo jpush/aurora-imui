@@ -70,7 +70,7 @@
                             <state key="normal" image="IMUIAssets.bundle/image/video_record_btn_to_play.png"/>
                             <state key="selected" image="IMUIAssets.bundle/image/video_record_btn_to_stop.png"/>
                             <connections>
-                                <action selector="clickCameraSwitch:" destination="-1" eventType="touchUpInside" id="P27-Ro-b5q"/>
+                                <action selector="clickVideoRecordSwitch:" destination="-1" eventType="touchUpInside" id="wX9-V4-fSh"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XfP-ca-Ccm">
@@ -82,7 +82,7 @@
                             <state key="normal" image="IMUIAssets.bundle/image/camera_send_message_btn.png"/>
                             <state key="selected" image="IMUIAssets.bundle/image/camera_recordVD_big_btn.png"/>
                             <connections>
-                                <action selector="clickVideoRecordSwitch:" destination="-1" eventType="touchUpInside" id="1QX-Rq-qNX"/>
+                                <action selector="clickCameraSwitch:" destination="-1" eventType="touchUpInside" id="2YN-Qa-Ruz"/>
                             </connections>
                         </button>
                     </subviews>
