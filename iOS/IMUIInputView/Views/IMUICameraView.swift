@@ -576,8 +576,6 @@ class IMUICameraView: UIView {
       self.shootPictureCallback?(imageData!)
       let image = UIImage(data: imageData!)
       
-      UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
-      
     }
   }
   
