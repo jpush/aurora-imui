@@ -18,17 +18,27 @@
                 <rect key="frame" x="0.0" y="0.0" width="364" height="245"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ec3-2I-Mzt" customClass="IMUICameraView" customModule="sample" customModuleProvider="target">
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ec3-2I-Mzt" customClass="IMUICameraView" customModule="sample" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="364" height="245"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="anl-mn-67f">
+                        <rect key="frame" x="296" y="8" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="88f-dG-rjU"/>
+                            <constraint firstAttribute="height" constant="60" id="fxp-nG-8bC"/>
+                        </constraints>
+                        <state key="normal" image="IMUIAssets.bundle/image/camera_fullscreen_Btn.png"/>
+                        <connections>
+                            <action selector="clickToAdjustCameraViewSize:" destination="gTV-IL-0wX" eventType="touchUpInside" id="tlW-U6-Qs1"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="Ec3-2I-Mzt" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="S5D-Ng-WOP"/>
-                <constraint firstItem="Ec3-2I-Mzt" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="mwb-cI-yB1"/>
-                <constraint firstAttribute="trailing" secondItem="Ec3-2I-Mzt" secondAttribute="trailing" id="xn8-fJ-sqb"/>
-                <constraint firstAttribute="bottom" secondItem="Ec3-2I-Mzt" secondAttribute="bottom" id="yhX-R3-FPA"/>
+                <constraint firstItem="anl-mn-67f" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="HeJ-rv-9FL"/>
+                <constraint firstAttribute="trailing" secondItem="anl-mn-67f" secondAttribute="trailing" constant="8" id="I0J-CD-YOD"/>
             </constraints>
             <size key="customSize" width="364" height="245"/>
             <connections>
@@ -37,4 +47,7 @@
             <point key="canvasLocation" x="182" y="149.5"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="IMUIAssets.bundle/image/camera_fullscreen_Btn.png" width="16" height="16"/>
+    </resources>
 </document>

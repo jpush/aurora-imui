@@ -50,13 +50,14 @@
                                 <action selector="clickToSwitchCamera:" destination="-1" eventType="touchUpInside" id="Gba-71-7DW"/>
                             </connections>
                         </button>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qoz-74-Wz9">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qoz-74-Wz9">
                             <rect key="frame" x="307" y="8" width="60" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="3ZV-Fh-hpj"/>
                                 <constraint firstAttribute="width" constant="60" id="NWp-Q4-ZI4"/>
                             </constraints>
                             <state key="normal" image="IMUIAssets.bundle/image/camera_fullscreen_Btn.png"/>
+                            <state key="selected" image="IMUIAssets.bundle/image/camera_shrink_screen_Btn.png"/>
                             <connections>
                                 <action selector="clickToAdjustCameraViewSize:" destination="-1" eventType="touchUpInside" id="dUa-T6-xex"/>
                             </connections>
@@ -116,6 +117,7 @@
         <image name="IMUIAssets.bundle/image/camera_recordVD_big_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/camera_recordVD_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/camera_send_message_btn.png" width="16" height="16"/>
+        <image name="IMUIAssets.bundle/image/camera_shrink_screen_Btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/switch_camera_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/switch_camera_photo_btn.png" width="16" height="16"/>
         <image name="IMUIAssets.bundle/image/video_record_btn_to_play.png" width="16" height="16"/>

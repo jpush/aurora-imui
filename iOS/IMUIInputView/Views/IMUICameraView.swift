@@ -23,13 +23,18 @@ private enum LivePhotoMode {
 
 @available(iOS 8.0, *)
 class IMUICameraView: UIView {
-
+  
   public typealias PathCallback = (String, Double) -> ()
   public typealias DataCallback = (Data) -> ()
+  public typealias ButtonOnClickCallback = (UIButton) -> ()
+  
   public var recordVideoCallback: PathCallback?
   public var shootPictureCallback: DataCallback?
+  public var onClickFullSizeCallback: ButtonOnClickCallback?
   
   @IBOutlet var view: UIView!
+  
+  var isFullScreenMode = false
   
   @IBOutlet weak var switchCameraModeBtn: UIButton!
   @IBOutlet weak var cameraShotBtn: UIButton!
@@ -46,6 +51,8 @@ class IMUICameraView: UIView {
   
   var isActivity = true
 
+
+  
   open override func awakeFromNib() {
     super.awakeFromNib()
   
@@ -75,6 +82,15 @@ class IMUICameraView: UIView {
     sessionQueue.async { [unowned self] in
       self.configureSession()
     }
+  }
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    let bundle = Bundle.imuiInputViewBundle()
+    view = bundle.loadNibNamed("IMUICameraView", owner: self, options: nil)?.first as! UIView
+    
+    self.addSubview(view)
+    view.frame = self.bounds
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -470,8 +486,26 @@ class IMUICameraView: UIView {
     }
   }
   
-  @IBAction func clickToAdjustCameraViewSize(_ sender: Any) {
+  @IBAction func clickToAdjustCameraViewSize(_ sender: UIButton) {
+//    if sender.isSelected {
+//      self.cameraVC?.view = UIView()
+//      self.cameraVC?.dismiss(animated: true, completion: { })
+//    } else {
+//      
+//      let rootVC = UIApplication.shared.delegate?.window??.rootViewController
+//      self.cameraVC = UIViewController()
+//      self.cameraVC?.view = self
+//      
+//      
+//      rootVC?.present(self.cameraVC!, animated: true, completion: {
+//        
+//      })
+//      
+//    }
+//
     
+    self.onClickFullSizeCallback?(sender)
+    sender.isSelected = !sender.isSelected
   }
   
   @available(iOS 10.0, *)
