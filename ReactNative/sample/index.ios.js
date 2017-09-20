@@ -196,15 +196,15 @@ export default class TestRNIMUI extends Component {
   }
 
   onSwitchToMicrophoneMode = () => {
-    this.updateLayout({width:window.width, height:256,})
+    this.updateLayout({width:window.width, height:338,})
   }
 
   onSwitchToGalleryMode = () => {
-    this.updateLayout({width:window.width, height:256,})
+    this.updateLayout({width:window.width, height:338,})
   }
 
   onSwitchToCameraMode = () => {
-    this.updateLayout({width:window.width, height:256,})
+    this.updateLayout({width:window.width, height:338,})
   }
 
   onShowKeyboard = (keyboard_height) => {
