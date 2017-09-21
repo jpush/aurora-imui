@@ -40,8 +40,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
@@ -150,6 +148,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public boolean switchToMicrophoneMode() {
+                scrollToBottom();
                 mChatView.getChatInputView().setSoftInputState(true);
                 String[] perms = new String[]{
                         Manifest.permission.RECORD_AUDIO,
@@ -166,6 +165,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public boolean switchToGalleryMode() {
+                scrollToBottom();
                 String[] perms = new String[]{
                         Manifest.permission.READ_EXTERNAL_STORAGE
                 };
@@ -180,6 +180,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public boolean switchToCameraMode() {
+                scrollToBottom();
                 String[] perms = new String[]{
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.CAMERA,
@@ -520,45 +521,49 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         }
     }
 
-    @Override
-    public void onSizeChanged(int w, int h, int oldw, int oldh) {
-//        if (oldh - h > 300) {
-//            mChatView.setMenuHeight(oldh - h);
-//        }
+    private void scrollToBottom() {
         mAdapter.getLayoutManager().scrollToPosition(0);
     }
 
     @Override
+    public void onSizeChanged(int w, int h, int oldw, int oldh) {
+        if (oldh - h > 300) {
+            mChatView.setMenuHeight(oldh - h);
+        }
+        scrollToBottom();
+    }
+
+    @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-//        switch (motionEvent.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                ChatInputView chatInputView = mChatView.getChatInputView();
-//
-//                if (view.getId() == chatInputView.getInputView().getId()) {
-//
-//                    if (chatInputView.getMenuState() == View.VISIBLE
-//                            && !chatInputView.getSoftInputState()) {
-//                        chatInputView.dismissMenuAndResetSoftMode();
-//                        return false;
-//                    } else {
-//                        return false;
-//                    }
-//                }
-//                if (chatInputView.getMenuState() == View.VISIBLE) {
-//                    chatInputView.dismissMenuLayout();
-//                }
-//                if (chatInputView.getSoftInputState()) {
-//                    View v = getCurrentFocus();
-//
-//                    if (mImm != null && v != null) {
-//                        mImm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-//                        mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-//                                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//                        chatInputView.setSoftInputState(false);
-//                    }
-//                }
-//                break;
-//        }
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                ChatInputView chatInputView = mChatView.getChatInputView();
+
+                if (view.getId() == chatInputView.getInputView().getId()) {
+
+                    if (chatInputView.getMenuState() == View.VISIBLE
+                            && !chatInputView.getSoftInputState()) {
+                        chatInputView.dismissMenuAndResetSoftMode();
+                        return false;
+                    } else {
+                        return false;
+                    }
+                }
+                if (chatInputView.getMenuState() == View.VISIBLE) {
+                    chatInputView.dismissMenuLayout();
+                }
+                if (chatInputView.getSoftInputState()) {
+                    View v = getCurrentFocus();
+
+                    if (mImm != null && v != null) {
+                        mImm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                        mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        chatInputView.setSoftInputState(false);
+                    }
+                }
+                break;
+        }
         return false;
     }
 

@@ -14,6 +14,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import cn.jiguang.imui.messagelist.event.LoadedEvent;
+import cn.jiguang.imui.messagelist.event.MessageEvent;
+import cn.jiguang.imui.messagelist.event.ScrollEvent;
+import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
+
 public class AuroraIMUIModule extends ReactContextBaseJavaModule {
 
     private final String REACT_MSG_LIST_MODULE = "AuroraIMUIModule";
@@ -75,6 +80,11 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
             rctMessages[i] = rctMessage;
         }
         EventBus.getDefault().post(new MessageEvent(rctMessages, ReactMsgListManager.RCT_INSERT_MESSAGES_ACTION));
+    }
+
+    @ReactMethod
+    public void stopPlayVoice() {
+        EventBus.getDefault().post(new StopPlayVoiceEvent());
     }
 
     private RCTMessage configMessage(ReadableMap message) {

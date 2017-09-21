@@ -1,4 +1,6 @@
-package cn.jiguang.imui.messagelist;
+package cn.jiguang.imui.messagelist.event;
+
+import cn.jiguang.imui.messagelist.RCTMessage;
 
 public class MessageEvent {
 

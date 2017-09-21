@@ -1,4 +1,4 @@
-package cn.jiguang.imui.messagelist;
+package cn.jiguang.imui.messagelist.event;
 
 public class ScrollEvent {
 

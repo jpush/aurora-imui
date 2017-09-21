@@ -27,7 +27,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -47,6 +46,10 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import cn.jiguang.imui.commons.ImageLoader;
+import cn.jiguang.imui.messagelist.event.LoadedEvent;
+import cn.jiguang.imui.messagelist.event.MessageEvent;
+import cn.jiguang.imui.messagelist.event.ScrollEvent;
+import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import cn.jiguang.imui.messages.ViewHolderController;
@@ -202,8 +205,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
         });
         // 通知 AuroraIMUIModule 完成初始化 MessageList
         EventBus.getDefault().post(new LoadedEvent(AuroraIMUIModule.RCT_MESSAGE_LIST_LOADED_ACTION));
-//        Intent intent = new Intent(AuroraIMUIModule.RCT_MESSAGE_LIST_LOADED_ACTION);
-//        reactContext.sendBroadcast(intent);
         return mMessageList;
     }
 
@@ -244,6 +245,11 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
             Log.d("RCTMessageListManager", "Add send message to top");
             mAdapter.addToEnd(Arrays.asList(messages));
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(StopPlayVoiceEvent event) {
+        mAdapter.pauseVoice();
     }
 
     @ReactProp(name = "sendBubble")
