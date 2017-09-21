@@ -650,7 +650,7 @@ public class ChatInputView extends LinearLayout
         }
     }
 
-    private void pauseVoice() {
+    public void pauseVoice() {
         try {
             mMediaPlayer.pause();
         } catch (Exception e) {

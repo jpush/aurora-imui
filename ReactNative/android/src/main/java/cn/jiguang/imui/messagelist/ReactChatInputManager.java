@@ -272,7 +272,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(StopPlayVoiceEvent event) {
-
+        mChatInput.pauseVoice();
     }
 
     @ReactProp(name = "menuContainerHeight")
