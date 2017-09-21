@@ -65,6 +65,8 @@
 		625539A41EF3823200F6A239 /* MessageEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625539A31EF3823100F6A239 /* MessageEventCollectionViewCell.swift */; };
 		625539A61EF3853700F6A239 /* MessageEventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625539A51EF3853700F6A239 /* MessageEventModel.swift */; };
 		625539A81EF3870E00F6A239 /* IMUIMessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625539A71EF3870E00F6A239 /* IMUIMessageProtocol.swift */; };
+		625961171F6BA19900571467 /* IMUICameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 625961161F6BA19900571467 /* IMUICameraView.xib */; };
+		625961191F6BA1BB00571467 /* IMUICameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625961181F6BA1BB00571467 /* IMUICameraView.swift */; };
 		625B68441ECDEFFF007D2CB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625B68431ECDEFFF007D2CB2 /* AppDelegate.swift */; };
 		625B68461ECDEFFF007D2CB2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625B68451ECDEFFF007D2CB2 /* ViewController.swift */; };
 		625B68491ECDEFFF007D2CB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 625B68471ECDEFFF007D2CB2 /* Main.storyboard */; };
@@ -156,6 +158,8 @@
 		625539A31EF3823100F6A239 /* MessageEventCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEventCollectionViewCell.swift; sourceTree = "<group>"; };
 		625539A51EF3853700F6A239 /* MessageEventModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEventModel.swift; sourceTree = "<group>"; };
 		625539A71EF3870E00F6A239 /* IMUIMessageProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageProtocol.swift; sourceTree = "<group>"; };
+		625961161F6BA19900571467 /* IMUICameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUICameraView.xib; sourceTree = "<group>"; };
+		625961181F6BA1BB00571467 /* IMUICameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICameraView.swift; sourceTree = "<group>"; };
 		625B68401ECDEFFF007D2CB2 /* sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		625B68431ECDEFFF007D2CB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		625B68451ECDEFFF007D2CB2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -285,6 +289,8 @@
 		6255393B1EF28F8800F6A239 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				625961181F6BA1BB00571467 /* IMUICameraView.swift */,
+				625961161F6BA19900571467 /* IMUICameraView.xib */,
 				6255393C1EF28F8800F6A239 /* IMUICameraCell.swift */,
 				6255393D1EF28F8800F6A239 /* IMUICameraCell.xib */,
 				6255393E1EF28F8800F6A239 /* IMUICameraPreviewView.swift */,
@@ -587,6 +593,7 @@
 				625539801EF28F8800F6A239 /* IMUIFeatureView.xib in Resources */,
 				625B68491ECDEFFF007D2CB2 /* Main.storyboard in Resources */,
 				6255397D1EF28F8800F6A239 /* IMUICameraCell.xib in Resources */,
+				625961171F6BA19900571467 /* IMUICameraView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -655,6 +662,7 @@
 				6255398E1EF28F8800F6A239 /* IMUIMessageModel.swift in Sources */,
 				625B68EA1ECDF07E007D2CB2 /* MyUser.swift in Sources */,
 				625539911EF28F8800F6A239 /* IMUIMessageCellLayoutProtocol.swift in Sources */,
+				625961191F6BA1BB00571467 /* IMUICameraView.swift in Sources */,
 				625539731EF28F8800F6A239 /* UIImageExtension.swift in Sources */,
 				6255398F1EF28F8800F6A239 /* IMUIReuseViewCache.swift in Sources */,
 				625539901EF28F8800F6A239 /* IMUIViewCache.swift in Sources */,

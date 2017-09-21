@@ -248,7 +248,7 @@ public class ChatInputView extends LinearLayout
                 if (mEditTextListener != null) {
                     mEditTextListener.onTouchEditText();
                 }
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !mShowSoftInput) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     mShowSoftInput = true;
                     invisibleMenuLayout();
                     mChatInput.requestFocus();
@@ -650,6 +650,14 @@ public class ChatInputView extends LinearLayout
         }
     }
 
+    public void pauseVoice() {
+        try {
+            mMediaPlayer.pause();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setAudioPlayByEarPhone(int state) {
         AudioManager audioManager = (AudioManager) getContext()
                 .getSystemService(Context.AUDIO_SERVICE);
@@ -791,6 +799,7 @@ public class ChatInputView extends LinearLayout
         mCameraFl.setVisibility(GONE);
         mRecordVoiceRl.setVisibility(VISIBLE);
         mRecordContentLl.setVisibility(VISIBLE);
+        mPreviewPlayLl.setVisibility(GONE);
     }
 
     public void dismissRecordVoiceLayout() {
@@ -1062,7 +1071,7 @@ public class ChatInputView extends LinearLayout
         }
 
         dismissMenuLayout();
-        mChatInput.requestFocus();
+//        mChatInput.requestFocus();
         ViewGroup.LayoutParams params =
                 new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, sMenuHeight);
         mTextureView.setLayoutParams(params);

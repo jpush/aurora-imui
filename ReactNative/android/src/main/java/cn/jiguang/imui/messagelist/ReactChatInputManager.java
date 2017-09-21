@@ -21,6 +21,8 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.Calendar;
@@ -36,6 +38,8 @@ import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
+import cn.jiguang.imui.messagelist.event.ScrollEvent;
+import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
 
 /**
  * Created by caiyaoguan on 2017/5/22.
@@ -59,9 +63,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String CANCEL_RECORD_VOICE_EVENT = "onCancelRecordVoice";
     private static final String ON_TOUCH_EDIT_TEXT_EVENT = "onTouchEditText";
     private static final String ON_FULL_SCREEN_EVENT = "onFullScreen";
+    private static final String ON_RECOVER_SCREEN_EVENT = "onRecoverScreen";
     private final int REQUEST_PERMISSION = 0x0001;
 
     private boolean mIsShowSoftInput;
+    private ChatInputView mChatInput;
 
     @Override
     public String getName() {
@@ -70,22 +76,24 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
     @Override
     protected ChatInputView createViewInstance(final ThemedReactContext reactContext) {
+        EventBus.getDefault().register(this);
         final Activity activity = reactContext.getCurrentActivity();
-        final ChatInputView chatInput = new ChatInputView(activity, null);
-        chatInput.getInputView().setOnTouchListener(new View.OnTouchListener() {
+        mChatInput = new ChatInputView(activity, null);
+        mChatInput.getInputView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     mIsShowSoftInput = true;
-                    chatInput.dismissMenuLayout();
-                    chatInput.getInputView().requestFocus();
+                    reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_TOUCH_EDIT_TEXT_EVENT, null);
+                    mChatInput.dismissMenuLayout();
+                    mChatInput.getInputView().requestFocus();
                     EventBus.getDefault().post(new ScrollEvent(false));
                 }
                 return false;
             }
         });
         // Use default layout
-        chatInput.setMenuClickListener(new OnMenuClickListener() {
+        mChatInput.setMenuClickListener(new OnMenuClickListener() {
             @Override
             public boolean onSendTextMessage(CharSequence input) {
                 if (input.length() == 0) {
@@ -93,7 +101,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 }
                 WritableMap event = Arguments.createMap();
                 event.putString("text", input.toString());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(), ON_SEND_TEXT_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_SEND_TEXT_EVENT, event);
                 return true;
             }
 
@@ -116,12 +124,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                     array.pushMap(map);
                 }
                 event.putArray("mediaFiles", array);
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(), ON_SEND_FILES_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_SEND_FILES_EVENT, event);
             }
 
             @Override
             public boolean switchToMicrophoneMode() {
-                if (chatInput.getSoftInputState() || chatInput.getMenuState() == View.VISIBLE) {
+                if (mChatInput.getSoftInputState() || mChatInput.getMenuState() == View.VISIBLE) {
                     EventBus.getDefault().post(new ScrollEvent(false));
                 } else {
                     EventBus.getDefault().post(new ScrollEvent(true));
@@ -139,48 +147,48 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 //                        && ActivityCompat.checkSelfPermission(activity, perms[3]) != PackageManager.PERMISSION_GRANTED)) {
 //                    ActivityCompat.requestPermissions(activity, perms, REQUEST_PERMISSION);
 //                }
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_MIC_EVENT, null);
                 return true;
             }
 
             @Override
             public boolean switchToGalleryMode() {
-                if (chatInput.getSoftInputState() || chatInput.getMenuState() == View.VISIBLE) {
+                if (mChatInput.getSoftInputState() || mChatInput.getMenuState() == View.VISIBLE) {
                     EventBus.getDefault().post(new ScrollEvent(false));
                 } else {
                     EventBus.getDefault().post(new ScrollEvent(true));
                 }
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_GALLERY_EVENT, null);
                 return true;
             }
 
             @Override
             public boolean switchToCameraMode() {
-                if (chatInput.getSoftInputState() || chatInput.getMenuState() == View.VISIBLE) {
+                if (mChatInput.getSoftInputState() || mChatInput.getMenuState() == View.VISIBLE) {
                     EventBus.getDefault().post(new ScrollEvent(false));
                 } else {
                     EventBus.getDefault().post(new ScrollEvent(true));
                 }
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_CAMERA_EVENT, null);
                 return true;
             }
         });
 
-        chatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
+        mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
             @Override
             public void onTakePictureCompleted(String photoPath) {
                 WritableMap event = Arguments.createMap();
                 event.putString("mediaPath", photoPath);
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         TAKE_PICTURE_EVENT, event);
             }
 
             @Override
             public void onStartVideoRecord() {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         START_RECORD_VIDEO_EVENT, null);
             }
 
@@ -192,25 +200,25 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 int duration = mediaPlayer.getDuration() / 1000;    // Millisecond to second.
                 mediaPlayer.release();
                 event.putInt("duration", duration);
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         FINISH_RECORD_VIDEO_EVENT, event);
             }
 
             @Override
             public void onCancelVideoRecord() {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         CANCEL_RECORD_VIDEO_EVENT, null);
             }
         });
 
-        chatInput.getRecordVoiceButton().setRecordVoiceListener(new RecordVoiceListener() {
+        mChatInput.getRecordVoiceButton().setRecordVoiceListener(new RecordVoiceListener() {
             @Override
             public void onStartRecord() {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         START_RECORD_VOICE_EVENT, null);
                 File rootDir = reactContext.getFilesDir();
                 String fileDir = rootDir.getAbsolutePath() + "/voice";
-                chatInput.getRecordVoiceButton().setVoiceFilePath(fileDir, DateFormat.format("yyyy_MMdd_hhmmss",
+                mChatInput.getRecordVoiceButton().setVoiceFilePath(fileDir, DateFormat.format("yyyy_MMdd_hhmmss",
                         Calendar.getInstance(Locale.CHINA)) + "");
             }
 
@@ -219,34 +227,34 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 WritableMap event = Arguments.createMap();
                 event.putString("mediaPath", voiceFile.getAbsolutePath());
                 event.putInt("duration", duration);
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         FINISH_RECORD_VOICE_EVENT, event);
             }
 
             @Override
             public void onCancelRecord() {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         CANCEL_RECORD_VOICE_EVENT, null);
             }
         });
 
-        chatInput.setOnClickEditTextListener(new OnClickEditTextListener() {
+        mChatInput.setOnClickEditTextListener(new OnClickEditTextListener() {
             @Override
             public void onTouchEditText() {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(),
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         ON_TOUCH_EDIT_TEXT_EVENT, null);
             }
         });
-        chatInput.setCameraControllerListener(new CameraControllerListener() {
+        mChatInput.setCameraControllerListener(new CameraControllerListener() {
             @Override
             public void onFullScreenClick() {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(chatInput.getId(), ON_FULL_SCREEN_EVENT, null);
-                chatInput.bringToFront();
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_FULL_SCREEN_EVENT, null);
+                mChatInput.bringToFront();
             }
 
             @Override
             public void onRecoverScreenClick() {
-
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_RECOVER_SCREEN_EVENT, null);
             }
 
             @Override
@@ -259,7 +267,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             }
         });
-        return chatInput;
+        return mChatInput;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(StopPlayVoiceEvent event) {
+        mChatInput.pauseVoice();
     }
 
     @ReactProp(name = "menuContainerHeight")
@@ -292,11 +305,13 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 .put(CANCEL_RECORD_VOICE_EVENT, MapBuilder.of("registrationName", CANCEL_RECORD_VOICE_EVENT))
                 .put(ON_TOUCH_EDIT_TEXT_EVENT, MapBuilder.of("registrationName", ON_TOUCH_EDIT_TEXT_EVENT))
                 .put(ON_FULL_SCREEN_EVENT, MapBuilder.of("registrationName", ON_FULL_SCREEN_EVENT))
+                .put(ON_RECOVER_SCREEN_EVENT, MapBuilder.of("registrationName", ON_RECOVER_SCREEN_EVENT))
                 .build();
     }
 
     @Override
     public void onDropViewInstance(ChatInputView view) {
         super.onDropViewInstance(view);
+        EventBus.getDefault().unregister(this);
     }
 }
