@@ -25,7 +25,7 @@ private enum LivePhotoMode {
 
 // TODO: Need to Restructure
 @available(iOS 8.0, *)
-class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
+class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   
   @IBOutlet weak var cameraView: IMUICameraView!
   

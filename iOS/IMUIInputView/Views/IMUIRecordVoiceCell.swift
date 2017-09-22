@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
+class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   static var buttonNormalWith: CGFloat = 46.0
   
   @IBOutlet weak var recordVoiceBtn: UIButton!

@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class IMUIGalleryCell: UICollectionViewCell, IMUIFeatureCellProtocal {
+class IMUIGalleryCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   
   @IBOutlet weak var grayView: UIView!
   @IBOutlet weak var galleryImageView: UIImageView!

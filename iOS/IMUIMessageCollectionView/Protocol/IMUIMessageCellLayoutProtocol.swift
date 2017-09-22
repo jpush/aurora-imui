@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 /**
- *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to display message cell item
+ *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocol to display message cell item
  */
 @objc public protocol IMUIMessageCellLayoutProtocol: NSObjectProtocol {
   
@@ -75,7 +75,7 @@ import UIKit
   var bubbleContentType: String { get }
 }
 
-//  IMUIMessageCellLayoutProtocal default value
+//  IMUIMessageCellLayoutProtocol default value
 public extension IMUIMessageCellLayoutProtocol {
   var avatarFrame: CGRect {
     return CGRect.zero

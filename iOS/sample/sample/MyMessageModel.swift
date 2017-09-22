@@ -77,7 +77,7 @@ class MyMessageModel: IMUIMessageModel {
 }
 
 
-//MARK - IMUIMessageCellLayoutProtocal
+//MARK - IMUIMessageCellLayoutProtocol
 class MyMessageCellLayout: IMUIMessageCellLayout {
 
   var type: String

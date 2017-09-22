@@ -11,8 +11,8 @@ import UIKit
 
 /**
  *  The 'IMUIMessageCellLayout' is a concrete layout object comfort
- *  'IMUIMessageCellLayoutProtocal' protocol.
- *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocal to layout cell's items
+ *  'IMUIMessageCellLayoutProtocol' protocol.
+ *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocol to layout cell's items
  */
 open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
 
@@ -132,7 +132,7 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
     }
   }
   
-  // MARK - IMUIMessageCellLayoutProtocal
+  // MARK - IMUIMessageCellLayoutProtocol
   open var bubbleContentInset: UIEdgeInsets {
     return bubbleContentInsets
   }

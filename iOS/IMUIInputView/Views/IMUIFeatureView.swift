@@ -17,6 +17,7 @@ public enum IMUIFeatureType {
   case gallery
   case camera
   case location
+  case emoji
   case none
 }
 
@@ -37,13 +38,13 @@ extension IMUIFeatureViewDelegate {
   func didChangeSelectedGallery() {}
 }
 
-public protocol IMUIFeatureCellProtocal {
+public protocol IMUIFeatureCellProtocol {
   var inputViewDelegate: IMUIInputViewDelegate? { set get }
   func activateMedia()
   func inactivateMedia()
 }
 
-public extension IMUIFeatureCellProtocal {
+public extension IMUIFeatureCellProtocol {
   var inputViewDelegate: IMUIInputViewDelegate? {
     
     get { return nil }
@@ -56,8 +57,8 @@ public extension IMUIFeatureCellProtocal {
 
 // TODO: Need to  Restructure
 open class IMUIFeatureView: UIView {
-
   @IBOutlet open weak var featureCollectionView: UICollectionView!
+  
   var view: UIView!
   var currentType:IMUIFeatureType = .none
   
@@ -211,7 +212,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     default:
       break
     }
-    var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocal
+    var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocol
     cell.activateMedia()
     cell.inputViewDelegate = self.inputViewDelegate
     return cell as! UICollectionViewCell
@@ -227,7 +228,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
   }
   
   public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
-    let endDisplayingCell = didEndDisplaying as! IMUIFeatureCellProtocal
+    let endDisplayingCell = didEndDisplaying as! IMUIFeatureCellProtocol
     endDisplayingCell.inactivateMedia()
   }
   
@@ -236,7 +237,6 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
   }
   
 }
-
 
 extension IMUIFeatureView: PHPhotoLibraryChangeObserver {
   public func photoLibraryDidChange(_ changeInstance: PHChange) {
