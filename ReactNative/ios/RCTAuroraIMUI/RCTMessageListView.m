@@ -125,8 +125,13 @@
   
   NSMutableArray *messageModels = @[].mutableCopy;
   for (NSDictionary *message in messages) {
-    RCTMessageModel * messageModel = [self convertMessageDicToModel: message];
-    [messageModels addObject: messageModel];
+    if([message[@"msgType"] isEqual: @"event"]) {
+      MessageEventModel *event = [[MessageEventModel alloc] initWithMessageDic:message];
+      [messageModels addObject: event];
+    } else {
+      RCTMessageModel * messageModel = [self convertMessageDicToModel:message];
+      [messageModels addObject: messageModel];
+    }
   }
   
   dispatch_async(dispatch_get_main_queue(), ^{
