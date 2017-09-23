@@ -49,6 +49,7 @@ open class IMUIMessageCollectionView: UIView {
   override open func layoutSubviews() {
     super.layoutSubviews()
     IMUIMessageCellLayout.cellWidth = self.imui_width
+    self.messageCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
   }
   
   func setupMessageCollectionView() {

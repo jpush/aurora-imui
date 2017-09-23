@@ -58,9 +58,9 @@ class IMUIFeatureListView: UIView {
                                                       UIImage.imuiImage(with: "input_item_camera"),
                                                       UIImage.imuiImage(with:"input_item_camera")))
     
-    featureListDataSource.append(IMUIFeatureIconModel(featureType: .emoji,
-                                                      UIImage.imuiImage(with: "input_item_emoji"),
-                                                      UIImage.imuiImage(with:"input_item_emoji")))
+//    featureListDataSource.append(IMUIFeatureIconModel(featureType: .emoji,
+//                                                      UIImage.imuiImage(with: "input_item_emoji"),
+//                                                      UIImage.imuiImage(with:"input_item_emoji")))
     
     featureListDataSource.append(IMUIFeatureIconModel(featureType: .none,
                                                       UIImage.imuiImage(with: "input_item_send"),
@@ -83,7 +83,7 @@ class IMUIFeatureListView: UIView {
     var insets = self.featureListCollectionView.contentInset
     let frameWidth = self.view.imui_width
     let totalCellWidth = CGFloat(self.featureListDataSource.count * 46)
-    let totalCellSpace = CGFloat((self.featureListDataSource.count - 1) * 10)
+    let totalCellSpace = CGFloat((self.featureListDataSource.count - 1) * 30)
     
     var leftInsets = (frameWidth - totalCellSpace - totalCellWidth)/2
     if leftInsets <= 0 {
@@ -128,6 +128,7 @@ extension IMUIFeatureListView: UICollectionViewDataSource {
                       sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
     return CGSize(width: 46, height: 46)
   }
+  
   
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
