@@ -43,7 +43,7 @@ RCT_EXPORT_VIEW_PROPERTY(onStatusViewClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onBeginDragMessageList, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onPullToRefresh, RCTBubblingEventBlock)
 
-
+static NSString *cellIdentify = nil;
 RCT_EXPORT_MODULE()
 - (UIView *)view
 {
@@ -55,7 +55,7 @@ RCT_EXPORT_MODULE()
   _messageList.messageList.delegate = self;
   _messageList.delegate = self;
   
-  
+  cellIdentify = nil;
   return _messageList;
   
 }
@@ -277,7 +277,6 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
   
   if ([messageModel isKindOfClass: MessageEventModel.class]) {
     
-    static NSString *cellIdentify = nil;
     if (cellIdentify == nil) {
       cellIdentify = [[MessageEventCollectionViewCell class] description];
       [messageCollectionView registerClass:[MessageEventCollectionViewCell class] forCellWithReuseIdentifier:cellIdentify];
