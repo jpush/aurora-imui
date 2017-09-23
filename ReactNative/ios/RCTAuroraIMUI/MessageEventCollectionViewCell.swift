@@ -39,7 +39,7 @@ import UIKit
     
     eventLabel.frame = CGRect(x: 0, y: 0,
                               width: Int(event.evenSize.width + 1),
-                              height: Int(event.evenSize.height))
+                              height: Int(event.evenSize.height + 1))
     eventLabel.center = self.contentView.center
     eventLabel.frame.origin.y = MessageEventCollectionViewCell.paddingGap * 2
   }
