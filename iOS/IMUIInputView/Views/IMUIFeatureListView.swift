@@ -74,6 +74,22 @@ class IMUIFeatureListView: UIView {
     self.featureListCollectionView.delegate = self
     self.featureListCollectionView.dataSource = self
     self.featureListCollectionView.reloadData()
+    self.layoutFeatureListToCenter()
+  }
+  
+  func layoutFeatureListToCenter() {
+    var insets = self.featureListCollectionView.contentInset
+    let frameWidth = self.view.imui_width
+    let totalCellWidth = CGFloat(self.featureListDataSource.count * 46)
+    let totalCellSpace = CGFloat((self.featureListDataSource.count - 1) * 10)
+    
+    var leftInsets = (frameWidth - totalCellSpace - totalCellWidth)/2
+    if leftInsets <= 0 {
+      leftInsets = 0
+    }
+    
+    insets.left = leftInsets
+    self.featureListCollectionView.contentInset = insets
   }
   
   public func updateSendButton(with count: Int?, isAllowToSend: Bool?) {
