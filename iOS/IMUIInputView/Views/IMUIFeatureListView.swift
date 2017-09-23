@@ -41,7 +41,7 @@ class IMUIFeatureListView: UIView {
     view.frame = self.bounds
     
     self.setupAllData()
-    self.setupAllViews()
+    self.setupAllViews() 
   }
   
   func setupAllData() {
@@ -49,9 +49,11 @@ class IMUIFeatureListView: UIView {
     featureListDataSource.append(IMUIFeatureIconModel(featureType: .voice,
                                                       UIImage.imuiImage(with: "input_item_mic"),
                                                       UIImage.imuiImage(with:"input_item_mic")))
+    
     featureListDataSource.append(IMUIFeatureIconModel(featureType: .gallery,
                                                       UIImage.imuiImage(with: "input_item_photo"),
                                                       UIImage.imuiImage(with:"input_item_photo")))
+    
     featureListDataSource.append(IMUIFeatureIconModel(featureType: .camera,
                                                       UIImage.imuiImage(with: "input_item_camera"),
                                                       UIImage.imuiImage(with:"input_item_camera")))
@@ -73,11 +75,11 @@ class IMUIFeatureListView: UIView {
     self.featureListCollectionView.register(UINib(nibName: "IMUIFeatureListIconCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIFeatureListIconCell")
     self.featureListCollectionView.delegate = self
     self.featureListCollectionView.dataSource = self
-    self.featureListCollectionView.reloadData()
     self.layoutFeatureListToCenter()
   }
   
   func layoutFeatureListToCenter() {
+    self.featureListCollectionView.reloadData()
     var insets = self.featureListCollectionView.contentInset
     let frameWidth = self.view.imui_width
     let totalCellWidth = CGFloat(self.featureListDataSource.count * 46)
@@ -90,6 +92,12 @@ class IMUIFeatureListView: UIView {
     
     insets.left = leftInsets
     self.featureListCollectionView.contentInset = insets
+  }
+  
+  override var bounds: CGRect {
+    didSet {
+      self.layoutFeatureListToCenter()
+    }
   }
   
   public func updateSendButton(with count: Int?, isAllowToSend: Bool?) {
