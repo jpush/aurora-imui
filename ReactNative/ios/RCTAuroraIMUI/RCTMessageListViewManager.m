@@ -276,11 +276,8 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
 - (UICollectionViewCell * _Nullable)messageCollectionViewWithMessageCollectionView:(UICollectionView * _Nonnull)messageCollectionView forItemAt:(NSIndexPath * _Nonnull)forItemAt messageModel:(id <IMUIMessageProtocol> _Nonnull)messageModel SWIFT_WARN_UNUSED_RESULT {
   
   if ([messageModel isKindOfClass: MessageEventModel.class]) {
-    
-    if (cellIdentify == nil) {
-      cellIdentify = [[MessageEventCollectionViewCell class] description];
-      [messageCollectionView registerClass:[MessageEventCollectionViewCell class] forCellWithReuseIdentifier:cellIdentify];
-    }
+    cellIdentify = [[MessageEventCollectionViewCell class] description];
+    [messageCollectionView registerClass:[MessageEventCollectionViewCell class] forCellWithReuseIdentifier:cellIdentify];
     
     MessageEventCollectionViewCell *cell = [messageCollectionView  dequeueReusableCellWithReuseIdentifier: cellIdentify forIndexPath: forItemAt];
     MessageEventModel *event = messageModel;
