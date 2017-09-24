@@ -74,9 +74,6 @@ open class IMUIInputView: UIView {
   
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    
-//    view = Bundle.main.loadNibNamed("IMUIInputView", owner: self, options: nil)?[0] as! UIView
-    
     let bundle = Bundle.imuiInputViewBundle()
     view = bundle.loadNibNamed("IMUIInputView", owner: self, options: nil)?.first as! UIView
     
@@ -92,8 +89,6 @@ open class IMUIInputView: UIView {
   func leaveGalleryMode() {
     featureView.clearAllSelectedGallery()
     self.updateSendBtnToPhotoSendStatus()
-      
-    
   }
   
   func keyboardFrameChanged(_ notification: Notification) {
@@ -132,6 +127,7 @@ open class IMUIInputView: UIView {
   }
   
   deinit {
+    self.featureView.clearAllSelectedGallery()
     NotificationCenter.default.removeObserver(self)
   }
 }
@@ -140,7 +136,6 @@ open class IMUIInputView: UIView {
 extension IMUIInputView: UITextViewDelegate {
   public func textViewDidChange(_ textView: UITextView) {
     self.fitTextViewSize(textView)
-//    var
     self.updateSendBtnToPhotoSendStatus()
   }
   
