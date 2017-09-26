@@ -72,6 +72,7 @@
   
   NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
   MessageModel *message = [[MessageModel alloc] initWithVoicePath:voicePath
+                                                         duration:durationTime
                                                         messageId:msgId
                                                          fromUser:[UserModel new]
                                                        timeString:@""

@@ -201,6 +201,7 @@
 }
 
 - (instancetype)initWithVoicePath:(NSString *) mediaPath
+                duration:(CGFloat)duration
                 messageId:(NSString *)msgId
                  fromUser:(id <IMUIUserProtocol>)fromUser
                timeString:(NSString *)timeString
@@ -215,6 +216,7 @@
     _messagemediaPath = mediaPath;
     _isOutGoing = isOutGoing;
     _messageStatus = messageStatus;
+    _duration = duration;
     _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing
                                                 isNeedShowTime:false
                                              bubbleContentSize: CGSizeMake(80, 37)
