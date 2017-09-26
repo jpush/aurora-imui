@@ -61,6 +61,11 @@ import Photos
   @objc optional func didShootPicture(picture: Data)
   
   /**
+   *  Tells the delegate that user did seleted emoji
+   */
+  @objc optional func didSeletedEmoji(emoji: IMUIEmojiModel)
+  
+  /**
    *  Tells the delegate when starting record video
    */
   @objc optional func startRecordVideo()

@@ -15,14 +15,14 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" misplaced="YES" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="398" height="54"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Jfc-pL-CnM">
-                    <rect key="frame" x="0.0" y="0.0" width="416" height="112"/>
+                    <rect key="frame" x="0.0" y="0.0" width="398" height="54"/>
                     <color key="backgroundColor" red="0.95286816358566284" green="0.95298224687576294" blue="0.95282942056655884" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="30" minimumInteritemSpacing="30" id="bj5-Dy-2CL">
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="15" minimumInteritemSpacing="15" id="bj5-Dy-2CL">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>

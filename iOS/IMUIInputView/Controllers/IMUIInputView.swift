@@ -14,6 +14,7 @@ enum IMUIInputStatus {
   case microphone
   case photo
   case camera
+  case emoji
   case none
 }
 
@@ -160,6 +161,7 @@ extension IMUIInputView: IMUIFeatureListDelegate {
       self.clickCameraBtn(cell: cell)
       break
     case .emoji:
+      self.clickEmojiBtn(cell: cell)
       break
     default:
       break
@@ -214,6 +216,18 @@ extension IMUIInputView: IMUIFeatureListDelegate {
     self.showFeatureView()
   }
   
+  func clickEmojiBtn(cell: IMUIFeatureListIconCell) {
+    self.leaveGalleryMode()
+    inputViewStatus = .emoji
+    
+    inputTextView.resignFirstResponder()
+    
+    DispatchQueue.main.async {
+      self.featureView.layoutFeature(with: .emoji)
+    }
+    self.showFeatureView()
+  }
+  
   func clickSendBtn(cell: IMUIFeatureListIconCell) {
     if IMUIGalleryDataManager.selectedAssets.count > 0 {
       self.inputViewDelegate?.didSeletedGallery?(AssetArr: IMUIGalleryDataManager.selectedAssets)
@@ -231,20 +245,11 @@ extension IMUIInputView: IMUIFeatureListDelegate {
 }
 
 extension IMUIInputView: IMUIFeatureViewDelegate {
-  // TODO:!!
-  func didChangeSelectedGallery(with gallerys: [PHAsset]) {
-    
-//    var isAllowToSend: Bool
-//    if gallerys.count == 0 || inputTextView.text == ""  {
-//      isAllowToSend = false
-//    } else {
-//      isAllowToSend = true
-//    }
-    
+  public func didChangeSelectedGallery(with gallerys: [PHAsset]) {
       self.updateSendBtnToPhotoSendStatus()
   }
   
-  func updateSendBtnToPhotoSendStatus() {
+  public func updateSendBtnToPhotoSendStatus() {
     var isAllowToSend = false
     var seletedPhotoCount = IMUIGalleryDataManager.selectedAssets.count
     if seletedPhotoCount > 0 {
@@ -256,5 +261,29 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
     }
     
     self.featureSelectorView.updateSendButton(with: seletedPhotoCount, isAllowToSend: isAllowToSend)
+  }
+  
+  public func didSeletedEmoji(with emoji: IMUIEmojiModel) {
+    switch emoji.emojiType {
+    case .emoji:
+      self.inputTextView.text.append(emoji.emoji!)
+      self.fitTextViewSize(self.inputTextView)
+      self.updateSendBtnToPhotoSendStatus()
+    default:
+      return
+    }
+    
+  }
+  
+  public func didRecordVoice(with voicePath: String, durationTime: Double) {
+    self.inputViewDelegate?.finishRecordVoice?(voicePath, durationTime: durationTime)
+  }
+  
+  public func didShotPicture(with image: Data) {
+    self.inputViewDelegate?.didShootPicture?(picture: image)
+  }
+  
+  public func didRecordVideo(with videoPath: String, durationTime: Double) {
+    self.inputViewDelegate?.finishRecordVoice?(videoPath, durationTime: durationTime)
   }
 }
