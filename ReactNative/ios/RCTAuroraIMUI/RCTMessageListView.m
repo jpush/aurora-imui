@@ -141,11 +141,17 @@
 
 - (void)updateMessage:(NSNotification *) notification {
   NSDictionary *message = [notification object];
-  RCTMessageModel * messageModel = [self convertMessageDicToModel: message];
-  
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self.messageList updateMessageWith: messageModel];
-  });
+  if([message[@"msgType"] isEqual: @"event"]) {
+    MessageEventModel *event = [[MessageEventModel alloc] initWithMessageDic:message];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.messageList updateMessageWith: event];
+    });
+  } else {
+    RCTMessageModel * messageModel = [self convertMessageDicToModel:message];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.messageList updateMessageWith: messageModel];
+    });
+  }
 }
 
 - (void)scrollToBottom:(NSNotification *) notification {
