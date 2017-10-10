@@ -25,32 +25,20 @@ private enum LivePhotoMode {
 
 // TODO: Need to Restructure
 @available(iOS 8.0, *)
-class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
+class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   
   @IBOutlet weak var cameraView: IMUICameraView!
   
   open var cameraVC = UIViewController() // use to present full size mode viewcontroller
   var isFullScreenMode = false
-  
-  weak var delegate: IMUIInputViewDelegate?
-  
   var isActivity = true
-  
-  var inputViewDelegate: IMUIInputViewDelegate? {
-    set {
-      self.delegate = newValue
-    }
-    
-    get {
-      return self.delegate
-    }
-  }
+  var featureDelegate: IMUIFeatureViewDelegate?
   
   override func awakeFromNib() {
-    super.awakeFromNib()
-    cameraView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 253)
-    cameraView.recordVideoCallback = {(path, duration) in
-      self.inputViewDelegate?.finishRecordVideo?(videoPath: path, durationTime: duration)
+      super.awakeFromNib()
+      cameraView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 253)
+      cameraView.recordVideoCallback = {(path, duration) in
+      self.featureDelegate?.didRecordVideo(with: path, durationTime: duration)
       if self.isFullScreenMode {
         self.shrinkDownScreen()
         self.isFullScreenMode = false
@@ -58,7 +46,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     }
     
     cameraView.shootPictureCallback = { imageData in
-      self.inputViewDelegate?.didShootPicture?(picture: imageData)
+      self.featureDelegate?.didShotPicture(with: imageData)
       if self.isFullScreenMode {
         self.shrinkDownScreen()
         self.isFullScreenMode = false
@@ -72,7 +60,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
         } else {
           self.setFullScreenMode()
           self.isFullScreenMode = true
-
         }
     }
   }
@@ -110,7 +97,6 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocal {
     cameraVC.view = cameraView
     
     rootVC?.present(cameraVC, animated: true, completion: {
-      
     })
   }
 }

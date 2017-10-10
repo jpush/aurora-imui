@@ -43,7 +43,6 @@ RCT_EXPORT_MODULE()
   NSBundle *bundle = [NSBundle bundleForClass: [RCTInputView class]];
   _rctInputView = [[bundle loadNibNamed:@"RCTInputView" owner:self options: nil] objectAtIndex:0];
   _rctInputView.imuiIntputView.inputViewDelegate = self;
-  
   return _rctInputView;
 }
 

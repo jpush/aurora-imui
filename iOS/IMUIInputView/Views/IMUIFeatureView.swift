@@ -17,34 +17,39 @@ public enum IMUIFeatureType {
   case gallery
   case camera
   case location
+  case emoji
   case none
 }
 
-protocol IMUIFeatureViewDelegate: NSObjectProtocol {
+public protocol IMUIFeatureViewDelegate: NSObjectProtocol {
   
   func didSelectPhoto(with images: [UIImage])
-  func didRecordVoice(with voiceData: Data)
-  func didShotPicture(with image: UIImage)
-  func didRecordVideo(with voiceData: Data)
+  func didRecordVoice(with voicePath: String, durationTime: Double)
+  func didShotPicture(with image: Data)
+  func didRecordVideo(with videoPath: String, durationTime: Double)
+  func didSeletedEmoji(with emoji: IMUIEmojiModel)
   func didChangeSelectedGallery(with gallerys: [PHAsset])
 }
 
-extension IMUIFeatureViewDelegate {
+public extension IMUIFeatureViewDelegate {
   func didSelectPhoto(with images: [UIImage]) {}
-  func didRecordVoice(with voiceData: Data) {}
-  func didShotPicture(with image: UIImage) {}
-  func didRecordVideo(with voiceData: Data) {}
+  func didRecordVoice(with voicePath: String, durationTime: Double) {}
+  func didShotPicture(with image: Data) {}
+  func didRecordVideo(with videoPath: String, durationTime: Double) {}
+  func didSeletedEmoji(with emoji: IMUIEmojiModel) {}
   func didChangeSelectedGallery() {}
 }
 
-public protocol IMUIFeatureCellProtocal {
-  var inputViewDelegate: IMUIInputViewDelegate? { set get }
+public protocol IMUIFeatureCellProtocol {
+  
+  var featureDelegate: IMUIFeatureViewDelegate? { set get }
   func activateMedia()
   func inactivateMedia()
 }
 
-public extension IMUIFeatureCellProtocal {
-  var inputViewDelegate: IMUIInputViewDelegate? {
+public extension IMUIFeatureCellProtocol {
+
+  var featureDelegate: IMUIFeatureViewDelegate? {
     
     get { return nil }
     set { }
@@ -56,8 +61,8 @@ public extension IMUIFeatureCellProtocal {
 
 // TODO: Need to  Restructure
 open class IMUIFeatureView: UIView {
-
   @IBOutlet open weak var featureCollectionView: UICollectionView!
+  
   var view: UIView!
   var currentType:IMUIFeatureType = .none
   
@@ -97,6 +102,7 @@ open class IMUIFeatureView: UIView {
     self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
     self.featureCollectionView.register(UINib(nibName: "IMUIGalleryCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIGalleryCell")
     self.featureCollectionView.register(UINib(nibName: "IMUICameraCell", bundle: bundle), forCellWithReuseIdentifier: "IMUICameraCell")
+    self.featureCollectionView.register(UINib(nibName: "IMUIEmojiCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIEmojiCell")
     
     self.featureCollectionView.delegate = self
     self.featureCollectionView.dataSource = self
@@ -121,6 +127,9 @@ open class IMUIFeatureView: UIView {
     case .gallery:
       self.layoutToGallery()
       break
+    case .emoji:
+      self.layoutToEmoji()
+      break
     case .none:
       self.layoutToNone()
       break
@@ -142,6 +151,11 @@ open class IMUIFeatureView: UIView {
   
   func layoutTocCamera() {
     self.featureCollectionView.bounces = false
+    self.featureCollectionView.reloadData()
+  }
+  
+  func layoutToEmoji() {
+    self.featureCollectionView.bounces = true
     self.featureCollectionView.reloadData()
   }
   
@@ -201,6 +215,9 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     case .camera:
       CellIdentifier = "IMUICameraCell"
       break
+    case .emoji:
+      CellIdentifier = "IMUIEmojiCell"
+      break
     case .location:
       break
     case .gallery:
@@ -211,9 +228,9 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     default:
       break
     }
-    var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocal
+    var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocol
     cell.activateMedia()
-    cell.inputViewDelegate = self.inputViewDelegate
+    cell.featureDelegate = self.delegate
     return cell as! UICollectionViewCell
   }
   
@@ -227,7 +244,7 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
   }
   
   public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
-    let endDisplayingCell = didEndDisplaying as! IMUIFeatureCellProtocal
+    let endDisplayingCell = didEndDisplaying as! IMUIFeatureCellProtocol
     endDisplayingCell.inactivateMedia()
   }
   
@@ -236,7 +253,6 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
   }
   
 }
-
 
 extension IMUIFeatureView: PHPhotoLibraryChangeObserver {
   public func photoLibraryDidChange(_ changeInstance: PHChange) {

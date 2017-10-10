@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13122.19" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.16"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="IMUIEmojiCell" customModule="sample" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="358" height="199"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="358" height="199"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="tqg-gj-PNA">
+                        <rect key="frame" x="0.0" y="0.0" width="358" height="199"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="IYD-4c-W7E">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="10"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="A53-Cn-397">
+                        <rect key="frame" x="0.0" y="199" width="358" height="0.0"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" id="pZX-Qz-M8O"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wjd-JL-kS2">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="tqg-gj-PNA" secondAttribute="trailing" id="LWI-fZ-R9W"/>
+                <constraint firstItem="A53-Cn-397" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="UT8-7v-1Md"/>
+                <constraint firstAttribute="bottom" secondItem="A53-Cn-397" secondAttribute="bottom" id="eF3-vg-ys3"/>
+                <constraint firstItem="tqg-gj-PNA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="erS-0A-jqT"/>
+                <constraint firstItem="tqg-gj-PNA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="tVd-t2-sLY"/>
+                <constraint firstItem="A53-Cn-397" firstAttribute="top" secondItem="tqg-gj-PNA" secondAttribute="bottom" id="vmH-6Y-86g"/>
+                <constraint firstAttribute="trailing" secondItem="A53-Cn-397" secondAttribute="trailing" id="y6c-VD-9o3"/>
+            </constraints>
+            <size key="customSize" width="358" height="199"/>
+            <connections>
+                <outlet property="emojiCollectionView" destination="tqg-gj-PNA" id="wO7-4P-3hF"/>
+                <outlet property="emojiSeletorView" destination="A53-Cn-397" id="grw-fb-Pdh"/>
+            </connections>
+            <point key="canvasLocation" x="191" y="-14.5"/>
+        </collectionViewCell>
+    </objects>
+</document>

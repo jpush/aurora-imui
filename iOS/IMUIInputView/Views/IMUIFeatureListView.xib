@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13122.19" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.16"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IMUIFeatureListView" customModule="sample" customModuleProvider="target">
+            <connections>
+                <outlet property="featureListCollectionView" destination="Jfc-pL-CnM" id="bJz-Ae-Akh"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="398" height="54"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Jfc-pL-CnM">
+                    <rect key="frame" x="0.0" y="0.0" width="398" height="54"/>
+                    <color key="backgroundColor" red="0.95286816358566284" green="0.95298224687576294" blue="0.95282942056655884" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="15" minimumInteritemSpacing="15" id="bj5-Dy-2CL">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+            </subviews>
+            <color key="backgroundColor" red="0.39872862119497721" green="0.81575716029986256" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Jfc-pL-CnM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="agi-Ck-tcV"/>
+                <constraint firstItem="Jfc-pL-CnM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ewb-hS-gC8"/>
+                <constraint firstAttribute="trailing" secondItem="Jfc-pL-CnM" secondAttribute="trailing" id="hRl-u2-FX7"/>
+                <constraint firstAttribute="bottom" secondItem="Jfc-pL-CnM" secondAttribute="bottom" id="sQM-By-IbU"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="44.5" y="-226.5"/>
+        </view>
+    </objects>
+</document>
