@@ -114,7 +114,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
 
             @Override
             public void onSendFiles(List<FileItem> list) {
-                mChatView.getChatInputView().setSoftInputState(true);
                 if (list == null || list.isEmpty()) {
                     return;
                 }
@@ -149,7 +148,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
             @Override
             public boolean switchToMicrophoneMode() {
                 scrollToBottom();
-                mChatView.getChatInputView().setSoftInputState(true);
                 String[] perms = new String[]{
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -197,6 +195,12 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                     mChatView.setCameraCaptureFile(fileDir, new SimpleDateFormat("yyyy-MM-dd-hhmmss",
                             Locale.getDefault()).format(new Date()));
                 }
+                return true;
+            }
+
+            @Override
+            public boolean switchToEmojiMode() {
+                scrollToBottom();
                 return true;
             }
         });
@@ -472,6 +476,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
         message.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
         mAdapter.addToStart(message, true);
+        MyMessage eventMsg = new MyMessage("haha", IMessage.MessageType.EVENT);
+        mAdapter.addToStart(eventMsg, true);
         mAdapter.addToEnd(mData);
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override
@@ -552,15 +558,17 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 if (chatInputView.getMenuState() == View.VISIBLE) {
                     chatInputView.dismissMenuLayout();
                 }
-                if (chatInputView.getSoftInputState()) {
+                try {
                     View v = getCurrentFocus();
-
                     if (mImm != null && v != null) {
                         mImm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                         mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
                                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        view.clearFocus();
                         chatInputView.setSoftInputState(false);
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 break;
         }
