@@ -56,6 +56,9 @@ extension ViewController: IMUIInputViewDelegate {
     
   }
   
+  func switchToEmojiMode(cameraBtn: UIButton) {
+    print("switchToEmojiMode")
+  }
   func didShootPicture(picture: Data) {
     let imgPath = self.getPath()
     

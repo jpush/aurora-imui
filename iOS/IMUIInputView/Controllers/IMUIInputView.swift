@@ -221,6 +221,7 @@ extension IMUIInputView: IMUIFeatureListDelegate {
     inputViewStatus = .emoji
     
     inputTextView.resignFirstResponder()
+    inputViewDelegate?.switchToEmojiMode?(cameraBtn: cell.featureIconBtn)
     
     DispatchQueue.main.async {
       self.featureView.layoutFeature(with: .emoji)
