@@ -29,6 +29,7 @@
 @property (nonatomic, copy) RCTBubblingEventBlock onSwitchToMicrophoneMode;
 @property (nonatomic, copy) RCTBubblingEventBlock onSwitchToGalleryMode;
 @property (nonatomic, copy) RCTBubblingEventBlock onSwitchToCameraMode;
+@property (nonatomic, copy) RCTBubblingEventBlock onSwitchToEmojiMode;
 
 @property (nonatomic, copy) RCTBubblingEventBlock onShowKeyboard;
 @end
