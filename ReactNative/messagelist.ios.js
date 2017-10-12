@@ -87,6 +87,7 @@ MessageList.propTypes = {
   onAvatarClick: PropTypes.func,
   onStatusViewClick: PropTypes.func,
   onBeginDragMessageList: PropTypes.func,
+  onTouchMsgList: PropTypes.func,
   onPullToRefresh: PropTypes.func,
   sendBubble: PropTypes.string,
   receiveBubble: PropTypes.string,

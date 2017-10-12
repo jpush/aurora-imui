@@ -40,6 +40,7 @@ RCT_EXPORT_VIEW_PROPERTY(onMsgClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onMsgLongClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onStatusViewClick, RCTBubblingEventBlock)
 
+RCT_EXPORT_VIEW_PROPERTY(onTouchMsgList, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onBeginDragMessageList, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onPullToRefresh, RCTBubblingEventBlock)
 
@@ -234,6 +235,8 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
 /// Tells the delegate that user tap message cell
 //self.delegate?.messageCollectionView(didTapMessageBubbleInCell: self, model: self.message!)
 - (void)messageCollectionView:(UICollectionView *)_ forItemAt:(NSIndexPath * _Nonnull)forItemAt model:(id)model {
+  if(!_messageList.onTouchMsgList) { return; }
+  _messageList.onTouchMsgList(@{});
 }
 
 /// Tells the delegate that user tap header image in message cell

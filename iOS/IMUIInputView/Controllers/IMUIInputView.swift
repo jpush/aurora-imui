@@ -123,6 +123,7 @@ open class IMUIInputView: UIView {
   open func hideFeatureView() {
     UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) { 
       self.moreViewHeight.constant = 0
+      self.inputTextView.resignFirstResponder()
       self.superview?.layoutIfNeeded()
     }
   }
