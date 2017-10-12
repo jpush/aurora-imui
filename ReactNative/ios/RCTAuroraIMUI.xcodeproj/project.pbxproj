@@ -33,75 +33,77 @@
 		624B82DD1EE57653006C3C03 /* RCTAuroraIMUIModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9771EE55CB200EC43AE /* RCTAuroraIMUIModule.m */; };
 		624F239F1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624F239D1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift */; };
 		624F23A01F039DBF00D11E4E /* MessageEventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624F239E1F039DBF00D11E4E /* MessageEventModel.swift */; };
-		626B8E561F7B394100371201 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E011F7B394100371201 /* UIColorExtension.swift */; };
-		626B8E571F7B394100371201 /* CMSampleBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E021F7B394100371201 /* CMSampleBufferExtension.swift */; };
-		626B8E581F7B394100371201 /* CIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E031F7B394100371201 /* CIImageExtension.swift */; };
-		626B8E591F7B394100371201 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E041F7B394100371201 /* UIViewExtension.swift */; };
-		626B8E5A1F7B394100371201 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E051F7B394100371201 /* CGRectExtension.swift */; };
-		626B8E5B1F7B394100371201 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E061F7B394100371201 /* StringExtension.swift */; };
-		626B8E5C1F7B394100371201 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E071F7B394100371201 /* UIImageExtension.swift */; };
-		626B8E5D1F7B394100371201 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E081F7B394100371201 /* DateExtension.swift */; };
-		626B8E5E1F7B394100371201 /* IMUIAudioPlayerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E0A1F7B394100371201 /* IMUIAudioPlayerHelper.swift */; };
-		626B8E5F1F7B394100371201 /* IMUIInputViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E0D1F7B394100371201 /* IMUIInputViewDelegate.swift */; };
-		626B8E601F7B394100371201 /* BundleInputViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E0F1F7B394100371201 /* BundleInputViewExtension.swift */; };
-		626B8E611F7B394100371201 /* IMUIFeatureIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E111F7B394100371201 /* IMUIFeatureIconModel.swift */; };
-		626B8E621F7B394100371201 /* IMUIEmojiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E121F7B394100371201 /* IMUIEmojiModel.swift */; };
-		626B8E631F7B394100371201 /* IMUIRecordVoiceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E141F7B394100371201 /* IMUIRecordVoiceHelper.swift */; };
-		626B8E641F7B394100371201 /* IMUIInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E151F7B394100371201 /* IMUIInputView.swift */; };
-		626B8E651F7B394100371201 /* IMUIGalleryDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E161F7B394100371201 /* IMUIGalleryDataManager.swift */; };
-		626B8E661F7B394100371201 /* IMUIInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E171F7B394100371201 /* IMUIInputView.xib */; };
-		626B8E671F7B394100371201 /* IMUICameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E191F7B394100371201 /* IMUICameraCell.swift */; };
-		626B8E681F7B394100371201 /* IMUIFeatureListIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E1A1F7B394100371201 /* IMUIFeatureListIconCell.swift */; };
-		626B8E691F7B394100371201 /* IMUIFeatureListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E1B1F7B394100371201 /* IMUIFeatureListView.xib */; };
-		626B8E6A1F7B394100371201 /* IMUICameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E1C1F7B394100371201 /* IMUICameraView.swift */; };
-		626B8E6B1F7B394100371201 /* IMUIRecordVoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E1D1F7B394100371201 /* IMUIRecordVoiceCell.swift */; };
-		626B8E6C1F7B394100371201 /* IMUIFeatureView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E1E1F7B394100371201 /* IMUIFeatureView.xib */; };
-		626B8E6D1F7B394100371201 /* IMUIProgressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E1F1F7B394100371201 /* IMUIProgressButton.swift */; };
-		626B8E6E1F7B394100371201 /* IMUIFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E201F7B394100371201 /* IMUIFeatureView.swift */; };
-		626B8E6F1F7B394100371201 /* IMUIEmojiCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E211F7B394100371201 /* IMUIEmojiCell.xib */; };
-		626B8E701F7B394100371201 /* IMUICameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E221F7B394100371201 /* IMUICameraCell.xib */; };
-		626B8E711F7B394100371201 /* IMUIEmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E231F7B394100371201 /* IMUIEmojiCell.swift */; };
-		626B8E721F7B394100371201 /* IMUICameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E241F7B394100371201 /* IMUICameraView.xib */; };
-		626B8E731F7B394100371201 /* IMUIGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E251F7B394100371201 /* IMUIGalleryCell.swift */; };
-		626B8E741F7B394100371201 /* IMUIEmojiItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E261F7B394100371201 /* IMUIEmojiItemCell.swift */; };
-		626B8E751F7B394100371201 /* IMUICameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E271F7B394100371201 /* IMUICameraPreviewView.swift */; };
-		626B8E761F7B394100371201 /* IMUIEmojiItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E281F7B394100371201 /* IMUIEmojiItemCell.xib */; };
-		626B8E771F7B394100371201 /* IMUIGalleryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E291F7B394100371201 /* IMUIGalleryCell.xib */; };
-		626B8E781F7B394100371201 /* IMUIPhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E2A1F7B394100371201 /* IMUIPhotoCaptureDelegate.swift */; };
-		626B8E791F7B394100371201 /* IMUIRecordVoiceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E2B1F7B394100371201 /* IMUIRecordVoiceCell.xib */; };
-		626B8E7A1F7B394100371201 /* IMUIFeatureListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E2C1F7B394100371201 /* IMUIFeatureListView.swift */; };
-		626B8E7B1F7B394100371201 /* IMUIFeatureListIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E2D1F7B394100371201 /* IMUIFeatureListIconCell.xib */; };
-		626B8E7C1F7B394100371201 /* IMUIInputViewAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E2F1F7B394100371201 /* IMUIInputViewAssets.bundle */; };
-		626B8E7D1F7B394100371201 /* IMUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 626B8E311F7B394100371201 /* IMUI.h */; };
-		626B8E7E1F7B394100371201 /* BundleMessageListExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E331F7B394100371201 /* BundleMessageListExtension.swift */; };
-		626B8E7F1F7B394100371201 /* UIImageMessageListExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E341F7B394100371201 /* UIImageMessageListExtension.swift */; };
-		626B8E801F7B394100371201 /* IMUIMessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E361F7B394100371201 /* IMUIMessageCellLayout.swift */; };
-		626B8E811F7B394100371201 /* IMUIMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E381F7B394100371201 /* IMUIMessageModel.swift */; };
-		626B8E821F7B394100371201 /* IMUIViewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E391F7B394100371201 /* IMUIViewCache.swift */; };
-		626B8E831F7B394100371201 /* IMUIReuseViewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E3A1F7B394100371201 /* IMUIReuseViewCache.swift */; };
-		626B8E841F7B394100371201 /* IMUIMessageContentViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E3C1F7B394100371201 /* IMUIMessageContentViewProtocol.swift */; };
-		626B8E851F7B394100371201 /* IMUIMessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E3D1F7B394100371201 /* IMUIMessageProtocol.swift */; };
-		626B8E861F7B394100371201 /* IMUIUserProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E3E1F7B394100371201 /* IMUIUserProtocol.swift */; };
-		626B8E871F7B394100371201 /* IMUIMessageMessageCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E3F1F7B394100371201 /* IMUIMessageMessageCollectionViewDelegate.swift */; };
-		626B8E881F7B394100371201 /* IMUIMessageCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E401F7B394100371201 /* IMUIMessageCellProtocol.swift */; };
-		626B8E891F7B394100371201 /* IMUIMessageStatusViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E411F7B394100371201 /* IMUIMessageStatusViewProtocol.swift */; };
-		626B8E8A1F7B394100371201 /* IMUIMessageModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E421F7B394100371201 /* IMUIMessageModelProtocol.swift */; };
-		626B8E8B1F7B394100371201 /* IMUIMessageCellLayoutProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E431F7B394100371201 /* IMUIMessageCellLayoutProtocol.swift */; };
-		626B8E8C1F7B394100371201 /* IMUIChatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E451F7B394100371201 /* IMUIChatDataManager.swift */; };
-		626B8E8D1F7B394100371201 /* IMUIVideoFileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E461F7B394100371201 /* IMUIVideoFileLoader.swift */; };
-		626B8E8E1F7B394100371201 /* IMUIChatLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E471F7B394100371201 /* IMUIChatLayout.swift */; };
-		626B8E8F1F7B394100371201 /* IMUIMessageStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E491F7B394100371201 /* IMUIMessageStatusView.swift */; };
-		626B8E901F7B394100371201 /* IMUIMessageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E4A1F7B394100371201 /* IMUIMessageCollectionView.swift */; };
-		626B8E911F7B394100371201 /* IMUIMessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E4B1F7B394100371201 /* IMUIMessageBubbleView.swift */; };
-		626B8E921F7B394100371201 /* IMUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E4C1F7B394100371201 /* IMUITextView.swift */; };
-		626B8E931F7B394100371201 /* CIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E4D1F7B394100371201 /* CIImageView.swift */; };
-		626B8E941F7B394100371201 /* IMUIVoiceMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E4E1F7B394100371201 /* IMUIVoiceMessageContentView.swift */; };
-		626B8E951F7B394100371201 /* IMUITextMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E4F1F7B394100371201 /* IMUITextMessageContentView.swift */; };
-		626B8E961F7B394100371201 /* IMUIMessageCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E501F7B394100371201 /* IMUIMessageCollectionView.xib */; };
-		626B8E971F7B394100371201 /* IMUIVideoMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E511F7B394100371201 /* IMUIVideoMessageContentView.swift */; };
-		626B8E981F7B394100371201 /* IMUIBaseMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E521F7B394100371201 /* IMUIBaseMessageCell.swift */; };
-		626B8E991F7B394100371201 /* IMUIImageMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B8E531F7B394100371201 /* IMUIImageMessageContentView.swift */; };
-		626B8E9A1F7B394100371201 /* IMUIAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 626B8E551F7B394100371201 /* IMUIAssets.bundle */; };
+		62A4875D1F8F417D00C568E8 /* IMUIInputViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487061F8F417C00C568E8 /* IMUIInputViewDelegate.swift */; };
+		62A4875E1F8F417D00C568E8 /* BundleInputViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487081F8F417C00C568E8 /* BundleInputViewExtension.swift */; };
+		62A4875F1F8F417D00C568E8 /* IMUIFeatureIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4870A1F8F417C00C568E8 /* IMUIFeatureIconModel.swift */; };
+		62A487601F8F417D00C568E8 /* IMUIEmojiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4870B1F8F417C00C568E8 /* IMUIEmojiModel.swift */; };
+		62A487611F8F417D00C568E8 /* IMUIRecordVoiceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4870D1F8F417C00C568E8 /* IMUIRecordVoiceHelper.swift */; };
+		62A487621F8F417D00C568E8 /* IMUIInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4870E1F8F417C00C568E8 /* IMUIInputView.swift */; };
+		62A487631F8F417D00C568E8 /* IMUIGalleryDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4870F1F8F417C00C568E8 /* IMUIGalleryDataManager.swift */; };
+		62A487641F8F417D00C568E8 /* IMUIInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A487101F8F417C00C568E8 /* IMUIInputView.xib */; };
+		62A487651F8F417D00C568E8 /* IMUICameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487121F8F417C00C568E8 /* IMUICameraCell.swift */; };
+		62A487661F8F417D00C568E8 /* IMUIFeatureListIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487131F8F417C00C568E8 /* IMUIFeatureListIconCell.swift */; };
+		62A487671F8F417D00C568E8 /* IMUIFeatureListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A487141F8F417C00C568E8 /* IMUIFeatureListView.xib */; };
+		62A487681F8F417D00C568E8 /* IMUICameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487151F8F417C00C568E8 /* IMUICameraView.swift */; };
+		62A487691F8F417D00C568E8 /* IMUIGalleryContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487161F8F417C00C568E8 /* IMUIGalleryContainerCell.swift */; };
+		62A4876A1F8F417D00C568E8 /* IMUIRecordVoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487171F8F417C00C568E8 /* IMUIRecordVoiceCell.swift */; };
+		62A4876B1F8F417D00C568E8 /* IMUIFeatureView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A487181F8F417C00C568E8 /* IMUIFeatureView.xib */; };
+		62A4876C1F8F417D00C568E8 /* IMUIProgressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487191F8F417C00C568E8 /* IMUIProgressButton.swift */; };
+		62A4876D1F8F417D00C568E8 /* IMUIFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4871A1F8F417C00C568E8 /* IMUIFeatureView.swift */; };
+		62A4876E1F8F417D00C568E8 /* IMUIEmojiCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A4871B1F8F417C00C568E8 /* IMUIEmojiCell.xib */; };
+		62A4876F1F8F417D00C568E8 /* IMUICameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A4871C1F8F417C00C568E8 /* IMUICameraCell.xib */; };
+		62A487701F8F417D00C568E8 /* IMUIEmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4871D1F8F417C00C568E8 /* IMUIEmojiCell.swift */; };
+		62A487711F8F417D00C568E8 /* IMUICameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A4871E1F8F417C00C568E8 /* IMUICameraView.xib */; };
+		62A487721F8F417D00C568E8 /* IMUIGalleryContainerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A4871F1F8F417C00C568E8 /* IMUIGalleryContainerCell.xib */; };
+		62A487731F8F417D00C568E8 /* IMUIGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487201F8F417C00C568E8 /* IMUIGalleryCell.swift */; };
+		62A487741F8F417D00C568E8 /* IMUIEmojiItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487211F8F417C00C568E8 /* IMUIEmojiItemCell.swift */; };
+		62A487751F8F417D00C568E8 /* IMUICameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487221F8F417C00C568E8 /* IMUICameraPreviewView.swift */; };
+		62A487761F8F417D00C568E8 /* IMUIEmojiItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A487231F8F417C00C568E8 /* IMUIEmojiItemCell.xib */; };
+		62A487771F8F417D00C568E8 /* IMUIGalleryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A487241F8F417C00C568E8 /* IMUIGalleryCell.xib */; };
+		62A487781F8F417D00C568E8 /* IMUIPhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487251F8F417C00C568E8 /* IMUIPhotoCaptureDelegate.swift */; };
+		62A487791F8F417D00C568E8 /* IMUIRecordVoiceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A487261F8F417C00C568E8 /* IMUIRecordVoiceCell.xib */; };
+		62A4877A1F8F417D00C568E8 /* IMUIFeatureListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487271F8F417C00C568E8 /* IMUIFeatureListView.swift */; };
+		62A4877B1F8F417D00C568E8 /* IMUIFeatureListIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A487281F8F417C00C568E8 /* IMUIFeatureListIconCell.xib */; };
+		62A4877C1F8F417D00C568E8 /* IMUIInputViewAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 62A4872A1F8F417C00C568E8 /* IMUIInputViewAssets.bundle */; };
+		62A4877D1F8F417D00C568E8 /* IMUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 62A4872C1F8F417D00C568E8 /* IMUI.h */; };
+		62A4877E1F8F417D00C568E8 /* BundleMessageListExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4872E1F8F417D00C568E8 /* BundleMessageListExtension.swift */; };
+		62A4877F1F8F417D00C568E8 /* UIImageMessageListExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4872F1F8F417D00C568E8 /* UIImageMessageListExtension.swift */; };
+		62A487801F8F417D00C568E8 /* IMUIMessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487311F8F417D00C568E8 /* IMUIMessageCellLayout.swift */; };
+		62A487811F8F417D00C568E8 /* IMUIMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487331F8F417D00C568E8 /* IMUIMessageModel.swift */; };
+		62A487821F8F417D00C568E8 /* IMUIViewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487341F8F417D00C568E8 /* IMUIViewCache.swift */; };
+		62A487831F8F417D00C568E8 /* IMUIReuseViewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487351F8F417D00C568E8 /* IMUIReuseViewCache.swift */; };
+		62A487841F8F417D00C568E8 /* IMUIMessageContentViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487371F8F417D00C568E8 /* IMUIMessageContentViewProtocol.swift */; };
+		62A487851F8F417D00C568E8 /* IMUIMessageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487381F8F417D00C568E8 /* IMUIMessageProtocol.swift */; };
+		62A487861F8F417D00C568E8 /* IMUIUserProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487391F8F417D00C568E8 /* IMUIUserProtocol.swift */; };
+		62A487871F8F417D00C568E8 /* IMUIMessageMessageCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4873A1F8F417D00C568E8 /* IMUIMessageMessageCollectionViewDelegate.swift */; };
+		62A487881F8F417D00C568E8 /* IMUIMessageCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4873B1F8F417D00C568E8 /* IMUIMessageCellProtocol.swift */; };
+		62A487891F8F417D00C568E8 /* IMUIMessageStatusViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4873C1F8F417D00C568E8 /* IMUIMessageStatusViewProtocol.swift */; };
+		62A4878A1F8F417D00C568E8 /* IMUIMessageModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4873D1F8F417D00C568E8 /* IMUIMessageModelProtocol.swift */; };
+		62A4878B1F8F417D00C568E8 /* IMUIMessageCellLayoutProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4873E1F8F417D00C568E8 /* IMUIMessageCellLayoutProtocol.swift */; };
+		62A4878C1F8F417D00C568E8 /* IMUIChatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487401F8F417D00C568E8 /* IMUIChatDataManager.swift */; };
+		62A4878D1F8F417D00C568E8 /* IMUIVideoFileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487411F8F417D00C568E8 /* IMUIVideoFileLoader.swift */; };
+		62A4878E1F8F417D00C568E8 /* IMUIChatLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487421F8F417D00C568E8 /* IMUIChatLayout.swift */; };
+		62A4878F1F8F417D00C568E8 /* IMUIMessageStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487441F8F417D00C568E8 /* IMUIMessageStatusView.swift */; };
+		62A487901F8F417D00C568E8 /* IMUIMessageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487451F8F417D00C568E8 /* IMUIMessageCollectionView.swift */; };
+		62A487911F8F417D00C568E8 /* IMUIMessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487461F8F417D00C568E8 /* IMUIMessageBubbleView.swift */; };
+		62A487921F8F417D00C568E8 /* IMUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487471F8F417D00C568E8 /* IMUITextView.swift */; };
+		62A487931F8F417D00C568E8 /* CIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487481F8F417D00C568E8 /* CIImageView.swift */; };
+		62A487941F8F417D00C568E8 /* IMUIVoiceMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487491F8F417D00C568E8 /* IMUIVoiceMessageContentView.swift */; };
+		62A487951F8F417D00C568E8 /* IMUITextMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4874A1F8F417D00C568E8 /* IMUITextMessageContentView.swift */; };
+		62A487961F8F417D00C568E8 /* IMUIMessageCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62A4874B1F8F417D00C568E8 /* IMUIMessageCollectionView.xib */; };
+		62A487971F8F417D00C568E8 /* IMUIVideoMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4874C1F8F417D00C568E8 /* IMUIVideoMessageContentView.swift */; };
+		62A487981F8F417D00C568E8 /* IMUIBaseMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4874D1F8F417D00C568E8 /* IMUIBaseMessageCell.swift */; };
+		62A487991F8F417D00C568E8 /* IMUIImageMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4874E1F8F417D00C568E8 /* IMUIImageMessageContentView.swift */; };
+		62A4879A1F8F417D00C568E8 /* IMUIAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 62A487501F8F417D00C568E8 /* IMUIAssets.bundle */; };
+		62A4879B1F8F417D00C568E8 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487531F8F417D00C568E8 /* UIColorExtension.swift */; };
+		62A4879C1F8F417D00C568E8 /* CMSampleBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487541F8F417D00C568E8 /* CMSampleBufferExtension.swift */; };
+		62A4879D1F8F417D00C568E8 /* CIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487551F8F417D00C568E8 /* CIImageExtension.swift */; };
+		62A4879E1F8F417D00C568E8 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487561F8F417D00C568E8 /* UIViewExtension.swift */; };
+		62A4879F1F8F417D00C568E8 /* CGRectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487571F8F417D00C568E8 /* CGRectExtension.swift */; };
+		62A487A01F8F417D00C568E8 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487581F8F417D00C568E8 /* StringExtension.swift */; };
+		62A487A11F8F417D00C568E8 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487591F8F417D00C568E8 /* UIImageExtension.swift */; };
+		62A487A21F8F417D00C568E8 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4875A1F8F417D00C568E8 /* DateExtension.swift */; };
+		62A487A31F8F417D00C568E8 /* IMUIAudioPlayerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4875C1F8F417D00C568E8 /* IMUIAudioPlayerHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,75 +155,77 @@
 		623EA9A81EE55D0800EC43AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		624F239D1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEventCollectionViewCell.swift; sourceTree = "<group>"; };
 		624F239E1F039DBF00D11E4E /* MessageEventModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEventModel.swift; sourceTree = "<group>"; };
-		626B8E011F7B394100371201 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
-		626B8E021F7B394100371201 /* CMSampleBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMSampleBufferExtension.swift; sourceTree = "<group>"; };
-		626B8E031F7B394100371201 /* CIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CIImageExtension.swift; sourceTree = "<group>"; };
-		626B8E041F7B394100371201 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		626B8E051F7B394100371201 /* CGRectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
-		626B8E061F7B394100371201 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		626B8E071F7B394100371201 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
-		626B8E081F7B394100371201 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
-		626B8E0A1F7B394100371201 /* IMUIAudioPlayerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIAudioPlayerHelper.swift; sourceTree = "<group>"; };
-		626B8E0D1F7B394100371201 /* IMUIInputViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIInputViewDelegate.swift; sourceTree = "<group>"; };
-		626B8E0F1F7B394100371201 /* BundleInputViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleInputViewExtension.swift; sourceTree = "<group>"; };
-		626B8E111F7B394100371201 /* IMUIFeatureIconModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureIconModel.swift; sourceTree = "<group>"; };
-		626B8E121F7B394100371201 /* IMUIEmojiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIEmojiModel.swift; sourceTree = "<group>"; };
-		626B8E141F7B394100371201 /* IMUIRecordVoiceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIRecordVoiceHelper.swift; sourceTree = "<group>"; };
-		626B8E151F7B394100371201 /* IMUIInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIInputView.swift; sourceTree = "<group>"; };
-		626B8E161F7B394100371201 /* IMUIGalleryDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIGalleryDataManager.swift; sourceTree = "<group>"; };
-		626B8E171F7B394100371201 /* IMUIInputView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIInputView.xib; sourceTree = "<group>"; };
-		626B8E191F7B394100371201 /* IMUICameraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICameraCell.swift; sourceTree = "<group>"; };
-		626B8E1A1F7B394100371201 /* IMUIFeatureListIconCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureListIconCell.swift; sourceTree = "<group>"; };
-		626B8E1B1F7B394100371201 /* IMUIFeatureListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIFeatureListView.xib; sourceTree = "<group>"; };
-		626B8E1C1F7B394100371201 /* IMUICameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICameraView.swift; sourceTree = "<group>"; };
-		626B8E1D1F7B394100371201 /* IMUIRecordVoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIRecordVoiceCell.swift; sourceTree = "<group>"; };
-		626B8E1E1F7B394100371201 /* IMUIFeatureView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIFeatureView.xib; sourceTree = "<group>"; };
-		626B8E1F1F7B394100371201 /* IMUIProgressButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIProgressButton.swift; sourceTree = "<group>"; };
-		626B8E201F7B394100371201 /* IMUIFeatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureView.swift; sourceTree = "<group>"; };
-		626B8E211F7B394100371201 /* IMUIEmojiCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIEmojiCell.xib; sourceTree = "<group>"; };
-		626B8E221F7B394100371201 /* IMUICameraCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUICameraCell.xib; sourceTree = "<group>"; };
-		626B8E231F7B394100371201 /* IMUIEmojiCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIEmojiCell.swift; sourceTree = "<group>"; };
-		626B8E241F7B394100371201 /* IMUICameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUICameraView.xib; sourceTree = "<group>"; };
-		626B8E251F7B394100371201 /* IMUIGalleryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIGalleryCell.swift; sourceTree = "<group>"; };
-		626B8E261F7B394100371201 /* IMUIEmojiItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIEmojiItemCell.swift; sourceTree = "<group>"; };
-		626B8E271F7B394100371201 /* IMUICameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICameraPreviewView.swift; sourceTree = "<group>"; };
-		626B8E281F7B394100371201 /* IMUIEmojiItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIEmojiItemCell.xib; sourceTree = "<group>"; };
-		626B8E291F7B394100371201 /* IMUIGalleryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIGalleryCell.xib; sourceTree = "<group>"; };
-		626B8E2A1F7B394100371201 /* IMUIPhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIPhotoCaptureDelegate.swift; sourceTree = "<group>"; };
-		626B8E2B1F7B394100371201 /* IMUIRecordVoiceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIRecordVoiceCell.xib; sourceTree = "<group>"; };
-		626B8E2C1F7B394100371201 /* IMUIFeatureListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureListView.swift; sourceTree = "<group>"; };
-		626B8E2D1F7B394100371201 /* IMUIFeatureListIconCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIFeatureListIconCell.xib; sourceTree = "<group>"; };
-		626B8E2F1F7B394100371201 /* IMUIInputViewAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IMUIInputViewAssets.bundle; sourceTree = "<group>"; };
-		626B8E311F7B394100371201 /* IMUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMUI.h; sourceTree = "<group>"; };
-		626B8E331F7B394100371201 /* BundleMessageListExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleMessageListExtension.swift; sourceTree = "<group>"; };
-		626B8E341F7B394100371201 /* UIImageMessageListExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageMessageListExtension.swift; sourceTree = "<group>"; };
-		626B8E361F7B394100371201 /* IMUIMessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCellLayout.swift; sourceTree = "<group>"; };
-		626B8E381F7B394100371201 /* IMUIMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageModel.swift; sourceTree = "<group>"; };
-		626B8E391F7B394100371201 /* IMUIViewCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIViewCache.swift; sourceTree = "<group>"; };
-		626B8E3A1F7B394100371201 /* IMUIReuseViewCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIReuseViewCache.swift; sourceTree = "<group>"; };
-		626B8E3C1F7B394100371201 /* IMUIMessageContentViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageContentViewProtocol.swift; sourceTree = "<group>"; };
-		626B8E3D1F7B394100371201 /* IMUIMessageProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageProtocol.swift; sourceTree = "<group>"; };
-		626B8E3E1F7B394100371201 /* IMUIUserProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIUserProtocol.swift; sourceTree = "<group>"; };
-		626B8E3F1F7B394100371201 /* IMUIMessageMessageCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageMessageCollectionViewDelegate.swift; sourceTree = "<group>"; };
-		626B8E401F7B394100371201 /* IMUIMessageCellProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCellProtocol.swift; sourceTree = "<group>"; };
-		626B8E411F7B394100371201 /* IMUIMessageStatusViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageStatusViewProtocol.swift; sourceTree = "<group>"; };
-		626B8E421F7B394100371201 /* IMUIMessageModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageModelProtocol.swift; sourceTree = "<group>"; };
-		626B8E431F7B394100371201 /* IMUIMessageCellLayoutProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCellLayoutProtocol.swift; sourceTree = "<group>"; };
-		626B8E451F7B394100371201 /* IMUIChatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIChatDataManager.swift; sourceTree = "<group>"; };
-		626B8E461F7B394100371201 /* IMUIVideoFileLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVideoFileLoader.swift; sourceTree = "<group>"; };
-		626B8E471F7B394100371201 /* IMUIChatLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIChatLayout.swift; sourceTree = "<group>"; };
-		626B8E491F7B394100371201 /* IMUIMessageStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageStatusView.swift; sourceTree = "<group>"; };
-		626B8E4A1F7B394100371201 /* IMUIMessageCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCollectionView.swift; sourceTree = "<group>"; };
-		626B8E4B1F7B394100371201 /* IMUIMessageBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageBubbleView.swift; sourceTree = "<group>"; };
-		626B8E4C1F7B394100371201 /* IMUITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUITextView.swift; sourceTree = "<group>"; };
-		626B8E4D1F7B394100371201 /* CIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CIImageView.swift; sourceTree = "<group>"; };
-		626B8E4E1F7B394100371201 /* IMUIVoiceMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVoiceMessageContentView.swift; sourceTree = "<group>"; };
-		626B8E4F1F7B394100371201 /* IMUITextMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUITextMessageContentView.swift; sourceTree = "<group>"; };
-		626B8E501F7B394100371201 /* IMUIMessageCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIMessageCollectionView.xib; sourceTree = "<group>"; };
-		626B8E511F7B394100371201 /* IMUIVideoMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVideoMessageContentView.swift; sourceTree = "<group>"; };
-		626B8E521F7B394100371201 /* IMUIBaseMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIBaseMessageCell.swift; sourceTree = "<group>"; };
-		626B8E531F7B394100371201 /* IMUIImageMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIImageMessageContentView.swift; sourceTree = "<group>"; };
-		626B8E551F7B394100371201 /* IMUIAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IMUIAssets.bundle; sourceTree = "<group>"; };
+		62A487061F8F417C00C568E8 /* IMUIInputViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIInputViewDelegate.swift; sourceTree = "<group>"; };
+		62A487081F8F417C00C568E8 /* BundleInputViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleInputViewExtension.swift; sourceTree = "<group>"; };
+		62A4870A1F8F417C00C568E8 /* IMUIFeatureIconModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureIconModel.swift; sourceTree = "<group>"; };
+		62A4870B1F8F417C00C568E8 /* IMUIEmojiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIEmojiModel.swift; sourceTree = "<group>"; };
+		62A4870D1F8F417C00C568E8 /* IMUIRecordVoiceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIRecordVoiceHelper.swift; sourceTree = "<group>"; };
+		62A4870E1F8F417C00C568E8 /* IMUIInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIInputView.swift; sourceTree = "<group>"; };
+		62A4870F1F8F417C00C568E8 /* IMUIGalleryDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIGalleryDataManager.swift; sourceTree = "<group>"; };
+		62A487101F8F417C00C568E8 /* IMUIInputView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIInputView.xib; sourceTree = "<group>"; };
+		62A487121F8F417C00C568E8 /* IMUICameraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICameraCell.swift; sourceTree = "<group>"; };
+		62A487131F8F417C00C568E8 /* IMUIFeatureListIconCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureListIconCell.swift; sourceTree = "<group>"; };
+		62A487141F8F417C00C568E8 /* IMUIFeatureListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIFeatureListView.xib; sourceTree = "<group>"; };
+		62A487151F8F417C00C568E8 /* IMUICameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICameraView.swift; sourceTree = "<group>"; };
+		62A487161F8F417C00C568E8 /* IMUIGalleryContainerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIGalleryContainerCell.swift; sourceTree = "<group>"; };
+		62A487171F8F417C00C568E8 /* IMUIRecordVoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIRecordVoiceCell.swift; sourceTree = "<group>"; };
+		62A487181F8F417C00C568E8 /* IMUIFeatureView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIFeatureView.xib; sourceTree = "<group>"; };
+		62A487191F8F417C00C568E8 /* IMUIProgressButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIProgressButton.swift; sourceTree = "<group>"; };
+		62A4871A1F8F417C00C568E8 /* IMUIFeatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureView.swift; sourceTree = "<group>"; };
+		62A4871B1F8F417C00C568E8 /* IMUIEmojiCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIEmojiCell.xib; sourceTree = "<group>"; };
+		62A4871C1F8F417C00C568E8 /* IMUICameraCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUICameraCell.xib; sourceTree = "<group>"; };
+		62A4871D1F8F417C00C568E8 /* IMUIEmojiCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIEmojiCell.swift; sourceTree = "<group>"; };
+		62A4871E1F8F417C00C568E8 /* IMUICameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUICameraView.xib; sourceTree = "<group>"; };
+		62A4871F1F8F417C00C568E8 /* IMUIGalleryContainerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIGalleryContainerCell.xib; sourceTree = "<group>"; };
+		62A487201F8F417C00C568E8 /* IMUIGalleryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIGalleryCell.swift; sourceTree = "<group>"; };
+		62A487211F8F417C00C568E8 /* IMUIEmojiItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIEmojiItemCell.swift; sourceTree = "<group>"; };
+		62A487221F8F417C00C568E8 /* IMUICameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICameraPreviewView.swift; sourceTree = "<group>"; };
+		62A487231F8F417C00C568E8 /* IMUIEmojiItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIEmojiItemCell.xib; sourceTree = "<group>"; };
+		62A487241F8F417C00C568E8 /* IMUIGalleryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIGalleryCell.xib; sourceTree = "<group>"; };
+		62A487251F8F417C00C568E8 /* IMUIPhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIPhotoCaptureDelegate.swift; sourceTree = "<group>"; };
+		62A487261F8F417C00C568E8 /* IMUIRecordVoiceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIRecordVoiceCell.xib; sourceTree = "<group>"; };
+		62A487271F8F417C00C568E8 /* IMUIFeatureListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureListView.swift; sourceTree = "<group>"; };
+		62A487281F8F417C00C568E8 /* IMUIFeatureListIconCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIFeatureListIconCell.xib; sourceTree = "<group>"; };
+		62A4872A1F8F417C00C568E8 /* IMUIInputViewAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IMUIInputViewAssets.bundle; sourceTree = "<group>"; };
+		62A4872C1F8F417D00C568E8 /* IMUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMUI.h; sourceTree = "<group>"; };
+		62A4872E1F8F417D00C568E8 /* BundleMessageListExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleMessageListExtension.swift; sourceTree = "<group>"; };
+		62A4872F1F8F417D00C568E8 /* UIImageMessageListExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageMessageListExtension.swift; sourceTree = "<group>"; };
+		62A487311F8F417D00C568E8 /* IMUIMessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCellLayout.swift; sourceTree = "<group>"; };
+		62A487331F8F417D00C568E8 /* IMUIMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageModel.swift; sourceTree = "<group>"; };
+		62A487341F8F417D00C568E8 /* IMUIViewCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIViewCache.swift; sourceTree = "<group>"; };
+		62A487351F8F417D00C568E8 /* IMUIReuseViewCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIReuseViewCache.swift; sourceTree = "<group>"; };
+		62A487371F8F417D00C568E8 /* IMUIMessageContentViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageContentViewProtocol.swift; sourceTree = "<group>"; };
+		62A487381F8F417D00C568E8 /* IMUIMessageProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageProtocol.swift; sourceTree = "<group>"; };
+		62A487391F8F417D00C568E8 /* IMUIUserProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIUserProtocol.swift; sourceTree = "<group>"; };
+		62A4873A1F8F417D00C568E8 /* IMUIMessageMessageCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageMessageCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		62A4873B1F8F417D00C568E8 /* IMUIMessageCellProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCellProtocol.swift; sourceTree = "<group>"; };
+		62A4873C1F8F417D00C568E8 /* IMUIMessageStatusViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageStatusViewProtocol.swift; sourceTree = "<group>"; };
+		62A4873D1F8F417D00C568E8 /* IMUIMessageModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageModelProtocol.swift; sourceTree = "<group>"; };
+		62A4873E1F8F417D00C568E8 /* IMUIMessageCellLayoutProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCellLayoutProtocol.swift; sourceTree = "<group>"; };
+		62A487401F8F417D00C568E8 /* IMUIChatDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIChatDataManager.swift; sourceTree = "<group>"; };
+		62A487411F8F417D00C568E8 /* IMUIVideoFileLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVideoFileLoader.swift; sourceTree = "<group>"; };
+		62A487421F8F417D00C568E8 /* IMUIChatLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIChatLayout.swift; sourceTree = "<group>"; };
+		62A487441F8F417D00C568E8 /* IMUIMessageStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageStatusView.swift; sourceTree = "<group>"; };
+		62A487451F8F417D00C568E8 /* IMUIMessageCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageCollectionView.swift; sourceTree = "<group>"; };
+		62A487461F8F417D00C568E8 /* IMUIMessageBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIMessageBubbleView.swift; sourceTree = "<group>"; };
+		62A487471F8F417D00C568E8 /* IMUITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUITextView.swift; sourceTree = "<group>"; };
+		62A487481F8F417D00C568E8 /* CIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CIImageView.swift; sourceTree = "<group>"; };
+		62A487491F8F417D00C568E8 /* IMUIVoiceMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVoiceMessageContentView.swift; sourceTree = "<group>"; };
+		62A4874A1F8F417D00C568E8 /* IMUITextMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUITextMessageContentView.swift; sourceTree = "<group>"; };
+		62A4874B1F8F417D00C568E8 /* IMUIMessageCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIMessageCollectionView.xib; sourceTree = "<group>"; };
+		62A4874C1F8F417D00C568E8 /* IMUIVideoMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIVideoMessageContentView.swift; sourceTree = "<group>"; };
+		62A4874D1F8F417D00C568E8 /* IMUIBaseMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIBaseMessageCell.swift; sourceTree = "<group>"; };
+		62A4874E1F8F417D00C568E8 /* IMUIImageMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIImageMessageContentView.swift; sourceTree = "<group>"; };
+		62A487501F8F417D00C568E8 /* IMUIAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IMUIAssets.bundle; sourceTree = "<group>"; };
+		62A487531F8F417D00C568E8 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		62A487541F8F417D00C568E8 /* CMSampleBufferExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMSampleBufferExtension.swift; sourceTree = "<group>"; };
+		62A487551F8F417D00C568E8 /* CIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CIImageExtension.swift; sourceTree = "<group>"; };
+		62A487561F8F417D00C568E8 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		62A487571F8F417D00C568E8 /* CGRectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRectExtension.swift; sourceTree = "<group>"; };
+		62A487581F8F417D00C568E8 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		62A487591F8F417D00C568E8 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		62A4875A1F8F417D00C568E8 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		62A4875C1F8F417D00C568E8 /* IMUIAudioPlayerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIAudioPlayerHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,9 +283,9 @@
 		623EA99A1EE55D0800EC43AE /* RCTAuroraIMUI */ = {
 			isa = PBXGroup;
 			children = (
-				626B8DFF1F7B394100371201 /* IMUICommon */,
-				626B8E0B1F7B394100371201 /* IMUIInputView */,
-				626B8E301F7B394100371201 /* IMUIMessageCollectionView */,
+				62A487511F8F417D00C568E8 /* IMUICommon */,
+				62A487041F8F417C00C568E8 /* IMUIInputView */,
+				62A4872B1F8F417D00C568E8 /* IMUIMessageCollectionView */,
 				623EA99B1EE55D0800EC43AE /* RCTAuroraIMUI.h */,
 				623EA99C1EE55D0800EC43AE /* Info.plist */,
 			);
@@ -317,217 +321,219 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		626B8DFF1F7B394100371201 /* IMUICommon */ = {
+		62A487041F8F417C00C568E8 /* IMUIInputView */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E001F7B394100371201 /* Extension */,
-				626B8E091F7B394100371201 /* Controllers */,
-			);
-			name = IMUICommon;
-			path = ../../../iOS/IMUICommon;
-			sourceTree = "<group>";
-		};
-		626B8E001F7B394100371201 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				626B8E011F7B394100371201 /* UIColorExtension.swift */,
-				626B8E021F7B394100371201 /* CMSampleBufferExtension.swift */,
-				626B8E031F7B394100371201 /* CIImageExtension.swift */,
-				626B8E041F7B394100371201 /* UIViewExtension.swift */,
-				626B8E051F7B394100371201 /* CGRectExtension.swift */,
-				626B8E061F7B394100371201 /* StringExtension.swift */,
-				626B8E071F7B394100371201 /* UIImageExtension.swift */,
-				626B8E081F7B394100371201 /* DateExtension.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		626B8E091F7B394100371201 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				626B8E0A1F7B394100371201 /* IMUIAudioPlayerHelper.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		626B8E0B1F7B394100371201 /* IMUIInputView */ = {
-			isa = PBXGroup;
-			children = (
-				626B8E0C1F7B394100371201 /* Protocal */,
-				626B8E0E1F7B394100371201 /* Extension */,
-				626B8E101F7B394100371201 /* Models */,
-				626B8E131F7B394100371201 /* Controllers */,
-				626B8E181F7B394100371201 /* Views */,
-				626B8E2E1F7B394100371201 /* Assets */,
+				62A487051F8F417C00C568E8 /* Protocal */,
+				62A487071F8F417C00C568E8 /* Extension */,
+				62A487091F8F417C00C568E8 /* Models */,
+				62A4870C1F8F417C00C568E8 /* Controllers */,
+				62A487111F8F417C00C568E8 /* Views */,
+				62A487291F8F417C00C568E8 /* Assets */,
 			);
 			name = IMUIInputView;
 			path = ../../../iOS/IMUIInputView;
 			sourceTree = "<group>";
 		};
-		626B8E0C1F7B394100371201 /* Protocal */ = {
+		62A487051F8F417C00C568E8 /* Protocal */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E0D1F7B394100371201 /* IMUIInputViewDelegate.swift */,
+				62A487061F8F417C00C568E8 /* IMUIInputViewDelegate.swift */,
 			);
 			path = Protocal;
 			sourceTree = "<group>";
 		};
-		626B8E0E1F7B394100371201 /* Extension */ = {
+		62A487071F8F417C00C568E8 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E0F1F7B394100371201 /* BundleInputViewExtension.swift */,
+				62A487081F8F417C00C568E8 /* BundleInputViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		626B8E101F7B394100371201 /* Models */ = {
+		62A487091F8F417C00C568E8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E111F7B394100371201 /* IMUIFeatureIconModel.swift */,
-				626B8E121F7B394100371201 /* IMUIEmojiModel.swift */,
+				62A4870A1F8F417C00C568E8 /* IMUIFeatureIconModel.swift */,
+				62A4870B1F8F417C00C568E8 /* IMUIEmojiModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		626B8E131F7B394100371201 /* Controllers */ = {
+		62A4870C1F8F417C00C568E8 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E141F7B394100371201 /* IMUIRecordVoiceHelper.swift */,
-				626B8E151F7B394100371201 /* IMUIInputView.swift */,
-				626B8E161F7B394100371201 /* IMUIGalleryDataManager.swift */,
-				626B8E171F7B394100371201 /* IMUIInputView.xib */,
+				62A4870D1F8F417C00C568E8 /* IMUIRecordVoiceHelper.swift */,
+				62A4870E1F8F417C00C568E8 /* IMUIInputView.swift */,
+				62A4870F1F8F417C00C568E8 /* IMUIGalleryDataManager.swift */,
+				62A487101F8F417C00C568E8 /* IMUIInputView.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		626B8E181F7B394100371201 /* Views */ = {
+		62A487111F8F417C00C568E8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E191F7B394100371201 /* IMUICameraCell.swift */,
-				626B8E1A1F7B394100371201 /* IMUIFeatureListIconCell.swift */,
-				626B8E1B1F7B394100371201 /* IMUIFeatureListView.xib */,
-				626B8E1C1F7B394100371201 /* IMUICameraView.swift */,
-				626B8E1D1F7B394100371201 /* IMUIRecordVoiceCell.swift */,
-				626B8E1E1F7B394100371201 /* IMUIFeatureView.xib */,
-				626B8E1F1F7B394100371201 /* IMUIProgressButton.swift */,
-				626B8E201F7B394100371201 /* IMUIFeatureView.swift */,
-				626B8E211F7B394100371201 /* IMUIEmojiCell.xib */,
-				626B8E221F7B394100371201 /* IMUICameraCell.xib */,
-				626B8E231F7B394100371201 /* IMUIEmojiCell.swift */,
-				626B8E241F7B394100371201 /* IMUICameraView.xib */,
-				626B8E251F7B394100371201 /* IMUIGalleryCell.swift */,
-				626B8E261F7B394100371201 /* IMUIEmojiItemCell.swift */,
-				626B8E271F7B394100371201 /* IMUICameraPreviewView.swift */,
-				626B8E281F7B394100371201 /* IMUIEmojiItemCell.xib */,
-				626B8E291F7B394100371201 /* IMUIGalleryCell.xib */,
-				626B8E2A1F7B394100371201 /* IMUIPhotoCaptureDelegate.swift */,
-				626B8E2B1F7B394100371201 /* IMUIRecordVoiceCell.xib */,
-				626B8E2C1F7B394100371201 /* IMUIFeatureListView.swift */,
-				626B8E2D1F7B394100371201 /* IMUIFeatureListIconCell.xib */,
+				62A487121F8F417C00C568E8 /* IMUICameraCell.swift */,
+				62A487131F8F417C00C568E8 /* IMUIFeatureListIconCell.swift */,
+				62A487141F8F417C00C568E8 /* IMUIFeatureListView.xib */,
+				62A487151F8F417C00C568E8 /* IMUICameraView.swift */,
+				62A487161F8F417C00C568E8 /* IMUIGalleryContainerCell.swift */,
+				62A487171F8F417C00C568E8 /* IMUIRecordVoiceCell.swift */,
+				62A487181F8F417C00C568E8 /* IMUIFeatureView.xib */,
+				62A487191F8F417C00C568E8 /* IMUIProgressButton.swift */,
+				62A4871A1F8F417C00C568E8 /* IMUIFeatureView.swift */,
+				62A4871B1F8F417C00C568E8 /* IMUIEmojiCell.xib */,
+				62A4871C1F8F417C00C568E8 /* IMUICameraCell.xib */,
+				62A4871D1F8F417C00C568E8 /* IMUIEmojiCell.swift */,
+				62A4871E1F8F417C00C568E8 /* IMUICameraView.xib */,
+				62A4871F1F8F417C00C568E8 /* IMUIGalleryContainerCell.xib */,
+				62A487201F8F417C00C568E8 /* IMUIGalleryCell.swift */,
+				62A487211F8F417C00C568E8 /* IMUIEmojiItemCell.swift */,
+				62A487221F8F417C00C568E8 /* IMUICameraPreviewView.swift */,
+				62A487231F8F417C00C568E8 /* IMUIEmojiItemCell.xib */,
+				62A487241F8F417C00C568E8 /* IMUIGalleryCell.xib */,
+				62A487251F8F417C00C568E8 /* IMUIPhotoCaptureDelegate.swift */,
+				62A487261F8F417C00C568E8 /* IMUIRecordVoiceCell.xib */,
+				62A487271F8F417C00C568E8 /* IMUIFeatureListView.swift */,
+				62A487281F8F417C00C568E8 /* IMUIFeatureListIconCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		626B8E2E1F7B394100371201 /* Assets */ = {
+		62A487291F8F417C00C568E8 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E2F1F7B394100371201 /* IMUIInputViewAssets.bundle */,
+				62A4872A1F8F417C00C568E8 /* IMUIInputViewAssets.bundle */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
 		};
-		626B8E301F7B394100371201 /* IMUIMessageCollectionView */ = {
+		62A4872B1F8F417D00C568E8 /* IMUIMessageCollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E311F7B394100371201 /* IMUI.h */,
-				626B8E321F7B394100371201 /* Extension */,
-				626B8E351F7B394100371201 /* Layout */,
-				626B8E371F7B394100371201 /* Models */,
-				626B8E3B1F7B394100371201 /* Protocol */,
-				626B8E441F7B394100371201 /* Controllers */,
-				626B8E481F7B394100371201 /* Views */,
-				626B8E541F7B394100371201 /* Assets */,
+				62A4872C1F8F417D00C568E8 /* IMUI.h */,
+				62A4872D1F8F417D00C568E8 /* Extension */,
+				62A487301F8F417D00C568E8 /* Layout */,
+				62A487321F8F417D00C568E8 /* Models */,
+				62A487361F8F417D00C568E8 /* Protocol */,
+				62A4873F1F8F417D00C568E8 /* Controllers */,
+				62A487431F8F417D00C568E8 /* Views */,
+				62A4874F1F8F417D00C568E8 /* Assets */,
 			);
 			name = IMUIMessageCollectionView;
 			path = ../../../iOS/IMUIMessageCollectionView;
 			sourceTree = "<group>";
 		};
-		626B8E321F7B394100371201 /* Extension */ = {
+		62A4872D1F8F417D00C568E8 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E331F7B394100371201 /* BundleMessageListExtension.swift */,
-				626B8E341F7B394100371201 /* UIImageMessageListExtension.swift */,
+				62A4872E1F8F417D00C568E8 /* BundleMessageListExtension.swift */,
+				62A4872F1F8F417D00C568E8 /* UIImageMessageListExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		626B8E351F7B394100371201 /* Layout */ = {
+		62A487301F8F417D00C568E8 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E361F7B394100371201 /* IMUIMessageCellLayout.swift */,
+				62A487311F8F417D00C568E8 /* IMUIMessageCellLayout.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
 		};
-		626B8E371F7B394100371201 /* Models */ = {
+		62A487321F8F417D00C568E8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E381F7B394100371201 /* IMUIMessageModel.swift */,
-				626B8E391F7B394100371201 /* IMUIViewCache.swift */,
-				626B8E3A1F7B394100371201 /* IMUIReuseViewCache.swift */,
+				62A487331F8F417D00C568E8 /* IMUIMessageModel.swift */,
+				62A487341F8F417D00C568E8 /* IMUIViewCache.swift */,
+				62A487351F8F417D00C568E8 /* IMUIReuseViewCache.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		626B8E3B1F7B394100371201 /* Protocol */ = {
+		62A487361F8F417D00C568E8 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E3C1F7B394100371201 /* IMUIMessageContentViewProtocol.swift */,
-				626B8E3D1F7B394100371201 /* IMUIMessageProtocol.swift */,
-				626B8E3E1F7B394100371201 /* IMUIUserProtocol.swift */,
-				626B8E3F1F7B394100371201 /* IMUIMessageMessageCollectionViewDelegate.swift */,
-				626B8E401F7B394100371201 /* IMUIMessageCellProtocol.swift */,
-				626B8E411F7B394100371201 /* IMUIMessageStatusViewProtocol.swift */,
-				626B8E421F7B394100371201 /* IMUIMessageModelProtocol.swift */,
-				626B8E431F7B394100371201 /* IMUIMessageCellLayoutProtocol.swift */,
+				62A487371F8F417D00C568E8 /* IMUIMessageContentViewProtocol.swift */,
+				62A487381F8F417D00C568E8 /* IMUIMessageProtocol.swift */,
+				62A487391F8F417D00C568E8 /* IMUIUserProtocol.swift */,
+				62A4873A1F8F417D00C568E8 /* IMUIMessageMessageCollectionViewDelegate.swift */,
+				62A4873B1F8F417D00C568E8 /* IMUIMessageCellProtocol.swift */,
+				62A4873C1F8F417D00C568E8 /* IMUIMessageStatusViewProtocol.swift */,
+				62A4873D1F8F417D00C568E8 /* IMUIMessageModelProtocol.swift */,
+				62A4873E1F8F417D00C568E8 /* IMUIMessageCellLayoutProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		626B8E441F7B394100371201 /* Controllers */ = {
+		62A4873F1F8F417D00C568E8 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E451F7B394100371201 /* IMUIChatDataManager.swift */,
-				626B8E461F7B394100371201 /* IMUIVideoFileLoader.swift */,
-				626B8E471F7B394100371201 /* IMUIChatLayout.swift */,
+				62A487401F8F417D00C568E8 /* IMUIChatDataManager.swift */,
+				62A487411F8F417D00C568E8 /* IMUIVideoFileLoader.swift */,
+				62A487421F8F417D00C568E8 /* IMUIChatLayout.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		626B8E481F7B394100371201 /* Views */ = {
+		62A487431F8F417D00C568E8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E491F7B394100371201 /* IMUIMessageStatusView.swift */,
-				626B8E4A1F7B394100371201 /* IMUIMessageCollectionView.swift */,
-				626B8E4B1F7B394100371201 /* IMUIMessageBubbleView.swift */,
-				626B8E4C1F7B394100371201 /* IMUITextView.swift */,
-				626B8E4D1F7B394100371201 /* CIImageView.swift */,
-				626B8E4E1F7B394100371201 /* IMUIVoiceMessageContentView.swift */,
-				626B8E4F1F7B394100371201 /* IMUITextMessageContentView.swift */,
-				626B8E501F7B394100371201 /* IMUIMessageCollectionView.xib */,
-				626B8E511F7B394100371201 /* IMUIVideoMessageContentView.swift */,
-				626B8E521F7B394100371201 /* IMUIBaseMessageCell.swift */,
-				626B8E531F7B394100371201 /* IMUIImageMessageContentView.swift */,
+				62A487441F8F417D00C568E8 /* IMUIMessageStatusView.swift */,
+				62A487451F8F417D00C568E8 /* IMUIMessageCollectionView.swift */,
+				62A487461F8F417D00C568E8 /* IMUIMessageBubbleView.swift */,
+				62A487471F8F417D00C568E8 /* IMUITextView.swift */,
+				62A487481F8F417D00C568E8 /* CIImageView.swift */,
+				62A487491F8F417D00C568E8 /* IMUIVoiceMessageContentView.swift */,
+				62A4874A1F8F417D00C568E8 /* IMUITextMessageContentView.swift */,
+				62A4874B1F8F417D00C568E8 /* IMUIMessageCollectionView.xib */,
+				62A4874C1F8F417D00C568E8 /* IMUIVideoMessageContentView.swift */,
+				62A4874D1F8F417D00C568E8 /* IMUIBaseMessageCell.swift */,
+				62A4874E1F8F417D00C568E8 /* IMUIImageMessageContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		626B8E541F7B394100371201 /* Assets */ = {
+		62A4874F1F8F417D00C568E8 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				626B8E551F7B394100371201 /* IMUIAssets.bundle */,
+				62A487501F8F417D00C568E8 /* IMUIAssets.bundle */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		62A487511F8F417D00C568E8 /* IMUICommon */ = {
+			isa = PBXGroup;
+			children = (
+				62A487521F8F417D00C568E8 /* Extension */,
+				62A4875B1F8F417D00C568E8 /* Controllers */,
+			);
+			name = IMUICommon;
+			path = ../../../iOS/IMUICommon;
+			sourceTree = "<group>";
+		};
+		62A487521F8F417D00C568E8 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				62A487531F8F417D00C568E8 /* UIColorExtension.swift */,
+				62A487541F8F417D00C568E8 /* CMSampleBufferExtension.swift */,
+				62A487551F8F417D00C568E8 /* CIImageExtension.swift */,
+				62A487561F8F417D00C568E8 /* UIViewExtension.swift */,
+				62A487571F8F417D00C568E8 /* CGRectExtension.swift */,
+				62A487581F8F417D00C568E8 /* StringExtension.swift */,
+				62A487591F8F417D00C568E8 /* UIImageExtension.swift */,
+				62A4875A1F8F417D00C568E8 /* DateExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		62A4875B1F8F417D00C568E8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				62A4875C1F8F417D00C568E8 /* IMUIAudioPlayerHelper.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -537,7 +543,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				626B8E7D1F7B394100371201 /* IMUI.h in Headers */,
+				62A4877D1F8F417D00C568E8 /* IMUI.h in Headers */,
 				623EA9A91EE55D0800EC43AE /* RCTAuroraIMUI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -648,21 +654,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				626B8E661F7B394100371201 /* IMUIInputView.xib in Resources */,
-				626B8E7C1F7B394100371201 /* IMUIInputViewAssets.bundle in Resources */,
-				626B8E961F7B394100371201 /* IMUIMessageCollectionView.xib in Resources */,
+				62A4879A1F8F417D00C568E8 /* IMUIAssets.bundle in Resources */,
+				62A487641F8F417D00C568E8 /* IMUIInputView.xib in Resources */,
 				624B82DA1EE57482006C3C03 /* RCTInputView.xib in Resources */,
-				626B8E771F7B394100371201 /* IMUIGalleryCell.xib in Resources */,
-				626B8E6F1F7B394100371201 /* IMUIEmojiCell.xib in Resources */,
-				626B8E791F7B394100371201 /* IMUIRecordVoiceCell.xib in Resources */,
-				626B8E7B1F7B394100371201 /* IMUIFeatureListIconCell.xib in Resources */,
-				626B8E761F7B394100371201 /* IMUIEmojiItemCell.xib in Resources */,
-				626B8E721F7B394100371201 /* IMUICameraView.xib in Resources */,
-				626B8E6C1F7B394100371201 /* IMUIFeatureView.xib in Resources */,
+				62A4877C1F8F417D00C568E8 /* IMUIInputViewAssets.bundle in Resources */,
+				62A487961F8F417D00C568E8 /* IMUIMessageCollectionView.xib in Resources */,
+				62A4876E1F8F417D00C568E8 /* IMUIEmojiCell.xib in Resources */,
+				62A487711F8F417D00C568E8 /* IMUICameraView.xib in Resources */,
+				62A4876B1F8F417D00C568E8 /* IMUIFeatureView.xib in Resources */,
+				62A487791F8F417D00C568E8 /* IMUIRecordVoiceCell.xib in Resources */,
+				62A487771F8F417D00C568E8 /* IMUIGalleryCell.xib in Resources */,
 				624B82DB1EE57482006C3C03 /* RCTMessageListView.xib in Resources */,
-				626B8E691F7B394100371201 /* IMUIFeatureListView.xib in Resources */,
-				626B8E9A1F7B394100371201 /* IMUIAssets.bundle in Resources */,
-				626B8E701F7B394100371201 /* IMUICameraCell.xib in Resources */,
+				62A4877B1F8F417D00C568E8 /* IMUIFeatureListIconCell.xib in Resources */,
+				62A487671F8F417D00C568E8 /* IMUIFeatureListView.xib in Resources */,
+				62A487761F8F417D00C568E8 /* IMUIEmojiItemCell.xib in Resources */,
+				62A487721F8F417D00C568E8 /* IMUIGalleryContainerCell.xib in Resources */,
+				62A4876F1F8F417D00C568E8 /* IMUICameraCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,78 +698,79 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				626B8E571F7B394100371201 /* CMSampleBufferExtension.swift in Sources */,
-				626B8E871F7B394100371201 /* IMUIMessageMessageCollectionViewDelegate.swift in Sources */,
 				624B828D1EE5710E006C3C03 /* imuiDemo-Bridging-Header.h in Sources */,
-				626B8E941F7B394100371201 /* IMUIVoiceMessageContentView.swift in Sources */,
 				624B828E1EE5710E006C3C03 /* IMUIInputViewManager.m in Sources */,
-				626B8E981F7B394100371201 /* IMUIBaseMessageCell.swift in Sources */,
-				626B8E601F7B394100371201 /* BundleInputViewExtension.swift in Sources */,
-				626B8E841F7B394100371201 /* IMUIMessageContentViewProtocol.swift in Sources */,
-				626B8E671F7B394100371201 /* IMUICameraCell.swift in Sources */,
+				62A487621F8F417D00C568E8 /* IMUIInputView.swift in Sources */,
+				62A4879F1F8F417D00C568E8 /* CGRectExtension.swift in Sources */,
+				62A4875D1F8F417D00C568E8 /* IMUIInputViewDelegate.swift in Sources */,
+				62A4876C1F8F417D00C568E8 /* IMUIProgressButton.swift in Sources */,
 				624B82901EE5710E006C3C03 /* MyMessageModel.swift in Sources */,
-				626B8E8D1F7B394100371201 /* IMUIVideoFileLoader.swift in Sources */,
-				626B8E711F7B394100371201 /* IMUIEmojiCell.swift in Sources */,
-				626B8E931F7B394100371201 /* CIImageView.swift in Sources */,
-				626B8E861F7B394100371201 /* IMUIUserProtocol.swift in Sources */,
-				626B8E681F7B394100371201 /* IMUIFeatureListIconCell.swift in Sources */,
+				62A487681F8F417D00C568E8 /* IMUICameraView.swift in Sources */,
+				62A487941F8F417D00C568E8 /* IMUIVoiceMessageContentView.swift in Sources */,
+				62A4878B1F8F417D00C568E8 /* IMUIMessageCellLayoutProtocol.swift in Sources */,
 				624B82911EE5710E006C3C03 /* MyUser.swift in Sources */,
-				626B8E8E1F7B394100371201 /* IMUIChatLayout.swift in Sources */,
-				626B8E8F1F7B394100371201 /* IMUIMessageStatusView.swift in Sources */,
 				624B82921EE5710E006C3C03 /* RCTSwiftBridgeModule.h in Sources */,
-				626B8E7E1F7B394100371201 /* BundleMessageListExtension.swift in Sources */,
-				626B8E951F7B394100371201 /* IMUITextMessageContentView.swift in Sources */,
-				626B8E561F7B394100371201 /* UIColorExtension.swift in Sources */,
-				626B8E611F7B394100371201 /* IMUIFeatureIconModel.swift in Sources */,
+				62A4879D1F8F417D00C568E8 /* CIImageExtension.swift in Sources */,
+				62A4876A1F8F417D00C568E8 /* IMUIRecordVoiceCell.swift in Sources */,
 				624B82931EE5710E006C3C03 /* RCTAuroraIMUIModule.h in Sources */,
+				62A487631F8F417D00C568E8 /* IMUIGalleryDataManager.swift in Sources */,
+				62A487611F8F417D00C568E8 /* IMUIRecordVoiceHelper.swift in Sources */,
 				624B82941EE5710E006C3C03 /* RCTAuroraIMUIModule.m in Sources */,
+				62A487781F8F417D00C568E8 /* IMUIPhotoCaptureDelegate.swift in Sources */,
+				62A4878F1F8F417D00C568E8 /* IMUIMessageStatusView.swift in Sources */,
 				624B82951EE5710E006C3C03 /* RCTAuroraIMUI-Bridging-Header.h in Sources */,
+				62A487901F8F417D00C568E8 /* IMUIMessageCollectionView.swift in Sources */,
+				62A487A01F8F417D00C568E8 /* StringExtension.swift in Sources */,
+				62A487861F8F417D00C568E8 /* IMUIUserProtocol.swift in Sources */,
 				624B82961EE5710E006C3C03 /* RCTInputView.h in Sources */,
-				626B8E641F7B394100371201 /* IMUIInputView.swift in Sources */,
-				626B8E811F7B394100371201 /* IMUIMessageModel.swift in Sources */,
-				626B8E971F7B394100371201 /* IMUIVideoMessageContentView.swift in Sources */,
-				626B8E921F7B394100371201 /* IMUITextView.swift in Sources */,
-				626B8E5F1F7B394100371201 /* IMUIInputViewDelegate.swift in Sources */,
-				626B8E901F7B394100371201 /* IMUIMessageCollectionView.swift in Sources */,
-				626B8E5D1F7B394100371201 /* DateExtension.swift in Sources */,
-				626B8E991F7B394100371201 /* IMUIImageMessageContentView.swift in Sources */,
-				626B8E821F7B394100371201 /* IMUIViewCache.swift in Sources */,
+				62A4878D1F8F417D00C568E8 /* IMUIVideoFileLoader.swift in Sources */,
 				624B82971EE5710E006C3C03 /* RCTInputView.m in Sources */,
+				62A487881F8F417D00C568E8 /* IMUIMessageCellProtocol.swift in Sources */,
 				624B82991EE5710E006C3C03 /* RCTInputViewManager.m in Sources */,
-				626B8E6E1F7B394100371201 /* IMUIFeatureView.swift in Sources */,
+				62A487971F8F417D00C568E8 /* IMUIVideoMessageContentView.swift in Sources */,
 				624B829A1EE5710E006C3C03 /* RCTMessageListView.h in Sources */,
-				626B8E741F7B394100371201 /* IMUIEmojiItemCell.swift in Sources */,
+				62A4877F1F8F417D00C568E8 /* UIImageMessageListExtension.swift in Sources */,
+				62A4877E1F8F417D00C568E8 /* BundleMessageListExtension.swift in Sources */,
+				62A487851F8F417D00C568E8 /* IMUIMessageProtocol.swift in Sources */,
+				62A4875E1F8F417D00C568E8 /* BundleInputViewExtension.swift in Sources */,
+				62A4879B1F8F417D00C568E8 /* UIColorExtension.swift in Sources */,
+				62A487651F8F417D00C568E8 /* IMUICameraCell.swift in Sources */,
+				62A487741F8F417D00C568E8 /* IMUIEmojiItemCell.swift in Sources */,
+				62A4877A1F8F417D00C568E8 /* IMUIFeatureListView.swift in Sources */,
+				62A487A11F8F417D00C568E8 /* UIImageExtension.swift in Sources */,
+				62A487751F8F417D00C568E8 /* IMUICameraPreviewView.swift in Sources */,
 				624F23A01F039DBF00D11E4E /* MessageEventModel.swift in Sources */,
+				62A487841F8F417D00C568E8 /* IMUIMessageContentViewProtocol.swift in Sources */,
+				62A487701F8F417D00C568E8 /* IMUIEmojiCell.swift in Sources */,
+				62A487921F8F417D00C568E8 /* IMUITextView.swift in Sources */,
+				62A4879E1F8F417D00C568E8 /* UIViewExtension.swift in Sources */,
+				62A487801F8F417D00C568E8 /* IMUIMessageCellLayout.swift in Sources */,
+				62A487731F8F417D00C568E8 /* IMUIGalleryCell.swift in Sources */,
+				62A487991F8F417D00C568E8 /* IMUIImageMessageContentView.swift in Sources */,
+				62A487A21F8F417D00C568E8 /* DateExtension.swift in Sources */,
+				62A487891F8F417D00C568E8 /* IMUIMessageStatusViewProtocol.swift in Sources */,
+				62A487821F8F417D00C568E8 /* IMUIViewCache.swift in Sources */,
+				62A487691F8F417D00C568E8 /* IMUIGalleryContainerCell.swift in Sources */,
+				62A4879C1F8F417D00C568E8 /* CMSampleBufferExtension.swift in Sources */,
+				62A487661F8F417D00C568E8 /* IMUIFeatureListIconCell.swift in Sources */,
+				62A4878E1F8F417D00C568E8 /* IMUIChatLayout.swift in Sources */,
+				62A487871F8F417D00C568E8 /* IMUIMessageMessageCollectionViewDelegate.swift in Sources */,
+				62A4875F1F8F417D00C568E8 /* IMUIFeatureIconModel.swift in Sources */,
+				62A487A31F8F417D00C568E8 /* IMUIAudioPlayerHelper.swift in Sources */,
+				62A487931F8F417D00C568E8 /* CIImageView.swift in Sources */,
 				624B829B1EE5710E006C3C03 /* RCTMessageListView.m in Sources */,
-				626B8E6A1F7B394100371201 /* IMUICameraView.swift in Sources */,
-				626B8E831F7B394100371201 /* IMUIReuseViewCache.swift in Sources */,
-				626B8E6D1F7B394100371201 /* IMUIProgressButton.swift in Sources */,
-				626B8E801F7B394100371201 /* IMUIMessageCellLayout.swift in Sources */,
+				62A4876D1F8F417D00C568E8 /* IMUIFeatureView.swift in Sources */,
 				624B829D1EE5710E006C3C03 /* RCTMessageListViewManager.m in Sources */,
-				626B8E581F7B394100371201 /* CIImageExtension.swift in Sources */,
-				626B8E751F7B394100371201 /* IMUICameraPreviewView.swift in Sources */,
-				626B8E591F7B394100371201 /* UIViewExtension.swift in Sources */,
-				626B8E631F7B394100371201 /* IMUIRecordVoiceHelper.swift in Sources */,
+				62A4878C1F8F417D00C568E8 /* IMUIChatDataManager.swift in Sources */,
 				624F239F1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift in Sources */,
-				626B8E911F7B394100371201 /* IMUIMessageBubbleView.swift in Sources */,
-				626B8E8B1F7B394100371201 /* IMUIMessageCellLayoutProtocol.swift in Sources */,
-				626B8E651F7B394100371201 /* IMUIGalleryDataManager.swift in Sources */,
-				626B8E6B1F7B394100371201 /* IMUIRecordVoiceCell.swift in Sources */,
-				626B8E8C1F7B394100371201 /* IMUIChatDataManager.swift in Sources */,
-				626B8E7A1F7B394100371201 /* IMUIFeatureListView.swift in Sources */,
-				626B8E851F7B394100371201 /* IMUIMessageProtocol.swift in Sources */,
+				62A487831F8F417D00C568E8 /* IMUIReuseViewCache.swift in Sources */,
+				62A487601F8F417D00C568E8 /* IMUIEmojiModel.swift in Sources */,
 				624B82D61EE5710E006C3C03 /* RCTAuroraIMUI.h in Sources */,
-				626B8E8A1F7B394100371201 /* IMUIMessageModelProtocol.swift in Sources */,
-				626B8E5B1F7B394100371201 /* StringExtension.swift in Sources */,
-				626B8E891F7B394100371201 /* IMUIMessageStatusViewProtocol.swift in Sources */,
-				626B8E731F7B394100371201 /* IMUIGalleryCell.swift in Sources */,
-				626B8E5E1F7B394100371201 /* IMUIAudioPlayerHelper.swift in Sources */,
-				626B8E5A1F7B394100371201 /* CGRectExtension.swift in Sources */,
-				626B8E881F7B394100371201 /* IMUIMessageCellProtocol.swift in Sources */,
-				626B8E621F7B394100371201 /* IMUIEmojiModel.swift in Sources */,
-				626B8E781F7B394100371201 /* IMUIPhotoCaptureDelegate.swift in Sources */,
-				626B8E5C1F7B394100371201 /* UIImageExtension.swift in Sources */,
-				626B8E7F1F7B394100371201 /* UIImageMessageListExtension.swift in Sources */,
+				62A487811F8F417D00C568E8 /* IMUIMessageModel.swift in Sources */,
+				62A487951F8F417D00C568E8 /* IMUITextMessageContentView.swift in Sources */,
+				62A487911F8F417D00C568E8 /* IMUIMessageBubbleView.swift in Sources */,
+				62A487981F8F417D00C568E8 /* IMUIBaseMessageCell.swift in Sources */,
+				62A4878A1F8F417D00C568E8 /* IMUIMessageModelProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
