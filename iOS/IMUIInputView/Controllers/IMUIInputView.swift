@@ -243,6 +243,8 @@ extension IMUIInputView: IMUIFeatureListDelegate {
       inputTextView.text = ""
       fitTextViewSize(inputTextView)
     }
+    
+    self.updateSendBtnToPhotoSendStatus()
   }
 }
 

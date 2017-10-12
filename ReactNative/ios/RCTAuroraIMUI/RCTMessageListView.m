@@ -55,12 +55,22 @@
     [_messageList.messageCollectionView addSubview:self.refreshControl];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       _messageList.messageCollectionView.alwaysBounceVertical = YES;
+      
+      UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handTap:)];
+      _messageList.messageCollectionView.backgroundView = [UIView new];
+      _messageList.messageCollectionView.backgroundView.userInteractionEnabled = YES;
+      [_messageList.messageCollectionView.backgroundView addGestureRecognizer:gesture];
     });
   }
   
   [[NSNotificationCenter defaultCenter] postNotificationName:kMessageListDidLoad object: nil];
   
   return self;
+}
+
+- (void)handTap:(UITapGestureRecognizer*)gesture {
+  if(!_onTouchMsgList) { return; }
+  _onTouchMsgList(@{});
 }
 
 - (void)setIsAllowPullToRefresh:(BOOL)isAllow {
