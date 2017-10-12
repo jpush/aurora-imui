@@ -16,16 +16,18 @@
             android:layout_width="16dp"
             android:layout_height="match_parent"/>
 
-        <EditText
+        <sj.keyboard.widget.EmoticonsEditText
             android:id="@+id/aurora_et_chat_input"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/aurora_edittext_bg"
             android:cursorVisible="true"
             android:inputType="textMultiLine"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
+            android:maxLines="4"
             android:textColor="@android:color/black"
             android:textCursorDrawable="@drawable/aurora_edittext_cursor_bg"
             android:textSize="18sp"/>
@@ -60,6 +62,12 @@
         <include
             android:id="@+id/aurora_fl_camera_container"
             layout="@layout/layout_chatinput_camera"
+            android:visibility="gone"/>
+
+        <cn.jiguang.imui.chatinput.emoji.EmojiView
+            android:id="@+id/aurora_rl_emoji_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="gone"/>
 
     </FrameLayout>

@@ -45,7 +45,7 @@ public class IMUIMessageDefaultStatusView: UIButton, IMUIMessageStatusViewProtoc
   
   
   
-  // MARK: - IMUIMessageStatusViewProtocal
+  // MARK: - IMUIMessageStatusViewProtocol
   public func layoutFailedStatus() {
     self.isSelected = true
     activityIndicator.stopAnimating()

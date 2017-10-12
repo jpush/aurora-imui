@@ -43,7 +43,7 @@ RCT_EXPORT_VIEW_PROPERTY(onStatusViewClick, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onBeginDragMessageList, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onPullToRefresh, RCTBubblingEventBlock)
 
-
+static NSString *cellIdentify = nil;
 RCT_EXPORT_MODULE()
 - (UIView *)view
 {
@@ -55,7 +55,7 @@ RCT_EXPORT_MODULE()
   _messageList.messageList.delegate = self;
   _messageList.delegate = self;
   
-  
+  cellIdentify = nil;
   return _messageList;
   
 }
@@ -276,12 +276,8 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
 - (UICollectionViewCell * _Nullable)messageCollectionViewWithMessageCollectionView:(UICollectionView * _Nonnull)messageCollectionView forItemAt:(NSIndexPath * _Nonnull)forItemAt messageModel:(id <IMUIMessageProtocol> _Nonnull)messageModel SWIFT_WARN_UNUSED_RESULT {
   
   if ([messageModel isKindOfClass: MessageEventModel.class]) {
-    
-    static NSString *cellIdentify = nil;
-    if (cellIdentify == nil) {
-      cellIdentify = [[MessageEventCollectionViewCell class] description];
-      [messageCollectionView registerClass:[MessageEventCollectionViewCell class] forCellWithReuseIdentifier:cellIdentify];
-    }
+    cellIdentify = [[MessageEventCollectionViewCell class] description];
+    [messageCollectionView registerClass:[MessageEventCollectionViewCell class] forCellWithReuseIdentifier:cellIdentify];
     
     MessageEventCollectionViewCell *cell = [messageCollectionView  dequeueReusableCellWithReuseIdentifier: cellIdentify forIndexPath: forItemAt];
     MessageEventModel *event = messageModel;

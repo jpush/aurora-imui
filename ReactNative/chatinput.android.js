@@ -30,6 +30,7 @@ export default class ChatInput extends Component {
 		this._onSwitchToMicrophoneMode = this._onSwitchToMicrophoneMode.bind(this);
 		this._onSwitchGalleryMode = this._onSwitchGalleryMode.bind(this);
 		this._onSwitchToCameraMode = this._onSwitchToCameraMode.bind(this);
+		this._onSwitchToEmojiMode = this._onSwitchToEmojiMode.bind(this);
 		this._onTouchEditText = this._onTouchEditText.bind(this);
 		this._onFullScreen = this._onFullScreen.bind(this);
 		this._onRecoverScreen = this._onRecoverScreen.bind(this);
@@ -119,6 +120,13 @@ export default class ChatInput extends Component {
 		this.props.onSwitchToCameraMode();
 	}
 
+	_onSwitchToEmojiMode() {
+		if (!this.props.onSwitchToEmojiMode) {
+			return;
+		}
+		this.props.onSwitchToEmojiMode();
+	}
+
 	_onTouchEditText() {
 		if (!this.props.onTouchEditText) {
 			return;
@@ -156,6 +164,7 @@ export default class ChatInput extends Component {
           onSwitchToMicrophoneMode={this._onSwitchToMicrophoneMode}
           onSwitchToGalleryMode={this._onSwitchGalleryMode}
           onSwitchToCameraMode={this._onSwitchToCameraMode}
+          onSwitchToEmojiMode={this._onSwitchToEmojiMode}
           onTouchEditText={this._onTouchEditText}
           onFullScreen={this._onFullScreen}
           onRecoverScreen={this._onRecoverScreen}
@@ -180,6 +189,7 @@ ChatInput.propTypes = {
 	onSwitchToMicrophoneMode: PropTypes.func,
 	onSwitchToGalleryMode: PropTypes.func,
 	onSwitchToCameraMode: PropTypes.func,
+	onSwitchToEmojiMode: PropTypes.func,
 	onTouchEditText: PropTypes.func,
 	onFullScreen: PropTypes.func,
 	onRecoverScreen: PropTypes.func,

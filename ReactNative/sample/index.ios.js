@@ -93,8 +93,10 @@ export default class TestRNIMUI extends Component {
   }
   onStatusViewClick = (message) => {
       console.log(message)
-      message.status = 'send_succeed'
-      message.fromUser.avatarPath = message.mediaPath
+      // message.status = 'send_succeed'
+      // message.fromUser.avatarPath = message.mediaPath
+      message.msgType = 'event'
+      message.text = "fasdfdsfs"
       AuroraIController.updateMessage(message)
     }
 
@@ -105,10 +107,26 @@ export default class TestRNIMUI extends Component {
 
   onPullToRefresh = () => {
       console.log("on pull to refresh")
+      var messages = []
+      for(var i=0; i<14; i++){
+        var message = constructNormalMessage()
+        // if (index%2 == 0) {
+          message.msgType = "text"
+          message.text = "" + i          
+        // }
+
+        if (i%3 == 0) {
+          message.msgType = "event"
+          message.text = "" + i          
+        }
+
+        AuroraIController.insertMessagesToTop([message])      
+      }
+      AuroraIController.insertMessagesToTop(messages)
     }
 
   onSendText = (text) => {
-    this.setState({isAllowPullToRefresh: !this.state.isAllowPullToRefresh})
+    // this.setState({isAllowPullToRefresh: !this.state.isAllowPullToRefresh})
     var message = constructNormalMessage()
     
     message.msgType = "text"
@@ -199,6 +217,9 @@ export default class TestRNIMUI extends Component {
     this.updateLayout({width:window.width, height:338,})
   }
 
+  onSwitchToEmojiMode = () => {
+    this.updateLayout({width:window.width, height:338,})
+  }
   onSwitchToGalleryMode = () => {
     this.updateLayout({width:window.width, height:338,})
   }
@@ -247,6 +268,7 @@ export default class TestRNIMUI extends Component {
         onFinishRecordVideo={this.onFinishRecordVideo}
         onSendGalleryFiles={this.onSendGalleryFiles}
         onSwitchToMicrophoneMode={this.onSwitchToMicrophoneMode}
+        onSwitchToEmojiMode={this.onSwitchToEmojiMode}
         onSwitchToGalleryMode={this.onSwitchToGalleryMode}
         onSwitchToCameraMode={this.onSwitchToCameraMode}
         onShowKeyboard={this.onShowKeyboard}

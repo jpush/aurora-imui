@@ -35,7 +35,6 @@
 
 @property (assign, nonatomic) NSString *type;
 
-
 //- (instancetype)initWithIsOutGoingMessage:(BOOL)isOutgoing
 //                           isNeedShowTime:(BOOL)isNeedShowTime
 //                        bubbleContentSize:(CGSize)bubbleContentSize
@@ -58,6 +57,7 @@
               status:(IMUIMessageStatus) messageStatus;
 
 - (instancetype)initWithVoicePath:(NSString *) mediaPath
+                 duration:(CGFloat)duration
                 messageId:(NSString *)msgId
                  fromUser:(id <IMUIUserProtocol>)fromUser
                timeString:(NSString *)timeString

@@ -51,9 +51,15 @@ class MyMessageModel: IMUIMessageModel {
   
   convenience init(imagePath: String, isOutGoing: Bool) {
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
+    
+    var imgSize = CGSize(width: 120, height: 160)
+    if let img = UIImage(contentsOfFile: imagePath) {
+      imgSize = MyMessageModel.converImageSize(with: CGSize(width: (img.cgImage?.width)!, height: (img.cgImage?.height)!))
+    }
+    
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
                                        isNeedShowTime: false,
-                                       bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: "image")
+                                       bubbleContentSize: imgSize, bubbleContentInsets: UIEdgeInsets.zero, type: "image")
     self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "image", text: "", mediaPath: imagePath, layout:  myLayout, duration: nil)
   }
   
@@ -74,10 +80,24 @@ class MyMessageModel: IMUIMessageModel {
     
     return textSize
   }
+  
+  static func converImageSize(with size: CGSize) -> CGSize {
+    let maxSide = 160.0
+    
+    var scale = size.width / size.height
+    
+    if size.width > size.height {
+      scale = scale > 2 ? 2 : scale
+      return CGSize(width: CGFloat(maxSide), height: CGFloat(maxSide) / CGFloat(scale))
+    } else {
+      scale = scale < 0.5 ? 0.5 : scale
+      return CGSize(width: CGFloat(maxSide) * CGFloat(scale), height: CGFloat(maxSide))
+    }
+  }
 }
 
 
-//MARK - IMUIMessageCellLayoutProtocal
+//MARK - IMUIMessageCellLayoutProtocol
 class MyMessageCellLayout: IMUIMessageCellLayout {
 
   var type: String

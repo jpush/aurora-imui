@@ -15,6 +15,7 @@ public class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocol
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.addSubview(imageView)
+    imageView.contentMode = .scaleAspectFill
   }
   
   required public init?(coder aDecoder: NSCoder) {

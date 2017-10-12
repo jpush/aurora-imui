@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'cn.jiguang.imui'
     PUBLISH_ARTIFACT_ID = 'chatinput'
-    PUBLISH_VERSION = '0.4.8'
+    PUBLISH_VERSION = '0.4.9'
 }
 
 android {
@@ -34,6 +34,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.github.w446108264:XhsEmoticonsKeyboard:2.0.4'
+    compile 'com.github.w446108264:AndroidEmoji:1.0.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.google.android:flexbox:0.2.5'

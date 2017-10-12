@@ -14,10 +14,12 @@ enum IMUIInputStatus {
   case microphone
   case photo
   case camera
+  case emoji
   case none
 }
 
 fileprivate var IMUIFeatureViewHeight:CGFloat = 215
+fileprivate var IMUIFeatureSelectorHeight:CGFloat = 46
 fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
 
 open class IMUIInputView: UIView {
@@ -31,8 +33,10 @@ open class IMUIInputView: UIView {
   @IBOutlet var view: UIView!
   
   @IBOutlet weak var moreViewHeight: NSLayoutConstraint!
+  
   @IBOutlet weak var inputTextViewHeight: NSLayoutConstraint!
   
+  @IBOutlet weak var featureSelectorView: IMUIFeatureListView!
   @IBOutlet open weak var featureView: IMUIFeatureView!
   @IBOutlet weak var inputTextView: UITextView!
   @IBOutlet weak var micBtn: UIButton!
@@ -71,9 +75,6 @@ open class IMUIInputView: UIView {
   
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    
-//    view = Bundle.main.loadNibNamed("IMUIInputView", owner: self, options: nil)?[0] as! UIView
-    
     let bundle = Bundle.imuiInputViewBundle()
     view = bundle.loadNibNamed("IMUIInputView", owner: self, options: nil)?.first as! UIView
     
@@ -83,68 +84,12 @@ open class IMUIInputView: UIView {
     inputTextView.textContainer.lineBreakMode = .byWordWrapping
     inputTextView.delegate = self
     self.featureView.delegate = self
-  }
-  
-  @IBAction func clickMicBtn(_ sender: Any) {
-    self.leaveGalleryMode()
-    inputViewStatus = .microphone
-    
-    self.inputTextView.resignFirstResponder()
-    
-    self.inputViewDelegate?.switchToMicrophoneMode?(recordVoiceBtn: sender as! UIButton)
-    
-    let serialQueue = DispatchQueue(label: "inputview")
-    serialQueue.async {
-      usleep(10000)
-      DispatchQueue.main.async {
-        self.featureView.layoutFeature(with: .voice)
-        self.showFeatureView()
-      }
-    }
-  }
-  
-  @IBAction func clickPhotoBtn(_ sender: Any) {
-    self.leaveGalleryMode()
-    inputViewStatus = .photo
-    
-    inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchToGalleryMode?(photoBtn: sender as! UIButton)
-    DispatchQueue.main.async {
-      self.featureView.layoutFeature(with: .gallery)
-    }
-    self.showFeatureView()
-  }
-  
-  @IBAction func clickCameraBtn(_ sender: Any) {
-    self.leaveGalleryMode()
-    inputViewStatus = .camera
-    
-    inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchToCameraMode?(cameraBtn: sender as! UIButton)
-    DispatchQueue.main.async {
-      self.featureView.layoutFeature(with: .camera)
-    }
-    self.showFeatureView()
-  }
-
-  @IBAction func clickSendBtn(_ sender: Any) {
-    if IMUIGalleryDataManager.selectedAssets.count > 0 {
-      self.inputViewDelegate?.didSeletedGallery?(AssetArr: IMUIGalleryDataManager.selectedAssets)
-      self.featureView.clearAllSelectedGallery()
-      self.updateSendBtnToPhotoSendStatus(with: 0)
-      return
-    }
-    
-    if inputTextView.text != "" {
-      inputViewDelegate?.sendTextMessage?(self.inputTextView.text)
-      inputTextView.text = ""
-      fitTextViewSize(inputTextView)
-    }
+    self.featureSelectorView.delegate = self
   }
   
   func leaveGalleryMode() {
     featureView.clearAllSelectedGallery()
-    self.updateSendBtnToPhotoSendStatus(with: 0)
+    self.updateSendBtnToPhotoSendStatus()
   }
   
   func keyboardFrameChanged(_ notification: Notification) {
@@ -183,6 +128,7 @@ open class IMUIInputView: UIView {
   }
   
   deinit {
+    self.featureView.clearAllSelectedGallery()
     NotificationCenter.default.removeObserver(self)
   }
 }
@@ -191,6 +137,7 @@ open class IMUIInputView: UIView {
 extension IMUIInputView: UITextViewDelegate {
   public func textViewDidChange(_ textView: UITextView) {
     self.fitTextViewSize(textView)
+    self.updateSendBtnToPhotoSendStatus()
   }
   
   public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
@@ -200,22 +147,148 @@ extension IMUIInputView: UITextViewDelegate {
   
 }
 
-
-extension IMUIInputView: IMUIFeatureViewDelegate {
-  func didChangeSelectedGallery(with gallerys: [PHAsset]) {
-    if gallerys.count == 0 {
-      self.sendBtn.isEnabled = inputTextView.text == ""
-    } else {
-      self.sendBtn.isEnabled = true
+extension IMUIInputView: IMUIFeatureListDelegate {
+  public func onSelectedFeature(with cell: IMUIFeatureListIconCell) {
+    print("onSelectedFeature")
+    switch cell.featureData!.featureType {
+    case .voice:
+      self.clickMicBtn(cell: cell)
+      break
+    case .gallery:
+      self.clickPhotoBtn(cell: cell)
+      break
+    case .camera:
+      self.clickCameraBtn(cell: cell)
+      break
+    case .emoji:
+      self.clickEmojiBtn(cell: cell)
+      break
+    default:
+      break
     }
-    
-    self.updateSendBtnToPhotoSendStatus(with: gallerys.count)
   }
   
-  func updateSendBtnToPhotoSendStatus(with number: Int) {
+  public func onClickSend(with cell: IMUIFeatureListIconCell) {
+//    print("onClickSend")
+    self.clickSendBtn(cell: cell)
+  }
+  
+  
+  func clickMicBtn(cell: IMUIFeatureListIconCell) {
+    self.leaveGalleryMode()
+    inputViewStatus = .microphone
+    
+    self.inputTextView.resignFirstResponder()
+    
+    self.inputViewDelegate?.switchToMicrophoneMode?(recordVoiceBtn: cell.featureIconBtn)
+    
+    let serialQueue = DispatchQueue(label: "inputview")
+    serialQueue.async {
+      usleep(10000)
+      DispatchQueue.main.async {
+        self.featureView.layoutFeature(with: .voice)
+        self.showFeatureView()
+      }
+    }
+  }
+  
+  func clickPhotoBtn(cell: IMUIFeatureListIconCell) {
+    self.leaveGalleryMode()
+    inputViewStatus = .photo
+    
+    inputTextView.resignFirstResponder()
+    inputViewDelegate?.switchToGalleryMode?(photoBtn: cell.featureIconBtn)
+    DispatchQueue.main.async {
+      self.featureView.layoutFeature(with: .gallery)
+    }
+    self.showFeatureView()
+  }
+  
+  func clickCameraBtn(cell: IMUIFeatureListIconCell) {
+    self.leaveGalleryMode()
+    inputViewStatus = .camera
+    
+    inputTextView.resignFirstResponder()
+    inputViewDelegate?.switchToCameraMode?(cameraBtn: cell.featureIconBtn)
+    DispatchQueue.main.async {
+      self.featureView.layoutFeature(with: .camera)
+    }
+    self.showFeatureView()
+  }
+  
+  func clickEmojiBtn(cell: IMUIFeatureListIconCell) {
+    self.leaveGalleryMode()
+    inputViewStatus = .emoji
+    
+    inputTextView.resignFirstResponder()
+    inputViewDelegate?.switchToEmojiMode?(cameraBtn: cell.featureIconBtn)
+    
+    DispatchQueue.main.async {
+      self.featureView.layoutFeature(with: .emoji)
+    }
+    self.showFeatureView()
+  }
+  
+  func clickSendBtn(cell: IMUIFeatureListIconCell) {
+    if IMUIGalleryDataManager.selectedAssets.count > 0 {
+      self.inputViewDelegate?.didSeletedGallery?(AssetArr: IMUIGalleryDataManager.selectedAssets)
+      self.featureView.clearAllSelectedGallery()
+      self.updateSendBtnToPhotoSendStatus()
+      return
+    }
+    
+    if inputTextView.text != "" {
+      inputViewDelegate?.sendTextMessage?(self.inputTextView.text)
+      inputTextView.text = ""
+      fitTextViewSize(inputTextView)
+    }
+  }
+}
 
-    self.sendBtn.isSelected = number > 0
-    self.sendNumberLabel.isHidden = !(number > 0)
-    self.sendNumberLabel.text = "\(number)"
+extension IMUIInputView: IMUIFeatureViewDelegate {
+  public func didChangeSelectedGallery(with gallerys: [PHAsset]) {
+      self.updateSendBtnToPhotoSendStatus()
+  }
+  
+  public func updateSendBtnToPhotoSendStatus() {
+    var isAllowToSend = false
+    var seletedPhotoCount = IMUIGalleryDataManager.selectedAssets.count
+    if seletedPhotoCount > 0 {
+      isAllowToSend = true
+    }
+    
+    if inputTextView.text != "" {
+      isAllowToSend = true
+    }
+    
+    self.featureSelectorView.updateSendButton(with: seletedPhotoCount, isAllowToSend: isAllowToSend)
+  }
+  
+  public func didSelectPhoto(with images: [UIImage]) {
+    self.updateSendBtnToPhotoSendStatus()
+  }
+  
+  public func didSeletedEmoji(with emoji: IMUIEmojiModel) {
+    switch emoji.emojiType {
+    case .emoji:
+      self.inputTextView.text.append(emoji.emoji!)
+      self.fitTextViewSize(self.inputTextView)
+      self.updateSendBtnToPhotoSendStatus()
+    default:
+      return
+    }
+    
+  }
+  
+  public func didRecordVoice(with voicePath: String, durationTime: Double) {
+    self.inputViewDelegate?.finishRecordVoice?(voicePath, durationTime: durationTime)
+  }
+  
+  public func didShotPicture(with image: Data) {
+    self.inputViewDelegate?.didShootPicture?(picture: image)
+  }
+  
+  public func didRecordVideo(with videoPath: String, durationTime: Double) {
+    self.inputViewDelegate?.finishRecordVoice?(videoPath, durationTime: durationTime)
   }
 }

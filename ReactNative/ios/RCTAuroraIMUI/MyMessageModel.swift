@@ -127,9 +127,14 @@ open class RCTMessageModel: IMUIMessageModel {
       }
       
       if typeString == RCTMessageModel.kMsgTypeImage {
+        var imgSize = CGSize(width: 120, height: 160)
+        if let img = UIImage(contentsOfFile: mediaPath!) {
+          imgSize = RCTMessageModel.converImageSize(with: CGSize(width: (img.cgImage?.width)!, height: (img.cgImage?.height)!))
+        }
+        
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
                                             isNeedShowTime: needShowTime,
-                                            bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeImage)
+                                            bubbleContentSize: imgSize, bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeImage)
       }
       
       if typeString == RCTMessageModel.kMsgTypeVoice {
@@ -184,6 +189,20 @@ open class RCTMessageModel: IMUIMessageModel {
       return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageContentView.outGoingTextFont)
     } else {
       return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageContentView.inComingTextFont)
+    }
+  }
+  
+  static func converImageSize(with size: CGSize) -> CGSize {
+    let maxSide = 160.0
+    
+    var scale = size.width / size.height
+    
+    if size.width > size.height {
+      scale = scale > 2 ? 2 : scale
+      return CGSize(width: CGFloat(maxSide), height: CGFloat(maxSide) / CGFloat(scale))
+    } else {
+      scale = scale < 0.5 ? 0.5 : scale
+      return CGSize(width: CGFloat(maxSide) * CGFloat(scale), height: CGFloat(maxSide))
     }
   }
   

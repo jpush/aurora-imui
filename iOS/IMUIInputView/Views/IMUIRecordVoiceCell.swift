@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
+class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   static var buttonNormalWith: CGFloat = 46.0
   
   @IBOutlet weak var recordVoiceBtn: UIButton!
@@ -25,19 +25,8 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   @IBOutlet weak var cancelVoiceBtnHeight: NSLayoutConstraint!
   @IBOutlet weak var cancelVoiceBtnWidth: NSLayoutConstraint!
   
-  
-  weak var delegate: IMUIInputViewDelegate?
   var finishiRecorderCache:(voiceFilePath: String, duration: TimeInterval)?
-  
-  var inputViewDelegate: IMUIInputViewDelegate? {
-    set {
-      self.delegate = newValue
-    }
-    
-    get {
-      return self.delegate
-    }
-  }
+  var featureDelegate: IMUIFeatureViewDelegate?
   
   func inactivateMedia() {
     recordHelper.stopRecord()
@@ -112,7 +101,8 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
       self.resetSubViewsStyle()
       
       let finishiRecorder = recordHelper.finishRecordingCompletion()
-      self.inputViewDelegate?.finishRecordVoice?(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
+//      self.inputViewDelegate?.finishRecordVoice?(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
+      self.featureDelegate?.didRecordVoice(with: finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
     }
     
   }
@@ -157,7 +147,8 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocal {
   }
   
   @IBAction func sendRecordedVoice(_ sender: Any) {
-    self.inputViewDelegate?.finishRecordVoice?(self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
+//    self.inputViewDelegate?.finishRecordVoice?(self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
+    self.featureDelegate?.didRecordVoice(with: self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
   }
   
   @IBAction func playRecordedVoice(_ sender: IMUIProgressButton) {

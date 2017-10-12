@@ -34,6 +34,7 @@ RCT_EXPORT_VIEW_PROPERTY(onSendGalleryFiles, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onSwitchToMicrophoneMode, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onSwitchToGalleryMode, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onSwitchToCameraMode, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onSwitchToEmojiMode, RCTBubblingEventBlock)
 
 RCT_EXPORT_VIEW_PROPERTY(onShowKeyboard, RCTBubblingEventBlock)
 
@@ -43,7 +44,6 @@ RCT_EXPORT_MODULE()
   NSBundle *bundle = [NSBundle bundleForClass: [RCTInputView class]];
   _rctInputView = [[bundle loadNibNamed:@"RCTInputView" owner:self options: nil] objectAtIndex:0];
   _rctInputView.imuiIntputView.inputViewDelegate = self;
-  
   return _rctInputView;
 }
 
@@ -83,6 +83,12 @@ RCT_EXPORT_MODULE()
 - (void)switchToGalleryModeWithPhotoBtn:(UIButton * _Nonnull)photoBtn {
   if(!_rctInputView.onSwitchToGalleryMode) { return; }
   _rctInputView.onSwitchToGalleryMode(@{});
+}
+
+/// Tells the delegate that IMUIInputView will switch to emoji
+- (void)switchToEmojiModeWithCameraBtn:(UIButton * _Nonnull)cameraBtn {
+  if(!_rctInputView.onSwitchToEmojiMode) { return; }
+  _rctInputView.onSwitchToEmojiMode(@{});
 }
 
 /// Tells the delegate that user did selected Photo in gallery

@@ -10,6 +10,7 @@ import UIKit
 import Photos
 
 class IMUIGalleryDataManager: NSObject {
+  static var maxSeletedCount = 9
   
   static var targetSize = CGSize(width: 200, height: 200)
   
@@ -37,4 +38,13 @@ class IMUIGalleryDataManager: NSObject {
   }
   
   static var selectedAssets = [PHAsset]()
+  
+  class func insertSelectedAssets(with asset: PHAsset) -> Bool {
+    if IMUIGalleryDataManager.selectedAssets.count < IMUIGalleryDataManager.maxSeletedCount {
+      IMUIGalleryDataManager.selectedAssets.append(asset)
+      return true
+    } else {
+      return false
+    }
+  }
 }

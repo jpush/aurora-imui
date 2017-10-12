@@ -54,6 +54,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String SWITCH_TO_MIC_EVENT = "onSwitchToMicrophoneMode";
     private static final String SWITCH_TO_GALLERY_EVENT = "onSwitchToGalleryMode";
     private static final String SWITCH_TO_CAMERA_EVENT = "onSwitchToCameraMode";
+    private static final String SWITCH_TO_EMOJI_EVENT = "onSwitchToEmojiMode";
     private static final String TAKE_PICTURE_EVENT = "onTakePicture";
     private static final String START_RECORD_VIDEO_EVENT = "onStartRecordVideo";
     private static final String FINISH_RECORD_VIDEO_EVENT = "onFinishRecordVideo";
@@ -175,6 +176,18 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                         SWITCH_TO_CAMERA_EVENT, null);
                 return true;
             }
+
+            @Override
+            public boolean switchToEmojiMode() {
+                if (mChatInput.getSoftInputState() || mChatInput.getMenuState() == View.VISIBLE) {
+                    EventBus.getDefault().post(new ScrollEvent(false));
+                } else {
+                    EventBus.getDefault().post(new ScrollEvent(true));
+                }
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
+                        SWITCH_TO_EMOJI_EVENT, null);
+                return true;
+            }
         });
 
         mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
@@ -248,13 +261,15 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         mChatInput.setCameraControllerListener(new CameraControllerListener() {
             @Override
             public void onFullScreenClick() {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_FULL_SCREEN_EVENT, null);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
+                        ON_FULL_SCREEN_EVENT, null);
                 mChatInput.bringToFront();
             }
 
             @Override
             public void onRecoverScreenClick() {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_RECOVER_SCREEN_EVENT, null);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
+                        ON_RECOVER_SCREEN_EVENT, null);
             }
 
             @Override
@@ -296,6 +311,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 .put(SWITCH_TO_MIC_EVENT, MapBuilder.of("registrationName", SWITCH_TO_MIC_EVENT))
                 .put(SWITCH_TO_GALLERY_EVENT, MapBuilder.of("registrationName", SWITCH_TO_GALLERY_EVENT))
                 .put(SWITCH_TO_CAMERA_EVENT, MapBuilder.of("registrationName", SWITCH_TO_CAMERA_EVENT))
+                .put(SWITCH_TO_EMOJI_EVENT, MapBuilder.of("registrationName", SWITCH_TO_EMOJI_EVENT))
                 .put(TAKE_PICTURE_EVENT, MapBuilder.of("registrationName", TAKE_PICTURE_EVENT))
                 .put(START_RECORD_VIDEO_EVENT, MapBuilder.of("registrationName", START_RECORD_VIDEO_EVENT))
                 .put(FINISH_RECORD_VIDEO_EVENT, MapBuilder.of("registrationName", FINISH_RECORD_VIDEO_EVENT))
