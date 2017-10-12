@@ -98,10 +98,29 @@ extension ViewController: IMUIInputViewDelegate {
     for asset in AssetArr {
       switch asset.mediaType {
       case .image:
+        
+//        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
+//        options.synchronous  = YES;
+//        options.networkAccessAllowed = YES;
+//        PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
+//
+//        [imageManage requestImageForAsset: asset
+//        targetSize: CGSizeMake(asset.pixelWidth, asset.pixelHeight)
+//        contentMode: PHImageContentModeAspectFill
+//        options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+//        NSData *imageData = UIImagePNGRepresentation(result);
+//        NSString *filePath = [self getPath];
+//        if ([imageData writeToFile: filePath atomically: true]) {
+//        [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
+//        }
+//        }];
+        
+        
         let option = PHImageRequestOptions()
         option.isSynchronous = true
+        option.isNetworkAccessAllowed = true
         
-        imageManage.requestImage(for: asset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .aspectFill, options: option, resultHandler: { [weak self] (image, _) in
+        imageManage.requestImage(for: asset, targetSize: CGSize(width: asset.pixelWidth/4, height: asset.pixelHeight/4), contentMode: .aspectFill, options: option, resultHandler: { [weak self] (image, _) in
           let imageData = UIImagePNGRepresentation(image!)
           self?.didShootPicture(picture: imageData!)
         })
