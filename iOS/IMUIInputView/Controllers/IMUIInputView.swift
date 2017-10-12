@@ -264,6 +264,10 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
     self.featureSelectorView.updateSendButton(with: seletedPhotoCount, isAllowToSend: isAllowToSend)
   }
   
+  public func didSelectPhoto(with images: [UIImage]) {
+    self.updateSendBtnToPhotoSendStatus()
+  }
+  
   public func didSeletedEmoji(with emoji: IMUIEmojiModel) {
     switch emoji.emojiType {
     case .emoji:

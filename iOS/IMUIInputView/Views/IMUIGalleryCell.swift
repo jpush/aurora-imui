@@ -23,6 +23,8 @@ class IMUIGalleryCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     playerLayer = AVPlayerLayer()
     playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
     self.mediaView.layer.addSublayer(playerLayer)
+    self.galleryImageView.layer.masksToBounds = true
+    self.galleryImageView.layer.mask = nil
   }
   
   override func layoutSubviews() {
@@ -78,7 +80,7 @@ class IMUIGalleryCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     if didSelect {
       IMUIGalleryDataManager.selectedAssets = IMUIGalleryDataManager.selectedAssets.filter({$0 != asset!})
     }else{
-      IMUIGalleryDataManager.selectedAssets.append(asset!)
+      IMUIGalleryDataManager.insertSelectedAssets(with: asset!)
     }
     animate(duration: 0.2)
   }
@@ -87,9 +89,10 @@ class IMUIGalleryCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     var scale : CGFloat = 1
     if didSelect {
       scale = 0.9
-    }else{
+    } else {
       scale = 1/0.9
     }
+    
     UIView.animate(withDuration: duration, animations: { [weak self] in
       let transform = CGAffineTransform(scaleX: scale, y: scale)
       self?.galleryImageView.transform = transform

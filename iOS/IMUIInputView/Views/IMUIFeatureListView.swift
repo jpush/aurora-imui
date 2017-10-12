@@ -103,7 +103,7 @@ class IMUIFeatureListView: UIView {
   public func updateSendButton(with count: Int?, isAllowToSend: Bool?) {
     featureListDataSource.last?.isAllowToSend = isAllowToSend
     featureListDataSource.last?.photoCount = count
-//    self.featureListCollectionView.reloadData()
+    self.featureListCollectionView.reloadItems(at: [IndexPath(item: featureListDataSource.count - 1, section: 0)])
   }
 
 }
