@@ -114,6 +114,13 @@
 			remoteGlobalIDString = 623EA9981EE55D0800EC43AE;
 			remoteInfo = RCTAuroraIMUI;
 		};
+		62E436021F8F68D900A73DB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 626021EE1ED96BA20038AB20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 623EA9981EE55D0800EC43AE;
+			remoteInfo = RCTAuroraIMUI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -562,6 +569,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				62E436031F8F68D900A73DB3 /* PBXTargetDependency */,
 			);
 			name = AuroraIMUI;
 			productName = AuroraIMUI;
@@ -789,6 +797,11 @@
 			isa = PBXTargetDependency;
 			target = 623EA9981EE55D0800EC43AE /* RCTAuroraIMUI */;
 			targetProxy = 623EA9A31EE55D0800EC43AE /* PBXContainerItemProxy */;
+		};
+		62E436031F8F68D900A73DB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 623EA9981EE55D0800EC43AE /* RCTAuroraIMUI */;
+			targetProxy = 62E436021F8F68D900A73DB3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

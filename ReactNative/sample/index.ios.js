@@ -105,6 +105,11 @@ export default class TestRNIMUI extends Component {
       AuroraIController.hidenFeatureView(true)
     }
 
+  onTouchMsgList = () => {
+    this.updateLayout({width:window.width, height:86,})
+    AuroraIController.hidenFeatureView(true)
+  }
+
   onPullToRefresh = () => {
       console.log("on pull to refresh")
       var messages = []
@@ -249,6 +254,7 @@ export default class TestRNIMUI extends Component {
         onStatusViewClick={this.onStatusViewClick}
         onTapMessageCell={this.onTapMessageCell}
         onBeginDragMessageList={this.onBeginDragMessageList}
+        onTouchMsgList={this.onTouchMsgList}
         onPullToRefresh={this.onPullToRefresh}
         avatarSize={{width:40,height:40}}
         sendBubbleTextSize={18}

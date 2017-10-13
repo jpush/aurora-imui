@@ -54,7 +54,6 @@ dependencies {
 
   - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
   - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RCTAuroraIMUI.framework
-  - Before build you project ,you should build RCTAuroraIMUI.framework
 
 ## Usage
 ```
@@ -136,12 +135,10 @@ message = {  // event message
 
   ### MessageList Event
 - onAvatarClick {message: {message json}} :Fires when click avatar
-
 - onMsgClick {message: {message json} : Fires when click message bubble
-
 - onStatusViewClick {message: {message json}}  Fires when click status view
-
 - onPullToRefresh  Fires when pull MessageList to top, example usage: please refer sample's onPullToRefresh method.
+- onTouchMsgList  Fires when touch message list.
 
 
 - onBeginDragMessageList (iOS only)

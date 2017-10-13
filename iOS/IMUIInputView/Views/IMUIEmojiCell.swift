@@ -22,7 +22,7 @@ class IMUIEmojiCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     self.emojiCollectionView.register(UINib(nibName: "IMUIEmojiItemCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIEmojiItemCell")
     emojiCollectionView.delegate = self
     emojiCollectionView.dataSource = self
-    emojiCollectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+    emojiCollectionView.contentInset = UIEdgeInsets(top: 0, left: 16, bottom: 10, right: 16)
     self.setupAllData(identifier: "com.apple.emoji")
     self.emojiCollectionView.reloadData()
   }
