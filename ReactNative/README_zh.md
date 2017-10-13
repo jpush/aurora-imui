@@ -46,15 +46,10 @@ dependencies {
   ```
 
 
-
-
-
-
 - ### iOS
 
   - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
   - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RCTAuroraIMUI.framework
-  - 构建你的项目之前，你需要构建 RCTAuroraIMUI.framework
 
 - ## 用法
 ```
@@ -146,6 +141,7 @@ message = {  // event message
 - onMsgClick {message: {message json} :  点击消息气泡触发
 - onStatusViewClick {message: {message json}}  点击消息状态按钮触发
 - onPullToRefresh  滚动 MessageList 到顶部时，下拉触发, 案例用法: 参考 sample 中的聊天组件中的 onPullToRefresh  方法。
+- onTouchMsgList  点击消息列表触发
 - onTouchMsgList（Android only）点击聊天列表触发
 
 

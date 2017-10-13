@@ -26,6 +26,7 @@
 @property(nonatomic, copy) RCTBubblingEventBlock onMsgLongClick;
 @property(nonatomic, copy) RCTBubblingEventBlock onStatusViewClick;
 
+@property(nonatomic, copy) RCTBubblingEventBlock onTouchMsgList;
 @property(nonatomic, copy) RCTBubblingEventBlock onBeginDragMessageList;
 @property (nonatomic, copy) RCTBubblingEventBlock onPullToRefresh;
 
