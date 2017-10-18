@@ -292,6 +292,6 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
   }
   
   public func didRecordVideo(with videoPath: String, durationTime: Double) {
-    self.inputViewDelegate?.finishRecordVoice?(videoPath, durationTime: durationTime)
+    self.inputViewDelegate?.finishRecordVideo?(videoPath: videoPath, durationTime: durationTime)
   }
 }
