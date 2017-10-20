@@ -14,6 +14,8 @@ import UIKit
 }
 
 
+fileprivate var featureListMargin = 16.0
+fileprivate var featureListBtnWidth = 46
 
 class IMUIFeatureListView: UIView {
 
@@ -82,15 +84,13 @@ class IMUIFeatureListView: UIView {
     self.featureListCollectionView.reloadData()
     var insets = self.featureListCollectionView.contentInset
     let frameWidth = self.view.imui_width
-    let totalCellWidth = CGFloat(self.featureListDataSource.count * 46)
-    let totalCellSpace = CGFloat((self.featureListDataSource.count - 1) * 15)
+    let totalCellWidth = CGFloat(self.featureListDataSource.count * featureListBtnWidth)
     
-    var leftInsets = (frameWidth - totalCellSpace - totalCellWidth)/2
-    if leftInsets <= 0 {
-      leftInsets = 0
-    }
+    var spaceWidth = (frameWidth - CGFloat(featureListMargin * 2) - totalCellWidth) / CGFloat(self.featureListDataSource.count - 1)
+    print("frameWidth :\(frameWidth)  spaceWidth: \(spaceWidth)")
+    (self.featureListCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = spaceWidth
     
-    insets.left = leftInsets
+    insets.left = CGFloat(featureListMargin)
     self.featureListCollectionView.contentInset = insets
   }
   
@@ -126,7 +126,7 @@ extension IMUIFeatureListView: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-    return CGSize(width: 46, height: 46)
+    return CGSize(width: featureListBtnWidth, height: featureListBtnWidth)
   }
   
   
