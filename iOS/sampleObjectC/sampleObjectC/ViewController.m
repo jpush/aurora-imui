@@ -49,13 +49,13 @@
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {
   
   NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
-//  MessageModel *message = [[MessageModel alloc] initWithText:messageText
-//                                                   messageId:msgId
-//                                                    fromUser:[UserModel new]
-//                                                  timeString:@""
-//                                                  isOutgoing:true
-//                                                      status:IMUIMessageStatusSuccess];
-//  [self.messageList appendMessageWith:message];
+  MessageModel *message = [[MessageModel alloc] initWithText:messageText
+                                                   messageId:msgId
+                                                    fromUser:[UserModel new]
+                                                  timeString:@""
+                                                  isOutgoing:true
+                                                      status:IMUIMessageStatusSuccess];
+  [self.messageList appendMessageWith:message];
   MessageEventModel *event = [[MessageEventModel alloc] initWithMsgId:msgId eventText:messageText];
   [self.messageList appendMessageWith: event];
 }
