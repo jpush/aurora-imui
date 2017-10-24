@@ -7,15 +7,14 @@
 //
 
 #import "MessageEventCollectionViewCell.h"
-
+#import "sampleObjectC-Swift.h"
 @interface MessageEventCollectionViewCell ()
 @property(strong, nonatomic)UILabel *evenText;
 @end
 
 @implementation MessageEventCollectionViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
   if (self) {
     _evenText = [[UILabel alloc] initWithFrame: CGRectZero];

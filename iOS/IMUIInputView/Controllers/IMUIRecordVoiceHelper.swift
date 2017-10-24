@@ -137,7 +137,7 @@ class IMUIRecordVoiceHelper: NSObject {
     }
   }
   
-  func trackAudio() {
+  @objc func trackAudio() {
     self.timerTickCallBack?(recordDuration, 0.0)
   }
   

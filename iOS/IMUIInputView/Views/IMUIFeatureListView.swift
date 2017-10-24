@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 @objc public protocol IMUIFeatureListDelegate: NSObjectProtocol {
 
   @objc optional func onSelectedFeature(with cell: IMUIFeatureListIconCell)
@@ -77,6 +78,7 @@ class IMUIFeatureListView: UIView {
     self.featureListCollectionView.register(UINib(nibName: "IMUIFeatureListIconCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIFeatureListIconCell")
     self.featureListCollectionView.delegate = self
     self.featureListCollectionView.dataSource = self
+    
     self.layoutFeatureListToCenter()
   }
   
@@ -112,7 +114,7 @@ extension IMUIFeatureListView: UICollectionViewDelegate {
 
 }
 
-extension IMUIFeatureListView: UICollectionViewDataSource {
+extension IMUIFeatureListView: UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return self.featureListDataSource.count
@@ -122,13 +124,12 @@ extension IMUIFeatureListView: UICollectionViewDataSource {
     collectionView.collectionViewLayout.invalidateLayout()
     return 1
   }
-  
+
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
-                      sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+                      sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: featureListBtnWidth, height: featureListBtnWidth)
   }
-  
   
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,

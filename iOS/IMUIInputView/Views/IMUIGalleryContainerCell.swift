@@ -44,7 +44,7 @@ extension IMUIGalleryContainerCell: UICollectionViewDelegate {
   
 }
 
-extension IMUIGalleryContainerCell: UICollectionViewDataSource {
+extension IMUIGalleryContainerCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return IMUIGalleryDataManager.allAssets.count
@@ -57,7 +57,7 @@ extension IMUIGalleryContainerCell: UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
-                      sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+                      sizeForItemAt indexPath: IndexPath) -> CGSize {
     
     var galleryHeight = 254
     return CGSize(width: galleryHeight, height: galleryHeight)

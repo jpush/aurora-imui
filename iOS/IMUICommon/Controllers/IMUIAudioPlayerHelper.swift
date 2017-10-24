@@ -40,7 +40,7 @@ public class IMUIAudioPlayerHelper: NSObject {
     NotificationCenter.default.addObserver(self, selector: #selector(sensorStateChange), name: NSNotification.Name.UIDeviceProximityStateDidChange, object: nil)
   }
   
-  func sensorStateChange() {
+  @objc func sensorStateChange() {
     do {
       if UIDevice.current.proximityState {
         try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
@@ -100,7 +100,7 @@ public class IMUIAudioPlayerHelper: NSObject {
     }
   }
   
-  func trackAudio() {
+  @objc func trackAudio() {
     self.playProgressCallback?(self.identify ,player.currentTime, player.duration)
   }
   

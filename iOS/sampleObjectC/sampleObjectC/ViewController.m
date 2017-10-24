@@ -97,25 +97,27 @@
         
         PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
         options.synchronous  = YES;
-        [[PHImageManager defaultManager] requestImageForAsset: asset
-                               targetSize: CGSizeMake(100.0, 100.0)
-                              contentMode:PHImageContentModeAspectFill
-                                  options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                    NSData *imageData = UIImagePNGRepresentation(result);
-                                    NSString *filePath = [self getPath];
-                                    if ([imageData writeToFile: filePath atomically: true]) {
+        [[PHImageManager defaultManager]
+           requestImageForAsset: asset
+                     targetSize: CGSizeMake(100.0, 100.0)
+                    contentMode:PHImageContentModeAspectFill
+                        options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                          NSData *imageData = UIImagePNGRepresentation(result);
+                          NSString *filePath = [self getPath];
+                          if ([imageData writeToFile: filePath atomically: true]) {
 
-                                      NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
-                                      MessageModel *message = [[MessageModel alloc] initWithImagePath:filePath
-                                                                                            messageId:msgId
-                                                                                             fromUser:[UserModel new]
-                                                                                           timeString:@""
-                                                                                           isOutgoing:true
-                                                                                               status:IMUIMessageStatusSuccess];
+                            NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
+                            MessageModel *message = [[MessageModel alloc]
+                                                       initWithImagePath:filePath
+                                                                messageId:msgId
+                                                                 fromUser:[UserModel new]
+                                                               timeString:@""
+                                                               isOutgoing:true
+                                                                   status:IMUIMessageStatusSuccess];
 
-                                      [_messageList appendMessageWith: message];
-                                    }
-                                  }];
+                            [_messageList appendMessageWith: message];
+                          }
+                        }];
         break;
       }
         

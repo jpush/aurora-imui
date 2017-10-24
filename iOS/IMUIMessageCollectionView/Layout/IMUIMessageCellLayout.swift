@@ -14,7 +14,7 @@ import UIKit
  *  'IMUIMessageCellLayoutProtocol' protocol.
  *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocol to layout cell's items
  */
-open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
+@objc public class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
 
   public static var avatarSize: CGSize = CGSize(width: 40, height: 40)
   public static var avatarOffsetToCell: UIOffset = UIOffset(horizontal: 16, vertical: 16)
@@ -32,7 +32,7 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
   public static var statusViewSize: CGSize = CGSize(width: 30, height: 30)
   public static var statusViewOffsetToBubble: UIOffset = UIOffset(horizontal: 12, vertical: 0)
   
-  public static var bubbleMaxWidth: CGFloat = 170.0
+  @objc public static var bubbleMaxWidth: CGFloat = 170.0
   public static var isNeedShowInComingName = false
   public static var isNeedShowOutGoingName = false
   
@@ -45,7 +45,7 @@ open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
   public static var timeStringColor: UIColor = UIColor(netHex: 0x90A6C4)
   public static var timeStringFont: UIFont = UIFont.systemFont(ofSize: 12)
   
-  public init(isOutGoingMessage: Bool,
+  @objc public init(isOutGoingMessage: Bool,
                  isNeedShowTime: Bool,
               bubbleContentSize: CGSize,
             bubbleContentInsets: UIEdgeInsets) {

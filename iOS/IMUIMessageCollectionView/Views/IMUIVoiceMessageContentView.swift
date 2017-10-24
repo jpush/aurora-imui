@@ -54,7 +54,7 @@ public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol
     }
   }
   
-  func onTapContentView() {
+  @objc func onTapContentView() {
     if self.isMediaActivity {
       self.isMediaActivity = false
       IMUIAudioPlayerHelper.sharedInstance.stopAudio()
