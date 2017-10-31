@@ -17,7 +17,7 @@ public protocol IMUIAudioPlayerDelegate:NSObjectProtocol {
 
 public class IMUIAudioPlayerHelper: NSObject {
   
-  public static let sharedInstance = IMUIAudioPlayerHelper()
+  @objc public static let sharedInstance = IMUIAudioPlayerHelper()
   
 
   var player:AVAudioPlayer!
@@ -115,7 +115,7 @@ public class IMUIAudioPlayerHelper: NSObject {
     updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
   }
   
-  open func stopAudio() {
+  @objc open func stopAudio() {
     self.playProgressCallback = nil
     updater?.invalidate()
     if (self.player != nil) && self.player.isPlaying {

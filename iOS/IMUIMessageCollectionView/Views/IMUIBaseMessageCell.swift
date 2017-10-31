@@ -15,7 +15,7 @@ enum IMUIMessageCellType {
 }
 
 open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
-  open static var avatarCornerRadius:CGFloat = 0
+  @objc open static var avatarCornerRadius:CGFloat = 0
   
   var bubbleView: IMUIMessageBubbleView
   lazy var avatarImage = UIImageView()

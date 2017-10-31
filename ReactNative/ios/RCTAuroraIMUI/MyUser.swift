@@ -18,7 +18,7 @@ open class RCTUser: NSObject, IMUIUserProtocol {
     super.init()
   }
   
-  convenience init(userDic: NSDictionary) {
+  @objc convenience init(userDic: NSDictionary) {
     self.init()
     self.rUserId = userDic.object(forKey: "userId") as? String
     self.rDisplayName = userDic.object(forKey: "displayName") as? String

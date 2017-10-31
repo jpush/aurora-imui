@@ -21,7 +21,7 @@ import Foundation
     self.eventText = eventText
   }
   
-  public convenience init(messageDic: NSDictionary) {
+  @objc public convenience init(messageDic: NSDictionary) {
     let msgId = messageDic["msgId"]
     let eventText = messageDic["text"]
     
@@ -39,7 +39,7 @@ import Foundation
                            contentSize.height)
   }
   
-  public func cellHeight() -> CGFloat {
+  @objc public func cellHeight() -> CGFloat {
     return self.evenSize.height + MessageEventCollectionViewCell.paddingGap * 2.0;
   }
 }

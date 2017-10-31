@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public extension UIColor {
-  convenience init(red: Int, green: Int, blue: Int) {
+  @objc convenience init(red: Int, green: Int, blue: Int) {
     assert(red >= 0 && red <= 255, "Invalid red component")
     assert(green >= 0 && green <= 255, "Invalid green component")
     assert(blue >= 0 && blue <= 255, "Invalid blue component")
@@ -23,7 +23,7 @@ public extension UIColor {
     
   }
   
-  class func hexStringToUIColor (hex:String) -> UIColor {
+  @objc class func hexStringToUIColor (hex:String) -> UIColor {
     var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     
     if (cString.hasPrefix("#")) {

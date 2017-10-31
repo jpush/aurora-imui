@@ -846,6 +846,7 @@
 				OTHER_LDFLAGS = (
 					"-lReact",
 					"-lc++",
+					"-lRCTWebSocket",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = HXHG.RCTAuroraIMUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -869,6 +870,7 @@
 				OTHER_LDFLAGS = (
 					"-lReact",
 					"-lc++",
+					"-lRCTWebSocket",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = HXHG.RCTAuroraIMUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
