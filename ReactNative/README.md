@@ -71,7 +71,7 @@ By using MessageList, you need define `message` object and `fromUser` object.
 
 - message object format:
 
-** status must be one of the four values: "send_succeed", "send_failed", "send_going", "download_failed", 
+**status must be one of the four values: "send_succeed", "send_failed", "send_going", "download_failed", 
 if you haven't define this property, default value is "send_succeed".**
 
  ```
