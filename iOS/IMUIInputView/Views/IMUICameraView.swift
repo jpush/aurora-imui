@@ -45,7 +45,7 @@ class IMUICameraView: UIView {
   @IBOutlet weak var cameraPreviewView: IMUICameraPreviewView!
   
   var inConfiging: Bool = false
-  var currentCameraDeviceType: AVCaptureDevicePosition = .back
+  var currentCameraDeviceType: AVCaptureDevice.Position = .back
   
   var currentCameraDevice: AVCaptureDeviceInput?
   
@@ -60,14 +60,14 @@ class IMUICameraView: UIView {
     self.layer.masksToBounds = true
     cameraPreviewView.session = session
     
-    switch AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) {
+    switch AVCaptureDevice.authorizationStatus(for: AVMediaType.video) {
     case .authorized:
       // The user has previously granted access to the camera.
       break
       
     case .notDetermined:
       sessionQueue.suspend()
-      AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { [unowned self] granted in
+      AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { [unowned self] granted in
         if !granted {
           self.setupResult = .notAuthorized
         }
@@ -110,33 +110,34 @@ class IMUICameraView: UIView {
     
     session.beginConfiguration()
     self.inConfiging = true
-    session.sessionPreset = AVCaptureSessionPresetPhoto
+    session.sessionPreset = AVCaptureSession.Preset.photo
     
     do {
       var defaultVideoDevice: AVCaptureDevice?
       
       if #available(iOS 10.0, *) {
-        if let dualCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .back) {
+        
+        if let dualCameraDevice = AVCaptureDevice.default(.builtInDuoCamera, for: AVMediaType.video, position: .back) {
           defaultVideoDevice = dualCameraDevice
           currentCameraDeviceType = .back
         }
-        else if let backCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .back) {
+        else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back) {
           defaultVideoDevice = backCameraDevice
           currentCameraDeviceType = .back
         }
-        else if let frontCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
+        else if let frontCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .front) {
           
           defaultVideoDevice = frontCameraDevice
           currentCameraDeviceType = .front
         }
       } else {
         
-        defaultVideoDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        defaultVideoDevice = AVCaptureDevice.default(for: AVMediaType.video)
         
         currentCameraDeviceType = .back
       }
       
-      let videoDeviceInput = try AVCaptureDeviceInput(device: defaultVideoDevice)
+      let videoDeviceInput = try AVCaptureDeviceInput(device: defaultVideoDevice!)
       currentCameraDevice = videoDeviceInput
       if session.canAddInput(videoDeviceInput) {
         session.addInput(videoDeviceInput)
@@ -152,7 +153,7 @@ class IMUICameraView: UIView {
             }
           }
           
-          self.cameraPreviewView.videoPreviewLayer.connection.videoOrientation = initialVideoOrientation
+          self.cameraPreviewView.videoPreviewLayer.connection?.videoOrientation = initialVideoOrientation
         }
       } else {
         print("Could not add video device input to the session")
@@ -170,8 +171,8 @@ class IMUICameraView: UIView {
     }
     
     do {
-      let audioDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
-      let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice)
+      let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)
+      let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice!)
       
       if session.canAddInput(audioDeviceInput) {
         session.addInput(audioDeviceInput)
@@ -188,7 +189,7 @@ class IMUICameraView: UIView {
       self.photoOutput = AVCapturePhotoOutput()
       
       if session.canAddOutput(self.photoOutput!) {
-        session.addOutput(self.photoOutput)
+        session.addOutput(self.photoOutput!)
         self.photoOutput?.isHighResolutionCaptureEnabled = true
         self.photoOutput?.isLivePhotoCaptureEnabled = (self.photoOutput?.isLivePhotoCaptureSupported)!
         livePhotoMode = (photoOutput?.isLivePhotoCaptureSupported)! ? .on : .off
@@ -206,8 +207,8 @@ class IMUICameraView: UIView {
     }
     
     videoFileOutput = AVCaptureMovieFileOutput()
-    if session.canAddOutput(videoFileOutput) {
-      session.addOutput(videoFileOutput)
+    if session.canAddOutput(videoFileOutput!) {
+      session.addOutput(videoFileOutput!)
       let maxDuration = CMTime(seconds: 20, preferredTimescale: 1)
       videoFileOutput?.maxRecordedDuration = maxDuration
       videoFileOutput?.minFreeDiskSpaceLimit = 1000
@@ -255,11 +256,11 @@ class IMUICameraView: UIView {
     }
   }
   
-  func chooseCamera(with cameraDevicePosition: AVCaptureDevicePosition) {
+  func chooseCamera(with cameraDevicePosition: AVCaptureDevice.Position) {
     // remove current camera device
     session.beginConfiguration()
     self.inConfiging = true
-    session.removeInput(currentCameraDevice)
+    session.removeInput(currentCameraDevice!)
     
     // add new camera device
     
@@ -267,7 +268,7 @@ class IMUICameraView: UIView {
     
     if #available(iOS 10.0, *) {
       if cameraDevicePosition == .front {
-        if let frontCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
+        if let frontCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .front) {
           defaultVideoDevice = frontCameraDevice
           currentCameraDeviceType = .front
         }
@@ -275,13 +276,13 @@ class IMUICameraView: UIView {
       
       if cameraDevicePosition == .back {
         
-        if let dualCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera, mediaType: AVMediaTypeVideo, position: .back) {
+        if let dualCameraDevice = AVCaptureDevice.default(.builtInDuoCamera, for: AVMediaType.video, position: .back) {
           if defaultVideoDevice == nil {
             defaultVideoDevice = dualCameraDevice
             currentCameraDeviceType = .back
           }
           
-        } else if let backCameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .back) {
+        } else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back) {
           if defaultVideoDevice == nil {
             defaultVideoDevice = backCameraDevice
             currentCameraDeviceType = .back
@@ -292,7 +293,7 @@ class IMUICameraView: UIView {
     } else {
       
       for device in AVCaptureDevice.devices() {
-        if (device as AnyObject).hasMediaType( AVMediaTypeVideo ) {
+        if (device as AnyObject).hasMediaType( AVMediaType.video ) {
           if (device as AnyObject).position == cameraDevicePosition {
             defaultVideoDevice = device as? AVCaptureDevice
             currentCameraDeviceType = cameraDevicePosition
@@ -301,13 +302,13 @@ class IMUICameraView: UIView {
       }
       
       if defaultVideoDevice == nil {
-        defaultVideoDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        defaultVideoDevice = AVCaptureDevice.default(for: AVMediaType.video)
         currentCameraDeviceType = .back
       }
     }
     
     do {
-      let videoDeviceInput = try AVCaptureDeviceInput(device: defaultVideoDevice)
+      let videoDeviceInput = try AVCaptureDeviceInput(device: defaultVideoDevice!)
       
       currentCameraDevice = videoDeviceInput
       
@@ -327,7 +328,7 @@ class IMUICameraView: UIView {
             }
           }
           
-          self.cameraPreviewView.videoPreviewLayer.connection.videoOrientation = initialVideoOrientation
+          self.cameraPreviewView.videoPreviewLayer.connection?.videoOrientation = initialVideoOrientation
           
         }
       } else {
@@ -422,10 +423,10 @@ class IMUICameraView: UIView {
         }
         session.beginConfiguration()
         self.inConfiging = true
-        session.sessionPreset = AVCaptureSessionPreset352x288
+        session.sessionPreset = AVCaptureSession.Preset.cif352x288
         session.commitConfiguration()
         self.inConfiging = false
-        videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputPath), recordingDelegate: self)
+        videoFileOutput?.startRecording(to: URL(fileURLWithPath: outputPath), recordingDelegate: self)
       } else {
         videoFileOutput?.stopRecording()
       }
@@ -450,10 +451,10 @@ class IMUICameraView: UIView {
       }
       session.beginConfiguration()
       self.inConfiging = true
-      session.sessionPreset = AVCaptureSessionPreset352x288
+      session.sessionPreset = AVCaptureSession.Preset.cif352x288
       session.commitConfiguration()
       self.inConfiging = false
-      videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputPath), recordingDelegate: self)
+      videoFileOutput?.startRecording(to: URL(fileURLWithPath: outputPath), recordingDelegate: self)
     } else {
       videoFileOutput?.stopRecording()
     }
@@ -476,11 +477,11 @@ class IMUICameraView: UIView {
     
     isPhotoMode = !isPhotoMode
     if isPhotoMode {
-      session.sessionPreset = AVCaptureSessionPresetPhoto
+      session.sessionPreset = AVCaptureSession.Preset.photo
       videoRecordBtn.isHidden = true
       cameraShotBtn.isHidden = false
     } else {
-      session.sessionPreset = AVCaptureSessionPreset352x288
+      session.sessionPreset = AVCaptureSession.Preset.cif352x288
       videoRecordBtn.isHidden = false
       cameraShotBtn.isHidden = true
     }
@@ -510,11 +511,11 @@ class IMUICameraView: UIView {
   
   @available(iOS 10.0, *)
   func capturePhotoAfter_iOS10() {
-    let videoPreviewLayerOrientation = cameraPreviewView.videoPreviewLayer.connection.videoOrientation
+    let videoPreviewLayerOrientation = cameraPreviewView.videoPreviewLayer.connection?.videoOrientation
     
     sessionQueue.async {
-      if let photoOutputConnection = self.photoOutput?.connection(withMediaType: AVMediaTypeVideo) {
-        photoOutputConnection.videoOrientation = videoPreviewLayerOrientation
+      if let photoOutputConnection = self.photoOutput?.connection(with: AVMediaType.video) {
+        photoOutputConnection.videoOrientation = videoPreviewLayerOrientation!
       }
       
       let photoSettings = AVCapturePhotoSettings()
@@ -581,8 +582,8 @@ class IMUICameraView: UIView {
     
     var videoConnection: AVCaptureConnection? = nil
     for connection in stillImageOutput.connections as! [AVCaptureConnection] {
-      for port in connection.inputPorts as! [AVCaptureInputPort]{
-        if port.mediaType == AVMediaTypeVideo {
+      for port in connection.inputPorts as! [AVCaptureInput.Port]{
+        if port.mediaType == AVMediaType.video {
           videoConnection = connection
           break
         }
@@ -593,7 +594,7 @@ class IMUICameraView: UIView {
     
     print("about to request a capture from: \(stillImageOutput)")
     
-    stillImageOutput.captureStillImageAsynchronously(from: videoConnection) { (imageSampleBuffer, error) in
+    stillImageOutput.captureStillImageAsynchronously(from: videoConnection!) { (imageSampleBuffer, error) in
       if imageSampleBuffer == nil {
         return
       }
@@ -605,7 +606,7 @@ class IMUICameraView: UIView {
         print("exifAttachments not exit")
       }
       
-      let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
+      let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer!)
 
       self.shootPictureCallback?(imageData!)
       let image = UIImage(data: imageData!)
@@ -639,6 +640,25 @@ extension UIInterfaceOrientation {
 
 
 extension IMUICameraView: AVCaptureFileOutputRecordingDelegate {
+  func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+    if error == nil {
+      if isActivity {
+        self.recordVideoCallback?(outputFileURL.path, output.recordedDuration.seconds)
+      } else {
+        let fileManager = FileManager()
+        if fileManager.fileExists(atPath: outputFileURL.path) {
+          do {
+            try fileManager.removeItem(at: URL(fileURLWithPath: outputFileURL.path))
+          } catch {
+            print("removefile fail")
+          }
+        }
+      }
+    } else {
+      print("record video fail")
+    }
+  }
+
   func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
     if error == nil {
       if isActivity {

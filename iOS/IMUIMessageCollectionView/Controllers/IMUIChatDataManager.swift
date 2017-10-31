@@ -41,7 +41,7 @@ class IMUIChatDataManager: NSObject {
     return allMsgidArr.index(of: message.msgId)
   }
   
-  open func appendMessage(with message: IMUIMessageProtocol) {
+  @objc open func appendMessage(with message: IMUIMessageProtocol) {
     self.allMsgidArr.append(message.msgId)
     self.allMessageDic[message.msgId] = message
   }

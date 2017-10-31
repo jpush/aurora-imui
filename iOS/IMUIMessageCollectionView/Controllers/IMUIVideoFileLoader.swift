@@ -61,7 +61,7 @@ class IMUIVideFileLoaderOperation: Operation {
       while !self.isNeedToStop {
         let videoAsset = AVAsset(url: url)
         let reader = try AVAssetReader(asset: videoAsset)
-        let videoTracks = videoAsset.tracks(withMediaType: AVMediaTypeVideo)
+        let videoTracks = videoAsset.tracks(withMediaType: AVMediaType.video)
         let videoTrack = videoTracks[0]
         
         let options = [String(kCVPixelBufferPixelFormatTypeKey): kCVPixelFormatType_32BGRA]

@@ -48,19 +48,19 @@ open class RCTMessageModel: IMUIMessageModel {
     return mediaPath
   }
 
-  static open var outgoingBubbleImage: UIImage = {
+  @objc static open var outgoingBubbleImage: UIImage = {
     var bubbleImg = UIImage.imuiImage(with: "outGoing_bubble")
     bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 10, 9, 15), resizingMode: .tile)
     return bubbleImg!
   }()
   
-  static open var incommingBubbleImage: UIImage = {
+  @objc static open var incommingBubbleImage: UIImage = {
     var bubbleImg = UIImage.imuiImage(with: "inComing_bubble")
     bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 15, 9, 10), resizingMode: .tile)
     return bubbleImg!
   }()
   
-  override open var resizableBubbleImage: UIImage {
+  @objc override open var resizableBubbleImage: UIImage {
     // return defoult message bubble
     if isOutGoing {
       return RCTMessageModel.outgoingBubbleImage
@@ -69,7 +69,7 @@ open class RCTMessageModel: IMUIMessageModel {
     }
   }
   
-  public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocol, duration: CGFloat) {
+  @objc public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocol, duration: CGFloat) {
     
     self.myTextMessage = text
     self.mediaPath = mediaPath
@@ -77,7 +77,7 @@ open class RCTMessageModel: IMUIMessageModel {
     super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: time, type: type, cellLayout: layout, duration: duration)
   }
   
-  public convenience init(messageDic: NSDictionary) {
+  @objc public convenience init(messageDic: NSDictionary) {
     
     let msgId = messageDic.object(forKey: RCTMessageModel.kMsgKeyMsgId) as! String
     let msgTypeString = messageDic.object(forKey: RCTMessageModel.kMsgKeyMsgType) as? String
@@ -184,7 +184,7 @@ open class RCTMessageModel: IMUIMessageModel {
     return self.myTextMessage
   }
   
-  static func calculateTextContentSize(text: String, isOutGoing: Bool) -> CGSize {
+  @objc static func calculateTextContentSize(text: String, isOutGoing: Bool) -> CGSize {
     if isOutGoing {
       return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageContentView.outGoingTextFont)
     } else {
@@ -206,7 +206,7 @@ open class RCTMessageModel: IMUIMessageModel {
     }
   }
   
-  public var messageDictionary: NSDictionary {
+  @objc public var messageDictionary: NSDictionary {
     get {
       
       var messageDic = NSMutableDictionary()
@@ -275,9 +275,9 @@ open class RCTMessageModel: IMUIMessageModel {
 
 
 //MARK - IMUIMessageCellLayoutProtocal
-open class MyMessageCellLayout: IMUIMessageCellLayout {
-  open static var outgoingPadding = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 15)
-  open static var incommingPadding = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 10)
+public class MyMessageCellLayout: IMUIMessageCellLayout {
+  @objc open static var outgoingPadding = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 15)
+  @objc open static var incommingPadding = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 10)
   
   var type: String
   
