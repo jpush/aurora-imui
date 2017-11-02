@@ -17,7 +17,7 @@ open class IMUIMessageCollectionView: UIView {
   var viewCache = IMUIReuseViewCache()
   
   var chatDataManager = IMUIChatDataManager()
-  open weak var delegate: IMUIMessageMessageCollectionViewDelegate?
+  @objc open weak var delegate: IMUIMessageMessageCollectionViewDelegate?
   
   open override func awakeFromNib() {
     super.awakeFromNib()
@@ -78,29 +78,29 @@ open class IMUIMessageCollectionView: UIView {
     return chatDataManager.count
   }
   
-  open func scrollToBottom(with animated: Bool) {
+  @objc open func scrollToBottom(with animated: Bool) {
     if chatDataManager.count == 0 { return }
     let endIndex = IndexPath(item: chatDataManager.endIndex - 1, section: 0)
     self.messageCollectionView.scrollToItem(at: endIndex, at: .bottom, animated: animated)
   }
   
-  open func appendMessage(with message: IMUIMessageProtocol) {
+  @objc open func appendMessage(with message: IMUIMessageProtocol) {
     self.chatDataManager.appendMessage(with: message)
     self.messageCollectionView.reloadData()
     self.scrollToBottom(with: true)
   }
   
-  open func insertMessage(with message: IMUIMessageProtocol) {
+  @objc open func insertMessage(with message: IMUIMessageProtocol) {
     self.chatDataManager.insertMessage(with: message)
     self.messageCollectionView.reloadDataNoScroll()
   }
   
-  open func insertMessages(with messages:[IMUIMessageProtocol]) {
+  @objc open func insertMessages(with messages:[IMUIMessageProtocol]) {
     self.chatDataManager.insertMessages(with: messages)
     self.messageCollectionView.reloadDataNoScroll()
   }
   
-  open func updateMessage(with message:IMUIMessageProtocol) {
+  @objc open func updateMessage(with message:IMUIMessageProtocol) {
     self.chatDataManager.updateMessage(with: message)
     if let index = chatDataManager.index(of: message) {
       let indexPath = IndexPath(item: index, section: 0)
@@ -108,7 +108,7 @@ open class IMUIMessageCollectionView: UIView {
     }
   }
   
-  open func removeMessage(with messageId: String) {
+  @objc open func removeMessage(with messageId: String) {
     self.chatDataManager.removeMessage(with: messageId)
     self.messageCollectionView.reloadDataNoScroll()
   }
@@ -116,7 +116,7 @@ open class IMUIMessageCollectionView: UIView {
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return self.chatDataManager.count
@@ -127,9 +127,10 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
     return 1
   }
   
-  func collectionView(_ collectionView: UICollectionView,
-                      layout collectionViewLayout: UICollectionViewLayout,
-                      sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+  
+  public func collectionView(_ collectionView: UICollectionView,
+                             layout collectionViewLayout: UICollectionViewLayout,
+                             sizeForItemAt indexPath: IndexPath) -> CGSize {
     let height = self.delegate?.messageCollectionView?(messageCollectionView: collectionView, heightForItemAtIndexPath: indexPath, messageModel: chatDataManager[indexPath.item])
     if let _ = height {
       return CGSize(width: messageCollectionView.imui_width, height: CGFloat(height!.floatValue))
@@ -141,12 +142,6 @@ extension IMUIMessageCollectionView: UICollectionViewDelegate, UICollectionViewD
       return CGSize(width: messageCollectionView.imui_width, height: message.layout.cellHeight)
     }
     
-    return CGSize.zero
-  }
-  
-  func collectionView(_ collectionView: UICollectionView,
-                      layout collectionViewLayout: UICollectionViewLayout,
-                      referenceSizeForFooterInSection section: Int) -> CGSize {
     return CGSize.zero
   }
   

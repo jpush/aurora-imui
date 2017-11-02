@@ -32,7 +32,7 @@ class IMUICameraPreviewView: UIView {
     didSet {
       
       let videoLayer = self.layer as! AVCaptureVideoPreviewLayer
-      videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+      videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill;
     }
   }
 

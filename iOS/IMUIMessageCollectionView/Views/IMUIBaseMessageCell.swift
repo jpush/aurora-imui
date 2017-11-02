@@ -15,7 +15,7 @@ enum IMUIMessageCellType {
 }
 
 open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
-  open static var avatarCornerRadius:CGFloat = 0
+  @objc open static var avatarCornerRadius:CGFloat = 0
   
   var bubbleView: IMUIMessageBubbleView
   lazy var avatarImage = UIImageView()
@@ -167,22 +167,22 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
     self.delegate = delegate
   }
   
-  func tapBubbleView() {
+  @objc func tapBubbleView() {
     self.delegate?.messageCollectionView?(didTapMessageBubbleInCell: self, model: self.message!)
   }
   
-  func longTapBubbleView(sender: UITapGestureRecognizer) {
+  @objc func longTapBubbleView(sender: UITapGestureRecognizer) {
     if (sender.state == .began) {
         self.delegate?.messageCollectionView?(beganLongTapMessageBubbleInCell: self, model: self.message!)
     }
     
   }
   
-  func tapHeaderImage() {
+  @objc func tapHeaderImage() {
     self.delegate?.messageCollectionView?(didTapHeaderImageInCell: self, model: self.message!)
   }
   
-  func tapSatusView() {
+  @objc func tapSatusView() {
     self.delegate?.messageCollectionView?(didTapStatusViewInCell: self, model: self.message!)
   }
   

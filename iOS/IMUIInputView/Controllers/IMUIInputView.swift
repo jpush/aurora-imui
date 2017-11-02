@@ -25,7 +25,7 @@ fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
 open class IMUIInputView: UIView {
   
   var inputViewStatus: IMUIInputStatus = .none
-  open weak var inputViewDelegate: IMUIInputViewDelegate? {
+  @objc open weak var inputViewDelegate: IMUIInputViewDelegate? {
     didSet {
       self.featureView.inputViewDelegate = self.inputViewDelegate
     }
@@ -92,7 +92,7 @@ open class IMUIInputView: UIView {
     self.updateSendBtnToPhotoSendStatus()
   }
   
-  func keyboardFrameChanged(_ notification: Notification) {
+  @objc func keyboardFrameChanged(_ notification: Notification) {
     let dic = NSDictionary(dictionary: (notification as NSNotification).userInfo!)
     let keyboardValue = dic.object(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
     let bottomDistance = UIScreen.main.bounds.size.height - keyboardValue.cgRectValue.origin.y
@@ -120,7 +120,7 @@ open class IMUIInputView: UIView {
     }
   }
   
-  open func hideFeatureView() {
+  @objc public func hideFeatureView() {
     UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) { 
       self.moreViewHeight.constant = 0
       self.inputTextView.resignFirstResponder()
@@ -292,6 +292,6 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
   }
   
   public func didRecordVideo(with videoPath: String, durationTime: Double) {
-    self.inputViewDelegate?.finishRecordVoice?(videoPath, durationTime: durationTime)
+    self.inputViewDelegate?.finishRecordVideo?(videoPath: videoPath, durationTime: durationTime)
   }
 }

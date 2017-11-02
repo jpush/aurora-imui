@@ -183,7 +183,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     }
   }
   
-  func handlePan(recognizer:UIPanGestureRecognizer) {
+  @objc func handlePan(recognizer:UIPanGestureRecognizer) {
     let pointInSuperView = recognizer.location(in: self.contentView)
     
     // touch move out from recordVoiceBtn

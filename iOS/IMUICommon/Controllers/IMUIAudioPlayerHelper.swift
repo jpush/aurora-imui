@@ -17,7 +17,7 @@ public protocol IMUIAudioPlayerDelegate:NSObjectProtocol {
 
 public class IMUIAudioPlayerHelper: NSObject {
   
-  public static let sharedInstance = IMUIAudioPlayerHelper()
+  @objc public static let sharedInstance = IMUIAudioPlayerHelper()
   
 
   var player:AVAudioPlayer!
@@ -40,7 +40,7 @@ public class IMUIAudioPlayerHelper: NSObject {
     NotificationCenter.default.addObserver(self, selector: #selector(sensorStateChange), name: NSNotification.Name.UIDeviceProximityStateDidChange, object: nil)
   }
   
-  func sensorStateChange() {
+  @objc func sensorStateChange() {
     do {
       if UIDevice.current.proximityState {
         try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
@@ -100,7 +100,7 @@ public class IMUIAudioPlayerHelper: NSObject {
     }
   }
   
-  func trackAudio() {
+  @objc func trackAudio() {
     self.playProgressCallback?(self.identify ,player.currentTime, player.duration)
   }
   
@@ -115,7 +115,7 @@ public class IMUIAudioPlayerHelper: NSObject {
     updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
   }
   
-  open func stopAudio() {
+  @objc open func stopAudio() {
     self.playProgressCallback = nil
     updater?.invalidate()
     if (self.player != nil) && self.player.isPlaying {

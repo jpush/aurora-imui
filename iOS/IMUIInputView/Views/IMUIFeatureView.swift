@@ -171,7 +171,7 @@ open class IMUIFeatureView: UIView {
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch currentType {
     case .none:
@@ -186,16 +186,16 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource 
     return 1
   }
   
-  func collectionView(_ collectionView: UICollectionView,
+  public func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
-                      sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+                      sizeForItemAt indexPath: IndexPath) -> CGSize {
     switch currentType {
       default:
         return self.featureCollectionView.imui_size
     }
   }
   
-  func collectionView(_ collectionView: UICollectionView,
+  public func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       referenceSizeForFooterInSection section: Int) -> CGSize {
     return CGSize.zero

@@ -52,7 +52,7 @@ class IMUIEmojiCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   }
 }
 
-extension IMUIEmojiCell: UICollectionViewDataSource, UICollectionViewDelegate {
+extension IMUIEmojiCell: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return self.emojiDataArr.count
@@ -64,7 +64,7 @@ extension IMUIEmojiCell: UICollectionViewDataSource, UICollectionViewDelegate {
   
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
-                      sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+                      sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: 30, height: 30)
   }
   

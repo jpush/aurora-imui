@@ -21,7 +21,7 @@ class IMUIGalleryCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   override func awakeFromNib() {
     super.awakeFromNib()
     playerLayer = AVPlayerLayer()
-    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+    playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
     self.mediaView.layer.addSublayer(playerLayer)
     self.galleryImageView.layer.masksToBounds = true
     self.galleryImageView.layer.mask = nil
