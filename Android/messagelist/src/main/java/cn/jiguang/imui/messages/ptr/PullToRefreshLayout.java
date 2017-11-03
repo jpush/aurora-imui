@@ -1,4 +1,4 @@
-package cn.jiguang.imui.messages;
+package cn.jiguang.imui.messages.ptr;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,8 +13,14 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import cn.jiguang.imui.R;
-import cn.jiguang.imui.utils.DisplayUtil;
+import cn.jiguang.imui.messages.MessageList;
 
+/**
+ * Using android-Ultra-Pull-To-Refresh, link: https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh
+ * author: liaohuqiu
+ *
+ * Change content view to {@link cn.jiguang.imui.messages.MessageList}
+ */
 public class PullToRefreshLayout extends ViewGroup {
 
     public final static byte PTR_STATUS_INIT = 1;

@@ -1,4 +1,4 @@
-package cn.jiguang.imui.messages;
+package cn.jiguang.imui.messages.ptr;
 
 
 import android.content.Context;
@@ -11,6 +11,11 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import cn.jiguang.imui.messages.MaterialProgressDrawable;
+
+/**
+ * Default header is material style
+ */
 public class PtrDefaultHeader extends View implements PtrUIHandler {
 
     private MaterialProgressDrawable mDrawable;

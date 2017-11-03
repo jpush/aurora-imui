@@ -1,4 +1,4 @@
-package cn.jiguang.imui.messages;
+package cn.jiguang.imui.messages.ptr;
 
 
 public interface PtrHandler {
