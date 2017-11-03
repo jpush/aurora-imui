@@ -59,4 +59,13 @@
 
         <attr name="videomessage_radius" format="dimension|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="PullToRefreshLayout">
+        <attr name="PtrResistance" format="float" />
+        <attr name="PtrRatioHeightToRefresh" format="float" />
+        <attr name="PtrCloseDuration" format="integer" />
+        <attr name="PtrCloseHeaderDuration" format="integer" />
+        <attr name="PtrPullToRefresh" format="boolean" />
+        <attr name="PtrKeepHeaderWhenRefresh" format="boolean" />
+    </declare-styleable>
 </resources>

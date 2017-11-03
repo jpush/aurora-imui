@@ -24,4 +24,18 @@
         <item>That\'s cruel, I don\'t like it, maybe there is a favourable turn</item>
         <item>Hope so</item>
     </string-array>
+
+    <string-array name="conversation">
+        <item>test</item>
+        <item>History message 1</item>
+        <item>History message 2</item>
+        <item>History message 3</item>
+        <item>History message 4</item>
+        <item>History message 5</item>
+        <item>History message 6</item>
+        <item>History message 7</item>
+        <item>History message 8</item>
+        <item>History message 9</item>
+        <item>History message 10</item>
+    </string-array>
 </resources>

@@ -51,6 +51,8 @@ import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messages.MsgListAdapter;
+import cn.jiguang.imui.messages.PtrHandler;
+import cn.jiguang.imui.messages.PullToRefreshLayout;
 import cn.jiguang.imui.messages.ViewHolderController;
 import imui.jiguang.cn.imuisample.R;
 import imui.jiguang.cn.imuisample.models.DefaultUser;
@@ -478,13 +480,20 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         MyMessage eventMsg = new MyMessage("haha", IMessage.MessageType.EVENT);
         mAdapter.addToStart(eventMsg, true);
         mAdapter.addToEnd(mData);
+        PullToRefreshLayout layout = mChatView.getPtrLayout();
+        layout.setPtrHandler(new PtrHandler() {
+            @Override
+            public void onRefreshBegin(PullToRefreshLayout layout) {
+                Log.i("MessageListActivity", "Loading next page");
+                loadNextPage();
+            }
+        });
+        // Deprecated, should use onRefreshBegin to load next page
         mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int page, int totalCount) {
-                if (totalCount <= mData.size()) {
-                    Log.i("MessageListActivity", "Loading next page");
-                    loadNextPage();
-                }
+//                Log.i("MessageListActivity", "Loading next page");
+//                loadNextPage();
             }
         });
 
@@ -496,9 +505,26 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mAdapter.addToEnd(mData);
+                List<MyMessage> list = new ArrayList<>();
+                Resources res = getResources();
+                String[] messages = res.getStringArray(R.array.conversation);
+                for (int i = 0; i < messages.length; i++) {
+                    MyMessage message;
+                    if (i % 2 == 0) {
+                        message = new MyMessage(messages[i], IMessage.MessageType.RECEIVE_TEXT);
+                        message.setUserInfo(new DefaultUser("0", "DeadPool", "R.drawable.deadpool"));
+                    } else {
+                        message = new MyMessage(messages[i], IMessage.MessageType.SEND_TEXT);
+                        message.setUserInfo(new DefaultUser("1", "IronMan", "R.drawable.ironman"));
+                    }
+                    message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
+                    list.add(message);
+                }
+                Collections.reverse(list);
+                mAdapter.addToEnd(list);
+                mChatView.getPtrLayout().refreshComplete();
             }
-        }, 1000);
+        }, 1500);
     }
 
     @Override

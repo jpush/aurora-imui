@@ -3,6 +3,7 @@ package imui.jiguang.cn.imuisample.views;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +16,10 @@ import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
+import cn.jiguang.imui.messages.PtrDefaultHeader;
+import cn.jiguang.imui.messages.PtrHandler;
+import cn.jiguang.imui.messages.PullToRefreshLayout;
+import cn.jiguang.imui.utils.DisplayUtil;
 import imui.jiguang.cn.imuisample.R;
 
 import static cn.jiguang.imui.chatinput.ChatInputView.KEYBOARD_STATE_HIDE;
@@ -29,6 +34,7 @@ public class ChatView extends RelativeLayout {
     private ChatInputView mChatInput;
     private LinearLayout mMenuLl;
     private RecordVoiceButton mRecordVoiceBtn;
+    private PullToRefreshLayout mPtrLayout;
 
     private boolean mHasInit;
     private boolean mHasKeyboard;
@@ -54,13 +60,30 @@ public class ChatView extends RelativeLayout {
         mMsgList = (MessageList) findViewById(R.id.msg_list);
         mMenuLl = (LinearLayout) findViewById(R.id.aurora_ll_menuitem_container);
         mChatInput = (ChatInputView) findViewById(R.id.chat_input);
+        mPtrLayout = (PullToRefreshLayout) findViewById(R.id.pull_to_refresh_layout);
 
         mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
-
+        PtrDefaultHeader header = new PtrDefaultHeader(getContext());
+        int[] colors = getResources().getIntArray(R.array.google_colors);
+        header.setColorSchemeColors(colors);
+        header.setLayoutParams(new LayoutParams(-1, -2));
+        header.setPadding(0, DisplayUtil.dp2px(getContext(),15), 0,
+                DisplayUtil.dp2px(getContext(),10));
+        header.setPtrFrameLayout(mPtrLayout);
         mMsgList = (MessageList) findViewById(R.id.msg_list);
         mMsgList.setHasFixedSize(true);
+        mPtrLayout.setLoadingMinTime(1000);
+        mPtrLayout.setDurationToCloseHeader(1500);
+        mPtrLayout.setHeaderView(header);
+        mPtrLayout.addPtrUIHandler(header);
+        // 下拉刷新时，内容固定，只有 Header 变化
+        mPtrLayout.setPinContent(true);
 //        mMsgList.setShowReceiverDisplayName(0);
 //        mMsgList.setShowSenderDisplayName(1);
+    }
+
+    public PullToRefreshLayout getPtrLayout() {
+        return mPtrLayout;
     }
 
     public void setTitle(String title) {

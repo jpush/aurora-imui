@@ -23,9 +23,16 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <cn.jiguang.imui.messages.PullToRefreshLayout
+        android:id="@+id/pull_to_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:PtrCloseDuration="300"
+        app:PtrCloseHeaderDuration="2000"
+        app:PtrKeepHeaderWhenRefresh="true"
+        app:PtrPullToRefresh="true"
+        app:PtrRatioHeightToRefresh="1.2"
+        app:PtrResistance="1.2"
         android:layout_above="@+id/chat_input"
         android:layout_below="@+id/title_container">
 
@@ -49,7 +56,7 @@
             app:sendTextColor="#7587A8"
             app:sendTextSize="14sp" />
 
-    </LinearLayout>
+    </cn.jiguang.imui.messages.PullToRefreshLayout>
 
 
     <cn.jiguang.imui.chatinput.ChatInputView
