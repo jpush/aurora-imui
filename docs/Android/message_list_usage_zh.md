@@ -9,7 +9,7 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.4.8'
+compile 'cn.jiguang.imui:messagelist:0.4.9'
 ```
 
 - Maven
@@ -17,7 +17,7 @@ compile 'cn.jiguang.imui:messagelist:0.4.8'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.4.8</version>
+  <version>0.4.9</version>
   <type>pom</type>
 </dependency>
 ```
@@ -34,7 +34,7 @@ allprojects {
 
 // module/build.gradle
 dependencies {
-  compile 'com.github.jpush:imui:0.5.2'
+  compile 'com.github.jpush:imui:0.5.4'
 }
 ```
 
@@ -60,6 +60,78 @@ dependencies {
     app:sendTextColor="#7587A8"
     app:sendTextSize="18sp" />
 ```
+
+
+#### 支持下拉刷新布局
+
+如果需要使用下拉刷新的消息列表，可以使用 `PullToRefreshLayout` 来包裹 `MessageList`，此外还需要实现下拉刷新的接口。用法如下：
+
+```
+<cn.jiguang.imui.messages.ptr.PullToRefreshLayout
+    android:id="@+id/pull_to_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:PtrCloseDuration="300"
+    app:PtrCloseHeaderDuration="2000"
+    app:PtrKeepHeaderWhenRefresh="true"
+    app:PtrPullToRefresh="true"
+    app:PtrRatioHeightToRefresh="1.2"
+    app:PtrResistance="1.2"
+    android:layout_above="@+id/chat_input"
+    android:layout_below="@+id/title_container">
+
+    <cn.jiguang.imui.messages.MessageList
+        android:id="@+id/msg_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:avatarHeight="48dp"
+        app:avatarWidth="48dp"
+        app:showReceiverDisplayName="SHOW"
+        app:showSenderDisplayName="HIDE"
+        app:avatarRadius="5dp"
+        app:bubbleMaxWidth="0.70"
+        app:dateTextSize="14sp"
+        app:receiveBubblePaddingLeft="16dp"
+        app:receiveBubblePaddingRight="8dp"
+        app:receiveTextColor="#ffffff"
+        app:receiveTextSize="14sp"
+        app:sendBubblePaddingLeft="8dp"
+        app:sendBubblePaddingRight="16dp"
+        app:sendTextColor="#7587A8"
+        app:sendTextSize="14sp" />
+
+</cn.jiguang.imui.messages.ptr.PullToRefreshLayout>
+```
+
+定义了 xml 后，添加 Header View，并实现下拉刷新接口：
+
+```
+final PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.pull_to_refresh_layout);
+PtrDefaultHeader header = new PtrDefaultHeader(getContext());
+int[] colors = getResources().getIntArray(R.array.google_colors);
+header.setColorSchemeColors(colors);
+header.setLayoutParams(new LayoutParams(-1, -2));
+header.setPadding(0, DisplayUtil.dp2px(getContext(),15), 0,DisplayUtil.dp2px(getContext(),10));
+header.setPtrFrameLayout(ptrLayout);
+ptrLayout.setLoadingMinTime(1000);
+ptrLayout.setDurationToCloseHeader(1500);
+ptrLayout.setHeaderView(header);
+ptrLayout.addPtrUIHandler(header);
+// 如果设置为 true，下拉刷新时，内容固定，只有 Header 变化
+ptrLayout.setPinContent(true);
+ptrLayout.setPtrHandler(new PtrHandler() {
+  @Override
+  public void onRefreshBegin(PullToRefreshLayout layout) {
+      Log.i("MessageListActivity", "Loading next page");
+      loadNextPage();
+      // 加载完历史消息后调用
+      ptrLayout.refreshComplete();
+  }
+});
+```
+
+`PullToRefreshLayout` 默认的 Header 是 Material 风格的，你也可以参考 [android-Ultra-Pull-To-Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh) 来实现各种风格的 Header。
+
 我们定义了很多样式，供用户调整布局，详细的属性可以参考 [attrs.xml](./../../Android/messagelist/src/main/res/values/attrs.xml) 文件，当然也支持完全自定义布局，下面会介绍到。
 
 #### 设置 MessageList 自定义属性
@@ -221,7 +293,7 @@ adapter.addToStart(message, true);
 adapter.addToEnd(messages);
 ```
 
-- 滚动列表加载历史消息
+- 滚动列表加载历史消息（**如果使用了 `PullToRefreshLayout` 跳过这个部分**）
   设置监听 `OnLoadMoreListener`，当滚动列表时就会触发 `onLoadMore` 事件，例如：
 ```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {

@@ -105,6 +105,7 @@ public class ScrollMoreListener extends RecyclerView.OnScrollListener {
         mDisable = disable;
     }
 
+    @Deprecated
     interface OnLoadMoreListener {
         void onLoadMore(int page, int total);
     }

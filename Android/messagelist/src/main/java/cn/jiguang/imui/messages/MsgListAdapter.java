@@ -3,7 +3,6 @@ package cn.jiguang.imui.messages;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +54,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private String mSenderId;
     private HoldersConfig mHolders;
     private OnLoadMoreListener mListener;
-
     private ImageLoader mImageLoader;
     private boolean mIsSelectedMode;
     private OnMsgClickListener<MESSAGE> mMsgClickListener;
@@ -574,6 +572,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         void applyStyle(MessageListStyle style);
     }
 
+    @Deprecated
     public interface OnLoadMoreListener {
         void onLoadMore(int page, int totalCount);
     }
