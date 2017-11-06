@@ -100,32 +100,26 @@ public class PullToRefreshLayout extends ViewGroup {
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
+        updateLayout();
+    }
+
+    public void updateLayout() {
         final int childCount = getChildCount();
-        if (childCount > 2) {
-            throw new IllegalStateException("PullToRefreshLayout can only contains 2 children");
-        } else if (childCount == 2) {
-            View child1 = getChildAt(0);
-            if (child1 instanceof PtrUIHandler) {
-                mHeaderView = child1;
-                mMsgList = (MessageList) getChildAt(1);
-            } else if (child1 instanceof MessageList){
-                mMsgList = (MessageList) child1;
-                mHeaderView = getChildAt(1);
+        if (childCount == 0) {
+            return;
+        }
+        for (int i = 0; i < childCount; i++) {
+            View child = getChildAt(i);
+            if (child instanceof PtrHandler) {
+                mHeaderView = child;
+            } else if (child instanceof MessageList) {
+                mMsgList = (MessageList) child;
             }
-        } else if (childCount == 1) {
-            mMsgList = (MessageList) getChildAt(0);
-        } else {
-            TextView textView = new TextView(getContext());
-            textView.setTextColor(0xffff6600);
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextSize(20);
-            textView.setText("MessageList is null, do you forget to specify MessageList in xml file?");
-            addView(textView);
         }
         if (mHeaderView != null) {
             mHeaderView.bringToFront();
         }
-        super.onFinishInflate();
     }
 
     @Override
