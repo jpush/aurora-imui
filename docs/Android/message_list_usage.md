@@ -10,7 +10,7 @@ We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.4.8'
+compile 'cn.jiguang.imui:messagelist:0.4.9'
 ```
 
 -  Maven：
@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:messagelist:0.4.8'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.4.8</version>
+  <version>0.4.9</version>
   <type>pom</type>
 </dependency>
 ```
@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.5.2'
+    compile 'com.github.jpush:imui:0.5.4'
 }
 ```
 
@@ -62,6 +62,79 @@ try it yourself.
     app:sendTextColor="#7587A8"
     app:sendTextSize="18sp" />
 ```
+
+
+#### Support Pull To Refresh Layout
+
+If you prefer add pull to refresh feature to `MessageList`, then you should use `PullToRefreshLayout` to wrap `MessageList`, for example:
+
+```
+<cn.jiguang.imui.messages.ptr.PullToRefreshLayout
+    android:id="@+id/pull_to_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:PtrCloseDuration="300"
+    app:PtrCloseHeaderDuration="2000"
+    app:PtrKeepHeaderWhenRefresh="true"
+    app:PtrPullToRefresh="true"
+    app:PtrRatioHeightToRefresh="1.2"
+    app:PtrResistance="1.2"
+    android:layout_above="@+id/chat_input"
+    android:layout_below="@+id/title_container">
+
+    <cn.jiguang.imui.messages.MessageList
+        android:id="@+id/msg_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:avatarHeight="48dp"
+        app:avatarWidth="48dp"
+        app:showReceiverDisplayName="SHOW"
+        app:showSenderDisplayName="HIDE"
+        app:avatarRadius="5dp"
+        app:bubbleMaxWidth="0.70"
+        app:dateTextSize="14sp"
+        app:receiveBubblePaddingLeft="16dp"
+        app:receiveBubblePaddingRight="8dp"
+        app:receiveTextColor="#ffffff"
+        app:receiveTextSize="14sp"
+        app:sendBubblePaddingLeft="8dp"
+        app:sendBubblePaddingRight="16dp"
+        app:sendTextColor="#7587A8"
+        app:sendTextSize="14sp" />
+
+</cn.jiguang.imui.messages.ptr.PullToRefreshLayout>
+```
+
+then you should add a header to `PullToRefreshLayout` and implements pull to refresh interface:
+
+```
+final PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.pull_to_refresh_layout);
+PtrDefaultHeader header = new PtrDefaultHeader(getContext());
+int[] colors = getResources().getIntArray(R.array.google_colors);
+header.setColorSchemeColors(colors);
+header.setLayoutParams(new LayoutParams(-1, -2));
+header.setPadding(0, DisplayUtil.dp2px(getContext(),15), 0,DisplayUtil.dp2px(getContext(),10));
+header.setPtrFrameLayout(ptrLayout);
+ptrLayout.setLoadingMinTime(1000);
+ptrLayout.setDurationToCloseHeader(1500);
+ptrLayout.setHeaderView(header);
+ptrLayout.addPtrUIHandler(header);
+// If set to true，when pull to refresh, the content will be 
+// fixed, only the header view changes
+ptrLayout.setPinContent(true);
+ptrLayout.setPtrHandler(new PtrHandler() {
+  @Override
+  public void onRefreshBegin(PullToRefreshLayout layout) {
+      Log.i("MessageListActivity", "Loading next page");
+      loadNextPage();
+      // After load history messages, call refreshComplete.
+      ptrLayout.refreshComplete();
+  }
+});
+```
+
+The `PtrDefaultHeader` is Material style, you can use any other style you like, just take a look at [android-Ultra-Pull-To-Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh) to implement your header.
+
 We have define many kinds of attributes, to support user to adjust their layout, you can see
 [attrs.xml](./../../Android/messagelist/src/main/res/values/attrs.xml) in detail, and we support totally customize style either, please look down.
 
@@ -223,7 +296,7 @@ adapter.addToStart(message, true);
 adapter.addToEnd(messages);
 ```
 
-- Scroll to load history messages
+- Scroll to load history messages(**If you add `PullToRefreshLayout`, pass this part.**)
   After adding this listener: `OnLoadMoreListener`，when scroll to top will fire `onLoadMore` event，for example：
 ```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
