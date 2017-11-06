@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.jiguang.imui.messages.ptr.PullToRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pull_to_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:PtrCloseDuration="500"
+    app:PtrCloseHeaderDuration="2000"
+    app:PtrKeepHeaderWhenRefresh="true"
+    app:PtrPullToRefresh="true"
+    app:PtrRatioHeightToRefresh="1.2"
+    app:PtrResistance="1.2">
+
+</cn.jiguang.imui.messages.ptr.PullToRefreshLayout>

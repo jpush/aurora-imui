@@ -75,7 +75,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     private static final String ON_MSG_LONG_CLICK_EVENT = "onMsgLongClick";
     private static final String ON_STATUS_VIEW_CLICK_EVENT = "onStatusViewClick";
     private static final String ON_TOUCH_MSG_LIST_EVENT = "onTouchMsgList";
-    private static final String ON_PULL_TO_REFRESH_EVENT = "onPullToRefresh";
 
     public static final String RCT_APPEND_MESSAGES_ACTION = "cn.jiguang.imui.messagelist.intent.appendMessages";
     public static final String RCT_UPDATE_MESSAGE_ACTION = "cn.jiguang.imui.messagelist.intent.updateMessage";
@@ -193,14 +192,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
                         break;
                 }
                 return false;
-            }
-        });
-        mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(int i, int i1) {
-                Log.i(REACT_MESSAGE_LIST, "onPullToRefresh will call");
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(),
-                        ON_PULL_TO_REFRESH_EVENT, null);
             }
         });
         // 通知 AuroraIMUIModule 完成初始化 MessageList
@@ -418,7 +409,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
                 .put(ON_MSG_LONG_CLICK_EVENT, MapBuilder.of("registrationName", ON_MSG_LONG_CLICK_EVENT))
                 .put(ON_STATUS_VIEW_CLICK_EVENT, MapBuilder.of("registrationName", ON_STATUS_VIEW_CLICK_EVENT))
                 .put(ON_TOUCH_MSG_LIST_EVENT, MapBuilder.of("registrationName", ON_TOUCH_MSG_LIST_EVENT))
-                .put(ON_PULL_TO_REFRESH_EVENT, MapBuilder.of("registrationName", ON_PULL_TO_REFRESH_EVENT))
                 .build();
     }
 

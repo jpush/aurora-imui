@@ -24,6 +24,7 @@
             android:layout_weight="1"
             android:background="@drawable/aurora_edittext_bg"
             android:cursorVisible="true"
+            android:focusable="true"
             android:inputType="textMultiLine"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
