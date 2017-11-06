@@ -370,3 +370,14 @@ mAdapter.setMsgStatusViewClickListener(new MsgListAdapter.OnMsgStatusViewClickLi
     }
  });
 ```
+
+
+
+### 混淆
+
+如果需要混淆代码，需要添加如下配置：
+
+```
+-keep class cn.jiguang.imui.** { *; }
+```
+

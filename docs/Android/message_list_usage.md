@@ -371,3 +371,14 @@ mAdapter.setMsgStatusViewClickListener(new MsgListAdapter.OnMsgStatusViewClickLi
     }
  });
 ```
+
+
+
+### Progurad
+
+Add the proguard-rule below if you need to obfuscate your code:
+
+```
+-keep class cn.jiguang.imui.** { *; }
+```
+
