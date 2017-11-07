@@ -133,9 +133,8 @@ export default class TestRNIMUI extends Component {
   onSendText = (text) => {
     // this.setState({isAllowPullToRefresh: !this.state.isAllowPullToRefresh})
     var message = constructNormalMessage()
-    
-    message.msgType = "text"
-    message.text = text
+
+
     // message.timeString = 'fsdafafaf'
     
     var user = {
@@ -161,9 +160,17 @@ export default class TestRNIMUI extends Component {
   onTakePicture = (mediaPath) => {
 
     var message = constructNormalMessage()
-    message.msgType = "image"
-    message.mediaPath = mediaPath
+    // message.msgType = "image"
+    // message.mediaPath = mediaPath
 
+    message.msgType = 'custom'
+    
+        message.content = '<h3>This is a custom message. </h3>\
+                          <img src="file://'
+        message.content += mediaPath + '\"></img>'
+        // message.content = '<img src="https://www.baidu.com/img/bd_logo1.png"></img>'
+        message.contentSize = {'height': 100, 'width': 200}
+    console.log(message.content)
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
   }

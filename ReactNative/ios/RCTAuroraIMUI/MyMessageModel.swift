@@ -23,8 +23,9 @@ open class RCTMessageModel: IMUIMessageModel {
   static let kMsgKeyMsgType = "msgType"
   static let kMsgTypeText = "text"
   static let kMsgTypeVoice = "voice"
-  static let kMsgTypeVideo = "video"
   static let kMsgTypeImage = "image"
+  static let kMsgTypeVideo = "video"
+  static let kMsgTypeCustom = "custom"
 
   static let kMsgKeyMsgId = "msgId"
   static let kMsgKeyFromUser = "fromUser"
@@ -32,6 +33,9 @@ open class RCTMessageModel: IMUIMessageModel {
   static let kMsgKeyisOutgoing = "isOutgoing"
   static let kMsgKeyMediaFilePath = "mediaPath"
   static let kMsgKeyDuration = "duration"
+  static let kMsgKeyContentSize = "contentSize"
+  static let kMsgKeyContent = "content"
+  
   static let kUserKeyUerId = "userId"
   static let kUserKeyDisplayName = "diaplayName"
   static let kUserAvatarPath = "avatarPath"
@@ -149,6 +153,25 @@ open class RCTMessageModel: IMUIMessageModel {
                             isNeedShowTime: needShowTime,
                             bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeVideo)
       }
+      
+      if typeString == RCTMessageModel.kMsgTypeCustom {
+        // TODO custom
+        text = messageDic.object(forKey: RCTMessageModel.kMsgKeyContent) as? String
+        var bubbleContentSize = CGSize.zero
+        var contentSize = messageDic.object(forKey: RCTMessageModel.kMsgKeyContentSize) as? NSDictionary
+        if let _ = contentSize {
+          let contentWidth = contentSize!["width"] as! NSNumber
+          let contentHeight = contentSize!["height"] as! NSNumber
+          bubbleContentSize = CGSize(width: contentWidth.doubleValue, height: contentHeight.doubleValue)
+        } else {
+          bubbleContentSize = CGSize.zero
+        }
+        messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
+                                               isNeedShowTime: needShowTime,
+                                            bubbleContentSize: bubbleContentSize,
+                                          bubbleContentInsets: UIEdgeInsets.zero,
+                                                         type: RCTMessageModel.kMsgTypeCustom)
+      }
     }
     
     var msgStatus = IMUIMessageStatus.success
@@ -233,6 +256,11 @@ open class RCTMessageModel: IMUIMessageModel {
         messageDic.setValue(self.duration, forKey: RCTMessageModel.kMsgKeyDuration)
         break
       case "custom":
+        messageDic.setValue(RCTMessageModel.kMsgTypeCustom, forKey: RCTMessageModel.kMsgKeyMsgType)
+        messageDic.setValue(self.text(), forKey: RCTMessageModel.kMsgKeyContent)
+        let contentSize = ["height": self.layout.bubbleContentSize.height,
+                           "width": self.layout.bubbleContentSize.width]
+        messageDic.setValue(contentSize, forKey: RCTMessageModel.kMsgKeyContentSize)
         break
         
       default:
@@ -315,6 +343,9 @@ public class MyMessageCellLayout: IMUIMessageCellLayout {
       return IMUIVideoMessageContentView()
     }
     
+    if type == "custom" {
+      return IMUICustomMessageContentView()
+    }
     
     return IMUIDefaultContentView()
   }
