@@ -51,6 +51,17 @@ function constructNormalMessage() {
     return  message
 }
 
+class CustomVew extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+    };
+  }
+
+  render() {
+    return(<img src={RNFS.MainBundlePath + '/defoult_header.png'}></img>)
+  }
+}
 export default class TestRNIMUI extends Component {
   constructor(props) {
     super(props);
@@ -91,6 +102,7 @@ export default class TestRNIMUI extends Component {
 
   onMsgClick = (message) => {
       console.log(message)
+      Alert.alert("message", JSON.stringify(message))
     }
     
   onMsgLongClick = (message) => {
@@ -256,13 +268,13 @@ export default class TestRNIMUI extends Component {
             title="自定义消息"
             onPress={ ()=> { 
                   if (Platform.OS === 'ios') {
-                    Alert.alert('platform', Platform.OS)
                     var message = constructNormalMessage()
                     message.msgType = 'custom'
                     message.content = '<h5>This is a custom message. </h5>\
                                       <img src="file://'
                     message.content += RNFS.MainBundlePath + '/defoult_header.png' + '\"></img>'
                     message.contentSize = {'height': 100, 'width': 200}
+                    message.extras = {"extras": "fdfsf"}
                     AuroraIController.appendMessages([message])
                     AuroraIController.scrollToBottom(true)  
                   } else { /* TODO: Android */ }

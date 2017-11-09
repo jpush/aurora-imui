@@ -35,6 +35,7 @@ open class RCTMessageModel: IMUIMessageModel {
   static let kMsgKeyDuration = "duration"
   static let kMsgKeyContentSize = "contentSize"
   static let kMsgKeyContent = "content"
+  static let kMsgKeyExtras = "extras"
   
   static let kUserKeyUerId = "userId"
   static let kUserKeyDisplayName = "diaplayName"
@@ -46,7 +47,7 @@ open class RCTMessageModel: IMUIMessageModel {
   open var myTextMessage: String = ""
   
   var mediaPath: String = ""
-
+  var extras: NSDictionary?
   
   override open func mediaFilePath() -> String {
     return mediaPath
@@ -65,7 +66,6 @@ open class RCTMessageModel: IMUIMessageModel {
   }()
   
   @objc override open var resizableBubbleImage: UIImage {
-    // return defoult message bubble
     if isOutGoing {
       return RCTMessageModel.outgoingBubbleImage
     } else {
@@ -73,11 +73,11 @@ open class RCTMessageModel: IMUIMessageModel {
     }
   }
   
-  @objc public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocol, duration: CGFloat) {
+  @objc public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocol, duration: CGFloat, extras: NSDictionary?) {
     
     self.myTextMessage = text
     self.mediaPath = mediaPath
-    
+    self.extras = extras
     super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: time, type: type, cellLayout: layout, duration: duration)
   }
   
@@ -101,6 +101,11 @@ open class RCTMessageModel: IMUIMessageModel {
       timeString = ""
     }
 
+    var extras = messageDic.object(forKey: RCTMessageModel.kMsgKeyExtras) as? NSDictionary
+    if let _ = extras {
+      
+    }
+    
     var mediaPath = messageDic.object(forKey: RCTMessageModel.kMsgKeyMediaFilePath) as? String
     if let _ = mediaPath {
       
@@ -199,7 +204,7 @@ open class RCTMessageModel: IMUIMessageModel {
       
     }
     
-    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing ?? true, time: timeString!, type: msgType!, text: text!, mediaPath: mediaPath!, layout:  messageLayout!,duration: durationTime)
+    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing ?? true, time: timeString!, type: msgType!, text: text!, mediaPath: mediaPath!, layout:  messageLayout!,duration: durationTime, extras: extras)
 
   }
   
@@ -284,6 +289,10 @@ open class RCTMessageModel: IMUIMessageModel {
       case .mediaDownloadFail:
         msgStatus = RCTMessageModel.kMsgStatusDownloadFail
         break
+      }
+      
+      if let _ = self.extras {
+        messageDic.setValue(self.extras, forKey: RCTMessageModel.kMsgKeyExtras)
       }
       
       messageDic.setValue(msgStatus, forKey: "status")
