@@ -34,7 +34,7 @@ dependencies {
 
   > MainApplication.java
 
-  ```
+  ```java
   import cn.jiguang.imui.messagelist.ReactIMUIPackage;
   ...
 
@@ -56,7 +56,7 @@ dependencies {
   - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RCTAuroraIMUI.framework
 
 ## Usage
-```
+```javascript
   import IMUI from 'aurora-imui-react-native';
   var MessageList = IMUI.MessageList;
   var ChatInput = IMUI.ChatInput;
@@ -74,14 +74,15 @@ By using MessageList, you need define `message` object and `fromUser` object.
 **status must be one of the four values: "send_succeed", "send_failed", "send_going", "download_failed", 
 if you haven't define this property, default value is "send_succeed".**
 
- ```
+ ```json
   message = {  // text message
     msgId: "msgid",
     status: "send_going",
     msgType: "text",
     isOutgoing: true,
     text: "text",
-    fromUser: {}
+    fromUser: {},
+    extras: {}// Optional: you could add a extras object to this message
 }
 
 message = {  // image message
@@ -90,7 +91,8 @@ message = {  // image message
     isOutGoing: true,
     progress: "progress string",
     mediaPath: "image path",
-    fromUser: {}
+    fromUser: {},
+    extras: {}// Optional: you could add a extras object to this message
 }
 
 
@@ -100,7 +102,8 @@ message = {  // voice message
     isOutGoing: true,
     duration: number, // this property will show in voice message bubble
     mediaPath: "voice path",
-    fromUser: {}
+    fromUser: {},
+    extras: {}// Optional: you could add a extras object to this message
 }
 
 message = {  // video message
@@ -110,7 +113,8 @@ message = {  // video message
     isOutGoing: true,
     druation: number,
     mediaPath: "voice path",
-    fromUser: {}
+    fromUser: {},   
+    extras: {}// Optional: you could add a extras object to this message
 }
 
 message = {  // event message
@@ -122,7 +126,7 @@ message = {  // event message
 
 -    fromUser object format:
 
-  ```
+  ```json
   fromUser = {
     userId: "",
     displayName: "",
@@ -151,7 +155,7 @@ message = {  // event message
 
  example:
 
-```
+```javascript
 var messages = [{
 	msgId: "1",
 	status: "send_going",
@@ -172,7 +176,7 @@ AuroraIMUIController.appendMessages(messages);
 
 example:
 
-```
+```javascript
 var message = {
 	msgId: "1",
 	status: "send_going",
@@ -195,7 +199,7 @@ AuroraIMUIController.updateMessage(message);
 
 example:
 
-```
+```javascript
 var messages = [{
     msgId: "1",
     status: "send_succeed",
@@ -264,7 +268,7 @@ AuroraIMUIController.insertMessagesToTop(messages);
 
   example:
 
-  ```
+  ```javascript
   AuroraIMUIController.stopPlayVoice()
   ```
 

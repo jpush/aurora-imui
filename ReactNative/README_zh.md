@@ -83,17 +83,19 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     status: "send_going",
     msgType: "text",
     isOutgoing: true,
-    text: "text"
-    fromUser: {}
+    text: "text",
+    fromUser: {},
+    extras: {}// 选填，可以在消息中添加附加字段
 }
 
 message = {  // image message
     msgId: "msgid",
     msgType: "image",
     isOutGoing: true,
-    progress: "progress string"
-    mediaPath: "image path"
-    fromUser: {}
+    progress: "progress string",
+    mediaPath: "image path",
+    fromUser: {}，
+    extras: {}// 选填，可以在消息中添加附加字段
 }
 
 
@@ -102,8 +104,9 @@ message = {  // voice message
     msgType: "voice",
     isOutGoing: true,
     duration: number, // 注意这个值有用户自己设置时长，单位秒
-    mediaPath: "voice path"
-    fromUser: {}
+    mediaPath: "voice path",
+    fromUser: {},
+    extras: {}// 选填，可以在消息中添加附加字段
 }
 
 message = {  // video message
@@ -111,9 +114,11 @@ message = {  // video message
     status: "send_failed",
     msgType: "video",
     isOutGoing: true,
-    druation: number
-    mediaPath: "voice path"
-    fromUser: {}
+    druation: number,
+    mediaPath: "voice path",
+    fromUser: {},
+    
+    extras: {}// 选填，可以在消息中添加附加字段
 }
 
 message = {  // event message
@@ -167,7 +172,7 @@ var messages = [{
 		displayName: "Ken",
 		avatarPath: "ironman"
 	},
-	timeString: "10:00",
+	timeString: "10:00"
 }];
 AuroraIMUIController.appendMessages(messages);
 ```
