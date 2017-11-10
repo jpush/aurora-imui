@@ -4,6 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.commons.models.IUser;
 
@@ -23,6 +30,8 @@ public class RCTMessage implements IMessage {
     private final String DURATION = "duration";
     private final String PROGRESS = "progress";
     private final String FROM_USER = "fromUser";
+    private final String EXTRAS = "extras";
+    private final String CONTENT_SIZE = "contentSize";
 
     private String msgId;
     private String status;
@@ -34,6 +43,9 @@ public class RCTMessage implements IMessage {
     private String progress;
     private RCTUser rctUser;
     private boolean isOutgoing;
+    private int width;
+    private int height;
+    private HashMap<String, String> mExtra;
     private static Gson sGSON = new Gson();
 
     public RCTMessage(String msgId, String status, String msgType, boolean isOutgoing) {
@@ -78,6 +90,8 @@ public class RCTMessage implements IMessage {
                     return MessageType.SEND_IMAGE;
                 case "event":
                     return MessageType.EVENT;
+                case "custom":
+                    return MessageType.SEND_CUSTOM;
                 default:
                     return MessageType.SEND_VIDEO;
             }
@@ -91,6 +105,8 @@ public class RCTMessage implements IMessage {
                     return MessageType.RECEIVE_IMAGE;
                 case "event":
                     return MessageType.EVENT;
+                case "custom":
+                    return MessageType.RECEIVE_CUSTOM;
                 default:
                     return MessageType.RECEIVE_VIDEO;
             }
@@ -148,6 +164,30 @@ public class RCTMessage implements IMessage {
         return this.progress;
     }
 
+    public void putExtra(String key, String value) {
+        if (null == mExtra) {
+            mExtra = new HashMap<>();
+        }
+        mExtra.put(key, value);
+    }
+
+    public void setContentSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public HashMap<String, String> getExtras() {
+        return this.mExtra;
+    }
+
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
         if (msgId != null) {
@@ -176,6 +216,21 @@ public class RCTMessage implements IMessage {
             json.addProperty(PROGRESS, progress);
         }
         json.add(FROM_USER, rctUser.toJSON());
+
+        if (mExtra != null) {
+            JsonObject jsonObject = new JsonObject();
+            for (String key : mExtra.keySet()) {
+                jsonObject.addProperty(key, mExtra.get(key));
+            }
+            json.add(EXTRAS, jsonObject);
+        }
+
+        if (width != 0) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("width", width);
+            jsonObject.addProperty("height", height);
+            json.add(CONTENT_SIZE, jsonObject);
+        }
 
         return json;
     }

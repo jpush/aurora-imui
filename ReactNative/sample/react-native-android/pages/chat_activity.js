@@ -15,10 +15,12 @@ var {
 	StyleSheet,
 	PermissionsAndroid,
 	UIManager,
+	findNodeHandle,
 } = ReactNative;
 
 var MessageList = IMUI.MessageList;
 var ChatInput = IMUI.ChatInput;
+const AndroidPtrLayout = IMUI.AndroidPtrLayout;
 const AuroraIMUIController = IMUI.AuroraIMUIController;
 const IMUIMessageListDidLoad = "IMUIMessageListDidLoad";
 
@@ -32,13 +34,15 @@ export default class ChatActivity extends React.Component {
 			inputContent: '',
 			recordText: '按住 说话',
 			menuContainerHeight: 1000,
-			chatInputStyle: {
-				width: Dimensions.get('window').width,
-				height: 100
+			inputViewLayout: {
+				width: window.width,
+				height: 200,
 			},
+			shouldExpandMenuContainer: false,
 			isDismissMenuContainer: false,
 		};
 
+		this.updateLayout = this.updateLayout.bind(this);
 		this.onMsgClick = this.onMsgClick.bind(this);
 		this.onAvatarClick = this.onAvatarClick.bind(this);
 		this.onMsgLongClick = this.onMsgLongClick.bind(this);
@@ -61,7 +65,7 @@ export default class ChatActivity extends React.Component {
 		this.onFullScreen = this.onFullScreen.bind(this);
 	}
 
-	componentWillMount() {}
+	componentWillMount() { }
 
 	onMsgClick(message) {
 		console.log("message click! " + message);
@@ -83,10 +87,11 @@ export default class ChatActivity extends React.Component {
 		console.log("Touch msg list, hidding soft input and dismiss menu");
 		this.setState({
 			isDismissMenuContainer: true,
-			chatInputStyle: {
+			inputViewLayout: {
 				width: Dimensions.get('window').width,
-				height: 100
+				height: 200
 			},
+			shouldExpandMenuContainer: false,
 		});
 	}
 
@@ -286,13 +291,13 @@ export default class ChatActivity extends React.Component {
 		} catch (err) {
 			console.warn(err)
 		}
+		this.updateLayout({
+			width: window.width,
+			height: 825
+		})
 		this.setState({
-			chatInputStyle: {
-				width: Dimensions.get('window').width,
-				height: 420
-			},
-			menuContainerHeight: 1000,
-		});
+			shouldExpandMenuContainer: true
+		})
 	}
 
 	async onSwitchToGalleryMode() {
@@ -314,13 +319,19 @@ export default class ChatActivity extends React.Component {
 		} catch (err) {
 			console.warn(err)
 		}
+		this.updateLayout({
+			width: window.width,
+			height: 825
+		})
 		this.setState({
-			chatInputStyle: {
-				width: Dimensions.get('window').width,
-				height: 420
-			},
-			menuContainerHeight: 1000,
-		});
+			shouldExpandMenuContainer: true
+		})
+	}
+
+	updateLayout(layout) {
+		this.setState({
+			inputViewLayout: layout
+		})
 	}
 
 	async onSwitchToCameraMode() {
@@ -342,25 +353,55 @@ export default class ChatActivity extends React.Component {
 		} catch (err) {
 			console.warn(err)
 		}
+		this.updateLayout({
+			width: window.width,
+			height: 825
+		})
 		this.setState({
-			chatInputStyle: {
-				width: Dimensions.get('window').width,
-				height: 420
-			},
-			menuContainerHeight: 850,
-		});
+			shouldExpandMenuContainer: true
+		})
+	}
+
+	onSwitchToEmojiMode = () => {
+		this.updateLayout({
+			width: window.width,
+			height: 825
+		})
+		this.setState({
+			shouldExpandMenuContainer: true
+		})
 	}
 
 	onTouchEditText() {
 		console.log("will scroll to bottom");
 		AuroraIMUIController.scrollToBottom(true);
+		if (this.state.shouldExpandMenuContainer) {
+			this.setState({
+				inputViewLayout: {
+					width: window.width,
+					height: 825,
+				}
+			})
+		}
 	}
 
 	onFullScreen() {
 		this.setState({
-			menuContainerHeight: 1920
-		});
+			inputViewLayout: {
+				width: window.width,
+				height: window.height
+			}
+		})
 		console.log("Set screen height to full screen");
+	}
+
+	onRecoverScreen = () => {
+		this.setState({
+			inputViewLayout: {
+				width: window.width,
+				height: 825
+			}
+		})
 	}
 
 	componentDidMount() {
@@ -390,48 +431,50 @@ export default class ChatActivity extends React.Component {
 	componentWillUnmount() {
 		this.timer && clearTimeout(this.timer);
 		AuroraIMUIController.removeMessageListDidLoadListener(IMUIMessageListDidLoad);
+		UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs["MessageList"]), 100, null)
 	}
 
 	render() {
 		return (
-			<View style = { styles.container }>
-				<MessageList
-					style = {{flex: 1}}
-					{...this.props}
-					ref = {(ref) => this.messageList = ref}
-					onMsgClick = {this.onMsgClick}
-					onMsgLongClick = {this.onMsgLongClick}
-					onAvatarClick = {this.onAvatarClick} 
-					onStatusViewClick = {this.onStatusViewClick}
-					onTouchMsgList = {this.onTouchMsgList}
-					onPullToRefresh = {this.onPullToRefresh}
-					sendBubble = {{imageName:"send_msg", padding: 10}}
-					receiveBubbleTextColor = {'#ffffff'}
-					sendBubbleTextSize = {18}
-					receiveBubbleTextSize = {14}
-					sendBubblePressedColor = {'#dddddd'}
-					eventMsgTxtColor = {'#ffffff'}
-					eventMsgTxtSize = {16}
-				/>
-					<ChatInput
-						style = {this.state.chatInputStyle}
-						menuContainerHeight = {this.state.menuContainerHeight}
-						isDismissMenuContainer = {this.state.isDismissMenuContainer}
-						onSendText = {this.onSendText}
-						onSendGalleryFiles = {this.onSendGalleryFiles}
-						onTakePicture = {this.onTakePicture}
-						onStartRecordVideo = {this.onStartRecordVideo}
-						onFinishRecordVideo = {this.onFinishRecordVideo}
-						onCancelRecordVideo = {this.onCancelRecordVideo}
-						onStartRecordVoice = {this.onStartRecordVoice}
-						onFinishRecordVoice = {this.onFinishRecordVoice}
-						onCancelRecordVoice = {this.onCancelRecordVoice}
-						onSwitchToMicrophoneMode = {this.onSwitchToMicrophoneMode}
-						onSwitchToGalleryMode = {this.onSwitchToGalleryMode}
-						onSwitchToCameraMode = {this.onSwitchToCameraMode}
-						onTouchEditText = {this.onTouchEditText}
-						onFullScreen = {this.onFullScreen}
+			<View style={styles.container}>
+				<AndroidPtrLayout
+					ref="PtrLayout"
+					onPullToRefresh={this.onPullToRefresh}>
+					<MessageList style={styles.messageList}
+						ref="MessageList"
+						onAvatarClick={this.onAvatarClick}
+						onMsgClick={this.onMsgClick}
+						onStatusViewClick={this.onStatusViewClick}
+						onTouchMsgList={this.onTouchMsgList}
+						onTapMessageCell={this.onTapMessageCell}
+						onBeginDragMessageList={this.onBeginDragMessageList}
+						avatarSize={{ width: 40, height: 40 }}
+						sendBubbleTextSize={18}
+						sendBubbleTextColor={"#000000"}
+						sendBubblePadding={{ left: 10, top: 10, right: 20, bottom: 10 }}
 					/>
+				</AndroidPtrLayout>
+				<ChatInput
+					style={this.state.inputViewLayout}
+					menuContainerHeight={this.state.menuContainerHeight}
+					isDismissMenuContainer={this.state.isDismissMenuContainer}
+					onSendText={this.onSendText}
+					onSendGalleryFiles={this.onSendGalleryFiles}
+					onTakePicture={this.onTakePicture}
+					onStartRecordVideo={this.onStartRecordVideo}
+					onFinishRecordVideo={this.onFinishRecordVideo}
+					onCancelRecordVideo={this.onCancelRecordVideo}
+					onStartRecordVoice={this.onStartRecordVoice}
+					onFinishRecordVoice={this.onFinishRecordVoice}
+					onCancelRecordVoice={this.onCancelRecordVoice}
+					onSwitchToMicrophoneMode={this.onSwitchToMicrophoneMode}
+					onSwitchToGalleryMode={this.onSwitchToGalleryMode}
+					onSwitchToCameraMode={this.onSwitchToCameraMode}
+					onSwitchToEmojiMode={this.onSwitchToEmojiMode}
+					onTouchEditText={this.onTouchEditText}
+					onFullScreen={this.onFullScreen}
+					onRecoverScreen={this.onRecoverScreen}
+				/>
 			</View>
 		);
 	}
@@ -440,5 +483,20 @@ export default class ChatActivity extends React.Component {
 var styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#F5FCFF',
+	},
+	messageList: {
+		flex: 1,
+		marginTop: 0,
+		width: window.width,
+		margin: 0,
+	},
+	inputView: {
+		backgroundColor: 'green',
+		width: window.width,
+		height: 100,
+
 	},
 });

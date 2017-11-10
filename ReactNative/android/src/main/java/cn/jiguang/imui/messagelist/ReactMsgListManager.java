@@ -46,6 +46,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import cn.jiguang.imui.commons.ImageLoader;
+import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
@@ -108,6 +109,8 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
         mMessageList.setHasFixedSize(true);
         // Use default layout
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
+        holdersConfig.setSendCustomMsg(DefaultCustomViewHolder.class, R.layout.item_send_text);
+        holdersConfig.setReceiveCustomMsg(DefaultCustomViewHolder.class, R.layout.item_receive_txt);
         ImageLoader imageLoader = new ImageLoader() {
             @Override
             public void loadAvatarImage(ImageView avatarImageView, String string) {
@@ -503,5 +506,12 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public static class DefaultCustomViewHolder extends CustomViewHolder<IMessage> {
+
+        public DefaultCustomViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
+        }
     }
 }

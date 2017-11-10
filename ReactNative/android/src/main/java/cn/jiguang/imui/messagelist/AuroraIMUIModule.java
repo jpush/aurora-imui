@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import org.greenrobot.eventbus.EventBus;
@@ -67,6 +68,14 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void appendCustomMessage(ReadableMap message) {
+        RCTMessage rctMessage = configMessage(message);
+        RCTMessage[] array = new RCTMessage[1];
+        array[0] = rctMessage;
+        EventBus.getDefault().post(new MessageEvent(array, ReactMsgListManager.RCT_APPEND_MESSAGES_ACTION));
+    }
+
+    @ReactMethod
     public void updateMessage(ReadableMap message) {
         RCTMessage rctMessage = configMessage(message);
         EventBus.getDefault().post(new MessageEvent(rctMessage, ReactMsgListManager.RCT_UPDATE_MESSAGE_ACTION));
@@ -104,6 +113,16 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
             case RECEIVE_IMAGE:
                 rctMsg.setMediaFilePath(message.getString("mediaPath"));
                 break;
+            case RECEIVE_CUSTOM:
+            case SEND_CUSTOM:
+                rctMsg.setText(message.getString("content"));
+                if (message.hasKey("contentSize")) {
+                    ReadableMap size = message.getMap("contentSize");
+                    if (size.hasKey("width") && size.hasKey("height")) {
+                        rctMsg.setContentSize(size.getInt("width"), size.getInt("height"));
+                    }
+                }
+                break;
             default:
                 rctMsg.setText(message.getString("text"));
         }
@@ -112,27 +131,33 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
                 user.getString("avatarPath"));
         Log.d("AuroraIMUIModule", "fromUser: " + rctUser);
         rctMsg.setFromUser(rctUser);
-        try {
+        if (message.hasKey("timeString")) {
             String timeString = message.getString("timeString");
             if (timeString != null) {
                 rctMsg.setTimeString(timeString);
             }
+        }
+        if (message.hasKey("progress")) {
             String progress = message.getString("progress");
             if (progress != null) {
                 rctMsg.setProgress(progress);
             }
-            return rctMsg;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return rctMsg;
         }
+        if (message.hasKey("extras")) {
+            ReadableMap extra = message.getMap("extras");
+            ReadableMapKeySetIterator iterator = extra.keySetIterator();
+            while (iterator.hasNextKey()) {
+                String key = iterator.nextKey();
+                rctMsg.putExtra(key, extra.getString(key));
+            }
+        }
+        return rctMsg;
     }
 
     @ReactMethod
     public void scrollToBottom(boolean flag) {
         EventBus.getDefault().post(new ScrollEvent(flag));
     }
-
 
 
 }
