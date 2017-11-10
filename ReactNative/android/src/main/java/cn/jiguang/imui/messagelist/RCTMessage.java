@@ -184,6 +184,7 @@ public class RCTMessage implements IMessage {
         return this.height;
     }
 
+    @Override
     public HashMap<String, String> getExtras() {
         return this.mExtra;
     }
