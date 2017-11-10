@@ -9,13 +9,17 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.Editable;
 import android.text.Html;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.xml.sax.XMLReader;
 
 import java.io.File;
 
@@ -54,7 +58,7 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
     }
 
     @Override
-    public void onBind(MESSAGE message) {
+    public void onBind(final MESSAGE message) {
         int memClass = ((ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
         mCache = new LruCache<>(1024 * 1024 * memClass / 8);
         RCTMessage rctMessage = (RCTMessage) message;
@@ -62,12 +66,11 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
         int height = rctMessage.getHeight();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
         if (mIsSender) {
-            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             params.addRule(RelativeLayout.LEFT_OF, mAvatarIv.getId());
         } else {
-            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
             params.addRule(RelativeLayout.RIGHT_OF, mAvatarIv.getId());
         }
+        params.addRule(RelativeLayout.BELOW, mDisplayNameTv.getId());
         if (width != 0 && height != 0) {
             mMsgTv.setLayoutParams(params);
         }
@@ -77,6 +80,80 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
         } else {
             mMsgTv.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT, new MyImageGetter(), null));
         }
+
+        if (message.getTimeString() != null) {
+            mDateTv.setText(message.getTimeString());
+        }
+        boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
+                && !message.getFromUser().getAvatarFilePath().isEmpty();
+        if (isAvatarExists && mImageLoader != null) {
+            mImageLoader.loadAvatarImage(mAvatarIv, message.getFromUser().getAvatarFilePath());
+        } else if (mImageLoader == null) {
+            mAvatarIv.setVisibility(View.GONE);
+        }
+        if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
+            mDisplayNameTv.setText(message.getFromUser().getDisplayName());
+        }
+
+        if (mIsSender) {
+            switch (message.getMessageStatus()) {
+                case SEND_GOING:
+                    mSendingPb.setVisibility(View.VISIBLE);
+                    mResendIb.setVisibility(View.GONE);
+                    Log.i("CustomViewHolder", "sending message");
+                    break;
+                case SEND_FAILED:
+                    mSendingPb.setVisibility(View.GONE);
+                    Log.i("CustomViewHolder", "send message failed");
+                    mResendIb.setVisibility(View.VISIBLE);
+                    mResendIb.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (mMsgStatusViewClickListener != null) {
+                                mMsgStatusViewClickListener.onStatusViewClick(message);
+                            }
+                        }
+                    });
+                    break;
+                case SEND_SUCCEED:
+                    mSendingPb.setVisibility(View.GONE);
+                    mResendIb.setVisibility(View.GONE);
+                    Log.i("CustomViewHolder", "send message succeed");
+                    break;
+            }
+        }
+
+        mMsgTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mMsgClickListener != null) {
+                    mMsgClickListener.onMessageClick(message);
+                }
+            }
+        });
+
+        mMsgTv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (mMsgLongClickListener != null) {
+                    mMsgLongClickListener.onMessageLongClick(message);
+                } else {
+                    if (BuildConfig.DEBUG) {
+                        Log.w("MsgListAdapter", "Didn't set long click listener! Drop event.");
+                    }
+                }
+                return true;
+            }
+        });
+
+        mAvatarIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mAvatarClickListener != null) {
+                    mAvatarClickListener.onAvatarClick(message);
+                }
+            }
+        });
 
     }
 
