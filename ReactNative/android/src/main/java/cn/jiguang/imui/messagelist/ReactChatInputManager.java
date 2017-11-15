@@ -40,6 +40,7 @@ import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
+import sj.keyboard.utils.EmoticonsKeyboardUtils;
 
 /**
  * Created by caiyaoguan on 2017/5/22.
@@ -86,8 +87,10 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     mIsShowSoftInput = true;
                     reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_TOUCH_EDIT_TEXT_EVENT, null);
-                    mChatInput.dismissMenuLayout();
-                    mChatInput.getInputView().requestFocus();
+                    if (!mChatInput.isFocused()) {
+                        EmoticonsKeyboardUtils.openSoftKeyboard(mChatInput.getInputView());
+                        mChatInput.invisibleMenuLayout();
+                    }
                     EventBus.getDefault().post(new ScrollEvent(false));
                 }
                 return false;
@@ -251,13 +254,13 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             }
         });
 
-        mChatInput.setOnClickEditTextListener(new OnClickEditTextListener() {
-            @Override
-            public void onTouchEditText() {
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
-                        ON_TOUCH_EDIT_TEXT_EVENT, null);
-            }
-        });
+//        mChatInput.setOnClickEditTextListener(new OnClickEditTextListener() {
+//            @Override
+//            public void onTouchEditText() {
+//                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
+//                        ON_TOUCH_EDIT_TEXT_EVENT, null);
+//            }
+//        });
         mChatInput.setCameraControllerListener(new CameraControllerListener() {
             @Override
             public void onFullScreenClick() {

@@ -1,6 +1,7 @@
 package cn.jiguang.imui.commons.models;
 
 
+import java.util.HashMap;
 
 public interface IMessage {
 
@@ -97,4 +98,10 @@ public interface IMessage {
     long getDuration();
 
     String getProgress();
+
+    /**
+     * Return extra key value of message
+     * @return {@link HashMap<>}
+     */
+    HashMap<String, String> getExtras();
 }

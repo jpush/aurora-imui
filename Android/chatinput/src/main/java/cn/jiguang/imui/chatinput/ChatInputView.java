@@ -77,7 +77,6 @@ import sj.keyboard.data.EmoticonEntity;
 import sj.keyboard.interfaces.EmoticonClickListener;
 import sj.keyboard.utils.EmoticonsKeyboardUtils;
 import sj.keyboard.widget.EmoticonsEditText;
-import sj.keyboard.widget.SoftKeyboardSizeWatchLayout;
 
 public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
@@ -934,8 +933,8 @@ public class ChatInputView extends LinearLayout
     public void setMenuContainerHeight(int height) {
         if (height > 0) {
             sMenuHeight = height;
-            mMenuContainer.setLayoutParams(
-                    new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
+            ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
+            mMenuContainer.setLayoutParams(params);
         }
     }
 

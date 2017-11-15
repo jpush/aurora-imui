@@ -5,6 +5,7 @@
 //  */
 
 import React, { Component } from 'react';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -15,8 +16,12 @@ import {
   requireNativeComponent,
   Alert,
   Dimensions,
-  DeviceEventEmitter
+  Button,
+  DeviceEventEmitter,
+  Platform
 } from 'react-native';
+
+var RNFS = require('react-native-fs');
 
 var ReactNative = require('react-native');                
 // const AuroraIController = NativeModules.AuroraIMUIModule;
@@ -46,6 +51,17 @@ function constructNormalMessage() {
     return  message
 }
 
+class CustomVew extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+    };
+  }
+
+  render() {
+    return(<img src={RNFS.MainBundlePath + '/defoult_header.png'}></img>)
+  }
+}
 export default class TestRNIMUI extends Component {
   constructor(props) {
     super(props);
@@ -86,6 +102,7 @@ export default class TestRNIMUI extends Component {
 
   onMsgClick = (message) => {
       console.log(message)
+      Alert.alert("message", JSON.stringify(message))
     }
     
   onMsgLongClick = (message) => {
@@ -133,9 +150,8 @@ export default class TestRNIMUI extends Component {
   onSendText = (text) => {
     // this.setState({isAllowPullToRefresh: !this.state.isAllowPullToRefresh})
     var message = constructNormalMessage()
-    
-    message.msgType = "text"
-    message.text = text
+
+
     // message.timeString = 'fsdafafaf'
     
     var user = {
@@ -163,7 +179,6 @@ export default class TestRNIMUI extends Component {
     var message = constructNormalMessage()
     message.msgType = "image"
     message.mediaPath = mediaPath
-
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
   }
@@ -247,6 +262,25 @@ export default class TestRNIMUI extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.navigationBar}>
+          <Button
+            style={styles.sendCustomBtn}
+            title="自定义消息"
+            onPress={ ()=> { 
+                  if (Platform.OS === 'ios') {
+                    var message = constructNormalMessage()
+                    message.msgType = 'custom'
+                    message.content = '<h5>This is a custom message. </h5>\
+                                      <img src="file://'
+                    message.content += RNFS.MainBundlePath + '/defoult_header.png' + '\"></img>'
+                    message.contentSize = {'height': 100, 'width': 200}
+                    message.extras = {"extras": "fdfsf"}
+                    AuroraIController.appendMessages([message])
+                    AuroraIController.scrollToBottom(true)  
+                  } else { /* TODO: Android */ }
+            }}>
+          </Button>
+        </View>
         <MessageListView style={styles.messageList}
         onAvatarClick={this.onAvatarClick}
         onMsgClick={this.onMsgClick}
@@ -285,6 +319,13 @@ export default class TestRNIMUI extends Component {
 }
 
 const styles = StyleSheet.create({
+  navigationBar: {
+    height: 64,
+    justifyContent: 'center'
+  },
+  sendCustomBtn: {
+    
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

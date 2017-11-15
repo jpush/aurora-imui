@@ -44,6 +44,7 @@
 		7B548873E21F4FF68812D19B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F65E3B5E29E414CB7583E04 /* UIKit.framework */; };
 		814EB581DA5D436BA612405D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D25EB0F6134812B5BEC341 /* libz.tbd */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		85A3166488FA4BDC8FECD4CC /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9743BC778F774B5495851819 /* libRNFS.a */; };
 		BE52549565F940F09CBABBEA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE9DE9AE48940A2A5FE86F4 /* CFNetwork.framework */; };
 		E562081B8CD944B2B51F8D89 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F552D1FC7A5B46A2A3AD2AFF /* CoreFoundation.framework */; };
 		E7283CD74DC6496EB8083D34 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17B9B94CC66540BE9BD86ABC /* CoreTelephony.framework */; };
@@ -288,6 +289,20 @@
 			remoteGlobalIDString = 623EA9981EE55D0800EC43AE;
 			remoteInfo = RCTAuroraIMUI;
 		};
+		62E7C9391FB1B365009BD7C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B071E7B3C3BF441599629C7F /* RNFS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
+			remoteInfo = RNFS;
+		};
+		62E7C93B1FB1B365009BD7C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B071E7B3C3BF441599629C7F /* RNFS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6456441F1EB8DA9100672408;
+			remoteInfo = "RNFS-tvOS";
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -348,7 +363,9 @@
 		62E4D77C1EE2CB5A0034C645 /* defoult_header@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defoult_header@3x.png"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		9743BC778F774B5495851819 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		A5D25EB0F6134812B5BEC341 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		B071E7B3C3BF441599629C7F /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		B78EA6FC855643728A4507F0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C42D5F1E1E2348A88CF22080 /* RCTAuroraIMUI.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTAuroraIMUI.xcodeproj; path = "../node_modules/aurora-imui-react-native/ReactNative/ios/RCTAuroraIMUI.xcodeproj"; sourceTree = "<group>"; };
 		DDE9DE9AE48940A2A5FE86F4 /* CFNetwork.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -381,6 +398,7 @@
 				3D23D6C979B34E77B2BFC907 /* Foundation.framework in Frameworks */,
 				7B548873E21F4FF68812D19B /* UIKit.framework in Frameworks */,
 				3B0C98A599364C439733AA02 /* CoreGraphics.framework in Frameworks */,
+				85A3166488FA4BDC8FECD4CC /* libRNFS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,6 +539,7 @@
 			children = (
 				626F94D71F2D88AA009C6BB5 /* RCTAuroraIMUI.framework */,
 				1E35F35BE48B43978AB5AF9F /* libAuroraIMUI.a */,
+				9743BC778F774B5495851819 /* libRNFS.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -531,6 +550,15 @@
 				626F95321F2D9630009C6BB5 /* libAuroraIMUI.a */,
 				626F95341F2D9630009C6BB5 /* RCTAuroraIMUI.framework */,
 				626F95361F2D9630009C6BB5 /* RCTAuroraIMUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		62E7C9351FB1B365009BD7C8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62E7C93A1FB1B365009BD7C8 /* libRNFS.a */,
+				62E7C93C1FB1B365009BD7C8 /* libRNFS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -559,6 +587,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				C42D5F1E1E2348A88CF22080 /* RCTAuroraIMUI.xcodeproj */,
+				B071E7B3C3BF441599629C7F /* RNFS.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -751,6 +780,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 62E7C9351FB1B365009BD7C8 /* Products */;
+					ProjectRef = B071E7B3C3BF441599629C7F /* RNFS.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -993,6 +1026,20 @@
 			remoteRef = 62E68A781FA85EE600C42874 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		62E7C93A1FB1B365009BD7C8 /* libRNFS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFS.a;
+			remoteRef = 62E7C9391FB1B365009BD7C8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62E7C93C1FB1B365009BD7C8 /* libRNFS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFS.a;
+			remoteRef = 62E7C93B1FB1B365009BD7C8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1136,11 +1183,13 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = TestRNIMUI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/TestRNIMUI\"",
 					"\"$(SRCROOT)/TestRNIMUI\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1164,11 +1213,13 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = TestRNIMUI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/TestRNIMUI\"",
 					"\"$(SRCROOT)/TestRNIMUI\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1196,6 +1247,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = "TestRNIMUI-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1230,6 +1282,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/aurora-imui-react-native/iOS/IMUIMessageCollectionView/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = "TestRNIMUI-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

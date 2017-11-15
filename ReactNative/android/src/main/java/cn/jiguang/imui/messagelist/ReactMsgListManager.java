@@ -46,6 +46,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import cn.jiguang.imui.commons.ImageLoader;
+import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
@@ -75,7 +76,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     private static final String ON_MSG_LONG_CLICK_EVENT = "onMsgLongClick";
     private static final String ON_STATUS_VIEW_CLICK_EVENT = "onStatusViewClick";
     private static final String ON_TOUCH_MSG_LIST_EVENT = "onTouchMsgList";
-    private static final String ON_PULL_TO_REFRESH_EVENT = "onPullToRefresh";
 
     public static final String RCT_APPEND_MESSAGES_ACTION = "cn.jiguang.imui.messagelist.intent.appendMessages";
     public static final String RCT_UPDATE_MESSAGE_ACTION = "cn.jiguang.imui.messagelist.intent.updateMessage";
@@ -109,6 +109,8 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
         mMessageList.setHasFixedSize(true);
         // Use default layout
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
+        holdersConfig.setSendCustomMsg(DefaultCustomViewHolder.class, R.layout.item_send_text);
+        holdersConfig.setReceiveCustomMsg(DefaultCustomViewHolder.class, R.layout.item_receive_txt);
         ImageLoader imageLoader = new ImageLoader() {
             @Override
             public void loadAvatarImage(ImageView avatarImageView, String string) {
@@ -193,14 +195,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
                         break;
                 }
                 return false;
-            }
-        });
-        mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(int i, int i1) {
-                Log.i(REACT_MESSAGE_LIST, "onPullToRefresh will call");
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(),
-                        ON_PULL_TO_REFRESH_EVENT, null);
             }
         });
         // 通知 AuroraIMUIModule 完成初始化 MessageList
@@ -418,7 +412,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
                 .put(ON_MSG_LONG_CLICK_EVENT, MapBuilder.of("registrationName", ON_MSG_LONG_CLICK_EVENT))
                 .put(ON_STATUS_VIEW_CLICK_EVENT, MapBuilder.of("registrationName", ON_STATUS_VIEW_CLICK_EVENT))
                 .put(ON_TOUCH_MSG_LIST_EVENT, MapBuilder.of("registrationName", ON_TOUCH_MSG_LIST_EVENT))
-                .put(ON_PULL_TO_REFRESH_EVENT, MapBuilder.of("registrationName", ON_PULL_TO_REFRESH_EVENT))
                 .build();
     }
 
@@ -513,5 +506,12 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public static class DefaultCustomViewHolder extends CustomViewHolder<IMessage> {
+
+        public DefaultCustomViewHolder(View itemView, boolean isSender) {
+            super(itemView, isSender);
+        }
     }
 }

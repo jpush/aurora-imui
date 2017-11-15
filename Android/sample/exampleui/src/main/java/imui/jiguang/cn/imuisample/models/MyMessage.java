@@ -1,5 +1,6 @@
 package imui.jiguang.cn.imuisample.models;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import cn.jiguang.imui.commons.models.IMessage;
@@ -60,6 +61,11 @@ public class MyMessage implements IMessage {
     @Override
     public String getProgress() {
         return progress;
+    }
+
+    @Override
+    public HashMap<String, String> getExtras() {
+        return null;
     }
 
     public void setTimeString(String timeString) {

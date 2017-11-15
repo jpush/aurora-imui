@@ -33,6 +33,7 @@
 		624B82DD1EE57653006C3C03 /* RCTAuroraIMUIModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9771EE55CB200EC43AE /* RCTAuroraIMUIModule.m */; };
 		624F239F1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624F239D1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift */; };
 		624F23A01F039DBF00D11E4E /* MessageEventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624F239E1F039DBF00D11E4E /* MessageEventModel.swift */; };
+		6298E7F21FB40D3400E53CAF /* IMUICustomMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6298E7F11FB40D3400E53CAF /* IMUICustomMessageContentView.swift */; };
 		62A4875D1F8F417D00C568E8 /* IMUIInputViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487061F8F417C00C568E8 /* IMUIInputViewDelegate.swift */; };
 		62A4875E1F8F417D00C568E8 /* BundleInputViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A487081F8F417C00C568E8 /* BundleInputViewExtension.swift */; };
 		62A4875F1F8F417D00C568E8 /* IMUIFeatureIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A4870A1F8F417C00C568E8 /* IMUIFeatureIconModel.swift */; };
@@ -162,6 +163,7 @@
 		623EA9A81EE55D0800EC43AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		624F239D1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEventCollectionViewCell.swift; sourceTree = "<group>"; };
 		624F239E1F039DBF00D11E4E /* MessageEventModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEventModel.swift; sourceTree = "<group>"; };
+		6298E7F11FB40D3400E53CAF /* IMUICustomMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICustomMessageContentView.swift; sourceTree = "<group>"; };
 		62A487061F8F417C00C568E8 /* IMUIInputViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIInputViewDelegate.swift; sourceTree = "<group>"; };
 		62A487081F8F417C00C568E8 /* BundleInputViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleInputViewExtension.swift; sourceTree = "<group>"; };
 		62A4870A1F8F417C00C568E8 /* IMUIFeatureIconModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureIconModel.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				623EA9721EE55CB200EC43AE /* Info.plist */,
 				624F239D1F039DBF00D11E4E /* MessageEventCollectionViewCell.swift */,
 				624F239E1F039DBF00D11E4E /* MessageEventModel.swift */,
+				6298E7F11FB40D3400E53CAF /* IMUICustomMessageContentView.swift */,
 				623EA9731EE55CB200EC43AE /* MyMessageModel.swift */,
 				623EA9741EE55CB200EC43AE /* MyUser.swift */,
 				623EA9751EE55CB200EC43AE /* RCTSwiftBridgeModule.h */,
@@ -717,6 +720,7 @@
 				62A487941F8F417D00C568E8 /* IMUIVoiceMessageContentView.swift in Sources */,
 				62A4878B1F8F417D00C568E8 /* IMUIMessageCellLayoutProtocol.swift in Sources */,
 				624B82911EE5710E006C3C03 /* MyUser.swift in Sources */,
+				6298E7F21FB40D3400E53CAF /* IMUICustomMessageContentView.swift in Sources */,
 				624B82921EE5710E006C3C03 /* RCTSwiftBridgeModule.h in Sources */,
 				62A4879D1F8F417D00C568E8 /* CIImageExtension.swift in Sources */,
 				62A4876A1F8F417D00C568E8 /* IMUIRecordVoiceCell.swift in Sources */,
