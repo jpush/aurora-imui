@@ -45,6 +45,7 @@ public class ReactPtrLayout extends ViewGroupManager<PullToRefreshLayout> {
                 DisplayUtil.dp2px(reactContext,10));
         header.setPtrFrameLayout(rootView);
         rootView.setHeaderView(header);
+        rootView.addPtrUIHandler(header);
         rootView.setPinContent(true);
         rootView.setLoadingMinTime(1000);
         rootView.setDurationToCloseHeader(1500);

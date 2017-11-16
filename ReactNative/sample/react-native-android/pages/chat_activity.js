@@ -135,6 +135,7 @@ export default class ChatActivity extends React.Component {
 			timeString: "9:30",
 		}];
 		AuroraIMUIController.insertMessagesToTop(messages);
+		this.refs["PtrLayout"].refreshComplete()
 	}
 
 	onSendText(text) {
