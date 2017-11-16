@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "aurora-imui-react-native": "^0.4.14",
-    "react": "16.0.0-alpha.6",
-    "react-native": "^0.44.2",
+    "react": "16.0.0-alpha.12",
+    "react-native": "^0.47.1",
     "react-native-fs": "^2.8.5",
     "react-native-material-ui": "^1.12.0",
     "react-native-popup-dialog": "^0.7.29",
