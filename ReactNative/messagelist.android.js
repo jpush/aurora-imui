@@ -85,6 +85,7 @@ export default class MessageList extends Component {
 }
 
 MessageList.propTypes = {
+  backgroundColor: PropTypes.string,
   onMsgClick: PropTypes.func,
   onMsgLongClick: PropTypes.func,
   onAvatarClick: PropTypes.func,
