@@ -114,7 +114,8 @@ export default class TestRNIMUI extends Component {
       // message.fromUser.avatarPath = message.mediaPath
       message.msgType = 'event'
       message.text = "fasdfdsfs"
-      AuroraIController.updateMessage(message)
+      // AuroraIController.updateMessage(message)
+      AuroraIController.removeMessage(message.msgId)
     }
 
   onBeginDragMessageList = () => {

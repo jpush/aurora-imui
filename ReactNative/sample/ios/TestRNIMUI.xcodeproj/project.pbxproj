@@ -240,6 +240,27 @@
 			remoteGlobalIDString = 623EA9A11EE55D0800EC43AE;
 			remoteInfo = RCTAuroraIMUITests;
 		};
+		62D9BD771FC2A20200118BC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3C86DF451ADF2C930047B81A;
+			remoteInfo = RCTWebSocket;
+		};
+		62D9BD9C1FC2A20300118BC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
+			remoteInfo = privatedata;
+		};
+		62D9BD9E1FC2A20300118BC5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
+			remoteInfo = "privatedata-tvOS";
+		};
 		62E68A621FA85EE600C42874 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
@@ -521,6 +542,8 @@
 				62E68A751FA85EE600C42874 /* libthird-party.a */,
 				62E68A771FA85EE600C42874 /* libdouble-conversion.a */,
 				62E68A791FA85EE600C42874 /* libdouble-conversion.a */,
+				62D9BD9D1FC2A20300118BC5 /* libprivatedata.a */,
+				62D9BD9F1FC2A20300118BC5 /* libprivatedata-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -655,6 +678,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				62D9BD781FC2A20200118BC5 /* PBXTargetDependency */,
 				62E68A7D1FA85EEB00C42874 /* PBXTargetDependency */,
 			);
 			name = TestRNIMUI;
@@ -984,6 +1008,20 @@
 			remoteRef = 626F95351F2D9630009C6BB5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		62D9BD9D1FC2A20300118BC5 /* libprivatedata.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libprivatedata.a;
+			remoteRef = 62D9BD9C1FC2A20300118BC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62D9BD9F1FC2A20300118BC5 /* libprivatedata-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libprivatedata-tvOS.a";
+			remoteRef = 62D9BD9E1FC2A20300118BC5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		62E68A631FA85EE600C42874 /* libfishhook.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1150,6 +1188,11 @@
 			isa = PBXTargetDependency;
 			target = 2D02E47A1E0B4A5D006451C7 /* TestRNIMUI-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
+		};
+		62D9BD781FC2A20200118BC5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTWebSocket;
+			targetProxy = 62D9BD771FC2A20200118BC5 /* PBXContainerItemProxy */;
 		};
 		62E68A7D1FA85EEB00C42874 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
