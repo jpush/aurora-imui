@@ -2,21 +2,21 @@
 
 ## 安装
 
-```
+```shell
 npm install aurora-imui-react-native --save
 react-native link
 ```
 
 如果 link 安卓失败，需要手动修改一下 `settings.gradle` 中的引用路径：
 
-```
+```java
 include ':app', ':aurora-imui-react-native'
 project(':aurora-imui-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/aurora-imui-react-native/ReactNative/android')
 ```
 
 然后在 app 的 `build.gradle`中引用：
 
-```
+```java
 dependencies {
     compile project(':aurora-imui-react-native')
 }
@@ -32,7 +32,7 @@ dependencies {
 
   > MainApplication.java
 
-  ```
+  ```java
   import cn.jiguang.imui.messagelist.ReactIMUIPackage;
   ...
 
@@ -52,7 +52,7 @@ dependencies {
   - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RCTAuroraIMUI.framework
 
 - ## 用法
-```
+```javascript
 import {
   NativeModules,
 } from 'react-native';
@@ -77,7 +77,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 
 **status 必须为以下四个值之一: "send_succeed", "send_failed", "send_going", "download_failed"，如果没有定义这个属性， 默认值是 "send_succeed".**
 
- ```
+ ```javascript
   message = {  // text message
     msgId: "msgid",
     status: "send_going",
@@ -117,7 +117,17 @@ message = {  // video message
     druation: number,
     mediaPath: "voice path",
     fromUser: {},
-    
+    extras: {}// 选填，可以在消息中添加附加字段
+}
+
+message = {  // custom message
+    msgId: "msgid",
+    msgType: "custom",
+    status: "send_failed",
+    isOutgoing: true,
+    contentSize: {height: 100, width: 100},
+    content: "<h1>custom message will render html string</h1>", // content 为 html 字符串，应尽量避免 <script> 标签
+    fromUser: {}, 
     extras: {}// 选填，可以在消息中添加附加字段
 }
 
@@ -130,7 +140,7 @@ message = {  // event message
 
 -    `fromUser` 对象格式:
 
-  ```
+  ```javascript
   fromUser = {
     userId: ""
     displayName: ""
@@ -160,7 +170,7 @@ message = {  // event message
 
  example:
 
-```
+```javascript
 var messages = [{
 	msgId: "1",
 	status: "send_going",
@@ -181,7 +191,7 @@ AuroraIMUIController.appendMessages(messages);
 
 example:
 
-```
+```javascript
 var message = {
 	msgId: "1",
 	status: "send_going",
@@ -204,7 +214,7 @@ AuroraIMUIController.updateMessage(message);
 
 example:
 
-```
+```javascript
 var messages = [{
     msgId: "1",
     status: "send_succeed",

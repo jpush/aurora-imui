@@ -47,6 +47,21 @@ class AuroraIMUIController {
 		AuroraIMUIModule.insertMessagesToTop(messageList)
 	}
 
+ 	/**
+	 * remove message from messageList
+	 * @param {String} messageId
+	 */
+	static removeMessage(messageId) {
+		AuroraIMUIModule.removeMessage(messageId)
+	}
+
+ 	/**
+	 * stop play voice 
+     */
+	static stopPlayVoice() {
+		AuroraIMUIModule.stopPlayVoice()
+	}
+	
 	/**
 	 * scroll messageList to bottom
 	 * @param {Boolean} animate 
