@@ -160,7 +160,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     /**
      * Specify custom message config, include view type, layout resource id, is send outgoing(according to layout)
-     * and {@link Class}.
+     * and custom view holder's {@link Class} object.
      * @param viewType View type, must not set 0-12, otherwise will throw IllegalArgumentException
      * @param bean {@link CustomMsgConfig}
      */
@@ -169,8 +169,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             mCustomMsgList = new ArrayList<>();
         }
         mCustomMsgList.add(bean);
-        EnumSet<IMessage.MessageType> set = EnumSet.allOf(IMessage.MessageType.class);
-        set.add(IMessage.MessageType.RECEIVE_CUSTOM);
     }
 
     public List<CustomMsgConfig> getCustomMsgList() {
