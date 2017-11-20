@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import cn.jiguang.imui.R;
@@ -49,6 +50,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     // Custom message
     private final int TYPE_CUSTOM_SEND_MSG = 11;
     private final int TYPE_CUSTOM_RECEIVE_MSG = 12;
+    private List<CustomMsgConfig> mCustomMsgList;
 
     private Context mContext;
     private String mSenderId;
@@ -148,8 +150,31 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             case TYPE_CUSTOM_SEND_MSG:
                 return getHolder(parent, mHolders.mCustomSendMsgLayout, mHolders.mCustomSendMsgHolder, true);
             default:
-                return getHolder(parent, mHolders.mCustomReceiveMsgLayout, mHolders.mCustomReceiveMsgHolder, false);
+                if (mCustomMsgList != null && mCustomMsgList.size() > 0) {
+                    return getHolder(parent, mCustomMsgList.get(viewType).getResourceId(),
+                            mCustomMsgList.get(viewType).getClazz(), mCustomMsgList.get(viewType).getIsSender());
+                }
+                return getHolder(parent, mHolders.mSendTxtLayout, mHolders.mSendLocationHolder, false);
         }
+    }
+
+    /**
+     * Specify custom message config, include view type, layout resource id, is send outgoing(according to layout)
+     * and {@link Class}.
+     * @param viewType View type, must not set 0-12, otherwise will throw IllegalArgumentException
+     * @param bean {@link CustomMsgConfig}
+     */
+    public void addCustomMsgType(int viewType, CustomMsgConfig bean) {
+        if (mCustomMsgList == null) {
+            mCustomMsgList = new ArrayList<>();
+        }
+        mCustomMsgList.add(bean);
+        EnumSet<IMessage.MessageType> set = EnumSet.allOf(IMessage.MessageType.class);
+        set.add(IMessage.MessageType.RECEIVE_CUSTOM);
+    }
+
+    public List<CustomMsgConfig> getCustomMsgList() {
+        return mCustomMsgList;
     }
 
     @Override
@@ -183,10 +208,19 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 case SEND_CUSTOM:
                     return TYPE_CUSTOM_SEND_MSG;
                 default:
-                    return TYPE_CUSTOM_RECEIVE_MSG;
+                    return getCustomType(message);
             }
         }
-        return TYPE_CUSTOM_SEND_MSG;
+        return TYPE_SEND_TXT;
+    }
+
+    private int getCustomType(IMessage message) {
+        for (CustomMsgConfig config : mCustomMsgList) {
+            if (config.getViewType() == message.getType().getCustomType()) {
+                return config.getViewType();
+            }
+        }
+        return TYPE_SEND_TXT;
     }
 
     private <HOLDER extends ViewHolder> ViewHolder getHolder(ViewGroup parent, @LayoutRes int layout,

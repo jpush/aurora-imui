@@ -77,6 +77,10 @@ public class MyMessage implements IMessage {
         return timeString;
     }
 
+    public void setType(int type) {
+        this.type.setCustomType(type);
+    }
+
     @Override
     public MessageType getType() {
         return type;

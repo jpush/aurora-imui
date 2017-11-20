@@ -1,45 +1,42 @@
-'use strict';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
 
-import React from 'react';
-import ReactNative from 'react-native';
-import IMUI from 'aurora-imui-react-native';
-import TimerMixin from 'react-timer-mixin';
-var {
-	View,
-	Text,
-	Image,
-	TouchableHighlight,
-	TextInput,
-	Dimensions,
-	NativeModules,
+import React, { Component } from 'react';
+import {
+	AppRegistry,
 	StyleSheet,
-	PermissionsAndroid,
+	Text,
+	View,
+	TouchableHighlight,
+	NativeModules,
+	requireNativeComponent,
+	Alert,
+	Dimensions,
+	DeviceEventEmitter,
+	Platform,
 	UIManager,
 	findNodeHandle,
-} = ReactNative;
+} from 'react-native';
 
-var MessageList = IMUI.MessageList;
-var ChatInput = IMUI.ChatInput;
-const AndroidPtrLayout = IMUI.AndroidPtrLayout;
+import IMUI from 'aurora-imui-react-native'
+var InputView = IMUI.ChatInput;
+var MessageListView = IMUI.MessageList;
+var AndroidPtrLayout = IMUI.AndroidPtrLayout;
 const AuroraIMUIController = IMUI.AuroraIMUIController;
-const IMUIMessageListDidLoad = "IMUIMessageListDidLoad";
+const window = Dimensions.get('window');
 
-export default class ChatActivity extends React.Component {
+export default class ChatActivity extends Component<{}> {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			single: this.props.groupId === "",
-			groupNum: '(1)',
-			inputContent: '',
-			recordText: '按住 说话',
+			inputViewLayout: { width: window.width, height: 200, },
 			menuContainerHeight: 1000,
-			inputViewLayout: {
-				width: window.width,
-				height: 200,
-			},
-			shouldExpandMenuContainer: false,
 			isDismissMenuContainer: false,
+			shouldExpandMenuContainer: false,
 		};
 
 		this.updateLayout = this.updateLayout.bind(this);
@@ -135,7 +132,9 @@ export default class ChatActivity extends React.Component {
 			timeString: "9:30",
 		}];
 		AuroraIMUIController.insertMessagesToTop(messages);
-		this.refs["PtrLayout"].refreshComplete()
+		this.timer = setTimeout(() => {
+			this.refs["PtrLayout"].refreshComplete()
+		}, 2000)
 	}
 
 	onSendText(text) {
@@ -430,9 +429,13 @@ export default class ChatActivity extends React.Component {
 	}
 
 	componentWillUnmount() {
+		AuroraIController.removeMessageListDidLoadListener(this.messageListDidLoadCallback)
+		if (Platform.OS === 'android') {
+			UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs["PtrLayout"]), 1, null)
+			UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs["MessageList"]), 100, null)
+		}
 		this.timer && clearTimeout(this.timer);
-		AuroraIMUIController.removeMessageListDidLoadListener(IMUIMessageListDidLoad);
-		UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs["MessageList"]), 100, null)
+
 	}
 
 	render() {
@@ -441,7 +444,7 @@ export default class ChatActivity extends React.Component {
 				<AndroidPtrLayout
 					ref="PtrLayout"
 					onPullToRefresh={this.onPullToRefresh}>
-					<MessageList style={styles.messageList}
+					<MessageListView style={styles.messageList}
 						ref="MessageList"
 						onAvatarClick={this.onAvatarClick}
 						onMsgClick={this.onMsgClick}
@@ -455,23 +458,21 @@ export default class ChatActivity extends React.Component {
 						sendBubblePadding={{ left: 10, top: 10, right: 20, bottom: 10 }}
 					/>
 				</AndroidPtrLayout>
-				<ChatInput
-					style={this.state.inputViewLayout}
+				<InputView style={this.state.inputViewLayout}
 					menuContainerHeight={this.state.menuContainerHeight}
 					isDismissMenuContainer={this.state.isDismissMenuContainer}
 					onSendText={this.onSendText}
-					onSendGalleryFiles={this.onSendGalleryFiles}
 					onTakePicture={this.onTakePicture}
-					onStartRecordVideo={this.onStartRecordVideo}
-					onFinishRecordVideo={this.onFinishRecordVideo}
-					onCancelRecordVideo={this.onCancelRecordVideo}
 					onStartRecordVoice={this.onStartRecordVoice}
 					onFinishRecordVoice={this.onFinishRecordVoice}
 					onCancelRecordVoice={this.onCancelRecordVoice}
+					onStartRecordVideo={this.onStartRecordVideo}
+					onFinishRecordVideo={this.onFinishRecordVideo}
+					onSendGalleryFiles={this.onSendGalleryFiles}
+					onSwitchToEmojiMode={this.onSwitchToEmojiMode}
 					onSwitchToMicrophoneMode={this.onSwitchToMicrophoneMode}
 					onSwitchToGalleryMode={this.onSwitchToGalleryMode}
 					onSwitchToCameraMode={this.onSwitchToCameraMode}
-					onSwitchToEmojiMode={this.onSwitchToEmojiMode}
 					onTouchEditText={this.onTouchEditText}
 					onFullScreen={this.onFullScreen}
 					onRecoverScreen={this.onRecoverScreen}
@@ -481,7 +482,7 @@ export default class ChatActivity extends React.Component {
 	}
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'center',
@@ -500,4 +501,11 @@ var styles = StyleSheet.create({
 		height: 100,
 
 	},
+	btnStyle: {
+		marginTop: 10,
+		borderWidth: 1,
+		borderColor: '#3e83d7',
+		borderRadius: 8,
+		backgroundColor: '#3e83d7'
+	}
 });

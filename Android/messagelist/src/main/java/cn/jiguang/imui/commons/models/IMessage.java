@@ -1,7 +1,12 @@
 package cn.jiguang.imui.commons.models;
 
 
+import android.util.SparseIntArray;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 
 public interface IMessage {
 
@@ -49,9 +54,21 @@ public interface IMessage {
         SEND_CUSTOM,
         RECEIVE_CUSTOM;
 
-        public String type;
+        private int type;
 
         MessageType() {
+        }
+
+        public void setCustomType(int type) {
+            if (type > 12 || type < 0) {
+                this.type = type;
+            } else {
+                throw new IllegalArgumentException("Custom message type should not set 0-12");
+            }
+        }
+
+        public int getCustomType() {
+            return this.type;
         }
     }
 
