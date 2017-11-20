@@ -117,7 +117,6 @@ message = {  // video message
     druation: number,
     mediaPath: "voice path",
     fromUser: {},
-    
     extras: {}// 选填，可以在消息中添加附加字段
 }
 
@@ -127,9 +126,9 @@ message = {  // custom message
     status: "send_failed",
     isOutgoing: true,
     contentSize: {height: 100, width: 100},
-    content: "<h1>custom message will render html string</h1>"
+    content: "<h1>custom message will render html string</h1>", // content 为 html 字符串，应尽量避免 <script> 标签
     fromUser: {}, 
-    extras: {}// Optional: you could add a extras object to this message
+    extras: {}// 选填，可以在消息中添加附加字段
 }
 
 message = {  // event message

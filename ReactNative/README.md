@@ -122,7 +122,7 @@ message = {  // custom message
     status: "send_failed",
     isOutgoing: true,
     contentSize: {height: 100, width: 100},
-    content: "<h1>custom message will render html string</h1>"
+    content: "<h1>custom message will render html string</h1>" // content is html string, NOTE: Don't contain <script>. 
     fromUser: {}, 
     extras: {}// Optional: you could add a extras object to this message
 }
