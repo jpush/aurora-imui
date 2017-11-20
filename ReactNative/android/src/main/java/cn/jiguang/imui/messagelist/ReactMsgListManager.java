@@ -51,6 +51,7 @@ import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
+import cn.jiguang.imui.messages.CustomMsgConfig;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import cn.jiguang.imui.messages.ViewHolderController;
@@ -138,6 +139,10 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
             }
         };
         mAdapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
+        CustomMsgConfig config1 = new CustomMsgConfig(13, R.layout.item_send_text, true, DefaultCustomViewHolder.class);
+        CustomMsgConfig config2 = new CustomMsgConfig(14, R.layout.item_receive_txt, false, DefaultCustomViewHolder.class);
+        mAdapter.addCustomMsgType(13, config1);
+        mAdapter.addCustomMsgType(14, config2);
         mMessageList.setAdapter(mAdapter);
         mAdapter.setOnMsgClickListener(new MsgListAdapter.OnMsgClickListener<RCTMessage>() {
             @Override

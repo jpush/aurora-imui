@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactNative from 'react-native';
 import PropTypes from 'prop-types';
+
 var {
   Component,
 } = React;

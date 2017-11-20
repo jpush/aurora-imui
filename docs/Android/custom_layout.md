@@ -64,3 +64,47 @@ MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
 holdersConfig.setSendCustomMsg(CustomMessageViewHolder.class, layoutRes);
 holdersConfig.setReceiveCustomMsg(CustomMessageViewHolder.class, layoutRes);
 ```
+
+
+
+### Support Variety kinds of custom message(since 0.5.2)
+
+Usage:
+
+- Build your custom view holder, extends `BaseMessageViewHolder` and implements `DefaultMessageViewHolder`, like `TxtViewHolder`:
+
+```java
+public class TxtViewHolder<MESSAGE extends IMessage>
+        extends BaseMessageViewHolder<MESSAGE>
+        implements MsgListAdapter.DefaultMessageViewHolder {
+        ...
+        }
+```
+
+- Construct `CustomMsgConfig`, invoke `MsgListAdapter.addCustomMsgType`:
+
+```java
+MsgListAdapter adapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
+// The first parameter is ViewType，must not set number in 0-12
+// the second is resource id
+// the third is sender or not
+// the forth is the Class object of custom view holder.
+CustomMsgConfig config1 = new CustomMsgConfig(13, R.layout.item.send_custom, true, DefaultCustomViewHolder.class);
+// The first parameter is ViewType，the same as above.
+adapter.addCustomMsgType(13, config1);
+```
+
+- In your `Message` (which implements `IMessage`), you need set the right MessageType of your custom message.
+
+```java
+public class MyMessage implements IMessage {
+	MessageType type = MessageType.SEND_TEXT;
+	// in this example the viewType is 13
+	public void setType(int viewType) {
+      this.type.setCustomType(viewType);
+	}
+}
+```
+
+
+

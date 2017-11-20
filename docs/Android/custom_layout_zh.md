@@ -57,3 +57,46 @@ holdersConfig.setSendCustomMsg(CustomMessageViewHolder.class, layoutRes);
 holdersConfig.setReceiveCustomMsg(CustomMessageViewHolder.class, layoutRes);
 ```
 
+
+
+### 新增支持多种自定义消息接口（0.5.2 新增）
+
+支持多种自定义消息。使用方式如下：
+
+- 构造自定义 Adapter 继承自 `BaseMessageViewHolder` 并实现`DefaultMessageViewHolder`,  比如参考 `TxtViewHolder`:
+
+```java
+public class TxtViewHolder<MESSAGE extends IMessage>
+        extends BaseMessageViewHolder<MESSAGE>
+        implements MsgListAdapter.DefaultMessageViewHolder {
+        ...
+        }
+```
+
+
+
+- 构造 `CustomMsgConfig`, 调用 `MsgListAdapter.addCustomMsgType`
+
+```java
+MsgListAdapter adapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
+// 第一个参数为 ViewType，不能设置为 0-12 的整形
+// 第二个参数为 resource id
+// 第三个参数为是否为发送方
+// 第四个为自定义 ViewHolder 的 Class 对象 
+CustomMsgConfig config1 = new CustomMsgConfig(13, R.layout.item.send_custom, true, DefaultCustomViewHolder.class);
+// 第一个参数为 ViewType，同上
+adapter.addCustomMsgType(13, config1);
+```
+
+- 在你的 `Message` 实体中（实现了 `IMessage` 的类），需要设置对应的自定义消息的类型。例如：
+
+```java
+public class MyMessage implements IMessage {
+	MessageType type = MessageType.SEND_TEXT;
+	// 本例中 viewType 值为 13
+	public void setType(int viewType) {
+      this.type.setCustomType(viewType);
+	}
+}
+```
+
