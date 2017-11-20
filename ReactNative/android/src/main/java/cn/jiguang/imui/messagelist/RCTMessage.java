@@ -36,6 +36,7 @@ public class RCTMessage implements IMessage {
     private String msgId;
     private String status;
     private String msgType;
+    private MessageType type = MessageType.SEND_TEXT;
     private String timeString;
     private String text;
     private String mediaFilePath;
@@ -46,6 +47,7 @@ public class RCTMessage implements IMessage {
     private int width;
     private int height;
     private HashMap<String, String> mExtra;
+    private int mCustomViewType = 13;
     private static Gson sGSON = new Gson();
 
     public RCTMessage(String msgId, String status, String msgType, boolean isOutgoing) {
@@ -83,17 +85,18 @@ public class RCTMessage implements IMessage {
         if (isOutgoing) {
             switch (msgType) {
                 case "text":
-                    return MessageType.SEND_TEXT;
+                    this.type = MessageType.SEND_TEXT;
                 case "voice":
-                    return MessageType.SEND_VOICE;
+                    this.type = MessageType.SEND_VOICE;
                 case "image":
-                    return MessageType.SEND_IMAGE;
+                    this.type = MessageType.SEND_IMAGE;
                 case "event":
                     return MessageType.EVENT;
-                case "custom":
-                    return MessageType.SEND_CUSTOM;
+                case "video":
+                    this.type = MessageType.SEND_VIDEO;
                 default:
-                    return MessageType.SEND_VIDEO;
+                    setType(mCustomViewType++);
+                    this.type = MessageType.SEND_CUSTOM;
             }
         } else {
             switch (msgType) {
@@ -105,14 +108,19 @@ public class RCTMessage implements IMessage {
                     return MessageType.RECEIVE_IMAGE;
                 case "event":
                     return MessageType.EVENT;
-                case "custom":
-                    return MessageType.RECEIVE_CUSTOM;
-                default:
+                case "video":
                     return MessageType.RECEIVE_VIDEO;
+                default:
+                    setType(mCustomViewType++);
+                    return MessageType.RECEIVE_CUSTOM;
             }
         }
+        return type;
     }
 
+    public void setType(int type) {
+        this.type.setCustomType(type);
+    }
 
     @Override
     public MessageStatus getMessageStatus() {
