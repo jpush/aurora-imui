@@ -95,7 +95,6 @@ message = {  // image message
     extras: {}// Optional: you could add a extras object to this message
 }
 
-
 message = {  // voice message
     msgId: "msgid",
     msgType: "voice",
@@ -114,6 +113,17 @@ message = {  // video message
     druation: number,
     mediaPath: "voice path",
     fromUser: {},   
+    extras: {}// Optional: you could add a extras object to this message
+}
+
+message = {  // custom message
+    msgId: "msgid",
+    msgType: "custom",
+    status: "send_failed",
+    isOutgoing: true,
+    contentSize: {height: 100, width: 100},
+    content: "<h1>custom message will render html string</h1>"
+    fromUser: {}, 
     extras: {}// Optional: you could add a extras object to this message
 }
 
