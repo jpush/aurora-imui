@@ -86,33 +86,43 @@ public class RCTMessage implements IMessage {
             switch (msgType) {
                 case "text":
                     this.type = MessageType.SEND_TEXT;
+                    break;
                 case "voice":
                     this.type = MessageType.SEND_VOICE;
+                    break;
                 case "image":
                     this.type = MessageType.SEND_IMAGE;
+                    break;
                 case "event":
-                    return MessageType.EVENT;
+                    this.type = MessageType.EVENT;
+                    break;
                 case "video":
                     this.type = MessageType.SEND_VIDEO;
+                    break;
                 default:
-                    setType(mCustomViewType++);
+                    setType(13);
                     this.type = MessageType.SEND_CUSTOM;
             }
         } else {
             switch (msgType) {
                 case "text":
-                    return MessageType.RECEIVE_TEXT;
+                    this.type = MessageType.RECEIVE_TEXT;
+                    break;
                 case "voice":
-                    return MessageType.RECEIVE_VOICE;
+                    this.type = MessageType.RECEIVE_VOICE;
+                    break;
                 case "image":
-                    return MessageType.RECEIVE_IMAGE;
+                    this.type = MessageType.RECEIVE_IMAGE;
+                    break;
                 case "event":
-                    return MessageType.EVENT;
+                    this.type = MessageType.EVENT;
+                    break;
                 case "video":
-                    return MessageType.RECEIVE_VIDEO;
+                    this.type = MessageType.RECEIVE_VIDEO;
+                    break;
                 default:
-                    setType(mCustomViewType++);
-                    return MessageType.RECEIVE_CUSTOM;
+                    setType(14);
+                    this.type = MessageType.RECEIVE_CUSTOM;
             }
         }
         return type;

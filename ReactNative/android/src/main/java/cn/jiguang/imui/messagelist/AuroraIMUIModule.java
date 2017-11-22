@@ -10,7 +10,6 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facebook.react.uimanager.annotations.ReactProp;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -121,16 +120,18 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
                 break;
             case RECEIVE_CUSTOM:
             case SEND_CUSTOM:
-                rctMsg.setText(message.getString("content"));
+            default:
+                if (message.hasKey("content")) {
+                    rctMsg.setText(message.getString("content"));
+                } else if (message.hasKey("text")) {
+                    rctMsg.setText(message.getString("text"));
+                }
                 if (message.hasKey("contentSize")) {
                     ReadableMap size = message.getMap("contentSize");
                     if (size.hasKey("width") && size.hasKey("height")) {
                         rctMsg.setContentSize(size.getInt("width"), size.getInt("height"));
                     }
                 }
-                break;
-            default:
-                rctMsg.setText(message.getString("text"));
         }
         ReadableMap user = message.getMap("fromUser");
         RCTUser rctUser = new RCTUser(user.getString("userId"), user.getString("displayName"),
