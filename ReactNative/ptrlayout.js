@@ -9,7 +9,7 @@ var {
 
 var {
   StyleSheet,
-  View,
+  ViewPropTypes,
   UIManager,
   findNodeHandle,
   requireNativeComponent,
@@ -49,7 +49,7 @@ export default class AndroidPtrFrameLayout extends Component {
 
 AndroidPtrFrameLayout.propTypes = {
   onPullToRefresh: PropTypes.func,
-  ...View.propTypes
+  ...ViewPropTypes
 };
 
 var PtrFrameLayout = requireNativeComponent('PtrLayout', AndroidPtrFrameLayout);

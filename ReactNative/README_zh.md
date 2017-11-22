@@ -48,8 +48,8 @@ dependencies {
 
 - ### iOS
 
-  - PROJECT -> TARGETS -> Build Settings -> Enable Bitcode Set to No
-  - Find PROJECT -> TARGETS -> General -> Embedded Binaries  and add RCTAuroraIMUI.framework
+  - 找到 PROJECT -> TARGETS -> General -> Embedded Binaries  然后添加 RCTAuroraIMUI.framework。
+  - 找到 PROJECT -> TARGETS -> Build Phases -> Target Dependencies 添加 RCTWebSocket。
 
 - ## 用法
 ```javascript
