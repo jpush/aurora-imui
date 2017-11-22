@@ -212,3 +212,19 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 // 0.4.5 后弃用
 mChatInput.setCameraCaptureFile(path, fileName);
 ```
+
+
+
+### 添加 JitPack 依赖 （0.4.8 增加表情后需要添加）
+
+在项目的 build.gradle 中添加依赖：
+
+```groovy
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
+```
+

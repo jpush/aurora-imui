@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 import cn.jiguang.imui.R;
