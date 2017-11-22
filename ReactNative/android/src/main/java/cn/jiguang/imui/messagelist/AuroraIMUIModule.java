@@ -58,6 +58,11 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void hidenFeatureView(boolean flag) {
+
+    }
+
+    @ReactMethod
     public void appendMessages(ReadableArray messages) {
         RCTMessage[] rctMessages = new RCTMessage[messages.size()];
         for (int i = 0; i < messages.size(); i++) {
@@ -115,16 +120,18 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
                 break;
             case RECEIVE_CUSTOM:
             case SEND_CUSTOM:
-                rctMsg.setText(message.getString("content"));
+            default:
+                if (message.hasKey("content")) {
+                    rctMsg.setText(message.getString("content"));
+                } else if (message.hasKey("text")) {
+                    rctMsg.setText(message.getString("text"));
+                }
                 if (message.hasKey("contentSize")) {
                     ReadableMap size = message.getMap("contentSize");
                     if (size.hasKey("width") && size.hasKey("height")) {
                         rctMsg.setContentSize(size.getInt("width"), size.getInt("height"));
                     }
                 }
-                break;
-            default:
-                rctMsg.setText(message.getString("text"));
         }
         ReadableMap user = message.getMap("fromUser");
         RCTUser rctUser = new RCTUser(user.getString("userId"), user.getString("displayName"),

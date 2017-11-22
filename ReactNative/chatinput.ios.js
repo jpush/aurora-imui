@@ -10,7 +10,7 @@ var {
 
 var {
   StyleSheet,
-  View,
+  ViewPropTypes,
   requireNativeComponent,
 } = ReactNative;
 
@@ -164,7 +164,7 @@ ChatInput.propTypes = {
   onSwitchToGalleryMode: PropTypes.func,
   onSwitchToCameraMode: PropTypes.func,
   onShowKeyboard: PropTypes.func,
-  ...View.propTypes
+  ...ViewPropTypes
 };
 
 var RCTChatInput = requireNativeComponent('RCTInputView', ChatInput);

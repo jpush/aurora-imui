@@ -1,5 +1,15 @@
-global.__APP__ = true;
-global.__ANDROID__ = true;
-global.__IOS__ = false;
+// /**
+//  * Sample React Native App
+//  * https://github.com/facebook/react-native
+//  * @flow
+//  */
 
-require('./react-native-android');
+import React, { Component } from 'react';
+
+import {
+  AppRegistry,
+} from 'react-native';
+
+import TestRNIMUI from './app/app.js'
+
+AppRegistry.registerComponent('TestRNIMUI', () => TestRNIMUI);

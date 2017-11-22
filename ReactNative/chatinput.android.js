@@ -10,7 +10,7 @@ var {
 
 var {
 	StyleSheet,
-	View,
+	ViewPropTypes,
 	requireNativeComponent,
 } = ReactNative;
 
@@ -193,7 +193,7 @@ ChatInput.propTypes = {
 	onTouchEditText: PropTypes.func,
 	onFullScreen: PropTypes.func,
 	onRecoverScreen: PropTypes.func,
-	...View.propTypes
+	...ViewPropTypes
 };
 
 var RCTChatInput = requireNativeComponent('RCTChatInput', ChatInput);

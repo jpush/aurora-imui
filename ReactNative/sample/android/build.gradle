@@ -3,15 +3,7 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
-        maven {
-            url 'https://maven.google.com'
-        }
-        maven {
-            url 'https://dl.google.com/dl/android/maven2/'
-        }
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'

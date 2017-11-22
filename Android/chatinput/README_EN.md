@@ -223,3 +223,19 @@ Since 0.4.5, take picture will return default path.
 // Deprecated since 0.4.5
 mChatInput.setCameraCaptureFile(path, fileName);
 ```
+
+
+
+
+
+### Add JitPack dependency( > 0.4.8 )
+
+Add JitPack denpendency in your project's build.gradle:
+
+```groovy
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+```
