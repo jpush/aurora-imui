@@ -7,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     // Custom message
     private final int TYPE_CUSTOM_SEND_MSG = 11;
     private final int TYPE_CUSTOM_RECEIVE_MSG = 12;
-    private List<CustomMsgConfig> mCustomMsgList;
+    private SparseArray<CustomMsgConfig> mCustomMsgList;
 
     private Context mContext;
     private String mSenderId;
@@ -146,8 +147,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                 return getHolder(parent, mHolders.mReceiveVideoLayout, mHolders.mReceiveVideoHolder, false);
             case TYPE_EVENT:
                 return getHolder(parent, mHolders.mEventLayout, mHolders.mEventMsgHolder, true);
-            case TYPE_CUSTOM_SEND_MSG:
-                return getHolder(parent, mHolders.mCustomSendMsgLayout, mHolders.mCustomSendMsgHolder, true);
             default:
                 if (mCustomMsgList != null && mCustomMsgList.size() > 0) {
                     return getHolder(parent, mCustomMsgList.get(viewType).getResourceId(),
@@ -165,12 +164,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      */
     public void addCustomMsgType(int viewType, CustomMsgConfig bean) {
         if (mCustomMsgList == null) {
-            mCustomMsgList = new ArrayList<>();
+            mCustomMsgList = new SparseArray<>();
         }
-        mCustomMsgList.add(bean);
+        mCustomMsgList.put(viewType, bean);
     }
 
-    public List<CustomMsgConfig> getCustomMsgList() {
+    public SparseArray<CustomMsgConfig> getCustomMsgList() {
         return mCustomMsgList;
     }
 
@@ -202,8 +201,6 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
                     return TYPE_RECEIVE_VIDEO;
                 case EVENT:
                     return TYPE_EVENT;
-                case SEND_CUSTOM:
-                    return TYPE_CUSTOM_SEND_MSG;
                 default:
                     return getCustomType(message);
             }
@@ -212,8 +209,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     private int getCustomType(IMessage message) {
-        for (CustomMsgConfig config : mCustomMsgList) {
-            if (config.getViewType() == message.getType().getCustomType()) {
+        for (int i=0; i < mCustomMsgList.size(); i++) {
+            CustomMsgConfig config = mCustomMsgList.valueAt(0);
+            if (message.getType().getCustomType() == config.getViewType()) {
                 return config.getViewType();
             }
         }
@@ -886,12 +884,14 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             this.mReceiveVideoLayout = layout;
         }
 
+        @Deprecated
         public void setSendCustomMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
                                      @LayoutRes int layout) {
             this.mCustomSendMsgHolder = holder;
             this.mCustomSendMsgLayout = layout;
         }
 
+        @Deprecated
         public void setReceiveCustomMsg(Class<? extends BaseMessageViewHolder<? extends IMessage>> holder,
                                         @LayoutRes int layout) {
             this.mCustomReceiveMsgHolder = holder;

@@ -94,7 +94,7 @@ CustomMsgConfig config1 = new CustomMsgConfig(13, R.layout.item.send_custom, tru
 adapter.addCustomMsgType(13, config1);
 ```
 
-- In your `Message` (which implements `IMessage`), you need set the right MessageType of your custom message.
+- In your `Message` (which implements `IMessage`), you need set the MessageType's type value  of your custom message.
 
 ```java
 public class MyMessage implements IMessage {

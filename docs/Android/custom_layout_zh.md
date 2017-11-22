@@ -88,7 +88,7 @@ CustomMsgConfig config1 = new CustomMsgConfig(13, R.layout.item.send_custom, tru
 adapter.addCustomMsgType(13, config1);
 ```
 
-- 在你的 `Message` 实体中（实现了 `IMessage` 的类），需要设置对应的自定义消息的类型。例如：
+- 在你的 `Message` 实体中（实现了 `IMessage` 的类），需要设置对应的自定义消息的类型的 type 值。例如：
 
 ```java
 public class MyMessage implements IMessage {
