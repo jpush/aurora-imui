@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.uimanager.annotations.ReactProp;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,6 +56,11 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
             getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit(MESSAGE_LIST_DID_LOAD_EVENT, null);
         }
+    }
+
+    @ReactMethod
+    public void hidenFeatureView(boolean flag) {
+
     }
 
     @ReactMethod

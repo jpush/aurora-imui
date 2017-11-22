@@ -110,8 +110,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
         mMessageList.setHasFixedSize(true);
         // Use default layout
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
-        holdersConfig.setSendCustomMsg(DefaultCustomViewHolder.class, R.layout.item_send_text);
-        holdersConfig.setReceiveCustomMsg(DefaultCustomViewHolder.class, R.layout.item_receive_txt);
         ImageLoader imageLoader = new ImageLoader() {
             @Override
             public void loadAvatarImage(ImageView avatarImageView, String string) {
