@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/aurora_ll_input_container"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
@@ -19,7 +19,8 @@
         <sj.keyboard.widget.EmoticonsEditText
             android:id="@+id/aurora_et_chat_input"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/aurora_edittext_bg"
@@ -28,6 +29,8 @@
             android:inputType="textMultiLine"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:maxLines="4"
             android:textColor="@android:color/black"
             android:textCursorDrawable="@drawable/aurora_edittext_cursor_bg"

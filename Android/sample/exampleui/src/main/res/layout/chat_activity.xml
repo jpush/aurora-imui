@@ -50,11 +50,11 @@
             app:receiveBubblePaddingLeft="16dp"
             app:receiveBubblePaddingRight="8dp"
             app:receiveTextColor="#ffffff"
-            app:receiveTextSize="14sp"
+            app:receiveTextSize="16sp"
             app:sendBubblePaddingLeft="8dp"
             app:sendBubblePaddingRight="16dp"
             app:sendTextColor="#7587A8"
-            app:sendTextSize="14sp" />
+            app:sendTextSize="16sp" />
 
     </cn.jiguang.imui.messages.ptr.PullToRefreshLayout>
 

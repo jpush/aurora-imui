@@ -62,6 +62,8 @@ public class MessageListStyle extends Style {
     private float bubbleMaxWidth;
     private Drawable sendPhotoMsgBg;
     private Drawable receivePhotoMsgBg;
+    private int lineSpacingExtra;
+    private float lineSpacingMultiplier;
 
     private int windowWidth;
     private Drawable sendingProgressDrawable;
@@ -135,7 +137,9 @@ public class MessageListStyle extends Style {
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_send_text_right));
         style.sendBubblePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingBottom,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_send_text_bottom));
-
+        style.lineSpacingExtra = typedArray.getDimensionPixelSize(R.styleable.MessageList_lineSpacingExtra,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_line_spacing_extra_default));
+        style.lineSpacingMultiplier = typedArray.getFloat(R.styleable.MessageList_lineSpacingMultiplier, 1.0f);
         style.sendVoiceDrawable = typedArray.getResourceId(R.styleable.MessageList_sendVoiceDrawable,
                 R.drawable.aurora_sendvoice_send_3);
         style.receiveVoiceDrawable = typedArray.getResourceId(R.styleable.MessageList_receiveVoiceDrawable,
@@ -520,5 +524,21 @@ public class MessageListStyle extends Style {
 
     public Drawable getSendingProgressDrawable() {
         return sendingProgressDrawable;
+    }
+
+    public void setLineSpacingExtra(int spacing) {
+        this.lineSpacingExtra = spacing;
+    }
+
+    public int getLineSpacingExtra() {
+        return this.lineSpacingExtra;
+    }
+
+    public void setLineSpacingMultiplier(float mult) {
+        this.lineSpacingMultiplier = mult;
+    }
+
+    public float getLineSpacingMultiplier() {
+        return this.lineSpacingMultiplier;
     }
 }

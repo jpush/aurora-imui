@@ -53,6 +53,8 @@
         <attr name="receiveVoiceDrawable" format="reference"/>
         <attr name="playSendVoiceAnim" format="reference"/>
         <attr name="playReceiveVoiceAnim" format="reference"/>
+        <attr name="lineSpacingExtra" format="dimension|reference" />
+        <attr name="lineSpacingMultiplier" format="float" />
 
         <attr name="sendPhotoMsgBg" format="reference"/>
         <attr name="receivePhotoMsgBg" format="reference"/>
