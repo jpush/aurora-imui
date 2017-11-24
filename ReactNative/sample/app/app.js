@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 import {
   AppRegistry,
@@ -14,19 +14,22 @@ import {
   DeviceEventEmitter,
   Platform,
   PermissionsAndroid
-} from 'react-native';
+} from 'react-native'
 
-var RNFS = require('react-native-fs');
+var RNFS = require('react-native-fs')
 
-var ReactNative = require('react-native');
+var ReactNative = require('react-native')
 import IMUI from 'aurora-imui-react-native'
-var InputView = IMUI.ChatInput;
-var MessageListView = IMUI.MessageList;
-var AndroidPtrLayout = IMUI.AndroidPtrLayout;
-const AuroraIController = IMUI.AuroraIMUIController;
-const window = Dimensions.get('window');
+var InputView = IMUI.ChatInput
+var MessageListView = IMUI.MessageList
+var AndroidPtrLayout = IMUI.AndroidPtrLayout
+const AuroraIController = IMUI.AuroraIMUIController
+const window = Dimensions.get('window')
+const getInputTextEvent = "getInputText"
+const MessageListDidLoadEvent = "IMUIMessageListDidLoad"
 
 var themsgid = 1
+const menuHeight = 625
 
 function constructNormalMessage() {
 
@@ -64,12 +67,16 @@ export default class TestRNIMUI extends Component {
     if (Platform.OS === "ios") {
       initHeight = 86
     } else{
-      initHeight = 200
+      initHeight = 120
     }
     this.state = {
-      inputViewLayout: { width: window.width, height: initHeight, },
+      inputHeight: initHeight,
+      inputViewLayout: { width: window.width, height: initHeight + 80, },
       isAllowPullToRefresh: true,
-    };
+      lineCount: 1,
+      shouldExpandMenuContainer: false,
+      inputText: "",
+    }
 
     this.updateLayout = this.updateLayout.bind(this);
     this.resetMenu()
@@ -80,6 +87,11 @@ export default class TestRNIMUI extends Component {
       // messagelist is ready to insert message.
       this.getHistoryMessage()
     });
+    AuroraIController.addGetInputTextListener((text) => {
+      this.setState({
+        inputText: text
+      })
+    })
   }
 
   getHistoryMessage() {
@@ -93,13 +105,15 @@ export default class TestRNIMUI extends Component {
   }
 
   componentWillUnmount() {
-
+      AuroraIController.removeMessageListDidLoadListener(MessageListDidLoadEvent)
+      AuroraIController.removeGetInputTextListener(getInputTextEvent)
   }
 
   expendMenu() {
     if (Platform.OS === "android") {
       this.setState({
-        inputViewLayout: { width: window.width, height: 825 }
+        shouldExpandMenuContainer: true,
+        inputViewLayout: { width: window.width, height: this.state.inputHeight + 80 + menuHeight }
       })
     } else {
       this.setState({
@@ -110,13 +124,32 @@ export default class TestRNIMUI extends Component {
 
   resetMenu() {
     if (Platform.OS === "android") {
+      console.log("reset menu, count: " + this.state.lineCount)
+      if (this.lineCount == 1) {
+        this.setState({
+          inputHeight: 120,
+          inputViewLayout: { width: window.width, height: 200 }
+        })
+      } else {
+        this.setState({
+          inputHeight: 80 + this.state.lineCount * 40,
+          inputViewLayout: { width: window.width, height: 160 + 40 * this.state.lineCount }
+        })
+      }
       this.setState({
-        inputViewLayout: { width: window.width, height: 200 }
+        shouldExpandMenuContainer: false,
       })
     } else {
       this.setState({
         inputViewLayout: { width: window.width, height: 86 }
       })
+    }
+  }
+
+  onTouchEditText = () => {
+    if (this.state.shouldExpandMenuContainer) {
+      console.log("on touch input, expend menu")
+      this.expendMenu()
     }
   }
 
@@ -146,6 +179,12 @@ export default class TestRNIMUI extends Component {
   }
 
   onTouchMsgList = () => {
+    this.refs["ChatInput"].getInputText()
+    if (this.state.inputText == "") {
+      this.setState({
+        lineCount: 1
+      })
+    }
     this.resetMenu()
     AuroraIController.hidenFeatureView(true)
   }
@@ -168,6 +207,7 @@ export default class TestRNIMUI extends Component {
       AuroraIController.insertMessagesToTop([message])
     }
     AuroraIController.insertMessagesToTop(messages)
+    this.refs["PtrLayout"].refreshComplete()
   }
 
   onSendText = (text) => {
@@ -176,7 +216,7 @@ export default class TestRNIMUI extends Component {
     var user = {
       userId: "fasdf",
       displayName: "asfddsfa",
-      avatarPath: ""
+      avatarPath: "ironman"
     }
     message.fromUser = user
     var evenmessage = constructNormalMessage()
@@ -184,13 +224,15 @@ export default class TestRNIMUI extends Component {
     message.msgType = "text"
     message.text = text
 
-    var eventMessage = constructNormalMessage()
-    eventMessage.msgType = 'event'
-    eventMessage.text = "fadsfasfasdfsadfasdf"
-    eventMessage.fromUser = undefined
-    AuroraIController.appendMessages([eventMessage])
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
+
+    this.setState({
+      inputText: "",
+      lineCount: 1,
+      inputHeight: 120,
+      inputViewLayout: { width: window.width, height: 825 }
+    })
   }
 
   onTakePicture = (mediaPath) => {
@@ -334,6 +376,30 @@ export default class TestRNIMUI extends Component {
     this.updateAction();
   }
 
+  onLineChanged = (line) => {
+    console.log("line count: " + line)
+    if (this.state.lineCount < 4) {
+      this.setState({
+        lineCount: line,
+      })
+    } else{
+      this.setState({
+        lineCount: 4
+      })
+    }
+    if (this.state.shouldExpandMenuContainer) {
+      this.setState({
+        inputHeight: 80 + this.state.lineCount * 40,
+        inputViewLayout: { width: window.width, height: 80 + this.state.inputHeight + menuHeight },
+      })
+    } else {
+      this.setState({
+        inputHeight: 80 + this.state.lineCount * 40,
+        inputViewLayout: { width: window.width, height: 80 + this.state.inputHeight },
+      })
+    }
+  }
+
   generateAndroidView() {
     return (
       <View style={styles.container}>
@@ -355,8 +421,10 @@ export default class TestRNIMUI extends Component {
           />
         </AndroidPtrLayout>
         <InputView style={this.state.inputViewLayout}
+          ref="ChatInput"
           menuContainerHeight={this.state.menuContainerHeight}
           isDismissMenuContainer={this.state.isDismissMenuContainer}
+          inputViewHeight={this.state.inputHeight}
           onSendText={this.onSendText}
           onTakePicture={this.onTakePicture}
           onStartRecordVoice={this.onStartRecordVoice}
@@ -372,6 +440,7 @@ export default class TestRNIMUI extends Component {
           onTouchEditText={this.onTouchEditText}
           onFullScreen={this.onFullScreen}
           onRecoverScreen={this.onRecoverScreen}
+          onLineChanged={this.onLineChanged}
         />
       </View>
     )

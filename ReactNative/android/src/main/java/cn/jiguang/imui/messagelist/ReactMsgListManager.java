@@ -82,6 +82,7 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     public static final String RCT_UPDATE_MESSAGE_ACTION = "cn.jiguang.imui.messagelist.intent.updateMessage";
     public static final String RCT_INSERT_MESSAGES_ACTION = "cn.jiguang.imui.messagelist.intent.insertMessages";
     public static final String RCT_SCROLL_TO_BOTTOM_ACTION = "cn.jiguang.imui.messagelist.intent.scrollToBottom";
+    public static final String RCT_REMOVE_MESSAGE_ACTION = "cn.jiguang.imui.messagelist.intent.removeMessage";
 
     private MsgListAdapter mAdapter;
     private ReactContext mContext;
@@ -115,7 +116,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
             public void loadAvatarImage(ImageView avatarImageView, String string) {
                 int resId = IdHelper.getDrawable(reactContext, string);
                 if (resId != 0) {
-                    Log.d("ReactMsgListManager", "Set drawable name: " + string);
                     avatarImageView.setImageResource(resId);
                 } else {
                     Glide.with(reactContext)
@@ -216,31 +216,40 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent event) {
         final Activity activity = mContext.getCurrentActivity();
-        if (event.getAction().equals(RCT_APPEND_MESSAGES_ACTION)) {
-            RCTMessage[] messages = event.getMessages();
-            for (final RCTMessage rctMessage : messages) {
-                Log.d("RCTMessageListManager", "Add message to start, message: " + rctMessage);
-                if (activity != null) {
-                    final DisplayMetrics dm = new DisplayMetrics();
-                    final WindowManager windowManager = activity.getWindowManager();
-                    windowManager.getDefaultDisplay().getMetrics(dm);
-                    mAdapter.addToStart(rctMessage, true);
-                    mMessageList.smoothScrollToPosition(0);
+        switch (event.getAction()) {
+            case RCT_APPEND_MESSAGES_ACTION:
+                RCTMessage[] messages = event.getMessages();
+                for (final RCTMessage rctMessage : messages) {
+                    Log.d("RCTMessageListManager", "Add message to start, message: " + rctMessage);
+                    if (activity != null) {
+                        final DisplayMetrics dm = new DisplayMetrics();
+                        final WindowManager windowManager = activity.getWindowManager();
+                        windowManager.getDefaultDisplay().getMetrics(dm);
+                        mAdapter.addToStart(rctMessage, true);
+                        mMessageList.smoothScrollToPosition(0);
+                    }
                 }
-            }
-        } else if (event.getAction().equals(RCT_UPDATE_MESSAGE_ACTION)) {
-            RCTMessage rctMessage = event.getMessage();
-            Log.d("RCTMessageListManager", "updating message, message: " + rctMessage);
-            if (activity != null) {
-                mAdapter.updateMessage(rctMessage.getMsgId(), rctMessage);
-            }
-        } else if (event.getAction().equals(RCT_INSERT_MESSAGES_ACTION)) {
-            RCTMessage[] messages = event.getMessages();
-            Log.d("RCTMessageListManager", "Add send message to top");
-            mAdapter.addToEnd(Arrays.asList(messages));
+                break;
+            case RCT_UPDATE_MESSAGE_ACTION:
+                RCTMessage rctMessage = event.getMessage();
+                Log.d("RCTMessageListManager", "updating message, message: " + rctMessage);
+                if (activity != null) {
+                    mAdapter.updateMessage(rctMessage.getMsgId(), rctMessage);
+                }
+                break;
+            case RCT_INSERT_MESSAGES_ACTION:
+                messages = event.getMessages();
+                Log.d("RCTMessageListManager", "Add send message to top");
+                mAdapter.addToEnd(Arrays.asList(messages));
+                break;
+            case RCT_REMOVE_MESSAGE_ACTION:
+                String msgId = event.getMsgId();
+                mAdapter.deleteById(msgId);
+                break;
         }
     }
 
