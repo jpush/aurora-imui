@@ -12,14 +12,14 @@ var MessageList = IMUI.MessageList;
 var ChatInput = IMUI.ChatInput;
 const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, use it to operate  messageList and ChatInput.
 
-// render() 中加入视图标签
-<MessageListView />
-<InputView />
+// add MessageList and ChatInput in render() 
+<MessageList />
+<ChatInput />
 ```
 
-详情可以参考 iOS Android 示例
+Refer to iOS,Android example
 
-> [Android Example 用法](./sample/react-native-android/pages/chat_activity.js)
+> [Android Example usage](./sample/react-native-android/pages/chat_activity.js)
 >
 > [iOS Example usage](./sample/index.ios.js)
 
@@ -33,12 +33,13 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 
 
 - [MessageList](#messagelist)
-  - [Props]()
+  - [Props Event]()
     - [onAvatarClick](#onavatarclick)
     - [onMsgClick](#onmsgclick)
     - [onStatusViewClick](#onstatusviewclick)
     - [onPullToRefresh](#onpulltorefresh)
     - [onTouchMsgList](#ontouchmsglist) 
+  - [Props customizable style]()
     - [sendBubble](#sendbubble)
     - [receiveBubble](#receivebubble)
     - [sendBubbleTextColor](#sendbubbletextcolor)
@@ -54,7 +55,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [avatarCornerRadius](#avatarcornerradius)
     - [showDisplayName](#showdisplayname)
 - [ChatInput](#chatinput)
-  - [Props]()
+  - [Props Event]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
     - [onTakePicture](#ontakepicture)
@@ -72,11 +73,11 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 
 ## AuroraIMUIController
 
-  插入，更新，增加消息到 MessageList, 你需要使用 AuroraIMUIController (Native Module) 来发送事件到 Native。
+For append/update/insert message to MessageList, you will use `AuroraIMUIController`(Native Module) to send event to native.
 
 #### appendMessages
 
-参数：[{message}]
+param: [{[message](./Models.md#message)}]
 
 添加消息到 MessageList 底部，顺序为数组顺序。
 
@@ -101,7 +102,7 @@ AuroraIMUIController.appendMessages(messages);
 
 #### updateMessage
 
-参数：{message}
+param: {[message](./Models.md#message)}
 
 更新消息，可以使用该方法更新消息状态。
 
@@ -126,7 +127,7 @@ AuroraIMUIController.updateMessage(message);
 
 #### insertMessagesToTop
 
-参数：[{message}]
+param: [{[message](./Models.md#message)}]
 
 插入顺序会根据传入的消息数组顺序来排序。
 
@@ -207,6 +208,8 @@ AuroraIMUIController.stopPlayVoice()
   AuroraIMUIController.removeMessageListDidLoadListener(cb)
   ```
 
+
+
 ## MessageList
 
 #### MessageList 事件回调
@@ -217,7 +220,9 @@ AuroraIMUIController.stopPlayVoice()
 
 **PropTypes.function:** ```( message ) => { }```
 
-点击头像触发，message 参数为：```{ message: { messageModel } }```。
+Fires when click avatar.
+
+message param: { "message":  [message](./Models.md#message)  }
 
 ------
 
@@ -225,7 +230,9 @@ AuroraIMUIController.stopPlayVoice()
 
 **PropTypes.function:**  ```(message) => { } ```
 
-点击消息气泡触发，message 参数为：```{ message: { messageModel } }```。
+Fires when click message bubble。
+
+message param: { "message":  [message](./Models.md#message)  }
 
 ------
 
@@ -233,7 +240,9 @@ AuroraIMUIController.stopPlayVoice()
 
 **PropTypes.function:**  ```(message) => { } ```
 
-点击消息状态按钮触发，message 参数为：```{ message: { messageModel } }```。
+Fires when click status view.
+
+message param: { "message":  [message](./Models.md#message)  }
 
 ------
 
@@ -241,15 +250,15 @@ AuroraIMUIController.stopPlayVoice()
 
 **PropTypes.function:** ```() => { } ```
 
-滚动 MessageList 到顶部时，下拉触发, 案例用法: 参考 sample 中的聊天组件中的 onPullToRefresh  方法。
+Fires when pull MessageList to top, example usage: please refer sample's onPullToRefresh method.
 
 ------
 
 #### onTouchMsgList
 
-**PropTypes.function:** ```(message) => { } ```
+**PropTypes.function:** ```() => { } ```
 
-点击消息列表触发。
+Fires when touch message list.
 
 ------
 
@@ -257,14 +266,15 @@ AuroraIMUIController.stopPlayVoice()
 
 **PropTypes.function**
 
-开始滑动消息列表的时候触发，用于调整布局。
-
 ------
 
-#### MessageList 自定义样式
 
-**在 Android 中，如果你想要自定义消息气泡，你需要将一张点九图放在 drawable 文件夹下。 [点九图介绍](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html)，sample 项目的 drawable-xhdpi 文件夹下有示例。**
-**在 iOS 中，如果想自定义消息气泡，需要把消息气泡图片加入到工程中，然后再 sendBubble.imageName 指定图片名字。 如果需要替换默认头像，需要把自己的默认头像加入到 xcode 工程中，并且图片名字改为 defoult_header ,详情参考 sample。**
+
+#### MessageList custom style
+
+**In android, if your want to define your chatting bubble, you need to put a drawable file in drawable folder, and that image file must be nine patch drawable file, see our example for detail.**
+
+**In iOS, if your want to define your chatting bubble,you need to put a image file to you xcode,and specifies sendBubble.imageName or receiveBubble.imageName to image name. if you need to set the default avatar, you need put you default avatar image to you xcode,and adjust the image name to defoult_header,see our example for detail.**
 
 ------
 
@@ -375,6 +385,8 @@ AuroraIMUIController.stopPlayVoice()
 是否显示消息的发送方的名字，Example: ```showDisplayName={ture}```。
 
 ------
+
+
 
 ## ChatInput
 

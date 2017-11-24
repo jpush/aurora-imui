@@ -13,8 +13,8 @@ var ChatInput = IMUI.ChatInput;
 const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, use it to operate  messageList and ChatInput.
 
 // render() 中加入视图标签
-<MessageListView />
-<InputView />
+<MessageList />
+<ChatInput />
 ```
 详情可以参考 iOS Android 示例
 > [Android Example 用法](./sample/react-native-android/pages/chat_activity.js)
@@ -32,12 +32,13 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 
 - [MessageList](#messagelist)
 
-  - [Props]()
+  - [Props 事件]()
     - [onAvatarClick](#onavatarclick)
     - [onMsgClick](#onmsgclick)
     - [onStatusViewClick](#onstatusviewclick)
     - [onPullToRefresh](#onpulltorefresh)
     - [onTouchMsgList](#ontouchmsglist) 
+  - [Props 自定义样式]()
     - [sendBubble](#sendbubble)
     - [receiveBubble](#receivebubble)
     - [sendBubbleTextColor](#sendbubbletextcolor)
@@ -55,7 +56,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 
 - [ChatInput](#chatinput)
 
-  - [Props]()
+  - [Props 事件]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
     - [onTakePicture](#ontakepicture)
@@ -78,7 +79,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 
 #### appendMessages
 
-参数：[{message}]
+参数：[{[message](./Models.md#message)}]
 
 添加消息到 MessageList 底部，顺序为数组顺序。
 
@@ -103,7 +104,7 @@ AuroraIMUIController.appendMessages(messages);
 
 #### updateMessage
 
-参数：{message}
+参数：{[message](./Models.md#message)}
 
 更新消息，可以使用该方法更新消息状态。
 
@@ -128,7 +129,7 @@ AuroraIMUIController.updateMessage(message);
 
 #### insertMessagesToTop
 
-参数：[{message}]
+参数：[{[message](./Models.md#message)}]
 
 插入顺序会根据传入的消息数组顺序来排序。
 
@@ -211,6 +212,7 @@ AuroraIMUIController.stopPlayVoice()
 
 
 
+
 ## MessageList
 
 #### MessageList 事件回调
@@ -221,7 +223,9 @@ AuroraIMUIController.stopPlayVoice()
 
 **PropTypes.function:** ```( message ) => { }```
 
-点击头像触发，message 参数为：```{ message: { messageModel } }```。
+点击头像触发。
+
+message 参数为：{ "message":  [message](./Models.md#message)  }。
 
 ***
 
@@ -229,7 +233,9 @@ AuroraIMUIController.stopPlayVoice()
 
 **PropTypes.function:**  ```(message) => { } ```
 
-点击消息气泡触发，message 参数为：```{ message: { messageModel } }```。
+点击消息气泡触发。
+
+message 参数为：{ "message":  [message](./Models.md#message)  }。
 
 ***
 
@@ -237,7 +243,9 @@ AuroraIMUIController.stopPlayVoice()
 
 **PropTypes.function:**  ```(message) => { } ```
 
-点击消息状态按钮触发，message 参数为：```{ message: { messageModel } }```。
+点击消息状态按钮触发。
+
+message 参数为：{ "message":  [message](./Models.md#message)  }。
 
 ***
 
@@ -251,7 +259,7 @@ AuroraIMUIController.stopPlayVoice()
 
 #### onTouchMsgList
 
-**PropTypes.function:** ```(message) => { } ```
+**PropTypes.function:** ```() => { } ```
 
 点击消息列表触发。
 
@@ -379,6 +387,8 @@ AuroraIMUIController.stopPlayVoice()
 是否显示消息的发送方的名字，Example: ```showDisplayName={ture}```。
 
 ***
+
+
 
 ## ChatInput
 
