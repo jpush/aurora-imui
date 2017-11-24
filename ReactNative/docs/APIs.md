@@ -1,6 +1,8 @@
 # API
 
-#### 用法
+[中文文档](./APIs_zh.md)
+
+#### Usage
 
 ```javascript
 import {
@@ -79,7 +81,7 @@ For append/update/insert message to MessageList, you will use `AuroraIMUIControl
 
 param: [{[message](./Models.md#message)}]
 
-添加消息到 MessageList 底部，顺序为数组顺序。
+Append message to bottom of the MessageList, the display order will be the same as the array of message's.
 
 example:
 
@@ -104,7 +106,7 @@ AuroraIMUIController.appendMessages(messages);
 
 param: {[message](./Models.md#message)}
 
-更新消息，可以使用该方法更新消息状态。
+Update message, since the message status was changed, you should use this method to update your message.
 
 example:
 
@@ -129,7 +131,7 @@ AuroraIMUIController.updateMessage(message);
 
 param: [{[message](./Models.md#message)}]
 
-插入顺序会根据传入的消息数组顺序来排序。
+Insert messages to the top of the MessageList, usually use this method to load history messages.
 
 example:
 
@@ -176,7 +178,7 @@ AuroraIMUIController.insertMessagesToTop(messages);
 
 #### stopPlayVoice
 
-停止正在播放的音频，这里会停止所有的声音，包括 ChatInput 和 MessageList 正在播放的声音。
+Stop playing voice, including media players in ChatInput and MessageList.
 
 example:
 
@@ -188,7 +190,7 @@ AuroraIMUIController.stopPlayVoice()
 
 - addMessageListDidLoadListener(cb)
 
-  `AuroraIMUIController` 初始化会先于 `MessageListView` 完成，如果需要调用对 `MessageListView` 的所有操作(添加消息，删除消息，更新消息)需要在 `MessageListDidLoad`事件触发后才会起作用。
+  The initialization of `AuroraIMUIController` will finish before `MessageListView` 's，If you need do something to `MessageListView` (such as append, insert, update and remove) you need to wait untill `MessageListDidLoad` has been called.
 
   example:
 
@@ -200,7 +202,7 @@ AuroraIMUIController.stopPlayVoice()
 
 - removeMessageListDidLoadListener(cb)
 
-  取消对 `MessageListDidLoad` 事件的监听。
+  Remove listener of `MessageListDidLoad` 
 
   example:
 
@@ -212,7 +214,7 @@ AuroraIMUIController.stopPlayVoice()
 
 ## MessageList
 
-#### MessageList 事件回调
+#### MessageList Event Callback
 
 ------
 
@@ -251,6 +253,8 @@ message param: { "message":  [message](./Models.md#message)  }
 **PropTypes.function:** ```() => { } ```
 
 Fires when pull MessageList to top, example usage: please refer sample's onPullToRefresh method.
+
+**In Android, you should put `onPullToRefresh` in `AndroidPtrLayout`, please refer sample/app/app.js for more detail.**
 
 ------
 
@@ -294,7 +298,7 @@ Fires when touch message list.
 
 **PropTypes.string:** 
 
-设置发送消息的文本颜色，```sendBubbleTextColor="#000000"```。
+Set outgoing message's text color, ```sendBubbleTextColor="#000000"```。
 
 ------
 
@@ -302,7 +306,7 @@ Fires when touch message list.
 
 **PropTypes.string**
 
-设置接收消息的文本颜色，```sendBubbleTextColor="#000000"```。
+Set incoming message's text color, ```sendBubbleTextColor="#000000"```。
 
 ------
 
@@ -310,7 +314,7 @@ Fires when touch message list.
 
 **PropTypes.number**
 
-设置发送消息的文本大小，单位点。
+Set outgoing message's text size.
 
 ------
 
@@ -318,7 +322,7 @@ Fires when touch message list.
 
 **PropTypes.number**
 
-设置接收消息的文本大小，单位点。
+Set incoming message's text size.
 
 ------
 
@@ -326,7 +330,7 @@ Fires when touch message list.
 
 **PropTypes.object：** ```{ left: number, top: number, right: number, bottom: number }```
 
-发送消息泡泡的内边距。
+Set outgoing message's bubble padding.
 
 ------
 
@@ -334,7 +338,7 @@ Fires when touch message list.
 
 **PropTypes.object:** ```{ left: number, top: number, right: number, bottom: number }```
 
-接收消息泡泡的内边距。
+Set incoming message's bubble padding.
 
 ------
 
@@ -342,7 +346,7 @@ Fires when touch message list.
 
 **PropTypes.number:** 
 
-消息时间文字的尺寸大小，单位点。
+Set date text size of message.
 
 ------
 
@@ -350,7 +354,7 @@ Fires when touch message list.
 
 **PropTypes.string:**
 
-消息时间文字的颜色, ```dateTextColor="#000000"```。
+Set date text color of message, ```dateTextColor="#000000"```。
 
 ------
 
@@ -358,7 +362,7 @@ Fires when touch message list.
 
 **PropTypes.number:** 
 
-与上面的不同，这个属性内边距是一样的。
+Set date padding, note this padding  type is not an object, means left, top, right and bottom padding is same.
 
 ------
 
@@ -366,7 +370,9 @@ Fires when touch message list.
 
 **PropTypes.object:**  ```{ width: number, height: number }```
 
-这个对象有宽高两个属性，Example: ```avatarSize = {width: 50, height: 50}```。
+This property including width and height.
+
+Example: ```avatarSize = {width: 50, height: 50}```。
 
 ------
 
@@ -374,7 +380,9 @@ Fires when touch message list.
 
 **PropTypes.number:** 
 
-设置头像圆角半径, Example: ```avatarCornerRadius = {6}```。
+Set fillet radius of avatar.
+
+Example: ```avatarCornerRadius = {6}```。
 
 ------
 
@@ -382,7 +390,9 @@ Fires when touch message list.
 
 **PropTypes.bool:**
 
-是否显示消息的发送方的名字，Example: ```showDisplayName={ture}```。
+Show sender's display name or not.
+
+Example: ```showDisplayName={ture}```。
 
 ------
 
@@ -390,15 +400,15 @@ Fires when touch message list.
 
 ## ChatInput
 
-#### ChatInput 事件回调
+#### ChatInput Event Callback
 
 ------
 
 #### onSendText
 
-**PropTypes.function:** ```(result) => {}```
+**PropTypes.function:** ```(text) => {}```
 
-输入文字后点击发送按钮触发，result 参数为 ```{text: string}```。
+After inputting text, fires when click send button, the text is the sending string(`text: string`).
 
 ------
 
@@ -406,7 +416,9 @@ Fires when touch message list.
 
 **PropTypes.function:** ```(result) => {}```
 
- 选中视频或图片后点击发送按钮触发，result 参数为 ```{mediaFiles: [string]}```, 图片路径数组。
+After choosing picutres or videos, fires when click send button.
+
+ Result's type is ```{mediaFiles: [string]}```, including choosing files' path.
 
 ------
 
@@ -414,7 +426,7 @@ Fires when touch message list.
 
 **PropTypes.function:** ```(result) => {}```
 
- 点击拍照按钮触发， result 参数为 ```{mediaPath: string}```。
+Fires when click take picture button, result's type is ```{mediaPath: string}```。
 
 ------
 
@@ -422,7 +434,7 @@ Fires when touch message list.
 
 **PropTypes.function:** ``` () => {}```
 
- 点击录制视频按钮触发。
+Fires when click record video button.
 
 ------
 
@@ -430,7 +442,9 @@ Fires when touch message list.
 
 **PropTypes.function:**``` (result) => {}```
 
- 完成录制视频触发，result 参数为 ```{mediaPath: string, durationTime: number}```。
+ Fires when finished recording video. 
+
+Result's type is  ```{mediaPath: string, durationTime: number}```。
 
 ------
 
@@ -438,7 +452,7 @@ Fires when touch message list.
 
 **PropTypes.function:**
 
- 取消录制视频触发。
+Fires when click cancel record video button.
 
 ------
 
@@ -446,7 +460,7 @@ Fires when touch message list.
 
 **PropTypes.function:**```() => {} ```
 
- 点击录音按钮触发。
+ Fires when click record audio button.
 
 ------
 
@@ -454,7 +468,9 @@ Fires when touch message list.
 
 **PropTypes.function:**``` (result) => {}```
 
-录音完成后松开手指触发，result 参数为 ```{mediaPath: string, duration: number}```。
+After finishing recording audio, fires when finger left from screen,
+
+Result's type is ```{mediaPath: string, duration: number}```。
 
 ------
 
@@ -462,7 +478,7 @@ Fires when touch message list.
 
 **PropTypes.function:**```() => {} ```
 
- 手指移动到取消录音区域后，抬起手指触发。
+ Fires when finger move to cancel record zone, and left from screen.
 
 ------
 
@@ -470,7 +486,7 @@ Fires when touch message list.
 
 **PropTypes.function:** ```() => {} ```
 
- 点击菜单栏麦克风按钮触发。
+Fires when click microphone button in menu.
 
 ------
 
@@ -478,7 +494,7 @@ Fires when touch message list.
 
 **PropTypes.function:** ```() => {} ```
 
- 点击菜单栏图片按钮触发。
+Fires when click picture button in menu.
 
 ------
 
@@ -486,7 +502,7 @@ Fires when touch message list.
 
 **PropTypes.function:** ```() => {} ```
 
- 点击菜单栏拍照按钮触发。
+ Fires when click camera button in menu.
 
 ------
 
@@ -494,7 +510,7 @@ Fires when touch message list.
 
 **PropTypes.function:** ```() => {} ```
 
- 点击菜单栏表情按钮触发。
+Fires when click emoji button in menu.
 
 ------
 
@@ -502,5 +518,5 @@ Fires when touch message list.
 
 **PropTypes.function:** （Android only）
 
-点击输入框触发。
+Fires when click input view.
 

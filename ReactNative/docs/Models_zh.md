@@ -1,4 +1,4 @@
-[中文文档](./Models_zh.md)
+[English Document](./Models.md)
 
 ## Contents
 
@@ -25,7 +25,7 @@ fromUser = {
 
 ### Message
 
-**status must be one of the following values: "send_succeed", "send_failed", "send_going", "download_failed"，if you don't specify it, default value will be "send_succeed".**
+**status 必须为以下四个值之一: "send_succeed", "send_failed", "send_going", "download_failed"，如果没有定义这个属性， 默认值是 "send_succeed".**
 
 #### TextMessage
 
@@ -37,7 +37,7 @@ fromUser = {
     isOutgoing: true,
     text: "text",
     fromUser: {},
-    extras: {}// option
+    extras: {}// 选填，可以在消息中添加附加字段
 }
 ```
 
@@ -51,7 +51,7 @@ imageMessage = {
     progress: "progress string",
     mediaPath: "image path",
     fromUser: {}，
-    extras: {}// option
+    extras: {}// 选填，可以在消息中添加附加字段
 }
 ```
 
@@ -62,10 +62,10 @@ message = {
     msgId: "msgid",
     msgType: "voice",
     isOutGoing: true,
-    duration: number, // duration of voice message, second
+    duration: number, // 注意这个值有用户自己设置时长，单位秒
     mediaPath: "voice path",
     fromUser: {},
-    extras: {}// option
+    extras: {}// 选填，可以在消息中添加附加字段
 }
 ```
 
@@ -80,7 +80,7 @@ videoMessage = {  // video message
     druation: number,
     mediaPath: "voice path",
     fromUser: {},
-    extras: {}// option
+    extras: {}// 选填，可以在消息中添加附加字段
 }s
 ```
 
@@ -93,9 +93,9 @@ customMessage = {  // custom message
     status: "send_failed",
     isOutgoing: true,
     contentSize: {height: 100, width: 100},
-    content: "<h1>custom message will render html string</h1>", // content is html format, avoid to use <script>
+    content: "<h1>custom message will render html string</h1>", // content 为 html 字符串，应尽量避免 <script> 标签
     fromUser: {}, 
-    extras: {}// option
+    extras: {}// 选填，可以在消息中添加附加字段
 }
 ```
 

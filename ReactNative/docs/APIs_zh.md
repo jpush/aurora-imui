@@ -1,5 +1,7 @@
 # API
 
+[English Document](./APIs.md)
+
 #### 用法
 
 ```javascript
@@ -254,6 +256,8 @@ message 参数为：{ "message":  [message](./Models.md#message)  }。
 **PropTypes.function:** ```() => { } ```
 
 滚动 MessageList 到顶部时，下拉触发, 案例用法: 参考 sample 中的聊天组件中的 onPullToRefresh  方法。
+
+**Android 中，需要把该事件放到 `AndroidPtrLayout` 下，可以参考 sample/app/app.js **
 
 ***
 
