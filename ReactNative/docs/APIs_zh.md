@@ -76,9 +76,13 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 
   插入，更新，增加消息到 MessageList, 你需要使用 AuroraIMUIController (Native Module) 来发送事件到 Native。
 
-#### appendMessages([message])
+#### appendMessages
 
- example:
+参数：[{message}]
+
+添加消息到 MessageList 底部，顺序为数组顺序。
+
+example:
 
 ```javascript
 var messages = [{
@@ -97,7 +101,11 @@ var messages = [{
 AuroraIMUIController.appendMessages(messages);
 ```
 
-#### updateMessage(message)
+#### updateMessage
+
+参数：{message}
+
+更新消息，可以使用该方法更新消息状态。
 
 example:
 
@@ -118,7 +126,9 @@ var message = {
 AuroraIMUIController.updateMessage(message);
 ```
 
-#### insertMessagesToTop([message])
+#### insertMessagesToTop
+
+参数：[{message}]
 
 插入顺序会根据传入的消息数组顺序来排序。
 
@@ -480,9 +490,9 @@ AuroraIMUIController.stopPlayVoice()
 
 ***
 
-#### onTouchEditText（Android only）
+#### onTouchEditText
 
-**PropTypes.function:** 
+**PropTypes.function:** （Android only）
 
 点击输入框触发。
 
