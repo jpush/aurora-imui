@@ -210,7 +210,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
 
     private int getCustomType(IMessage message) {
         for (int i=0; i < mCustomMsgList.size(); i++) {
-            CustomMsgConfig config = mCustomMsgList.valueAt(0);
+            CustomMsgConfig config = mCustomMsgList.valueAt(i);
             if (message.getType().getCustomType() == config.getViewType()) {
                 return config.getViewType();
             }
