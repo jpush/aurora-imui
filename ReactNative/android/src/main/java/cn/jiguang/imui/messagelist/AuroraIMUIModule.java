@@ -3,6 +3,7 @@ package cn.jiguang.imui.messagelist;
 
 import android.util.Log;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -15,10 +16,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
+
+import static cn.jiguang.imui.messagelist.ReactMsgListManager.RCT_REMOVE_MESSAGE_ACTION;
 
 public class AuroraIMUIModule extends ReactContextBaseJavaModule {
 
@@ -26,6 +30,7 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
     public static final String RCT_MESSAGE_LIST_LOADED_ACTION = "cn.jiguang.imui.messagelist.intent.messageLoaded";
 
     private static final String MESSAGE_LIST_DID_LOAD_EVENT = "IMUIMessageListDidLoad";
+    public static final String GET_INPUT_TEXT_EVENT = "getInputText";
 
     public AuroraIMUIModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -54,6 +59,14 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
         if (event.getAction().equals(RCT_MESSAGE_LIST_LOADED_ACTION)) {
             getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit(MESSAGE_LIST_DID_LOAD_EVENT, null);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(GetTextEvent event) {
+        if (event.getAction().equals(GET_INPUT_TEXT_EVENT)) {
+            getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit(GET_INPUT_TEXT_EVENT, event.getText());
         }
     }
 
@@ -159,6 +172,12 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
             }
         }
         return rctMsg;
+    }
+
+    @ReactMethod
+    public void removeMessage(String id) {
+        MessageEvent event = new MessageEvent(id, RCT_REMOVE_MESSAGE_ACTION);
+        EventBus.getDefault().post(event);
     }
 
     @ReactMethod

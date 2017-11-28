@@ -216,6 +216,14 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setSendingIndeterminateDrawable(getResources().getDrawable(resId));
     }
 
+    public void setLineSpacingExtra(int spacing) {
+        mMsgListStyle.setLineSpacingExtra(spacing);
+    }
+
+    public void setLineSpacingMultiplier(float mult) {
+        mMsgListStyle.setLineSpacingMultiplier(mult);
+    }
+
     @Override
     public boolean onDown(MotionEvent e) {
         return false;

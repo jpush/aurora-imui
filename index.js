@@ -12,6 +12,7 @@ const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
 
 const listeners = {};
 const IMUIMessageListDidLoad = "IMUIMessageListDidLoad";
+const GET_INPUT_TEXT_EVENT = "getInputText";
 
 class AuroraIMUIController {
 	/**
@@ -32,6 +33,14 @@ class AuroraIMUIController {
 	}
 
 	/**
+	 * insert messages into messageList's top
+	 * @param {Array} messageList  [message]
+	 */
+	static insertMessagesToTop(messageList) {
+		AuroraIMUIModule.insertMessagesToTop(messageList)
+	}
+
+	/**
 	 * remove message from messageList
 	 * @param {String} messageId
 	 */
@@ -40,28 +49,12 @@ class AuroraIMUIController {
 	}
 
 	/**
-	 * insert messages into messageList's top
-	 * @param {Array} messageList  [message]
-	 */
-	static insertMessagesToTop(messageList) {
-		AuroraIMUIModule.insertMessagesToTop(messageList)
-	}
-
- 	/**
-	 * remove message from messageList
-	 * @param {String} messageId
-	 */
-	static removeMessage(messageId) {
-		AuroraIMUIModule.removeMessage(messageId)
-	}
-
- 	/**
 	 * stop play voice 
-     */
+	 */
 	static stopPlayVoice() {
 		AuroraIMUIModule.stopPlayVoice()
 	}
-	
+
 	/**
 	 * scroll messageList to bottom
 	 * @param {Boolean} animate 
@@ -77,14 +70,7 @@ class AuroraIMUIController {
 	static hidenFeatureView(animate) {
 		AuroraIMUIModule.hidenFeatureView(animate)
 	}
-
-	/**
-	 * stop play voice 
-	 */
-	static stopPlayVoice() {
-		AuroraIMUIModule.stopPlayVoice()
-	}
-
+	
 	/**
 	 * add listener: messageList did Loaded will call cb
 	 * @param {Function} cb 
@@ -96,11 +82,25 @@ class AuroraIMUIController {
 			});
 	}
 
+	static addGetInputTextListener(cb) {
+		listeners[cb] = DeviceEventEmitter.addListener(GET_INPUT_TEXT_EVENT, (text) => {
+			cb(text);
+		});
+	}
+
 	/**
 	 * remove listener:
 	 * @param {Function} cb 
 	 */
 	static removeMessageListDidLoadListener(cb) {
+		if (!listeners[cb]) {
+			return;
+		}
+		listeners[cb].remove();
+		listeners[cb] = null;
+	}
+
+	static removeGetInputTextListener(cb) {
 		if (!listeners[cb]) {
 			return;
 		}

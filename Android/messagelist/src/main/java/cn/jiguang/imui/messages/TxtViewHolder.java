@@ -119,6 +119,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
     @Override
     public void applyStyle(MessageListStyle style) {
         mMsgTv.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
+        mMsgTv.setLineSpacing(style.getLineSpacingExtra(), style.getLineSpacingMultiplier());
         if (mIsSender) {
             mMsgTv.setBackground(style.getSendBubbleDrawable());
             mMsgTv.setTextColor(style.getSendBubbleTextColor());

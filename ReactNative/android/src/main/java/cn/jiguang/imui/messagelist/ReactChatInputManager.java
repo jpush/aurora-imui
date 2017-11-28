@@ -4,12 +4,19 @@ import android.Manifest;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
@@ -33,13 +40,14 @@ import java.util.Map;
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.listener.CameraControllerListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
-import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
+import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
+import cn.jiguang.imui.utils.DisplayUtil;
 import sj.keyboard.utils.EmoticonsKeyboardUtils;
 
 /**
@@ -66,10 +74,14 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String ON_TOUCH_EDIT_TEXT_EVENT = "onTouchEditText";
     private static final String ON_FULL_SCREEN_EVENT = "onFullScreen";
     private static final String ON_RECOVER_SCREEN_EVENT = "onRecoverScreen";
+    private static final String ON_INPUT_LINE_CHANGED_EVENT = "onLineChanged";
     private final int REQUEST_PERMISSION = 0x0001;
+    private final int CLOSE_SOFT_INPUT = 100;
+    private final int GET_INPUT_TEXT = 101;
 
-    private boolean mIsShowSoftInput;
     private ChatInputView mChatInput;
+    private ReactContext mContext;
+    private int mWidth;
 
     @Override
     public String getName() {
@@ -78,14 +90,15 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
     @Override
     protected ChatInputView createViewInstance(final ThemedReactContext reactContext) {
+        mContext = reactContext;
         EventBus.getDefault().register(this);
         final Activity activity = reactContext.getCurrentActivity();
         mChatInput = new ChatInputView(activity, null);
-        mChatInput.getInputView().setOnTouchListener(new View.OnTouchListener() {
+        final EditText editText = mChatInput.getInputView();
+        editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mIsShowSoftInput = true;
                     reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_TOUCH_EDIT_TEXT_EVENT, null);
                     if (!mChatInput.isFocused()) {
                         EmoticonsKeyboardUtils.openSoftKeyboard(mChatInput.getInputView());
@@ -94,6 +107,41 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                     EventBus.getDefault().post(new ScrollEvent(false));
                 }
                 return false;
+            }
+        });
+        int sp = DisplayUtil.dp2px(reactContext, 38);
+        int width = reactContext.getResources().getDisplayMetrics().widthPixels;
+        mWidth = width - sp;
+        Log.i("React", "edit text width: " + mWidth);
+        editText.addTextChangedListener(new TextWatcher() {
+            private CharSequence temp;
+            private int editStart;
+            private int editEnd;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                temp = s;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editStart = editText.getSelectionStart();
+                editEnd = editText.getSelectionEnd();
+                float px = editText.getTextSize();
+                int len = temp.length();
+                double length = Math.floor(mWidth / px);
+                if (len > length) {
+                    int offset = (int) (len / length) + 1;
+                    WritableMap map = Arguments.createMap();
+                    map.putInt("line", offset);
+                    Log.i("React", "native line count: " + offset);
+                    reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
+                            ON_INPUT_LINE_CHANGED_EVENT, map);
+                }
             }
         });
         // Use default layout
@@ -145,12 +193,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                         Manifest.permission.RECORD_AUDIO
                 };
 
-//                if ((ActivityCompat.checkSelfPermission(activity, perms[0]) != PackageManager.PERMISSION_GRANTED
-//                        && ActivityCompat.checkSelfPermission(activity, perms[1]) != PackageManager.PERMISSION_GRANTED
-//                        && ActivityCompat.checkSelfPermission(activity, perms[2]) != PackageManager.PERMISSION_GRANTED
-//                        && ActivityCompat.checkSelfPermission(activity, perms[3]) != PackageManager.PERMISSION_GRANTED)) {
-//                    ActivityCompat.requestPermissions(activity, perms, REQUEST_PERMISSION);
-//                }
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_MIC_EVENT, null);
                 return true;
@@ -306,6 +348,13 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         }
     }
 
+    @ReactProp(name = "inputViewHeight")
+    public void setEditTextHeight(ChatInputView chatInputView, int height) {
+        Log.i("React", "setting edit text height: " + height);
+        EditText editText = chatInputView.getInputView();
+        editText.setLayoutParams(new LinearLayout.LayoutParams(mWidth, height));
+    }
+
     @Override
     public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.<String, Object>builder()
@@ -325,6 +374,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 .put(ON_TOUCH_EDIT_TEXT_EVENT, MapBuilder.of("registrationName", ON_TOUCH_EDIT_TEXT_EVENT))
                 .put(ON_FULL_SCREEN_EVENT, MapBuilder.of("registrationName", ON_FULL_SCREEN_EVENT))
                 .put(ON_RECOVER_SCREEN_EVENT, MapBuilder.of("registrationName", ON_RECOVER_SCREEN_EVENT))
+                .put(ON_INPUT_LINE_CHANGED_EVENT, MapBuilder.of("registrationName", ON_INPUT_LINE_CHANGED_EVENT))
                 .build();
     }
 
@@ -332,5 +382,24 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     public void onDropViewInstance(ChatInputView view) {
         super.onDropViewInstance(view);
         EventBus.getDefault().unregister(this);
+    }
+
+    @Nullable
+    @Override
+    public Map<String, Integer> getCommandsMap() {
+        return MapBuilder.of("close_soft_input",CLOSE_SOFT_INPUT);
+    }
+
+    @Override
+    public void receiveCommand(ChatInputView root, int commandId, @Nullable ReadableArray args) {
+        switch (commandId){
+            case CLOSE_SOFT_INPUT:
+                EmoticonsKeyboardUtils.closeSoftKeyboard(root.getInputView());
+                break;
+            case GET_INPUT_TEXT:
+                EventBus.getDefault().post(new GetTextEvent(root.getInputView().getText().toString(),
+                        AuroraIMUIModule.GET_INPUT_TEXT_EVENT));
+                break;
+        }
     }
 }

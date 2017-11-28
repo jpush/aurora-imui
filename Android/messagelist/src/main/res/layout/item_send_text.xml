@@ -52,6 +52,7 @@
             android:layout_below="@+id/aurora_tv_msgitem_sender_display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
             android:layout_marginRight="3dp"
             android:background="@drawable/aurora_sendtxt_bubble"
             android:paddingRight="20dp"
