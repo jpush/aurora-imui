@@ -83,15 +83,18 @@ export default class TestRNIMUI extends Component {
   }
 
   componentDidMount() {
+    
+    
+
     AuroraIController.addMessageListDidLoadListener(() => {
       // messagelist is ready to insert message.
       this.getHistoryMessage()
     });
-    AuroraIController.addGetInputTextListener((text) => {
-      this.setState({
-        inputText: text
-      })
-    })
+    // AuroraIController.addGetInputTextListener((text) => {
+    //   this.setState({
+    //     inputText: text
+    //   })
+    // })
   }
 
   getHistoryMessage() {
