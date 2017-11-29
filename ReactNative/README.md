@@ -63,8 +63,8 @@ dependencies {
   const AuroraIMUIController = IMUI.AuroraIMUIController;
 ```
 Refer to iOS,Android example
-> [iOS Example usage](./sample/index.ios.js)
-> [Android Example usage](./sample/react-native-android/pages/chat_activity.js)
+> [iOS Example usage](./sample/app/app.js)
+> [Android Example usage](./sample/app/app.js)
 ## Data format
 
 By using MessageList, you need define `message` object and `fromUser` object.
