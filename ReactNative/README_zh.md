@@ -67,8 +67,8 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 <InputView />
 ```
 详情可以参考 iOS Android 示例
-> [Android Example 用法](./sample/react-native-android/pages/chat_activity.js)
-> [iOS Example usage](./sample/index.ios.js)
+> [Android Example 用法](./sample/app/app.js)
+> [iOS Example usage](./sample/app/app.js)
 ## 数据格式
 
 使用 MessageList，你需要定义 `message` 对象和 `fromUser` 对象。
