@@ -79,12 +79,12 @@ export default class TestRNIMUI extends Component {
     }
 
     this.updateLayout = this.updateLayout.bind(this);
-    this.resetMenu()
+    
   }
 
   componentDidMount() {
     
-    
+    this.resetMenu()
 
     AuroraIController.addMessageListDidLoadListener(() => {
       // messagelist is ready to insert message.
