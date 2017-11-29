@@ -22,7 +22,7 @@ dependencies {
 }
 ```
 
-**注意事项（Android）：我们使用了 support v4, v7 25.3.1 版本，因此需要将你的 build.gradle 中 buildToolsVersion 及 compiledSdkVersion 改为 25 以上。可以参考 sample 的配置。**
+**注意事项（Android）：我们使用了 support v4, v7 25.3.1 版本，因此需要将你的 build.gradle 中 buildToolsVersion 及 compileSdkVersion 改为 25 以上。可以参考 sample 的配置。**
 
 ## 配置
 
