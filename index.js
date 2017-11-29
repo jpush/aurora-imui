@@ -82,6 +82,11 @@ class AuroraIMUIController {
 			});
 	}
 
+	/**
+	 * Get Input text, Android Only
+	 * @param {Function} cb
+	 * @param {String} text 
+	 */
 	static addGetInputTextListener(cb) {
 		listeners[cb] = DeviceEventEmitter.addListener(GET_INPUT_TEXT_EVENT, (text) => {
 			cb(text);

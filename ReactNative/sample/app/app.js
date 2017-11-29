@@ -90,11 +90,13 @@ export default class TestRNIMUI extends Component {
       // messagelist is ready to insert message.
       this.getHistoryMessage()
     });
-    // AuroraIController.addGetInputTextListener((text) => {
-    //   this.setState({
-    //     inputText: text
-    //   })
-    // })
+    if (Platform.OS == "android") {
+      AuroraIController.addGetInputTextListener((text) => {
+        this.setState({
+          inputText: text
+        })
+      })
+    }
   }
 
   getHistoryMessage() {
@@ -230,12 +232,14 @@ export default class TestRNIMUI extends Component {
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
 
-    this.setState({
-      inputText: "",
-      lineCount: 1,
-      inputHeight: 120,
-      inputViewLayout: { width: window.width, height: 825 }
-    })
+    if (Platform.OS == "android") {
+      this.setState({
+        inputText: "",
+        lineCount: 1,
+        inputHeight: 120,
+        inputViewLayout: { width: window.width, height: 825 }
+      })
+    }
   }
 
   onTakePicture = (mediaPath) => {
