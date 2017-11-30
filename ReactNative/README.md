@@ -355,5 +355,5 @@ Size object include width and height properties.
 
 - avatarSize: PropTypes.object -- Example: avatarSize = {width: 50, height: 50}
 - avatarCornerRadius: PropTypes.number — Example: avatarCornerRadius = {6}
-- showDisplayName: PropTypes.bool, 
+- isShowDisplayName: PropTypes.bool, 
 
