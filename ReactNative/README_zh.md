@@ -358,5 +358,5 @@ padding 对象包括四个属性: left, top, right, bottom.
 
 - avatarSize: PropTypes.object -- 这个对象有宽高两个属性，Example: avatarSize = {width: 50, height: 50}
 - avatarCornerRadius: PropTypes.number — 设置头像圆角半径Example: avatarCornerRadius = {6}
-- showDisplayName: PropTypes.bool, 
+- isShowDisplayName: PropTypes.bool, 
 
