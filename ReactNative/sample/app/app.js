@@ -470,7 +470,7 @@ export default class TestRNIMUI extends Component {
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
         />
-        }
+        
         <InputView style={this.state.inputViewLayout}
           menuContainerHeight={this.state.menuContainerHeight}
           isDismissMenuContainer={this.state.isDismissMenuContainer}
