@@ -79,19 +79,24 @@ export default class TestRNIMUI extends Component {
     }
 
     this.updateLayout = this.updateLayout.bind(this);
-    this.resetMenu()
+    
   }
 
   componentDidMount() {
+    
+    this.resetMenu()
+
     AuroraIController.addMessageListDidLoadListener(() => {
       // messagelist is ready to insert message.
       this.getHistoryMessage()
     });
-    AuroraIController.addGetInputTextListener((text) => {
-      this.setState({
-        inputText: text
+    if (Platform.OS == "android") {
+      AuroraIController.addGetInputTextListener((text) => {
+        this.setState({
+          inputText: text
+        })
       })
-    })
+    }
   }
 
   getHistoryMessage() {
@@ -227,12 +232,14 @@ export default class TestRNIMUI extends Component {
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
 
-    this.setState({
-      inputText: "",
-      lineCount: 1,
-      inputHeight: 120,
-      inputViewLayout: { width: window.width, height: 825 }
-    })
+    if (Platform.OS == "android") {
+      this.setState({
+        inputText: "",
+        lineCount: 1,
+        inputHeight: 120,
+        inputViewLayout: { width: window.width, height: 825 }
+      })
+    }
   }
 
   onTakePicture = (mediaPath) => {
@@ -463,7 +470,7 @@ export default class TestRNIMUI extends Component {
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
         />
-        }
+        
         <InputView style={this.state.inputViewLayout}
           menuContainerHeight={this.state.menuContainerHeight}
           isDismissMenuContainer={this.state.isDismissMenuContainer}
