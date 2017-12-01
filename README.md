@@ -37,6 +37,7 @@ Currently support for display and input message types:
 - Image
 - Voice
 - Video
+- Custom
 
 
 ## Usage
