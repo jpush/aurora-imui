@@ -19,9 +19,9 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 <ChatInput />
 ```
 详情可以参考 iOS Android 示例
-> [Android Example 用法](./sample/react-native-android/pages/chat_activity.js)
->
-> [iOS Example usage](./sample/index.ios.js)
+> [Example 用法](./../sample/app/app.js)
+
+
 
 - [AuroraIMUIController](#auroraimuicontroller)
   - [appendMessages](#appendmessages)
@@ -54,7 +54,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [datePadding](#datepadding)
     - [avatarSize](#avatarsize)
     - [avatarCornerRadius](#avatarcornerradius)
-    - [showDisplayName](#showdisplayname)
+    - [isShowDisplayName](#isShowdisplayname)
 
 - [ChatInput](#chatinput)
 
@@ -384,11 +384,11 @@ message 参数为：{ "message":  [message](./Models.md#message)  }。
 
 ***
 
-#### showDisplayName
+#### isShowDisplayName
 
 **PropTypes.bool:**
 
-是否显示消息的发送方的名字，Example: ```showDisplayName={ture}```。
+是否显示消息的发送方的名字，Example: ```isShowDisplayName={ture}```。
 
 ***
 
