@@ -44,6 +44,7 @@ function constructNormalMessage() {
     displayName: "replace your nickname",
     avatarPath: "ironman"
   }
+  user.avatarPath = RNFS.MainBundlePath + '/defoult_header.png'
   message.fromUser = user
 
   return message
@@ -111,7 +112,9 @@ export default class TestRNIMUI extends Component {
 
   componentWillUnmount() {
       AuroraIController.removeMessageListDidLoadListener(MessageListDidLoadEvent)
-      AuroraIController.removeGetInputTextListener(getInputTextEvent)
+      if (Platform.OS == "android") {
+        AuroraIController.removeGetInputTextListener(getInputTextEvent)
+      }
   }
 
   expendMenu() {
@@ -174,7 +177,6 @@ export default class TestRNIMUI extends Component {
 
   onStatusViewClick = (message) => {
     message.status = 'send_succeed'
-    message.fromUser.avatarPath = message.mediaPath
     AuroraIController.updateMessage(message)
   }
 
@@ -184,11 +186,13 @@ export default class TestRNIMUI extends Component {
   }
 
   onTouchMsgList = () => {
-    this.refs["ChatInput"].getInputText()
-    if (this.state.inputText == "") {
-      this.setState({
-        lineCount: 1
-      })
+    if (Platform.OS == "android") {
+      this.refs["ChatInput"].getInputText()
+      if (this.state.inputText == "") {
+        this.setState({
+          lineCount: 1
+        })
+      }
     }
     this.resetMenu()
     AuroraIController.hidenFeatureView(true)
@@ -217,22 +221,15 @@ export default class TestRNIMUI extends Component {
 
   onSendText = (text) => {
     var message = constructNormalMessage()
-
-    var user = {
-      userId: "fasdf",
-      displayName: "asfddsfa",
-      avatarPath: "ironman"
-    }
-    message.fromUser = user
     var evenmessage = constructNormalMessage()
 
-    message.msgType = "text"
+    message.msgType = 'text'
     message.text = text
 
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
 
-    if (Platform.OS == "android") {
+    if (Platform.OS === 'android') {
       this.setState({
         inputText: "",
         lineCount: 1,
@@ -245,7 +242,7 @@ export default class TestRNIMUI extends Component {
   onTakePicture = (mediaPath) => {
 
     var message = constructNormalMessage()
-    message.msgType = "image"
+    message.msgType = 'image'
     message.mediaPath = mediaPath
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)

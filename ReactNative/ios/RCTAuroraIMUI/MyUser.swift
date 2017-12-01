@@ -43,15 +43,11 @@ open class RCTUser: NSObject, IMUIUserProtocol {
   
   public func Avatar() -> UIImage {
     if let path = self.rAvatarFilePath {
-      let url = NSURL(fileURLWithPath: path)
       let fileManager = FileManager.default
       if fileManager.fileExists(atPath: path) {
         return UIImage(contentsOfFile: path)!
-      } else {
-        return UIImage(named: "defoult_header")!
       }
-    } else {
-      return UIImage(named: "defoult_header")!
     }
+    return UIImage()
   }
 }

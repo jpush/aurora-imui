@@ -21,9 +21,9 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 
 Refer to iOS,Android example
 
-> [Android Example usage](./sample/react-native-android/pages/chat_activity.js)
->
-> [iOS Example usage](./sample/index.ios.js)
+> [Example usage](./../sample/app/app.js)
+
+
 
 - [AuroraIMUIController](#auroraimuicontroller)
   - [appendMessages](#appendmessages)
@@ -55,7 +55,7 @@ Refer to iOS,Android example
     - [datePadding](#datepadding)
     - [avatarSize](#avatarsize)
     - [avatarCornerRadius](#avatarcornerradius)
-    - [showDisplayName](#showdisplayname)
+    - [isShowDisplayName](#isShowdisplayname)
 - [ChatInput](#chatinput)
   - [Props Event]()
     - [onSendText](#onsendtext)
@@ -386,13 +386,13 @@ Example: ```avatarCornerRadius = {6}```。
 
 ------
 
-#### showDisplayName
+#### isShowDisplayName
 
 **PropTypes.bool:**
 
 Show sender's display name or not.
 
-Example: ```showDisplayName={ture}```。
+Example: ```isShowDisplayName={ture}```。
 
 ------
 
