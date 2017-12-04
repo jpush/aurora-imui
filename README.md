@@ -9,7 +9,7 @@ Aurora IMUI is a general IM UI components, which is not depending on any specifi
 
 This library provides common UI components such as MessageList, InputView. It supports common message type, such as text, image, audio, video, etc. By default it has several UI style for choice, and also support style customization.
 
-We already have Android/iOS platforms support. We also plan to support React Native.
+We already have Android/iOS/React Native platforms support.
 
 
 <p align="center">
