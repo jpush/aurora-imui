@@ -5,9 +5,9 @@
 # Aurora IMUI
 [中文文档](./README_zh.md)
 
-Aurora IMUI is a general IM UI components, which is not depending on any specific IM SDK.
+Aurora IMUI is a general IM UI components library, which does not depend on any specific IM SDK.
 
-This library provides common UI components such as MessageList, InputView. It supports common message type, such as text, image, audio, video, etc. By default it has several UI style for choice, and also support style customization.
+This library provides common UI components such as MessageList, InputView. It supports common message type, such as text, image, audio, video, etc. By default it has several UI style for choice, and also supports style customization.
 
 We already have Android/iOS/React Native platforms support.
 Please refer to [aurora-imui-examples](https://github.com/jpush/aurora-imui-examples) for more examples.
@@ -41,6 +41,7 @@ Currently support for display and input message types:
 
 
 ## Usage
+
 Ready components:
 
 ### Android
@@ -56,7 +57,9 @@ Ready components:
 
 ## Contribute
 
-Please contribute! [Look at the issues](https://github.com/jpush/imui/issues).
+Welcome contribution! [Look at the issues](https://github.com/jpush/imui/issues).
 
 ## License
+
 MIT © [JiGuang](/LICENSE)
+
