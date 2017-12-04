@@ -106,7 +106,7 @@ AuroraIMUIController.appendMessages(messages);
 
 #### updateMessage
 
-参数：{[message](./Models.md#message)}
+参数：{[message](./Models_zh.md#message)}
 
 更新消息，可以使用该方法更新消息状态。
 
@@ -131,7 +131,7 @@ AuroraIMUIController.updateMessage(message);
 
 #### insertMessagesToTop
 
-参数：[{[message](./Models.md#message)}]
+参数：[{[message](./Models_zh.md#message)}]
 
 插入顺序会根据传入的消息数组顺序来排序。
 
@@ -227,7 +227,7 @@ AuroraIMUIController.stopPlayVoice()
 
 点击头像触发。
 
-message 参数为：{ "message":  [message](./Models.md#message)  }。
+message 参数为：{ "message":  [message](./Models_zh.md#message))  }。
 
 ***
 
@@ -237,7 +237,7 @@ message 参数为：{ "message":  [message](./Models.md#message)  }。
 
 点击消息气泡触发。
 
-message 参数为：{ "message":  [message](./Models.md#message)  }。
+message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 
 ***
 
@@ -247,7 +247,7 @@ message 参数为：{ "message":  [message](./Models.md#message)  }。
 
 点击消息状态按钮触发。
 
-message 参数为：{ "message":  [message](./Models.md#message)  }。
+message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 
 ***
 
