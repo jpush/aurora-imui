@@ -101,7 +101,9 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     @SuppressWarnings("unchecked")
     @Override
     protected MessageList createViewInstance(final ThemedReactContext reactContext) {
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         registerProximitySensorListener();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
