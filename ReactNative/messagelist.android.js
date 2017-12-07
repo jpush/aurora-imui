@@ -30,28 +30,28 @@ export default class MessageList extends Component {
     if (!this.props.onMsgClick) {
       return;
     }
-    this.props.onMsgClick(event.nativeEvent.message);
+    this.props.onMsgClick(JSON.parse(event.nativeEvent.message));
   }
 
   _onMsgLongClick(event: Event) {
     if (!this.props.onMsgLongClick) {
       return;
     }
-    this.props.onMsgLongClick(event.nativeEvent.message);
+    this.props.onMsgLongClick(JSON.parse(event.nativeEvent.message));
   }
 
   _onAvatarClick(event: Event) {
     if (!this.props.onAvatarClick) {
       return;
     }
-    this.props.onAvatarClick(event.nativeEvent.message);
+    this.props.onAvatarClick(JSON.parse(event.nativeEvent.message));
   }
 
   _onStatusViewClick(event: Event) {
     if (!this.props.onStatusViewClick) {
       return;
     }
-    this.props.onStatusViewClick(event.nativeEvent.message);
+    this.props.onStatusViewClick(JSON.parse(event.nativeEvent.message));
   }
 
   _onTouchMsgList() {
