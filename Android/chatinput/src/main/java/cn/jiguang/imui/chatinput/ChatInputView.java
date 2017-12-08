@@ -86,9 +86,6 @@ public class ChatInputView extends LinearLayout
     public static final byte KEYBOARD_STATE_HIDE = -2;
     public static final byte KEYBOARD_STATE_INIT = -1;
 
-    public static final int REQUEST_CODE_TAKE_PHOTO = 0x0001;
-    public static final int REQUEST_CODE_SELECT_PHOTO = 0x0002;
-
     private EmoticonsEditText mChatInput;
     private TextView mSendCountTv;
     private CharSequence mInput;
@@ -464,9 +461,7 @@ public class ChatInputView extends LinearLayout
                                 != PackageManager.PERMISSION_GRANTED) {
                             return;
                         }
-                        dismissRecordVoiceLayout();
-                        dismissCameraLayout();
-                        mSelectPhotoView.setVisibility(VISIBLE);
+                        showSelectPhotoLayout();
                         mSelectPhotoView.initData();
                         if (mCameraSupport != null) {
                             mCameraSupport.release();
@@ -890,6 +885,13 @@ public class ChatInputView extends LinearLayout
 
     public void dismissRecordVoiceLayout() {
         mRecordVoiceRl.setVisibility(GONE);
+    }
+
+    public void showSelectPhotoLayout() {
+        dismissRecordVoiceLayout();
+        dismissCameraLayout();
+        dismissEmojiLayout();
+        mSelectPhotoView.setVisibility(VISIBLE);
     }
 
     public void dismissPhotoLayout() {
