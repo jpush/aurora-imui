@@ -147,7 +147,7 @@ RCT_EXPORT_MODULE()
 
 - (void)textDidChangeWithText:(NSString * _Nonnull)text {
   if(_rctInputView.onSizeChange) {
-    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+    _rctInputView.onSizeChange(@{@"height":@(46 + _rctInputView.inputTextHeight + _rctInputView.keyBoardHeight),@"width":@(_rctInputView.frame.size.width)});
   }
 }
 
