@@ -262,6 +262,7 @@ public class ChatInputView extends LinearLayout
                     mScreenHeight = r.bottom;
                 }
                 mNowh = mScreenHeight - r.bottom;
+                Log.i("ChatInputView", "Now height: " + mNowh + " old height " + mOldh);
                 if (mOldh != -1 && mNowh != mOldh) {
                     mShowSoftInput = mNowh > 0;
                 }
@@ -970,7 +971,7 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * Cancel select aurora_menuitem_photo callback
+     * Cancel select photo callback
      */
     @Override
     public void onFileDeselected() {
@@ -987,9 +988,9 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * Trigger aurora_menuitem_send button animation
+     * Trigger send button animation
      *
-     * @param sendBtn       aurora_menuitem_send button
+     * @param sendBtn       send button
      * @param hasContent    EditText has content or photos have been selected
      * @param isSelectPhoto check if selecting photos
      */

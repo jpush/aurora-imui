@@ -409,6 +409,7 @@ export default class TestRNIMUI extends Component {
       <View style={styles.container}>
         <AndroidPtrLayout
           ref="PtrLayout"
+          backgroundColor={"#ffffff"}
           onPullToRefresh={this.onPullToRefresh}>
           <MessageListView style={styles.messageList}
             ref="MessageList"
