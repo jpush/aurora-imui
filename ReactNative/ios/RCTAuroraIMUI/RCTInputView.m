@@ -102,8 +102,7 @@
 
 - (void)dealloc {
   [self removeObserver:self forKeyPath:@"bounds"];
-  [self removeObserver:self forKeyPath:UIKeyboardDidHideNotification];
-  [self removeObserver:self forKeyPath:UIKeyboardDidShowNotification];
+  [[NSNotificationCenter defaultCenter] removeObserver: self];
 }
                                                                            
 

@@ -494,8 +494,9 @@ export default class TestRNIMUI extends Component {
           avatarSize={{ width: 40, height: 40 }}
           sendBubbleTextSize={18}
           sendBubbleTextColor={"#000000"}
+          messageListBackgroundColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
-          backgroundColor={"#000000"}
+          
         />
         
         <InputView style={this.state.inputViewLayout}

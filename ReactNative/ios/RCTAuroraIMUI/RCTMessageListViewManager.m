@@ -96,11 +96,11 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubble, NSDictionary, RCTMessageListView) {
   
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(backgroundColor, NSString, RCTMessageListView) {
+RCT_CUSTOM_VIEW_PROPERTY(messageListBackgroundColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
   if (color != nil) {
-    IMUIBaseMessageCell.backgroundColor = color;
+    _messageList.messageList.messageCollectionView.backgroundColor = color;
   }
   
 }
