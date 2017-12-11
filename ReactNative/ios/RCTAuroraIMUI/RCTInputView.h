@@ -16,6 +16,8 @@
 @property (nonatomic, assign)CGFloat inputTextHeight;
 @property (nonatomic, assign)CGFloat keyBoardHeight;
 
+@property(strong, nonatomic) NSString *chatInputBackgroupColor;
+
 @property (nonatomic, copy) RCTBubblingEventBlock onEventCallBack;
 
 @property (nonatomic, copy) RCTBubblingEventBlock onSizeChange;

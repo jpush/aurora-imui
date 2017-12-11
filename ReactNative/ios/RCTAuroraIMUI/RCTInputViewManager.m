@@ -49,6 +49,18 @@ RCT_EXPORT_MODULE()
   return _rctInputView;
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgroupColor, NSString, RCTInputView) {
+  NSString *colorString = [RCTConvert NSString: json];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
+  if (color != nil) {
+    for (UIView *view in _rctInputView.imuiIntputView.subviews) {
+      view.backgroundColor = color;
+    }
+  }
+  _rctInputView.imuiIntputView.featureSelectorView.featureListCollectionView.backgroundColor = color;
+}
+
+
 /// Tells the delegate that user tap send button and text input string is not empty
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {
   if(!_rctInputView.onSendText) { return; }

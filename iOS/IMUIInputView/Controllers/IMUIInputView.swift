@@ -36,7 +36,7 @@ open class IMUIInputView: UIView {
   
   @IBOutlet weak var inputTextViewHeight: NSLayoutConstraint!
   
-  @IBOutlet weak var featureSelectorView: IMUIFeatureListView!
+  @IBOutlet open weak var featureSelectorView: IMUIFeatureListView!
   @IBOutlet open weak var featureView: IMUIFeatureView!
   @IBOutlet open weak var inputTextView: UITextView!
   @IBOutlet weak var micBtn: UIButton!
