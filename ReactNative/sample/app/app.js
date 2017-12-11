@@ -57,7 +57,7 @@ class CustomVew extends Component {
     };
   }
   render() {
-    return (<img src={RNFS.MainBundlePath + '/defoult_header.png'}></img>)
+    return (<img src={`${RNFS.MainBundlePath}/defoult_header.png`}></img>)
   }
 }
 
@@ -80,7 +80,7 @@ export default class TestRNIMUI extends Component {
     }
 
     this.updateLayout = this.updateLayout.bind(this);
-    
+    this.onInputViewSizeChange = this.onInputViewSizeChange.bind(this);
   }
 
   componentDidMount() {
@@ -88,7 +88,6 @@ export default class TestRNIMUI extends Component {
     this.resetMenu()
 
     AuroraIController.addMessageListDidLoadListener(() => {
-      // messagelist is ready to insert message.
       this.getHistoryMessage()
     });
     if (Platform.OS == "android") {
@@ -102,12 +101,33 @@ export default class TestRNIMUI extends Component {
 
   getHistoryMessage() {
     var messages = []
-    for (var i = 0; i < 14; i++) {
+    for (var i = 0; i < 1; i++) {
       var message = constructNormalMessage()
-      message.msgType = "text"
-      message.text = "" + i
+      // message.msgType = "text"
+      // message.text = "" + i
+      // if (i%2 == 0)  {
+      //   message.isOutgoing = false
+      // }
+      var message = constructNormalMessage()
+      message.msgType = 'custom'
+
+      message.content = `
+      <h5>This is a custom message. </h5>
+      <img src="file://${RNFS.MainBundlePath}/defoult_header.png"/>
+      `
+      message.contentSize = { 'height': 100, 'width': 200 }
+      message.extras = { "extras": "fdfsf" }
+      AuroraIController.appendMessages([message])
+      AuroraIController.scrollToBottom(true)
+      
       AuroraIController.insertMessagesToTop([message])
     }
+  }
+
+  onInputViewSizeChange(size) {
+    this.setState({
+      inputViewLayout: { width: size.width, height: size.height }
+    })
   }
 
   componentWillUnmount() {
@@ -122,10 +142,6 @@ export default class TestRNIMUI extends Component {
       this.setState({
         shouldExpandMenuContainer: true,
         inputViewLayout: { width: window.width, height: this.state.inputHeight + 80 + menuHeight }
-      })
-    } else {
-      this.setState({
-        inputViewLayout: { width: window.width, height: 338 }
       })
     }
   }
@@ -278,8 +294,6 @@ export default class TestRNIMUI extends Component {
   }
 
   onSendGalleryFiles = (mediaFiles) => {
-
-
     /**
      * WARN: This callback will return original image, 
      * if insert it directly will high memory usage and blocking UI。
@@ -302,22 +316,26 @@ export default class TestRNIMUI extends Component {
   }
 
   onSwitchToMicrophoneMode = async () => {
-    this.expendMenu()
-    AuroraIController.scrollToBottom(true);
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, {
-          'title': 'IMUI needs Record Audio Permission',
-          'message': 'IMUI needs record audio ' +
-            'so you can send voice message.'
-        });
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can record audio");
-      } else {
-        console.log("Record Audio permission denied");
+    if (Platform.OS === "ios") {
+
+    } else {
+      this.expendMenu()
+      AuroraIController.scrollToBottom(true);
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, {
+            'title': 'IMUI needs Record Audio Permission',
+            'message': 'IMUI needs record audio ' +
+              'so you can send voice message.'
+          });
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log("You can record audio");
+        } else {
+          console.log("Record Audio permission denied");
+        }
+      } catch (err) {
+        console.warn(err)
       }
-    } catch (err) {
-      console.warn(err)
     }
   }
 
@@ -325,50 +343,61 @@ export default class TestRNIMUI extends Component {
     this.expendMenu()
   }
   onSwitchToGalleryMode = async () => {
-    this.expendMenu()
-    AuroraIController.scrollToBottom(true);
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
-          'title': 'IMUI needs Read External Storage Permission',
-          'message': 'IMUI needs access to your external storage ' +
-            'so you select pictures.'
+    
+    if (Platform.OS === "ios") {
+      
+    } else {
+      this.expendMenu()
+      AuroraIController.scrollToBottom(true);  
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
+            'title': 'IMUI needs Read External Storage Permission',
+            'message': 'IMUI needs access to your external storage ' +
+              'so you select pictures.'
+          }
+        )
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log("You can select pictures");
+        } else {
+          console.log("Read External Storage permission denied");
         }
-      )
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can select pictures");
-      } else {
-        console.log("Read External Storage permission denied");
+      } catch (err) {
+        console.warn(err)
       }
-    } catch (err) {
-      console.warn(err)
     }
+    
+
   }
 
   onSwitchToCameraMode = async () => {
-    this.expendMenu()
-    AuroraIController.scrollToBottom(true);
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA, {
-          'title': 'IMUI needs Camera Permission',
-          'message': 'IMUI needs access to your camera ' +
-            'so you can take awesome pictures.'
+    
+    if (Platform.OS === "ios") {
+      
+    } else {
+      this.expendMenu()
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA, {
+              'title': 'IMUI needs Camera Permission',
+              'message': 'IMUI needs access to your camera ' +
+                'so you can take awesome pictures.'
+            }
+          )
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log("You can use the camera")
+          } else {
+            console.log("Camera permission denied")
+          }
+        } catch (err) {
+          console.warn(err)
         }
-      )
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the camera")
-      } else {
-        console.log("Camera permission denied")
-      }
-    } catch (err) {
-      console.warn(err)
     }
+
+    AuroraIController.scrollToBottom(true);
   }
 
   onShowKeyboard = (keyboard_height) => {
-    var inputViewHeight = keyboard_height + 86
-    this.updateLayout({ width: window.width, height: inputViewHeight, })
   }
 
   updateLayout(layout) {
@@ -485,9 +514,7 @@ export default class TestRNIMUI extends Component {
           onSwitchToGalleryMode={this.onSwitchToGalleryMode}
           onSwitchToCameraMode={this.onSwitchToCameraMode}
           onShowKeyboard={this.onShowKeyboard}
-          onTouchEditText={this.onTouchEditText}
-          onFullScreen={this.onFullScreen}
-          onRecoverScreen={this.onRecoverScreen}
+          onSizeChange={this.onInputViewSizeChange}
         />
       </View>
     )
@@ -510,9 +537,11 @@ export default class TestRNIMUI extends Component {
               if (Platform.OS === 'ios') {
                 var message = constructNormalMessage()
                 message.msgType = 'custom'
-                message.content = '<h5>This is a custom message. </h5>\
-                                      <img src="file://'
-                message.content += RNFS.MainBundlePath + '/defoult_header.png' + '\"></img>'
+                message.content = `
+                <h5>This is a custom message. </h5>
+                <img src="file://${RNFS.MainBundlePath}/defoult_header.png"/>
+                `
+                console.log(message.content)
                 message.contentSize = { 'height': 100, 'width': 200 }
                 message.extras = { "extras": "fdfsf" }
                 AuroraIController.appendMessages([message])
@@ -523,8 +552,11 @@ export default class TestRNIMUI extends Component {
                 message.msgId = "10"
                 message.status = "send_going"
                 message.isOutgoing = true
-                message.content = '<body bgcolor="#ff3399"><h5>This is a custom message. </h5>\
-                  <img src="/storage/emulated/0/XhsEmoticonsKeyboard/Emoticons/wxemoticons/icon_040_cover.png"></img></body>'
+                message.content = `
+                <body bgcolor="#ff3399">
+                  <h5>This is a custom message. </h5>
+                  <img src="/storage/emulated/0/XhsEmoticonsKeyboard/Emoticons/wxemoticons/icon_040_cover.png"></img>
+                </body>`
                 message.contentSize = { 'height': 400, 'width': 400 }
                 message.extras = { "extras": "fdfsf" }
                 var user = {

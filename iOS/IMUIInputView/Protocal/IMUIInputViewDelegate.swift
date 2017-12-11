@@ -80,7 +80,15 @@ import Photos
    */
   @objc optional func finishRecordVideo(videoPath: String, durationTime: Double)
   
+  /**
+   *  Tells the delegate when keyboard will show
+   */
   @objc optional func keyBoardWillShow(height: CGFloat, durationTime: Double)
+  
+  /**
+   *  Tells the delegate when inputTextview text did change
+   */
+  @objc optional func textDidChange(text: String)
 }
 
 
