@@ -16,6 +16,7 @@ enum IMUIMessageCellType {
 
 open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
   @objc open static var avatarCornerRadius:CGFloat = 0
+  @objc open static var backgroundColor: UIColor = UIColor.init(netHex: 0xE7EBEF)
   
   var bubbleView: IMUIMessageBubbleView
   lazy var avatarImage = UIImageView()
@@ -127,7 +128,7 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
   
   func setupData(with message: IMUIMessageModelProtocol) {
     self.avatarImage.image = message.fromUser.Avatar()
-    self.bubbleView.backgroundColor = UIColor.init(netHex: 0xE7EBEF)
+    self.bubbleView.backgroundColor = IMUIBaseMessageCell.backgroundColor
     self.timeLabel.text = message.timeString
     self.nameLabel.text = message.fromUser.displayName()
     self.bubbleContentView?.layoutContentView(message: message)

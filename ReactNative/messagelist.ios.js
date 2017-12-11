@@ -89,6 +89,7 @@ MessageList.propTypes = {
   onBeginDragMessageList: PropTypes.func,
   onTouchMsgList: PropTypes.func,
   onPullToRefresh: PropTypes.func,
+  backgroundColor: PropTypes.string,
   sendBubble: PropTypes.string,
   receiveBubble: PropTypes.string,
   sendBubble: PropTypes.object,
