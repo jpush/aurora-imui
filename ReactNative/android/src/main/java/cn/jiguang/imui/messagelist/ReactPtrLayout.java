@@ -1,5 +1,6 @@
 package cn.jiguang.imui.messagelist;
 
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 import java.util.Map;
@@ -72,6 +74,12 @@ public class ReactPtrLayout extends ViewGroupManager<PullToRefreshLayout> {
                 Log.i(RCTPTRLAYOUT, "Refresh has completed");
                 root.refreshComplete();
         }
+    }
+
+    @ReactProp(name = "messageListBackgroundColor")
+    public void setBackgroundColor(PullToRefreshLayout layout, String color) {
+        int colorRes = Color.parseColor(color);
+        layout.setBackgroundColor(colorRes);
     }
 
     @Override

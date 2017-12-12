@@ -2,6 +2,7 @@ package cn.jiguang.imui.messagelist;
 
 import android.Manifest;
 import android.app.Activity;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -47,7 +50,6 @@ import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
-import cn.jiguang.imui.utils.DisplayUtil;
 import sj.keyboard.utils.EmoticonsKeyboardUtils;
 
 /**
@@ -74,14 +76,18 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String ON_TOUCH_EDIT_TEXT_EVENT = "onTouchEditText";
     private static final String ON_FULL_SCREEN_EVENT = "onFullScreen";
     private static final String ON_RECOVER_SCREEN_EVENT = "onRecoverScreen";
-    private static final String ON_INPUT_LINE_CHANGED_EVENT = "onLineChanged";
+    private static final String ON_INPUT_SIZE_CHANGED_EVENT = "onSizeChanged";
     private final int REQUEST_PERMISSION = 0x0001;
     private final int CLOSE_SOFT_INPUT = 100;
     private final int GET_INPUT_TEXT = 101;
+    private final int RESET_MENU_STATE = 102;
 
     private ChatInputView mChatInput;
     private ReactContext mContext;
     private int mWidth;
+    private boolean mOpenMenu = false;
+    private boolean mInitState = true;
+    private double mCurrentInputHeight = 48;
 
     @Override
     public String getName() {
@@ -91,7 +97,9 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     @Override
     protected ChatInputView createViewInstance(final ThemedReactContext reactContext) {
         mContext = reactContext;
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         final Activity activity = reactContext.getCurrentActivity();
         mChatInput = new ChatInputView(activity, null);
         final EditText editText = mChatInput.getInputView();
@@ -109,10 +117,15 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 return false;
             }
         });
-        int sp = DisplayUtil.dp2px(reactContext, 38);
-        int width = reactContext.getResources().getDisplayMetrics().widthPixels;
-        mWidth = width - sp;
-        Log.i("React", "edit text width: " + mWidth);
+
+        editText.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                editText.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                mWidth = editText.getWidth();
+            }
+        });
+        final float dp = reactContext.getResources().getDisplayMetrics().density;
         editText.addTextChangedListener(new TextWatcher() {
             private CharSequence temp;
             private int editStart;
@@ -129,19 +142,52 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public void afterTextChanged(Editable s) {
+                WritableMap event = Arguments.createMap();
                 editStart = editText.getSelectionStart();
                 editEnd = editText.getSelectionEnd();
-                float px = editText.getTextSize();
+                double px = (int) editText.getTextSize();
                 int len = temp.length();
-                double length = Math.floor(mWidth / px);
-                if (len > length) {
-                    int offset = (int) (len / length) + 1;
-                    WritableMap map = Arguments.createMap();
-                    map.putInt("line", offset);
-                    Log.i("React", "native line count: " + offset);
-                    reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
-                            ON_INPUT_LINE_CHANGED_EVENT, map);
+                double layoutHeight;
+                switch (editText.getLineCount()) {
+                    case 0:
+                    case 1:
+                        mCurrentInputHeight = 48 * dp;
+                        if (mOpenMenu) {
+                            layoutHeight = (mCurrentInputHeight + 399) / dp + 625;
+
+                        } else {
+                            layoutHeight =  (mCurrentInputHeight + 399) / dp;
+                        }
+                        break;
+                    case 2:
+                        mCurrentInputHeight = 53.4 * dp;
+                        if (mOpenMenu) {
+                            layoutHeight = (mCurrentInputHeight + 399) / dp + 625;
+                        } else {
+                            layoutHeight = (mCurrentInputHeight + 399) / dp;
+                        }
+                        break;
+                    case 3:
+                        mCurrentInputHeight = 73.5 * dp;
+                        if (mOpenMenu) {
+                            layoutHeight = (mCurrentInputHeight + 399 + 15 * dp) / dp + 625;
+                        } else {
+                            layoutHeight = (mCurrentInputHeight + 399 + 15 * dp) / dp;
+                        }
+                        break;
+                    default:
+                        mCurrentInputHeight = 93.7 * dp;
+                        if (mOpenMenu) {
+                            layoutHeight = (mCurrentInputHeight + 399 + 40 * dp) / dp + 625;
+                        } else {
+                            layoutHeight = (mCurrentInputHeight + 399 + 40 * dp) / dp;
+                        }
+                        editText.setSelection(len);
                 }
+                mInitState = false;
+                event.putDouble("height", layoutHeight);
+                editText.setLayoutParams(new LinearLayout.LayoutParams(mWidth, (int)(mCurrentInputHeight)));
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, event);
             }
         });
         // Use default layout
@@ -181,6 +227,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToMicrophoneMode() {
+                mOpenMenu = true;
                 if (mChatInput.getSoftInputState() || mChatInput.getMenuState() == View.VISIBLE) {
                     EventBus.getDefault().post(new ScrollEvent(false));
                 } else {
@@ -200,6 +247,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToGalleryMode() {
+                mOpenMenu = true;
                 if (mChatInput.getSoftInputState() || mChatInput.getMenuState() == View.VISIBLE) {
                     EventBus.getDefault().post(new ScrollEvent(false));
                 } else {
@@ -212,6 +260,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToCameraMode() {
+                mOpenMenu = true;
                 if (mChatInput.getSoftInputState() || mChatInput.getMenuState() == View.VISIBLE) {
                     EventBus.getDefault().post(new ScrollEvent(false));
                 } else {
@@ -224,6 +273,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToEmojiMode() {
+                mOpenMenu = true;
                 if (mChatInput.getSoftInputState() || mChatInput.getMenuState() == View.VISIBLE) {
                     EventBus.getDefault().post(new ScrollEvent(false));
                 } else {
@@ -335,6 +385,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         mChatInput.pauseVoice();
     }
 
+    @ReactProp(name = "chatInputBackgroupColor")
+    public void setBackgroundColor(ChatInputView chatInputView, String color) {
+        int colorRes = Color.parseColor(color);
+        chatInputView.setBackgroundColor(colorRes);
+    }
+
     @ReactProp(name = "menuContainerHeight")
     public void setMenuContainerHeight(ChatInputView chatInputView, int height) {
         Log.d("ReactChatInputManager", "Setting menu container height: " + height);
@@ -374,7 +430,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 .put(ON_TOUCH_EDIT_TEXT_EVENT, MapBuilder.of("registrationName", ON_TOUCH_EDIT_TEXT_EVENT))
                 .put(ON_FULL_SCREEN_EVENT, MapBuilder.of("registrationName", ON_FULL_SCREEN_EVENT))
                 .put(ON_RECOVER_SCREEN_EVENT, MapBuilder.of("registrationName", ON_RECOVER_SCREEN_EVENT))
-                .put(ON_INPUT_LINE_CHANGED_EVENT, MapBuilder.of("registrationName", ON_INPUT_LINE_CHANGED_EVENT))
+                .put(ON_INPUT_SIZE_CHANGED_EVENT, MapBuilder.of("registrationName", ON_INPUT_SIZE_CHANGED_EVENT))
                 .build();
     }
 
@@ -399,6 +455,22 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             case GET_INPUT_TEXT:
                 EventBus.getDefault().post(new GetTextEvent(root.getInputView().getText().toString(),
                         AuroraIMUIModule.GET_INPUT_TEXT_EVENT));
+                break;
+            case RESET_MENU_STATE:
+                try {
+                    WritableMap event = Arguments.createMap();
+                    mOpenMenu = args.getBoolean(0);
+                    double dp = mContext.getResources().getDisplayMetrics().density;
+                    mContext.getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    if (mInitState) {
+                        event.putDouble("height", 200);
+                    } else {
+                        event.putDouble("height", mCurrentInputHeight / dp + 158);
+                    }
+                    mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, event);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }

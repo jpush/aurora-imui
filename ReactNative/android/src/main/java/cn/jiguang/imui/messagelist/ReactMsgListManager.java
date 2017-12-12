@@ -260,12 +260,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
         mAdapter.pauseVoice();
     }
 
-    @ReactProp(name = "backgroundColor")
-    public void setBackgroundColor(MessageList messageList, String color) {
-        int colorRes = Color.parseColor(color);
-        messageList.setBackgroundColor(colorRes);
-    }
-
     @ReactProp(name = "sendBubble")
     public void setSendBubble(MessageList messageList, ReadableMap map) {
         int resId = mContext.getResources().getIdentifier(map.getString("imageName"),

@@ -71,11 +71,9 @@ export default class TestRNIMUI extends Component {
       initHeight = 120
     }
     this.state = {
-      inputHeight: initHeight,
+      inputLayoutHeight: 200,
       inputViewLayout: { width: window.width, height: initHeight + 80, },
       isAllowPullToRefresh: true,
-      lineCount: 1,
-      shouldExpandMenuContainer: false,
       inputText: "",
     }
 
@@ -125,7 +123,9 @@ export default class TestRNIMUI extends Component {
   }
 
   onInputViewSizeChange(size) {
+    console.log("height: " + size.height)
     this.setState({
+      inputLayoutHeight: size.height,
       inputViewLayout: { width: size.width, height: size.height }
     })
   }
@@ -139,29 +139,24 @@ export default class TestRNIMUI extends Component {
 
   expendMenu() {
     if (Platform.OS === "android") {
-      this.setState({
-        shouldExpandMenuContainer: true,
-        inputViewLayout: { width: window.width, height: this.state.inputHeight + 80 + menuHeight }
-      })
+      console.log("expend menu", "height: " + (this.state.inputLayoutHeight + menuHeight))
+      if (this.state.inputLayoutHeight < 300) {
+        this.setState({
+          inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight + menuHeight }
+        })
+      } else {
+        this.setState({
+          inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
+        })
+      }
     }
   }
 
   resetMenu() {
     if (Platform.OS === "android") {
-      console.log("reset menu, count: " + this.state.lineCount)
-      if (this.lineCount == 1) {
-        this.setState({
-          inputHeight: 120,
-          inputViewLayout: { width: window.width, height: 200 }
-        })
-      } else {
-        this.setState({
-          inputHeight: 80 + this.state.lineCount * 40,
-          inputViewLayout: { width: window.width, height: 160 + 40 * this.state.lineCount }
-        })
-      }
+      this.refs["ChatInput"].showMenu(false)
       this.setState({
-        shouldExpandMenuContainer: false,
+        inputViewLayout: { width: window.width, height: 200 }
       })
     } else {
       this.setState({
@@ -171,10 +166,14 @@ export default class TestRNIMUI extends Component {
   }
 
   onTouchEditText = () => {
-    if (this.state.shouldExpandMenuContainer) {
-      console.log("on touch input, expend menu")
-      this.expendMenu()
-    }
+    this.refs["ChatInput"].showMenu(false)
+    this.setState({
+      inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
+    })
+    // if (this.state.shouldExpandMenuContainer) {
+    //   console.log("on touch input, expend menu")
+    //   this.expendMenu()
+    // }
   }
 
   onAvatarClick = (message) => {
@@ -202,14 +201,6 @@ export default class TestRNIMUI extends Component {
   }
 
   onTouchMsgList = () => {
-    if (Platform.OS == "android") {
-      this.refs["ChatInput"].getInputText()
-      if (this.state.inputText == "") {
-        this.setState({
-          lineCount: 1
-        })
-      }
-    }
     this.resetMenu()
     AuroraIController.hidenFeatureView(true)
   }
@@ -248,7 +239,6 @@ export default class TestRNIMUI extends Component {
     if (Platform.OS === 'android') {
       this.setState({
         inputText: "",
-        lineCount: 1,
         inputHeight: 120,
         inputViewLayout: { width: window.width, height: 825 }
       })
@@ -409,36 +399,12 @@ export default class TestRNIMUI extends Component {
     this.updateAction();
   }
 
-  onLineChanged = (line) => {
-    console.log("line count: " + line)
-    if (this.state.lineCount < 4) {
-      this.setState({
-        lineCount: line,
-      })
-    } else{
-      this.setState({
-        lineCount: 4
-      })
-    }
-    if (this.state.shouldExpandMenuContainer) {
-      this.setState({
-        inputHeight: 80 + this.state.lineCount * 40,
-        inputViewLayout: { width: window.width, height: 80 + this.state.inputHeight + menuHeight },
-      })
-    } else {
-      this.setState({
-        inputHeight: 80 + this.state.lineCount * 40,
-        inputViewLayout: { width: window.width, height: 80 + this.state.inputHeight },
-      })
-    }
-  }
-
   generateAndroidView() {
     return (
       <View style={styles.container}>
         <AndroidPtrLayout
           ref="PtrLayout"
-          backgroundColor={"#ffffff"}
+          messageListBackgroundColor={"#f3f3f3"}
           onPullToRefresh={this.onPullToRefresh}>
           <MessageListView style={styles.messageList}
             ref="MessageList"
@@ -458,7 +424,6 @@ export default class TestRNIMUI extends Component {
           ref="ChatInput"
           menuContainerHeight={this.state.menuContainerHeight}
           isDismissMenuContainer={this.state.isDismissMenuContainer}
-          inputViewHeight={this.state.inputHeight}
           onSendText={this.onSendText}
           onTakePicture={this.onTakePicture}
           onStartRecordVoice={this.onStartRecordVoice}
@@ -474,7 +439,7 @@ export default class TestRNIMUI extends Component {
           onTouchEditText={this.onTouchEditText}
           onFullScreen={this.onFullScreen}
           onRecoverScreen={this.onRecoverScreen}
-          onLineChanged={this.onLineChanged}
+          onSizeChanged={this.onInputViewSizeChange}
         />
       </View>
     )
