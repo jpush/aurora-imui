@@ -946,12 +946,14 @@ public class ChatInputView extends LinearLayout
      */
     @Override
     public void onFileSelected() {
-        if (mInput.length() == 0 && mSelectPhotoView.getSelectFiles().size() == 1) {
+        int size = mSelectPhotoView.getSelectFiles().size();
+        Log.i("ChatInputView", "select file size: " + size);
+        if (mInput.length() == 0 && size == 1) {
             triggerSendButtonAnimation(mSendBtn, true, true);
         } else if (mInput.length() > 0 && mSendCountTv.getVisibility() != View.VISIBLE) {
             mSendCountTv.setVisibility(View.VISIBLE);
         }
-        mSendCountTv.setText(String.valueOf(mSelectPhotoView.getSelectFiles().size()));
+        mSendCountTv.setText(String.valueOf(size));
     }
 
     /**
@@ -960,13 +962,13 @@ public class ChatInputView extends LinearLayout
     @Override
     public void onFileDeselected() {
         int size = mSelectPhotoView.getSelectFiles().size();
+        Log.i("ChatInputView", "deselect file size: " + size);
         if (size > 0) {
             mSendCountTv.setText(String.valueOf(size));
         } else {
+            mSendCountTv.setVisibility(View.INVISIBLE);
             if (mInput.length() == 0) {
                 triggerSendButtonAnimation(mSendBtn, false, true);
-            } else {
-                mSendCountTv.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -1005,7 +1007,7 @@ public class ChatInputView extends LinearLayout
                     requestLayout();
                     invalidate();
                 }
-                if (hasContent && isSelectPhoto) {
+                if (mSelectPhotoView.getSelectFiles().size() > 0) {
                     mSendCountTv.setVisibility(View.VISIBLE);
                 }
             }
