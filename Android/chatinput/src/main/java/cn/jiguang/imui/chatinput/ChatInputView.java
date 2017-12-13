@@ -80,7 +80,7 @@ import sj.keyboard.widget.EmoticonsEditText;
 
 public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
-        OnFileSelectedListener, CameraEventListener {
+        OnFileSelectedListener, CameraEventListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     public static final byte KEYBOARD_STATE_SHOW = -3;
     public static final byte KEYBOARD_STATE_HIDE = -2;
@@ -136,7 +136,7 @@ public class ChatInputView extends LinearLayout
 
     private int mWidth;
     private int mHeight;
-    private int mScreenHeight;
+    private int mSoftKeyboardHeight;
     private int mNowh;
     private int mOldh;
     public static int sMenuHeight = 800;
@@ -253,23 +253,6 @@ public class ChatInputView extends LinearLayout
         mCaptureBtn.setOnClickListener(this);
         mSwitchCameraBtn.setOnClickListener(this);
 
-        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                ((Activity) mContext).getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
-                if (mScreenHeight == 0) {
-                    mScreenHeight = r.bottom;
-                }
-                mNowh = mScreenHeight - r.bottom;
-                Log.i("ChatInputView", "Now height: " + mNowh + " old height " + mOldh);
-                if (mOldh != -1 && mNowh != mOldh) {
-                    mShowSoftInput = mNowh > 0;
-                }
-                mOldh = mNowh;
-            }
-        });
-
         mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = ((Activity) context).getWindow();
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -277,6 +260,7 @@ public class ChatInputView extends LinearLayout
         mHeight = dm.heightPixels;
         mRecordControllerView.setWidth(mWidth);
         mRecordControllerView.setOnControllerListener(this);
+        getViewTreeObserver().addOnGlobalLayoutListener(this);
 
         mChatInput.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -1202,6 +1186,7 @@ public class ChatInputView extends LinearLayout
             mCameraSupport.release();
         }
         mMediaPlayer.release();
+        getViewTreeObserver().removeOnGlobalLayoutListener(this);
         mMediaPlayer = null;
     }
 
@@ -1220,5 +1205,44 @@ public class ChatInputView extends LinearLayout
         if (mIsFullScreen) {
             recoverScreen();
         }
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        if (mSoftKeyboardHeight == 0) {
+            try {
+                Rect r = new Rect();
+                ((Activity) mContext).getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
+                mNowh = mHeight - r.bottom;
+                if (mOldh != -1 && mNowh != mOldh) {
+                    mShowSoftInput = mNowh > 0;
+                    mSoftKeyboardHeight = mShowSoftInput ? mNowh : 0;
+                    Log.i("ChatInputView", "Soft keyboard height: " + mSoftKeyboardHeight);
+                }
+                mOldh = mNowh;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public int getSoftKeyboardHeight() {
+        return this.mSoftKeyboardHeight;
+    }
+
+    public FrameLayout getCameraContainer() {
+        return mCameraFl;
+    }
+
+    public RelativeLayout getVoiceContainer() {
+        return mRecordVoiceRl;
+    }
+
+    public FrameLayout getSelectPictureContainer() {
+        return mSelectPhotoView;
+    }
+
+    public EmojiView getEmojiContainer() {
+        return mEmojiRl;
     }
 }

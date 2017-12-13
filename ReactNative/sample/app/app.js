@@ -13,6 +13,7 @@ import {
   Button,
   DeviceEventEmitter,
   Platform,
+  PixelRatio,
   PermissionsAndroid
 } from 'react-native'
 
@@ -67,7 +68,7 @@ export default class TestRNIMUI extends Component {
     let initHeight;
     if (Platform.OS === "ios") {
       initHeight = 86
-    } else{
+    } else {
       initHeight = 120
     }
     this.state = {
@@ -78,13 +79,11 @@ export default class TestRNIMUI extends Component {
     }
 
     this.updateLayout = this.updateLayout.bind(this);
-    this.onInputViewSizeChange = this.onInputViewSizeChange.bind(this);
   }
 
   componentDidMount() {
-    
-    this.resetMenu()
 
+    this.resetMenu()
     AuroraIController.addMessageListDidLoadListener(() => {
       this.getHistoryMessage()
     });
@@ -109,55 +108,44 @@ export default class TestRNIMUI extends Component {
       var message = constructNormalMessage()
       message.msgType = 'custom'
 
-      message.content = `
-      <h5>This is a custom message. </h5>
-      <img src="file://${RNFS.MainBundlePath}/defoult_header.png"/>
-      `
+      if (Platform.OS === "ios") {
+        message.content = `
+        <h5>This is a custom message. </h5>
+        <img src="file://${RNFS.MainBundlePath}/defoult_header.png"/>
+        `
+      } else {
+        message.content = '<body bgcolor="#ff3399"><h5>This is a custom message. </h5>\
+        <img src="/storage/emulated/0/XhsEmoticonsKeyboard/Emoticons/wxemoticons/icon_040_cover.png"></img></body>'
+      }
       message.contentSize = { 'height': 100, 'width': 200 }
       message.extras = { "extras": "fdfsf" }
       AuroraIController.appendMessages([message])
       AuroraIController.scrollToBottom(true)
-      
+
       AuroraIController.insertMessagesToTop([message])
     }
   }
 
-  onInputViewSizeChange(size) {
+  onInputViewSizeChange = (size) => {
     console.log("height: " + size.height)
-    this.setState({
-      inputLayoutHeight: size.height,
-      inputViewLayout: { width: size.width, height: size.height }
-    })
+    if (this.state.inputLayoutHeight != size.height) {
+      this.setState({
+        inputLayoutHeight: size.height,
+        inputViewLayout: { width: size.width, height: size.height }
+      })
+    }
   }
 
   componentWillUnmount() {
-      AuroraIController.removeMessageListDidLoadListener(MessageListDidLoadEvent)
-      if (Platform.OS == "android") {
-        AuroraIController.removeGetInputTextListener(getInputTextEvent)
-      }
-  }
-
-  expendMenu() {
-    if (Platform.OS === "android") {
-      console.log("expend menu", "height: " + (this.state.inputLayoutHeight + menuHeight))
-      if (this.state.inputLayoutHeight < 300) {
-        this.setState({
-          inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight + menuHeight }
-        })
-      } else {
-        this.setState({
-          inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
-        })
-      }
+    AuroraIController.removeMessageListDidLoadListener(MessageListDidLoadEvent)
+    if (Platform.OS == "android") {
+      AuroraIController.removeGetInputTextListener(getInputTextEvent)
     }
   }
 
   resetMenu() {
     if (Platform.OS === "android") {
       this.refs["ChatInput"].showMenu(false)
-      this.setState({
-        inputViewLayout: { width: window.width, height: 200 }
-      })
     } else {
       this.setState({
         inputViewLayout: { width: window.width, height: 86 }
@@ -174,6 +162,21 @@ export default class TestRNIMUI extends Component {
     //   console.log("on touch input, expend menu")
     //   this.expendMenu()
     // }
+  }
+
+  onFullScreen = () => {
+    console.log("on full screen")
+    // TODO let camera full screen 
+    // this.setState({
+    //   inputViewLayout: { width: window.width, height: window.height }
+    // })
+  }
+
+  onRecoverScreen = () => {
+    // TODO recover camera 
+    // this.setState({
+    //   inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
+    // })
   }
 
   onAvatarClick = (message) => {
@@ -305,86 +308,19 @@ export default class TestRNIMUI extends Component {
     }
   }
 
-  onSwitchToMicrophoneMode = async () => {
-    if (Platform.OS === "ios") {
-
-    } else {
-      this.expendMenu()
-      AuroraIController.scrollToBottom(true);
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, {
-            'title': 'IMUI needs Record Audio Permission',
-            'message': 'IMUI needs record audio ' +
-              'so you can send voice message.'
-          });
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log("You can record audio");
-        } else {
-          console.log("Record Audio permission denied");
-        }
-      } catch (err) {
-        console.warn(err)
-      }
-    }
+  onSwitchToMicrophoneMode = () => {
+    AuroraIController.scrollToBottom(true)
   }
 
   onSwitchToEmojiMode = () => {
-    this.expendMenu()
+    AuroraIController.scrollToBottom(true)
   }
-  onSwitchToGalleryMode = async () => {
-    
-    if (Platform.OS === "ios") {
-      
-    } else {
-      this.expendMenu()
-      AuroraIController.scrollToBottom(true);  
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
-            'title': 'IMUI needs Read External Storage Permission',
-            'message': 'IMUI needs access to your external storage ' +
-              'so you select pictures.'
-          }
-        )
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log("You can select pictures");
-        } else {
-          console.log("Read External Storage permission denied");
-        }
-      } catch (err) {
-        console.warn(err)
-      }
-    }
-    
-
+  onSwitchToGalleryMode = () => {
+    AuroraIController.scrollToBottom(true)
   }
 
-  onSwitchToCameraMode = async () => {
-    
-    if (Platform.OS === "ios") {
-      
-    } else {
-      this.expendMenu()
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.CAMERA, {
-              'title': 'IMUI needs Camera Permission',
-              'message': 'IMUI needs access to your camera ' +
-                'so you can take awesome pictures.'
-            }
-          )
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log("You can use the camera")
-          } else {
-            console.log("Camera permission denied")
-          }
-        } catch (err) {
-          console.warn(err)
-        }
-    }
-
-    AuroraIController.scrollToBottom(true);
+  onSwitchToCameraMode = () => {
+    AuroraIController.scrollToBottom(true)
   }
 
   onShowKeyboard = (keyboard_height) => {
@@ -462,7 +398,7 @@ export default class TestRNIMUI extends Component {
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
         />
-        
+
         <InputView style={this.state.inputViewLayout}
           menuContainerHeight={this.state.menuContainerHeight}
           isDismissMenuContainer={this.state.isDismissMenuContainer}
