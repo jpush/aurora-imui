@@ -14,7 +14,7 @@ import UIKit
  *  'IMUIMessageCellLayoutProtocol' protocol.
  *  each IMUIMessageBaseCell need IMUIMessageCellLayoutProtocol to layout cell's items
  */
-@objc public class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
+@objc open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
 
   @objc public static var avatarSize: CGSize = CGSize(width: 40, height: 40)
   @objc public static var avatarOffsetToCell: UIOffset = UIOffset(horizontal: 16, vertical: 16)

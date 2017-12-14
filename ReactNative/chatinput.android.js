@@ -11,191 +11,197 @@ var {
 var {
 	StyleSheet,
 	View,
+	Dimensions,
 	requireNativeComponent,
 	UIManager,
 	findNodeHandle,
   } = ReactNative;
-  
-  const CHAT_INPUT = "chat_input";
-  
-  export default class ChatInput extends Component {
-  
+
+const CHAT_INPUT = "chat_input";
+
+export default class ChatInput extends Component {
+
 	constructor(props) {
-	  super(props);
-	  this._onSendText = this._onSendText.bind(this);
-	  this._onSendFiles = this._onSendFiles.bind(this);
-	  this._takePicture = this._takePicture.bind(this);
-	  this._startVideoRecord = this._startVideoRecord.bind(this);
-	  this._finishVideoRecord = this._finishVideoRecord.bind(this);
-	  this._cancelVideoRecord = this._cancelVideoRecord.bind(this);
-	  this._onStartRecordVoice = this._onStartRecordVoice.bind(this);
-	  this._onFinishRecordVoice = this._onFinishRecordVoice.bind(this);
-	  this._onCancelRecordVoice = this._onCancelRecordVoice.bind(this);
-	  this._onSwitchToMicrophoneMode = this._onSwitchToMicrophoneMode.bind(this);
-	  this._onSwitchGalleryMode = this._onSwitchGalleryMode.bind(this);
-	  this._onSwitchToCameraMode = this._onSwitchToCameraMode.bind(this);
-	  this._onSwitchToEmojiMode = this._onSwitchToEmojiMode.bind(this);
-	  this._onTouchEditText = this._onTouchEditText.bind(this);
-	  this._onFullScreen = this._onFullScreen.bind(this);
-	  this._onRecoverScreen = this._onRecoverScreen.bind(this);
-	  this._onLineChanged = this._onLineChanged.bind(this);
+		super(props);
+		this._onSendText = this._onSendText.bind(this);
+		this._onSendFiles = this._onSendFiles.bind(this);
+		this._takePicture = this._takePicture.bind(this);
+		this._startVideoRecord = this._startVideoRecord.bind(this);
+		this._finishVideoRecord = this._finishVideoRecord.bind(this);
+		this._cancelVideoRecord = this._cancelVideoRecord.bind(this);
+		this._onStartRecordVoice = this._onStartRecordVoice.bind(this);
+		this._onFinishRecordVoice = this._onFinishRecordVoice.bind(this);
+		this._onCancelRecordVoice = this._onCancelRecordVoice.bind(this);
+		this._onSwitchToMicrophoneMode = this._onSwitchToMicrophoneMode.bind(this);
+		this._onSwitchGalleryMode = this._onSwitchGalleryMode.bind(this);
+		this._onSwitchToCameraMode = this._onSwitchToCameraMode.bind(this);
+		this._onSwitchToEmojiMode = this._onSwitchToEmojiMode.bind(this);
+		this._onTouchEditText = this._onTouchEditText.bind(this);
+		this._onFullScreen = this._onFullScreen.bind(this);
+		this._onRecoverScreen = this._onRecoverScreen.bind(this);
+		this._onSizeChanged = this._onSizeChanged.bind(this);
 	}
-  
+
 	_onSendText(event: Event) {
-	  if (!this.props.onSendText) {
-		return;
-	  }
-	  this.props.onSendText(event.nativeEvent.text);
+		if (!this.props.onSendText) {
+			return;
+		}
+		this.props.onSendText(event.nativeEvent.text);
 	}
-  
+
 	_onSendFiles(event: Event) {
-	  if (!this.props.onSendGalleryFiles) {
-		return;
-	  }
-	  this.props.onSendGalleryFiles(event.nativeEvent.mediaFiles);
+		if (!this.props.onSendGalleryFiles) {
+			return;
+		}
+		this.props.onSendGalleryFiles(event.nativeEvent.mediaFiles);
 	}
-  
+
 	_takePicture(event: Event) {
-	  if (!this.props.onTakePicture) {
-		return;
-	  }
-	  this.props.onTakePicture(event.nativeEvent.mediaPath);
+		if (!this.props.onTakePicture) {
+			return;
+		}
+		this.props.onTakePicture(event.nativeEvent.mediaPath);
 	}
-  
+
 	_startVideoRecord() {
-	  if (!this.props.onStartRecordVideo) {
-		return;
-	  }
-	  this.props.onStartRecordVideo();
+		if (!this.props.onStartRecordVideo) {
+			return;
+		}
+		this.props.onStartRecordVideo();
 	}
-  
+
 	_finishVideoRecord(event: Event) {
-	  if (!this.props.onFinishRecordVideo) {
-		return;
-	  }
-	  this.props.onFinishRecordVideo(event.nativeEvent.mediaPath, event.nativeEvent.duration);
+		if (!this.props.onFinishRecordVideo) {
+			return;
+		}
+		this.props.onFinishRecordVideo(event.nativeEvent.mediaPath, event.nativeEvent.duration);
 	}
-  
+
 	_cancelVideoRecord() {
-	  if (!this.props.onCancelRecordVideo) {
-		return;
-	  }
-	  this.props.onCancelRecordVideo();
+		if (!this.props.onCancelRecordVideo) {
+			return;
+		}
+		this.props.onCancelRecordVideo();
 	}
-  
+
 	_onStartRecordVoice() {
-	  if (!this.props.onStartRecordVoice) {
-		return;
-	  }
-	  this.props.onStartRecordVoice();
+		if (!this.props.onStartRecordVoice) {
+			return;
+		}
+		this.props.onStartRecordVoice();
 	}
-  
+
 	_onFinishRecordVoice(event: Event) {
-	  if (!this.props.onFinishRecordVoice) {
-		return;
-	  }
-	  this.props.onFinishRecordVoice(event.nativeEvent.mediaPath, event.nativeEvent.duration);
+		if (!this.props.onFinishRecordVoice) {
+			return;
+		}
+		this.props.onFinishRecordVoice(event.nativeEvent.mediaPath, event.nativeEvent.duration);
 	}
-  
+
 	_onCancelRecordVoice() {
-	  if (!this.props.onCancelRecordVoice) {
-		return;
-	  }
-	  this.props.onCancelRecordVoice();
+		if (!this.props.onCancelRecordVoice) {
+			return;
+		}
+		this.props.onCancelRecordVoice();
 	}
-  
+
 	_onSwitchToMicrophoneMode() {
-	  if (!this.props.onSwitchToMicrophoneMode) {
-		return;
-	  }
-	  this.props.onSwitchToMicrophoneMode();
+		if (!this.props.onSwitchToMicrophoneMode) {
+			return;
+		}
+		this.props.onSwitchToMicrophoneMode();
 	}
-  
+
 	_onSwitchGalleryMode() {
-	  if (!this.props.onSwitchToGalleryMode) {
-		return;
-	  }
-	  this.props.onSwitchToGalleryMode();
+		if (!this.props.onSwitchToGalleryMode) {
+			return;
+		}
+		this.props.onSwitchToGalleryMode();
 	}
-  
+
 	_onSwitchToCameraMode() {
-	  if (!this.props.onSwitchToCameraMode) {
-		return;
-	  }
-	  this.props.onSwitchToCameraMode();
+		if (!this.props.onSwitchToCameraMode) {
+			return;
+		}
+		this.props.onSwitchToCameraMode();
 	}
-  
+
 	_onSwitchToEmojiMode() {
 		if (!this.props.onSwitchToEmojiMode) {
 			return;
 		}
 		this.props.onSwitchToEmojiMode();
 	}
-	
+
 	_onTouchEditText() {
-	  if (!this.props.onTouchEditText) {
-		return;
-	  }
-	  this.props.onTouchEditText();
+		if (!this.props.onTouchEditText) {
+			return;
+		}
+		this.props.onTouchEditText();
 	}
-  
+
 	_onFullScreen() {
-	  if (!this.props.onFullScreen) {
-		return;
-	  }
-	  this.props.onFullScreen();
+		if (!this.props.onFullScreen) {
+			return;
+		}
+		this.props.onFullScreen();
 	}
-  
+
 	_onRecoverScreen() {
-	  if (!this.props.onRecoverScreen) {
-		return;
-	  }
-	  this.props.onRecoverScreen();
+		if (!this.props.onRecoverScreen) {
+			return;
+		}
+		this.props.onRecoverScreen();
 	}
-  
-	_onLineChanged(event: Event) {
-	  if (!this.props.onLineChanged) {
-		return;
-	  }
-	  this.props.onLineChanged(event.nativeEvent.line);
+
+	_onSizeChanged(event: Event) {
+		if (!this.props.onSizeChanged) {
+			return;
+		}
+		this.props.onSizeChanged({ width: Dimensions.get('window').width, height: event.nativeEvent.height });
 	}
-  
+
 	closeSoftInput() {
-	  UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[CHAT_INPUT]), 100, null);
+		UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[CHAT_INPUT]), 100, null);
 	}
-  
+
 	getInputText() {
-	  UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[CHAT_INPUT]), 101, null);
+		UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[CHAT_INPUT]), 101, null);
 	}
-  
+
+	showMenu(flag) {
+		UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[CHAT_INPUT]), 102, [flag]);
+	}
+
 	render() {
-	  return (
-		<RCTChatInput 
-			ref={CHAT_INPUT} 
-			{...this.props} 
-			onSendText={this._onSendText}
-			onSendGalleryFiles={this._onSendFiles}
-			onTakePicture={this._takePicture}
-			onStartRecordVideo={this._startVideoRecord}
-			onFinishRecordVideo={this._finishVideoRecord}
-			onCancelRecordVideo={this._cancelVideoRecord}
-			onStartRecordVoice={this._onStartRecordVoice}
-			onFinishRecordVoice={this._onFinishRecordVoice}
-			onCancelRecordVoice={this._onCancelRecordVoice}
-			onSwitchToMicrophoneMode={this._onSwitchToMicrophoneMode}
-			onSwitchToGalleryMode={this._onSwitchGalleryMode}
-			onSwitchToCameraMode={this._onSwitchToCameraMode}
-			onTouchEditText={this._onTouchEditText}
-			onFullScreen={this._onFullScreen}
-			onRecoverScreen={this._onRecoverScreen}
-			onLineChanged={this._onLineChanged}
-		/>
-	  );
+		return (
+			<RCTChatInput
+				ref={CHAT_INPUT}
+				{...this.props}
+				onSendText={this._onSendText}
+				onSendGalleryFiles={this._onSendFiles}
+				onTakePicture={this._takePicture}
+				onStartRecordVideo={this._startVideoRecord}
+				onFinishRecordVideo={this._finishVideoRecord}
+				onCancelRecordVideo={this._cancelVideoRecord}
+				onStartRecordVoice={this._onStartRecordVoice}
+				onFinishRecordVoice={this._onFinishRecordVoice}
+				onCancelRecordVoice={this._onCancelRecordVoice}
+				onSwitchToMicrophoneMode={this._onSwitchToMicrophoneMode}
+				onSwitchToGalleryMode={this._onSwitchGalleryMode}
+				onSwitchToCameraMode={this._onSwitchToCameraMode}
+				onTouchEditText={this._onTouchEditText}
+				onFullScreen={this._onFullScreen}
+				onRecoverScreen={this._onRecoverScreen}
+				onSizeChanged={this._onSizeChanged}
+			/>
+		);
 	}
-  
-  }
-  
-  ChatInput.propTypes = {
+
+}
+
+ChatInput.propTypes = {
+	chatInputBackgroupColor: PropTypes.string,
 	menuContainerHeight: PropTypes.number,
 	isDismissMenuContainer: PropTypes.bool,
 	onSendText: PropTypes.func,
@@ -214,9 +220,9 @@ var {
 	onTouchEditText: PropTypes.func,
 	onFullScreen: PropTypes.func,
 	onRecoverScreen: PropTypes.func,
-	onLineChanged: PropTypes.func,
+	onSizeChanged: PropTypes.func,
 	inputViewHeight: PropTypes.number,
 	...View.propTypes
-  };
-  
-  var RCTChatInput = requireNativeComponent('RCTChatInput', ChatInput);
+};
+
+var RCTChatInput = requireNativeComponent('RCTChatInput', ChatInput);

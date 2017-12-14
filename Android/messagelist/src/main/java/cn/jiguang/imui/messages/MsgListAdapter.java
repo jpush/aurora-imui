@@ -421,6 +421,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      */
     public void clear() {
         mItems.clear();
+        notifyDataSetChanged();
     }
 
     /**

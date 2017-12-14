@@ -44,7 +44,9 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
     @Override
     public void initialize() {
         super.initialize();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override

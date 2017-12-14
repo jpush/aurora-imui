@@ -18,11 +18,11 @@ import UIKit
 fileprivate var featureListMargin = 16.0
 fileprivate var featureListBtnWidth = 46
 
-class IMUIFeatureListView: UIView {
+open class IMUIFeatureListView: UIView {
 
 
   @IBOutlet var view: UIView!
-  @IBOutlet weak var featureListCollectionView: UICollectionView!
+  @IBOutlet open weak var featureListCollectionView: UICollectionView!
   
   open weak var delegate:  IMUIFeatureListDelegate?
   
@@ -96,7 +96,7 @@ class IMUIFeatureListView: UIView {
     self.featureListCollectionView.contentInset = insets
   }
   
-  override var bounds: CGRect {
+  override open var bounds: CGRect {
     didSet {
       self.layoutFeatureListToCenter()
     }
@@ -125,13 +125,13 @@ extension IMUIFeatureListView: UICollectionViewDataSource,UICollectionViewDelega
     return 1
   }
 
-  func collectionView(_ collectionView: UICollectionView,
+  public func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: featureListBtnWidth, height: featureListBtnWidth)
   }
   
-  func collectionView(_ collectionView: UICollectionView,
+  public func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       referenceSizeForFooterInSection section: Int) -> CGSize {
     return CGSize.zero

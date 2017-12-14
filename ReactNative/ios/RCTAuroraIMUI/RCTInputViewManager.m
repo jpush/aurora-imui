@@ -21,6 +21,8 @@
 
 //RCT_EXPORT_VIEW_PROPERTY(onEventCallBack, RCTBubblingEventBlock)
 
+RCT_EXPORT_VIEW_PROPERTY(onSizeChange, RCTBubblingEventBlock)
+
 RCT_EXPORT_VIEW_PROPERTY(onSendText, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onTakePicture, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onStartRecordVoice, RCTBubblingEventBlock)
@@ -47,6 +49,18 @@ RCT_EXPORT_MODULE()
   return _rctInputView;
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgroupColor, NSString, RCTInputView) {
+  NSString *colorString = [RCTConvert NSString: json];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
+  if (color != nil) {
+    for (UIView *view in _rctInputView.imuiIntputView.subviews) {
+      view.backgroundColor = color;
+    }
+  }
+  _rctInputView.imuiIntputView.featureSelectorView.featureListCollectionView.backgroundColor = color;
+}
+
+
 /// Tells the delegate that user tap send button and text input string is not empty
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {
   if(!_rctInputView.onSendText) { return; }
@@ -56,7 +70,11 @@ RCT_EXPORT_MODULE()
 
 /// Tells the delegate that IMUIInputView will switch to recording voice mode
 - (void)switchToMicrophoneModeWithRecordVoiceBtn:(UIButton * _Nonnull)recordVoiceBtn {
-
+  // TODO:
+  if(_rctInputView.onSizeChange) {
+    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+  }
+  
   if(!_rctInputView.onSwitchToMicrophoneMode) { return; }
   _rctInputView.onSwitchToMicrophoneMode(@{});
 }
@@ -81,12 +99,21 @@ RCT_EXPORT_MODULE()
 
 /// Tells the delegate that IMUIInputView will switch to gallery
 - (void)switchToGalleryModeWithPhotoBtn:(UIButton * _Nonnull)photoBtn {
+  
+  if(_rctInputView.onSizeChange) {
+    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+  }
+  
   if(!_rctInputView.onSwitchToGalleryMode) { return; }
   _rctInputView.onSwitchToGalleryMode(@{});
 }
 
 /// Tells the delegate that IMUIInputView will switch to emoji
 - (void)switchToEmojiModeWithCameraBtn:(UIButton * _Nonnull)cameraBtn {
+  if(_rctInputView.onSizeChange) {
+    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+  }
+  
   if(!_rctInputView.onSwitchToEmojiMode) { return; }
   _rctInputView.onSwitchToEmojiMode(@{});
 }
@@ -130,8 +157,18 @@ RCT_EXPORT_MODULE()
   });
 }
 
+- (void)textDidChangeWithText:(NSString * _Nonnull)text {
+  if(_rctInputView.onSizeChange) {
+    _rctInputView.onSizeChange(@{@"height":@(46 + _rctInputView.inputTextHeight + _rctInputView.keyBoardHeight),@"width":@(_rctInputView.frame.size.width)});
+  }
+}
+
 /// Tells the delegate that IMUIInputView will switch to camera mode
 - (void)switchToCameraModeWithCameraBtn:(UIButton * _Nonnull)cameraBtn {
+  if(_rctInputView.onSizeChange) {
+    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+  }
+  
   if(!_rctInputView.onSwitchToCameraMode) { return; }
   _rctInputView.onSwitchToCameraMode(@{});
 }
@@ -161,6 +198,10 @@ RCT_EXPORT_MODULE()
 }
 
 - (void)keyBoardWillShowWithHeight:(CGFloat)height durationTime:(double)durationTime {
+  if(_rctInputView.onSizeChange) {
+    _rctInputView.onSizeChange(@{@"height":@(height + 46 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+  }
+  
   if(!_rctInputView.onShowKeyboard) { return; }
   _rctInputView.onShowKeyboard(@{@"keyboard_height": @(height), @"durationTime": @(durationTime)});
 }

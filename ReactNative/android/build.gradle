@@ -29,8 +29,8 @@ dependencies {
     })
     compile 'com.github.w446108264:XhsEmoticonsKeyboard:2.0.4'
     compile 'com.github.w446108264:AndroidEmoji:1.0.0'
-    compile 'cn.jiguang.imui:messagelist:0.5.4'
-    compile 'cn.jiguang.imui:chatinput:0.5.2'
+    compile 'cn.jiguang.imui:messagelist:0.5.5'
+    compile 'cn.jiguang.imui:chatinput:0.5.5'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.facebook.react:react-native:+'

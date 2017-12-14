@@ -31,6 +31,8 @@
 @property (nonatomic, copy) RCTBubblingEventBlock onPullToRefresh;
 
 // custom layout
+@property(strong, nonatomic) NSString *messageListBackgroundColor;
+
 @property(strong, nonatomic) NSDictionary *sendBubble;
 
 @property(strong, nonatomic) NSDictionary *receiveBubble;

@@ -80,14 +80,11 @@ import sj.keyboard.widget.EmoticonsEditText;
 
 public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
-        OnFileSelectedListener, CameraEventListener {
+        OnFileSelectedListener, CameraEventListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     public static final byte KEYBOARD_STATE_SHOW = -3;
     public static final byte KEYBOARD_STATE_HIDE = -2;
     public static final byte KEYBOARD_STATE_INIT = -1;
-
-    public static final int REQUEST_CODE_TAKE_PHOTO = 0x0001;
-    public static final int REQUEST_CODE_SELECT_PHOTO = 0x0002;
 
     private EmoticonsEditText mChatInput;
     private TextView mSendCountTv;
@@ -139,7 +136,7 @@ public class ChatInputView extends LinearLayout
 
     private int mWidth;
     private int mHeight;
-    private int mScreenHeight;
+    private int mSoftKeyboardHeight;
     private int mNowh;
     private int mOldh;
     public static int sMenuHeight = 800;
@@ -174,6 +171,7 @@ public class ChatInputView extends LinearLayout
     private boolean mIsBackCamera = true;
     private boolean mIsFullScreen = false;
     private Context mContext;
+    private boolean mInit = true;
 
     public ChatInputView(Context context) {
         super(context);
@@ -256,22 +254,6 @@ public class ChatInputView extends LinearLayout
         mCaptureBtn.setOnClickListener(this);
         mSwitchCameraBtn.setOnClickListener(this);
 
-        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                ((Activity) mContext).getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
-                if (mScreenHeight == 0) {
-                    mScreenHeight = r.bottom;
-                }
-                mNowh = mScreenHeight - r.bottom;
-                if (mOldh != -1 && mNowh != mOldh) {
-                    mShowSoftInput = mNowh > 0;
-                }
-                mOldh = mNowh;
-            }
-        });
-
         mImm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = ((Activity) context).getWindow();
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -279,6 +261,7 @@ public class ChatInputView extends LinearLayout
         mHeight = dm.heightPixels;
         mRecordControllerView.setWidth(mWidth);
         mRecordControllerView.setOnControllerListener(this);
+        getViewTreeObserver().addOnGlobalLayoutListener(this);
 
         mChatInput.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -286,11 +269,14 @@ public class ChatInputView extends LinearLayout
                 if (mEditTextListener != null) {
                     mEditTextListener.onTouchEditText();
                 }
+                if (mInit && mSoftKeyboardHeight != 0) {
+                    setMenuContainerHeight(getSoftKeyboardHeight());
+                    mInit = false;
+                }
                 if (!mChatInput.isFocused()) {
                     mChatInput.setFocusable(true);
                     mChatInput.setFocusableInTouchMode(true);
                     mShowSoftInput = true;
-                    invisibleMenuLayout();
                 }
                 return false;
             }
@@ -464,9 +450,7 @@ public class ChatInputView extends LinearLayout
                                 != PackageManager.PERMISSION_GRANTED) {
                             return;
                         }
-                        dismissRecordVoiceLayout();
-                        dismissCameraLayout();
-                        mSelectPhotoView.setVisibility(VISIBLE);
+                        showSelectPhotoLayout();
                         mSelectPhotoView.initData();
                         if (mCameraSupport != null) {
                             mCameraSupport.release();
@@ -892,6 +876,13 @@ public class ChatInputView extends LinearLayout
         mRecordVoiceRl.setVisibility(GONE);
     }
 
+    public void showSelectPhotoLayout() {
+        dismissRecordVoiceLayout();
+        dismissCameraLayout();
+        dismissEmojiLayout();
+        mSelectPhotoView.setVisibility(VISIBLE);
+    }
+
     public void dismissPhotoLayout() {
         mSelectPhotoView.setVisibility(View.GONE);
     }
@@ -959,35 +950,37 @@ public class ChatInputView extends LinearLayout
      */
     @Override
     public void onFileSelected() {
-        if (mInput.length() == 0 && mSelectPhotoView.getSelectFiles().size() == 1) {
+        int size = mSelectPhotoView.getSelectFiles().size();
+        Log.i("ChatInputView", "select file size: " + size);
+        if (mInput.length() == 0 && size == 1) {
             triggerSendButtonAnimation(mSendBtn, true, true);
         } else if (mInput.length() > 0 && mSendCountTv.getVisibility() != View.VISIBLE) {
             mSendCountTv.setVisibility(View.VISIBLE);
         }
-        mSendCountTv.setText(String.valueOf(mSelectPhotoView.getSelectFiles().size()));
+        mSendCountTv.setText(String.valueOf(size));
     }
 
     /**
-     * Cancel select aurora_menuitem_photo callback
+     * Cancel select photo callback
      */
     @Override
     public void onFileDeselected() {
         int size = mSelectPhotoView.getSelectFiles().size();
+        Log.i("ChatInputView", "deselect file size: " + size);
         if (size > 0) {
             mSendCountTv.setText(String.valueOf(size));
         } else {
+            mSendCountTv.setVisibility(View.INVISIBLE);
             if (mInput.length() == 0) {
                 triggerSendButtonAnimation(mSendBtn, false, true);
-            } else {
-                mSendCountTv.setVisibility(View.INVISIBLE);
             }
         }
     }
 
     /**
-     * Trigger aurora_menuitem_send button animation
+     * Trigger send button animation
      *
-     * @param sendBtn       aurora_menuitem_send button
+     * @param sendBtn       send button
      * @param hasContent    EditText has content or photos have been selected
      * @param isSelectPhoto check if selecting photos
      */
@@ -1018,7 +1011,7 @@ public class ChatInputView extends LinearLayout
                     requestLayout();
                     invalidate();
                 }
-                if (hasContent && isSelectPhoto) {
+                if (mSelectPhotoView.getSelectFiles().size() > 0) {
                     mSendCountTv.setVisibility(View.VISIBLE);
                 }
             }
@@ -1199,6 +1192,7 @@ public class ChatInputView extends LinearLayout
             mCameraSupport.release();
         }
         mMediaPlayer.release();
+        getViewTreeObserver().removeOnGlobalLayoutListener(this);
         mMediaPlayer = null;
     }
 
@@ -1217,5 +1211,44 @@ public class ChatInputView extends LinearLayout
         if (mIsFullScreen) {
             recoverScreen();
         }
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        if (mSoftKeyboardHeight == 0) {
+            try {
+                Rect r = new Rect();
+                ((Activity) mContext).getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
+                mNowh = mHeight - r.bottom;
+                if (mOldh != -1 && mNowh != mOldh) {
+                    mShowSoftInput = mNowh > 0;
+                    mSoftKeyboardHeight = mShowSoftInput ? mNowh : 0;
+                    sMenuHeight = mSoftKeyboardHeight;
+                }
+                mOldh = mNowh;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public int getSoftKeyboardHeight() {
+        return this.mSoftKeyboardHeight;
+    }
+
+    public FrameLayout getCameraContainer() {
+        return mCameraFl;
+    }
+
+    public RelativeLayout getVoiceContainer() {
+        return mRecordVoiceRl;
+    }
+
+    public FrameLayout getSelectPictureContainer() {
+        return mSelectPhotoView;
+    }
+
+    public EmojiView getEmojiContainer() {
+        return mEmojiRl;
     }
 }

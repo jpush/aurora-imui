@@ -101,7 +101,9 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     @SuppressWarnings("unchecked")
     @Override
     protected MessageList createViewInstance(final ThemedReactContext reactContext) {
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         registerProximitySensorListener();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
@@ -256,12 +258,6 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(StopPlayVoiceEvent event) {
         mAdapter.pauseVoice();
-    }
-
-    @ReactProp(name = "backgroundColor")
-    public void setBackgroundColor(MessageList messageList, String color) {
-        int colorRes = Color.parseColor(color);
-        messageList.setBackgroundColor(colorRes);
     }
 
     @ReactProp(name = "sendBubble")

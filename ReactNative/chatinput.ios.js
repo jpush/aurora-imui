@@ -31,6 +31,7 @@ export default class ChatInput extends Component {
     this._onSwitchGalleryMode = this._onSwitchGalleryMode.bind(this);
     this._onSwitchToCameraMode = this._onSwitchToCameraMode.bind(this);
     this._onShowKeyboard = this._onShowKeyboard.bind(this);
+    this._onSizeChange = this._onSizeChange.bind(this);
   }
 
   _onSendText(event: Event) {
@@ -125,6 +126,14 @@ export default class ChatInput extends Component {
     this.props.onShowKeyboard(event.nativeEvent.keyboard_height);
   }
 
+  _onSizeChange(event: Event) {
+    if (!this.props.onSizeChange) {
+      return;
+    }
+
+    this.props.onSizeChange(event.nativeEvent);
+  }
+
 
   render() {
     return (
@@ -143,6 +152,7 @@ export default class ChatInput extends Component {
           onSwitchToGalleryMode={this._onSwitchGalleryMode}
           onSwitchToCameraMode={this._onSwitchToCameraMode}
           onShowKeyboard={this._onShowKeyboard}
+          onSizeChange={this._onSizeChange}
       />
     );
   }
@@ -150,6 +160,7 @@ export default class ChatInput extends Component {
 }
 
 ChatInput.propTypes = {
+  chatInputBackgroupColor: PropTypes.string,
   menuContainerHeight: PropTypes.number,
   onSendText: PropTypes.func,
   onSendGalleryFiles: PropTypes.func,
@@ -164,6 +175,7 @@ ChatInput.propTypes = {
   onSwitchToGalleryMode: PropTypes.func,
   onSwitchToCameraMode: PropTypes.func,
   onShowKeyboard: PropTypes.func,
+  onSizeChange: PropTypes.func,
   ...ViewPropTypes
 };
 

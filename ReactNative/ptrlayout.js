@@ -49,6 +49,7 @@ export default class AndroidPtrFrameLayout extends Component {
 
 AndroidPtrFrameLayout.propTypes = {
   onPullToRefresh: PropTypes.func,
+  messageListBackgroundColor: PropTypes.string,
   ...ViewPropTypes
 };
 

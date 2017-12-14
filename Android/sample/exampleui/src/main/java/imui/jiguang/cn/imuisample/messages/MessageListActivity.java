@@ -61,8 +61,8 @@ import imui.jiguang.cn.imuisample.views.ChatView;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MessageListActivity extends Activity implements ChatView.OnKeyboardChangedListener,
-        ChatView.OnSizeChangedListener, View.OnTouchListener, EasyPermissions.PermissionCallbacks, SensorEventListener {
+public class MessageListActivity extends Activity implements View.OnTouchListener,
+        EasyPermissions.PermissionCallbacks, SensorEventListener {
 
     private final static String TAG = "MessageListActivity";
     private final int RC_RECORD_VOICE = 0x0001;
@@ -97,8 +97,6 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
         registerReceiver(mReceiver, intentFilter);
-        mChatView.setKeyboardChangedListener(this);
-        mChatView.setOnSizeChangedListener(this);
         mChatView.setOnTouchListener(this);
         mChatView.setMenuClickListener(new OnMenuClickListener() {
             @Override
@@ -269,7 +267,13 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         mChatView.setOnTouchEditTextListener(new OnClickEditTextListener() {
             @Override
             public void onTouchEditText() {
-//                mAdapter.getLayoutManager().scrollToPosition(0);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mChatView.getMessageListView().smoothScrollToPosition(0);
+                    }
+                }, 100);
+
             }
         });
     }
@@ -527,41 +531,8 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
         }, 1500);
     }
 
-    @Override
-    public void onKeyBoardStateChanged(int state) {
-        switch (state) {
-            case ChatInputView.KEYBOARD_STATE_INIT:
-                ChatInputView chatInputView = mChatView.getChatInputView();
-                if (mImm != null) {
-                    mImm.isActive();
-                }
-                if (chatInputView.getMenuState() == View.INVISIBLE
-                        || (!chatInputView.getSoftInputState()
-                        && chatInputView.getMenuState() == View.GONE)) {
-
-                    mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                            | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    chatInputView.dismissMenuLayout();
-                }
-                break;
-        }
-    }
-
     private void scrollToBottom() {
         mAdapter.getLayoutManager().scrollToPosition(0);
-    }
-
-    @Override
-    public void onSizeChanged(int w, int h, int oldw, int oldh) {
-        if (oldh - h > 300) {
-            mChatView.setMenuHeight(oldh - h);
-        }
-        scrollToBottom();
     }
 
     @Override
@@ -571,7 +542,7 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 ChatInputView chatInputView = mChatView.getChatInputView();
 
                 if (view.getId() == chatInputView.getInputView().getId()) {
-
+                    scrollToBottom();
                     if (chatInputView.getMenuState() == View.VISIBLE
                             && !chatInputView.getSoftInputState()) {
                         chatInputView.dismissMenuAndResetSoftMode();
@@ -595,6 +566,9 @@ public class MessageListActivity extends Activity implements ChatView.OnKeyboard
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            case MotionEvent.ACTION_UP:
+                view.performClick();
                 break;
         }
         return false;

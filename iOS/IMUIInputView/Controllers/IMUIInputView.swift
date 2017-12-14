@@ -36,9 +36,9 @@ open class IMUIInputView: UIView {
   
   @IBOutlet weak var inputTextViewHeight: NSLayoutConstraint!
   
-  @IBOutlet weak var featureSelectorView: IMUIFeatureListView!
+  @IBOutlet open weak var featureSelectorView: IMUIFeatureListView!
   @IBOutlet open weak var featureView: IMUIFeatureView!
-  @IBOutlet weak var inputTextView: UITextView!
+  @IBOutlet open weak var inputTextView: UITextView!
   @IBOutlet weak var micBtn: UIButton!
   @IBOutlet weak var photoBtn: UIButton!
   @IBOutlet weak var cameraBtn: UIButton!
@@ -139,6 +139,7 @@ extension IMUIInputView: UITextViewDelegate {
   public func textViewDidChange(_ textView: UITextView) {
     self.fitTextViewSize(textView)
     self.updateSendBtnToPhotoSendStatus()
+    self.inputViewDelegate?.textDidChange?(text: textView.text)
   }
   
   public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
@@ -241,6 +242,7 @@ extension IMUIInputView: IMUIFeatureListDelegate {
     if inputTextView.text != "" {
       inputViewDelegate?.sendTextMessage?(self.inputTextView.text)
       inputTextView.text = ""
+      self.inputViewDelegate?.textDidChange?(text: "")
       fitTextViewSize(inputTextView)
     }
     
