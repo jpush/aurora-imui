@@ -12,7 +12,7 @@
 
 - Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.5.0'
+compile 'cn.jiguang.imui:chatinput:0.5.6'
 ```
 
 - Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.5.0'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.5.0</version>
+  <version>0.5.6</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ compile 'cn.jiguang.imui:chatinput:0.5.0'
 
   ```groovy
   dependencies {
-    compile 'com.github.jpush:imui:0.5.8'
+    compile 'com.github.jpush:imui:0.6.3'
   }
   ```
 
