@@ -171,6 +171,7 @@ public class ChatInputView extends LinearLayout
     private boolean mIsBackCamera = true;
     private boolean mIsFullScreen = false;
     private Context mContext;
+    private boolean mInit = true;
 
     public ChatInputView(Context context) {
         super(context);
@@ -268,11 +269,14 @@ public class ChatInputView extends LinearLayout
                 if (mEditTextListener != null) {
                     mEditTextListener.onTouchEditText();
                 }
+                if (mInit && mSoftKeyboardHeight != 0) {
+                    setMenuContainerHeight(getSoftKeyboardHeight());
+                    mInit = false;
+                }
                 if (!mChatInput.isFocused()) {
                     mChatInput.setFocusable(true);
                     mChatInput.setFocusableInTouchMode(true);
                     mShowSoftInput = true;
-                    invisibleMenuLayout();
                 }
                 return false;
             }
@@ -1219,7 +1223,7 @@ public class ChatInputView extends LinearLayout
                 if (mOldh != -1 && mNowh != mOldh) {
                     mShowSoftInput = mNowh > 0;
                     mSoftKeyboardHeight = mShowSoftInput ? mNowh : 0;
-                    Log.i("ChatInputView", "Soft keyboard height: " + mSoftKeyboardHeight);
+                    sMenuHeight = mSoftKeyboardHeight;
                 }
                 mOldh = mNowh;
             } catch (Exception e) {
