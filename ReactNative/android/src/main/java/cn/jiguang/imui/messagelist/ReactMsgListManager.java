@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -403,6 +404,11 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     @ReactProp(name = "eventMsgTxtSize")
     public void setEventTextSize(MessageList messageList, int size) {
         messageList.setEventTextSize(dip2sp(size));
+    }
+
+    @ReactProp(name = "maxBubbleWidth")
+    public void setBubbleMaxWidth(MessageList messageList, float maxSize) {
+        messageList.setBubbleMaxWidth(maxSize);
     }
 
     @SuppressWarnings("unchecked")

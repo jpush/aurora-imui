@@ -136,9 +136,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         final float density = dm.density;
         mScreenHeight = dm.heightPixels;
         mScreenWidth = dm.widthPixels;
-        Log.i("react", "density: " + density + " scale density: " + dm.scaledDensity);
-        float menuHeight = mChatInput.getSoftKeyboardHeight();
-        Log.i("react", "soft input height: " + menuHeight);
         editText.addTextChangedListener(new TextWatcher() {
 
             @Override

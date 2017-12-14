@@ -111,6 +111,7 @@ MessageList.propTypes = {
   isShowIncomingDisplayName: PropTypes.bool,
   isShowOutgoingDisplayName: PropTypes.bool,
   isAllowPullToRefresh: PropTypes.bool,
+  maxBubbleWidth: PropTypes.number,
   ...ViewPropTypes
 };
 

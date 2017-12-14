@@ -242,8 +242,8 @@ export default class TestRNIMUI extends Component {
     if (Platform.OS === 'android') {
       this.setState({
         inputText: "",
-        inputHeight: 120,
-        inputViewLayout: { width: window.width, height: 825 }
+        inputLayoutHeight: 200,
+        inputViewLayout: { width: window.width, height: 200 }
       })
     }
   }
@@ -354,6 +354,7 @@ export default class TestRNIMUI extends Component {
             sendBubbleTextSize={18}
             sendBubbleTextColor={"#000000"}
             sendBubblePadding={{ left: 10, top: 10, right: 20, bottom: 10 }}
+            maxBubbleWidth={0.70}
           />
         </AndroidPtrLayout>
         <InputView style={this.state.inputViewLayout}
