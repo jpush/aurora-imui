@@ -45,7 +45,7 @@ function constructNormalMessage() {
     displayName: "replace your nickname",
     avatarPath: "ironman"
   }
-  user.avatarPath = RNFS.MainBundlePath + '/defoult_header.png'
+  user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
   message.fromUser = user
 
   return message
@@ -58,7 +58,7 @@ class CustomVew extends Component {
     };
   }
   render() {
-    return (<img src={`${RNFS.MainBundlePath}/defoult_header.png`}></img>)
+    return (<img src={`${RNFS.MainBundlePath}/default_header.png`}></img>)
   }
 }
 
@@ -111,7 +111,7 @@ export default class TestRNIMUI extends Component {
       if (Platform.OS === "ios") {
         message.content = `
         <h5>This is a custom message. </h5>
-        <img src="file://${RNFS.MainBundlePath}/defoult_header.png"/>
+        <img src="file://${RNFS.MainBundlePath}/default_header.png"/>
         `
       } else {
         message.content = '<body bgcolor="#ff3399"><h5>This is a custom message. </h5>\
@@ -166,17 +166,9 @@ export default class TestRNIMUI extends Component {
 
   onFullScreen = () => {
     console.log("on full screen")
-    // TODO let camera full screen 
-    // this.setState({
-    //   inputViewLayout: { width: window.width, height: window.height }
-    // })
   }
 
   onRecoverScreen = () => {
-    // TODO recover camera 
-    // this.setState({
-    //   inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
-    // })
   }
 
   onAvatarClick = (message) => {
@@ -242,8 +234,8 @@ export default class TestRNIMUI extends Component {
     if (Platform.OS === 'android') {
       this.setState({
         inputText: "",
-        inputHeight: 120,
-        inputViewLayout: { width: window.width, height: 825 }
+        inputLayoutHeight: 200,
+        inputViewLayout: { width: window.width, height: 200 }
       })
     }
   }
@@ -354,6 +346,7 @@ export default class TestRNIMUI extends Component {
             sendBubbleTextSize={18}
             sendBubbleTextColor={"#000000"}
             sendBubblePadding={{ left: 10, top: 10, right: 20, bottom: 10 }}
+            maxBubbleWidth={0.70}
           />
         </AndroidPtrLayout>
         <InputView style={this.state.inputViewLayout}
@@ -397,6 +390,8 @@ export default class TestRNIMUI extends Component {
           sendBubbleTextSize={18}
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
+          isShowIncomingDisplayName={true}
+          isShowOutgoingDisplayName={true}
         />
 
         <InputView style={this.state.inputViewLayout}
@@ -440,7 +435,7 @@ export default class TestRNIMUI extends Component {
                 message.msgType = 'custom'
                 message.content = `
                 <h5>This is a custom message. </h5>
-                <img src="file://${RNFS.MainBundlePath}/defoult_header.png"/>
+                <img src="file://${RNFS.MainBundlePath}/default_header.png"/>
                 `
                 console.log(message.content)
                 message.contentSize = { 'height': 100, 'width': 200 }

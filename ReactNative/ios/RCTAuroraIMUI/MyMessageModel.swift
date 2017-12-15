@@ -138,7 +138,7 @@ open class RCTMessageModel: IMUIMessageModel {
       if typeString == RCTMessageModel.kMsgTypeImage {
         var imgSize = CGSize(width: 120, height: 160)
         if let img = UIImage(contentsOfFile: mediaPath!) {
-          imgSize = RCTMessageModel.converImageSize(with: CGSize(width: (img.cgImage?.width)!, height: (img.cgImage?.height)!))
+          imgSize = RCTMessageModel.converImageSize(with: CGSize(width: img.size.width, height: img.size.height))
         }
         
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,

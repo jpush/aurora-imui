@@ -280,7 +280,7 @@ message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 #### MessageList 自定义样式
 
 **在 Android 中，如果你想要自定义消息气泡，你需要将一张点九图放在 drawable 文件夹下。 [点九图介绍](https://developer.android.com/reference/android/graphics/drawable/NinePatchDrawable.html)，sample 项目的 drawable-xhdpi 文件夹下有示例。**
-**在 iOS 中，如果想自定义消息气泡，需要把消息气泡图片加入到工程中，然后再 sendBubble.imageName 指定图片名字。 如果需要替换默认头像，需要把自己的默认头像加入到 xcode 工程中，并且图片名字改为 defoult_header ,详情参考 sample。**
+**在 iOS 中，如果想自定义消息气泡，需要把消息气泡图片加入到工程中，然后再 sendBubble.imageName 指定图片名字。**
 
 ***
 
