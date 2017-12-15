@@ -24,7 +24,7 @@ import UIKit
   @objc public static var nameLabelSize: CGSize = CGSize(width: 200, height: 18)
   @objc public static var nameLabelOffsetToAvatar: UIOffset = UIOffset(horizontal: 8 , vertical: 0)
   
-  @objc public static var bubbleOffsetToAvatar: UIOffset = UIOffset(horizontal: 8 , vertical: 0)
+  @objc public static var bubbleOffsetToAvatar: UIOffset = UIOffset(horizontal: 8 , vertical: 4)
   
   @objc public static var cellWidth: CGFloat = 0
   @objc public static var cellContentInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
