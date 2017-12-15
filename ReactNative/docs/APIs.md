@@ -71,6 +71,7 @@ Refer to iOS,Android example
     - [onSwitchToGalleryMode](#onswitchtogallerymode)
     - [onSwitchToCameraMode](#onswitchtocameramode)
     - [onSwitchToEmojiMode](#onswitchtoemojimode)
+    - [onSizeChange](#onsizechange)
     - [onTouchEditText](#ontouchedittext)
 
 ## AuroraIMUIController
@@ -513,6 +514,14 @@ Fires when click picture button in menu.
 Fires when click emoji button in menu.
 
 ------
+
+#### onSizeChange
+
+**PropTypes.function:** `({width: number, height: number}) => {}`
+
+Fire when ChantInput's size change。
+
+***
 
 #### onTouchEditText
 
