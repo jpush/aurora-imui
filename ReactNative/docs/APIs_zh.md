@@ -73,6 +73,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [onSwitchToCameraMode](#onswitchtocameramode)
     - [onSwitchToEmojiMode](#onswitchtoemojimode)
     - [onTouchEditText](#ontouchedittext)
+    - [onSizeChange](#onsizechange)
 
 
 ## AuroraIMUIController
@@ -504,9 +505,16 @@ message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 
 ***
 
+#### onSizeChange
+
+**PropTypes.function:** `({width: number, height: number}) => {}`
+
+输入组件尺寸变更时触发。
+
+***
+
 #### onTouchEditText
 
 **PropTypes.function:** （Android only）
 
 点击输入框触发。
-
