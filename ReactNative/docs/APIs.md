@@ -71,6 +71,7 @@ Refer to iOS,Android example
     - [onSwitchToGalleryMode](#onswitchtogallerymode)
     - [onSwitchToCameraMode](#onswitchtocameramode)
     - [onSwitchToEmojiMode](#onswitchtoemojimode)
+    - [onSizeChange](#onsizechange)
     - [onTouchEditText](#ontouchedittext)
 
 ## AuroraIMUIController
@@ -278,7 +279,7 @@ Fires when touch message list.
 
 **In android, if your want to define your chatting bubble, you need to put a drawable file in drawable folder, and that image file must be nine patch drawable file, see our example for detail.**
 
-**In iOS, if your want to define your chatting bubble,you need to put a image file to you xcode,and specifies sendBubble.imageName or receiveBubble.imageName to image name. if you need to set the default avatar, you need put you default avatar image to you xcode,and adjust the image name to defoult_header,see our example for detail.**
+**In iOS, if your want to define your chatting bubble,you need to put a image file to you xcode,and specifies sendBubble.imageName or receiveBubble.imageName to image name.**
 
 ------
 
@@ -513,6 +514,14 @@ Fires when click picture button in menu.
 Fires when click emoji button in menu.
 
 ------
+
+#### onSizeChange
+
+**PropTypes.function:** `({width: number, height: number}) => {}`
+
+Fire when ChantInput's size change。
+
+***
 
 #### onTouchEditText
 
