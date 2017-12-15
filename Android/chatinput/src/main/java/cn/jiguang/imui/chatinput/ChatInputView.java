@@ -1011,7 +1011,7 @@ public class ChatInputView extends LinearLayout
                     requestLayout();
                     invalidate();
                 }
-                if (mSelectPhotoView.getSelectFiles().size() > 0) {
+                if (mSelectPhotoView.getSelectFiles() != null && mSelectPhotoView.getSelectFiles().size() > 0) {
                     mSendCountTv.setVisibility(View.VISIBLE);
                 }
             }
