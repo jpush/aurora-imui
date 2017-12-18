@@ -398,7 +398,16 @@ message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 
 **PropTypes.string:**
 
-设置消息列表的背景颜色。
+设置消息列表的背景颜色。**在 Android 中，需要将此属性添加到 `AndroidPtrlayout`**
+
+```
+<AndroidPtrLayout
+   ref="PtrLayout"
+   messageListBackgroundColor={"#f3f3f3"}
+/>
+```
+
+
 
 Example:  ```messageListBackgroundColor="#000000"```
 

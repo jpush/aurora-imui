@@ -404,7 +404,16 @@ Example: ```isShowDisplayName={ture}```。
 
 **PropTypes.string:**
 
-Set messageList' background  color.
+Set messageList' background  color. **In Android, you should add this property in  `AndroidPtrlayout`.**
+
+```
+<AndroidPtrLayout
+   ref="PtrLayout"
+   messageListBackgroundColor={"#f3f3f3"}
+/>
+```
+
+
 
 Example:  ```messageListBackgroundColor="#000000"```
 
