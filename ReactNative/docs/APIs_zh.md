@@ -55,9 +55,10 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [avatarSize](#avatarsize)
     - [avatarCornerRadius](#avatarcornerradius)
     - [isShowDisplayName](#isShowdisplayname)
-
+    - [messageListBackgroundColor](#messagelistbackgroundcolor)
 - [ChatInput](#chatinput)
-
+  - [Props customizable style]()
+    - [chatInputBackgroupColor](#chatInputbackgroupcolor)
   - [Props 事件]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
@@ -393,9 +394,35 @@ message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 
 ***
 
+#### messageListBackgroundColor
+
+**PropTypes.string:**
+
+设置消息列表的背景颜色。
+
+Example:  ```messageListBackgroundColor="#000000"```
+
+------
+
 
 
 ## ChatInput
+
+### Props customizable style
+
+------
+
+#### chatInputBackgroupColor
+
+**PropTypes.string:**
+
+设置输入组件背景颜色。
+
+Example:  ```chatInputBackgroupColor="#000000"```
+
+------
+
+
 
 #### ChatInput 事件回调
 
