@@ -4,6 +4,8 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.View;
 
+import java.util.List;
+
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.ViewHolder;
 import cn.jiguang.imui.commons.models.IMessage;
@@ -24,16 +26,9 @@ public abstract class BaseMessageViewHolder<MESSAGE extends IMessage>
     protected MsgListAdapter.OnMsgStatusViewClickListener<MESSAGE> mMsgStatusViewClickListener;
     protected MediaPlayer mMediaPlayer;
     protected boolean mScroll;
+    protected List<MsgListAdapter.Wrapper> mData;
 
     public BaseMessageViewHolder(View itemView) {
         super(itemView);
-    }
-
-    public boolean isSelected() {
-        return mIsSelected;
-    }
-
-    public ImageLoader getImageLoader() {
-        return mImageLoader;
     }
 }

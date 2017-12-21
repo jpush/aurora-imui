@@ -252,6 +252,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mMsgStatusViewClickListener = this.mMsgStatusViewClickListener;
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
             ((BaseMessageViewHolder) holder).mScroll = this.mScroll;
+            ((BaseMessageViewHolder) holder).mData = this.mItems;
         }
         holder.onBind(wrapper.item);
     }
@@ -261,12 +262,28 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         return mItems.size();
     }
 
-    private class Wrapper<DATA> {
+    public class Wrapper<DATA> {
         private DATA item;
         boolean isSelected;
 
         Wrapper(DATA item) {
             this.item = item;
+        }
+
+        public DATA getItem() {
+            return this.item;
+        }
+
+        public boolean getIsSelected() {
+            return this.isSelected;
+        }
+
+        public void setItem(DATA item) {
+            this.item = item;
+        }
+
+        public void setSelected(boolean isSelected) {
+            this.isSelected = isSelected;
         }
     }
 
