@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -111,14 +112,17 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA));
-                String fileName =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
-                String size = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE));
-                String date = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
+                File file = new File(path);
+                if (file.exists()) {
+                    String fileName =
+                            cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
+                    String size = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE));
+                    String date = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
 
-                FileItem item = new FileItem(path, fileName, size, date);
-                item.setType(FileItem.Type.Image);
-                mMedias.add(item);
+                    FileItem item = new FileItem(path, fileName, size, date);
+                    item.setType(FileItem.Type.Image);
+                    mMedias.add(item);
+                }
             }
         }
         cursor.close();
@@ -140,13 +144,16 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-                String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
-                String date = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED));
-                long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
+                File file = new File(path);
+                if (file.exists()) {
+                    String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
+                    String date = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED));
+                    long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
 
-                VideoItem item = new VideoItem(path, name, null, date, duration);
-                item.setType(FileItem.Type.Video);
-                mMedias.add(item);
+                    VideoItem item = new VideoItem(path, name, null, date, duration);
+                    item.setType(FileItem.Type.Video);
+                    mMedias.add(item);
+                }
             }
         }
         cursor.close();
