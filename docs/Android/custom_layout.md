@@ -85,7 +85,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
 
 ```java
 MsgListAdapter adapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
-// The first parameter is ViewType，must not set number in 0-12
+// The first parameter is ViewType，must not set number between 0 // and 12, because we are already taken.
 // the second is resource id
 // the third is sender or not
 // the forth is the Class object of custom view holder.
@@ -98,11 +98,16 @@ adapter.addCustomMsgType(13, config1);
 
 ```java
 public class MyMessage implements IMessage {
-	MessageType type = MessageType.SEND_TEXT;
+ 	private int type;
 	// in this example the viewType is 13
 	public void setType(int viewType) {
-      this.type.setCustomType(viewType);
+      this.type = viewType;
 	}
+  
+    @Override
+    public int getType() {
+      return this.type;
+    }
 }
 ```
 
