@@ -104,7 +104,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 if (input.length() == 0) {
                     return false;
                 }
-                MyMessage message = new MyMessage(input.toString(), IMessage.MessageType.SEND_TEXT);
+                MyMessage message = new MyMessage(input.toString(), IMessage.MessageType.SEND_TEXT.ordinal());
                 message.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
                 message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                 mAdapter.addToStart(message, true);
@@ -120,10 +120,10 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 MyMessage message;
                 for (FileItem item : list) {
                     if (item.getType() == FileItem.Type.Image) {
-                        message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
+                        message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE.ordinal());
 
                     } else if (item.getType() == FileItem.Type.Video) {
-                        message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO);
+                        message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO.ordinal());
                         message.setDuration(((VideoItem) item).getDuration());
 
                     } else {
@@ -219,7 +219,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
 
             @Override
             public void onFinishRecord(File voiceFile, int duration) {
-                MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE);
+                MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_VOICE.ordinal());
                 message.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
                 message.setMediaFilePath(voiceFile.getPath());
                 message.setDuration(duration);
@@ -236,7 +236,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         mChatView.setOnCameraCallbackListener(new OnCameraCallbackListener() {
             @Override
             public void onTakePictureCompleted(String photoPath) {
-                final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE);
+                final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE.ordinal());
                 message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                 message.setMediaFilePath(photoPath);
                 message.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
@@ -379,10 +379,10 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         for (int i = 0; i < messages.length; i++) {
             MyMessage message;
             if (i % 2 == 0) {
-                message = new MyMessage(messages[i], IMessage.MessageType.RECEIVE_TEXT);
+                message = new MyMessage(messages[i], IMessage.MessageType.RECEIVE_TEXT.ordinal());
                 message.setUserInfo(new DefaultUser("0", "DeadPool", "R.drawable.deadpool"));
             } else {
-                message = new MyMessage(messages[i], IMessage.MessageType.SEND_TEXT);
+                message = new MyMessage(messages[i], IMessage.MessageType.SEND_TEXT.ordinal());
                 message.setUserInfo(new DefaultUser("1", "IronMan", "R.drawable.ironman"));
             }
             message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
@@ -435,8 +435,8 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
             @Override
             public void onMessageClick(MyMessage message) {
                 // do something
-                if (message.getType() == IMessage.MessageType.RECEIVE_VIDEO
-                        || message.getType() == IMessage.MessageType.SEND_VIDEO) {
+                if (message.getType() == IMessage.MessageType.RECEIVE_VIDEO.ordinal()
+                        || message.getType() == IMessage.MessageType.SEND_VIDEO.ordinal()) {
                     if (!TextUtils.isEmpty(message.getMediaFilePath())) {
                         Intent intent = new Intent(MessageListActivity.this, VideoActivity.class);
                         intent.putExtra(VideoActivity.VIDEO_PATH, message.getMediaFilePath());
@@ -478,10 +478,10 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
             }
         });
 
-        MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT);
+        MyMessage message = new MyMessage("Hello World", IMessage.MessageType.RECEIVE_TEXT.ordinal());
         message.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
         mAdapter.addToStart(message, true);
-        MyMessage eventMsg = new MyMessage("haha", IMessage.MessageType.EVENT);
+        MyMessage eventMsg = new MyMessage("haha", IMessage.MessageType.EVENT.ordinal());
         mAdapter.addToStart(eventMsg, true);
         mAdapter.addToEnd(mData);
         PullToRefreshLayout layout = mChatView.getPtrLayout();
@@ -515,10 +515,10 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 for (int i = 0; i < messages.length; i++) {
                     MyMessage message;
                     if (i % 2 == 0) {
-                        message = new MyMessage(messages[i], IMessage.MessageType.RECEIVE_TEXT);
+                        message = new MyMessage(messages[i], IMessage.MessageType.RECEIVE_TEXT.ordinal());
                         message.setUserInfo(new DefaultUser("0", "DeadPool", "R.drawable.deadpool"));
                     } else {
-                        message = new MyMessage(messages[i], IMessage.MessageType.SEND_TEXT);
+                        message = new MyMessage(messages[i], IMessage.MessageType.SEND_TEXT.ordinal());
                         message.setUserInfo(new DefaultUser("1", "IronMan", "R.drawable.ironman"));
                     }
                     message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));

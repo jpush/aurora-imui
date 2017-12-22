@@ -7,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -178,31 +179,30 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         Wrapper wrapper = mItems.get(position);
         if (wrapper.item instanceof IMessage) {
             IMessage message = (IMessage) wrapper.item;
-            switch (message.getType()) {
-                case SEND_TEXT:
-                    return TYPE_SEND_TXT;
-                case RECEIVE_TEXT:
-                    return TYPE_RECEIVE_TXT;
-                case SEND_LOCATION:
-                    return TYPE_SEND_LOCATION;
-                case RECEIVE_LOCATION:
-                    return TYPE_RECEIVER_LOCATION;
-                case SEND_VOICE:
-                    return TYPE_SEND_VOICE;
-                case RECEIVE_VOICE:
-                    return TYPE_RECEIVER_VOICE;
-                case SEND_IMAGE:
-                    return TYPE_SEND_IMAGE;
-                case RECEIVE_IMAGE:
-                    return TYPE_RECEIVER_IMAGE;
-                case SEND_VIDEO:
-                    return TYPE_SEND_VIDEO;
-                case RECEIVE_VIDEO:
-                    return TYPE_RECEIVE_VIDEO;
-                case EVENT:
-                    return TYPE_EVENT;
-                default:
-                    return getCustomType(message);
+            if (message.getType() == IMessage.MessageType.EVENT.ordinal()) {
+                return TYPE_EVENT;
+            } else if (message.getType() == IMessage.MessageType.SEND_TEXT.ordinal()) {
+                return TYPE_SEND_TXT;
+            } else if (message.getType() == IMessage.MessageType.RECEIVE_TEXT.ordinal()) {
+                return TYPE_RECEIVE_TXT;
+            } else if (message.getType() == IMessage.MessageType.SEND_IMAGE.ordinal()) {
+                return TYPE_SEND_IMAGE;
+            } else if (message.getType() == IMessage.MessageType.RECEIVE_IMAGE.ordinal()) {
+                return TYPE_RECEIVER_IMAGE;
+            } else if (message.getType() == IMessage.MessageType.SEND_VOICE.ordinal()) {
+                return TYPE_SEND_VOICE;
+            } else if (message.getType() == IMessage.MessageType.RECEIVE_VOICE.ordinal()) {
+                return TYPE_RECEIVER_VOICE;
+            } else if (message.getType() == IMessage.MessageType.SEND_VIDEO.ordinal()) {
+                return TYPE_SEND_VIDEO;
+            } else if (message.getType() == IMessage.MessageType.RECEIVE_VIDEO.ordinal()) {
+                return TYPE_RECEIVE_VIDEO;
+            } else if (message.getType() == IMessage.MessageType.SEND_LOCATION.ordinal()) {
+                return TYPE_SEND_LOCATION;
+            } else if (message.getType() == IMessage.MessageType.RECEIVE_LOCATION.ordinal()) {
+                return TYPE_RECEIVER_LOCATION;
+            } else {
+                return getCustomType(message);
             }
         }
         return TYPE_SEND_TXT;
@@ -211,10 +211,12 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private int getCustomType(IMessage message) {
         for (int i=0; i < mCustomMsgList.size(); i++) {
             CustomMsgConfig config = mCustomMsgList.valueAt(i);
-            if (message.getType().getCustomType() == config.getViewType()) {
+            if (message.getType() == config.getViewType()) {
                 return config.getViewType();
             }
         }
+        Log.d("MsgListAdapter", "Can not find custom type, maybe you are forget to call " +
+                "setType() in your <? extends IMessage> class");
         return TYPE_SEND_TXT;
     }
 
