@@ -12,13 +12,13 @@ public class MyMessage implements IMessage {
     private long id;
     private String text;
     private String timeString;
-    private MessageType type;
+    private int type;
     private IUser user;
     private String mediaFilePath;
     private long duration;
     private String progress;
 
-    public MyMessage(String text, MessageType type) {
+    public MyMessage(String text, int type) {
         this.text = text;
         this.type = type;
         this.id = UUID.randomUUID().getLeastSignificantBits();
@@ -78,11 +78,14 @@ public class MyMessage implements IMessage {
     }
 
     public void setType(int type) {
-        this.type.setCustomType(type);
+        if (type >= 0 && type <= 12) {
+            throw new IllegalArgumentException("Message type should not take the value between 0 and 12");
+        }
+        this.type = type;
     }
 
     @Override
-    public MessageType getType() {
+    public int getType() {
         return type;
     }
 

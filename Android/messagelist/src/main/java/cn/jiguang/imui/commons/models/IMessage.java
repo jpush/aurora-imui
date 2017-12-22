@@ -49,29 +49,15 @@ public interface IMessage {
         SEND_CUSTOM,
         RECEIVE_CUSTOM;
 
-        private int type;
-
         MessageType() {
-        }
-
-        public void setCustomType(int type) {
-            if (type > 12 || type < 0) {
-                this.type = type;
-            } else {
-                throw new IllegalArgumentException("Custom message type should not set 0-12");
-            }
-        }
-
-        public int getCustomType() {
-            return this.type;
         }
     }
 
     /**
-     * Type of message, enum.
-     * @return Message Type
+     * Type of message
+     * @return integer
      */
-    MessageType getType();
+    int getType();
 
     /**
      * Status of message, enum.

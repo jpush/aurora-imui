@@ -92,11 +92,16 @@ adapter.addCustomMsgType(13, config1);
 
 ```java
 public class MyMessage implements IMessage {
-	MessageType type = MessageType.SEND_TEXT;
-	// 本例中 viewType 值为 13
+ 	private int type;
+	// 本例中 viewType 为 13
 	public void setType(int viewType) {
-      this.type.setCustomType(viewType);
+      this.type = viewType;
 	}
+  
+    @Override
+    public int getType() {
+      return this.type;
+    }
 }
 ```
 
