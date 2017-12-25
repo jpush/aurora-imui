@@ -423,6 +423,10 @@ public class ChatInputView extends LinearLayout
                     mSendCountTv.setVisibility(View.INVISIBLE);
                     mSelectPhotoView.resetCheckState();
                     dismissMenuLayout();
+                    mImm.hideSoftInputFromWindow(getWindowToken(), 0);
+                    mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                            | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    mShowSoftInput = false;
                 }
 
             } else {
