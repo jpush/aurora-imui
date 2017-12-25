@@ -12,6 +12,8 @@ Aurora IMUI 是个通用的即时通讯（IM）UI 库，不特定于任何 IM SD
 
 同步支持 Android、iOS 和 React Native。
 
+更多 demo 可以参考 [aurora-imui-examples](https://github.com/jpush/aurora-imui-examples).
+
 <p align="center">
     <a target="_blank">
         <img src="https://github.com/huangminlinux/resource/blob/master/IMUIPick%402x.png" alt="IMUI" width=960/>

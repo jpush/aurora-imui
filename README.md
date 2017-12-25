@@ -11,6 +11,8 @@ This library provides common UI components such as MessageList, InputView. It su
 
 We already have Android/iOS/React Native platforms support.
 
+Please refer to [aurora-imui-examples](https://github.com/jpush/aurora-imui-examples) for more examples.
+
 
 <p align="center">
     <a target="_blank">
