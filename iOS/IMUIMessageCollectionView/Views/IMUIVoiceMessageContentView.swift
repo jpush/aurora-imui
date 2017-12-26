@@ -47,10 +47,11 @@ public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol
 
     self.layoutToVoice(isOutGoing: message.isOutGoing)
     
-    IMUIAudioPlayerHelper.sharedInstance.renewProgressCallback(message.msgId) { (id,currendTime, duration) in
+    IMUIAudioPlayerHelper.sharedInstance.renewProgressCallback(message.msgId) { (id, volume, currendTime, duration) in
       if self.message?.msgId == id {
         self.setImage(with: Int(currendTime*4)%3 + 1)
       }
+      print("\(volume)")
     }
   }
   
@@ -66,10 +67,12 @@ public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol
         IMUIAudioPlayerHelper
           .sharedInstance
           .playAudioWithData((self.message?.msgId)!,voiceData,
-                             progressCallback: { (id,currendTime, duration) in
+                             progressCallback: { (id, power, currendTime, duration) in
                                 if self.message?.msgId == id {
                                   self.setImage(with: Int(currendTime*4)%3 + 1)
                                 }
+                              
+                              
                               },
                              finishCallBack: { id in
                                 if self.message?.msgId == id {
