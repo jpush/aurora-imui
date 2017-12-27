@@ -16,6 +16,7 @@
         <attr name="inputCursorDrawable" format="reference" />
         <attr name="sendBtnBg" format="reference" />
         <attr name="sendBtnIcon" format="reference" />
+        <attr name="sendBtnPressedIcon" format="reference" />
         <attr name="sendCountBg" format="reference" />
         <attr name="voiceBtnBg" format="reference" />
         <attr name="voiceBtnIcon" format="reference" />

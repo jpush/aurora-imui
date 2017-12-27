@@ -1043,7 +1043,7 @@ public class ChatInputView extends LinearLayout
             public void onAnimationEnd(Animator animator) {
                 if (hasContent) {
                     mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                            R.drawable.aurora_menuitem_send_pres));
+                            mStyle.getSendBtnPressedIcon()));
                 } else {
                     mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(),
                             R.drawable.aurora_menuitem_send));
@@ -1254,5 +1254,29 @@ public class ChatInputView extends LinearLayout
 
     public EmojiView getEmojiContainer() {
         return mEmojiRl;
+    }
+
+    public ChatInputStyle getStyle() {
+        return this.mStyle;
+    }
+
+    public ImageButton getVoiceBtn() {
+        return this.mVoiceBtn;
+    }
+
+    public ImageButton getPhotoBtn() {
+        return this.mPhotoBtn;
+    }
+
+    public ImageButton getCameraBtn() {
+        return this.mCameraBtn;
+    }
+
+    public ImageButton getEmojiBtn() {
+        return this.mEmojiBtn;
+    }
+
+    public ImageButton getSendBtn() {
+        return this.mSendBtn;
     }
 }

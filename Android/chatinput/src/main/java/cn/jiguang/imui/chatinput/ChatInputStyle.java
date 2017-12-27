@@ -43,6 +43,7 @@ public class ChatInputStyle extends Style {
 
     private Drawable sendBtnBg;
     private int sendBtnIcon;
+    private int sendBtnPressedIcon;
     private Drawable sendCountBg;
 
     public static ChatInputStyle parse(Context context, AttributeSet attrs) {
@@ -75,6 +76,7 @@ public class ChatInputStyle extends Style {
         style.cameraBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_cameraBtnIcon, R.drawable.aurora_menuitem_camera);
         style.sendBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_sendBtnBg);
         style.sendBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_sendBtnIcon, R.drawable.aurora_menuitem_send);
+        style.sendBtnPressedIcon = typedArray.getResourceId(R.styleable.ChatInputView_sendBtnPressedIcon, R.drawable.aurora_menuitem_send_pres);
         style.sendCountBg = typedArray.getDrawable(R.styleable.ChatInputView_sendCountBg);
         typedArray.recycle();
 
@@ -156,6 +158,14 @@ public class ChatInputStyle extends Style {
 
     public int getSendBtnIcon() {
         return sendBtnIcon;
+    }
+
+    public int getSendBtnPressedIcon() {
+        return this.sendBtnPressedIcon;
+    }
+
+    public void setSendBtnPressedIcon(int resId) {
+        this.sendBtnPressedIcon = resId;
     }
 
     public Drawable getSendBtnBg() {
