@@ -171,7 +171,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     do {
       let voiceData = try Data(contentsOf: URL(fileURLWithPath: recordHelper.recordPath!))
 
-      IMUIAudioPlayerHelper.sharedInstance.playAudioWithData("",voiceData, progressCallback: { (identify, currentTime, duration) in
+      IMUIAudioPlayerHelper.sharedInstance.playAudioWithData("",voiceData, progressCallback: { (identify, power,  currentTime, duration) in
         self.playVoiceBtn.progress = CGFloat(currentTime/duration)
         
       }, finishCallBack: { (identify) in

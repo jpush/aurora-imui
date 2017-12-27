@@ -392,6 +392,7 @@ export default class TestRNIMUI extends Component {
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
           isShowIncomingDisplayName={true}
           isShowOutgoingDisplayName={true}
+          isAllowPullToRefresh={true}
         />
 
         <InputView style={this.state.inputViewLayout}
