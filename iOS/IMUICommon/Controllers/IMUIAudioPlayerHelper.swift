@@ -62,9 +62,9 @@ public class IMUIAudioPlayerHelper: NSObject {
   
   open func playAudioWithData(_ identify: String,
                               _ voiceData: Data,
-                              progressCallback: @escaping ProgressCallback,
-                              finishCallBack: @escaping FinishCallback,
-                              stopCallBack: @escaping StopCallback) {
+                              _ progressCallback: @escaping ProgressCallback,
+                              _ finishCallBack: @escaping FinishCallback,
+                              _ stopCallBack: @escaping StopCallback) {
     self.stopAudio()
     do {
       self.identify = identify

@@ -67,20 +67,20 @@ public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol
         IMUIAudioPlayerHelper
           .sharedInstance
           .playAudioWithData((self.message?.msgId)!,voiceData,
-                             progressCallback: { (id, power, currendTime, duration) in
-                                if self.message?.msgId == id {
-                                  self.setImage(with: Int(currendTime*4)%3 + 1)
-                                }
+                             { (id, power, currendTime, duration) in
+                              if self.message?.msgId == id {
+                                self.setImage(with: Int(currendTime*4)%3 + 1)
+                              }
                               
                               
-                              },
-                             finishCallBack: { id in
-                                if self.message?.msgId == id {
-                                  self.isMediaActivity = false
-                                  self.resetVoiceImage()
-                                }
-                              },
-                             stopCallBack: {id in
+          },
+                             { id in
+                              if self.message?.msgId == id {
+                                self.isMediaActivity = false
+                                self.resetVoiceImage()
+                              }
+          },
+                             {id in
                                 if self.message?.msgId == id {
                                   self.isMediaActivity = false
                                   self.resetVoiceImage()

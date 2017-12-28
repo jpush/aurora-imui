@@ -57,6 +57,7 @@ Refer to iOS,Android example
     - [avatarCornerRadius](#avatarcornerradius)
     - [isShowDisplayName](#isShowdisplayname)
     - [messageListBackgroundColor](#messagelistbackgroundcolor)
+    - [isAllowPullToRefresh](#isallowpulltorefresh)
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
@@ -419,7 +420,13 @@ Example:  ```messageListBackgroundColor="#000000"```
 
 ------
 
+#### isAllowPullToRefresh
 
+**PropTypes.bool:**
+
+Show pull-to-refresh or not.
+
+Example: ```isAllowPullToRefresh={ture}```。
 
 ## ChatInput
 
