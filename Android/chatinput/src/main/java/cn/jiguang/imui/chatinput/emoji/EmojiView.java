@@ -5,19 +5,16 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 import cn.jiguang.imui.chatinput.R;
-import sj.keyboard.adpater.PageSetAdapter;
-import sj.keyboard.data.PageSetEntity;
-import sj.keyboard.widget.AutoHeightLayout;
-import sj.keyboard.widget.EmoticonsEditText;
-import sj.keyboard.widget.EmoticonsFuncView;
-import sj.keyboard.widget.EmoticonsIndicatorView;
-import sj.keyboard.widget.EmoticonsToolBarView;
+import cn.jiguang.imui.chatinput.emoji.adapter.PageSetAdapter;
+import cn.jiguang.imui.chatinput.emoji.data.PageSetEntity;
+import cn.jiguang.imui.chatinput.emoji.widget.AutoHeightLayout;
+import cn.jiguang.imui.chatinput.emoji.widget.EmoticonsFuncView;
+import cn.jiguang.imui.chatinput.emoji.widget.EmoticonsIndicatorView;
+import cn.jiguang.imui.chatinput.emoji.widget.EmoticonsToolBarView;
 
 
 public class EmojiView extends AutoHeightLayout implements EmoticonsFuncView.OnEmoticonsPageViewListener,

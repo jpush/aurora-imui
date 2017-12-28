@@ -22,7 +22,7 @@ compile 'cn.jiguang.imui:messagelist:0.5.7'
 </dependency>
 ```
 
-- JitPack（由于 0.4.8 引入了 AndroidEmoji，所以 0.4.8 以上版本需要添加 jitpack 依赖 ）
+- JitPack
 ```groovy
 // project/build.gradle
 allprojects {

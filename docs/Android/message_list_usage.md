@@ -23,7 +23,7 @@ compile 'cn.jiguang.imui:messagelist:0.5.7'
 </dependency>
 ```
 
-- JitPack（^0.4.8 must add JitPack dependency.）
+- JitPack
 ```groovy
 // Add in project's build.gradle
 allprojects {

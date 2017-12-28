@@ -19,6 +19,13 @@
     <dimen name="aurora_textsize_chronometer">20sp</dimen>
     <dimen name="aurora_size_record_button">70dp</dimen>
     <dimen name="aurora_size_album_button">60dp</dimen>
+
+    <dimen name="aurora_horizontalspit_view_height">0.6dp</dimen>
+    <dimen name="item_emoticon_size_default">32dp</dimen>
+    <dimen name="bar_tool_btn_width">56dp</dimen>
+    <dimen name="bar_height">32dp</dimen>
+    <dimen name="indicator_margin">10dp</dimen>
+    <dimen name="verticalspit_view_width">0.6dp</dimen>
     <!-- chat input end -->
 
 </resources>

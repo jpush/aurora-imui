@@ -16,7 +16,7 @@
             android:layout_width="16dp"
             android:layout_height="match_parent" />
 
-        <sj.keyboard.widget.EmoticonsEditText
+        <cn.jiguang.imui.chatinput.emoji.widget.EmoticonsEditText
             android:id="@+id/aurora_et_chat_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

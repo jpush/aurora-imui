@@ -14,4 +14,7 @@
     <color name="aurora_text_color_input">#000000</color>
     <color name="aurora_hint_color_input">#8b8b8b</color>
     <color name="aurora_chronometer_text_color">#92A7C5</color>
+    <color name="aurora_spilt_line">#CFCFCF</color>
+    <color name="toolbar_btn_nomal">@color/white</color>
+    <color name="toolbar_btn_select">#D9D9D9</color>
 </resources>

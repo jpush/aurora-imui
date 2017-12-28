@@ -2,18 +2,12 @@ package cn.jiguang.imui.chatinput.utils;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.sj.emoji.DefEmoticons;
-import com.sj.emoji.EmojiBean;
-import com.sj.emoji.EmojiDisplay;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -22,20 +16,21 @@ import java.util.Collections;
 
 import cn.jiguang.imui.chatinput.R;
 import cn.jiguang.imui.chatinput.emoji.Constants;
+import cn.jiguang.imui.chatinput.emoji.DefEmoticons;
+import cn.jiguang.imui.chatinput.emoji.EmojiBean;
 import cn.jiguang.imui.chatinput.emoji.EmojiFilter;
-import sj.keyboard.adpater.EmoticonsAdapter;
-import sj.keyboard.adpater.PageSetAdapter;
-import sj.keyboard.data.EmoticonEntity;
-import sj.keyboard.data.EmoticonPageEntity;
-import sj.keyboard.data.EmoticonPageSetEntity;
-import sj.keyboard.interfaces.EmoticonClickListener;
-import sj.keyboard.interfaces.EmoticonDisplayListener;
-import sj.keyboard.interfaces.PageViewInstantiateListener;
-import sj.keyboard.utils.EmoticonsKeyboardUtils;
-import sj.keyboard.utils.imageloader.ImageBase;
-import sj.keyboard.utils.imageloader.ImageLoader;
-import sj.keyboard.widget.EmoticonPageView;
-import sj.keyboard.widget.EmoticonsEditText;
+import cn.jiguang.imui.chatinput.emoji.listener.EmoticonClickListener;
+import cn.jiguang.imui.chatinput.emoji.listener.EmoticonDisplayListener;
+import cn.jiguang.imui.chatinput.emoji.data.EmoticonEntity;
+import cn.jiguang.imui.chatinput.emoji.data.EmoticonPageEntity;
+import cn.jiguang.imui.chatinput.emoji.data.EmoticonPageSetEntity;
+import cn.jiguang.imui.chatinput.emoji.widget.EmoticonPageView;
+import cn.jiguang.imui.chatinput.emoji.adapter.EmoticonsAdapter;
+import cn.jiguang.imui.chatinput.emoji.widget.EmoticonsEditText;
+import cn.jiguang.imui.chatinput.emoji.listener.ImageBase;
+import cn.jiguang.imui.chatinput.emoji.ImageLoader;
+import cn.jiguang.imui.chatinput.emoji.adapter.PageSetAdapter;
+import cn.jiguang.imui.chatinput.emoji.listener.PageViewInstantiateListener;
 
 public class SimpleCommonUtils {
 
@@ -219,14 +214,14 @@ public class SimpleCommonUtils {
         editText.onKeyDown(KeyEvent.KEYCODE_DEL, event);
     }
 
-    public static void spannableEmoticonFilter(TextView tv_content, String content) {
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(content);
-
-        Spannable spannable = EmojiDisplay.spannableFilter(tv_content.getContext(),
-                spannableStringBuilder,
-                content,
-                EmoticonsKeyboardUtils.getFontHeight(tv_content));
-
-        tv_content.setText(spannable);
-    }
+//    public static void spannableEmoticonFilter(TextView tv_content, String content) {
+//        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(content);
+//
+//        Spannable spannable = EmojiDisplay.spannableFilter(tv_content.getContext(),
+//                spannableStringBuilder,
+//                content,
+//                EmoticonsKeyboardUtils.getFontHeight(tv_content));
+//
+//        tv_content.setText(spannable);
+//    }
 }

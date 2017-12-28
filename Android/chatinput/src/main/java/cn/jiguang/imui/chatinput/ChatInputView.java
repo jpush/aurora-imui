@@ -45,7 +45,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sj.emoji.EmojiBean;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -59,7 +58,12 @@ import cn.jiguang.imui.chatinput.camera.CameraNew;
 import cn.jiguang.imui.chatinput.camera.CameraOld;
 import cn.jiguang.imui.chatinput.camera.CameraSupport;
 import cn.jiguang.imui.chatinput.emoji.Constants;
+import cn.jiguang.imui.chatinput.emoji.EmojiBean;
 import cn.jiguang.imui.chatinput.emoji.EmojiView;
+import cn.jiguang.imui.chatinput.emoji.listener.EmoticonClickListener;
+import cn.jiguang.imui.chatinput.emoji.data.EmoticonEntity;
+import cn.jiguang.imui.chatinput.emoji.widget.EmoticonsEditText;
+import cn.jiguang.imui.chatinput.emoji.EmoticonsKeyboardUtils;
 import cn.jiguang.imui.chatinput.listener.CameraControllerListener;
 import cn.jiguang.imui.chatinput.listener.CameraEventListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
@@ -73,10 +77,6 @@ import cn.jiguang.imui.chatinput.record.ProgressButton;
 import cn.jiguang.imui.chatinput.record.RecordControllerView;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
 import cn.jiguang.imui.chatinput.utils.SimpleCommonUtils;
-import sj.keyboard.data.EmoticonEntity;
-import sj.keyboard.interfaces.EmoticonClickListener;
-import sj.keyboard.utils.EmoticonsKeyboardUtils;
-import sj.keyboard.widget.EmoticonsEditText;
 
 public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
