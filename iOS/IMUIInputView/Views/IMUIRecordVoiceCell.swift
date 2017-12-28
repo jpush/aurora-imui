@@ -85,9 +85,6 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
       
       case AVAudioSessionRecordPermission.undetermined:
         AVAudioSession.sharedInstance().requestRecordPermission({ (granted) in })
-        
-        break
-      default:
         break
     }
     
@@ -171,12 +168,12 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     do {
       let voiceData = try Data(contentsOf: URL(fileURLWithPath: recordHelper.recordPath!))
 
-      IMUIAudioPlayerHelper.sharedInstance.playAudioWithData("",voiceData, progressCallback: { (identify, currentTime, duration) in
+      IMUIAudioPlayerHelper.sharedInstance.playAudioWithData("",voiceData, { (identify, power,  currentTime, duration) in
         self.playVoiceBtn.progress = CGFloat(currentTime/duration)
         
-      }, finishCallBack: { (identify) in
+      }, { (identify) in
         self.playVoiceBtn.isSelected = false
-      }, stopCallBack: {id in })
+      }, {id in })
     } catch {
       print("fail to play recorded voice!")
       print(error)

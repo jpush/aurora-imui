@@ -24,7 +24,10 @@ public class IMUIAudioPlayerHelper: NSObject {
   weak var delegate:IMUIAudioPlayerDelegate?
 
   // play tick callback
-  public typealias ProgressCallback = (_ identify: String, _ currentTime: TimeInterval, _ duration: TimeInterval) -> ()
+  public typealias ProgressCallback = (_ identify: String,
+                                       _ averagePower: Float,
+                                       _ currentTime: TimeInterval,
+                                       _ duration: TimeInterval) -> ()
   public typealias FinishCallback = (String) -> ()
   public typealias StopCallback = (String) -> ()
   
@@ -59,9 +62,9 @@ public class IMUIAudioPlayerHelper: NSObject {
   
   open func playAudioWithData(_ identify: String,
                               _ voiceData: Data,
-                              progressCallback: @escaping ProgressCallback,
-                              finishCallBack: @escaping FinishCallback,
-                              stopCallBack: @escaping StopCallback) {
+                              _ progressCallback: @escaping ProgressCallback,
+                              _ finishCallBack: @escaping FinishCallback,
+                              _ stopCallBack: @escaping StopCallback) {
     self.stopAudio()
     do {
       self.identify = identify
@@ -86,6 +89,7 @@ public class IMUIAudioPlayerHelper: NSObject {
       let voicePlayer:AVAudioPlayer = try AVAudioPlayer(data: voiceData)
       voicePlayer.delegate = self
       voicePlayer.play()
+      voicePlayer.isMeteringEnabled = true;
       self.player = voicePlayer
     } catch let error as NSError {
       print("alloc AVAudioPlayer with voice data fail with error \(error)")
@@ -101,7 +105,8 @@ public class IMUIAudioPlayerHelper: NSObject {
   }
   
   @objc func trackAudio() {
-    self.playProgressCallback?(self.identify ,player.currentTime, player.duration)
+    player.updateMeters()
+    self.playProgressCallback?(self.identify, player.averagePower(forChannel: 0), player.currentTime, player.duration)
   }
   
   func pausePlayingAudio() {

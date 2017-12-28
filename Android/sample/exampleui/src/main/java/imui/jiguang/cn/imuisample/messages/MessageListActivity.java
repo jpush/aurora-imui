@@ -276,6 +276,14 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
 
             }
         });
+
+        mChatView.getSelectAlbumBtn().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MessageListActivity.this, "OnClick select album button",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void registerProximitySensorListener() {

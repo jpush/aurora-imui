@@ -43,7 +43,9 @@ public class ChatInputStyle extends Style {
 
     private Drawable sendBtnBg;
     private int sendBtnIcon;
+    private int sendBtnPressedIcon;
     private Drawable sendCountBg;
+    private boolean showSelectAlbumBtn;
 
     public static ChatInputStyle parse(Context context, AttributeSet attrs) {
         ChatInputStyle style = new ChatInputStyle(context, attrs);
@@ -75,7 +77,9 @@ public class ChatInputStyle extends Style {
         style.cameraBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_cameraBtnIcon, R.drawable.aurora_menuitem_camera);
         style.sendBtnBg = typedArray.getDrawable(R.styleable.ChatInputView_sendBtnBg);
         style.sendBtnIcon = typedArray.getResourceId(R.styleable.ChatInputView_sendBtnIcon, R.drawable.aurora_menuitem_send);
+        style.sendBtnPressedIcon = typedArray.getResourceId(R.styleable.ChatInputView_sendBtnPressedIcon, R.drawable.aurora_menuitem_send_pres);
         style.sendCountBg = typedArray.getDrawable(R.styleable.ChatInputView_sendCountBg);
+        style.showSelectAlbumBtn = typedArray.getBoolean(R.styleable.ChatInputView_showSelectAlbum, true);
         typedArray.recycle();
 
         style.inputDefaultPaddingLeft = style.getDimension(R.dimen.aurora_padding_input_left);
@@ -158,6 +162,14 @@ public class ChatInputStyle extends Style {
         return sendBtnIcon;
     }
 
+    public int getSendBtnPressedIcon() {
+        return this.sendBtnPressedIcon;
+    }
+
+    public void setSendBtnPressedIcon(int resId) {
+        this.sendBtnPressedIcon = resId;
+    }
+
     public Drawable getSendBtnBg() {
         return this.sendBtnBg;
     }
@@ -183,5 +195,9 @@ public class ChatInputStyle extends Style {
 
     public int getInputDefaultPaddingBottom() {
         return inputDefaultPaddingBottom;
+    }
+
+    public boolean getShowSelectAlbum() {
+        return this.showSelectAlbumBtn;
     }
 }

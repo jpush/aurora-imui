@@ -56,6 +56,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [avatarCornerRadius](#avatarcornerradius)
     - [isShowDisplayName](#isShowdisplayname)
     - [messageListBackgroundColor](#messagelistbackgroundcolor)
+    - [isAllowPullToRefresh](#isallowpulltorefresh)
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
@@ -412,6 +413,14 @@ message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 Example:  ```messageListBackgroundColor="#000000"```
 
 ------
+
+#### isAllowPullToRefresh
+
+**PropTypes.bool:**
+
+是否开启下拉刷新功能，Example: ```isAllowPullToRefresh={ture}```。
+
+***
 
 
 

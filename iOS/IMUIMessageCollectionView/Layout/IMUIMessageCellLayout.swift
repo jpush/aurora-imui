@@ -117,11 +117,7 @@ import UIKit
   }
   
   public var relativeBubbleOffsetToAvatar: UIOffset {
-    if self.isOutGoingMessage {
-      return UIOffset(horizontal: -IMUIMessageCellLayout.bubbleOffsetToAvatar.horizontal, vertical: IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical)
-    } else {
-      return IMUIMessageCellLayout.statusViewOffsetToBubble
-    }
+    return IMUIMessageCellLayout.bubbleOffsetToAvatar
   }
 
   public var relativeStatusViewOffsetToBubble: UIOffset {
@@ -253,7 +249,7 @@ import UIKit
     if self.isOutGoingMessage {
       bubbleX = IMUIMessageCellLayout.cellWidth +
         relativeAvatarOffsetToCell.horizontal -
-        avatarFrame.width +
+        avatarFrame.width -
         relativeBubbleOffsetToAvatar.horizontal -
         cellContentInset.right -
         self.bubbleSize.width
