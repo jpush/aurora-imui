@@ -113,6 +113,7 @@ public class ChatInputView extends LinearLayout
     private RecordVoiceButton mRecordVoiceBtn;
 
     SelectPhotoView mSelectPhotoView;
+    private ImageButton mSelectAlbumIb;
 
     private FrameLayout mCameraFl;
     private TextureView mTextureView;
@@ -236,6 +237,7 @@ public class ChatInputView extends LinearLayout
         mSwitchCameraBtn = (ImageButton) findViewById(R.id.aurora_ib_camera_switch);
 
         mSelectPhotoView = (SelectPhotoView) findViewById(R.id.aurora_view_selectphoto);
+        mSelectAlbumIb = (ImageButton) findViewById(R.id.aurora_imagebtn_selectphoto_album);
         mSelectPhotoView.setOnFileSelectedListener(this);
         mSelectPhotoView.initData();
         mEmojiRl = (EmojiView) findViewById(R.id.aurora_rl_emoji_container);
@@ -338,6 +340,7 @@ public class ChatInputView extends LinearLayout
         mSendBtn.setBackground(mStyle.getSendBtnBg());
         mSendBtn.setImageResource(mStyle.getSendBtnIcon());
         mSendCountTv.setBackground(mStyle.getSendCountBg());
+        mSelectAlbumIb.setVisibility(mStyle.getShowSelectAlbum()? VISIBLE: INVISIBLE);
 
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -1278,5 +1281,9 @@ public class ChatInputView extends LinearLayout
 
     public ImageButton getSendBtn() {
         return this.mSendBtn;
+    }
+
+    public ImageButton getSelectAlbumBtn() {
+        return this.mSelectAlbumIb;
     }
 }

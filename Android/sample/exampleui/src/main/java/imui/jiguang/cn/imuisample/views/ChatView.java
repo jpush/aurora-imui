@@ -3,6 +3,7 @@ package imui.jiguang.cn.imuisample.views;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class ChatView extends RelativeLayout {
     private ChatInputView mChatInput;
     private RecordVoiceButton mRecordVoiceBtn;
     private PullToRefreshLayout mPtrLayout;
+    private ImageButton mSelectAlbumIb;
 
     public ChatView(Context context) {
         super(context);
@@ -47,6 +49,7 @@ public class ChatView extends RelativeLayout {
         mPtrLayout = (PullToRefreshLayout) findViewById(R.id.pull_to_refresh_layout);
 
         mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
+        mSelectAlbumIb = mChatInput.getSelectAlbumBtn();
         PtrDefaultHeader header = new PtrDefaultHeader(getContext());
         int[] colors = getResources().getIntArray(R.array.google_colors);
         header.setColorSchemeColors(colors);
@@ -123,5 +126,9 @@ public class ChatView extends RelativeLayout {
 
     public MessageList getMessageListView() {
         return mMsgList;
+    }
+
+    public ImageButton getSelectAlbumBtn() {
+        return this.mSelectAlbumIb;
     }
 }

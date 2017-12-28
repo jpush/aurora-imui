@@ -24,6 +24,7 @@
         <attr name="cameraBtnIcon" format="reference" />
         <attr name="photoBtnBg" format="reference" />
         <attr name="photoBtnIcon" format="reference" />
+        <attr name="showSelectAlbum" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="RecordVoiceButton">

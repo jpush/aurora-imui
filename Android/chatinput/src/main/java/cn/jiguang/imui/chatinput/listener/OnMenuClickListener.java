@@ -42,5 +42,8 @@ public interface OnMenuClickListener {
      */
     boolean switchToCameraMode();
 
+    /**
+     * Fires when emoji button is on click.
+     */
     boolean switchToEmojiMode();
 }
