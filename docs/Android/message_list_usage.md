@@ -10,7 +10,7 @@ We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.5.7'
+compile 'cn.jiguang.imui:messagelist:0.5.8'
 ```
 
 -  Maven：
@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:messagelist:0.5.7'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.5.7</version>
+  <version>0.5.8</version>
   <type>pom</type>
 </dependency>
 ```
@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.6.5'
+    compile 'com.github.jpush:imui:0.6.6'
 }
 ```
 
@@ -88,8 +88,8 @@ If you prefer add pull to refresh feature to `MessageList`, then you should use 
         android:layout_height="match_parent"
         app:avatarHeight="48dp"
         app:avatarWidth="48dp"
-        app:showReceiverDisplayName="SHOW"
-        app:showSenderDisplayName="HIDE"
+        app:showReceiverDisplayName="true"
+        app:showSenderDisplayName="false"
         app:avatarRadius="5dp"
         app:bubbleMaxWidth="0.70"
         app:dateTextSize="14sp"
@@ -146,11 +146,11 @@ Almost all attributes not only can be set in XML file but also can be set in cod
 MessageList messageList = (MessageList) findViewById(R.id.msg_list);
 ```
 
-- To show receiver or sender 's display name，you can set `showReceiverDisplayName` and  `showSenderDisplayName` to 1 in XML file above, you can also set in code like：
+- To show receiver or sender 's display name，you can set `showReceiverDisplayName` and  `showSenderDisplayName` to true or false in XML file above, or you can also set in code like：
 
   ```Java
-  messageList.setShowSenderDisplayName(1);
-  messageList.setShowReceiverDisplayName(1);
+  messageList.setShowSenderDisplayName(true);
+  messageList.setShowReceiverDisplayName(true);
   ```
 
 - Forbid pull to refresh（Added since 0.4.8），call `messageList.forbidScrollToRefresh(true)`, then `onLoadMore` would not trigger.
@@ -178,12 +178,12 @@ public class MyMessage implements IMessage {
     private long id;
     private String text;
     private String timeString;
-    private MessageType type;
+    private int type;
     private IUser user;
     private String contentFile;
     private long duration;
 
-    public MyMessage(String text, MessageType type) {
+    public MyMessage(String text, int type) {
         this.text = text;
         this.type = type;
         this.id = UUID.randomUUID().getLeastSignificantBits();
@@ -229,7 +229,7 @@ public class MyMessage implements IMessage {
     }
 
     @Override
-    public MessageType getType() {
+    public int getType() {
         return type;
     }
 
@@ -296,7 +296,7 @@ adapter.addToStart(message, true);
 adapter.addToEnd(messages);
 ```
 
-- Scroll to load history messages(**If you add `PullToRefreshLayout`, pass this part.**)
+- Scroll to load history messages(**Attention: If you add `PullToRefreshLayout`, pass this part.**)
   After adding this listener: `OnLoadMoreListener`，when scroll to top will fire `onLoadMore` event，for example：
 ```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {
