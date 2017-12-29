@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
@@ -122,19 +123,19 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
                 message.getString(RCTMessage.STATUS), message.getString(RCTMessage.MSG_TYPE),
                 message.getBoolean(RCTMessage.IS_OUTGOING));
         switch (rctMsg.getType()) {
-            case SEND_VOICE:
-            case RECEIVE_VOICE:
-            case SEND_VIDEO:
-            case RECEIVE_VIDEO:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
                 rctMsg.setMediaFilePath(message.getString("mediaPath"));
                 rctMsg.setDuration(message.getInt("duration"));
                 break;
-            case SEND_IMAGE:
-            case RECEIVE_IMAGE:
+            case 3:
+            case 4:
                 rctMsg.setMediaFilePath(message.getString("mediaPath"));
                 break;
-            case RECEIVE_CUSTOM:
-            case SEND_CUSTOM:
+            case 13:
+            case 14:
             default:
                 if (message.hasKey("content")) {
                     rctMsg.setText(message.getString("content"));

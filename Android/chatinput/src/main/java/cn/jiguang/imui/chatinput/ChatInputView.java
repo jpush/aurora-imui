@@ -129,7 +129,6 @@ public class ChatInputView extends LinearLayout
 
     private InputMethodManager mImm;
     private Window mWindow;
-    private int mLastClickId = 0;
 
     private int mWidth;
     private int mHeight;

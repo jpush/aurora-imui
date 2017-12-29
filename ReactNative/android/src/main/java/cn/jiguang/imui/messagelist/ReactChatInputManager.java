@@ -51,6 +51,7 @@ import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.messagelist.event.GetTextEvent;
+import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
 import sj.keyboard.utils.EmoticonsKeyboardUtils;
@@ -88,11 +89,10 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private ChatInputView mChatInput;
     private ReactContext mContext;
     private int mWidth;
-    private boolean mOpenMenu = false;
     private boolean mInitState = true;
+    private boolean mShowMenu = false;
     private double mCurrentInputHeight = 48;
-    private float mSoftKeyboardHeight;
-    private int mScreenHeight;
+    private int InitialChatInputHeight = 100;
     private int mScreenWidth;
 
     @Override
@@ -134,7 +134,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         DisplayMetrics dm = new DisplayMetrics();
         reactContext.getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         final float density = dm.density;
-        mScreenHeight = dm.heightPixels;
         mScreenWidth = dm.widthPixels;
         editText.addTextChangedListener(new TextWatcher() {
 
@@ -163,6 +162,9 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 if (input.length() == 0) {
                     return false;
                 }
+                WritableMap map = Arguments.createMap();
+                map.putDouble("height", InitialChatInputHeight);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
                 WritableMap event = Arguments.createMap();
                 event.putString("text", input.toString());
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_SEND_TEXT_EVENT, event);
@@ -296,7 +298,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             @Override
             public void onFullScreenClick() {
                 FrameLayout container = mChatInput.getCameraContainer();
-                container.setLayoutParams(new FrameLayout.LayoutParams(mScreenWidth, mScreenHeight));
+//                container.setLayoutParams(new FrameLayout.LayoutParams(mScreenWidth, mScreenHeight));
                 container.bringToFront();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         ON_FULL_SCREEN_EVENT, null);
@@ -305,11 +307,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             @Override
             public void onRecoverScreenClick() {
                 moveToBack(mChatInput.getCameraContainer());
-                if (mChatInput.getSoftKeyboardHeight() == 0) {
-                    mSoftKeyboardHeight = 625;
-                } else {
-                    mSoftKeyboardHeight = mChatInput.getSoftKeyboardHeight() * 2 / density;
-                }
                 FrameLayout container = mChatInput.getCameraContainer();
                 container.setLayoutParams(new FrameLayout.LayoutParams(mScreenWidth, ViewGroup.LayoutParams.MATCH_PARENT));
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
@@ -330,7 +327,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     }
 
     private void initMenu(float density) {
-        mOpenMenu = true;
+        mShowMenu = true;
         if (mChatInput.getSoftInputState()) {
             EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput.getInputView());
         }
@@ -340,51 +337,32 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             EventBus.getDefault().post(new ScrollEvent(true));
         }
         WritableMap event = Arguments.createMap();
-        event.putDouble("height", calculateMenuHeight(density));
+        event.putDouble("height", InitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / density);
         mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, event);
     }
 
     private double calculateMenuHeight(float density) {
-        double layoutHeight;
-        if (mChatInput.getSoftKeyboardHeight() == 0) {
-            mSoftKeyboardHeight = 625;
-        } else {
-            mSoftKeyboardHeight = mChatInput.getSoftKeyboardHeight() * 2 / density;
+        double layoutHeight = InitialChatInputHeight;
+        if (mShowMenu) {
+            layoutHeight += mChatInput.getSoftKeyboardHeight() / density;
         }
         switch (mChatInput.getInputView().getLineCount()) {
             case 0:
             case 1:
                 mCurrentInputHeight = 48 * density;
-                if (mOpenMenu) {
-                    layoutHeight = (mCurrentInputHeight + 380) / density + mSoftKeyboardHeight;
-                } else {
-                    layoutHeight =  200;
-                }
                 break;
             case 2:
+                if (mShowMenu)
+                layoutHeight += 5.4;
                 mCurrentInputHeight = 53.4 * density;
-                if (mOpenMenu) {
-                    layoutHeight = (mCurrentInputHeight + 380) / density + mSoftKeyboardHeight;
-                } else {
-                    double height = (mCurrentInputHeight + 380 + 15 * density) / density;
-                    layoutHeight = height > 200 ? height : 200;
-                }
                 break;
             case 3:
+                layoutHeight += 25.5;
                 mCurrentInputHeight = 73.5 * density;
-                if (mOpenMenu) {
-                    layoutHeight = (mCurrentInputHeight + 380 + 35 * density) / density + mSoftKeyboardHeight;
-                } else {
-                    layoutHeight = (mCurrentInputHeight + 380 + 35 * density) / density;
-                }
                 break;
             default:
+                layoutHeight += 45.7;
                 mCurrentInputHeight = 93.7 * density;
-                if (mOpenMenu) {
-                    layoutHeight = (mCurrentInputHeight + 380 + 55 * density) / density + mSoftKeyboardHeight;
-                } else {
-                    layoutHeight = (mCurrentInputHeight + 380 + 55 * density) / density;
-                }
         }
         return layoutHeight;
     }
@@ -400,6 +378,13 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(StopPlayVoiceEvent event) {
         mChatInput.pauseVoice();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(OnTouchMsgListEvent event) {
+        WritableMap map = Arguments.createMap();
+        map.putDouble("height", InitialChatInputHeight);
+        mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
     }
 
     @ReactProp(name = "chatInputBackgroupColor")
@@ -476,15 +461,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             case RESET_MENU_STATE:
                 try {
                     WritableMap event = Arguments.createMap();
-                    mOpenMenu = args.getBoolean(0);
+                    mShowMenu = args.getBoolean(0);
                     float dp = mContext.getResources().getDisplayMetrics().density;
                     mContext.getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                    int lineCount = root.getInputView().getLineCount();
-                    if (lineCount > 4) {
-                        lineCount = 4;
-                    }
                     if (mInitState) {
-                        event.putDouble("height", 200);
+                        event.putDouble("height", InitialChatInputHeight);
                     } else {
                         event.putDouble("height", calculateMenuHeight(dp));
                     }

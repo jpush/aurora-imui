@@ -11,8 +11,11 @@ var {
 var {
   StyleSheet,
   ViewPropTypes,
+  UIManager,
+  findNodeHandle,
   requireNativeComponent,
 } = ReactNative;
+const PTR_LAYOUT = "ptr_layout";
 
 export default class MessageList extends Component {
 
@@ -68,10 +71,15 @@ export default class MessageList extends Component {
     this.props.onPullToRefresh();
   }
 
+  refreshComplete() {
+    UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[PTR_LAYOUT]), 0, null);
+  }
+
   render() {
     return (
       <RCTMessageList 
           {...this.props} 
+          ref={PTR_LAYOUT} 
           onMsgClick={this._onMsgClick}
           onAvatarClick={this._onAvatarClick}
           onMsgLongClick={this._onMsgLongClick}
@@ -85,6 +93,7 @@ export default class MessageList extends Component {
 }
 
 MessageList.propTypes = {
+  messageListBackgroundColor: PropTypes.string,
   onMsgClick: PropTypes.func,
   onMsgLongClick: PropTypes.func,
   onAvatarClick: PropTypes.func,

@@ -11,4 +11,26 @@
     app:PtrRatioHeightToRefresh="1.2"
     app:PtrResistance="1.2">
 
+    <cn.jiguang.imui.messages.MessageList
+        android:id="@+id/msg_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:avatarHeight="48dp"
+        app:avatarRadius="5dp"
+        app:avatarWidth="48dp"
+        app:bubbleMaxWidth="0.70"
+        app:dateTextSize="14sp"
+        app:receiveBubblePaddingLeft="16dp"
+        app:receiveBubblePaddingRight="8dp"
+        app:receiveTextColor="#ffffff"
+        app:receiveTextSize="16sp"
+        app:sendBubblePaddingLeft="8dp"
+        app:sendBubblePaddingRight="16dp"
+        app:sendTextColor="#7587A8"
+        app:sendTextSize="16sp"
+        app:showReceiverDisplayName="false"
+        app:showSenderDisplayName="false">
+
+    </cn.jiguang.imui.messages.MessageList>
+
 </cn.jiguang.imui.messages.ptr.PullToRefreshLayout>

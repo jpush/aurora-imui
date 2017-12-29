@@ -6,7 +6,6 @@ import {
 
 import ChatInput from './ReactNative/chatinput';
 import MessageList from './ReactNative/messagelist';
-import AndroidPtrLayout from './ReactNative/ptrlayout';
 
 const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
 
@@ -117,6 +116,5 @@ class AuroraIMUIController {
 module.exports = {
 	ChatInput: ChatInput,
 	MessageList: MessageList,
-	AndroidPtrLayout: AndroidPtrLayout,
 	AuroraIMUIController: AuroraIMUIController
 };
