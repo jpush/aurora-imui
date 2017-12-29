@@ -82,10 +82,6 @@ public class ChatInputView extends LinearLayout
         implements View.OnClickListener, TextWatcher, RecordControllerView.OnRecordActionListener,
         OnFileSelectedListener, CameraEventListener, ViewTreeObserver.OnGlobalLayoutListener {
 
-    public static final byte KEYBOARD_STATE_SHOW = -3;
-    public static final byte KEYBOARD_STATE_HIDE = -2;
-    public static final byte KEYBOARD_STATE_INIT = -1;
-
     private EmoticonsEditText mChatInput;
     private TextView mSendCountTv;
     private CharSequence mInput;
@@ -278,8 +274,8 @@ public class ChatInputView extends LinearLayout
                 if (!mChatInput.isFocused()) {
                     mChatInput.setFocusable(true);
                     mChatInput.setFocusableInTouchMode(true);
-                    mShowSoftInput = true;
                 }
+                mShowSoftInput = true;
                 return false;
             }
         });
@@ -292,22 +288,22 @@ public class ChatInputView extends LinearLayout
             if (isDelBtn) {
                 SimpleCommonUtils.delClick(mChatInput);
             } else {
-                if(o == null){
+                if (o == null) {
                     return;
                 }
-                if(actionType == Constants.EMOTICON_CLICK_BIGIMAGE){
+                if (actionType == Constants.EMOTICON_CLICK_BIGIMAGE) {
 //                    if(o instanceof EmoticonEntity){
 //                        OnSendImage(((EmoticonEntity)o).getIconUri());
 //                    }
                 } else {
                     String content = null;
-                    if(o instanceof EmojiBean){
-                        content = ((EmojiBean)o).emoji;
-                    } else if(o instanceof EmoticonEntity){
-                        content = ((EmoticonEntity)o).getContent();
+                    if (o instanceof EmojiBean) {
+                        content = ((EmojiBean) o).emoji;
+                    } else if (o instanceof EmoticonEntity) {
+                        content = ((EmoticonEntity) o).getContent();
                     }
 
-                    if(TextUtils.isEmpty(content)){
+                    if (TextUtils.isEmpty(content)) {
                         return;
                     }
                     int index = mChatInput.getSelectionStart();
@@ -340,7 +336,7 @@ public class ChatInputView extends LinearLayout
         mSendBtn.setBackground(mStyle.getSendBtnBg());
         mSendBtn.setImageResource(mStyle.getSendBtnIcon());
         mSendCountTv.setBackground(mStyle.getSendCountBg());
-        mSelectAlbumIb.setVisibility(mStyle.getShowSelectAlbum()? VISIBLE: INVISIBLE);
+        mSelectAlbumIb.setVisibility(mStyle.getShowSelectAlbum() ? VISIBLE : INVISIBLE);
 
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -433,20 +429,6 @@ public class ChatInputView extends LinearLayout
                 }
 
             } else {
-                if (mMenuContainer.getVisibility() != VISIBLE) {
-                    dismissSoftInputAndShowMenu();
-                } else if (view.getId() == mLastClickId && mMenuContainer.getVisibility() == VISIBLE) {
-                    if (mShowSoftInput) {
-                        EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput);
-                        mShowSoftInput = false;
-                    } else {
-                        EmoticonsKeyboardUtils.openSoftKeyboard(mChatInput);
-                        mShowSoftInput = true;
-                    }
-
-                    return;
-                }
-
                 if (view.getId() == R.id.aurora_framelayout_menuitem_voice) {
                     if (mListener != null && mListener.switchToMicrophoneMode()) {
                         showRecordVoiceLayout();
@@ -478,8 +460,24 @@ public class ChatInputView extends LinearLayout
                     }
                 } else if (view.getId() == R.id.aurora_framelayout_menuitem_emoji) {
                     if (mListener != null && mListener.switchToEmojiMode()) {
-                            showEmojiLayout();
+                        showEmojiLayout();
                     }
+                }
+
+                if (mMenuContainer.getVisibility() != VISIBLE) {
+                    dismissSoftInputAndShowMenu();
+                } else if (view.getId() == mLastClickId && mMenuContainer.getVisibility() == VISIBLE) {
+                    if (mShowSoftInput) {
+                        EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput);
+                        mShowSoftInput = false;
+                    } else {
+                        EmoticonsKeyboardUtils.openSoftKeyboard(mChatInput);
+                        mShowSoftInput = true;
+                    }
+                    return;
+                } else if (mShowSoftInput) {
+                    EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput);
+                    mShowSoftInput = false;
                 }
 
                 mLastClickId = view.getId();

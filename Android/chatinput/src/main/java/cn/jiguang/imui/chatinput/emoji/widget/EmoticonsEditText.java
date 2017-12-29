@@ -99,6 +99,11 @@ public class EmoticonsEditText extends AppCompatEditText {
         return super.dispatchKeyEventPreIme(event);
     }
 
+    @Override
+    public boolean performClick() {
+        return super.performClick();
+    }
+
     public interface OnBackKeyClickListener {
         void onBackKeyClick();
     }
