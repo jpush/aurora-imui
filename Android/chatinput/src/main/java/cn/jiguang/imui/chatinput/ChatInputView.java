@@ -466,21 +466,11 @@ public class ChatInputView extends LinearLayout
 
                 if (mMenuContainer.getVisibility() != VISIBLE) {
                     dismissSoftInputAndShowMenu();
-                } else if (view.getId() == mLastClickId && mMenuContainer.getVisibility() == VISIBLE) {
-                    if (mShowSoftInput) {
-                        EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput);
-                        mShowSoftInput = false;
-                    } else {
-                        EmoticonsKeyboardUtils.openSoftKeyboard(mChatInput);
-                        mShowSoftInput = true;
-                    }
-                    return;
-                } else if (mShowSoftInput) {
+                }
+                if (mShowSoftInput) {
                     EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput);
                     mShowSoftInput = false;
                 }
-
-                mLastClickId = view.getId();
             }
         }
     };
