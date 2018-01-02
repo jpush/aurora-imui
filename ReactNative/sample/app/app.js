@@ -23,14 +23,12 @@ var ReactNative = require('react-native')
 import IMUI from 'aurora-imui-react-native'
 var InputView = IMUI.ChatInput
 var MessageListView = IMUI.MessageList
-var AndroidPtrLayout = IMUI.AndroidPtrLayout
 const AuroraIController = IMUI.AuroraIMUIController
 const window = Dimensions.get('window')
 const getInputTextEvent = "getInputText"
 const MessageListDidLoadEvent = "IMUIMessageListDidLoad"
 
 var themsgid = 1
-const menuHeight = 625
 
 function constructNormalMessage() {
 
@@ -69,13 +67,14 @@ export default class TestRNIMUI extends Component {
     if (Platform.OS === "ios") {
       initHeight = 86
     } else {
-      initHeight = 120
+      initHeight = 100
     }
     this.state = {
-      inputLayoutHeight: 200,
-      inputViewLayout: { width: window.width, height: initHeight + 80, },
+      inputLayoutHeight: initHeight,
+      messageListLayout: {},
+      inputViewLayout: { width: window.width, height: initHeight, },
       isAllowPullToRefresh: true,
-      inputText: "",
+      navigationBar: {}
     }
 
     this.updateLayout = this.updateLayout.bind(this);
@@ -84,16 +83,16 @@ export default class TestRNIMUI extends Component {
   componentDidMount() {
 
     this.resetMenu()
+    this.setState({
+      messageListLayout: { flex: 1, margin: 0, width: window.width },
+      navigationBar: {
+        height: 64,
+        justifyContent: 'center'
+      },
+    })
     AuroraIController.addMessageListDidLoadListener(() => {
       this.getHistoryMessage()
     });
-    if (Platform.OS == "android") {
-      AuroraIController.addGetInputTextListener((text) => {
-        this.setState({
-          inputText: text
-        })
-      })
-    }
   }
 
   getHistoryMessage() {
@@ -138,9 +137,6 @@ export default class TestRNIMUI extends Component {
 
   componentWillUnmount() {
     AuroraIController.removeMessageListDidLoadListener(MessageListDidLoadEvent)
-    if (Platform.OS == "android") {
-      AuroraIController.removeGetInputTextListener(getInputTextEvent)
-    }
   }
 
   resetMenu() {
@@ -166,9 +162,20 @@ export default class TestRNIMUI extends Component {
 
   onFullScreen = () => {
     console.log("on full screen")
+    var navigationBar = 50
+    this.setState({
+      messageListLayout: { flex: 0, width: 0, height: 0 },
+      inputViewLayout: { flex:1, width: window.width, height: window.height },
+      navigationBar: { height: 0 }
+    })
   }
 
   onRecoverScreen = () => {
+    this.setState({
+      messageListLayout: { flex: 1, width: window.width, margin: 0 },
+      inputViewLayout: { flex: 0, width: window.width, height: this.state.inputLayoutHeight },
+      navigationBar: { height: 64, justifyContent: 'center' }
+    })
   }
 
   onAvatarClick = (message) => {
@@ -196,7 +203,6 @@ export default class TestRNIMUI extends Component {
   }
 
   onTouchMsgList = () => {
-    this.resetMenu()
     AuroraIController.hidenFeatureView(true)
   }
 
@@ -218,7 +224,7 @@ export default class TestRNIMUI extends Component {
       AuroraIController.insertMessagesToTop([message])
     }
     AuroraIController.insertMessagesToTop(messages)
-    this.refs["PtrLayout"].refreshComplete()
+    this.refs["MessageList"].refreshComplete()
   }
 
   onSendText = (text) => {
@@ -230,14 +236,6 @@ export default class TestRNIMUI extends Component {
 
     AuroraIController.appendMessages([message])
     AuroraIController.scrollToBottom(true)
-
-    if (Platform.OS === 'android') {
-      this.setState({
-        inputText: "",
-        inputLayoutHeight: 200,
-        inputViewLayout: { width: window.width, height: 200 }
-      })
-    }
   }
 
   onTakePicture = (mediaPath) => {
@@ -327,106 +325,11 @@ export default class TestRNIMUI extends Component {
     this.updateAction();
   }
 
-  generateAndroidView() {
-    return (
-      <View style={styles.container}>
-        <AndroidPtrLayout
-          ref="PtrLayout"
-          messageListBackgroundColor={"#f3f3f3"}
-          onPullToRefresh={this.onPullToRefresh}>
-          <MessageListView style={styles.messageList}
-            ref="MessageList"
-            onAvatarClick={this.onAvatarClick}
-            onMsgClick={this.onMsgClick}
-            onStatusViewClick={this.onStatusViewClick}
-            onTouchMsgList={this.onTouchMsgList}
-            onTapMessageCell={this.onTapMessageCell}
-            onBeginDragMessageList={this.onBeginDragMessageList}
-            avatarSize={{ width: 40, height: 40 }}
-            sendBubbleTextSize={18}
-            sendBubbleTextColor={"#000000"}
-            sendBubblePadding={{ left: 10, top: 10, right: 20, bottom: 10 }}
-            maxBubbleWidth={0.70}
-          />
-        </AndroidPtrLayout>
-        <InputView style={this.state.inputViewLayout}
-          ref="ChatInput"
-          menuContainerHeight={this.state.menuContainerHeight}
-          isDismissMenuContainer={this.state.isDismissMenuContainer}
-          onSendText={this.onSendText}
-          onTakePicture={this.onTakePicture}
-          onStartRecordVoice={this.onStartRecordVoice}
-          onFinishRecordVoice={this.onFinishRecordVoice}
-          onCancelRecordVoice={this.onCancelRecordVoice}
-          onStartRecordVideo={this.onStartRecordVideo}
-          onFinishRecordVideo={this.onFinishRecordVideo}
-          onSendGalleryFiles={this.onSendGalleryFiles}
-          onSwitchToEmojiMode={this.onSwitchToEmojiMode}
-          onSwitchToMicrophoneMode={this.onSwitchToMicrophoneMode}
-          onSwitchToGalleryMode={this.onSwitchToGalleryMode}
-          onSwitchToCameraMode={this.onSwitchToCameraMode}
-          onTouchEditText={this.onTouchEditText}
-          onFullScreen={this.onFullScreen}
-          onRecoverScreen={this.onRecoverScreen}
-          onSizeChanged={this.onInputViewSizeChange}
-        />
-      </View>
-    )
-  }
-
-  generateIOSView() {
-    return (
-      <View style={styles.container}>
-        <MessageListView style={styles.messageList}
-          ref="MessageList"
-          onAvatarClick={this.onAvatarClick}
-          onMsgClick={this.onMsgClick}
-          onStatusViewClick={this.onStatusViewClick}
-          onTouchMsgList={this.onTouchMsgList}
-          onTapMessageCell={this.onTapMessageCell}
-          onBeginDragMessageList={this.onBeginDragMessageList}
-          onPullToRefresh={this.onPullToRefresh}
-          avatarSize={{ width: 40, height: 40 }}
-          sendBubbleTextSize={18}
-          sendBubbleTextColor={"#000000"}
-          sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
-          isShowIncomingDisplayName={true}
-          isShowOutgoingDisplayName={true}
-          isAllowPullToRefresh={true}
-        />
-
-        <InputView style={this.state.inputViewLayout}
-          menuContainerHeight={this.state.menuContainerHeight}
-          isDismissMenuContainer={this.state.isDismissMenuContainer}
-          onSendText={this.onSendText}
-          onTakePicture={this.onTakePicture}
-          onStartRecordVoice={this.onStartRecordVoice}
-          onFinishRecordVoice={this.onFinishRecordVoice}
-          onCancelRecordVoice={this.onCancelRecordVoice}
-          onStartRecordVideo={this.onStartRecordVideo}
-          onFinishRecordVideo={this.onFinishRecordVideo}
-          onSendGalleryFiles={this.onSendGalleryFiles}
-          onSwitchToEmojiMode={this.onSwitchToEmojiMode}
-          onSwitchToMicrophoneMode={this.onSwitchToMicrophoneMode}
-          onSwitchToGalleryMode={this.onSwitchToGalleryMode}
-          onSwitchToCameraMode={this.onSwitchToCameraMode}
-          onShowKeyboard={this.onShowKeyboard}
-          onSizeChange={this.onInputViewSizeChange}
-        />
-      </View>
-    )
-  }
-
   render() {
-    let chat;
-    if (Platform.OS === "android") {
-      chat = this.generateAndroidView()
-    } else {
-      chat = this.generateIOSView()
-    }
     return (
       <View style={styles.container}>
-        <View style={styles.navigationBar}>
+        <View style={this.state.navigationBar}
+          ref="NavigatorView">
           <Button
             style={styles.sendCustomBtn}
             title="Custom Message"
@@ -469,17 +372,48 @@ export default class TestRNIMUI extends Component {
             }}>
           </Button>
         </View>
-        {chat}
+        <MessageListView style={this.state.messageListLayout}
+          ref="MessageList"
+          onAvatarClick={this.onAvatarClick}
+          onMsgClick={this.onMsgClick}
+          onStatusViewClick={this.onStatusViewClick}
+          onTouchMsgList={this.onTouchMsgList}
+          onTapMessageCell={this.onTapMessageCell}
+          onBeginDragMessageList={this.onBeginDragMessageList}
+          onPullToRefresh={this.onPullToRefresh}
+          avatarSize={{ width: 40, height: 40 }}
+          sendBubbleTextSize={18}
+          sendBubbleTextColor={"#000000"}
+          sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
+        />
+        <InputView style={this.state.inputViewLayout}
+          ref="ChatInput"
+          menuContainerHeight={this.state.menuContainerHeight}
+          isDismissMenuContainer={this.state.isDismissMenuContainer}
+          onSendText={this.onSendText}
+          onTakePicture={this.onTakePicture}
+          onStartRecordVoice={this.onStartRecordVoice}
+          onFinishRecordVoice={this.onFinishRecordVoice}
+          onCancelRecordVoice={this.onCancelRecordVoice}
+          onStartRecordVideo={this.onStartRecordVideo}
+          onFinishRecordVideo={this.onFinishRecordVideo}
+          onSendGalleryFiles={this.onSendGalleryFiles}
+          onSwitchToEmojiMode={this.onSwitchToEmojiMode}
+          onSwitchToMicrophoneMode={this.onSwitchToMicrophoneMode}
+          onSwitchToGalleryMode={this.onSwitchToGalleryMode}
+          onSwitchToCameraMode={this.onSwitchToCameraMode}
+          onShowKeyboard={this.onShowKeyboard}
+          onTouchEditText={this.onTouchEditText}
+          onFullScreen={this.onFullScreen}
+          onRecoverScreen={this.onRecoverScreen}
+          onSizeChanged={this.onInputViewSizeChange}
+        />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  navigationBar: {
-    height: 64,
-    justifyContent: 'center'
-  },
   sendCustomBtn: {
 
   },
@@ -489,17 +423,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  messageList: {
-    flex: 1,
-    marginTop: 0,
-    width: window.width,
-    margin: 0,
-  },
   inputView: {
     backgroundColor: 'green',
     width: window.width,
     height: 100,
-
   },
   btnStyle: {
     marginTop: 10,
