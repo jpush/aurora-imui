@@ -83,13 +83,6 @@ export default class TestRNIMUI extends Component {
   componentDidMount() {
 
     this.resetMenu()
-    this.setState({
-      messageListLayout: { flex: 1, margin: 0, width: window.width },
-      navigationBar: {
-        height: 64,
-        justifyContent: 'center'
-      },
-    })
     AuroraIController.addMessageListDidLoadListener(() => {
       this.getHistoryMessage()
     });
@@ -130,7 +123,8 @@ export default class TestRNIMUI extends Component {
     if (this.state.inputLayoutHeight != size.height) {
       this.setState({
         inputLayoutHeight: size.height,
-        inputViewLayout: { width: size.width, height: size.height }
+        inputViewLayout: { width: size.width, height: size.height },
+        messageListLayout: { flex:1, width: window.width, margin: 0 }
       })
     }
   }
@@ -142,6 +136,10 @@ export default class TestRNIMUI extends Component {
   resetMenu() {
     if (Platform.OS === "android") {
       this.refs["ChatInput"].showMenu(false)
+      this.setState({
+        messageListLayout: { flex: 1, width: window.width, margin: 0 },
+        navigationBar: { height: 64, justifyContent: 'center' },
+      })
     } else {
       this.setState({
         inputViewLayout: { width: window.width, height: 86 }
@@ -162,7 +160,6 @@ export default class TestRNIMUI extends Component {
 
   onFullScreen = () => {
     console.log("on full screen")
-    var navigationBar = 50
     this.setState({
       messageListLayout: { flex: 0, width: 0, height: 0 },
       inputViewLayout: { flex:1, width: window.width, height: window.height },
@@ -244,6 +241,7 @@ export default class TestRNIMUI extends Component {
     message.msgType = 'image'
     message.mediaPath = mediaPath
     AuroraIController.appendMessages([message])
+    this.resetMenu()
     AuroraIController.scrollToBottom(true)
   }
 
@@ -269,11 +267,12 @@ export default class TestRNIMUI extends Component {
   }
 
   onFinishRecordVideo = (mediaPath, duration) => {
-    var message = constructNormalMessage()
+    // var message = constructNormalMessage()
 
-    message.msgType = "video"
-    message.mediaPath = mediaPath
-    AuroraIController.appendMessages([message])
+    // message.msgType = "video"
+    // message.mediaPath = mediaPath
+    // message.duration = duration
+    // AuroraIController.appendMessages([message])
   }
 
   onSendGalleryFiles = (mediaFiles) => {
@@ -290,12 +289,19 @@ export default class TestRNIMUI extends Component {
      */
     for (index in mediaFiles) {
       var message = constructNormalMessage()
-      message.msgType = "image"
+      if (mediaFiles[index].mediaType == "image") {
+        message.msgType = "image"
+      } else {
+        message.msgType = "video"
+        message.duration = mediaFiles[index].duration
+      }
+      
       message.mediaPath = mediaFiles[index].mediaPath
       message.timeString = "8:00"
       AuroraIController.appendMessages([message])
       AuroraIController.scrollToBottom(true)
     }
+    this.resetMenu()
   }
 
   onSwitchToMicrophoneMode = () => {
@@ -406,7 +412,7 @@ export default class TestRNIMUI extends Component {
           onTouchEditText={this.onTouchEditText}
           onFullScreen={this.onFullScreen}
           onRecoverScreen={this.onRecoverScreen}
-          onSizeChanged={this.onInputViewSizeChange}
+          onSizeChange={this.onInputViewSizeChange}
         />
       </View>
     );

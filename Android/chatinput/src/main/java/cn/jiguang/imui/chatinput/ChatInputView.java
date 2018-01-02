@@ -708,7 +708,7 @@ public class ChatInputView extends LinearLayout
                     mediaPlayer.start();
                 }
             });
-        } catch (IOException | IllegalArgumentException | IllegalStateException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -79,7 +79,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String ON_TOUCH_EDIT_TEXT_EVENT = "onTouchEditText";
     private static final String ON_FULL_SCREEN_EVENT = "onFullScreen";
     private static final String ON_RECOVER_SCREEN_EVENT = "onRecoverScreen";
-    private static final String ON_INPUT_SIZE_CHANGED_EVENT = "onSizeChanged";
+    private static final String ON_INPUT_SIZE_CHANGED_EVENT = "onSizeChange";
     private final int REQUEST_PERMISSION = 0x0001;
     private final int CLOSE_SOFT_INPUT = 100;
     private final int GET_INPUT_TEXT = 101;
@@ -196,8 +196,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             @Override
             public boolean switchToMicrophoneMode() {
                 initMenu(density);
-                mChatInput.showMenuLayout();
-                mChatInput.showRecordVoiceLayout();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_MIC_EVENT, null);
                 return true;
@@ -206,8 +204,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             @Override
             public boolean switchToGalleryMode() {
                 initMenu(density);
-                mChatInput.showMenuLayout();
-                mChatInput.showSelectPhotoLayout();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_GALLERY_EVENT, null);
                 return true;
@@ -216,8 +212,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             @Override
             public boolean switchToCameraMode() {
                 initMenu(density);
-                mChatInput.showMenuLayout();
-                mChatInput.showCameraLayout();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_CAMERA_EVENT, null);
                 return true;
@@ -226,8 +220,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             @Override
             public boolean switchToEmojiMode() {
                 initMenu(density);
-                mChatInput.showMenuLayout();
-                mChatInput.showEmojiLayout();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_EMOJI_EVENT, null);
                 return true;

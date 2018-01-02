@@ -39,7 +39,7 @@ export default class ChatInput extends Component {
 		this._onTouchEditText = this._onTouchEditText.bind(this);
 		this._onFullScreen = this._onFullScreen.bind(this);
 		this._onRecoverScreen = this._onRecoverScreen.bind(this);
-		this._onSizeChanged = this._onSizeChanged.bind(this);
+		this._onSizeChange = this._onSizeChange.bind(this);
 	}
 
 	_onSendText(event: Event) {
@@ -154,11 +154,11 @@ export default class ChatInput extends Component {
 		this.props.onRecoverScreen();
 	}
 
-	_onSizeChanged(event: Event) {
-		if (!this.props.onSizeChanged) {
+	_onSizeChange(event: Event) {
+		if (!this.props.onSizeChange) {
 			return;
 		}
-		this.props.onSizeChanged({ width: Dimensions.get('window').width, height: event.nativeEvent.height });
+		this.props.onSizeChange({ width: Dimensions.get('window').width, height: event.nativeEvent.height });
 	}
 
 	closeSoftInput() {
@@ -193,7 +193,7 @@ export default class ChatInput extends Component {
 				onTouchEditText={this._onTouchEditText}
 				onFullScreen={this._onFullScreen}
 				onRecoverScreen={this._onRecoverScreen}
-				onSizeChanged={this._onSizeChanged}
+				onSizeChange={this._onSizeChange}
 			/>
 		);
 	}
@@ -220,7 +220,7 @@ ChatInput.propTypes = {
 	onTouchEditText: PropTypes.func,
 	onFullScreen: PropTypes.func,
 	onRecoverScreen: PropTypes.func,
-	onSizeChanged: PropTypes.func,
+	onSizeChange: PropTypes.func,
 	inputViewHeight: PropTypes.number,
 	...View.propTypes
 };
