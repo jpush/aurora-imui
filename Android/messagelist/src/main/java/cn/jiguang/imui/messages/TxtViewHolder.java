@@ -134,7 +134,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
             if (style.getSendingIndeterminateDrawable() != null) {
                 mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
             }
-            if (style.getShowSenderDisplayName() == 1) {
+            if (style.getShowSenderDisplayName()) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
             } else {
                 mDisplayNameTv.setVisibility(View.GONE);
@@ -147,7 +147,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                     style.getReceiveBubblePaddingTop(),
                     style.getReceiveBubblePaddingRight(),
                     style.getReceiveBubblePaddingBottom());
-            if (style.getShowReceiverDisplayName() == 1) {
+            if (style.getShowReceiverDisplayName()) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
             } else {
                 mDisplayNameTv.setVisibility(View.GONE);

@@ -27,10 +27,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.github.w446108264:XhsEmoticonsKeyboard:2.0.4'
-    compile 'com.github.w446108264:AndroidEmoji:1.0.0'
-    compile 'cn.jiguang.imui:messagelist:0.5.5'
-    compile 'cn.jiguang.imui:chatinput:0.5.7'
+    compile 'cn.jiguang.imui:messagelist:0.5.8'
+    compile 'cn.jiguang.imui:chatinput:0.6.2'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.facebook.react:react-native:+'

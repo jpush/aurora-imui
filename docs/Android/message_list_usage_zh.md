@@ -9,7 +9,7 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.5.7'
+compile 'cn.jiguang.imui:messagelist:0.5.8'
 ```
 
 - Maven
@@ -17,12 +17,12 @@ compile 'cn.jiguang.imui:messagelist:0.5.7'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.5.7</version>
+  <version>0.5.8</version>
   <type>pom</type>
 </dependency>
 ```
 
-- JitPack（由于 0.4.8 引入了 AndroidEmoji，所以 0.4.8 以上版本需要添加 jitpack 依赖 ）
+- JitPack
 ```groovy
 // project/build.gradle
 allprojects {
@@ -34,7 +34,7 @@ allprojects {
 
 // module/build.gradle
 dependencies {
-  compile 'com.github.jpush:imui:0.6.5'
+  compile 'com.github.jpush:imui:0.6.6'
 }
 ```
 
@@ -86,8 +86,8 @@ dependencies {
         android:layout_height="match_parent"
         app:avatarHeight="48dp"
         app:avatarWidth="48dp"
-        app:showReceiverDisplayName="SHOW"
-        app:showSenderDisplayName="HIDE"
+        app:showReceiverDisplayName="true"
+        app:showSenderDisplayName="false"
         app:avatarRadius="5dp"
         app:bubbleMaxWidth="0.70"
         app:dateTextSize="14sp"
@@ -142,11 +142,11 @@ ptrLayout.setPtrHandler(new PtrHandler() {
 MessageList messageList = (MessageList) findViewById(R.id.msg_list);
 ```
 
-- 设置接收方或者发送方显示昵称，可以在上面的 xml 中设置 `showReceiverDisplayName` 及 `showSenderDisplayName` 为 1 或者 0. 1 表示展示昵称，0 为不展示。也可以在代码中设置：
+- 设置接收方或者发送方显示昵称，可以在上面的 xml 中设置 `showReceiverDisplayName` 及 `showSenderDisplayName` 为 true 或者 false. true 表示展示昵称，false 为不展示。也可以在代码中设置：
 
   ```Java
-  messageList.setShowSenderDisplayName(1);
-  messageList.setShowReceiverDisplayName(1);
+  messageList.setShowSenderDisplayName(true);
+  messageList.setShowReceiverDisplayName(true);
   ```
 
 - 禁止下拉刷新（0.4.8 新增接口），调用 `messageList.forbidScrollToRefresh(true)` 即可
@@ -179,12 +179,12 @@ public class MyMessage implements IMessage {
     private long id;
     private String text;
     private String timeString;
-    private MessageType type;
+    private int type;
     private IUser user;
     private String contentFile;
     private long duration;
 
-    public MyMessage(String text, MessageType type) {
+    public MyMessage(String text, int type) {
         this.text = text;
         this.type = type;
         this.id = UUID.randomUUID().getLeastSignificantBits();
@@ -230,7 +230,7 @@ public class MyMessage implements IMessage {
     }
 
     @Override
-    public MessageType getType() {
+    public int getType() {
         return type;
     }
 
@@ -293,7 +293,7 @@ adapter.addToStart(message, true);
 adapter.addToEnd(messages);
 ```
 
-- 滚动列表加载历史消息（**如果使用了 `PullToRefreshLayout` 跳过这个部分**）
+- 滚动列表加载历史消息（**注意：如果使用了 `PullToRefreshLayout` 跳过这个部分**）
   设置监听 `OnLoadMoreListener`，当滚动列表时就会触发 `onLoadMore` 事件，例如：
 ```java
 mAdapter.setOnLoadMoreListener(new MsgListAdapter.OnLoadMoreListener() {

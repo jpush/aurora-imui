@@ -30,7 +30,6 @@ public class ReactIMUIPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         List<ViewManager> viewManagers = new ArrayList<>();
-        viewManagers.add(new ReactPtrLayout());
         viewManagers.add(new ReactMsgListManager());
         viewManagers.add(new ReactChatInputManager());
         return  viewManagers;

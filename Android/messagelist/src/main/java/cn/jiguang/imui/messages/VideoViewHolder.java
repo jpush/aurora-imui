@@ -136,13 +136,13 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
             if (style.getSendingIndeterminateDrawable() != null) {
                 mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
             }
-            if (style.getShowSenderDisplayName() == 1) {
+            if (style.getShowSenderDisplayName()) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
             } else {
                 mDisplayNameTv.setVisibility(View.GONE);
             }
         } else {
-            if (style.getShowReceiverDisplayName() == 1) {
+            if (style.getShowReceiverDisplayName()) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
             } else {
                 mDisplayNameTv.setVisibility(View.GONE);

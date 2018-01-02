@@ -66,8 +66,8 @@ public class ChatView extends RelativeLayout {
         // 下拉刷新时，内容固定，只有 Header 变化
         mPtrLayout.setPinContent(true);
         // set show display name or not
-//        mMsgList.setShowReceiverDisplayName(0);
-//        mMsgList.setShowSenderDisplayName(1);
+//        mMsgList.setShowReceiverDisplayName(true);
+//        mMsgList.setShowSenderDisplayName(false);
     }
 
     public PullToRefreshLayout getPtrLayout() {

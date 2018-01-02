@@ -3,13 +3,9 @@ package cn.jiguang.imui.chatinput.emoji;
 import android.text.Spannable;
 import android.widget.EditText;
 
-import com.sj.emoji.EmojiDisplay;
-import com.sj.emoji.EmojiSpan;
 
 import java.util.regex.Matcher;
 
-import sj.keyboard.interfaces.EmoticonFilter;
-import sj.keyboard.utils.EmoticonsKeyboardUtils;
 
 public class EmojiFilter extends EmoticonFilter {
 

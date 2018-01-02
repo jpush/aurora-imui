@@ -16,6 +16,7 @@ import android.media.AudioManager;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -50,12 +51,17 @@ import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
+import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
 import cn.jiguang.imui.messages.CustomMsgConfig;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import cn.jiguang.imui.messages.ViewHolderController;
+import cn.jiguang.imui.messages.ptr.PtrDefaultHeader;
+import cn.jiguang.imui.messages.ptr.PtrHandler;
+import cn.jiguang.imui.messages.ptr.PullToRefreshLayout;
+import cn.jiguang.imui.utils.DisplayUtil;
 
 import static android.content.Context.AUDIO_SERVICE;
 import static android.content.Context.POWER_SERVICE;
@@ -65,9 +71,12 @@ import static android.content.Context.SENSOR_SERVICE;
  * Created by caiyaoguan on 2017/5/22.
  */
 
-public class ReactMsgListManager extends ViewGroupManager<MessageList> implements SensorEventListener {
+public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> implements SensorEventListener {
 
     private static final String REACT_MESSAGE_LIST = "RCTMessageList";
+    private final static int STOP_REFRESH = 0;
+    private static final String ON_PULL_TO_REFRESH_EVENT = "onPullToRefresh";
+
     public static final String SEND_MESSAGE = "send_message";
     private static final String RECEIVE_MESSAGE = "receive_message";
     private static final String LOAD_HISTORY = "load_history_message";
@@ -101,16 +110,37 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     @SuppressLint("ClickableViewAccessibility")
     @SuppressWarnings("unchecked")
     @Override
-    protected MessageList createViewInstance(final ThemedReactContext reactContext) {
+    protected PullToRefreshLayout createViewInstance(final ThemedReactContext reactContext) {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        mContext = reactContext;
+        PullToRefreshLayout rootView = (PullToRefreshLayout) LayoutInflater.from(reactContext).inflate(R.layout.ptr_layout, null);
+        PtrDefaultHeader header = new PtrDefaultHeader(reactContext);
+        int[] colors = reactContext.getResources().getIntArray(R.array.google_colors);
+        header.setColorSchemeColors(colors);
+        header.setLayoutParams(new PullToRefreshLayout.LayoutParams(-1, -2));
+        header.setPadding(0, DisplayUtil.dp2px(reactContext,15), 0,
+                DisplayUtil.dp2px(reactContext,10));
+        header.setPtrFrameLayout(rootView);
+        rootView.setHeaderView(header);
+        rootView.addPtrUIHandler(header);
+        rootView.setPinContent(true);
+        rootView.setLoadingMinTime(1000);
+        rootView.setDurationToCloseHeader(1500);
+        rootView.setPtrHandler(new PtrHandler() {
+            @Override
+            public void onRefreshBegin(PullToRefreshLayout view) {
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(view.getId(),
+                        ON_PULL_TO_REFRESH_EVENT, null);
+            }
+        });
         registerProximitySensorListener();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
         reactContext.registerReceiver(RCTMsgListReceiver, intentFilter);
-        mContext = reactContext;
-        mMessageList = new MessageList(reactContext, null);
+
+        mMessageList = (MessageList) rootView.findViewById(R.id.msg_list);
         mMessageList.setHasFixedSize(true);
         // Use default layout
         MsgListAdapter.HoldersConfig holdersConfig = new MsgListAdapter.HoldersConfig();
@@ -186,6 +216,7 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        EventBus.getDefault().post(new OnTouchMsgListEvent());
                         reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_TOUCH_MSG_LIST_EVENT, null);
                         if (reactContext.getCurrentActivity() != null) {
                             InputMethodManager imm = (InputMethodManager) reactContext.getCurrentActivity()
@@ -205,7 +236,7 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
         });
         // 通知 AuroraIMUIModule 完成初始化 MessageList
         EventBus.getDefault().post(new LoadedEvent(AuroraIMUIModule.RCT_MESSAGE_LIST_LOADED_ACTION));
-        return mMessageList;
+        return rootView;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -262,51 +293,51 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     }
 
     @ReactProp(name = "sendBubble")
-    public void setSendBubble(MessageList messageList, ReadableMap map) {
+    public void setSendBubble(PullToRefreshLayout root, ReadableMap map) {
         int resId = mContext.getResources().getIdentifier(map.getString("imageName"),
                 "drawable", mContext.getPackageName());
         if (resId != 0) {
-            messageList.setSendBubbleDrawable(resId);
+            mMessageList.setSendBubbleDrawable(resId);
         }
     }
 
     @ReactProp(name = "receiveBubble")
-    public void setReceiveBubble(MessageList messageList, ReadableMap map) {
+    public void setReceiveBubble(PullToRefreshLayout root, ReadableMap map) {
         int resId = mContext.getResources().getIdentifier(map.getString("imageName"),
                 "drawable", mContext.getPackageName());
         if (resId != 0) {
-            messageList.setReceiveBubbleDrawable(resId);
+            mMessageList.setReceiveBubbleDrawable(resId);
         }
     }
 
     @ReactProp(name = "sendBubbleTextColor")
-    public void setSendBubbleTextColor(MessageList messageList, String color) {
+    public void setSendBubbleTextColor(PullToRefreshLayout root, String color) {
         int colorRes = Color.parseColor(color);
-        messageList.setSendBubbleTextColor(colorRes);
+        mMessageList.setSendBubbleTextColor(colorRes);
     }
 
     @ReactProp(name = "receiveBubbleTextColor")
-    public void setReceiveBubbleTextColor(MessageList messageList, String color) {
+    public void setReceiveBubbleTextColor(PullToRefreshLayout root, String color) {
         int colorRes = Color.parseColor(color);
-        messageList.setReceiveBubbleTextColor(colorRes);
+        mMessageList.setReceiveBubbleTextColor(colorRes);
     }
 
     @ReactProp(name = "sendBubbleTextSize")
-    public void setSendBubbleTextSize(MessageList messageList, int size) {
-        messageList.setSendBubbleTextSize(dip2sp(size));
+    public void setSendBubbleTextSize(PullToRefreshLayout root, int size) {
+        mMessageList.setSendBubbleTextSize(dip2sp(size));
     }
 
     @ReactProp(name = "receiveBubbleTextSize")
-    public void setReceiveBubbleTextSize(MessageList messageList, int size) {
-        messageList.setReceiveBubbleTextSize(dip2sp(size));
+    public void setReceiveBubbleTextSize(PullToRefreshLayout root, int size) {
+        mMessageList.setReceiveBubbleTextSize(dip2sp(size));
     }
 
     @ReactProp(name = "sendBubblePadding")
-    public void setSendBubblePadding(MessageList messageList, ReadableMap map) {
-        messageList.setSendBubblePaddingLeft(dip2px(map.getInt("left")));
-        messageList.setSendBubblePaddingTop(dip2px(map.getInt("top")));
-        messageList.setSendBubblePaddingRight(dip2px(map.getInt("right")));
-        messageList.setSendBubblePaddingBottom(dip2px(map.getInt("bottom")));
+    public void setSendBubblePadding(PullToRefreshLayout root, ReadableMap map) {
+        mMessageList.setSendBubblePaddingLeft(dip2px(map.getInt("left")));
+        mMessageList.setSendBubblePaddingTop(dip2px(map.getInt("top")));
+        mMessageList.setSendBubblePaddingRight(dip2px(map.getInt("right")));
+        mMessageList.setSendBubblePaddingBottom(dip2px(map.getInt("bottom")));
     }
 
     private int dip2px(float dpValue) {
@@ -321,94 +352,87 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     }
 
     @ReactProp(name = "receiveBubblePadding")
-    public void setReceiveBubblePaddingLeft(MessageList messageList, ReadableMap map) {
-        messageList.setReceiveBubblePaddingLeft(dip2px(map.getInt("left")));
-        messageList.setReceiveBubblePaddingTop(dip2px(map.getInt("top")));
-        messageList.setReceiveBubblePaddingRight(dip2px(map.getInt("right")));
-        messageList.setReceiveBubblePaddingBottom(dip2px(map.getInt("bottom")));
+    public void setReceiveBubblePaddingLeft(PullToRefreshLayout root, ReadableMap map) {
+        mMessageList.setReceiveBubblePaddingLeft(dip2px(map.getInt("left")));
+        mMessageList.setReceiveBubblePaddingTop(dip2px(map.getInt("top")));
+        mMessageList.setReceiveBubblePaddingRight(dip2px(map.getInt("right")));
+        mMessageList.setReceiveBubblePaddingBottom(dip2px(map.getInt("bottom")));
     }
 
     @ReactProp(name = "dateTextSize")
-    public void setDateTextSize(MessageList messageList, int size) {
-        messageList.setDateTextSize(dip2sp(size));
+    public void setDateTextSize(PullToRefreshLayout root, int size) {
+        mMessageList.setDateTextSize(dip2sp(size));
     }
 
     @ReactProp(name = "dateTextColor")
-    public void setDateTextColor(MessageList messageList, String color) {
+    public void setDateTextColor(PullToRefreshLayout root, String color) {
         int colorRes = Color.parseColor(color);
-        messageList.setDateTextColor(colorRes);
+        mMessageList.setDateTextColor(colorRes);
     }
 
     @ReactProp(name = "datePadding")
-    public void setDatePadding(MessageList messageList, int padding) {
-        messageList.setDatePadding(dip2px(padding));
+    public void setDatePadding(PullToRefreshLayout root, int padding) {
+        mMessageList.setDatePadding(dip2px(padding));
     }
 
     @ReactProp(name = "avatarSize")
-    public void setAvatarWidth(MessageList messageList, ReadableMap map) {
-        messageList.setAvatarWidth(dip2px(map.getInt("width")));
-        messageList.setAvatarHeight(dip2px(map.getInt("height")));
+    public void setAvatarWidth(PullToRefreshLayout root, ReadableMap map) {
+        mMessageList.setAvatarWidth(dip2px(map.getInt("width")));
+        mMessageList.setAvatarHeight(dip2px(map.getInt("height")));
     }
 
     /**
      * if showDisplayName equals 1, then show display name.
      *
-     * @param messageList       MessageList
+     * @param root       PullToRefreshLayout
      * @param isShowDisplayName boolean
      */
     @ReactProp(name = "isShowDisplayName")
-    public void setShowDisplayName(MessageList messageList, boolean isShowDisplayName) {
-        if (isShowDisplayName) {
-            messageList.setShowReceiverDisplayName(1);
-            messageList.setShowSenderDisplayName(1);
-        } else {
-            messageList.setShowSenderDisplayName(0);
-            messageList.setShowReceiverDisplayName(0);
-        }
+    public void setShowDisplayName(PullToRefreshLayout root, boolean isShowDisplayName) {
+        mMessageList.setShowReceiverDisplayName(isShowDisplayName);
+        mMessageList.setShowSenderDisplayName(isShowDisplayName);
     }
 
     @ReactProp(name = "isShowIncomingDisplayName")
-    public void setShowReceiverDisplayName(MessageList messageList, boolean isShowDisplayName) {
-        if (isShowDisplayName) {
-            messageList.setShowReceiverDisplayName(1);
-        } else {
-            messageList.setShowSenderDisplayName(0);
-        }
+    public void setShowReceiverDisplayName(PullToRefreshLayout root, boolean isShowDisplayName) {
+        mMessageList.setShowReceiverDisplayName(isShowDisplayName);
     }
 
     @ReactProp(name = "isShowOutgoingDisplayName")
-    public void setShowSenderDisplayName(MessageList messageList, boolean isShowDisplayName) {
-        if (isShowDisplayName) {
-            messageList.setShowSenderDisplayName(1);
-        } else {
-            messageList.setShowSenderDisplayName(0);
-        }
+    public void setShowSenderDisplayName(PullToRefreshLayout root, boolean isShowDisplayName) {
+        mMessageList.setShowSenderDisplayName(isShowDisplayName);
     }
 
     @ReactProp(name = "isAllowPullToRefresh")
-    public void isAllowPullToRefresh(MessageList messageList, boolean flag) {
-        messageList.forbidScrollToRefresh(!flag);
+    public void isAllowPullToRefresh(PullToRefreshLayout root, boolean flag) {
+        mMessageList.forbidScrollToRefresh(!flag);
     }
 
     @ReactProp(name = "eventMsgTxtColor")
-    public void setEventTextColor(MessageList messageList, String color) {
+    public void setEventTextColor(PullToRefreshLayout root, String color) {
         int colorRes = Color.parseColor(color);
-        messageList.setEventTextColor(colorRes);
+        mMessageList.setEventTextColor(colorRes);
     }
 
     @ReactProp(name = "eventMsgTxtPadding")
-    public void setEventTextPadding(MessageList messageList, int padding) {
-        messageList.setEventTextPadding(dip2px(padding));
+    public void setEventTextPadding(PullToRefreshLayout root, int padding) {
+        mMessageList.setEventTextPadding(dip2px(padding));
     }
 
     @ReactProp(name = "eventMsgTxtSize")
-    public void setEventTextSize(MessageList messageList, int size) {
-        messageList.setEventTextSize(dip2sp(size));
+    public void setEventTextSize(PullToRefreshLayout root, int size) {
+        mMessageList.setEventTextSize(dip2sp(size));
     }
 
     @ReactProp(name = "maxBubbleWidth")
-    public void setBubbleMaxWidth(MessageList messageList, float maxSize) {
-        messageList.setBubbleMaxWidth(maxSize);
+    public void setBubbleMaxWidth(PullToRefreshLayout root, float maxSize) {
+        mMessageList.setBubbleMaxWidth(maxSize);
+    }
+
+    @ReactProp(name = "messageListBackgroundColor")
+    public void setBackgroundColor(PullToRefreshLayout layout, String color) {
+        int colorRes = Color.parseColor(color);
+        layout.setBackgroundColor(colorRes);
     }
 
     @SuppressWarnings("unchecked")
@@ -432,6 +456,7 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
                 .put(ON_MSG_LONG_CLICK_EVENT, MapBuilder.of("registrationName", ON_MSG_LONG_CLICK_EVENT))
                 .put(ON_STATUS_VIEW_CLICK_EVENT, MapBuilder.of("registrationName", ON_STATUS_VIEW_CLICK_EVENT))
                 .put(ON_TOUCH_MSG_LIST_EVENT, MapBuilder.of("registrationName", ON_TOUCH_MSG_LIST_EVENT))
+                .put(ON_PULL_TO_REFRESH_EVENT, MapBuilder.of("registrationName", ON_PULL_TO_REFRESH_EVENT))
                 .build();
     }
 
@@ -441,15 +466,17 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
     }
 
     @Override
-    public void receiveCommand(MessageList root, int commandId, @Nullable ReadableArray args) {
+    public void receiveCommand(PullToRefreshLayout root, int commandId, @Nullable ReadableArray args) {
         super.receiveCommand(root, commandId, args);
-        Log.i(REACT_MESSAGE_LIST, "unregister invoke");
-//        mContext.unregisterReceiver(RCTMsgListReceiver);
-//        EventBus.getDefault().unregister(this);
+        switch (commandId){
+            case STOP_REFRESH:
+                Log.i(REACT_MESSAGE_LIST, "Refresh has completed");
+                root.refreshComplete();
+        }
     }
 
     @Override
-    public void onDropViewInstance(MessageList view) {
+    public void onDropViewInstance(PullToRefreshLayout view) {
         super.onDropViewInstance(view);
         try {
             EventBus.getDefault().unregister(this);
@@ -533,5 +560,11 @@ public class ReactMsgListManager extends ViewGroupManager<MessageList> implement
         public DefaultCustomViewHolder(View itemView, boolean isSender) {
             super(itemView, isSender);
         }
+    }
+
+    @Override
+    public void addView(PullToRefreshLayout parent, View child, int index) {
+        super.addView(parent, child, index);
+        parent.updateLayout();
     }
 }

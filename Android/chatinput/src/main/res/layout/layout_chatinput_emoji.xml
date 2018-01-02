@@ -4,16 +4,16 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <include layout="@layout/ic_spitview_horizontal" />
+    <include layout="@layout/view_spitview_horizontal" />
 
-    <sj.keyboard.widget.EmoticonsFuncView
+    <cn.jiguang.imui.chatinput.emoji.widget.EmoticonsFuncView
         android:id="@+id/view_epv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/view_eiv"
         android:orientation="vertical" />
 
-    <sj.keyboard.widget.EmoticonsIndicatorView
+    <cn.jiguang.imui.chatinput.emoji.widget.EmoticonsIndicatorView
         android:id="@+id/view_eiv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,12 +24,12 @@
 
     <include
         android:id="@+id/view_spit"
-        layout="@layout/ic_spitview_horizontal"
+        layout="@layout/view_spitview_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/horizontalspit_view_height"
+        android:layout_height="@dimen/aurora_horizontalspit_view_height"
         android:layout_above="@+id/view_etv" />
 
-    <sj.keyboard.widget.EmoticonsToolBarView
+    <cn.jiguang.imui.chatinput.emoji.widget.EmoticonsToolBarView
         android:id="@+id/view_etv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bar_height"

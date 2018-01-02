@@ -36,7 +36,7 @@ public class RCTMessage implements IMessage {
     private String msgId;
     private String status;
     private String msgType;
-    private MessageType type = MessageType.SEND_TEXT;
+    private int type;
     private String timeString;
     private String text;
     private String mediaFilePath;
@@ -81,55 +81,55 @@ public class RCTMessage implements IMessage {
     }
 
     @Override
-    public MessageType getType() {
+    public int getType() {
         if (isOutgoing) {
             switch (msgType) {
                 case "text":
-                    this.type = MessageType.SEND_TEXT;
+                    this.type = MessageType.SEND_TEXT.ordinal();
                     break;
                 case "voice":
-                    this.type = MessageType.SEND_VOICE;
+                    this.type = MessageType.SEND_VOICE.ordinal();
                     break;
                 case "image":
-                    this.type = MessageType.SEND_IMAGE;
+                    this.type = MessageType.SEND_IMAGE.ordinal();
                     break;
                 case "event":
-                    this.type = MessageType.EVENT;
+                    this.type = MessageType.EVENT.ordinal();
                     break;
                 case "video":
-                    this.type = MessageType.SEND_VIDEO;
+                    this.type = MessageType.SEND_VIDEO.ordinal();
                     break;
                 default:
                     setType(13);
-                    this.type = MessageType.SEND_CUSTOM;
+                    this.type = MessageType.SEND_CUSTOM.ordinal();
             }
         } else {
             switch (msgType) {
                 case "text":
-                    this.type = MessageType.RECEIVE_TEXT;
+                    this.type = MessageType.RECEIVE_TEXT.ordinal();
                     break;
                 case "voice":
-                    this.type = MessageType.RECEIVE_VOICE;
+                    this.type = MessageType.RECEIVE_VOICE.ordinal();
                     break;
                 case "image":
-                    this.type = MessageType.RECEIVE_IMAGE;
+                    this.type = MessageType.RECEIVE_IMAGE.ordinal();
                     break;
                 case "event":
-                    this.type = MessageType.EVENT;
+                    this.type = MessageType.EVENT.ordinal();
                     break;
                 case "video":
-                    this.type = MessageType.RECEIVE_VIDEO;
+                    this.type = MessageType.RECEIVE_VIDEO.ordinal();
                     break;
                 default:
                     setType(14);
-                    this.type = MessageType.RECEIVE_CUSTOM;
+                    this.type = MessageType.RECEIVE_CUSTOM.ordinal();
             }
         }
         return type;
     }
 
     public void setType(int type) {
-        this.type.setCustomType(type);
+        this.type = type;
     }
 
     @Override

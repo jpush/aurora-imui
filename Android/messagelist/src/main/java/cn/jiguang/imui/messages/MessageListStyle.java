@@ -28,8 +28,8 @@ public class MessageListStyle extends Style {
     private int avatarWidth;
     private int avatarHeight;
     private int avatarRadius;
-    private int showSenderDisplayName;
-    private int showReceiverDisplayName;
+    private boolean showSenderDisplayName;
+    private boolean showReceiverDisplayName;
     private int receiveBubbleDrawable;
     private int receiveBubbleColor;
     private int receiveBubblePressedColor;
@@ -94,8 +94,8 @@ public class MessageListStyle extends Style {
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_height_msg_avatar));
         style.avatarRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_avatarRadius,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_radius_avatar_default));
-        style.showSenderDisplayName = typedArray.getInt(R.styleable.MessageList_showSenderDisplayName, 0);
-        style.showReceiverDisplayName = typedArray.getInt(R.styleable.MessageList_showReceiverDisplayName, 0);
+        style.showSenderDisplayName = typedArray.getBoolean(R.styleable.MessageList_showSenderDisplayName, false);
+        style.showReceiverDisplayName = typedArray.getBoolean(R.styleable.MessageList_showReceiverDisplayName, false);
         style.receiveBubbleDrawable = typedArray.getResourceId(R.styleable.MessageList_receiveBubbleDrawable, -1);
         style.receiveBubbleColor = typedArray.getColor(R.styleable.MessageList_receiveBubbleColor,
                 ContextCompat.getColor(context, R.color.aurora_msg_receive_bubble_default_color));
@@ -212,11 +212,11 @@ public class MessageListStyle extends Style {
         this.avatarRadius = radius;
     }
 
-    public int getShowSenderDisplayName() {
+    public boolean getShowSenderDisplayName() {
         return showSenderDisplayName;
     }
 
-    public int getShowReceiverDisplayName() {
+    public boolean getShowReceiverDisplayName() {
         return showReceiverDisplayName;
     }
 
@@ -296,11 +296,11 @@ public class MessageListStyle extends Style {
         this.avatarHeight = avatarHeight;
     }
 
-    public void setShowSenderDisplayName(int showSenderDisplayName) {
+    public void setShowSenderDisplayName(boolean showSenderDisplayName) {
         this.showSenderDisplayName = showSenderDisplayName;
     }
 
-    public void setShowReceiverDisplayName(int showReceiverDisplayName) {
+    public void setShowReceiverDisplayName(boolean showReceiverDisplayName) {
         this.showReceiverDisplayName = showReceiverDisplayName;
     }
 
