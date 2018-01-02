@@ -12,7 +12,7 @@
 
 - Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.5.7'
+compile 'cn.jiguang.imui:chatinput:0.6.2'
 ```
 
 - Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.5.7'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.5.7</version>
+  <version>0.6.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ compile 'cn.jiguang.imui:chatinput:0.5.7'
 
   ```groovy
   dependencies {
-    compile 'com.github.jpush:imui:0.6.4'
+    compile 'com.github.jpush:imui:0.6.6'
   }
   ```
 
@@ -212,19 +212,3 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 // 0.4.5 后弃用
 mChatInput.setCameraCaptureFile(path, fileName);
 ```
-
-
-
-### 添加 JitPack 依赖 （0.4.8 增加表情后需要添加）
-
-在项目的 build.gradle 中添加依赖：
-
-```groovy
-allprojects {
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
-}
-
-```
-
