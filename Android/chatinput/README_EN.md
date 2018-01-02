@@ -11,7 +11,7 @@ Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.5.7'
+compile 'cn.jiguang.imui:chatinput:0.6.2'
 ```
 
 - Via Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.5.7'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.5.7</version>
+  <version>0.6.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -41,7 +41,7 @@ allprojects {
 
 ```groovy
 dependencies {
-  compile 'com.github.jpush:imui:0.6.4'
+  compile 'com.github.jpush:imui:0.6.6'
 }
 ```
 
@@ -226,16 +226,3 @@ mChatInput.setCameraCaptureFile(path, fileName);
 
 
 
-
-
-### Add JitPack dependency( > 0.4.8 )
-
-Add JitPack denpendency in your project's build.gradle:
-
-```groovy
-allprojects {
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
-}
-```
