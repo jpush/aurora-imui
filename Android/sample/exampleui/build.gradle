@@ -60,5 +60,4 @@ dependencies {
     compile project(':chatinput')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     testCompile 'junit:junit:4.12'
-    implementation files('libs/chatinput-0.6.2-sources.jar')
 }
