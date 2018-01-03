@@ -40,6 +40,7 @@ export default class ChatInput extends Component {
 		this._onFullScreen = this._onFullScreen.bind(this);
 		this._onRecoverScreen = this._onRecoverScreen.bind(this);
 		this._onSizeChange = this._onSizeChange.bind(this);
+		this._onClickSelectAlbum = this._onClickSelectAlbum.bind(this);
 	}
 
 	_onSendText(event: Event) {
@@ -161,6 +162,13 @@ export default class ChatInput extends Component {
 		this.props.onSizeChange({ width: Dimensions.get('window').width, height: event.nativeEvent.height });
 	}
 
+	_onClickSelectAlbum(event: Event) {
+		if (!this.props.onClickSelectAlbum) {
+			return;
+		}
+		this.props.onClickSelectAlbum();
+	}
+
 	closeSoftInput() {
 		UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[CHAT_INPUT]), 100, null);
 	}
@@ -194,6 +202,7 @@ export default class ChatInput extends Component {
 				onFullScreen={this._onFullScreen}
 				onRecoverScreen={this._onRecoverScreen}
 				onSizeChange={this._onSizeChange}
+				onClickSelectAlbum={this._onClickSelectAlbum}
 			/>
 		);
 	}
@@ -222,6 +231,8 @@ ChatInput.propTypes = {
 	onRecoverScreen: PropTypes.func,
 	onSizeChange: PropTypes.func,
 	inputViewHeight: PropTypes.number,
+	onClickSelectAlbum: PropTypes.func,
+	showSelectAlbumBtn: PropTypes.bool,
 	...View.propTypes
 };
 

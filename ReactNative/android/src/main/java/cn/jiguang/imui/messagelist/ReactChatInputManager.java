@@ -80,6 +80,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String ON_FULL_SCREEN_EVENT = "onFullScreen";
     private static final String ON_RECOVER_SCREEN_EVENT = "onRecoverScreen";
     private static final String ON_INPUT_SIZE_CHANGED_EVENT = "onSizeChange";
+    private static final String ON_CLICK_SELECT_ALBUM_EVENT = "onClickSelectAlbum";
     private final int REQUEST_PERMISSION = 0x0001;
     private final int CLOSE_SOFT_INPUT = 100;
     private final int GET_INPUT_TEXT = 101;
@@ -318,6 +319,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             }
         });
+        mChatInput.getSelectAlbumBtn().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_CLICK_SELECT_ALBUM_EVENT, null);
+            }
+        });
         return mChatInput;
     }
 
@@ -408,6 +415,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         editText.setLayoutParams(new LinearLayout.LayoutParams(mWidth, height));
     }
 
+    @ReactProp(name = "showSelectAlbumBtn")
+    public void showSelectAlbumBtn(ChatInputView chatInputView, boolean flag) {
+        chatInputView.getSelectAlbumBtn().setVisibility(flag? View.VISIBLE: View.GONE);
+    }
+
     @Override
     public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.<String, Object>builder()
@@ -428,6 +440,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 .put(ON_FULL_SCREEN_EVENT, MapBuilder.of("registrationName", ON_FULL_SCREEN_EVENT))
                 .put(ON_RECOVER_SCREEN_EVENT, MapBuilder.of("registrationName", ON_RECOVER_SCREEN_EVENT))
                 .put(ON_INPUT_SIZE_CHANGED_EVENT, MapBuilder.of("registrationName", ON_INPUT_SIZE_CHANGED_EVENT))
+                .put(ON_CLICK_SELECT_ALBUM_EVENT, MapBuilder.of("registrationName", ON_CLICK_SELECT_ALBUM_EVENT))
                 .build();
     }
 
