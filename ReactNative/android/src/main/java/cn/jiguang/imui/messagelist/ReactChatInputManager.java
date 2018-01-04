@@ -92,8 +92,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private boolean mInitState = true;
     private boolean mShowMenu = false;
     private double mCurrentInputHeight = 48;
-    private int InitialChatInputHeight = 100;
+    private int mInitialChatInputHeight = 100;
     private int mScreenWidth;
+    /**
+     * Initial soft input height, set this value via {@link #setMenuContainerHeight}
+     */
+    private int mMenuContainerHeight = 831;
 
     @Override
     public String getName() {
@@ -164,7 +168,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                     return false;
                 }
                 WritableMap map = Arguments.createMap();
-                map.putDouble("height", InitialChatInputHeight);
+                map.putDouble("height", mInitialChatInputHeight);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
                 WritableMap event = Arguments.createMap();
                 event.putString("text", input.toString());
@@ -305,7 +309,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         ON_RECOVER_SCREEN_EVENT, null);
                 WritableMap map = Arguments.createMap();
-                map.putDouble("height", InitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / density);
+                map.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / density);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
             }
 
@@ -339,12 +343,16 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             EventBus.getDefault().post(new ScrollEvent(true));
         }
         WritableMap event = Arguments.createMap();
-        event.putDouble("height", InitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / density);
+        if (mChatInput.getSoftKeyboardHeight() == 0) {
+            event.putDouble("height", mInitialChatInputHeight + mMenuContainerHeight / density);
+        } else {
+            event.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / density);
+        }
         mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, event);
     }
 
     private double calculateMenuHeight(float density) {
-        double layoutHeight = InitialChatInputHeight;
+        double layoutHeight = mInitialChatInputHeight;
         if (mShowMenu) {
             layoutHeight += mChatInput.getSoftKeyboardHeight() / density;
         }
@@ -385,7 +393,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OnTouchMsgListEvent event) {
         WritableMap map = Arguments.createMap();
-        map.putDouble("height", InitialChatInputHeight);
+        map.putDouble("height", mInitialChatInputHeight);
         mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
     }
 
@@ -398,7 +406,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     @ReactProp(name = "menuContainerHeight")
     public void setMenuContainerHeight(ChatInputView chatInputView, int height) {
         Log.d("ReactChatInputManager", "Setting menu container height: " + height);
-        chatInputView.setMenuContainerHeight(height);
+        mMenuContainerHeight = height;
+//        chatInputView.setMenuContainerHeight(height);
     }
 
     @ReactProp(name = "isDismissMenuContainer")
@@ -473,7 +482,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                     float dp = mContext.getResources().getDisplayMetrics().density;
                     mContext.getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     if (mInitState) {
-                        event.putDouble("height", InitialChatInputHeight);
+                        event.putDouble("height", mInitialChatInputHeight);
                     } else {
                         event.putDouble("height", calculateMenuHeight(dp));
                     }
