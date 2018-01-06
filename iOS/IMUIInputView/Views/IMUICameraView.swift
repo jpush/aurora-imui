@@ -36,6 +36,7 @@ class IMUICameraView: UIView {
   
   var isFullScreenMode = false
   
+  @IBOutlet weak var permissionDenyedView: IMUIPermissionDenyedView!
   @IBOutlet weak var switchCameraModeBtn: UIButton!
   @IBOutlet weak var cameraShotBtn: UIButton!
   @IBOutlet weak var videoRecordBtn: UIButton!
@@ -62,7 +63,7 @@ class IMUICameraView: UIView {
     
     switch AVCaptureDevice.authorizationStatus(for: AVMediaType.video) {
     case .authorized:
-      // The user has previously granted access to the camera.
+      self.permissionDenyedView.isHidden = true
       break
       
     case .notDetermined:
@@ -70,13 +71,18 @@ class IMUICameraView: UIView {
       AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { [unowned self] granted in
         if !granted {
           self.setupResult = .notAuthorized
+          DispatchQueue.main.async {
+            self.permissionDenyedView.type = "相机"
+            self.permissionDenyedView.isHidden = false
+          }
         }
         self.sessionQueue.resume()
       })
       
     default:
-      // The user has previously denied access.
       setupResult = .notAuthorized
+      self.permissionDenyedView.type = "相机"
+      self.permissionDenyedView.isHidden = false
     }
     
     sessionQueue.async { [unowned self] in
