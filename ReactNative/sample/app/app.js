@@ -71,7 +71,7 @@ export default class TestRNIMUI extends Component {
     }
     this.state = {
       inputLayoutHeight: initHeight,
-      messageListLayout: {},
+      messageListLayout: {flex: 1, width: window.width, margin: 0},
       inputViewLayout: { width: window.width, height: initHeight, },
       isAllowPullToRefresh: true,
       navigationBar: {}
