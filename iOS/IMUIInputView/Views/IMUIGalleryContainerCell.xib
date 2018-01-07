@@ -28,7 +28,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g1b-w8-Ked" customClass="IMUIPermissionDenyedView" customModule="sample" customModuleProvider="target">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g1b-w8-Ked" customClass="IMUIPermissionDenyedView" customModule="sample" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="278" height="166"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
