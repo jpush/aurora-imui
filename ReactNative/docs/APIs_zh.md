@@ -60,6 +60,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
+    - [showSelectAlbumBtn](#showSelectAlbumBtn)
   - [Props 事件]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
@@ -76,6 +77,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [onSwitchToEmojiMode](#onswitchtoemojimode)
     - [onTouchEditText](#ontouchedittext)
     - [onSizeChange](#onsizechange)
+    - [onClickSelectAlbum](#onClickSelectAlbum)
 
 
 ## AuroraIMUIController
@@ -440,7 +442,14 @@ Example:  ```chatInputBackgroupColor="#000000"```
 
 ------
 
+#### showSelectAlbumBtn
+**PropTypes.bool:**
 
+设置选择相册按钮的可见性。
+
+Example: ```showSelectAlbumBtn={true}```
+
+------
 
 #### ChatInput 事件回调
 
@@ -555,6 +564,14 @@ Example:  ```chatInputBackgroupColor="#000000"```
 **PropTypes.function:** `({width: number, height: number}) => {}`
 
 输入组件尺寸变更时触发。
+
+***
+
+#### onClickSelectAlbum
+
+**PropTypes.function:** `() => {}`
+
+点击选择相册按钮触发(选择相册按钮默认是可见的，可以通过 [showSelectAlbumBtn](#showSelectAlbumBtn) 改变 )
 
 ***
 

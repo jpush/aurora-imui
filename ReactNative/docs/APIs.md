@@ -61,6 +61,7 @@ Refer to iOS,Android example
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
+    - [showSelectAlbumBtn](#showSelectAlbumBtn)
   - [Props Event]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
@@ -77,6 +78,7 @@ Refer to iOS,Android example
     - [onSwitchToEmojiMode](#onswitchtoemojimode)
     - [onSizeChange](#onsizechange)
     - [onTouchEditText](#ontouchedittext)
+    - [onClickSelectAlbum](#onClickSelectAlbum)
 
 ## AuroraIMUIController
 
@@ -444,7 +446,14 @@ Example:  ```chatInputBackgroupColor="#000000"```
 
 ***
 
+#### showSelectAlbumBtn
+**PropTypes.bool:**
 
+Set the visibility of the select album button.
+
+Example: ```showSelectAlbumBtn={true}```
+
+------
 
 ### ChatInput Event Callback
 
@@ -564,7 +573,7 @@ Fires when click emoji button in menu.
 
 **PropTypes.function:** `({width: number, height: number}) => {}`
 
-Fire when ChantInput's size change。
+Fires when ChantInput's size change。
 
 ***
 
@@ -574,3 +583,10 @@ Fire when ChantInput's size change。
 
 Fires when click input view.
 
+#### onClickSelectAlbum
+
+**PropTypes.function:** `() => {}`
+
+Fires when click select album button(you can through [showSelectAlbumBtn](#showSelectAlbumBtn) change the visibility )
+
+***

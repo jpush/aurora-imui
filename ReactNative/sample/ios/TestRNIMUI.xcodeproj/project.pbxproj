@@ -1240,6 +1240,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.TestRNIMUI5;
 				PRODUCT_NAME = TestRNIMUI;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1270,6 +1271,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.TestRNIMUI5;
 				PRODUCT_NAME = TestRNIMUI;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

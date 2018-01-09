@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IMUIPermissionDenyedView" customModule="sample" customModuleProvider="target">
+            <connections>
+                <outlet property="permissionBody" destination="Czo-7R-101" id="FMF-CY-PAH"/>
+                <outlet property="permissionTitle" destination="HFE-sa-Iyw" id="5jU-kg-XEN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="412" height="269"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="缺少权限" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czo-7R-101">
+                    <rect key="frame" x="106" y="126" width="200" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="200" id="1je-at-uBf"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MZT-lS-RBW">
+                    <rect key="frame" x="167.5" y="161" width="78" height="27"/>
+                    <state key="normal">
+                        <attributedString key="attributedTitle">
+                            <fragment content="打开“设置”">
+                                <attributes>
+                                    <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <font key="NSFont" size="15" name=".PingFangSC-Regular"/>
+                                    <integer key="NSUnderline" value="1"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
+                    <connections>
+                        <action selector="gotoSettingPage:" destination="-1" eventType="touchUpInside" id="Avr-vn-qif"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="权限" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFE-sa-Iyw">
+                    <rect key="frame" x="106" y="84" width="200" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="200" id="GHn-e4-AnI"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.4933205246925354" green="0.51266074180603027" blue="0.57493335008621216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Czo-7R-101" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="41K-5R-TWT"/>
+                <constraint firstItem="HFE-sa-Iyw" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="D5u-dK-WWA"/>
+                <constraint firstItem="Czo-7R-101" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Qtp-Od-CbX"/>
+                <constraint firstItem="MZT-lS-RBW" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="40" id="b8R-YT-hkB"/>
+                <constraint firstItem="MZT-lS-RBW" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dHh-am-NE9"/>
+                <constraint firstItem="HFE-sa-Iyw" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-40" id="lV6-Wy-iqQ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="44" y="250.5"/>
+        </view>
+    </objects>
+</document>

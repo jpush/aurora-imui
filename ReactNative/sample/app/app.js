@@ -71,7 +71,7 @@ export default class TestRNIMUI extends Component {
     }
     this.state = {
       inputLayoutHeight: initHeight,
-      messageListLayout: {},
+      messageListLayout: {flex: 1, width: window.width, margin: 0},
       inputViewLayout: { width: window.width, height: initHeight, },
       isAllowPullToRefresh: true,
       navigationBar: {}
@@ -331,6 +331,10 @@ export default class TestRNIMUI extends Component {
     this.updateAction();
   }
 
+  onClickSelectAlbum = () => {
+    console.log("on click select album")
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -413,6 +417,8 @@ export default class TestRNIMUI extends Component {
           onFullScreen={this.onFullScreen}
           onRecoverScreen={this.onRecoverScreen}
           onSizeChange={this.onInputViewSizeChange}
+          showSelectAlbumBtn={true}
+          onClickSelectAlbum={this.onClickSelectAlbum}
         />
       </View>
     );
