@@ -28,6 +28,8 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
   - [updateMessage](#updatemessage)
   - [insertMessagesToTop](#insertmessagestotop)
   - [stopPlayVoice](#stopplayvoice)
+  - [removeMessage](#removeMessage)
+  - [removeAllMessage](#removeAllMessage)
   - [Event](#auroraimuicontrollerevent)
     - [MessageListDidLoadListener](#messagelistdidloadlistener)
 
@@ -183,6 +185,25 @@ var messages = [{
 AuroraIMUIController.insertMessagesToTop(messages);
 ```
 
+
+
+#### removeMessage
+param: string
+
+根据消息 id 删除消息
+
+example:
+```js
+AuroraIMUIController.removeMessage("1")
+```
+
+#### removeAllMessage
+清空所有消息
+
+example:
+```js
+AuroraIMUIController.removeAllMessage()
+```
 #### stopPlayVoice
 
 停止正在播放的音频，这里会停止所有的声音，包括 ChatInput 和 MessageList 正在播放的声音。
