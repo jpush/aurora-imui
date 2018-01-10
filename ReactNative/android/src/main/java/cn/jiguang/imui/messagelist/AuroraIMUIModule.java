@@ -23,6 +23,7 @@ import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
 
+import static cn.jiguang.imui.messagelist.ReactMsgListManager.RCT_REMOVE_ALL_MESSAGE_ACTION;
 import static cn.jiguang.imui.messagelist.ReactMsgListManager.RCT_REMOVE_MESSAGE_ACTION;
 
 public class AuroraIMUIModule extends ReactContextBaseJavaModule {
@@ -180,6 +181,12 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void removeMessage(String id) {
         MessageEvent event = new MessageEvent(id, RCT_REMOVE_MESSAGE_ACTION);
+        EventBus.getDefault().post(event);
+    }
+
+    @ReactMethod
+    public void removeAllMessage() {
+        MessageEvent event = new MessageEvent("", RCT_REMOVE_ALL_MESSAGE_ACTION);
         EventBus.getDefault().post(event);
     }
 

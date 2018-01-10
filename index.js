@@ -111,6 +111,13 @@ class AuroraIMUIController {
 		listeners[cb].remove();
 		listeners[cb] = null;
 	}
+
+	/**
+	 * 清空所有消息
+	 */
+	static removeAllMessage() {
+		AuroraIMUIModule.removeAllMessage();
+	}
 }
 
 module.exports = {

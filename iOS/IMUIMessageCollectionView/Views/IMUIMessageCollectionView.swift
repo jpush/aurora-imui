@@ -113,6 +113,11 @@ open class IMUIMessageCollectionView: UIView {
     self.messageCollectionView.reloadDataNoScroll()
   }
   
+  @objc open func removeAllMessages() {
+    self.chatDataManager.removeAllMessages()
+    self.messageCollectionView.reloadData()
+  }
+  
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource

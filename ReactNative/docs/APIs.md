@@ -30,6 +30,8 @@ Refer to iOS,Android example
   - [updateMessage](#updatemessage)
   - [insertMessagesToTop](#insertmessagestotop)
   - [stopPlayVoice](#stopplayvoice)
+  - [removeMessage](#removeMessage)
+  - [removeAllMessage](#removeAllMessage)
   - [Event](#auroraimuicontrollerevent)
     - [MessageListDidLoadListener](#messagelistdidloadlistener)
 
@@ -193,6 +195,24 @@ example:
 AuroraIMUIController.stopPlayVoice()
 ```
 
+#### removeMessage
+param: string
+
+Remove message by message id.
+
+example:
+```js
+AuroraIMUIController.removeMessage("1")
+```
+
+#### removeAllMessage
+Remove all messages.
+
+example:
+```js
+AuroraIMUIController.removeAllMessage()
+```
+
 #### MessageListDidLoadListener
 
 - addMessageListDidLoadListener(cb)
@@ -216,7 +236,6 @@ AuroraIMUIController.stopPlayVoice()
   ```javascript
   AuroraIMUIController.removeMessageListDidLoadListener(cb)
   ```
-
 
 
 ## MessageList

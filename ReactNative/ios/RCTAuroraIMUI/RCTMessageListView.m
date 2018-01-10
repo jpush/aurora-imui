@@ -39,6 +39,9 @@
                                              selector:@selector(removeMessage:)
                                                  name:kRemoveMessage object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(removeAllMessages:)
+                                                 name:kRemoveAllMessages object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(insertMessagesToTop:)
                                                  name:kInsertMessagesToTop object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -128,6 +131,12 @@
   NSString *messageId = [[notification object] copy];
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.messageList removeMessageWith: messageId];
+  });
+}
+
+- (void)removeAllMessages:(NSNotification *) notification {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.messageList removeAllMessages];
   });
 }
 

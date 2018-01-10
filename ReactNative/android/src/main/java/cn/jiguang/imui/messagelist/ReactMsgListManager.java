@@ -93,6 +93,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     public static final String RCT_INSERT_MESSAGES_ACTION = "cn.jiguang.imui.messagelist.intent.insertMessages";
     public static final String RCT_SCROLL_TO_BOTTOM_ACTION = "cn.jiguang.imui.messagelist.intent.scrollToBottom";
     public static final String RCT_REMOVE_MESSAGE_ACTION = "cn.jiguang.imui.messagelist.intent.removeMessage";
+    public static final String RCT_REMOVE_ALL_MESSAGE_ACTION = "cn.jiguang.imui.messagelist.intent.removeAllMessages";
 
     private MsgListAdapter mAdapter;
     private ReactContext mContext;
@@ -115,7 +116,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             EventBus.getDefault().register(this);
         }
         mContext = reactContext;
-        PullToRefreshLayout rootView = (PullToRefreshLayout) LayoutInflater.from(reactContext).inflate(R.layout.ptr_layout, null);
+        final PullToRefreshLayout rootView = (PullToRefreshLayout) LayoutInflater.from(reactContext).inflate(R.layout.ptr_layout, null);
         PtrDefaultHeader header = new PtrDefaultHeader(reactContext);
         int[] colors = reactContext.getResources().getIntArray(R.array.google_colors);
         header.setColorSchemeColors(colors);
@@ -180,7 +181,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             public void onMessageClick(RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_MSG_CLICK_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_MSG_CLICK_EVENT, event);
             }
         });
 
@@ -189,7 +190,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             public void onMessageLongClick(RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_MSG_LONG_CLICK_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_MSG_LONG_CLICK_EVENT, event);
             }
         });
 
@@ -198,7 +199,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             public void onAvatarClick(RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_AVATAR_CLICK_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_AVATAR_CLICK_EVENT, event);
             }
         });
 
@@ -207,7 +208,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             public void onStatusViewClick(RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_STATUS_VIEW_CLICK_EVENT, event);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_STATUS_VIEW_CLICK_EVENT, event);
             }
         });
 
@@ -217,7 +218,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         EventBus.getDefault().post(new OnTouchMsgListEvent());
-                        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mMessageList.getId(), ON_TOUCH_MSG_LIST_EVENT, null);
+                        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_TOUCH_MSG_LIST_EVENT, null);
                         if (reactContext.getCurrentActivity() != null) {
                             InputMethodManager imm = (InputMethodManager) reactContext.getCurrentActivity()
                                     .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -284,6 +285,8 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 String msgId = event.getMsgId();
                 mAdapter.deleteById(msgId);
                 break;
+            default:
+                mAdapter.clear();
         }
     }
 
