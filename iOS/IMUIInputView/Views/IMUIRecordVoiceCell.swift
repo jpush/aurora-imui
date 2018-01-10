@@ -12,6 +12,7 @@ import AVFoundation
 class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   static var buttonNormalWith: CGFloat = 46.0
   
+  @IBOutlet weak var permissionDenyedView: IMUIPermissionDenyedView!
   @IBOutlet weak var recordVoiceBtn: UIButton!
   @IBOutlet weak var timeLable: UILabel!
   @IBOutlet weak var swtichToPlayModeBtn: UIButton!
@@ -54,8 +55,33 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
     self.recordVoiceBtn.addGestureRecognizer(gestureRecognizer)
     
+    self.layoutPermissionView()
   }
 
+  func layoutPermissionView() {
+    self.permissionDenyedView.type = "录音"
+    switch AVAudioSession.sharedInstance().recordPermission() {
+    case .granted:
+      self.permissionDenyedView.isHidden = true
+      break
+    case .undetermined:
+      
+      AVAudioSession.sharedInstance().requestRecordPermission({ (granted) in
+        DispatchQueue.main.async {
+          if granted {
+            self.permissionDenyedView.isHidden = true
+          } else {
+            self.permissionDenyedView.isHidden = false
+          }
+        }
+      })
+      break
+    default:
+      self.permissionDenyedView.isHidden = false
+      break
+    }
+  }
+  
   // -MARK: RecordVoice
   @IBAction func finishiRecordVoiceCallback(_ sender: Any) {
     self.finishRecordVoice()

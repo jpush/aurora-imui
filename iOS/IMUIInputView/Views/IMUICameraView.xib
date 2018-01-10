@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="17A291j" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="cameraPreviewView" destination="3w8-05-LKU" id="7ia-gS-OAF"/>
                 <outlet property="cameraShotBtn" destination="XfP-ca-Ccm" id="wNm-CI-U0h"/>
+                <outlet property="permissionDenyedView" destination="8Yk-lW-Ulg" id="i2c-wJ-R5Y"/>
                 <outlet property="resizeCameraPreviewBtn" destination="Qoz-74-Wz9" id="6na-gN-s9J"/>
                 <outlet property="switchCameraDeviceBtn" destination="L0O-uv-6Yt" id="rFW-Mr-I7Z"/>
                 <outlet property="switchCameraModeBtn" destination="jgk-Pd-y7W" id="fhX-oU-MUM"/>
@@ -86,16 +87,24 @@
                                 <action selector="clickCameraSwitch:" destination="-1" eventType="touchUpInside" id="2YN-Qa-Ruz"/>
                             </connections>
                         </button>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Yk-lW-Ulg" customClass="IMUIPermissionDenyedView" customModule="sample" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="245"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="Qoz-74-Wz9" firstAttribute="top" secondItem="3w8-05-LKU" secondAttribute="top" constant="8" id="54l-H1-NPD"/>
+                        <constraint firstItem="8Yk-lW-Ulg" firstAttribute="leading" secondItem="3w8-05-LKU" secondAttribute="leading" id="Ax2-st-2tZ"/>
+                        <constraint firstAttribute="trailing" secondItem="8Yk-lW-Ulg" secondAttribute="trailing" id="O0O-QC-zfc"/>
                         <constraint firstItem="eQ0-vh-IzI" firstAttribute="centerX" secondItem="XfP-ca-Ccm" secondAttribute="centerX" id="Orv-0H-a0i"/>
+                        <constraint firstItem="8Yk-lW-Ulg" firstAttribute="top" secondItem="3w8-05-LKU" secondAttribute="top" id="Ubr-lg-APQ"/>
                         <constraint firstItem="jgk-Pd-y7W" firstAttribute="centerY" secondItem="XfP-ca-Ccm" secondAttribute="centerY" id="W90-pZ-LGK"/>
                         <constraint firstAttribute="bottom" secondItem="eQ0-vh-IzI" secondAttribute="bottom" constant="16" id="Zaj-EB-Yfq"/>
                         <constraint firstAttribute="bottom" secondItem="XfP-ca-Ccm" secondAttribute="bottom" constant="16" id="a8P-Sp-mE0"/>
                         <constraint firstAttribute="trailing" secondItem="Qoz-74-Wz9" secondAttribute="trailing" constant="8" id="avg-wR-ruc"/>
                         <constraint firstItem="L0O-uv-6Yt" firstAttribute="centerY" secondItem="XfP-ca-Ccm" secondAttribute="centerY" id="bLz-tI-ujB"/>
+                        <constraint firstAttribute="bottom" secondItem="8Yk-lW-Ulg" secondAttribute="bottom" id="iyD-Og-NSO"/>
                         <constraint firstItem="XfP-ca-Ccm" firstAttribute="centerX" secondItem="3w8-05-LKU" secondAttribute="centerX" id="qCX-j8-08E"/>
                         <constraint firstItem="jgk-Pd-y7W" firstAttribute="leading" secondItem="3w8-05-LKU" secondAttribute="leading" constant="25" id="tm6-0r-AxJ"/>
                         <constraint firstAttribute="trailing" secondItem="L0O-uv-6Yt" secondAttribute="trailing" constant="23" id="ypj-OB-C8n"/>
@@ -110,6 +119,7 @@
                 <constraint firstItem="3w8-05-LKU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="n9Y-hb-9Ra"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="76.5" y="53.5"/>
         </view>
     </objects>
     <resources>

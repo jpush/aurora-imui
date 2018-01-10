@@ -7,20 +7,40 @@
 //
 
 import UIKit
-
+import Photos
 private var CellIdentifier = ""
 
 class IMUIGalleryContainerCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   
   var featureDelegate: IMUIFeatureViewDelegate?
   
+  
+  @IBOutlet weak var permissionDenyedView: IMUIPermissionDenyedView!
   @IBOutlet weak var galleryCollectionView: UICollectionView!
   
   override func awakeFromNib() {
     super.awakeFromNib()
     self.setupAllView()
+    self.addPhotoObserver()
   }
   
+  func addPhotoObserver() {
+    PHPhotoLibrary.requestAuthorization { (status) in
+      DispatchQueue.main.async {
+        switch status {
+        case .authorized:
+          PHPhotoLibrary.shared().register(self)
+          self.permissionDenyedView.isHidden = true
+          break
+        default:
+          self.permissionDenyedView.type = "相册"
+          self.permissionDenyedView.isHidden = false
+          break
+        }
+      }
+    }
+  }
+
   func setupAllView() {
     let bundle = Bundle.imuiInputViewBundle()
     self.galleryCollectionView.register(UINib(nibName: "IMUIGalleryCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIGalleryCell")
@@ -84,5 +104,18 @@ extension IMUIGalleryContainerCell: UICollectionViewDataSource, UICollectionView
       galleryCell.clicked()
       self.featureDelegate?.didSelectPhoto(with: [])
     }
+  }
+}
+
+extension IMUIGalleryContainerCell: PHPhotoLibraryChangeObserver {
+  public func photoLibraryDidChange(_ changeInstance: PHChange) {
+    DispatchQueue.global(qos: .background).async {
+      IMUIGalleryDataManager.updateAssets()
+      
+      DispatchQueue.main.async {
+        self.galleryCollectionView.reloadData()
+      }
+    }
+    
   }
 }

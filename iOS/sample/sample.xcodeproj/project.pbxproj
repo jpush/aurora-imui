@@ -80,6 +80,8 @@
 		625B68EF1ECDF1A5007D2CB2 /* defoult_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 625B68EC1ECDF1A5007D2CB2 /* defoult_header.png */; };
 		625B68F01ECDF1A5007D2CB2 /* defoult_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 625B68ED1ECDF1A5007D2CB2 /* defoult_header@2x.png */; };
 		625B68F11ECDF1A5007D2CB2 /* defoult_header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 625B68EE1ECDF1A5007D2CB2 /* defoult_header@3x.png */; };
+		626BCC591FFF41C7006F7C15 /* IMUIPermissionDenyedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626BCC581FFF41C7006F7C15 /* IMUIPermissionDenyedView.swift */; };
+		626BCC5B1FFF41D5006F7C15 /* IMUIPermissionDenyedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 626BCC5A1FFF41D5006F7C15 /* IMUIPermissionDenyedView.xib */; };
 		6284D9241F721D730014C314 /* IMUIFeatureListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6284D9231F721D730014C314 /* IMUIFeatureListView.swift */; };
 		6284D9261F721D880014C314 /* IMUIFeatureListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6284D9251F721D880014C314 /* IMUIFeatureListView.xib */; };
 		6284D9291F7235400014C314 /* IMUIFeatureListIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6284D9271F7235400014C314 /* IMUIFeatureListIconCell.swift */; };
@@ -191,6 +193,8 @@
 		625B68EC1ECDF1A5007D2CB2 /* defoult_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defoult_header.png; sourceTree = "<group>"; };
 		625B68ED1ECDF1A5007D2CB2 /* defoult_header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defoult_header@2x.png"; sourceTree = "<group>"; };
 		625B68EE1ECDF1A5007D2CB2 /* defoult_header@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defoult_header@3x.png"; sourceTree = "<group>"; };
+		626BCC581FFF41C7006F7C15 /* IMUIPermissionDenyedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUIPermissionDenyedView.swift; sourceTree = "<group>"; };
+		626BCC5A1FFF41D5006F7C15 /* IMUIPermissionDenyedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IMUIPermissionDenyedView.xib; sourceTree = "<group>"; };
 		6284D9231F721D730014C314 /* IMUIFeatureListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureListView.swift; sourceTree = "<group>"; };
 		6284D9251F721D880014C314 /* IMUIFeatureListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMUIFeatureListView.xib; sourceTree = "<group>"; };
 		6284D9271F7235400014C314 /* IMUIFeatureListIconCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIFeatureListIconCell.swift; sourceTree = "<group>"; };
@@ -346,6 +350,8 @@
 				62D26AA11F7A17EC0093FE3D /* IMUIEmojiCell.xib */,
 				62D26AA41F7A21A60093FE3D /* IMUIEmojiItemCell.swift */,
 				62D26AA51F7A21A60093FE3D /* IMUIEmojiItemCell.xib */,
+				626BCC581FFF41C7006F7C15 /* IMUIPermissionDenyedView.swift */,
+				626BCC5A1FFF41D5006F7C15 /* IMUIPermissionDenyedView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -625,6 +631,7 @@
 			files = (
 				625B68EF1ECDF1A5007D2CB2 /* defoult_header.png in Resources */,
 				6284D92A1F7235400014C314 /* IMUIFeatureListIconCell.xib in Resources */,
+				626BCC5B1FFF41D5006F7C15 /* IMUIPermissionDenyedView.xib in Resources */,
 				62D26AA31F7A17EC0093FE3D /* IMUIEmojiCell.xib in Resources */,
 				625539781EF28F8800F6A239 /* IMUIInputView.xib in Resources */,
 				6255399D1EF28F8800F6A239 /* IMUIMessageCollectionView.xib in Resources */,
@@ -701,6 +708,7 @@
 				6255398B1EF28F8800F6A239 /* BundleMessageListExtension.swift in Sources */,
 				6284D9241F721D730014C314 /* IMUIFeatureListView.swift in Sources */,
 				625539981EF28F8800F6A239 /* CIImageView.swift in Sources */,
+				626BCC591FFF41C7006F7C15 /* IMUIPermissionDenyedView.swift in Sources */,
 				6255399A1EF28F8800F6A239 /* IMUIImageMessageContentView.swift in Sources */,
 				625539841EF28F8800F6A239 /* IMUIProgressButton.swift in Sources */,
 				6255397A1EF28F8800F6A239 /* BundleInputViewExtension.swift in Sources */,
@@ -886,7 +894,7 @@
 				INFOPLIST_FILE = sample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = HXHG.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = HXHG.sample14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
@@ -900,7 +908,7 @@
 				INFOPLIST_FILE = sample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = HXHG.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = HXHG.sample14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};

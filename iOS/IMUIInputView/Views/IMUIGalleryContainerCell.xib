@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13122.19" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.16"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -28,17 +28,26 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g1b-w8-Ked" customClass="IMUIPermissionDenyedView" customModule="sample" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="278" height="166"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="g1b-w8-Ked" secondAttribute="trailing" id="3ID-T3-jdH"/>
                 <constraint firstItem="g0P-RI-gXC" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="9bN-HY-oxN"/>
+                <constraint firstItem="g1b-w8-Ked" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="IKN-NF-J8p"/>
+                <constraint firstAttribute="bottom" secondItem="g1b-w8-Ked" secondAttribute="bottom" id="SMn-hF-T4j"/>
                 <constraint firstAttribute="trailing" secondItem="g0P-RI-gXC" secondAttribute="trailing" id="VJ8-xc-uSz"/>
                 <constraint firstItem="g0P-RI-gXC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Wec-NG-YKz"/>
                 <constraint firstAttribute="bottom" secondItem="g0P-RI-gXC" secondAttribute="bottom" id="Zkc-ci-bn0"/>
+                <constraint firstItem="g1b-w8-Ked" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="uCp-8l-YGC"/>
             </constraints>
             <size key="customSize" width="278" height="166"/>
             <connections>
                 <outlet property="galleryCollectionView" destination="g0P-RI-gXC" id="twO-kN-OQ0"/>
+                <outlet property="permissionDenyedView" destination="g1b-w8-Ked" id="4WE-sS-etu"/>
             </connections>
             <point key="canvasLocation" x="139" y="-6"/>
         </collectionViewCell>
