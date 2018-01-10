@@ -66,6 +66,10 @@ class IMUIChatDataManager: NSObject {
     }
   }
   
+  func removeAllMessages() {
+    allMessageDic.removeAll()
+    allMsgidArr.removeAll()
+  }
   
   func insertMessage(with message: IMUIMessageProtocol) {
     if message.msgId == "" {

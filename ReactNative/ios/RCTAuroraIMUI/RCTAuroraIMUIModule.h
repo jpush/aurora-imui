@@ -20,6 +20,7 @@
 
 #define kAppendMessages @"kAppendMessage"
 #define kRemoveMessage @"kRemoveMessage"
+#define kRemoveAllMessages @"kRemoveAllMessages"
 #define kInsertMessagesToTop @"kInsertMessagesToTop"
 #define kUpdateMessge @"kUpdateMessge"
 #define kScrollToBottom @"kScrollToBottom"

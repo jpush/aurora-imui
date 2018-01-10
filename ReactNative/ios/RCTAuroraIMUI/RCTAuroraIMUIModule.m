@@ -51,6 +51,10 @@ RCT_EXPORT_METHOD(removeMessage:(NSString *)messageId) {
   [[NSNotificationCenter defaultCenter] postNotificationName:kRemoveMessage object: messageId];
 }
 
+RCT_EXPORT_METHOD(removeAllMessage) {
+  [[NSNotificationCenter defaultCenter] postNotificationName:kRemoveAllMessages object: nil];
+}
+
 RCT_EXPORT_METHOD(updateMessage:(NSDictionary *)message) {
   [[NSNotificationCenter defaultCenter] postNotificationName:kUpdateMessge object: message];
 }
