@@ -93,6 +93,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     public static final String RCT_INSERT_MESSAGES_ACTION = "cn.jiguang.imui.messagelist.intent.insertMessages";
     public static final String RCT_SCROLL_TO_BOTTOM_ACTION = "cn.jiguang.imui.messagelist.intent.scrollToBottom";
     public static final String RCT_REMOVE_MESSAGE_ACTION = "cn.jiguang.imui.messagelist.intent.removeMessage";
+    public static final String RCT_REMOVE_ALL_MESSAGE_ACTION = "cn.jiguang.imui.messagelist.intent.removeAllMessages";
 
     private MsgListAdapter mAdapter;
     private ReactContext mContext;
@@ -284,6 +285,8 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 String msgId = event.getMsgId();
                 mAdapter.deleteById(msgId);
                 break;
+            default:
+                mAdapter.clear();
         }
     }
 
