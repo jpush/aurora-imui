@@ -1216,8 +1216,10 @@ public class ChatInputView extends LinearLayout
                 mNowh = mHeight - r.bottom;
                 if (mOldh != -1 && mNowh != mOldh) {
                     mShowSoftInput = mNowh > 0;
-                    mSoftKeyboardHeight = mShowSoftInput ? mNowh : 0;
-                    sMenuHeight = mSoftKeyboardHeight > 0 ? mSoftKeyboardHeight : 831;
+                    if (mShowSoftInput) {
+                        mSoftKeyboardHeight = mNowh;
+                        sMenuHeight = mSoftKeyboardHeight;
+                    }
                 }
                 mOldh = mNowh;
             } catch (Exception e) {
