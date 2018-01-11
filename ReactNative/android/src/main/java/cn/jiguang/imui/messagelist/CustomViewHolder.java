@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
@@ -75,10 +76,12 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
             mMsgTv.setLayoutParams(params);
         }
         String text = message.getText();
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            mMsgTv.setText(Html.fromHtml(text, new MyImageGetter(), null));
-        } else {
-            mMsgTv.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT, new MyImageGetter(), null));
+        if (!TextUtils.isEmpty(text)) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                mMsgTv.setText(Html.fromHtml(text, new MyImageGetter(), null));
+            } else {
+                mMsgTv.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT, new MyImageGetter(), null));
+            }
         }
 
         if (message.getTimeString() != null) {
