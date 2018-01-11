@@ -135,7 +135,7 @@ public class ChatInputView extends LinearLayout
     private int mSoftKeyboardHeight;
     private int mNowh;
     private int mOldh;
-    public static int sMenuHeight = 800;
+    public static int sMenuHeight = 831;
 
     private boolean mShowSoftInput = false;
 
@@ -1217,7 +1217,7 @@ public class ChatInputView extends LinearLayout
                 if (mOldh != -1 && mNowh != mOldh) {
                     mShowSoftInput = mNowh > 0;
                     mSoftKeyboardHeight = mShowSoftInput ? mNowh : 0;
-                    sMenuHeight = mSoftKeyboardHeight;
+                    sMenuHeight = mSoftKeyboardHeight > 0 ? mSoftKeyboardHeight : 831;
                 }
                 mOldh = mNowh;
             } catch (Exception e) {
