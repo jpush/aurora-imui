@@ -274,6 +274,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 Log.d("RCTMessageListManager", "updating message, message: " + rctMessage);
                 if (activity != null) {
                     mAdapter.updateMessage(rctMessage.getMsgId(), rctMessage);
+                    mMessageList.smoothScrollToPosition(0);
                 }
                 break;
             case RCT_INSERT_MESSAGES_ACTION:
