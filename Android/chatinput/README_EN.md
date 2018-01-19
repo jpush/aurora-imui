@@ -72,7 +72,7 @@ ChatInputView chatInputView = (ChatInputView) findViewById(R.id.chat_input);
 chatInputView.setMenuContainerHeight(softInputHeight);
 ```
 
-**Attention please, for perfect display, MUST set MenuContainer's height after init ChatInputView.** 
+**Attention please, for perfect display, MUST set MenuContainer's height after init ChatInputView. If using RN, set `ChatInput`'s  `MenuContainerHeight` property instead.** 
 
 Best suggestion: get soft keyboard height from other activity(Like login Activity, just before chat Activity), then set soft keyboard height via:
 
