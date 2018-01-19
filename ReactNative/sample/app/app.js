@@ -232,7 +232,6 @@ export default class TestRNIMUI extends Component {
     message.text = text
 
     AuroraIController.appendMessages([message])
-    AuroraIController.scrollToBottom(true)
   }
 
   onTakePicture = (mediaPath) => {

@@ -104,6 +104,7 @@ public class CameraNew implements CameraSupport {
     private Context mContext;
     private CameraDevice mCamera;
     private CameraManager mManager;
+    private boolean mSupportAutoFocus = false;
     /**
      * Output file of picture
      */
@@ -223,6 +224,10 @@ public class CameraNew implements CameraSupport {
                         } else {
                             runPrecaptureSequence();
                         }
+                    // 前置摄像头并且不支持自动对焦
+                    } else if (!mIsFacingBack && afState == CaptureResult.CONTROL_AF_STATE_INACTIVE) {
+                        mState = STATE_PICTURE_TAKEN;
+                        captureStillPicture();
                     }
                     break;
                 }
@@ -795,7 +800,7 @@ public class CameraNew implements CameraSupport {
                     int w = bmp.getWidth();
                     int h = bmp.getHeight();
                     Matrix matrix = new Matrix();
-                    matrix.postScale(-1, 1);
+                    matrix.preScale(1, -1);
                     Bitmap convertBmp = Bitmap.createBitmap(bmp, 0, 0, w, h, matrix, true);
                     convertBmp.compress(Bitmap.CompressFormat.JPEG, 100, output);
                 } else {

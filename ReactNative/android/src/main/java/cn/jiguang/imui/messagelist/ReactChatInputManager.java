@@ -93,11 +93,13 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private boolean mShowMenu = false;
     private double mCurrentInputHeight = 48;
     private int mInitialChatInputHeight = 100;
+    private double mLineExpend = 0;
     private int mScreenWidth;
     /**
      * Initial soft input height, set this value via {@link #setMenuContainerHeight}
      */
     private int mMenuContainerHeight = 831;
+    private float mDensity;
 
     @Override
     public String getName() {
@@ -138,8 +140,9 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         });
         DisplayMetrics dm = new DisplayMetrics();
         reactContext.getCurrentActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        final float density = dm.density;
+        mDensity = dm.density;
         mScreenWidth = dm.widthPixels;
+        mMenuContainerHeight = (int) (mMenuContainerHeight / mDensity);
         editText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -153,7 +156,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             @Override
             public void afterTextChanged(Editable s) {
                 WritableMap event = Arguments.createMap();
-                double layoutHeight = calculateMenuHeight(density);
+                double layoutHeight = calculateMenuHeight();
                 mInitState = false;
                 event.putDouble("height", layoutHeight);
                 editText.setLayoutParams(new LinearLayout.LayoutParams(mWidth, (int)(mCurrentInputHeight)));
@@ -167,9 +170,9 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 if (input.length() == 0) {
                     return false;
                 }
-                WritableMap map = Arguments.createMap();
-                map.putDouble("height", mInitialChatInputHeight);
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
+//                WritableMap map = Arguments.createMap();
+//                map.putDouble("height", mInitialChatInputHeight);
+//                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
                 WritableMap event = Arguments.createMap();
                 event.putString("text", input.toString());
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_SEND_TEXT_EVENT, event);
@@ -200,7 +203,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToMicrophoneMode() {
-                initMenu(density);
+                initMenu();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_MIC_EVENT, null);
                 return true;
@@ -208,7 +211,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToGalleryMode() {
-                initMenu(density);
+                initMenu();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_GALLERY_EVENT, null);
                 return true;
@@ -216,7 +219,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToCameraMode() {
-                initMenu(density);
+                initMenu();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_CAMERA_EVENT, null);
                 return true;
@@ -224,7 +227,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToEmojiMode() {
-                initMenu(density);
+                initMenu();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_EMOJI_EVENT, null);
                 return true;
@@ -309,7 +312,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         ON_RECOVER_SCREEN_EVENT, null);
                 WritableMap map = Arguments.createMap();
-                map.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / density);
+                map.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / mDensity);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
             }
 
@@ -332,7 +335,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         return mChatInput;
     }
 
-    private void initMenu(float density) {
+    private void initMenu() {
         mShowMenu = true;
         if (mChatInput.getSoftInputState()) {
             EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput.getInputView());
@@ -344,36 +347,39 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         }
         WritableMap event = Arguments.createMap();
         if (mChatInput.getSoftKeyboardHeight() == 0) {
-            event.putDouble("height", mInitialChatInputHeight + mMenuContainerHeight / density);
+            event.putDouble("height", mInitialChatInputHeight + mMenuContainerHeight);
         } else {
-            event.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / density);
+            event.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / mDensity);
         }
         mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, event);
     }
 
-    private double calculateMenuHeight(float density) {
+    private double calculateMenuHeight() {
         double layoutHeight = mInitialChatInputHeight;
         if (mShowMenu) {
-            layoutHeight += mChatInput.getSoftKeyboardHeight() / density;
+            if (mChatInput.getSoftKeyboardHeight() != 0) {
+                layoutHeight += mChatInput.getSoftKeyboardHeight() / mDensity;
+            } else {
+                layoutHeight += mMenuContainerHeight;
+            }
+
         }
         switch (mChatInput.getInputView().getLineCount()) {
             case 0:
             case 1:
-                mCurrentInputHeight = 48 * density;
+                mLineExpend = 0;
                 break;
             case 2:
-                if (mShowMenu)
-                    layoutHeight += 5.4;
-                mCurrentInputHeight = 53.4 * density;
+                mLineExpend = 5.4;
                 break;
             case 3:
-                layoutHeight += 25.5;
-                mCurrentInputHeight = 73.5 * density;
+                mLineExpend = 25.5;
                 break;
             default:
-                layoutHeight += 45.7;
-                mCurrentInputHeight = 93.7 * density;
+                mLineExpend = 45.7;
         }
+        layoutHeight += mLineExpend;
+        mCurrentInputHeight = (mLineExpend + 48) * mDensity;
         return layoutHeight;
     }
 
@@ -393,7 +399,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OnTouchMsgListEvent event) {
         WritableMap map = Arguments.createMap();
-        map.putDouble("height", mInitialChatInputHeight);
+        map.putDouble("height", mInitialChatInputHeight + mLineExpend);
+        mShowMenu = false;
         mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
     }
 
@@ -479,12 +486,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 try {
                     WritableMap event = Arguments.createMap();
                     mShowMenu = args.getBoolean(0);
-                    float dp = mContext.getResources().getDisplayMetrics().density;
                     mContext.getCurrentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     if (mInitState) {
                         event.putDouble("height", mInitialChatInputHeight);
                     } else {
-                        event.putDouble("height", calculateMenuHeight(dp));
+                        event.putDouble("height", calculateMenuHeight());
                     }
                     mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, event);
                 } catch (Exception e) {

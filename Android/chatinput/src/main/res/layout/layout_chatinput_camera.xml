@@ -8,6 +8,7 @@
     <TextureView
         android:id="@+id/aurora_txtv_camera_texture"
         android:layout_width="match_parent"
+        android:background="@null"
         android:layout_height="match_parent" />
 
     <ImageButton

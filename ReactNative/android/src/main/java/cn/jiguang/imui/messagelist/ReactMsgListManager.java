@@ -14,7 +14,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.PowerManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,7 +27,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -261,9 +259,6 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 for (final RCTMessage rctMessage : messages) {
                     Log.d("RCTMessageListManager", "Add message to start, message: " + rctMessage);
                     if (activity != null) {
-                        final DisplayMetrics dm = new DisplayMetrics();
-                        final WindowManager windowManager = activity.getWindowManager();
-                        windowManager.getDefaultDisplay().getMetrics(dm);
                         mAdapter.addToStart(rctMessage, true);
                         mMessageList.smoothScrollToPosition(0);
                     }
@@ -274,6 +269,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 Log.d("RCTMessageListManager", "updating message, message: " + rctMessage);
                 if (activity != null) {
                     mAdapter.updateMessage(rctMessage.getMsgId(), rctMessage);
+                    mMessageList.smoothScrollToPosition(0);
                 }
                 break;
             case RCT_INSERT_MESSAGES_ACTION:
