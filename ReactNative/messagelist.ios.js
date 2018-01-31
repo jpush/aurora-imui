@@ -90,8 +90,6 @@ MessageList.propTypes = {
   onTouchMsgList: PropTypes.func,
   onPullToRefresh: PropTypes.func,
   messageListBackgroundColor: PropTypes.string,
-  sendBubble: PropTypes.string,
-  receiveBubble: PropTypes.string,
   sendBubble: PropTypes.object,
   receiveBubble: PropTypes.object,
   sendBubbleTextColor: PropTypes.string,
