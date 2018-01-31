@@ -140,6 +140,7 @@ export default class TestRNIMUI extends Component {
         messageListLayout: { flex: 1, width: window.width, margin: 0 },
         navigationBar: { height: 64, justifyContent: 'center' },
       })
+      this.forceUpdate();
     } else {
       this.setState({
         inputViewLayout: { width: window.width, height: 86 }

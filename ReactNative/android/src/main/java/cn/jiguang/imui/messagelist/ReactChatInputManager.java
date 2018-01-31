@@ -203,7 +203,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToMicrophoneMode() {
-                initMenu();
+                initMenu(0);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_MIC_EVENT, null);
                 return true;
@@ -211,7 +211,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToGalleryMode() {
-                initMenu();
+                initMenu(-1);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_GALLERY_EVENT, null);
                 return true;
@@ -219,7 +219,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToCameraMode() {
-                initMenu();
+                initMenu(1);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_CAMERA_EVENT, null);
                 return true;
@@ -227,7 +227,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToEmojiMode() {
-                initMenu();
+                initMenu(2);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_EMOJI_EVENT, null);
                 return true;
@@ -335,7 +335,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         return mChatInput;
     }
 
-    private void initMenu() {
+    private void initMenu(int n) {
         mShowMenu = true;
         if (mChatInput.getSoftInputState()) {
             EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput.getInputView());
@@ -347,9 +347,9 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         }
         WritableMap event = Arguments.createMap();
         if (mChatInput.getSoftKeyboardHeight() == 0) {
-            event.putDouble("height", mInitialChatInputHeight + mMenuContainerHeight);
+            event.putDouble("height", mInitialChatInputHeight + mMenuContainerHeight + n);
         } else {
-            event.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / mDensity);
+            event.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / mDensity + n);
         }
         mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, event);
     }
