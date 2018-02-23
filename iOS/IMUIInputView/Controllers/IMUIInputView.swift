@@ -124,6 +124,8 @@ open class IMUIInputView: UIView {
     UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) { 
       self.moreViewHeight.constant = 0
       self.inputTextView.resignFirstResponder()
+      self.featureView.currentType = .none
+      self.featureView.featureCollectionView.reloadData()
       self.superview?.layoutIfNeeded()
     }
   }
