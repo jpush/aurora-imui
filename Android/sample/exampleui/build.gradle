@@ -46,6 +46,11 @@ android {
     lintOptions {
         abortOnError false
     }
+    sourceSets {
+        main {
+            assets.srcDirs = ['assets']
+        }
+    }
 }
 
 dependencies {

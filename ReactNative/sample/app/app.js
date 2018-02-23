@@ -384,6 +384,7 @@ export default class TestRNIMUI extends Component {
         </View>
         <MessageListView style={this.state.messageListLayout}
           ref="MessageList"
+          isAllowPullToRefresh={false}
           onAvatarClick={this.onAvatarClick}
           onMsgClick={this.onMsgClick}
           onStatusViewClick={this.onStatusViewClick}
