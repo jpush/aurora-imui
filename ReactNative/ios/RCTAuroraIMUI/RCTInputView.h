@@ -18,6 +18,8 @@
 
 @property(strong, nonatomic) NSString *chatInputBackgroupColor;
 
+@property(strong, nonatomic) NSNumber *galleryScale;
+
 @property (nonatomic, copy) RCTBubblingEventBlock onEventCallBack;
 
 @property (nonatomic, copy) RCTBubblingEventBlock onSizeChange;
