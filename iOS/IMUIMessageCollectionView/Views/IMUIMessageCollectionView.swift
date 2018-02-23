@@ -23,6 +23,12 @@ open class IMUIMessageCollectionView: UIView {
     super.awakeFromNib()
   }
   
+  override open var bounds: CGRect {
+    didSet {
+      IMUIMessageCellLayout.cellWidth = self.imui_width
+    }
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     let bundle = Bundle.imuiBundle()
