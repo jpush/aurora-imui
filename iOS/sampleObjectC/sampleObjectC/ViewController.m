@@ -47,6 +47,10 @@
 // - MARK: IMUIInputViewDelegate
 /// Tells the delegate that user tap send button and text input string is not empty
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {
+
+  NSString *eventMsgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
+  MessageEventModel *event = [[MessageEventModel alloc] initWithMsgId:eventMsgId eventText:messageText];
+  [self.messageList appendMessageWith: event];
   
   NSString *msgId = [NSString stringWithFormat:@"%f",[[NSDate new] timeIntervalSince1970] * 1000];
   MessageModel *message = [[MessageModel alloc] initWithText:messageText
@@ -56,8 +60,6 @@
                                                   isOutgoing:true
                                                       status:IMUIMessageStatusSuccess];
   [self.messageList appendMessageWith:message];
-  MessageEventModel *event = [[MessageEventModel alloc] initWithMsgId:msgId eventText:messageText];
-  [self.messageList appendMessageWith: event];
 }
 /// Tells the delegate that IMUIInputView will switch to recording voice mode
 - (void)switchToMicrophoneModeWithRecordVoiceBtn:(UIButton * _Nonnull)recordVoiceBtn {
