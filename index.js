@@ -118,6 +118,17 @@ class AuroraIMUIController {
 	static removeAllMessage() {
 		AuroraIMUIModule.removeAllMessage();
 	}
+
+    /**
+     * 裁剪图片，将图片裁剪成 width * height 大小
+     * param = { "path": String, "width": number, "height": number }
+     * result = { "code": number(0 表示裁剪成功，否则不成功), "thumbPath": String }
+     */
+	static scaleImage(param, cb) {
+	    AuroraIMUIModule.scaleImage(param, (result) => {
+	        cb(result);
+	    });
+	}
 }
 
 module.exports = {

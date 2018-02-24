@@ -29,6 +29,10 @@ public class MyMessage implements IMessage {
         return String.valueOf(id);
     }
 
+    public long getId() {
+        return this.id;
+    }
+
     @Override
     public IUser getFromUser() {
         if (user == null) {

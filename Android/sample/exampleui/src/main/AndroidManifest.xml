@@ -30,5 +30,6 @@
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
 
         </activity>
+        <activity android:name=".messages.BrowserImageActivity" />
     </application>
 </manifest>

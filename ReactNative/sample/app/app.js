@@ -91,7 +91,7 @@ export default class TestRNIMUI extends Component {
   getHistoryMessage() {
     var messages = []
     for (var i = 0; i < 1; i++) {
-      var message = constructNormalMessage()
+      // var message = constructNormalMessage()
       // message.msgType = "text"
       // message.text = "" + i
       // if (i%2 == 0)  {
@@ -109,9 +109,14 @@ export default class TestRNIMUI extends Component {
         message.content = '<body bgcolor="#ff3399"><h5>This is a custom message. </h5>\
         <img src="/storage/emulated/0/XhsEmoticonsKeyboard/Emoticons/wxemoticons/icon_040_cover.png"></img></body>'
       }
+
+      var eventMessage = constructNormalMessage()
+      eventMessage.msgType = "event"
+      eventMessage.text = 'fsadfad'
+      
       message.contentSize = { 'height': 100, 'width': 200 }
       message.extras = { "extras": "fdfsf" }
-      AuroraIController.appendMessages([message])
+      AuroraIController.appendMessages([message,eventMessage])
       AuroraIController.scrollToBottom(true)
 
       AuroraIController.insertMessagesToTop([message])
@@ -140,10 +145,9 @@ export default class TestRNIMUI extends Component {
         messageListLayout: { flex: 1, width: window.width, margin: 0 },
         navigationBar: { height: 64, justifyContent: 'center' },
       })
+      this.forceUpdate();
     } else {
-      this.setState({
-        inputViewLayout: { width: window.width, height: 86 }
-      })
+      AuroraIController.hidenFeatureView(true)
     }
   }
 
@@ -255,6 +259,7 @@ export default class TestRNIMUI extends Component {
     message.timeString = "safsdfa"
     message.duration = duration
     AuroraIController.appendMessages([message])
+    console.log("on start record voice")
   }
 
   onCancelRecordVoice = () => {
@@ -266,12 +271,12 @@ export default class TestRNIMUI extends Component {
   }
 
   onFinishRecordVideo = (mediaPath, duration) => {
-    // var message = constructNormalMessage()
+    var message = constructNormalMessage()
 
-    // message.msgType = "video"
-    // message.mediaPath = mediaPath
-    // message.duration = duration
-    // AuroraIController.appendMessages([message])
+    message.msgType = "video"
+    message.mediaPath = mediaPath
+    message.duration = duration
+    AuroraIController.appendMessages([message])
   }
 
   onSendGalleryFiles = (mediaFiles) => {
@@ -300,6 +305,7 @@ export default class TestRNIMUI extends Component {
       AuroraIController.appendMessages([message])
       AuroraIController.scrollToBottom(true)
     }
+    
     this.resetMenu()
   }
 
@@ -383,6 +389,7 @@ export default class TestRNIMUI extends Component {
         </View>
         <MessageListView style={this.state.messageListLayout}
           ref="MessageList"
+          isAllowPullToRefresh={false}
           onAvatarClick={this.onAvatarClick}
           onMsgClick={this.onMsgClick}
           onStatusViewClick={this.onStatusViewClick}
@@ -418,6 +425,7 @@ export default class TestRNIMUI extends Component {
           onSizeChange={this.onInputViewSizeChange}
           showSelectAlbumBtn={true}
           onClickSelectAlbum={this.onClickSelectAlbum}
+          galleryScale={0.6}//default = 0.5
         />
       </View>
     );

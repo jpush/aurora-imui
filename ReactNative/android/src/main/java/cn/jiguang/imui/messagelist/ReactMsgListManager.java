@@ -291,6 +291,12 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         mAdapter.pauseVoice();
     }
 
+    @ReactProp(name = "isAllowPullToRefresh")
+    public void setAllowPullToRefresh(PullToRefreshLayout root, boolean isAllowPullToRefresh) {
+        Log.i(REACT_MESSAGE_LIST, "Set isAllowPullToRefresh: " + isAllowPullToRefresh);
+        root.setKeepHeaderWhenRefresh(isAllowPullToRefresh);
+    }
+
     @ReactProp(name = "sendBubble")
     public void setSendBubble(PullToRefreshLayout root, ReadableMap map) {
         int resId = mContext.getResources().getIdentifier(map.getString("imageName"),

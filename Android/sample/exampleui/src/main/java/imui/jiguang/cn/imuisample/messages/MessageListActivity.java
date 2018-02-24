@@ -80,11 +80,17 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
     private Sensor mSensor;
     private PowerManager mPowerManager;
     private PowerManager.WakeLock mWakeLock;
+    /**
+     * Store all image messages' path, pass it to {@link BrowserImageActivity},
+     * so that click image message can browser all images.
+     */
+    private ArrayList<String> mPathList = new ArrayList<>();
+    private ArrayList<String> mMsgIdList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chat_activity);
+        setContentView(R.layout.activity_chat);
         this.mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mWindow = getWindow();
         registerProximitySensorListener();
@@ -121,7 +127,8 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 for (FileItem item : list) {
                     if (item.getType() == FileItem.Type.Image) {
                         message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE.ordinal());
-
+                        mPathList.add(item.getFilePath());
+                        mMsgIdList.add(message.getMsgId());
                     } else if (item.getType() == FileItem.Type.Video) {
                         message = new MyMessage(null, IMessage.MessageType.SEND_VIDEO.ordinal());
                         message.setDuration(((VideoItem) item).getDuration());
@@ -239,6 +246,8 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 final MyMessage message = new MyMessage(null, IMessage.MessageType.SEND_IMAGE.ordinal());
                 message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                 message.setMediaFilePath(photoPath);
+                mPathList.add(photoPath);
+                mMsgIdList.add(message.getMsgId());
                 message.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
                 MessageListActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -450,6 +459,13 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                         intent.putExtra(VideoActivity.VIDEO_PATH, message.getMediaFilePath());
                         startActivity(intent);
                     }
+                } else if (message.getType() == IMessage.MessageType.RECEIVE_IMAGE.ordinal()
+                        || message.getType() == IMessage.MessageType.SEND_IMAGE.ordinal()) {
+                    Intent intent = new Intent(MessageListActivity.this, BrowserImageActivity.class);
+                    intent.putExtra("msgId", message.getMsgId());
+                    intent.putStringArrayListExtra("pathList", mPathList);
+                    intent.putStringArrayListExtra("idList", mMsgIdList);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             getApplicationContext().getString(R.string.message_click_hint),

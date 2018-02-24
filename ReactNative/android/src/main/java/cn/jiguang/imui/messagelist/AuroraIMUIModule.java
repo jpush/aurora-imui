@@ -1,8 +1,10 @@
 package cn.jiguang.imui.messagelist;
 
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -10,13 +12,19 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import cn.jiguang.imui.commons.models.IMessage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import cn.jiguang.imui.commons.BitmapLoader;
 import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
@@ -195,5 +203,76 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
         EventBus.getDefault().post(new ScrollEvent(flag));
     }
 
+    /**
+     * 裁剪图片，将图片按比例裁剪成 width * height 大小
+     * @param map 包含 path，width，height 参数
+     * @param callback 回调包含裁剪后的路径
+     */
+    @ReactMethod
+    public void scaleImage(ReadableMap map, Callback callback) {
+        try {
+            String path = map.getString("path");
+            int width = map.getInt("width");
+            int height = map.getInt("height");
+            File file = new File(path);
+            WritableMap result = Arguments.createMap();
+            if (file.exists() && file.isFile()) {
+                Bitmap bitmap = BitmapLoader.getBitmapFromFile(path, width, height);
+                String fileName = file.getName();
+                String thumbPath = saveBitmapToLocal(bitmap, fileName);
+                result.putInt("code", 0);
+                result.putString("thumbPath", thumbPath);
+                callback.invoke(result);
+            } else {
+                result.putInt("code", -1);
+                result.putString("error", "Path is invalid");
+                callback.invoke(result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 根据bitmap保存图片到本地
+     *
+     * @param bitmap bitmap
+     * @return file path
+     */
+    private String saveBitmapToLocal(Bitmap bitmap, String fileName) {
+        if (null == bitmap) {
+            return null;
+        }
+        String filePath;
+        FileOutputStream fileOutput = null;
+        File imgFile;
+        try {
+            File desDir = new File(getReactApplicationContext().getFilesDir() + "/thumbnails/");
+            if (!desDir.exists()) {
+                desDir.mkdirs();
+            }
+            imgFile = new File(getReactApplicationContext().getFilesDir() + "/thumbnails/", fileName);
+            imgFile.createNewFile();
+            fileOutput = new FileOutputStream(imgFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutput);
+            fileOutput.flush();
+            filePath = imgFile.getAbsolutePath();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            filePath = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            filePath = null;
+        } finally {
+            if (null != fileOutput) {
+                try {
+                    fileOutput.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return filePath;
+    }
 
 }
