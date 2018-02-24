@@ -26,7 +26,9 @@ open class IMUIMessageCollectionView: UIView {
   override open var bounds: CGRect {
     didSet {
       IMUIMessageCellLayout.cellWidth = self.imui_width
-//      self.messageCollectionView.reloadData()
+      DispatchQueue.main.async {
+        self.messageCollectionView.reloadData()
+      }
     }
   }
   
