@@ -22,6 +22,10 @@
   return self;
 }
 
+- (void)setFrame:(CGRect)frame {
+  // override setFrame and do not thing to disable this function, react-native use setBounds to layout.
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
   self = [super initWithCoder:aDecoder];
   self.keyBoardHeight = 0.0;
