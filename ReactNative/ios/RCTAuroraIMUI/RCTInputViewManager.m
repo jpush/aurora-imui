@@ -60,6 +60,10 @@ RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgroupColor, NSString, RCTInputView) {
   _rctInputView.imuiIntputView.featureSelectorView.featureListCollectionView.backgroundColor = color;
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
+  NSNumber *galleryScale = [RCTConvert NSNumber: json];
+  _rctInputView.galleryScale = galleryScale;
+}
 
 /// Tells the delegate that user tap send button and text input string is not empty
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {
@@ -121,6 +125,9 @@ RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgroupColor, NSString, RCTInputView) {
 /// Tells the delegate that user did selected Photo in gallery
 - (void)didSeletedGalleryWithAssetArr:(NSArray<PHAsset *> * _Nonnull)AssetArr {
   dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+    NSNumber *scaleNumber = _rctInputView.galleryScale?:@(0.5);
+    CGFloat scale = scaleNumber.floatValue;
+    
     if(!_rctInputView.onSendGalleryFiles) { return; }
     __block NSMutableArray *imagePathArr = @[].mutableCopy;
     
@@ -134,7 +141,7 @@ RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgroupColor, NSString, RCTInputView) {
           PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
           
           [imageManage requestImageForAsset: asset
-                                 targetSize: CGSizeMake(asset.pixelWidth, asset.pixelHeight)
+                                 targetSize: CGSizeMake(asset.pixelWidth * scale, asset.pixelHeight * scale)
                                 contentMode: PHImageContentModeAspectFill
                                     options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                       NSData *imageData = UIImagePNGRepresentation(result);

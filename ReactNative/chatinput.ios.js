@@ -176,6 +176,7 @@ ChatInput.propTypes = {
   onSwitchToCameraMode: PropTypes.func,
   onShowKeyboard: PropTypes.func,
   onSizeChange: PropTypes.func,
+  galleryScale: PropTypes.number,
   ...ViewPropTypes
 };
 
