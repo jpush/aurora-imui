@@ -119,11 +119,11 @@ export default class TestRNIMUI extends Component {
   }
 
   onInputViewSizeChange = (size) => {
-    console.log("height: " + size.height)
+    console.log("height: " + size.height + " width: " + size.width)
     if (this.state.inputLayoutHeight != size.height) {
       this.setState({
         inputLayoutHeight: size.height,
-        inputViewLayout: { width: size.width, height: size.height },
+        inputViewLayout: { width: window.width, height: size.height },
         messageListLayout: { flex:1, width: window.width, margin: 0 }
       })
     }
@@ -393,6 +393,7 @@ export default class TestRNIMUI extends Component {
           onBeginDragMessageList={this.onBeginDragMessageList}
           onPullToRefresh={this.onPullToRefresh}
           avatarSize={{ width: 40, height: 40 }}
+          avatarCornerSize={5}
           sendBubbleTextSize={18}
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}

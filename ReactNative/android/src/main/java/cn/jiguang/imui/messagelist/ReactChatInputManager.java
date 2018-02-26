@@ -159,7 +159,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 double layoutHeight = calculateMenuHeight();
                 mInitState = false;
                 event.putDouble("height", layoutHeight);
-                editText.setLayoutParams(new LinearLayout.LayoutParams(mWidth, (int)(mCurrentInputHeight)));
+                editText.setLayoutParams(new LinearLayout.LayoutParams(editText.getWidth(), (int)(mCurrentInputHeight)));
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, event);
             }
         });
