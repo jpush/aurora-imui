@@ -564,7 +564,6 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 ChatInputView chatInputView = mChatView.getChatInputView();
-
                 if (view.getId() == chatInputView.getInputView().getId()) {
                     scrollToBottom();
                     if (chatInputView.getMenuState() == View.VISIBLE

@@ -64,6 +64,10 @@ Refer to iOS,Android example
   - [Props customizable style]()
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showSelectAlbumBtn)
+    - [inputPadding](#inputPadding)
+    - [inputTextColor](#inputTextColor)
+    - [inputTextSize](#inputTextSize)
+    - [inputTextLineHeight](#inputTextLineHeight)
   - [Props Event]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
@@ -471,6 +475,53 @@ Example:  ```chatInputBackgroupColor="#000000"```
 Set the visibility of the select album button.
 
 Example: ```showSelectAlbumBtn={true}```
+
+
+
+------
+### inputPadding
+
+**PropTypes.object:** {left: number, top: number, right: number, bottom: number}
+
+Set the padding of TextInput.
+
+Example: `inputPadding={left:5, top:0, right:5, bottom:0}`
+
+
+
+***
+
+### inputTextColor
+
+**PropTypes.string:** {"#xxxxxx"}
+
+Set the text color of TextInput.
+
+Example: `inputTextColor={"#808080"}`
+
+
+
+***
+
+### inputTextSize
+
+**PropTypes.numbser:** {numbser}
+
+Set the text size of TextInput.
+
+Example: `inputTextSize={14}`
+
+
+
+***
+
+### inputTextLineHeight
+
+**PropTypes.number:**{numbser}
+
+Set the text line spacing of TextInput.
+
+Example: `inputTextLineHeight={2}`
 
 ------
 

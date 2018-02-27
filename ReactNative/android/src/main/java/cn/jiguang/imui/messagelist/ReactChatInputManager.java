@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
@@ -434,6 +435,35 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     @ReactProp(name = "showSelectAlbumBtn")
     public void showSelectAlbumBtn(ChatInputView chatInputView, boolean flag) {
         chatInputView.getSelectAlbumBtn().setVisibility(flag? View.VISIBLE: View.GONE);
+    }
+
+    @ReactProp(name = "inputPadding")
+    public void setEditTextPadding(ChatInputView chatInputView, ReadableMap map) {
+        try {
+            int left = map.getInt("left");
+            int top = map.getInt("top");
+            int right = map.getInt("right");
+            int bottom = map.getInt("bottom");
+            chatInputView.getInputView().setPadding(left, top, right, bottom);
+        } catch (Exception e) {
+            Log.e(REACT_CHAT_INPUT, "Input padding key error");
+        }
+    }
+
+    @ReactProp(name = "inputTextColor")
+    public void setEditTextTextColor(ChatInputView chatInputView, String color) {
+        int colorRes = Color.parseColor(color);
+        chatInputView.getInputView().setTextColor(colorRes);
+    }
+
+    @ReactProp(name = "inputTextSize")
+    public void setEditTextTextSize(ChatInputView chatInputView, int size) {
+        chatInputView.getInputView().setTextSize(size);
+    }
+
+    @ReactProp(name = "inputTextLineHeight")
+    public void setEditTextLineSpacing(ChatInputView chatInputView, int spacing) {
+        chatInputView.getInputView().setLineSpacing(spacing, 1.0f);
     }
 
     @Override

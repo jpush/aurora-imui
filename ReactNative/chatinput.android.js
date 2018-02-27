@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactNative from 'react-native';
 import PropTypes from 'prop-types';
+import {ViewPropTypes} from 'react-native';
 
 var {
 	Component,
@@ -233,7 +234,11 @@ ChatInput.propTypes = {
 	inputViewHeight: PropTypes.number,
 	onClickSelectAlbum: PropTypes.func,
 	showSelectAlbumBtn: PropTypes.bool,
-	...View.propTypes
+	inputPadding: PropTypes.object,
+	inputTextColor: PropTypes.string,
+	inputTextSize: PropTypes.number,
+	inputTextLineHeight: PropTypes.number,
+	...ViewPropTypes
 };
 
 var RCTChatInput = requireNativeComponent('RCTChatInput', ChatInput);

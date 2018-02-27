@@ -6,6 +6,10 @@
     <declare-styleable name="ChatInputView">
         <attr name="inputMarginLeft" format="dimension|reference" />
         <attr name="inputMarginRight" format="dimension|reference" />
+        <attr name="inputPaddingLeft" format="dimension|reference" />
+        <attr name="inputPaddingTop" format="dimension|reference" />
+        <attr name="inputPaddingRight" format="dimension|reference" />
+        <attr name="inputPaddingBottom" format="dimension|reference" />
         <attr name="inputEditTextBg" format="reference" />
         <attr name="inputMaxLines" format="integer" />
         <attr name="inputHint" format="string" />

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactNative from 'react-native';
+import {ViewPropTypes} from 'react-native';
 import PropTypes from 'prop-types';
 
 var {
@@ -10,7 +11,6 @@ var {
 
 var {
   StyleSheet,
-  ViewPropTypes,
   UIManager,
   findNodeHandle,
   requireNativeComponent,

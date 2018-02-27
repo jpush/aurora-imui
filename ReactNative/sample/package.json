@@ -8,7 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "aurora-imui-react-native": "file:..",
+    "aurora-imui-react-native": "^0.8.4",
     "react": "^16.0.0",
     "react-native": "^0.53.3",
     "react-native-fs": "^2.8.5",

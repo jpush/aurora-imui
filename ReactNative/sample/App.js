@@ -41,9 +41,9 @@ function constructNormalMessage() {
   var user = {
     userId: "",
     displayName: "replace your nickname",
-    avatarPath: "ironman"
+    avatarPath: "images"
   }
-  user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
+  // user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
   message.fromUser = user
 
   return message
@@ -397,8 +397,8 @@ export default class TestRNIMUI extends Component {
           onTapMessageCell={this.onTapMessageCell}
           onBeginDragMessageList={this.onBeginDragMessageList}
           onPullToRefresh={this.onPullToRefresh}
-          avatarSize={{ width: 40, height: 40 }}
-          avatarCornerSize={5}
+          avatarSize={{ width: 50, height: 50 }}
+          avatarCornerSize={25}
           sendBubbleTextSize={18}
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
