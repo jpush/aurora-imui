@@ -117,6 +117,7 @@ MessageList.propTypes = {
   displayNameTextColor: PropTypes.string,
   displayNamePadding: PropTypes.object,
   displayNameTextLineHeight: PropTypes.number,
+  messageTextLineHeight: PropTypes.number,
   ...ViewPropTypes
 };
 
