@@ -252,7 +252,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 style.getDatePaddingRight(), style.getDatePaddingBottom());
         mDateTv.setBgCornerRadius(style.getDateBgCornerRadius());
         mDateTv.setBgColor(style.getDateBgColor());
-        mDateTv.setLineSpacing(style.getDateTextLineSpacingExtra(), 1.0f);
         mSendDrawable = style.getSendVoiceDrawable();
         mReceiveDrawable = style.getReceiveVoiceDrawable();
         mController.setDrawable(mSendDrawable, mReceiveDrawable);
@@ -285,7 +284,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
                 style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
-        mDisplayNameTv.setLineSpacing(style.getDisplayNameLineSpacing(), 1.0f);
 
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();

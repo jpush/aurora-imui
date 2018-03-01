@@ -154,10 +154,6 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setDatePadding(left, top, right, bottom);
     }
 
-    public void setDateTextLineSpacing(int spacingExtra) {
-        mMsgListStyle.setDateTextLineSpacingExtra(spacingExtra);
-    }
-
     public void setDateBgCornerRadius(int radius) {
         mMsgListStyle.setDateBgCornerRadius(radius);
     }

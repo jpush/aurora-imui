@@ -131,7 +131,6 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 style.getDatePaddingRight(), style.getDatePaddingBottom());
         mDateTv.setBgCornerRadius(style.getDateBgCornerRadius());
         mDateTv.setBgColor(style.getDateBgColor());
-        mDateTv.setLineSpacing(style.getDateTextLineSpacingExtra(), 1.0f);
         if (mIsSender) {
             mPhotoIv.setBackground(style.getSendPhotoMsgBg());
             if (style.getSendingProgressDrawable() != null) {
@@ -157,7 +156,6 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
                 style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
-        mDisplayNameTv.setLineSpacing(style.getDisplayNameLineSpacing(), 1.0f);
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();

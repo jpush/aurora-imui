@@ -24,7 +24,6 @@ public class MessageListStyle extends Style {
     private int datePaddingRight;
     private int datePaddingBottom;
     private int dateBgCornerRadius;
-    private int dateTextLineSpacingExtra;
     private int dateBgColor;
     private int eventPaddingLeft;
     private int eventPaddingTop;
@@ -48,7 +47,6 @@ public class MessageListStyle extends Style {
     private int displayNamePaddingTop;
     private int displayNamePaddingRight;
     private int displayNamePaddingBottom;
-    private int displayNameLineSpacing;
     private int receiveBubbleDrawable;
     private int receiveBubbleColor;
     private int receiveBubblePressedColor;
@@ -371,14 +369,6 @@ public class MessageListStyle extends Style {
         return this.displayNamePaddingBottom;
     }
 
-    public void setDisplayNameLineSpacing(int spacing) {
-        this.displayNameLineSpacing = spacing;
-    }
-
-    public int getDisplayNameLineSpacing() {
-        return this.displayNameLineSpacing;
-    }
-
     public void setReceiveBubbleColor(int receiveBubbleColor) {
         this.receiveBubbleColor = receiveBubbleColor;
     }
@@ -662,14 +652,6 @@ public class MessageListStyle extends Style {
 
     public int getDatePaddingBottom() {
         return datePaddingBottom;
-    }
-
-    public void setDateTextLineSpacingExtra(int spacing) {
-        this.dateTextLineSpacingExtra = spacing;
-    }
-
-    public int getDateTextLineSpacingExtra() {
-        return this.dateTextLineSpacingExtra;
     }
 
     public int getDateBgCornerRadius() {

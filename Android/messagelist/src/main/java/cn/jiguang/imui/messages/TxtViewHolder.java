@@ -158,14 +158,12 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
                 style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
-        mDisplayNameTv.setLineSpacing(style.getDisplayNameLineSpacing(), 1.0f);
         mDateTv.setTextSize(style.getDateTextSize());
         mDateTv.setTextColor(style.getDateTextColor());
         mDateTv.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(),
                 style.getDatePaddingRight(), style.getDatePaddingBottom());
         mDateTv.setBgCornerRadius(style.getDateBgCornerRadius());
         mDateTv.setBgColor(style.getDateBgColor());
-        mDateTv.setLineSpacing(style.getDateTextLineSpacingExtra(), 1.0f);
 
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();

@@ -118,7 +118,7 @@ MessageList.propTypes = {
   eventTextColor: PropTypes.string,
   eventTextPadding: PropTypes.object,
   eventBackgroundColor: PropTypes.string,
-  eventCornerRadius: PropTypes.nunber,
+  eventCornerRadius: PropTypes.number,
   eventTextLineHeight: PropTypes.number,
   eventTextSize: PropTypes.number,
   avatarCornerRadius: PropTypes.number,

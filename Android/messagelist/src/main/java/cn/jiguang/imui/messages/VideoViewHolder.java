@@ -134,7 +134,6 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
                 style.getDatePaddingRight(), style.getDatePaddingBottom());
         mTextDate.setBgCornerRadius(style.getDateBgCornerRadius());
         mTextDate.setBgColor(style.getDateBgColor());
-        mTextDate.setLineSpacing(style.getDateTextLineSpacingExtra(), 1.0f);
         if (mIsSender) {
             if (style.getSendingProgressDrawable() != null) {
                 mSendingPb.setProgressDrawable(style.getSendingProgressDrawable());
@@ -158,7 +157,6 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
                 style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
-        mDisplayNameTv.setLineSpacing(style.getDisplayNameLineSpacing(), 1.0f);
 
         android.view.ViewGroup.LayoutParams layoutParams = mImageAvatar.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();

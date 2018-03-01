@@ -403,6 +403,8 @@ export default class TestRNIMUI extends Component {
           sendBubbleTextSize={18}
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
+          datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
+          dateBackgroundColor={"#39ef23"}
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"

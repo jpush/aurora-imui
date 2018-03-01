@@ -62,6 +62,9 @@ Refer to iOS,Android example
     - [isShowDisplayName](#isShowdisplayname)
     - [isShowIncomingDisplayName](#isShowIncomingDisplayName)
     - [isShowOutgoingDisplayName](#isShowOutgoingDisplayName)
+    - [displayNameTextSize](#displayNameTextSize)
+    - [displayNameTextColor](#displayNameTextColor)
+    - [displayNamePadding](#displayNamePadding)
     - [eventTextColor](#eventTextColor)
     - [eventTextSize](#eventTextSize)
     - [eventTextPadding](#eventTextPadding)
@@ -69,6 +72,7 @@ Refer to iOS,Android example
     - [eventCornerRadius](#eventCornerRadius)
     - [eventTextLineHeight](#eventTextLineHeight)
     - [messageListBackgroundColor](#messagelistbackgroundcolor)
+    - [maxBubbleWidth](#maxBubbleWidth)
     - [messageTextLineHeight](#messageTextLineHeight)
     - [isAllowPullToRefresh](#isallowpulltorefresh)
 - [ChatInput](#chatinput)
@@ -409,33 +413,23 @@ Example: `datePadding={left: 5, top: 10, right: 5, bottom: 10}`
 
 ------
 
-#### dateTextLineHeight
-
-**PropTypes.number**
-
-Set the text line height of date.
-
-Example: `dateTextLineHeight={5}`
-
-------
-
-#### dateBgColor
+#### dateBackgroundColor
 
 **PropTypes.string**
 
 Set the background color of date.
 
-Example: `dateBgColor={"#cecece"}`
+Example: `dateBackgroundColor={"#cecece"}`
 
 ------
 
-#### dateBgCornerRadius
+#### dateCornerRadius
 
 **PropTypes.number**
 
 Set the background corner radius of date.
 
-Example: `dateBgCornerRadius={5}`
+Example: `dateCornerRadius={5}`
 
 ------
 
@@ -476,13 +470,48 @@ Example: ```isShowDisplayName={ture}```。
 Set Show receiver's display name or not.
 
 Example: `isShowIncomingDisplayName={true}`
+
 ------
 
 #### isShowOutgoingDisplayName
 
 **PropTypes.bool:**
 
-Example: 
+Set show sender's display name or not.
+
+Example: `isShowOutgoingDisplayName={false}`
+
+------
+
+#### displayNameTextSize
+
+**PropTypes.number**
+
+Set the text size of display name.
+
+Example: `displayNameTextSize={14}`
+
+
+
+------
+
+#### displayNameTextColor
+
+**PropTypes.string**
+
+Set the color of display name.
+
+Example: `displayNameTextColor={"#cecece"}`
+
+------
+
+#### displayNamePadding
+
+**PropTypes.object** = {left: number, top: number, right: number, bottom: number}
+
+Set padding of display name.
+
+Example: `displayNamePadding={left: 5, top: 0, right: 0, bottom: 5}`
 
 ------
 
@@ -493,6 +522,26 @@ Example:
 Set messageList' background  color.
 
 Example: `messageListBackgroundColor={"#f3f3f3"}`
+
+------
+
+#### maxBubbleWidth
+
+**PropTypes.number**
+
+Set the max width of message bubble, the value is the percentage of mobile's width.
+
+Example: `maxBubbleWidth={0.7}` means set the max bubble width to 70% of mobile width.
+
+------
+
+#### messageTextLineHeight
+
+**PropTypes.number**
+
+Set text message's line spacing.
+
+Example: `messageTextLineHeight={5}`
 
 ------
 
@@ -527,8 +576,6 @@ Set the visibility of the select album button.
 
 Example: ```showSelectAlbumBtn={true}```
 
-
-
 ------
 ### inputPadding
 
@@ -537,8 +584,6 @@ Example: ```showSelectAlbumBtn={true}```
 Set the padding of TextInput.
 
 Example: `inputPadding={left:5, top:0, right:5, bottom:0}`
-
-
 
 ***
 
@@ -550,8 +595,6 @@ Set the text color of TextInput.
 
 Example: `inputTextColor={"#808080"}`
 
-
-
 ***
 
 ### inputTextSize
@@ -561,8 +604,6 @@ Example: `inputTextColor={"#808080"}`
 Set the text size of TextInput.
 
 Example: `inputTextSize={14}`
-
-
 
 ***
 

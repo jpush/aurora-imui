@@ -430,16 +430,27 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
 
     @ReactProp(name = "displayNameTextSize")
     public void setDisplayNameTextSize(PullToRefreshLayout root, int size) {
-        mMessageList.setDis
+        mMessageList.setDisplayNameTextSize(dip2sp(size));
     }
 
     @ReactProp(name = "displayNameTextColor")
+    public void setDisplayNameTextColor(PullToRefreshLayout root, String color) {
+        mMessageList.setDisplayNameTextColor(Color.parseColor(color));
+    }
 
     @ReactProp(name = "displayNamePadding")
+    public void setDisplayNamePadding(PullToRefreshLayout root, ReadableMap map) {
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setDatePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
+    }
 
     @ReactProp(name = "isAllowPullToRefresh")
     public void isAllowPullToRefresh(PullToRefreshLayout root, boolean flag) {
         mMessageList.forbidScrollToRefresh(!flag);
+        root.getHandler().che
     }
 
     @ReactProp(name = "eventTextColor")
@@ -545,6 +556,8 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         }
 
     }
+
+    PtrDefaultHandler
 
     @Override
     public void onCatalystInstanceDestroy() {
