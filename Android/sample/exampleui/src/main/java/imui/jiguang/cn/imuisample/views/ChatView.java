@@ -1,6 +1,7 @@
 package imui.jiguang.cn.imuisample.views;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
@@ -57,7 +58,11 @@ public class ChatView extends RelativeLayout {
         header.setPadding(0, DisplayUtil.dp2px(getContext(),15), 0,
                 DisplayUtil.dp2px(getContext(),10));
         header.setPtrFrameLayout(mPtrLayout);
-        mMsgList = (MessageList) findViewById(R.id.msg_list);
+//        mMsgList.setDateBgColor(Color.parseColor("#FF4081"));
+//        mMsgList.setDatePadding(5, 10, 10, 5);
+//        mMsgList.setEventTextPadding(5);
+//        mMsgList.setEventBgColor(Color.parseColor("#34A350"));
+//        mMsgList.setDateBgCornerRadius(15);
         mMsgList.setHasFixedSize(true);
         mPtrLayout.setLoadingMinTime(1000);
         mPtrLayout.setDurationToCloseHeader(1500);

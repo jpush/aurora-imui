@@ -150,8 +150,20 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setDateTextColor(color);
     }
 
-    public void setDatePadding(int padding) {
-        mMsgListStyle.setDatePadding(padding);
+    public void setDatePadding(int left, int top, int right, int bottom) {
+        mMsgListStyle.setDatePadding(left, top, right, bottom);
+    }
+
+    public void setDateTextLineSpacing(int spacingExtra) {
+        mMsgListStyle.setDateTextLineSpacingExtra(spacingExtra);
+    }
+
+    public void setDateBgCornerRadius(int radius) {
+        mMsgListStyle.setDateBgCornerRadius(radius);
+    }
+
+    public void setDateBgColor(int color) {
+        mMsgListStyle.setDateBgColor(color);
     }
 
     public void setEventTextColor(int color) {
@@ -160,10 +172,6 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
 
     public void setEventTextSize(float size) {
         mMsgListStyle.setEventTextSize(size);
-    }
-
-    public void setEventTextPadding(int padding) {
-        mMsgListStyle.setEventTextPadding(padding);
     }
 
     public void setAvatarWidth(int width) {
@@ -222,6 +230,22 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
 
     public void setLineSpacingMultiplier(float mult) {
         mMsgListStyle.setLineSpacingMultiplier(mult);
+    }
+
+    public void setEventBgColor(int color) {
+        mMsgListStyle.setEventBgColor(color);
+    }
+
+    public void setEventPadding(int left, int top, int right, int bottom) {
+        mMsgListStyle.setEventTextPadding(left, top, right, bottom);
+    }
+
+    public void setEventLineSpacingExtra(int spacingExtra) {
+        mMsgListStyle.setEventLineSpacingExtra(spacingExtra);
+    }
+
+    public void setEventBgCornerRadius(int radius) {
+        mMsgListStyle.setEventBgCornerRadius(radius);
     }
 
     @Override

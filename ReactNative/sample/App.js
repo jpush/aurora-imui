@@ -398,7 +398,8 @@ export default class TestRNIMUI extends Component {
           onBeginDragMessageList={this.onBeginDragMessageList}
           onPullToRefresh={this.onPullToRefresh}
           avatarSize={{ width: 50, height: 50 }}
-          avatarCornerSize={25}
+          avatarCornerRadius={60}
+          messageListBackgroundColor={"#f3f3f3"}
           sendBubbleTextSize={18}
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}

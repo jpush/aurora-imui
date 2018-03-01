@@ -3,7 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               style="@style/aurora_msgitem_receive_style">
 
-    <TextView
+    <cn.jiguang.imui.view.RoundTextView
         android:id="@+id/aurora_tv_msgitem_date"
         style="@style/aurora_msgitem_date_style"/>
 

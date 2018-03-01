@@ -6,12 +6,17 @@
     <dimen name="aurora_height_conv_avatar">50dp</dimen>
 
     <!-->Message List<-->
+    <dimen name="aurora_size_date_bg_radius">5dp</dimen>
     <dimen name="aurora_size_date_text">16sp</dimen>
     <dimen name="aurora_size_event_text">12sp</dimen>
-    <dimen name="aurora_padding_date_text">5dp</dimen>
+    <dimen name="aurora_padding_left_date_text">5dp</dimen>
+    <dimen name="aurora_padding_top_date_text">5dp</dimen>
+    <dimen name="aurora_padding_right_date_text">5dp</dimen>
+    <dimen name="aurora_padding_bottom_date_text">5dp</dimen>
     <dimen name="aurora_padding_event_text">5dp</dimen>
     <dimen name="aurora_width_msg_avatar">50dp</dimen>
     <dimen name="aurora_height_msg_avatar">50dp</dimen>
+    <dimen name="aurora_size_display_name_text">12sp</dimen>
     <dimen name="aurora_radius_avatar_default">5dp</dimen>
     <dimen name="aurora_size_receive_text">18sp</dimen>
     <dimen name="aurora_padding_receive_text_left">15dp</dimen>
@@ -25,6 +30,6 @@
     <dimen name="aurora_padding_send_text_bottom">5dp</dimen>
     <dimen name="aurora_radius_photo_default">5dp</dimen>
     <dimen name="aurora_line_spacing_extra_default">5dp</dimen>
-
+    <dimen name="aurora_event_bg_corner_radius">5dp</dimen>
 
 </resources>

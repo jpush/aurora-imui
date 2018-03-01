@@ -80,8 +80,6 @@ public class ChatInputStyle extends Style {
         style.sendBtnPressedIcon = typedArray.getResourceId(R.styleable.ChatInputView_sendBtnPressedIcon, R.drawable.aurora_menuitem_send_pres);
         style.sendCountBg = typedArray.getDrawable(R.styleable.ChatInputView_sendCountBg);
         style.showSelectAlbumBtn = typedArray.getBoolean(R.styleable.ChatInputView_showSelectAlbum, true);
-        typedArray.recycle();
-
         style.inputPaddingLeft = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputPaddingLeft,
                 style.getDimension(R.dimen.aurora_padding_input_left));
         style.inputPaddingTop = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputPaddingTop,
@@ -90,7 +88,7 @@ public class ChatInputStyle extends Style {
                 style.getDimension(R.dimen.aurora_padding_input_right));
         style.inputPaddingBottom = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputPaddingBottom,
                 style.getDimension(R.dimen.aurora_padding_input_bottom));
-
+        typedArray.recycle();
         return style;
     }
 

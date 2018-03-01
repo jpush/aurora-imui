@@ -16,12 +16,13 @@ import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.utils.BitmapCache;
 import cn.jiguang.imui.view.RoundImageView;
+import cn.jiguang.imui.view.RoundTextView;
 
 
 public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHolder<Message>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
-    private final TextView mTextDate;
+    private final RoundTextView mTextDate;
     private final RoundImageView mImageAvatar;
     private TextView mDisplayNameTv;
     private final ImageView mImageCover;
@@ -34,7 +35,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
     public VideoViewHolder(View itemView, boolean isSender) {
         super(itemView);
         this.mIsSender = isSender;
-        mTextDate = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mTextDate = (RoundTextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
         mImageAvatar = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mImageCover = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_cover);
         mImagePlay = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_play);
@@ -129,6 +130,11 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
     public void applyStyle(MessageListStyle style) {
         mTextDate.setTextSize(style.getDateTextSize());
         mTextDate.setTextColor(style.getDateTextColor());
+        mTextDate.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(),
+                style.getDatePaddingRight(), style.getDatePaddingBottom());
+        mTextDate.setBgCornerRadius(style.getDateBgCornerRadius());
+        mTextDate.setBgColor(style.getDateBgColor());
+        mTextDate.setLineSpacing(style.getDateTextLineSpacingExtra(), 1.0f);
         if (mIsSender) {
             if (style.getSendingProgressDrawable() != null) {
                 mSendingPb.setProgressDrawable(style.getSendingProgressDrawable());

@@ -55,6 +55,7 @@ import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
+import cn.jiguang.imui.utils.DisplayUtil;
 
 /**
  * Created by caiyaoguan on 2017/5/22.
@@ -444,7 +445,9 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             int top = map.getInt("top");
             int right = map.getInt("right");
             int bottom = map.getInt("bottom");
-            chatInputView.getInputView().setPadding(left, top, right, bottom);
+            chatInputView.getInputView().setPadding(DisplayUtil.dp2px(mContext, left),
+                    DisplayUtil.dp2px(mContext, top), DisplayUtil.dp2px(mContext, right),
+                    DisplayUtil.dp2px(mContext, bottom));
         } catch (Exception e) {
             Log.e(REACT_CHAT_INPUT, "Input padding key error");
         }

@@ -351,10 +351,10 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         return (int) (dpValue * scale + 0.5f);
     }
 
-    private int dip2sp(int dip) {
+    private float dip2sp(int dip) {
         int px = dip2px(dip);
         float scale = mContext.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (px / scale);
+        return px / scale;
     }
 
     @ReactProp(name = "receiveBubblePadding")
@@ -377,8 +377,27 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     }
 
     @ReactProp(name = "datePadding")
-    public void setDatePadding(PullToRefreshLayout root, int padding) {
-        mMessageList.setDatePadding(dip2px(padding));
+    public void setDatePadding(PullToRefreshLayout root, ReadableMap map) {
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setDatePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
+    }
+
+    @ReactProp(name = "dateTextLineHeight")
+    public void setDateTextLineSpacing(PullToRefreshLayout root, int spacing) {
+        mMessageList.setDateTextLineSpacing(dip2px(spacing));
+    }
+
+    @ReactProp(name = "dateBgColor")
+    public void setDateBgColor(PullToRefreshLayout root, String color) {
+        mMessageList.setDateBgColor(Color.parseColor(color));
+    }
+
+    @ReactProp(name = "dateBgCornerRadius")
+    public void setDateBgCornerRadius(PullToRefreshLayout root, int radius) {
+        mMessageList.setDateBgCornerRadius(dip2px(radius));
     }
 
     @ReactProp(name = "avatarSize")
@@ -426,13 +445,32 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     }
 
     @ReactProp(name = "eventMsgTxtPadding")
-    public void setEventTextPadding(PullToRefreshLayout root, int padding) {
-        mMessageList.setEventTextPadding(dip2px(padding));
+    public void setEventTextPadding(PullToRefreshLayout root, ReadableMap map) {
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setEventPadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
+    }
+
+    @ReactProp(name = "eventBgColor")
+    public void setEventBgColor(PullToRefreshLayout root, String color) {
+        mMessageList.setEventBgColor(Color.parseColor(color));
+    }
+
+    @ReactProp(name = "eventBgCornerRadius")
+    public void setEventBgCornerRadius(PullToRefreshLayout root, int radius) {
+        mMessageList.setEventBgCornerRadius(dip2px(radius));
     }
 
     @ReactProp(name = "eventMsgTxtSize")
     public void setEventTextSize(PullToRefreshLayout root, int size) {
         mMessageList.setEventTextSize(dip2sp(size));
+    }
+
+    @ReactProp(name = "eventTextLineHeight")
+    public void setEventTextLineSpacing(PullToRefreshLayout root, int spacing) {
+        mMessageList.setEventLineSpacingExtra(dip2px(spacing));
     }
 
     @ReactProp(name = "maxBubbleWidth")
