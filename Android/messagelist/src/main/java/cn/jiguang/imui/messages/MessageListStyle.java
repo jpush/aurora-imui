@@ -48,6 +48,7 @@ public class MessageListStyle extends Style {
     private int displayNamePaddingTop;
     private int displayNamePaddingRight;
     private int displayNamePaddingBottom;
+    private int displayNameLineSpacing;
     private int receiveBubbleDrawable;
     private int receiveBubbleColor;
     private int receiveBubblePressedColor;
@@ -345,6 +346,37 @@ public class MessageListStyle extends Style {
 
     public int getDisplayNameTextColor() {
         return this.displayNameTextColor;
+    }
+
+    public void setDisplayNamePadding(int left, int top, int right, int bottom) {
+        this.displayNamePaddingLeft = left;
+        this.displayNamePaddingTop = top;
+        this.displayNamePaddingRight = right;
+        this.displayNamePaddingBottom = bottom;
+    }
+
+    public int getDisplayNamePaddingLeft() {
+        return this.displayNamePaddingLeft;
+    }
+
+    public int getDisplayNamePaddingTop() {
+        return this.displayNamePaddingTop;
+    }
+
+    public int getDisplayNamePaddingRight() {
+        return this.displayNamePaddingRight;
+    }
+
+    public int getDisplayNamePaddingBottom() {
+        return this.displayNamePaddingBottom;
+    }
+
+    public void setDisplayNameLineSpacing(int spacing) {
+        this.displayNameLineSpacing = spacing;
+    }
+
+    public int getDisplayNameLineSpacing() {
+        return this.displayNameLineSpacing;
     }
 
     public void setReceiveBubbleColor(int receiveBubbleColor) {

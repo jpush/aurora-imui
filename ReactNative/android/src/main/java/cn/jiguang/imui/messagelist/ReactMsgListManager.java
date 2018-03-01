@@ -385,17 +385,12 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         mMessageList.setDatePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
     }
 
-    @ReactProp(name = "dateTextLineHeight")
-    public void setDateTextLineSpacing(PullToRefreshLayout root, int spacing) {
-        mMessageList.setDateTextLineSpacing(dip2px(spacing));
-    }
-
-    @ReactProp(name = "dateBgColor")
+    @ReactProp(name = "dateBackgroundColor")
     public void setDateBgColor(PullToRefreshLayout root, String color) {
         mMessageList.setDateBgColor(Color.parseColor(color));
     }
 
-    @ReactProp(name = "dateBgCornerRadius")
+    @ReactProp(name = "dateCornerRadius")
     public void setDateBgCornerRadius(PullToRefreshLayout root, int radius) {
         mMessageList.setDateBgCornerRadius(dip2px(radius));
     }
@@ -433,18 +428,27 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         mMessageList.setShowSenderDisplayName(isShowDisplayName);
     }
 
+    @ReactProp(name = "displayNameTextSize")
+    public void setDisplayNameTextSize(PullToRefreshLayout root, int size) {
+        mMessageList.setDis
+    }
+
+    @ReactProp(name = "displayNameTextColor")
+
+    @ReactProp(name = "displayNamePadding")
+
     @ReactProp(name = "isAllowPullToRefresh")
     public void isAllowPullToRefresh(PullToRefreshLayout root, boolean flag) {
         mMessageList.forbidScrollToRefresh(!flag);
     }
 
-    @ReactProp(name = "eventMsgTxtColor")
+    @ReactProp(name = "eventTextColor")
     public void setEventTextColor(PullToRefreshLayout root, String color) {
         int colorRes = Color.parseColor(color);
         mMessageList.setEventTextColor(colorRes);
     }
 
-    @ReactProp(name = "eventMsgTxtPadding")
+    @ReactProp(name = "eventTextPadding")
     public void setEventTextPadding(PullToRefreshLayout root, ReadableMap map) {
         int left = map.getInt("left");
         int top = map.getInt("top");
@@ -453,17 +457,17 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         mMessageList.setEventPadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
     }
 
-    @ReactProp(name = "eventBgColor")
+    @ReactProp(name = "eventBackgroundColor")
     public void setEventBgColor(PullToRefreshLayout root, String color) {
         mMessageList.setEventBgColor(Color.parseColor(color));
     }
 
-    @ReactProp(name = "eventBgCornerRadius")
+    @ReactProp(name = "eventCornerRadius")
     public void setEventBgCornerRadius(PullToRefreshLayout root, int radius) {
         mMessageList.setEventBgCornerRadius(dip2px(radius));
     }
 
-    @ReactProp(name = "eventMsgTxtSize")
+    @ReactProp(name = "eventTextSize")
     public void setEventTextSize(PullToRefreshLayout root, int size) {
         mMessageList.setEventTextSize(dip2sp(size));
     }
@@ -482,6 +486,11 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     public void setBackgroundColor(PullToRefreshLayout layout, String color) {
         int colorRes = Color.parseColor(color);
         layout.setBackgroundColor(colorRes);
+    }
+
+    @ReactProp(name = "messageTextLineHeight")
+    public void setMessageTextLineSpacing(PullToRefreshLayout root, int spacing) {
+        mMessageList.setLineSpacingExtra(dip2px(spacing));
     }
 
     @SuppressWarnings("unchecked")

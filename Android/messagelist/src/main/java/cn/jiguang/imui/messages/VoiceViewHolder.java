@@ -281,6 +281,11 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 mDisplayNameTv.setVisibility(View.GONE);
             }
         }
+        mDisplayNameTv.setTextSize(style.getDisplayNameTextSize());
+        mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
+        mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
+                style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
+        mDisplayNameTv.setLineSpacing(style.getDisplayNameLineSpacing(), 1.0f);
 
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();

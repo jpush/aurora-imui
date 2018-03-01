@@ -55,10 +55,21 @@ Refer to iOS,Android example
     - [dateTextSize](#datetextsize)
     - [dateTextColor](#datetextcolor)
     - [datePadding](#datepadding)
+    - [dateBackgroundColor](#dateBackgroundColor)
+    - [dateCornerRadius](#dateCornerRadius)
     - [avatarSize](#avatarsize)
     - [avatarCornerRadius](#avatarcornerradius)
     - [isShowDisplayName](#isShowdisplayname)
+    - [isShowIncomingDisplayName](#isShowIncomingDisplayName)
+    - [isShowOutgoingDisplayName](#isShowOutgoingDisplayName)
+    - [eventTextColor](#eventTextColor)
+    - [eventTextSize](#eventTextSize)
+    - [eventTextPadding](#eventTextPadding)
+    - [eventBackgroundColor](#eventBackgroundColor)
+    - [eventCornerRadius](#eventCornerRadius)
+    - [eventTextLineHeight](#eventTextLineHeight)
     - [messageListBackgroundColor](#messagelistbackgroundcolor)
+    - [messageTextLineHeight](#messageTextLineHeight)
     - [isAllowPullToRefresh](#isallowpulltorefresh)
 - [ChatInput](#chatinput)
   - [Props customizable style]()
@@ -390,9 +401,41 @@ Set date text color of message, ```dateTextColor="#000000"```。
 
 #### datePadding
 
-**PropTypes.number:** 
+**PropTypes.object:** `{ left: number, top: number, right: number, bottom: number}` 
 
-Set date padding, note this padding  type is not an object, means left, top, right and bottom padding is same.
+Set date padding.
+
+Example: `datePadding={left: 5, top: 10, right: 5, bottom: 10}`
+
+------
+
+#### dateTextLineHeight
+
+**PropTypes.number**
+
+Set the text line height of date.
+
+Example: `dateTextLineHeight={5}`
+
+------
+
+#### dateBgColor
+
+**PropTypes.string**
+
+Set the background color of date.
+
+Example: `dateBgColor={"#cecece"}`
+
+------
+
+#### dateBgCornerRadius
+
+**PropTypes.number**
+
+Set the background corner radius of date.
+
+Example: `dateBgCornerRadius={5}`
 
 ------
 
@@ -420,9 +463,26 @@ Example: ```avatarCornerRadius = {6}```。
 
 **PropTypes.bool:**
 
-Show sender's display name or not.
+Show display name or not.
 
 Example: ```isShowDisplayName={ture}```。
+
+------
+
+#### isShowIncomingDisplayName
+
+**PropTypes.bool:**
+
+Set Show receiver's display name or not.
+
+Example: `isShowIncomingDisplayName={true}`
+------
+
+#### isShowOutgoingDisplayName
+
+**PropTypes.bool:**
+
+Example: 
 
 ------
 
@@ -430,18 +490,9 @@ Example: ```isShowDisplayName={ture}```。
 
 **PropTypes.string:**
 
-Set messageList' background  color. **In Android, you should add this property in  `AndroidPtrlayout`.**
+Set messageList' background  color.
 
-```
-<AndroidPtrLayout
-   ref="PtrLayout"
-   messageListBackgroundColor={"#f3f3f3"}
-/>
-```
-
-
-
-Example:  ```messageListBackgroundColor="#000000"```
+Example: `messageListBackgroundColor={"#f3f3f3"}`
 
 ------
 

@@ -194,6 +194,18 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setShowReceiverDisplayName(showDisplayName);
     }
 
+    public void setDisplayNameTextSize(float size) {
+        mMsgListStyle.setDisplayNameTextSize(size);
+    }
+
+    public void setDisplayNameTextColor(int color) {
+        mMsgListStyle.setDisplayNameTextColor(color);
+    }
+
+    public void setDisplayNamePadding(int left, int top, int right, int bottom) {
+        mMsgListStyle.setDisplayNamePadding(left, top, right, bottom);
+    }
+
     public void setSendVoiceDrawable(int resId) {
         mMsgListStyle.setSendVoiceDrawable(resId);
     }
