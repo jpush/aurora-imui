@@ -23,7 +23,8 @@ fileprivate var IMUIFeatureSelectorHeight:CGFloat = 46
 fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
 
 open class IMUIInputView: UIView {
-  
+  @objc open var inputTextViewLineHeight: Float = 5.0
+  @objc open var inputTextViewTextColor: UIColor = UIColor(netHex: 0x555555)
   var inputViewStatus: IMUIInputStatus = .none
   @objc open weak var inputViewDelegate: IMUIInputViewDelegate? {
     didSet {
@@ -141,7 +142,26 @@ extension IMUIInputView: UITextViewDelegate {
   public func textViewDidChange(_ textView: UITextView) {
     self.fitTextViewSize(textView)
     self.updateSendBtnToPhotoSendStatus()
+    if textView.markedTextRange == nil {
+      self.updateTextView(textView, lineSpacing: self.inputTextViewLineHeight)
+    }
     self.inputViewDelegate?.textDidChange?(text: textView.text)
+  }
+  
+  // config line space
+  func updateTextView(_ textView: UITextView, lineSpacing: Float) {
+    print("\(textView.text!)")
+    let attributedString = NSMutableAttributedString(string: textView.text!)
+    let mutableParagraphStyle = NSMutableParagraphStyle()
+    mutableParagraphStyle.lineSpacing = CGFloat(lineSpacing)
+    
+    attributedString.addAttributes([
+      NSAttributedStringKey.font:textView.font,
+      NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
+      NSAttributedStringKey.foregroundColor: inputTextViewTextColor
+      ], range: NSMakeRange(0, textView.text.count))
+    textView.attributedText = attributedString
+
   }
   
   public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {

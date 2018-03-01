@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactNative from 'react-native';
 import PropTypes from 'prop-types';
-import ViewPropTypes from 'react-native';
+import {ViewPropTypes} from 'react-native';
 
 var {
   Component,

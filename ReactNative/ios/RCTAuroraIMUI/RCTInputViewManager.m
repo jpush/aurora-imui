@@ -60,6 +60,37 @@ RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgroupColor, NSString, RCTInputView) {
   _rctInputView.imuiIntputView.featureSelectorView.featureListCollectionView.backgroundColor = color;
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(inputPadding, NSDictionary, RCTInputView) {
+  NSDictionary *padding = [RCTConvert NSDictionary: json];
+  NSNumber *left = padding[@"left"];
+  NSNumber *top = padding[@"top"];
+  NSNumber *right = padding[@"right"];
+  NSNumber *bottom = padding[@"bottom"];
+  _rctInputView.imuiIntputView.inputTextView.textContainerInset = UIEdgeInsetsMake([top floatValue],
+                                                                             [left floatValue],
+                                                                             [bottom floatValue],
+                                                                             [right floatValue]);
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(inputTextColor, NSString, RCTInputView) {
+  NSString *colorString = [RCTConvert NSString: json];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
+  if (color != nil) {
+    _rctInputView.imuiIntputView.inputTextViewTextColor = color;
+    _rctInputView.imuiIntputView.inputTextView.textColor = color;
+  }
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(inputTextSize, NSNumber, RCTInputView) {
+  NSNumber *size = [RCTConvert NSNumber: json];
+  [_rctInputView.imuiIntputView.inputTextView setFont:[UIFont systemFontOfSize:size.floatValue]];
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(inputTextLineHeight, NSNumber, RCTInputView) {
+  NSNumber *height = [RCTConvert NSNumber: json];
+  _rctInputView.imuiIntputView.inputTextViewLineHeight = height.floatValue;
+}
+
 RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
   NSNumber *galleryScale = [RCTConvert NSNumber: json];
   _rctInputView.galleryScale = galleryScale;

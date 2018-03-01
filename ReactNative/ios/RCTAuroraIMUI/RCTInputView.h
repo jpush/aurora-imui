@@ -40,4 +40,9 @@
 @property (nonatomic, copy) RCTBubblingEventBlock onSwitchToEmojiMode;
 
 @property (nonatomic, copy) RCTBubblingEventBlock onShowKeyboard;
+
+@property(strong, nonatomic) NSDictionary *inputPadding;
+@property(strong, nonatomic) NSString *inputTextColor;
+@property(strong, nonatomic) NSNumber *inputTextSize;
+@property(strong, nonatomic) NSNumber *inputTextLineHeight;
 @end
