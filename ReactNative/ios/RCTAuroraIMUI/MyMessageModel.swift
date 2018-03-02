@@ -93,15 +93,17 @@ open class RCTMessageModel: IMUIMessageModel {
     let durationTime = CGFloat(duration?.floatValue ?? 0.0)
     
     var needShowTime = false
+    var timeContentSize: CGSize = CGSize.zero
     if let timeString = timeString {
       if timeString != "" {
         needShowTime = true
+        timeContentSize = RCTMessageModel.calculateNameContentSize(text: timeString)
       }
     } else {
       timeString = ""
     }
 
-    var extras = messageDic.object(forKey: RCTMessageModel.kMsgKeyExtras) as? NSDictionary
+    let extras = messageDic.object(forKey: RCTMessageModel.kMsgKeyExtras) as? NSDictionary
     if let _ = extras {
       
     }
@@ -131,8 +133,12 @@ open class RCTMessageModel: IMUIMessageModel {
       if typeString == RCTMessageModel.kMsgTypeText {
         
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
-                                       isNeedShowTime: needShowTime,
-                                       bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text!, isOutGoing: isOutgoing!), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeText)
+                                               isNeedShowTime: needShowTime,
+                                            bubbleContentSize: RCTMessageModel.calculateTextContentSize(text: text!,
+                                                                                                  isOutGoing: isOutgoing!),
+                                          bubbleContentInsets: UIEdgeInsets.zero,
+                                         timeLabelContentSize: timeContentSize,
+                                                         type: RCTMessageModel.kMsgTypeText)
       }
       
       if typeString == RCTMessageModel.kMsgTypeImage {
@@ -142,21 +148,30 @@ open class RCTMessageModel: IMUIMessageModel {
         }
         
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
-                                            isNeedShowTime: needShowTime,
-                                            bubbleContentSize: imgSize, bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeImage)
+                                               isNeedShowTime: needShowTime,
+                                            bubbleContentSize: imgSize,
+                                          bubbleContentInsets: UIEdgeInsets.zero,
+                                         timeLabelContentSize: timeContentSize,
+                                                         type: RCTMessageModel.kMsgTypeImage)
       }
       
       if typeString == RCTMessageModel.kMsgTypeVoice {
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
-                                           isNeedShowTime: needShowTime,
-                                           bubbleContentSize: CGSize(width: 80, height: 37), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeVoice)
+                                               isNeedShowTime: needShowTime,
+                                            bubbleContentSize: CGSize(width: 80, height: 37),
+                                          bubbleContentInsets: UIEdgeInsets.zero,
+                                         timeLabelContentSize: timeContentSize,
+                                                         type: RCTMessageModel.kMsgTypeVoice)
       }
       
       if typeString == RCTMessageModel.kMsgTypeVideo {
 
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
-                            isNeedShowTime: needShowTime,
-                            bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: RCTMessageModel.kMsgTypeVideo)
+                                               isNeedShowTime: needShowTime,
+                                            bubbleContentSize: CGSize(width: 120, height: 160),
+                                          bubbleContentInsets: UIEdgeInsets.zero,
+                                         timeLabelContentSize: timeContentSize,
+                                                         type: RCTMessageModel.kMsgTypeVideo)
       }
       
       if typeString == RCTMessageModel.kMsgTypeCustom {
@@ -175,6 +190,7 @@ open class RCTMessageModel: IMUIMessageModel {
                                                isNeedShowTime: needShowTime,
                                             bubbleContentSize: bubbleContentSize,
                                           bubbleContentInsets: UIEdgeInsets.zero,
+                                         timeLabelContentSize: timeContentSize,
                                                          type: RCTMessageModel.kMsgTypeCustom)
       }
     }
@@ -220,6 +236,11 @@ open class RCTMessageModel: IMUIMessageModel {
     }
   }
   
+  static func calculateNameContentSize(text: String) -> CGSize {
+      return text.sizeWithConstrainedWidth(with: MessageEventCollectionViewCell.maxWidth,
+                                           font: IMUIMessageCellLayout.timeStringFont)
+  }
+  
   static func converImageSize(with size: CGSize) -> CGSize {
     let maxSide = 160.0
     
@@ -237,7 +258,7 @@ open class RCTMessageModel: IMUIMessageModel {
   @objc public var messageDictionary: NSDictionary {
     get {
       
-      var messageDic = NSMutableDictionary()
+      let messageDic = NSMutableDictionary()
       messageDic.setValue(self.msgId, forKey: RCTMessageModel.kMsgKeyMsgId)
       messageDic.setValue(self.isOutGoing, forKey: RCTMessageModel.kMsgKeyisOutgoing)
 
@@ -318,9 +339,18 @@ public class MyMessageCellLayout: IMUIMessageCellLayout {
   
   var type: String
   
-  init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize, bubbleContentInsets: UIEdgeInsets, type: String) {
+  init(isOutGoingMessage: Bool,
+          isNeedShowTime: Bool,
+       bubbleContentSize: CGSize,
+     bubbleContentInsets: UIEdgeInsets,
+    timeLabelContentSize: CGSize,
+                    type: String) {
     self.type = type
-    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize, bubbleContentInsets: UIEdgeInsets.zero)
+    super.init(isOutGoingMessage: isOutGoingMessage,
+                  isNeedShowTime: isNeedShowTime,
+               bubbleContentSize: bubbleContentSize,
+             bubbleContentInsets: UIEdgeInsets.zero,
+            timeLabelContentSize: timeLabelContentSize)
   }
   
   open override var bubbleContentInset: UIEdgeInsets {

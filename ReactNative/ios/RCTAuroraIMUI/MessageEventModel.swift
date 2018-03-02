@@ -13,7 +13,7 @@ import Foundation
   public var msgId: String = ""
   public var eventText: String = ""
   
-  var evenSize: CGSize = CGSize.zero
+  var eventSize: CGSize = CGSize.zero
   
   public init(msgId: String, eventText: String) {
     super.init()
@@ -26,7 +26,7 @@ import Foundation
     let eventText = messageDic["text"]
     
     self.init(msgId: msgId as! String, eventText: eventText as! String)
-    self.evenSize = MessageEventModel.calculateTextContentSize(text: eventText as! String)
+    self.eventSize = MessageEventModel.calculateTextContentSize(text: eventText as! String)
   }
   
   static func calculateTextContentSize(text: String) -> CGSize {
@@ -40,6 +40,6 @@ import Foundation
   }
   
   @objc public func cellHeight() -> CGFloat {
-    return self.evenSize.height + MessageEventCollectionViewCell.paddingGap * 2.0;
+    return self.eventSize.height + MessageEventCollectionViewCell.paddingGap * 2.0;
   }
 }

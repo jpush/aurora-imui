@@ -48,8 +48,6 @@ static NSString *cellIdentify = nil;
 RCT_EXPORT_MODULE()
 - (UIView *)view
 {
-//  let bundle = Bundle.imuiBundle()
-//  view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as! UIView
   NSBundle *bundle = [NSBundle bundleForClass: [RCTMessageListView class]];
   
   _messageList = [[bundle loadNibNamed:@"RCTMessageListView" owner:self options: nil] objectAtIndex:0];
@@ -67,14 +65,11 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubble, NSDictionary, RCTMessageListView) {
   
   if (bubbleName == nil) { return; }
   if (bubbleDic[@"padding"] == nil) { return; }
-  
-  NSNumber *top = bubbleDic[@"padding"][@"top"];
-  NSNumber *right = bubbleDic[@"padding"][@"right"];
-  NSNumber *left = bubbleDic[@"padding"][@"left"];
-  NSNumber *bottom = bubbleDic[@"padding"][@"bottom"];
+  UIEdgeInsets padding = [self edgeInsetsWith:bubbleDic];
   
   UIImage *bubbleImg = [UIImage imageNamed:bubbleName];
-  bubbleImg = [bubbleImg resizableImageWithCapInsets: UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]) resizingMode: UIImageResizingModeTile];
+  bubbleImg = [bubbleImg resizableImageWithCapInsets: padding
+                                        resizingMode: UIImageResizingModeTile];
   RCTMessageModel.outgoingBubbleImage = bubbleImg;
 }
 
@@ -85,13 +80,10 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubble, NSDictionary, RCTMessageListView) {
   if (bubbleName == nil) { return; }
   if (bubbleDic[@"padding"] == nil) { return; }
   
-  NSNumber *top = bubbleDic[@"padding"][@"top"];
-  NSNumber *right = bubbleDic[@"padding"][@"right"];
-  NSNumber *left = bubbleDic[@"padding"][@"left"];
-  NSNumber *bottom = bubbleDic[@"padding"][@"bottom"];
-  
+  UIEdgeInsets padding = [self edgeInsetsWith:bubbleDic];
   UIImage *bubbleImg = [UIImage imageNamed:bubbleName];
-  bubbleImg = [bubbleImg resizableImageWithCapInsets: UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]) resizingMode: UIImageResizingModeTile];
+  bubbleImg = [bubbleImg resizableImageWithCapInsets: padding
+                                        resizingMode: UIImageResizingModeTile];
   RCTMessageModel.incommingBubbleImage = bubbleImg;
   
 }
@@ -111,7 +103,6 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextColor, NSString, RCTMessageListView) {
   if (color != nil) {
     IMUITextMessageContentView.outGoingTextColor = color;
   }
-  
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(receiveBubbleTextColor, NSString, RCTMessageListView) {
@@ -140,7 +131,7 @@ RCT_CUSTOM_VIEW_PROPERTY(dateTextSize, NSNumber, RCTMessageListView) {
 
 RCT_CUSTOM_VIEW_PROPERTY(dateTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
-  UIColor *color = [UIColor hexStringToUIColorWithHex:@"colorString"];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
   if (color != nil) {
     IMUIMessageCellLayout.timeStringColor = color;
   }
@@ -175,12 +166,9 @@ RCT_CUSTOM_VIEW_PROPERTY(isAllowPullToRefresh, BOOL, RCTMessageListView) {
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(sendBubblePadding, NSDictionary, RCTMessageListView) {
-  NSDictionary *bubblePadding = [RCTConvert NSDictionary: json];
-  NSNumber *left = bubblePadding[@"left"];
-  NSNumber *top = bubblePadding[@"top"];
-  NSNumber *right = bubblePadding[@"right"];
-  NSNumber *bottom = bubblePadding[@"bottom"];
-  MyMessageCellLayout.outgoingPadding = UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]);
+  NSDictionary *paddingDic = [RCTConvert NSDictionary: json];
+  UIEdgeInsets padding = [self edgeInsetsWith:paddingDic];
+  MyMessageCellLayout.outgoingPadding = padding;
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(avatarCornerRadius, NSDictionary, RCTMessageListView) {
@@ -190,17 +178,97 @@ RCT_CUSTOM_VIEW_PROPERTY(avatarCornerRadius, NSDictionary, RCTMessageListView) {
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView) {
-  NSDictionary *bubblePadding = [RCTConvert NSDictionary: json];
-  NSNumber *left = bubblePadding[@"left"];
-  NSNumber *top = bubblePadding[@"top"];
-  NSNumber *right = bubblePadding[@"right"];
-  NSNumber *bottom = bubblePadding[@"bottom"];
-  MyMessageCellLayout.incommingPadding = UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]);
+  NSDictionary *paddingDic = [RCTConvert NSDictionary: json];
+  UIEdgeInsets padding = [self edgeInsetsWith:paddingDic];
+  MyMessageCellLayout.incommingPadding = padding;
 }
+// TODO:
+///////////////////=============
+
+RCT_CUSTOM_VIEW_PROPERTY(eventTextPadding, NSDictionary, RCTMessageListView) {
+  NSDictionary *paddingDic = [RCTConvert NSDictionary: json];
+  UIEdgeInsets padding = [self edgeInsetsWith:paddingDic];
+  MessageEventCollectionViewCell.contentInset = padding;
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(displayNamePadding, NSDictionary, RCTMessageListView) {
+  NSDictionary *paddingDic = [RCTConvert NSDictionary: json];
+  UIEdgeInsets padding = [self edgeInsetsWith:paddingDic];
+  IMUIMessageCellLayout.nameLabelPadding = padding;
+}
+
+
+RCT_CUSTOM_VIEW_PROPERTY(dateBackgroundColor, NSString, RCTMessageListView) {
+  NSString *colorString = [RCTConvert NSString: json];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
+  if (color != nil) {
+    IMUIMessageCellLayout.timeStringBackgroundColor = color;
+  }
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(eventBackgroundColor, NSString, RCTMessageListView) {
+  NSString *colorString = [RCTConvert NSString: json];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
+  if (color != nil) {
+    MessageEventCollectionViewCell.eventBackgroundColor = color;
+  }
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(displayNameTextColor, NSString, RCTMessageListView) {
+  NSString *colorString = [RCTConvert NSString: json];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
+  if (color != nil) {
+    IMUIMessageCellLayout.nameLabelTextColor = color;
+  }
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(dateCornerRadius, NSNumber, RCTMessageListView) {
+  NSNumber *cornerRadius = [RCTConvert NSNumber: json];
+  IMUIMessageCellLayout.timeStringCornerRadius = cornerRadius.floatValue;
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(eventCornerRadius, NSNumber, RCTMessageListView) {
+  NSNumber *cornerRadius = [RCTConvert NSNumber: json];
+  MessageEventCollectionViewCell.eventCornerRadius = cornerRadius.floatValue;
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(displayNameTextSize, NSNumber, RCTMessageListView) {
+  NSNumber *textSize = [RCTConvert NSNumber: json];
+  IMUIMessageCellLayout.nameLabelTextFont = [UIFont systemFontOfSize:[textSize floatValue]];
+  IMUIMessageCellLayout.nameLabelSize = CGSizeMake(IMUIMessageCellLayout.nameLabelSize.width, textSize.floatValue);
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(datePadding, NSDictionary, RCTMessageListView) {
+  NSDictionary *paddingDic = [RCTConvert NSDictionary: json];
+  UIEdgeInsets padding = [self edgeInsetsWith:paddingDic];
+  IMUIMessageCellLayout.timeLabelPadding = padding;
+  // TODO:
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(eventTextLineHeight, NSNumber, RCTMessageListView) {
+  NSNumber *lineHeight = [RCTConvert NSNumber: json];
+  // TODO:
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(messageTextLineHeight, NSNumber, RCTMessageListView) {
+  NSNumber *lineHeight = [RCTConvert NSNumber: json];
+  // TODO:
+}
+
+///////////////////=============
 
 - (RCTMessageModel *)convertMessageDicToModel:(NSDictionary *)message {
   return [[RCTMessageModel alloc] initWithMessageDic: message];
 }
+
+- (UIEdgeInsets)edgeInsetsWith:(NSDictionary *)dic {
+  NSNumber *left = dic[@"left"];
+  NSNumber *top = dic[@"top"];
+  NSNumber *right = dic[@"right"];
+  NSNumber *bottom = dic[@"bottom"];
+  return UIEdgeInsetsMake([top floatValue], [left floatValue], [bottom floatValue], [right floatValue]);
+}
+
 
 // - MARK: IMUIMessageCollectionViewDelegate
 

@@ -15,12 +15,13 @@ enum IMUIMessageCellType {
 }
 
 open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
-  @objc open static var avatarCornerRadius:CGFloat = 0
+  @objc open static var avatarCornerRadius: CGFloat = 0
   @objc open static var backgroundColor: UIColor = UIColor.init(netHex: 0xE7EBEF)
+  
   
   var bubbleView: IMUIMessageBubbleView
   lazy var avatarImage = UIImageView()
-  lazy var timeLabel = UILabel()
+  lazy var timeLabel = IMUITextView()
   lazy var nameLabel = UILabel()
   
   weak var statusView: UIView?
@@ -63,6 +64,11 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
     timeLabel.textAlignment = .center
     timeLabel.textColor = IMUIMessageCellLayout.timeStringColor
     timeLabel.font = IMUIMessageCellLayout.timeStringFont
+    timeLabel.backgroundColor = IMUIMessageCellLayout.timeStringBackgroundColor
+    timeLabel.contentInset = IMUIMessageCellLayout.timeLabelPadding
+    timeLabel.layer.cornerRadius = IMUIMessageCellLayout.timeStringCornerRadius
+    timeLabel.layer.masksToBounds = true;
+  
   }
   
   required public init?(coder aDecoder: NSCoder) {
