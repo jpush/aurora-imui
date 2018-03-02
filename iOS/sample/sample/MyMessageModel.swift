@@ -35,16 +35,22 @@ class MyMessageModel: IMUIMessageModel {
   convenience init(text: String, isOutGoing: Bool) {
 
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
-                                       isNeedShowTime: false,
-                                       bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text), bubbleContentInsets: UIEdgeInsets.zero, type: "text")
+                                          isNeedShowTime: false,
+                                       bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text),
+                                     bubbleContentInsets: UIEdgeInsets.zero,
+                                    timeLabelContentSize: CGSize.zero,
+                                                    type: "text")
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
     self.init(msgId: msgId, messageStatus: .failed, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "text", text: text, mediaPath: "", layout:  myLayout, duration: nil)
   }
 
   convenience init(voicePath: String, duration: CGFloat, isOutGoing: Bool) {
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
-                                       isNeedShowTime: false,
-                                       bubbleContentSize: CGSize(width: 80, height: 37), bubbleContentInsets: UIEdgeInsets.zero, type: "voice")
+                                          isNeedShowTime: false,
+                                       bubbleContentSize: CGSize(width: 80, height: 37),
+                                     bubbleContentInsets: UIEdgeInsets.zero,
+                                    timeLabelContentSize: CGSize.zero,
+                                                    type: "voice")
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
     self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "voice", text: "", mediaPath: voicePath, layout:  myLayout, duration: duration)
   }
@@ -58,15 +64,21 @@ class MyMessageModel: IMUIMessageModel {
     }
     
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
-                                       isNeedShowTime: false,
-                                       bubbleContentSize: imgSize, bubbleContentInsets: UIEdgeInsets.zero, type: "image")
+                                          isNeedShowTime: false,
+                                       bubbleContentSize: imgSize,
+                                     bubbleContentInsets: UIEdgeInsets.zero,
+                                    timeLabelContentSize: CGSize.zero,
+                                       type: "image")
     self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "image", text: "", mediaPath: imagePath, layout:  myLayout, duration: nil)
   }
   
   convenience init(videoPath: String, isOutGoing: Bool) {
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
-                                       isNeedShowTime: false,
-                                       bubbleContentSize: CGSize(width: 120, height: 160), bubbleContentInsets: UIEdgeInsets.zero, type: "video")
+                                          isNeedShowTime: false,
+                                       bubbleContentSize: CGSize(width: 120, height: 160),
+                                     bubbleContentInsets: UIEdgeInsets.zero,
+                                    timeLabelContentSize: CGSize.zero,
+                                                    type: "video")
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
     self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "video", text: "", mediaPath: videoPath, layout:  myLayout, duration: nil)
   }
@@ -79,6 +91,11 @@ class MyMessageModel: IMUIMessageModel {
     let textSize  = text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: UIFont.systemFont(ofSize: 18))
     
     return textSize
+  }
+  
+  static func calculateNameContentSize(text: String) -> CGSize {
+    return text.sizeWithConstrainedWidth(with: 200,
+                                         font: IMUIMessageCellLayout.timeStringFont)
   }
   
   static func converImageSize(with size: CGSize) -> CGSize {
@@ -102,9 +119,13 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
 
   var type: String
   
-  init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize, bubbleContentInsets: UIEdgeInsets, type: String) {
+  init(isOutGoingMessage: Bool, isNeedShowTime: Bool, bubbleContentSize: CGSize, bubbleContentInsets: UIEdgeInsets, timeLabelContentSize: CGSize,type: String) {
     self.type = type
-    super.init(isOutGoingMessage: isOutGoingMessage, isNeedShowTime: isNeedShowTime, bubbleContentSize: bubbleContentSize, bubbleContentInsets: UIEdgeInsets.zero)
+    super.init(isOutGoingMessage: isOutGoingMessage,
+               isNeedShowTime: isNeedShowTime,
+               bubbleContentSize: bubbleContentSize,
+               bubbleContentInsets: UIEdgeInsets.zero,
+               timeLabelContentSize: timeLabelContentSize)
   }
   
   override var bubbleContentInset: UIEdgeInsets {

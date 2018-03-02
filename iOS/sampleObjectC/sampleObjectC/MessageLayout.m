@@ -27,11 +27,15 @@
   return self;
 }
 
-- (instancetype)initWithIsOutGoingMessage:(BOOL)isOutgoing isNeedShowTime:(BOOL)isNeedShowTime bubbleContentSize:(CGSize)bubbleContentSize bubbleContentInsets:(UIEdgeInsets)contentInset contentType:(NSString *)contentType {
+- (instancetype)initWithIsOutGoingMessage:(BOOL)isOutgoing isNeedShowTime:(BOOL)isNeedShowTime bubbleContentSize:(CGSize)bubbleContentSize bubbleContentInsets:(UIEdgeInsets)contentInset timeLabelContentSize:(CGSize)timeLabelContentSize contentType:(NSString *)contentType {
   
   self = [super init];
   if (self) {
-    _layout = [[IMUIMessageCellLayout alloc] initWithIsOutGoingMessage: isOutgoing isNeedShowTime: isNeedShowTime bubbleContentSize: bubbleContentSize bubbleContentInsets: contentInset];
+    _layout = [[IMUIMessageCellLayout alloc] initWithIsOutGoingMessage: isOutgoing
+                                                        isNeedShowTime: isNeedShowTime
+                                                     bubbleContentSize: bubbleContentSize
+                                                   bubbleContentInsets: contentInset
+                                                  timeLabelContentSize: timeLabelContentSize];
     _isOutgoing = isOutgoing;
     _bubbleContentType = contentType;
   }

@@ -44,10 +44,11 @@
   } else {
     contentInset = UIEdgeInsetsMake(10, 15, 10, 10);
   }
-  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing
-                                              isNeedShowTime:false
-                                           bubbleContentSize:[MessageModel calculateTextContentSizeWithText: text]
-                                         bubbleContentInsets:contentInset
+  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
+                                              isNeedShowTime: false
+                                           bubbleContentSize: [MessageModel calculateTextContentSizeWithText: text]
+                                         bubbleContentInsets: contentInset
+                                        timeLabelContentSize: CGSizeZero
                                                  contentType: @"Text"];
   _type = @"Text";
 }
@@ -97,6 +98,7 @@
                                               isNeedShowTime:false
                                            bubbleContentSize: CGSizeMake(80, 37)
                                          bubbleContentInsets: UIEdgeInsetsZero
+                                        timeLabelContentSize: CGSizeZero
                                                  contentType: @"Voice"];
   _type = @"Voice";
 }
@@ -113,10 +115,11 @@
   _messagemediaPath = mediaPath;
   _isOutGoing = isOutGoing;
   _messageStatus = messageStatus;
-  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing
-                                              isNeedShowTime:false
+  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
+                                              isNeedShowTime: false
                                            bubbleContentSize: CGSizeMake(120, 160)
                                          bubbleContentInsets: UIEdgeInsetsZero
+                                        timeLabelContentSize: CGSizeZero
                                                  contentType: @"Image"];
   
   _type = @"Image";
@@ -134,10 +137,11 @@
   _messagemediaPath = mediaPath;
   _isOutGoing = isOutGoing;
   _messageStatus = messageStatus;
-  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing
-                                              isNeedShowTime:false
+  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
+                                              isNeedShowTime: false
                                            bubbleContentSize: CGSizeMake(120, 160)
                                          bubbleContentInsets: UIEdgeInsetsZero
+                                        timeLabelContentSize: CGSizeZero
                                                  contentType: @"Video"];
   _type = @"Video";
 }
@@ -164,10 +168,11 @@
     } else {
       contentInset = UIEdgeInsetsMake(10, 15, 10, 10);
     }
-    _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing
-                                                isNeedShowTime:false
-                                             bubbleContentSize:[MessageModel calculateTextContentSizeWithText: text]
-                                           bubbleContentInsets:contentInset
+    _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
+                                                isNeedShowTime: false
+                                             bubbleContentSize: [MessageModel calculateTextContentSizeWithText: text]
+                                           bubbleContentInsets: contentInset
+                                          timeLabelContentSize: CGSizeZero
                                                    contentType: @"Text"];
     _type = @"Text";
   }
@@ -189,10 +194,11 @@
     _messagemediaPath = mediaPath;
     _isOutGoing = isOutGoing;
     _messageStatus = messageStatus;
-    _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing
-                                                isNeedShowTime:false
+    _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
+                                                isNeedShowTime: false
                                              bubbleContentSize: CGSizeMake(120, 160)
                                            bubbleContentInsets: UIEdgeInsetsZero
+                                          timeLabelContentSize: CGSizeZero
                                                    contentType: @"Image"];
     
     _type = @"Image";
@@ -217,10 +223,11 @@
     _isOutGoing = isOutGoing;
     _messageStatus = messageStatus;
     _duration = duration;
-    _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing
-                                                isNeedShowTime:false
+    _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
+                                                isNeedShowTime: false
                                              bubbleContentSize: CGSizeMake(80, 37)
                                            bubbleContentInsets: UIEdgeInsetsZero
+                                          timeLabelContentSize: CGSizeZero
                                                    contentType: @"Voice"];
     _type = @"Voice";
   }
@@ -242,10 +249,11 @@
     _messagemediaPath = mediaPath;
     _isOutGoing = isOutGoing;
     _messageStatus = messageStatus;
-    _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing
-                                                isNeedShowTime:false
+    _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
+                                                isNeedShowTime: false
                                              bubbleContentSize: CGSizeMake(120, 160)
                                            bubbleContentInsets: UIEdgeInsetsZero
+                                          timeLabelContentSize: CGSizeZero
                                                    contentType: @"Video"];
     _type = @"Video";
   }
