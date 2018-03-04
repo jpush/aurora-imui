@@ -450,7 +450,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     @ReactProp(name = "isAllowPullToRefresh")
     public void isAllowPullToRefresh(PullToRefreshLayout root, boolean flag) {
         mMessageList.forbidScrollToRefresh(!flag);
-        root.getHandler().che
+        root.setEnabledNextPtrAtOnce(false);
     }
 
     @ReactProp(name = "eventTextColor")
@@ -556,8 +556,6 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         }
 
     }
-
-    PtrDefaultHandler
 
     @Override
     public void onCatalystInstanceDestroy() {
