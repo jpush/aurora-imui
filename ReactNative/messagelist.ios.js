@@ -112,11 +112,12 @@ MessageList.propTypes = {
   eventTextPadding: PropTypes.object,
   eventBackgroundColor: PropTypes.string,
   eventCornerRadius: PropTypes.number,
-  // eventTextLineHeight: PropTypes.number, TODO:
   displayNameTextSize: PropTypes.number,
   displayNameTextColor: PropTypes.string,
   displayNamePadding: PropTypes.object,
-  // messageTextLineHeight: PropTypes.number, TODO:
+
+  eventTextLineHeight: PropTypes.number, //TODO:
+  messageTextLineHeight: PropTypes.number, //TODO:
   ...ViewPropTypes
 };
 

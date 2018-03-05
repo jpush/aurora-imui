@@ -91,12 +91,12 @@ RCT_CUSTOM_VIEW_PROPERTY(inputTextLineHeight, NSNumber, RCTInputView) {
   _rctInputView.imuiIntputView.inputTextViewLineHeight = height.floatValue;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
+RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSNumber, RCTInputView) {
   NSNumber *galleryScale = [RCTConvert NSNumber: json];
   _rctInputView.galleryScale = galleryScale;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSString, RCTInputView) {
+RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
   NSNumber *compressionQuality = [RCTConvert NSNumber: json];
   _rctInputView.compressionQuality = compressionQuality;
 }
