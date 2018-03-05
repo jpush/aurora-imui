@@ -28,7 +28,14 @@ public class CompressImageAsync extends AsyncTask<String, Void, String> {
             imgFile = new File(outputPath);
             imgFile.createNewFile();
             fileOutput = new FileOutputStream(imgFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fileOutput);
+            String suffix = params[3];
+            Bitmap.CompressFormat format;
+            if (suffix.equals("jpg")) {
+                format = Bitmap.CompressFormat.JPEG;
+            } else if (suffix.equals("png")) {
+                format = Bitmap.CompressFormat.PNG;
+            } else format = Bitmap.CompressFormat.WEBP;
+            bitmap.compress(format, quality, fileOutput);
             fileOutput.flush();
             outputPath = imgFile.getAbsolutePath();
         } catch (FileNotFoundException e) {

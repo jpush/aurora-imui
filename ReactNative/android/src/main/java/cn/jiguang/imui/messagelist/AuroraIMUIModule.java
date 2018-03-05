@@ -248,20 +248,19 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
         WritableMap result = Arguments.createMap();
         try {
             String path = map.getString("path");
-            int quality = map.getInt("compressionQuality") * 100;
+            double quality =  100 * map.getDouble("compressionQuality");
             File file = new File(path);
             if (file.exists() && file.isFile()) {
                 // TODO AsyncTask Compress image
                 CompressImageAsync task = new CompressImageAsync();
-                Log.d("Aurora", "file getName: " + file.getName());
-                String resultFileName = file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jpg";
-                File resultDir = new File(getReactApplicationContext().getFilesDir() + "/thumbnails/");
+                String fileSuffix = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+                File resultDir = new File(Environment.getExternalStorageDirectory() + "/thumbnails/");
                 if (!resultDir.exists()) {
                     resultDir.mkdirs();
                 }
-                String resultPath = resultDir.getPath() + "/" + resultFileName;
-                Log.e("AuroraIMUIModule", "compress image result path: " + resultPath);
-                task.execute(path, quality + "", resultPath);
+                String resultPath = resultDir.getPath() + "/" + file.getName();
+                Log.d("AuroraIMUIModule", "compress image result path: " + resultPath);
+                task.execute(path, (int) quality + "", resultPath, fileSuffix);
                 result.putInt("code", 0);
                 result.putString("thumbPath", resultPath);
                 callback.invoke(result);
