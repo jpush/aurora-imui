@@ -41,9 +41,9 @@ function constructNormalMessage() {
   var user = {
     userId: "",
     displayName: "replace your nickname",
-    avatarPath: "ironman"
+    avatarPath: "images"
   }
-  user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
+  // user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
   message.fromUser = user
 
   return message
@@ -124,11 +124,11 @@ export default class TestRNIMUI extends Component {
   }
 
   onInputViewSizeChange = (size) => {
-    console.log("height: " + size.height)
+    console.log("height: " + size.height + " width: " + size.width)
     if (this.state.inputLayoutHeight != size.height) {
       this.setState({
         inputLayoutHeight: size.height,
-        inputViewLayout: { width: size.width, height: size.height },
+        inputViewLayout: { width: window.width, height: size.height },
         messageListLayout: { flex:1, width: window.width, margin: 0 }
       })
     }
@@ -397,10 +397,14 @@ export default class TestRNIMUI extends Component {
           onTapMessageCell={this.onTapMessageCell}
           onBeginDragMessageList={this.onBeginDragMessageList}
           onPullToRefresh={this.onPullToRefresh}
-          avatarSize={{ width: 40, height: 40 }}
+          avatarSize={{ width: 50, height: 50 }}
+          avatarCornerRadius={60}
+          messageListBackgroundColor={"#f3f3f3"}
           sendBubbleTextSize={18}
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
+          datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
+          dateBackgroundColor={"#39ef23"}
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"

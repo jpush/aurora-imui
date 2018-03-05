@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -350,10 +351,10 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         return (int) (dpValue * scale + 0.5f);
     }
 
-    private int dip2sp(int dip) {
+    private float dip2sp(int dip) {
         int px = dip2px(dip);
         float scale = mContext.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (px / scale);
+        return px / scale;
     }
 
     @ReactProp(name = "receiveBubblePadding")
@@ -376,14 +377,33 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     }
 
     @ReactProp(name = "datePadding")
-    public void setDatePadding(PullToRefreshLayout root, int padding) {
-        mMessageList.setDatePadding(dip2px(padding));
+    public void setDatePadding(PullToRefreshLayout root, ReadableMap map) {
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setDatePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
+    }
+
+    @ReactProp(name = "dateBackgroundColor")
+    public void setDateBgColor(PullToRefreshLayout root, String color) {
+        mMessageList.setDateBgColor(Color.parseColor(color));
+    }
+
+    @ReactProp(name = "dateCornerRadius")
+    public void setDateBgCornerRadius(PullToRefreshLayout root, int radius) {
+        mMessageList.setDateBgCornerRadius(dip2px(radius));
     }
 
     @ReactProp(name = "avatarSize")
     public void setAvatarWidth(PullToRefreshLayout root, ReadableMap map) {
         mMessageList.setAvatarWidth(dip2px(map.getInt("width")));
         mMessageList.setAvatarHeight(dip2px(map.getInt("height")));
+    }
+
+    @ReactProp(name = "avatarCornerRadius")
+    public void setAvatarCornerRadius(PullToRefreshLayout root, int radius) {
+        mMessageList.setAvatarRadius(radius);
     }
 
     /**
@@ -408,25 +428,64 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         mMessageList.setShowSenderDisplayName(isShowDisplayName);
     }
 
+    @ReactProp(name = "displayNameTextSize")
+    public void setDisplayNameTextSize(PullToRefreshLayout root, int size) {
+        mMessageList.setDisplayNameTextSize(dip2sp(size));
+    }
+
+    @ReactProp(name = "displayNameTextColor")
+    public void setDisplayNameTextColor(PullToRefreshLayout root, String color) {
+        mMessageList.setDisplayNameTextColor(Color.parseColor(color));
+    }
+
+    @ReactProp(name = "displayNamePadding")
+    public void setDisplayNamePadding(PullToRefreshLayout root, ReadableMap map) {
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setDatePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
+    }
+
     @ReactProp(name = "isAllowPullToRefresh")
     public void isAllowPullToRefresh(PullToRefreshLayout root, boolean flag) {
         mMessageList.forbidScrollToRefresh(!flag);
+        root.setEnabledNextPtrAtOnce(false);
     }
 
-    @ReactProp(name = "eventMsgTxtColor")
+    @ReactProp(name = "eventTextColor")
     public void setEventTextColor(PullToRefreshLayout root, String color) {
         int colorRes = Color.parseColor(color);
         mMessageList.setEventTextColor(colorRes);
     }
 
-    @ReactProp(name = "eventMsgTxtPadding")
-    public void setEventTextPadding(PullToRefreshLayout root, int padding) {
-        mMessageList.setEventTextPadding(dip2px(padding));
+    @ReactProp(name = "eventTextPadding")
+    public void setEventTextPadding(PullToRefreshLayout root, ReadableMap map) {
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setEventPadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
     }
 
-    @ReactProp(name = "eventMsgTxtSize")
+    @ReactProp(name = "eventBackgroundColor")
+    public void setEventBgColor(PullToRefreshLayout root, String color) {
+        mMessageList.setEventBgColor(Color.parseColor(color));
+    }
+
+    @ReactProp(name = "eventCornerRadius")
+    public void setEventBgCornerRadius(PullToRefreshLayout root, int radius) {
+        mMessageList.setEventBgCornerRadius(dip2px(radius));
+    }
+
+    @ReactProp(name = "eventTextSize")
     public void setEventTextSize(PullToRefreshLayout root, int size) {
         mMessageList.setEventTextSize(dip2sp(size));
+    }
+
+    @ReactProp(name = "eventTextLineHeight")
+    public void setEventTextLineSpacing(PullToRefreshLayout root, int spacing) {
+        mMessageList.setEventLineSpacingExtra(dip2px(spacing));
     }
 
     @ReactProp(name = "maxBubbleWidth")
@@ -438,6 +497,31 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     public void setBackgroundColor(PullToRefreshLayout layout, String color) {
         int colorRes = Color.parseColor(color);
         layout.setBackgroundColor(colorRes);
+    }
+
+    @ReactProp(name = "messageTextLineHeight")
+    public void setMessageTextLineSpacing(PullToRefreshLayout root, int spacing) {
+        mMessageList.setLineSpacingExtra(dip2px(spacing));
+    }
+
+    @ReactProp(name = "videoMessageRadius")
+    public void setVideoMessageRadius(int radius) {
+        mMessageList.setVideoMessageRadius(dip2px(radius));
+    }
+
+    @ReactProp(name = "videoDurationTextColor")
+    public void setVideoDurationTextColor(String color) {
+        mMessageList.setVideoDurationTextColor(Color.parseColor(color));
+    }
+
+    @ReactProp(name = "videoDurationTextSize")
+    public void setVideoDurationTextSize(int size) {
+        mMessageList.setVideoDurationTextSize(dip2sp(size));
+    }
+
+    @ReactProp(name = "photoMessageRadius")
+    public void setPhotoMessageRadius(int radius) {
+        mMessageList.setPhotoMessageRadius(dip2px(radius));
     }
 
     @SuppressWarnings("unchecked")

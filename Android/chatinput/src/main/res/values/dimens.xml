@@ -11,8 +11,8 @@
 
     <dimen name="aurora_textsize_input">17sp</dimen>
 
-    <dimen name="aurora_padding_input_left">16sp</dimen>
-    <dimen name="aurora_padding_input_right">16sp</dimen>
+    <dimen name="aurora_padding_input_left">5dp</dimen>
+    <dimen name="aurora_padding_input_right">5dp</dimen>
     <dimen name="aurora_padding_input_top">0dp</dimen>
     <dimen name="aurora_padding_input_bottom">0dp</dimen>
 

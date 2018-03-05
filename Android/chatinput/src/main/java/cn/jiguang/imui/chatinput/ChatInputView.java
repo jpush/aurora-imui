@@ -324,6 +324,8 @@ public class ChatInputView extends LinearLayout
         mChatInput.setTextColor(mStyle.getInputTextColor());
         mChatInput.setHintTextColor(mStyle.getInputHintColor());
         mChatInput.setBackgroundResource(mStyle.getInputEditTextBg());
+        mChatInput.setPadding(mStyle.getInputPaddingLeft(), mStyle.getInputPaddingTop(),
+                mStyle.getInputPaddingRight(), mStyle.getInputPaddingBottom());
         mInputMarginLeft.getLayoutParams().width = mStyle.getInputMarginLeft();
         mInputMarginRight.getLayoutParams().width = mStyle.getInputMarginRight();
         mVoiceBtn.setImageResource(mStyle.getVoiceBtnIcon());

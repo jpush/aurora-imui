@@ -19,10 +19,21 @@ public class MessageListStyle extends Style {
 
     private float dateTextSize;
     private int dateTextColor;
-    private int datePadding;
-    private int eventPadding;
+    private int datePaddingLeft;
+    private int datePaddingTop;
+    private int datePaddingRight;
+    private int datePaddingBottom;
+    private int dateBgCornerRadius;
+    private int dateBgColor;
+    private int eventPaddingLeft;
+    private int eventPaddingTop;
+    private int eventPaddingRight;
+    private int eventPaddingBottom;
     private float eventTextSize;
     private int eventTextColor;
+    private int eventBgColor;
+    private int eventLineSpacingExtra;
+    private int eventBgCornerRadius;
     private String dateFormat;
 
     private int avatarWidth;
@@ -30,6 +41,12 @@ public class MessageListStyle extends Style {
     private int avatarRadius;
     private boolean showSenderDisplayName;
     private boolean showReceiverDisplayName;
+    private float displayNameTextSize;
+    private int displayNameTextColor;
+    private int displayNamePaddingLeft;
+    private int displayNamePaddingTop;
+    private int displayNamePaddingRight;
+    private int displayNamePaddingBottom;
     private int receiveBubbleDrawable;
     private int receiveBubbleColor;
     private int receiveBubblePressedColor;
@@ -57,6 +74,11 @@ public class MessageListStyle extends Style {
     private int playSendVoiceAnim;
     private int playReceiveVoiceAnim;
 
+    private int videoDurationTextColor;
+    private float videoDurationTextSize;
+    private int videoMessageRadius;
+    private int photoMessageRadius;
+
     // Set bubble's max width, value from 0 to 1. 1 means max width equals with screen width.
     // Default value is 0.8.
     private float bubbleMaxWidth;
@@ -77,15 +99,35 @@ public class MessageListStyle extends Style {
         style.dateTextSize = getSPTextSize(context, dateTextSizePixel);
         style.dateTextColor = typedArray.getColor(R.styleable.MessageList_dateTextColor,
                 ContextCompat.getColor(context, R.color.aurora_msg_date_text_color));
-        style.datePadding = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePadding,
-                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_date_text));
+        style.datePaddingLeft = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePaddingLeft,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_left_date_text));
+        style.datePaddingTop = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePaddingTop,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_top_date_text));
+        style.datePaddingRight = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePaddingRight,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_right_date_text));
+        style.datePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePaddingBottom,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_bottom_date_text));
+        style.dateBgColor = typedArray.getColor(R.styleable.MessageList_dateBgColor,
+                ContextCompat.getColor(context, R.color.aurora_msg_date_bg_color));
+        style.dateBgCornerRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_dateCornerRadius,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_size_date_bg_radius));
         int eventTextSizePixel = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventTextSize,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_size_event_text));
         style.eventTextSize = getSPTextSize(context, eventTextSizePixel);
-        style.eventPadding = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventPadding,
+        style.eventPaddingLeft = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventPaddingLeft,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_event_text));
+        style.eventPaddingTop = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventPaddingTop,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_event_text));
+        style.eventPaddingRight = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventPaddingRight,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_event_text));
+        style.eventPaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventPaddingBottom,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_event_text));
         style.eventTextColor = typedArray.getColor(R.styleable.MessageList_eventTextColor,
                 ContextCompat.getColor(context, R.color.aurora_msg_event_text_color));
+        style.eventBgCornerRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_eventCornerRadius,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_event_bg_corner_radius));
+        style.eventBgColor = typedArray.getColor(R.styleable.MessageList_eventBackgroundColor,
+                ContextCompat.getColor(context, R.color.aurora_event_msg_bg_color));
         style.dateFormat = typedArray.getString(R.styleable.MessageList_dateFormat);
 
         style.avatarWidth = typedArray.getDimensionPixelSize(R.styleable.MessageList_avatarWidth,
@@ -96,6 +138,11 @@ public class MessageListStyle extends Style {
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_radius_avatar_default));
         style.showSenderDisplayName = typedArray.getBoolean(R.styleable.MessageList_showSenderDisplayName, false);
         style.showReceiverDisplayName = typedArray.getBoolean(R.styleable.MessageList_showReceiverDisplayName, false);
+        int displayNameTextSize = typedArray.getDimensionPixelSize(R.styleable.MessageList_displayNameTextSize,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_size_display_name_text));
+        style.displayNameTextSize = getSPTextSize(context, displayNameTextSize);
+        style.displayNameTextColor = typedArray.getColor(R.styleable.MessageList_displayNameTextColor,
+                ContextCompat.getColor(context, R.color.aurora_display_name_text_color));
         style.receiveBubbleDrawable = typedArray.getResourceId(R.styleable.MessageList_receiveBubbleDrawable, -1);
         style.receiveBubbleColor = typedArray.getColor(R.styleable.MessageList_receiveBubbleColor,
                 ContextCompat.getColor(context, R.color.aurora_msg_receive_bubble_default_color));
@@ -155,6 +202,15 @@ public class MessageListStyle extends Style {
 
         style.sendPhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_sendPhotoMsgBg);
         style.receivePhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_receivePhotoMsgBg);
+        style.videoDurationTextColor = typedArray.getColor(R.styleable.MessageList_videoDurationTextColor,
+                ContextCompat.getColor(context, R.color.aurora_video_message_duration_text_color));
+        int videoDurationTextSize = typedArray.getDimensionPixelSize(R.styleable.MessageList_videoDurationTextSize,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_size_video_message_duration_text));
+        style.videoDurationTextSize = getSPTextSize(context, videoDurationTextSize);
+        style.photoMessageRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_photoMessageRadius,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_radius_photo_message));
+        style.videoMessageRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_videoMessageRadius,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_radius_video_message));
         style.sendingProgressDrawable = typedArray.getDrawable(R.styleable.MessageList_sendingProgressDrawable);
         style.sendingIndeterminateDrawable = typedArray.getDrawable(R.styleable.MessageList_sendingIndeterminateDrawable);
         typedArray.recycle();
@@ -186,10 +242,6 @@ public class MessageListStyle extends Style {
 
     public int getDateTextColor() {
         return dateTextColor;
-    }
-
-    public int getDatePadding() {
-        return datePadding;
     }
 
     public String getDateFormat() {
@@ -256,18 +308,6 @@ public class MessageListStyle extends Style {
         this.dateTextColor = dateTextColor;
     }
 
-    public void setDatePadding(int datePadding) {
-        this.datePadding = datePadding;
-    }
-
-    public void setEventTextPadding(int padding) {
-        this.eventPadding = padding;
-    }
-
-    public int getEventPadding() {
-        return this.eventPadding;
-    }
-
     public void setEventTextColor(int eventTextColor) {
         this.eventTextColor = eventTextColor;
     }
@@ -302,6 +342,45 @@ public class MessageListStyle extends Style {
 
     public void setShowReceiverDisplayName(boolean showReceiverDisplayName) {
         this.showReceiverDisplayName = showReceiverDisplayName;
+    }
+
+    public void setDisplayNameTextSize(float displayNameTextSize) {
+        this.displayNameTextSize = displayNameTextSize;
+    }
+
+    public float getDisplayNameTextSize() {
+        return this.displayNameTextSize;
+    }
+
+    public void setDisplayNameTextColor(int color) {
+        this.displayNameTextColor = color;
+    }
+
+    public int getDisplayNameTextColor() {
+        return this.displayNameTextColor;
+    }
+
+    public void setDisplayNamePadding(int left, int top, int right, int bottom) {
+        this.displayNamePaddingLeft = left;
+        this.displayNamePaddingTop = top;
+        this.displayNamePaddingRight = right;
+        this.displayNamePaddingBottom = bottom;
+    }
+
+    public int getDisplayNamePaddingLeft() {
+        return this.displayNamePaddingLeft;
+    }
+
+    public int getDisplayNamePaddingTop() {
+        return this.displayNamePaddingTop;
+    }
+
+    public int getDisplayNamePaddingRight() {
+        return this.displayNamePaddingRight;
+    }
+
+    public int getDisplayNamePaddingBottom() {
+        return this.displayNamePaddingBottom;
     }
 
     public void setReceiveBubbleColor(int receiveBubbleColor) {
@@ -540,5 +619,123 @@ public class MessageListStyle extends Style {
 
     public float getLineSpacingMultiplier() {
         return this.lineSpacingMultiplier;
+    }
+
+    public int getEventBgColor() {
+        return eventBgColor;
+    }
+
+    public void setEventBgColor(int color) {
+        this.eventBgColor = color;
+    }
+
+    public int getEventLineSpacingExtra() {
+        return this.eventLineSpacingExtra;
+    }
+
+    public void setEventLineSpacingExtra(int extra) {
+        this.eventLineSpacingExtra = extra;
+    }
+
+    public void setEventBgCornerRadius(int radius) {
+        this.eventBgCornerRadius = radius;
+    }
+
+    public int getEventBgCornerRadius() {
+        return this.eventBgCornerRadius;
+    }
+
+    public int getDatePaddingLeft() {
+        return datePaddingLeft;
+    }
+
+    public void setDatePadding(int left, int top, int right, int bottom) {
+        this.datePaddingLeft = left;
+        this.datePaddingTop = top;
+        this.datePaddingRight = right;
+        this.datePaddingBottom = bottom;
+    }
+
+    public int getDatePaddingTop() {
+        return datePaddingTop;
+    }
+
+    public int getDatePaddingRight() {
+        return datePaddingRight;
+    }
+
+    public int getDatePaddingBottom() {
+        return datePaddingBottom;
+    }
+
+    public int getDateBgCornerRadius() {
+        return dateBgCornerRadius;
+    }
+
+    public void setDateBgCornerRadius(int radius) {
+        this.dateBgCornerRadius = radius;
+    }
+
+    public int getDateBgColor() {
+        return dateBgColor;
+    }
+
+    public void setDateBgColor(int color) {
+        this.dateBgColor = color;
+    }
+
+    public void setEventTextPadding(int left, int top, int right, int bottom) {
+        this.eventPaddingLeft = left;
+        this.eventPaddingTop = top;
+        this.eventPaddingRight = right;
+        this.eventPaddingBottom = bottom;
+    }
+
+    public int getEventPaddingLeft() {
+        return this.eventPaddingLeft;
+    }
+
+    public int getEventPaddingTop() {
+        return this.eventPaddingTop;
+    }
+
+    public int getEventPaddingRight() {
+        return this.eventPaddingRight;
+    }
+
+    public int getEventPaddingBottom() {
+        return this.eventPaddingBottom;
+    }
+
+    public void setVideoDurationTextColor(int color) {
+        this.videoDurationTextColor = color;
+    }
+
+    public int getVideoDurationTextColor() {
+        return this.videoDurationTextColor;
+    }
+
+    public void setVideoDurationTextSize(float size) {
+        this.videoDurationTextSize = size;
+    }
+
+    public float getVideoDurationTextSize() {
+        return this.videoDurationTextSize;
+    }
+
+    public void setVideoMessageRadius(int radius) {
+        this.videoMessageRadius = radius;
+    }
+
+    public int getVideoMessageRadius() {
+        return this.videoMessageRadius;
+    }
+
+    public void setPhotoMessageRadius(int radius) {
+        this.photoMessageRadius = radius;
+    }
+
+    public int getPhotoMessageRadius() {
+        return this.photoMessageRadius;
     }
 }

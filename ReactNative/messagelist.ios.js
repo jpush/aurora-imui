@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactNative from 'react-native';
 import PropTypes from 'prop-types';
+import {ViewPropTypes} from 'react-native';
 
 var {
   Component,
@@ -10,7 +11,6 @@ var {
 
 var {
   StyleSheet,
-  ViewPropTypes,
   requireNativeComponent,
 } = ReactNative;
 
@@ -98,14 +98,25 @@ MessageList.propTypes = {
   receiveBubbleTextSize: PropTypes.number,
   sendBubblePadding: PropTypes.object,
   receiveBubblePadding: PropTypes.object,
-  dateTextSize: PropTypes.number,
-  dateTextColor: PropTypes.string,
   avatarSize: PropTypes.object,
   avatarCornerRadius: PropTypes.number,
   isShowDisplayName: PropTypes.bool,
   isShowIncomingDisplayName: PropTypes.bool,
   isShowOutgoingDisplayName: PropTypes.bool,
   isAllowPullToRefresh: PropTypes.bool,
+  dateTextSize: PropTypes.number,
+  dateTextColor: PropTypes.string,
+  datePadding: PropTypes.object,
+  dateBackgroundColor: PropTypes.string,
+  dateCornerRadius: PropTypes.number,
+  eventTextPadding: PropTypes.object,
+  eventBackgroundColor: PropTypes.string,
+  eventCornerRadius: PropTypes.number,
+  // eventTextLineHeight: PropTypes.number, TODO:
+  displayNameTextSize: PropTypes.number,
+  displayNameTextColor: PropTypes.string,
+  displayNamePadding: PropTypes.object,
+  // messageTextLineHeight: PropTypes.number, TODO:
   ...ViewPropTypes
 };
 

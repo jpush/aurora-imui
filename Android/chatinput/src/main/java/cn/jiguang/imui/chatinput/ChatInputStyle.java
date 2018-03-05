@@ -25,10 +25,10 @@ public class ChatInputStyle extends Style {
     private String inputHint;
     private int inputHintColor;
 
-    private int inputDefaultPaddingLeft;
-    private int inputDefaultPaddingRight;
-    private int inputDefaultPaddingTop;
-    private int inputDefaultPaddingBottom;
+    private int inputPaddingLeft;
+    private int inputPaddingRight;
+    private int inputPaddingTop;
+    private int inputPaddingBottom;
 
     private int inputCursorDrawable;
 
@@ -80,13 +80,15 @@ public class ChatInputStyle extends Style {
         style.sendBtnPressedIcon = typedArray.getResourceId(R.styleable.ChatInputView_sendBtnPressedIcon, R.drawable.aurora_menuitem_send_pres);
         style.sendCountBg = typedArray.getDrawable(R.styleable.ChatInputView_sendCountBg);
         style.showSelectAlbumBtn = typedArray.getBoolean(R.styleable.ChatInputView_showSelectAlbum, true);
+        style.inputPaddingLeft = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputPaddingLeft,
+                style.getDimension(R.dimen.aurora_padding_input_left));
+        style.inputPaddingTop = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputPaddingTop,
+                style.getDimension(R.dimen.aurora_padding_input_top));
+        style.inputPaddingRight = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputPaddingRight,
+                style.getDimension(R.dimen.aurora_padding_input_right));
+        style.inputPaddingBottom = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputPaddingBottom,
+                style.getDimension(R.dimen.aurora_padding_input_bottom));
         typedArray.recycle();
-
-        style.inputDefaultPaddingLeft = style.getDimension(R.dimen.aurora_padding_input_left);
-        style.inputDefaultPaddingRight = style.getDimension(R.dimen.aurora_padding_input_right);
-        style.inputDefaultPaddingTop = style.getDimension(R.dimen.aurora_padding_input_top);
-        style.inputDefaultPaddingBottom = style.getDimension(R.dimen.aurora_padding_input_bottom);
-
         return style;
     }
 
@@ -181,20 +183,20 @@ public class ChatInputStyle extends Style {
         return this.sendCountBg;
     }
 
-    public int getInputDefaultPaddingLeft() {
-        return inputDefaultPaddingLeft;
+    public int getInputPaddingLeft() {
+        return inputPaddingLeft;
     }
 
-    public int getInputDefaultPaddingRight() {
-        return inputDefaultPaddingRight;
+    public int getInputPaddingRight() {
+        return inputPaddingRight;
     }
 
-    public int getInputDefaultPaddingTop() {
-        return inputDefaultPaddingTop;
+    public int getInputPaddingTop() {
+        return inputPaddingTop;
     }
 
-    public int getInputDefaultPaddingBottom() {
-        return inputDefaultPaddingBottom;
+    public int getInputPaddingBottom() {
+        return inputPaddingBottom;
     }
 
     public boolean getShowSelectAlbum() {

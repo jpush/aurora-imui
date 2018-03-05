@@ -36,9 +36,10 @@
 
 @property (nonatomic, copy) NSString * _Nonnull bubbleContentType;
 
-- (instancetype)initWithIsOutGoingMessage:(BOOL)isOutgoing
-                           isNeedShowTime:(BOOL)isNeedShowTime
-                        bubbleContentSize:(CGSize)bubbleContentSize
-                      bubbleContentInsets:(UIEdgeInsets)contentInset
-                              contentType:(NSString *)contentType;
+- (instancetype _Nullable )initWithIsOutGoingMessage:(BOOL) isOutgoing
+                           isNeedShowTime:(BOOL) isNeedShowTime
+                        bubbleContentSize:(CGSize) bubbleContentSize
+                      bubbleContentInsets:(UIEdgeInsets) contentInset
+                     timeLabelContentSize:(CGSize) timeLabelContentSize
+                              contentType:(NSString *_Nonnull) contentType;
 @end

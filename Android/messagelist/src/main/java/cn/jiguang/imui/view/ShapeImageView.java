@@ -42,7 +42,7 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
         setLayerType(LAYER_TYPE_HARDWARE, null);
         if (attrs != null) {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.MessageList);
-            mRadius = a.getDimension(R.styleable.MessageList_videomessage_radius, 0);
+            mRadius = a.getDimension(R.styleable.MessageList_photoMessageRadius, 0);
             a.recycle();
         }
         mPaint = new Paint();
@@ -72,5 +72,10 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
             mShape.draw(canvas, mPaint);
         }
         canvas.restoreToCount(saveCount);
+    }
+
+    public void setBorderRadius(int radius) {
+        this.mRadius = radius;
+        invalidate();
     }
 }

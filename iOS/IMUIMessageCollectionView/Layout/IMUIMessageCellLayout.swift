@@ -17,14 +17,16 @@ import UIKit
 @objc open class IMUIMessageCellLayout: NSObject, IMUIMessageCellLayoutProtocol {
 
   @objc public static var avatarSize: CGSize = CGSize(width: 40, height: 40)
-  @objc public static var avatarOffsetToCell: UIOffset = UIOffset(horizontal: 16, vertical: 16)
+
+  @objc public static var avatarPadding: UIEdgeInsets = UIEdgeInsets(top: 16, left: 16, bottom: 0, right: 16)
   
-  @objc public static var timeLabelFrame: CGRect = CGRect.zero
+  @objc public static var timeLabelPadding: UIEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
   
   @objc public static var nameLabelSize: CGSize = CGSize(width: 200, height: 18)
-  @objc public static var nameLabelOffsetToAvatar: UIOffset = UIOffset(horizontal: 8 , vertical: 0)
-  
-  @objc public static var bubbleOffsetToAvatar: UIOffset = UIOffset(horizontal: 8 , vertical: 4)
+
+  @objc public static var nameLabelPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+
+  @objc public static var bubblePadding: UIEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 0, right: 8)
   
   @objc public static var cellWidth: CGFloat = 0
   @objc public static var cellContentInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
@@ -41,25 +43,33 @@ import UIKit
   
   @objc public static var nameLabelTextColor: UIColor = UIColor(netHex: 0x7587A8)
   @objc public static var nameLabelTextFont: UIFont = UIFont.systemFont(ofSize: 12)
+  @objc public static var nameLablePadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)//
+  
   
   @objc public static var timeStringColor: UIColor = UIColor(netHex: 0x90A6C4)
   @objc public static var timeStringFont: UIFont = UIFont.systemFont(ofSize: 12)
+  @objc public static var timeStringBackgroundColor: UIColor = UIColor.clear//
+//  @objc public static var timeStringPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)//
+  @objc public static var timeStringCornerRadius: CGFloat = 0.0//
+  
   
   @objc public init(isOutGoingMessage: Bool,
-                 isNeedShowTime: Bool,
-              bubbleContentSize: CGSize,
-            bubbleContentInsets: UIEdgeInsets) {
+                       isNeedShowTime: Bool,
+                    bubbleContentSize: CGSize,
+                  bubbleContentInsets: UIEdgeInsets,
+                 timeLabelContentSize: CGSize) {
     self.isOutGoingMessage = isOutGoingMessage
     self.isNeedShowTime = isNeedShowTime
     self.bubbleContentSize = bubbleContentSize
     self.bubbleContentInsets = bubbleContentInsets
-    
+    self.timeLabelContentSize = timeLabelContentSize
   }
   
   open var isOutGoingMessage: Bool
   
   open var isNeedShowTime: Bool
   
+  open var timeLabelContentSize: CGSize
   open var bubbleContentSize: CGSize
   open var bubbleContentInsets: UIEdgeInsets
   
@@ -80,45 +90,6 @@ import UIKit
                                        y: bubbleContentInset.top)
     return CGRect(origin: bubbleContentPostion, size: self.bubbleContentSize)
   }
-  
-  public var relativeAvatarOffsetToCell: UIOffset {
-    
-    if self.isOutGoingMessage {
-      if IMUIMessageCellLayout.isNeedShowOutGoingAvatar {
-        return UIOffset(horizontal: -IMUIMessageCellLayout.avatarOffsetToCell.horizontal, vertical: IMUIMessageCellLayout.avatarOffsetToCell.vertical)
-      } else {
-        return UIOffset.zero
-      }
-      
-    } else {
-      if IMUIMessageCellLayout.isNeedShowInComingAvatar {
-        return IMUIMessageCellLayout.avatarOffsetToCell
-      } else {
-        return UIOffset.zero
-      }
-    }
-  }
-  
-  public var relativeNameLabelOffsetToAvatar: UIOffset {
-    if self.isOutGoingMessage {
-      if IMUIMessageCellLayout.isNeedShowOutGoingName {
-        return UIOffset(horizontal: -IMUIMessageCellLayout.nameLabelOffsetToAvatar.horizontal, vertical: IMUIMessageCellLayout.nameLabelOffsetToAvatar.vertical)
-      } else {
-        return UIOffset.zero
-      }
-      
-    } else {
-      if IMUIMessageCellLayout.isNeedShowInComingName {
-        return IMUIMessageCellLayout.nameLabelOffsetToAvatar
-      } else {
-        return UIOffset.zero
-      }
-    }
-  }
-  
-  public var relativeBubbleOffsetToAvatar: UIOffset {
-    return IMUIMessageCellLayout.bubbleOffsetToAvatar
-  }
 
   public var relativeStatusViewOffsetToBubble: UIOffset {
     if self.isOutGoingMessage {
@@ -135,15 +106,15 @@ import UIKit
   
   open var nameLabelFrame: CGRect {
     var nameLabelX: CGFloat
-    var nameLabelY = avatarFrame.top + IMUIMessageCellLayout.nameLabelOffsetToAvatar.vertical
+    let nameLabelY = avatarFrame.top +
+      IMUIMessageCellLayout.nameLabelPadding.top
     if isOutGoingMessage {
 
-      nameLabelX = IMUIMessageCellLayout.cellWidth -
-        IMUIMessageCellLayout.nameLabelSize.width +
-        relativeBubbleOffsetToAvatar.horizontal +
-        relativeAvatarOffsetToCell.horizontal -
-        avatarFrame.width +
-        relativeNameLabelOffsetToAvatar.horizontal
+      nameLabelX = avatarFrame.left -
+      IMUIMessageCellLayout.avatarPadding.left -
+      IMUIMessageCellLayout.nameLabelPadding.right -
+      IMUIMessageCellLayout.nameLabelSize.width
+      
       if !IMUIMessageCellLayout.isNeedShowOutGoingName {
         return CGRect(x: nameLabelX,
                       y: nameLabelY,
@@ -153,13 +124,10 @@ import UIKit
       
     } else {
       nameLabelX = avatarFrame.right +
-        relativeBubbleOffsetToAvatar.horizontal +
-        relativeNameLabelOffsetToAvatar.horizontal
+        IMUIMessageCellLayout.avatarPadding.right +
+        IMUIMessageCellLayout.nameLabelPadding.left
       
       if !IMUIMessageCellLayout.isNeedShowInComingName {
-        nameLabelX = avatarFrame.right +
-          relativeBubbleOffsetToAvatar.horizontal +
-          relativeNameLabelOffsetToAvatar.horizontal
         return CGRect(x: nameLabelX,
                       y: nameLabelY,
                       width: 0,
@@ -178,20 +146,19 @@ import UIKit
     var avatarX: CGFloat
     if self.isOutGoingMessage {
       
-      avatarX = IMUIMessageCellLayout.cellWidth +
-        relativeAvatarOffsetToCell.horizontal -
+      avatarX = IMUIMessageCellLayout.cellWidth -
+        IMUIMessageCellLayout.avatarPadding.right -
         IMUIMessageCellLayout.avatarSize.width -
         cellContentInset.right
 
     } else {
-      avatarX = relativeAvatarOffsetToCell.horizontal +
+      avatarX = IMUIMessageCellLayout.avatarPadding.left +
         cellContentInset.left
     }
     
-    let avatarY = relativeAvatarOffsetToCell.vertical +
-      self.timeLabelFrame.size.height +
+    let avatarY = IMUIMessageCellLayout.avatarPadding.top +
+      self.timeLabelFrame.bottom +
       cellContentInset.top
-    
     
     if isOutGoingMessage {
       if !IMUIMessageCellLayout.isNeedShowOutGoingAvatar {
@@ -211,35 +178,30 @@ import UIKit
   
   open var timeLabelFrame: CGRect {
     if self.isNeedShowTime {
-      let timeWidth = IMUIMessageCellLayout.cellWidth -
-        cellContentInset.left -
-        cellContentInset.right
+      let timeWidth = IMUIMessageCellLayout.timeLabelPadding.left +
+      timeLabelContentSize.width +
+      IMUIMessageCellLayout.timeLabelPadding.right
       
-      return CGRect(x: cellContentInset.left,
+      let timeHeight = IMUIMessageCellLayout.timeLabelPadding.top +
+      timeLabelContentSize.height +
+      IMUIMessageCellLayout.timeLabelPadding.bottom
+      
+      let timeX = (IMUIMessageCellLayout.cellWidth - timeWidth)/2
+      
+      return CGRect(x: timeX,
                     y: cellContentInset.top + 8,
                     width: timeWidth,
-                    height: 20)
+                    height: timeHeight)
     } else {
       return CGRect.zero
     }
   }
   
   open var cellHeight: CGFloat {
-    var cellHeight = IMUIMessageCellLayout.bubbleOffsetToAvatar.vertical +
-      IMUIMessageCellLayout.timeLabelFrame.size.height +
-      self.avatarFrame.origin.y +
-      self.bubbleSize.height +
-      cellContentInset.top +
+    let cellHeight = self.bubbleFrame.bottom +
+      IMUIMessageCellLayout.bubblePadding.bottom +
       cellContentInset.bottom
-    if self.isOutGoingMessage {
-      if IMUIMessageCellLayout.isNeedShowOutGoingName {
-        cellHeight += IMUIMessageCellLayout.nameLabelSize.height + IMUIMessageCellLayout.nameLabelOffsetToAvatar.vertical
-      }
-    } else {
-      if IMUIMessageCellLayout.isNeedShowInComingName {
-        cellHeight += IMUIMessageCellLayout.nameLabelSize.height + IMUIMessageCellLayout.nameLabelOffsetToAvatar.vertical
-      }
-    }
+
     return cellHeight
   }
   
@@ -247,31 +209,22 @@ import UIKit
     var bubbleX:CGFloat
     
     if self.isOutGoingMessage {
-      bubbleX = IMUIMessageCellLayout.cellWidth +
-        relativeAvatarOffsetToCell.horizontal -
+      bubbleX = IMUIMessageCellLayout.cellWidth -
+        IMUIMessageCellLayout.avatarPadding.right -
         avatarFrame.width -
-        relativeBubbleOffsetToAvatar.horizontal -
+        IMUIMessageCellLayout.bubblePadding.right -
         cellContentInset.right -
         self.bubbleSize.width
     } else {
-      bubbleX = relativeAvatarOffsetToCell.horizontal +
+      bubbleX = IMUIMessageCellLayout.avatarPadding.left +
         avatarFrame.width +
-        relativeBubbleOffsetToAvatar.horizontal +
+        IMUIMessageCellLayout.bubblePadding.left +
         cellContentInset.left
     }
-    var bubbleY = relativeBubbleOffsetToAvatar.vertical +
-      self.avatarFrame.top +
-      IMUIMessageCellLayout.timeLabelFrame.size.height
+    let bubbleY = self.nameLabelFrame.bottom +
+    IMUIMessageCellLayout.nameLabelPadding.bottom +
+    IMUIMessageCellLayout.bubblePadding.top
     
-    if isOutGoingMessage {
-      if IMUIMessageCellLayout.isNeedShowOutGoingName {
-        bubbleY += IMUIMessageCellLayout.nameLabelSize.height + IMUIMessageCellLayout.nameLabelOffsetToAvatar.vertical
-      }
-    } else {
-      if IMUIMessageCellLayout.isNeedShowInComingName {
-        bubbleY += IMUIMessageCellLayout.nameLabelSize.height + IMUIMessageCellLayout.nameLabelOffsetToAvatar.vertical
-      }
-    }
     
     return CGRect(x: bubbleX,
                   y: bubbleY,

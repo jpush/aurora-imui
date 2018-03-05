@@ -55,15 +55,34 @@ Refer to iOS,Android example
     - [dateTextSize](#datetextsize)
     - [dateTextColor](#datetextcolor)
     - [datePadding](#datepadding)
+    - [dateBackgroundColor](#dateBackgroundColor)
+    - [dateCornerRadius](#dateCornerRadius)
     - [avatarSize](#avatarsize)
     - [avatarCornerRadius](#avatarcornerradius)
     - [isShowDisplayName](#isShowdisplayname)
+    - [isShowIncomingDisplayName](#isShowIncomingDisplayName)
+    - [isShowOutgoingDisplayName](#isShowOutgoingDisplayName)
+    - [displayNameTextSize](#displayNameTextSize)
+    - [displayNameTextColor](#displayNameTextColor)
+    - [displayNamePadding](#displayNamePadding)
+    - [eventTextColor](#eventTextColor)
+    - [eventTextSize](#eventTextSize)
+    - [eventTextPadding](#eventTextPadding)
+    - [eventBackgroundColor](#eventBackgroundColor)
+    - [eventCornerRadius](#eventCornerRadius)
+    - [eventTextLineHeight](#eventTextLineHeight)
     - [messageListBackgroundColor](#messagelistbackgroundcolor)
+    - [maxBubbleWidth](#maxBubbleWidth)
+    - [messageTextLineHeight](#messageTextLineHeight)
     - [isAllowPullToRefresh](#isallowpulltorefresh)
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showSelectAlbumBtn)
+    - [inputPadding](#inputPadding)
+    - [inputTextColor](#inputTextColor)
+    - [inputTextSize](#inputTextSize)
+    - [inputTextLineHeight](#inputTextLineHeight)
   - [Props Event]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
@@ -386,9 +405,31 @@ Set date text color of message, ```dateTextColor="#000000"```。
 
 #### datePadding
 
-**PropTypes.number:** 
+**PropTypes.object:** `{ left: number, top: number, right: number, bottom: number}` 
 
-Set date padding, note this padding  type is not an object, means left, top, right and bottom padding is same.
+Set date padding.
+
+Example: `datePadding={left: 5, top: 10, right: 5, bottom: 10}`
+
+------
+
+#### dateBackgroundColor
+
+**PropTypes.string**
+
+Set the background color of date.
+
+Example: `dateBackgroundColor={"#cecece"}`
+
+------
+
+#### dateCornerRadius
+
+**PropTypes.number**
+
+Set the background corner radius of date.
+
+Example: `dateCornerRadius={5}`
 
 ------
 
@@ -416,9 +457,61 @@ Example: ```avatarCornerRadius = {6}```。
 
 **PropTypes.bool:**
 
-Show sender's display name or not.
+Show display name or not.
 
 Example: ```isShowDisplayName={ture}```。
+
+------
+
+#### isShowIncomingDisplayName
+
+**PropTypes.bool:**
+
+Set Show receiver's display name or not.
+
+Example: `isShowIncomingDisplayName={true}`
+
+------
+
+#### isShowOutgoingDisplayName
+
+**PropTypes.bool:**
+
+Set show sender's display name or not.
+
+Example: `isShowOutgoingDisplayName={false}`
+
+------
+
+#### displayNameTextSize
+
+**PropTypes.number**
+
+Set the text size of display name.
+
+Example: `displayNameTextSize={14}`
+
+
+
+------
+
+#### displayNameTextColor
+
+**PropTypes.string**
+
+Set the color of display name.
+
+Example: `displayNameTextColor={"#cecece"}`
+
+------
+
+#### displayNamePadding
+
+**PropTypes.object** = {left: number, top: number, right: number, bottom: number}
+
+Set padding of display name.
+
+Example: `displayNamePadding={left: 5, top: 0, right: 0, bottom: 5}`
 
 ------
 
@@ -426,18 +519,29 @@ Example: ```isShowDisplayName={ture}```。
 
 **PropTypes.string:**
 
-Set messageList' background  color. **In Android, you should add this property in  `AndroidPtrlayout`.**
+Set messageList' background  color.
 
-```
-<AndroidPtrLayout
-   ref="PtrLayout"
-   messageListBackgroundColor={"#f3f3f3"}
-/>
-```
+Example: `messageListBackgroundColor={"#f3f3f3"}`
 
+------
 
+#### maxBubbleWidth
 
-Example:  ```messageListBackgroundColor="#000000"```
+**PropTypes.number**
+
+Set the max width of message bubble, the value is the percentage of mobile's width.
+
+Example: `maxBubbleWidth={0.7}` means set the max bubble width to 70% of mobile width.
+
+------
+
+#### messageTextLineHeight
+
+**PropTypes.number**
+
+Set text message's line spacing.
+
+Example: `messageTextLineHeight={5}`
 
 ------
 
@@ -471,6 +575,45 @@ Example:  ```chatInputBackgroupColor="#000000"```
 Set the visibility of the select album button.
 
 Example: ```showSelectAlbumBtn={true}```
+
+------
+### inputPadding
+
+**PropTypes.object:** {left: number, top: number, right: number, bottom: number}
+
+Set the padding of TextInput.
+
+Example: `inputPadding={left:5, top:0, right:5, bottom:0}`
+
+***
+
+### inputTextColor
+
+**PropTypes.string:** {"#xxxxxx"}
+
+Set the text color of TextInput.
+
+Example: `inputTextColor={"#808080"}`
+
+***
+
+### inputTextSize
+
+**PropTypes.numbser:** {numbser}
+
+Set the text size of TextInput.
+
+Example: `inputTextSize={14}`
+
+***
+
+### inputTextLineHeight
+
+**PropTypes.number:**{numbser}
+
+Set the text line spacing of TextInput.
+
+Example: `inputTextLineHeight={2}`
 
 ------
 

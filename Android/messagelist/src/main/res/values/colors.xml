@@ -6,8 +6,10 @@
     <color name="aurora_conv_divider">#ebebeb</color>
 
     <!-->Message List<-->
-    <color name="aurora_msg_date_text_color">#4e4e4e</color>
+    <color name="aurora_msg_date_text_color">#ffffff</color>
+    <color name="aurora_msg_date_bg_color">#cecece</color>
     <color name="aurora_msg_event_text_color">#ffffff</color>
+    <color name="aurora_display_name_text_color">#545454</color>
     <color name="aurora_msg_receive_bubble_default_color">#2977fa</color>
     <color name="aurora_msg_receive_bubble_pressed_color">#005af2</color>
     <color name="aurora_msg_receive_bubble_selected_color">#0e63f0</color>
@@ -16,5 +18,7 @@
     <color name="aurora_msg_send_bubble_pressed_color">#c9d3dd</color>
     <color name="aurora_msg_send_bubble_selected_color">#d3d9df</color>
     <color name="aurora_msg_send_text_color">#7587a8</color>
+    <color name="aurora_event_msg_bg_color">#cecece</color>
+    <color name="aurora_video_message_duration_text_color">#545454</color>
 
 </resources>

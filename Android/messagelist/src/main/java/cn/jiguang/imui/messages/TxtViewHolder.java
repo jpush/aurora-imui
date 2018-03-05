@@ -11,13 +11,14 @@ import cn.jiguang.imui.BuildConfig;
 import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.view.RoundImageView;
+import cn.jiguang.imui.view.RoundTextView;
 
 public class TxtViewHolder<MESSAGE extends IMessage>
         extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
     private TextView mMsgTv;
-    private TextView mDateTv;
+    private RoundTextView mDateTv;
     private TextView mDisplayNameTv;
     private RoundImageView mAvatarIv;
     private ImageButton mResendIb;
@@ -28,7 +29,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         super(itemView);
         this.mIsSender = isSender;
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
-        mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mDateTv = (RoundTextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
         mAvatarIv = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         if (isSender) {
             mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_sender_display_name);
@@ -153,8 +154,16 @@ public class TxtViewHolder<MESSAGE extends IMessage>
                 mDisplayNameTv.setVisibility(View.GONE);
             }
         }
+        mDisplayNameTv.setTextSize(style.getDisplayNameTextSize());
+        mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
+        mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
+                style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
         mDateTv.setTextSize(style.getDateTextSize());
         mDateTv.setTextColor(style.getDateTextColor());
+        mDateTv.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(),
+                style.getDatePaddingRight(), style.getDatePaddingBottom());
+        mDateTv.setBgCornerRadius(style.getDateBgCornerRadius());
+        mDateTv.setBgColor(style.getDateBgColor());
 
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();

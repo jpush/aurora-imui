@@ -54,15 +54,34 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [dateTextSize](#datetextsize)
     - [dateTextColor](#datetextcolor)
     - [datePadding](#datepadding)
+    - [dateBackgroundColor](#dateBackgroundColor)
+    - [dateCornerRadius](#dateCornerRadius)
     - [avatarSize](#avatarsize)
     - [avatarCornerRadius](#avatarcornerradius)
     - [isShowDisplayName](#isShowdisplayname)
+    - [isShowIncomingDisplayName](#isShowIncomingDisplayName)
+    - [isShowOutgoingDisplayName](#isShowOutgoingDisplayName)
+    - [displayNameTextSize](#displayNameTextSize)
+    - [displayNameTextColor](#displayNameTextColor)
+    - [displayNamePadding](#displayNamePadding)
+    - [eventTextColor](#eventTextColor)
+    - [eventTextSize](#eventTextSize)
+    - [eventTextPadding](#eventTextPadding)
+    - [eventBackgroundColor](#eventBackgroundColor)
+    - [eventCornerRadius](#eventCornerRadius)
+    - [eventTextLineHeight](#eventTextLineHeight)
     - [messageListBackgroundColor](#messagelistbackgroundcolor)
+    - [maxBubbleWidth](#maxBubbleWidth)
+    - [messageTextLineHeight](#messageTextLineHeight)
     - [isAllowPullToRefresh](#isallowpulltorefresh)
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showSelectAlbumBtn)
+    - [inputPadding](#inputPadding)
+    - [inputTextColor](#inputTextColor)
+    - [inputTextSize](#inputTextSize)
+    - [inputTextLineHeight](#inputTextLineHeight)
   - [Props 事件]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
@@ -314,11 +333,15 @@ message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 
 **PropTypes.object：**```{ imageName: string,  padding: { left: number,top: number,right: number,bottom: number}```
 
+设置发送方的气泡样式。
+
 ***
 
 #### receiveBubble 
 
 **PropTypes.object：**```{ imageName: string,  padding: { left: number,top: number,right: number,bottom: number}```
+
+设置接收方的气泡样式。
 
 ***
 
@@ -388,11 +411,33 @@ message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 
 #### datePadding
 
-**PropTypes.number:** 
+**PropTypes.object:** =  `{ left: number, top: number, right: number, bottom: number}` 
 
-与上面的不同，这个属性内边距是一样的。
+设置时间的内边距。
+
+Example: `datePadding={left: 5, top: 10, right: 5, bottom: 10}` 
 
 ***
+
+#### dateBackgroundColor
+
+**PropTypes.string**
+
+设置时间的背景颜色。
+
+Example: `dateBackgroundColor={"#cecece"}`
+
+------
+
+#### dateCornerRadius
+
+**PropTypes.number**
+
+设置时间的背景圆角大小。
+
+Example: `dateCornerRadius={5}`
+
+------
 
 #### avatarSize
 
@@ -406,7 +451,9 @@ message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 
 **PropTypes.number:** 
 
-设置头像圆角半径, Example: ```avatarCornerRadius = {6}```。
+设置头像圆角半径。
+
+ Example: ```avatarCornerRadius = {6}```。
 
 ***
 
@@ -414,26 +461,87 @@ message 参数为：{ "message":  [message](./Models_zh.md#message)  }。
 
 **PropTypes.bool:**
 
-是否显示消息的发送方的名字，Example: ```isShowDisplayName={ture}```。
+是否显示昵称（包括接收方和发送方），Example: ```isShowDisplayName={ture}```。
 
-***
+------
+
+#### isShowIncomingDisplayName
+
+**PropTypes.bool:**
+
+设置是否显示接收方昵称。
+
+Example: `isShowIncomingDisplayName={true}`
+
+------
+
+#### isShowOutgoingDisplayName
+
+**PropTypes.bool:**
+
+设置是否显示发送方昵称。
+
+Example: `isShowOutgoingDisplayName={false}`
+
+------
+
+#### displayNameTextSize
+
+**PropTypes.number**
+
+设置昵称文字大小。
+
+Example: `displayNameTextSize={14}`
+
+------
+
+#### displayNameTextColor
+
+**PropTypes.string**
+
+设置昵称的文字颜色。
+
+Example: `displayNameTextColor={"#cecece"}`
+
+------
+
+#### displayNamePadding
+
+**PropTypes.object** = {left: number, top: number, right: number, bottom: number}
+
+设置昵称内边距。
+
+Example: `displayNamePadding={left: 5, top: 0, right: 0, bottom: 5}`
+
+------
 
 #### messageListBackgroundColor
 
 **PropTypes.string:**
 
-设置消息列表的背景颜色。**在 Android 中，需要将此属性添加到 `AndroidPtrlayout`**
+设置消息列表背景颜色。
 
-```
-<AndroidPtrLayout
-   ref="PtrLayout"
-   messageListBackgroundColor={"#f3f3f3"}
-/>
-```
+Example: `messageListBackgroundColor={"#f3f3f3"}`
 
+------
 
+#### maxBubbleWidth
 
-Example:  ```messageListBackgroundColor="#000000"```
+**PropTypes.number**
+
+设置气泡的最大宽度。值为屏幕宽度的百分比。
+
+Example: `maxBubbleWidth={0.7}`  表示设置气泡的最大宽度为屏幕宽度的 70%。
+
+------
+
+#### messageTextLineHeight
+
+**PropTypes.number**
+
+设置文字消息的行间距。
+
+Example: `messageTextLineHeight={5}`
 
 ------
 
@@ -469,6 +577,46 @@ Example:  ```chatInputBackgroupColor="#000000"```
 设置选择相册按钮的可见性。
 
 Example: ```showSelectAlbumBtn={true}```
+
+------
+
+### inputPadding
+
+**PropTypes.object:** {left: number, top: number, right: number, bottom: number}
+
+设置输入框内边距。
+
+Example: `inputPadding={left:5, top:0, right:5, bottom:0}`
+
+------
+
+### inputTextColor
+
+**PropTypes.string:** {"#xxxxxx"}
+
+设置输入框文字颜色。
+
+Example: `inputTextColor={"#808080"}`
+
+------
+
+### inputTextSize
+
+**PropTypes.numbser:** {numbser}
+
+设置输入框文字大小。
+
+Example: `inputTextSize={14}`
+
+------
+
+### inputTextLineHeight
+
+**PropTypes.number:**{numbser}
+
+设置输入框行间距。
+
+Example: `inputTextLineHeight={2}`
 
 ------
 

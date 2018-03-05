@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactNative from 'react-native';
 import PropTypes from 'prop-types';
+import {ViewPropTypes} from 'react-native';
 
 var {
   Component,
@@ -10,7 +11,6 @@ var {
 
 var {
   StyleSheet,
-  ViewPropTypes,
   requireNativeComponent,
 } = ReactNative;
 
@@ -177,6 +177,10 @@ ChatInput.propTypes = {
   onShowKeyboard: PropTypes.func,
   onSizeChange: PropTypes.func,
   galleryScale: PropTypes.number,
+  inputPadding: PropTypes.object,
+	inputTextColor: PropTypes.string,
+	inputTextSize: PropTypes.number,
+	inputTextLineHeight: PropTypes.number,
   ...ViewPropTypes
 };
 
