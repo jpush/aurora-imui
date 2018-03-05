@@ -187,13 +187,13 @@ RCT_CUSTOM_VIEW_PROPERTY(eventTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
   if (color != nil) {
-    MessageEventCollectionViewCell.eventTextColor = color
+    MessageEventCollectionViewCell.eventTextColor = color;
   }
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(eventTextSize, NSNumber, RCTMessageListView) {
   NSNumber *eventTextSize = [RCTConvert NSNumber: json];
-  MessageEventCollectionViewCell.eventFont = UIFont.systemFont(ofSize: eventTextSize.floatValue)
+  MessageEventCollectionViewCell.eventFont = [UIFont systemFontOfSize:eventTextSize.floatValue];
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(eventTextPadding, NSDictionary, RCTMessageListView) {

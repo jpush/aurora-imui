@@ -129,6 +129,19 @@ class AuroraIMUIController {
 	        cb(result);
 	    });
 	}
+
+	/**
+     * 压缩图片，将图片压缩成指定质量的大小
+     * param = { "path": String, "compressionQuality": number } // compressionQuality = {0 - 1} 
+     * result = { "code": number(0 表示压缩成功，否则不成功), "thumbPath": String }
+     */
+	static compressImage(param, cb) {
+	    AuroraIMUIModule.compressImage(param, (result) => {
+	        cb(result);
+	    });
+	}
+	
+	
 }
 
 module.exports = {

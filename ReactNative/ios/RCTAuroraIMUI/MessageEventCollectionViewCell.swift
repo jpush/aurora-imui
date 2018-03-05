@@ -10,8 +10,8 @@ import UIKit
 
 @objc open class MessageEventCollectionViewCell: UICollectionViewCell {
   static var paddingGap:CGFloat = 5.0
-  static var eventFont: UIFont = UIFont.systemFont(ofSize: 12)
-  static var eventTextColor: UIColor = UIColor.white
+  @objc public static var eventFont: UIFont = UIFont.systemFont(ofSize: 12)
+  @objc public static var eventTextColor: UIColor = UIColor.white
   @objc public static var eventBackgroundColor: UIColor = UIColor(netHex: 0xCECECE)
   @objc public static var eventCornerRadius: CGFloat = 3.0//
   @objc public static var eventTextLineHeight: CGFloat = 2.0// TODO:
