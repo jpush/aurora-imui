@@ -111,6 +111,8 @@ MessageList.propTypes = {
   dateCornerRadius: PropTypes.number,
   eventTextPadding: PropTypes.object,
   eventBackgroundColor: PropTypes.string,
+  eventTextColor: PropTypes.string,
+  eventTextSize: PropTypes.number,
   eventCornerRadius: PropTypes.number,
   displayNameTextSize: PropTypes.number,
   displayNameTextColor: PropTypes.string,

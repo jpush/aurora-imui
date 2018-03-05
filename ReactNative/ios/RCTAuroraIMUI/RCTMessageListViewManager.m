@@ -182,8 +182,19 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubblePadding, NSDictionary, RCTMessageListView)
   UIEdgeInsets padding = [self edgeInsetsWith:paddingDic];
   MyMessageCellLayout.incommingPadding = padding;
 }
-// TODO:
-///////////////////=============
+
+RCT_CUSTOM_VIEW_PROPERTY(eventTextColor, NSString, RCTMessageListView) {
+  NSString *colorString = [RCTConvert NSString: json];
+  UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
+  if (color != nil) {
+    MessageEventCollectionViewCell.eventTextColor = color
+  }
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(eventTextSize, NSNumber, RCTMessageListView) {
+  NSNumber *eventTextSize = [RCTConvert NSNumber: json];
+  MessageEventCollectionViewCell.eventFont = UIFont.systemFont(ofSize: eventTextSize.floatValue)
+}
 
 RCT_CUSTOM_VIEW_PROPERTY(eventTextPadding, NSDictionary, RCTMessageListView) {
   NSDictionary *paddingDic = [RCTConvert NSDictionary: json];
