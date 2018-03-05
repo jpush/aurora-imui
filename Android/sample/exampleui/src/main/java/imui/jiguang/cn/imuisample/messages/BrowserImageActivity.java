@@ -119,6 +119,22 @@ public class BrowserImageActivity extends Activity {
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             return photoView;
         }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            View view = (View) object;
+            int currentPage = mViewPager.getCurrentItem();
+            if (currentPage == (Integer) view.getTag()) {
+                return POSITION_NONE;
+            } else {
+                return POSITION_UNCHANGED;
+            }
+        }
     };
 
 
