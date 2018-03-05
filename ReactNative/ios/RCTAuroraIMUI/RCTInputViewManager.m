@@ -175,7 +175,7 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
                                  targetSize: CGSizeMake(asset.pixelWidth * scale, asset.pixelHeight * scale)
                                 contentMode: PHImageContentModeAspectFill
                                     options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                      NSData *imageData = UIImagePNGRepresentation(result);
+                                      NSData *imageData = UIImageJPEGRepresentation(result, scale);
                                       NSString *filePath = [self getPath];
                                       if ([imageData writeToFile: filePath atomically: true]) {
                                         [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
