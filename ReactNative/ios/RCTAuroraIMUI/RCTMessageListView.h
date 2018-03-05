@@ -75,6 +75,8 @@
 @property(copy, nonatomic) NSString *eventBackgroundColor;
 @property(assign, nonatomic) NSNumber *eventCornerRadius;
 @property(assign, nonatomic) NSNumber *eventTextLineHeight; // TODO:
+@property(copy, nonatomic) NSString *eventTextColor;
+@property(assign, nonatomic) NSNumber *eventTextSize;
 
 @property(assign, nonatomic) NSNumber *displayNameTextSize;
 @property(copy, nonatomic) NSString *displayNameTextColor;

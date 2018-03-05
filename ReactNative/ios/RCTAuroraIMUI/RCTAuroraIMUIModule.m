@@ -75,4 +75,71 @@ RCT_EXPORT_METHOD(stopPlayVoice) {
   [[IMUIAudioPlayerHelper sharedInstance] stopAudio];
 }
 
+
+RCT_EXPORT_METHOD(scaleImage:(NSDictionary *)dic
+                  callback:(RCTResponseSenderBlock)callback) {
+  if (![[NSFileManager defaultManager] fileExistsAtPath:dic[@"path"] ?: @""]) {
+    callback(@[@{@"code": @(1),
+                 @"description": @"File could not be found."
+                 }]);
+    return;
+  }
+  
+  NSNumber *width = dic[@"width"] ?: @(0);
+  NSNumber *height = dic[@"width"] ?: @(0);
+  CGRect rect = CGRectMake(0, 0, width.floatValue, height.floatValue);
+  
+  UIImage *originImg = [UIImage imageWithContentsOfFile:dic[@"path"]];
+  
+  UIGraphicsBeginImageContext( rect.size );
+  [originImg drawInRect:rect];
+  UIImage *scaledImg = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  
+  NSData *imageData = UIImageJPEGRepresentation(scaledImg, 1);
+  NSString *filePath = [self getPath];
+  if ([imageData writeToFile: filePath atomically: true]) {
+    callback(@[@{@"code": @(0),
+                 @"thumbPath": filePath
+                 }]);
+  } else {
+    callback(@[@{@"code": @(1),
+                 @"description": @"File could not be writed."
+                 }]);
+  }
+}
+
+RCT_EXPORT_METHOD(compressImage:(NSDictionary *)dic
+                  callback:(RCTResponseSenderBlock)callback) {
+  if (![[NSFileManager defaultManager] fileExistsAtPath:dic[@"path"] ?: @""]) {
+    callback(@[@{@"code": @(1),
+                 @"description": @"File could not be found."
+                 }]);
+    return;
+  }
+  
+  UIImage *img = [UIImage imageWithContentsOfFile:dic[@"path"]];
+  NSNumber *compressionQuality = dic[@"compressionQuality"] ?: @(1);
+  NSData *imageData = UIImageJPEGRepresentation(img, compressionQuality.floatValue);
+  
+  NSString *filePath = [self getPath];
+  if ([imageData writeToFile: filePath atomically: true]) {
+    callback(@[@{@"code": @(0),
+                 @"thumbPath": filePath
+                 }]);
+  } else {
+    callback(@[@{@"code": @(1),
+                 @"description": @"File could not be writed."
+                 }]);
+  }
+}
+
+- (NSString *)getPath {//"\(NSHomeDirectory())/Documents/"
+  CFUUIDRef udid = CFUUIDCreate(NULL);
+  NSString *udidString = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, udid));
+  
+  NSString *path = [NSString stringWithFormat:@"%@\/Documents\/%@.jpg", NSHomeDirectory(), udidString];
+  return path;
+}
+
 @end

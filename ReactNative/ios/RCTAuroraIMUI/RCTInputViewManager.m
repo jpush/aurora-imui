@@ -91,9 +91,14 @@ RCT_CUSTOM_VIEW_PROPERTY(inputTextLineHeight, NSNumber, RCTInputView) {
   _rctInputView.imuiIntputView.inputTextViewLineHeight = height.floatValue;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
+RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSNumber, RCTInputView) {
   NSNumber *galleryScale = [RCTConvert NSNumber: json];
   _rctInputView.galleryScale = galleryScale;
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
+  NSNumber *compressionQuality = [RCTConvert NSNumber: json];
+  _rctInputView.compressionQuality = compressionQuality;
 }
 
 /// Tells the delegate that user tap send button and text input string is not empty
@@ -156,8 +161,11 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
 /// Tells the delegate that user did selected Photo in gallery
 - (void)didSeletedGalleryWithAssetArr:(NSArray<PHAsset *> * _Nonnull)AssetArr {
   dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-    NSNumber *scaleNumber = _rctInputView.galleryScale?:@(0.5);
+    NSNumber *scaleNumber = _rctInputView.galleryScale?:@(1);
     CGFloat scale = scaleNumber.floatValue;
+    
+    NSNumber *compressionQualityNumber = _rctInputView.compressionQuality?:@(0.5);
+    CGFloat compressionQuality = compressionQualityNumber.floatValue;
     
     if(!_rctInputView.onSendGalleryFiles) { return; }
     __block NSMutableArray *imagePathArr = @[].mutableCopy;
@@ -175,7 +183,7 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
                                  targetSize: CGSizeMake(asset.pixelWidth * scale, asset.pixelHeight * scale)
                                 contentMode: PHImageContentModeAspectFill
                                     options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                      NSData *imageData = UIImageJPEGRepresentation(result, scale);
+                                      NSData *imageData = UIImageJPEGRepresentation(result, compressionQuality);
                                       NSString *filePath = [self getPath];
                                       if ([imageData writeToFile: filePath atomically: true]) {
                                         [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
