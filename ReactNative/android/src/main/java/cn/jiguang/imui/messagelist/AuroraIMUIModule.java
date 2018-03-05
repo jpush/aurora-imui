@@ -2,6 +2,8 @@ package cn.jiguang.imui.messagelist;
 
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -210,12 +212,12 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void scaleImage(ReadableMap map, Callback callback) {
+        WritableMap result = Arguments.createMap();
         try {
             String path = map.getString("path");
             int width = map.getInt("width");
             int height = map.getInt("height");
             File file = new File(path);
-            WritableMap result = Arguments.createMap();
             if (file.exists() && file.isFile()) {
                 Bitmap bitmap = BitmapLoader.getBitmapFromFile(path, width, height);
                 String fileName = file.getName();
@@ -230,6 +232,45 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            result.putInt("code", -1);
+            result.putString("error", "Scale error. Should check out log.");
+            callback.invoke(result);
+        }
+    }
+
+    /**
+     * 压缩图片。压缩后格式为 JPG
+     * @param map 需要传入 path, compressionQuality
+     * @param callback 回调包含裁剪后的路径
+     */
+    @ReactMethod
+    public void compressImage(ReadableMap map, Callback callback) {
+        WritableMap result = Arguments.createMap();
+        try {
+            String path = map.getString("path");
+            int quality = map.getInt("compressionQuality") * 100;
+            File file = new File(path);
+            if (file.exists() && file.isFile()) {
+                // TODO AsyncTask Compress image
+                CompressImageAsync task = new CompressImageAsync();
+                Log.d("Aurora", "file getName: " + file.getName());
+                String resultFileName = file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jpg";
+                File resultDir = new File(getReactApplicationContext().getFilesDir() + "/thumbnails/");
+                if (!resultDir.exists()) {
+                    resultDir.mkdirs();
+                }
+                String resultPath = resultDir.getPath() + "/" + resultFileName;
+                Log.e("AuroraIMUIModule", "compress image result path: " + resultPath);
+                task.execute(path, quality + "", resultPath);
+                result.putInt("code", 0);
+                result.putString("thumbPath", resultPath);
+                callback.invoke(result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.putInt("code", -1);
+            result.putString("error", "Scale error. Should check out log.");
+            callback.invoke(result);
         }
     }
 
@@ -254,7 +295,7 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
             imgFile = new File(getReactApplicationContext().getFilesDir() + "/thumbnails/", fileName);
             imgFile.createNewFile();
             fileOutput = new FileOutputStream(imgFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutput);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutput);
             fileOutput.flush();
             filePath = imgFile.getAbsolutePath();
         } catch (FileNotFoundException e) {
