@@ -9,7 +9,7 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.6.0'
+compile 'cn.jiguang.imui:messagelist:0.6.1'
 ```
 
 - Maven
@@ -17,7 +17,7 @@ compile 'cn.jiguang.imui:messagelist:0.6.0'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.6.0</version>
+  <version>0.6.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -136,7 +136,7 @@ ptrLayout.setPtrHandler(new PtrHandler() {
 
 #### 设置 MessageList 自定义属性
 
-基本上所有的属性都支持在 xml 或在代码中设置，用户可自行选择。下面展示一下如何设置是否显示昵称。
+基本上所有的属性都支持在 xml 或在代码中设置，用户可自行选择。所有可以设置的自定义属性可以参考 [attrs.xml](/../../Android/messagelist/src/main/res/values/attrs.xml). 下面展示一下如何设置是否显示昵称。
 
 ```Java
 MessageList messageList = (MessageList) findViewById(R.id.msg_list);
