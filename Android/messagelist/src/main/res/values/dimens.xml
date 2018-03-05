@@ -28,8 +28,10 @@
     <dimen name="aurora_padding_send_text_top">5dp</dimen>
     <dimen name="aurora_padding_send_text_right">15dp</dimen>
     <dimen name="aurora_padding_send_text_bottom">5dp</dimen>
-    <dimen name="aurora_radius_photo_default">5dp</dimen>
     <dimen name="aurora_line_spacing_extra_default">5dp</dimen>
     <dimen name="aurora_event_bg_corner_radius">5dp</dimen>
+    <dimen name="aurora_radius_photo_message">8dp</dimen>
+    <dimen name="aurora_radius_video_message">8dp</dimen>
+    <dimen name="aurora_size_video_message_duration_text">12sp</dimen>
 
 </resources>

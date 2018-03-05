@@ -65,8 +65,11 @@
 
         <attr name="sendPhotoMsgBg" format="reference"/>
         <attr name="receivePhotoMsgBg" format="reference"/>
+        <attr name="photoMessageRadius" format="dimension|reference" />
 
-        <attr name="videomessage_radius" format="dimension|reference"/>
+        <attr name="videoMessageRadius" format="dimension|reference"/>
+        <attr name="videoDurationTextColor" format="color|reference" />
+        <attr name="videoDurationTextSize" format="dimension|reference" />
     </declare-styleable>
 
     <declare-styleable name="PullToRefreshLayout">

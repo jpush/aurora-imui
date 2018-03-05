@@ -32,13 +32,13 @@
             android:layout_toEndOf="@id/aurora_iv_msgitem_avatar"
             android:layout_toRightOf="@id/aurora_iv_msgitem_avatar">
 
-            <cn.jiguang.imui.view.ShapeImageView
+            <cn.jiguang.imui.view.RoundImageView
                 android:id="@+id/aurora_iv_msgitem_cover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                app:videomessage_radius="8dp" />
+                app:videoMessageRadius="8dp" />
 
             <ImageView
                 android:id="@+id/aurora_iv_msgitem_play"
@@ -54,8 +54,8 @@
                 android:layout_gravity="right|bottom"
                 android:layout_marginBottom="4dp"
                 android:layout_marginRight="8dp"
-                android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textColor="@color/aurora_video_message_duration_text_color"
+                android:textSize="@dimen/aurora_size_video_message_duration_text" />
         </FrameLayout>
 
         <ImageButton

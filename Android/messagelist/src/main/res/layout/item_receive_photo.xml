@@ -34,9 +34,8 @@
             android:layout_below="@id/aurora_tv_msgitem_receiver_display_name"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"
-            android:background="@drawable/aurora_bg_imagemsg_default"
             android:src="@drawable/aurora_picture_not_found"
-            app:videomessage_radius="8dp"
+            app:photoMessageRadius="8dp"
             />
 
         <ImageButton

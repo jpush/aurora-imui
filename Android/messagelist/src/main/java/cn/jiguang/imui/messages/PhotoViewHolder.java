@@ -13,6 +13,7 @@ import cn.jiguang.imui.R;
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.view.RoundImageView;
 import cn.jiguang.imui.view.RoundTextView;
+import cn.jiguang.imui.view.ShapeImageView;
 
 public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
@@ -20,7 +21,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private boolean mIsSender;
     private RoundTextView mDateTv;
     private TextView mDisplayNameTv;
-    private ImageView mPhotoIv;
+    private ShapeImageView mPhotoIv;
     private RoundImageView mAvatarIv;
     private ProgressBar mSendingPb;
     private ImageButton mResendIb;
@@ -31,7 +32,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         super(itemView);
         this.mIsSender = isSender;
         mDateTv = (RoundTextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
-        mPhotoIv = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_photo);
+        mPhotoIv = (ShapeImageView) itemView.findViewById(R.id.aurora_iv_msgitem_photo);
         mAvatarIv = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         if (mIsSender) {
             mSendingPb = (ProgressBar) itemView.findViewById(R.id.aurora_pb_msgitem_sending);
@@ -152,6 +153,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             }
             mPhotoIv.setBackground(style.getReceivePhotoMsgBg());
         }
+        mPhotoIv.setBorderRadius(style.getPhotoMessageRadius());
         mDisplayNameTv.setTextSize(style.getDisplayNameTextSize());
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),

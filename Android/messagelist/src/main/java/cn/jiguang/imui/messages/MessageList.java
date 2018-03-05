@@ -256,6 +256,22 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setEventBgCornerRadius(radius);
     }
 
+    public void setVideoDurationTextColor(int color) {
+        mMsgListStyle.setVideoDurationTextColor(color);
+    }
+
+    public void setVideoDurationTextSize(float size) {
+        mMsgListStyle.setVideoDurationTextSize(size);
+    }
+
+    public void setVideoMessageRadius(int radius) {
+        mMsgListStyle.setVideoMessageRadius(radius);
+    }
+
+    public void setPhotoMessageRadius(int radius) {
+        mMsgListStyle.setPhotoMessageRadius(radius);
+    }
+
     @Override
     public boolean onDown(MotionEvent e) {
         return false;

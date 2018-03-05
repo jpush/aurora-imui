@@ -74,6 +74,11 @@ public class MessageListStyle extends Style {
     private int playSendVoiceAnim;
     private int playReceiveVoiceAnim;
 
+    private int videoDurationTextColor;
+    private float videoDurationTextSize;
+    private int videoMessageRadius;
+    private int photoMessageRadius;
+
     // Set bubble's max width, value from 0 to 1. 1 means max width equals with screen width.
     // Default value is 0.8.
     private float bubbleMaxWidth;
@@ -197,6 +202,15 @@ public class MessageListStyle extends Style {
 
         style.sendPhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_sendPhotoMsgBg);
         style.receivePhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_receivePhotoMsgBg);
+        style.videoDurationTextColor = typedArray.getColor(R.styleable.MessageList_videoDurationTextColor,
+                ContextCompat.getColor(context, R.color.aurora_video_message_duration_text_color));
+        int videoDurationTextSize = typedArray.getDimensionPixelSize(R.styleable.MessageList_videoDurationTextSize,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_size_video_message_duration_text));
+        style.videoDurationTextSize = getSPTextSize(context, videoDurationTextSize);
+        style.photoMessageRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_photoMessageRadius,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_radius_photo_message));
+        style.videoMessageRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_videoMessageRadius,
+                context.getResources().getDimensionPixelSize(R.dimen.aurora_radius_video_message));
         style.sendingProgressDrawable = typedArray.getDrawable(R.styleable.MessageList_sendingProgressDrawable);
         style.sendingIndeterminateDrawable = typedArray.getDrawable(R.styleable.MessageList_sendingIndeterminateDrawable);
         typedArray.recycle();
@@ -691,5 +705,37 @@ public class MessageListStyle extends Style {
 
     public int getEventPaddingBottom() {
         return this.eventPaddingBottom;
+    }
+
+    public void setVideoDurationTextColor(int color) {
+        this.videoDurationTextColor = color;
+    }
+
+    public int getVideoDurationTextColor() {
+        return this.videoDurationTextColor;
+    }
+
+    public void setVideoDurationTextSize(float size) {
+        this.videoDurationTextSize = size;
+    }
+
+    public float getVideoDurationTextSize() {
+        return this.videoDurationTextSize;
+    }
+
+    public void setVideoMessageRadius(int radius) {
+        this.videoMessageRadius = radius;
+    }
+
+    public int getVideoMessageRadius() {
+        return this.videoMessageRadius;
+    }
+
+    public void setPhotoMessageRadius(int radius) {
+        this.photoMessageRadius = radius;
+    }
+
+    public int getPhotoMessageRadius() {
+        return this.photoMessageRadius;
     }
 }

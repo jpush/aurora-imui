@@ -153,6 +153,8 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
                 mDisplayNameTv.setVisibility(View.GONE);
             }
         }
+        mTvDuration.setTextColor(style.getVideoDurationTextColor());
+        mTvDuration.setTextSize(style.getVideoDurationTextSize());
         mDisplayNameTv.setTextSize(style.getDisplayNameTextSize());
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),

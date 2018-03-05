@@ -19,5 +19,6 @@
     <color name="aurora_msg_send_bubble_selected_color">#d3d9df</color>
     <color name="aurora_msg_send_text_color">#7587a8</color>
     <color name="aurora_event_msg_bg_color">#cecece</color>
+    <color name="aurora_video_message_duration_text_color">#545454</color>
 
 </resources>
