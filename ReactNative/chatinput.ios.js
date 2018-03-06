@@ -177,6 +177,7 @@ ChatInput.propTypes = {
   onShowKeyboard: PropTypes.func,
   onSizeChange: PropTypes.func,
   galleryScale: PropTypes.number,
+  compressionQuality: PropTypes.number,
   inputPadding: PropTypes.object,
 	inputTextColor: PropTypes.string,
 	inputTextSize: PropTypes.number,

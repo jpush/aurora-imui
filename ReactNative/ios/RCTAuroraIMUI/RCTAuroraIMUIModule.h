@@ -29,5 +29,5 @@
 #define kMessageListDidLoad @"kMessageListDidLoad"
 
 @interface RCTAuroraIMUIModule : NSObject <RCTBridgeModule>
-
++ (NSString *)getPath;
 @end

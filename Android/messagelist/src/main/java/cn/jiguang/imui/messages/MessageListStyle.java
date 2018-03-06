@@ -107,7 +107,7 @@ public class MessageListStyle extends Style {
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_right_date_text));
         style.datePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_datePaddingBottom,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_bottom_date_text));
-        style.dateBgColor = typedArray.getColor(R.styleable.MessageList_dateBgColor,
+        style.dateBgColor = typedArray.getColor(R.styleable.MessageList_dateBackgroundColor,
                 ContextCompat.getColor(context, R.color.aurora_msg_date_bg_color));
         style.dateBgCornerRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_dateCornerRadius,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_size_date_bg_radius));

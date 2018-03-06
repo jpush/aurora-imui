@@ -81,7 +81,13 @@ export default class TestRNIMUI extends Component {
   }
 
   componentDidMount() {
-
+    AuroraIController.compressImage({path: "/storage/emulated/0/DCIM/Camera/IMG_20180305_164154.jpg", compressionQuality: 0.5}, (result) => {
+      console.log(JSON.stringify(result))
+      var message = constructNormalMessage()
+      message.mediaPath = result.thumbPath
+      message.msgType = "image"
+      AuroraIController.appendMessages([message])
+    })
     this.resetMenu()
     AuroraIController.addMessageListDidLoadListener(() => {
       this.getHistoryMessage()

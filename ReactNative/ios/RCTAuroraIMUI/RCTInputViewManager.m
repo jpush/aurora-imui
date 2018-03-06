@@ -11,6 +11,7 @@
 #import "RCTInputView.h"
 #import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
 #import <Photos/Photos.h>
+#import "RCTAuroraIMUIFileManager.h"
 
 @interface RCTInputViewManager : RCTViewManager <IMUIInputViewDelegate>
 
@@ -175,8 +176,8 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
                                  targetSize: CGSizeMake(asset.pixelWidth * scale, asset.pixelHeight * scale)
                                 contentMode: PHImageContentModeAspectFill
                                     options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                      NSData *imageData = UIImageJPEGRepresentation(result, scale);
-                                      NSString *filePath = [self getPath];
+                                      NSData *imageData = UIImagePNGRepresentation(result);
+                                      NSString *filePath = [RCTAuroraIMUIFileManager getPath];
                                       if ([imageData writeToFile: filePath atomically: true]) {
                                         [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
                                       }
@@ -216,7 +217,7 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
   
   if(!_rctInputView.onTakePicture) { return; }
   // TODO: save to file
-  NSString *filePath = [self getPath];
+  NSString *filePath = [RCTAuroraIMUIFileManager getPath];
   
   [picture writeToFile: filePath atomically: false];
   _rctInputView.onTakePicture(@{@"mediaPath": filePath});
@@ -242,14 +243,5 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
   
   if(!_rctInputView.onShowKeyboard) { return; }
   _rctInputView.onShowKeyboard(@{@"keyboard_height": @(height), @"durationTime": @(durationTime)});
-}
-
-- (NSString *)getPath {//"\(NSHomeDirectory())/Documents/"
-  CFUUIDRef udid = CFUUIDCreate(NULL);
-  NSString *udidString = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, udid));
-  
-  NSString *path = [NSString stringWithFormat:@"%@\/Documents\/%@.jpg", NSHomeDirectory(), udidString];
-  return path;
-
 }
 @end
