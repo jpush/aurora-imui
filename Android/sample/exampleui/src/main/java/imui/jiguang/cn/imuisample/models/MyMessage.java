@@ -17,6 +17,7 @@ public class MyMessage implements IMessage {
     private String mediaFilePath;
     private long duration;
     private String progress;
+    private MessageStatus mMsgStatus = MessageStatus.CREATED;
 
     public MyMessage(String text, int type) {
         this.text = text;
@@ -93,9 +94,17 @@ public class MyMessage implements IMessage {
         return type;
     }
 
+    /**
+     * Set Message status. After sending Message, change the status so that the progress bar will dismiss.
+     * @param messageStatus {@link cn.jiguang.imui.commons.models.IMessage.MessageStatus}
+     */
+    public void setMessageStatus(MessageStatus messageStatus) {
+        this.mMsgStatus = messageStatus;
+    }
+
     @Override
     public MessageStatus getMessageStatus() {
-        return MessageStatus.SEND_SUCCEED;
+        return this.mMsgStatus;
     }
 
     @Override

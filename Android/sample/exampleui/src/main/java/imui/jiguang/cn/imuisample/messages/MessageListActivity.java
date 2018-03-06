@@ -113,6 +113,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 MyMessage message = new MyMessage(input.toString(), IMessage.MessageType.SEND_TEXT.ordinal());
                 message.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
                 message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
+                message.setMessageStatus(IMessage.MessageStatus.SEND_GOING);
                 mAdapter.addToStart(message, true);
                 return true;
             }

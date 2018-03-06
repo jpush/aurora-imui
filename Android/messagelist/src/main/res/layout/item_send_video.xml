@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
+            android:text="safds"
             android:textAlignment="textEnd"
             style="@style/aurora_msgitem_sender_display_name_style"
             android:layout_toLeftOf="@+id/aurora_iv_msgitem_avatar"
@@ -84,6 +85,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
             android:layout_toLeftOf="@id/aurora_fl_msgitem_video_container"
+            android:layout_alignTop="@+id/aurora_fl_msgitem_video_container"
+            android:layout_alignBottom="@+id/aurora_fl_msgitem_video_container"
             android:visibility="visible"/>
 
     </RelativeLayout>

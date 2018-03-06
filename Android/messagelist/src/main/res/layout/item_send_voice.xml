@@ -83,6 +83,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
             android:layout_toLeftOf="@id/aurora_fl_msgitem_voice_container"
+            android:layout_alignTop="@+id/aurora_fl_msgitem_voice_container"
+            android:layout_alignBottom="@+id/aurora_fl_msgitem_voice_container"
             android:visibility="visible"/>
 
     </RelativeLayout>

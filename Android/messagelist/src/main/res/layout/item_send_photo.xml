@@ -33,6 +33,8 @@
             android:layout_toLeftOf="@id/aurora_iv_msgitem_photo"
             android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
+            android:layout_alignTop="@+id/aurora_iv_msgitem_photo"
+            android:layout_alignBottom="@+id/aurora_iv_msgitem_photo"
             android:visibility="visible"/>
 
         <TextView
