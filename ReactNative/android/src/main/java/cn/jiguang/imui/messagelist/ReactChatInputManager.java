@@ -1,6 +1,7 @@
 package cn.jiguang.imui.messagelist;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -188,14 +189,20 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 }
                 WritableMap event = Arguments.createMap();
                 WritableArray array = new WritableNativeArray();
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
                 for (FileItem fileItem : list) {
                     WritableMap map = new WritableNativeMap();
                     if (fileItem.getType().ordinal() == 0) {
                         map.putString("mediaType", "image");
+                        BitmapFactory.decodeFile(fileItem.getFilePath(), options);
+                        map.putInt("width", options.outWidth);
+                        map.putInt("height", options.outHeight);
                     } else {
                         map.putString("mediaType", "video");
                         map.putInt("duration", (int) ((VideoItem) fileItem).getDuration());
                     }
+                    map.putDouble("size", fileItem.getLongFileSize());
                     map.putString("mediaPath", fileItem.getFilePath());
                     array.pushMap(map);
                 }
@@ -241,6 +248,13 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             public void onTakePictureCompleted(String photoPath) {
                 WritableMap event = Arguments.createMap();
                 event.putString("mediaPath", photoPath);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(photoPath, options);
+                event.putInt("width", options.outWidth);
+                event.putInt("height", options.outHeight);
+                File file = new File(photoPath);
+                event.putDouble("size", file.length());
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         TAKE_PICTURE_EVENT, event);
             }
