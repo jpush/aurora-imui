@@ -33,6 +33,8 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/aurora_tv_msgitem_message"
             android:layout_marginRight="3dp"
+            android:layout_alignTop="@+id/aurora_tv_msgitem_message"
+            android:layout_alignBottom="@+id/aurora_tv_msgitem_message"
             android:visibility="visible"/>
 
         <TextView
@@ -56,7 +58,7 @@
             android:layout_marginRight="3dp"
             android:background="@drawable/aurora_sendtxt_bubble"
             android:paddingRight="20dp"
-            android:text="sfada"/>
+            android:text="asdf"/>
 
         <cn.jiguang.imui.view.RoundImageView
             android:id="@+id/aurora_iv_msgitem_avatar"
