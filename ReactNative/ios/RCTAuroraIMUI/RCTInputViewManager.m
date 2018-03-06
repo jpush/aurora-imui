@@ -172,6 +172,7 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
           options.networkAccessAllowed = YES;
           PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
           
+          
           [imageManage requestImageForAsset: asset
                                  targetSize: CGSizeMake(asset.pixelWidth * scale, asset.pixelHeight * scale)
                                 contentMode: PHImageContentModeAspectFill
@@ -179,7 +180,14 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
                                       NSData *imageData = UIImagePNGRepresentation(result);
                                       NSString *filePath = [RCTAuroraIMUIFileManager getPath];
                                       if ([imageData writeToFile: filePath atomically: true]) {
-                                        [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
+                                        int fileSize = [RCTAuroraIMUIFileManager getFileSize: filePath];
+                                        
+                                        [imagePathArr addObject: @{@"mediaPath": filePath,
+                                                                   @"mediaType": @"image",
+                                                                   @"size": @(fileSize),
+                                                                   @"width": @(result.size.width),
+                                                                   @"height": @(result.size.height),
+                                                                   }];
                                       }
                                     }];
           break;
@@ -191,7 +199,9 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
     }
     
     dispatch_async(dispatch_get_main_queue(), ^(void){
-      _rctInputView.onSendGalleryFiles(@{@"mediaFiles": imagePathArr});
+      _rctInputView.onSendGalleryFiles(@{@"mediaFiles": imagePathArr,
+                                         
+                                         });
     });
   });
 }
@@ -218,9 +228,15 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
   if(!_rctInputView.onTakePicture) { return; }
   // TODO: save to file
   NSString *filePath = [RCTAuroraIMUIFileManager getPath];
-  
+  UIImage *image = [UIImage imageWithData:picture];
   [picture writeToFile: filePath atomically: false];
-  _rctInputView.onTakePicture(@{@"mediaPath": filePath});
+  int size = (int)picture.length/1024.0f/1024.0f;
+  NSNumber *sizeNumber = @(size);
+  _rctInputView.onTakePicture(@{@"mediaPath": filePath,
+                                @"size": sizeNumber,
+                                @"width": @(image.size.width),
+                                @"height": @(image.size.height)
+                                });
 }
 
 /// Tells the delegate when starting record video

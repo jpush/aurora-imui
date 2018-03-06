@@ -7,7 +7,7 @@
 //
 
 #import "RCTAuroraIMUIFileManager.h"
-
+#import <UIKit/UIKit.h>
 @implementation RCTAuroraIMUIFileManager
 + (NSString *)getPath {//"\(NSHomeDirectory())/Documents/RCTAuroraIMUI"
   
@@ -34,4 +34,14 @@
     NSLog(@"Create directory error: %@", error);
   }
 }
+
++ (int)getFileSize:(NSString *)path {
+  if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+    return 0;
+  }
+  NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath: path error: NULL];
+  int result = (int)[attrs fileSize];
+  return result;
+}
+
 @end
