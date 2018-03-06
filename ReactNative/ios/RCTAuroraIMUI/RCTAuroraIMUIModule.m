@@ -8,6 +8,7 @@
 
 #import "RCTAuroraIMUIModule.h"
 #import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
+#import "RCTAuroraIMUIFileManager.h"
 
 @interface RCTAuroraIMUIModule () {
 }
@@ -35,6 +36,7 @@ RCT_EXPORT_MODULE();
                                            selector:@selector(messageDidLoad:)
                                                name:kMessageListDidLoad object:nil];
   self = [super init];
+  [RCTAuroraIMUIFileManager createDirectory:@"RCTAuroraIMUI" atFilePath:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]];
   return self;
 }
 
@@ -97,7 +99,7 @@ RCT_EXPORT_METHOD(scaleImage:(NSDictionary *)dic
   UIGraphicsEndImageContext();
   
   NSData *imageData = UIImageJPEGRepresentation(scaledImg, 1);
-  NSString *filePath = [self getPath];
+  NSString *filePath = [RCTAuroraIMUIFileManager getPath];
   if ([imageData writeToFile: filePath atomically: true]) {
     callback(@[@{@"code": @(0),
                  @"thumbPath": filePath
@@ -108,7 +110,7 @@ RCT_EXPORT_METHOD(scaleImage:(NSDictionary *)dic
                  }]);
   }
 }
-
+// only return jpeg
 RCT_EXPORT_METHOD(compressImage:(NSDictionary *)dic
                   callback:(RCTResponseSenderBlock)callback) {
   if (![[NSFileManager defaultManager] fileExistsAtPath:dic[@"path"] ?: @""]) {
@@ -120,9 +122,9 @@ RCT_EXPORT_METHOD(compressImage:(NSDictionary *)dic
   
   UIImage *img = [UIImage imageWithContentsOfFile:dic[@"path"]];
   NSNumber *compressionQuality = dic[@"compressionQuality"] ?: @(1);
-  NSData *imageData = UIImageJPEGRepresentation(img, compressionQuality.floatValue);
+  NSData *imageData = UIImageJPEGRepresentation(img, compressionQuality.floatValue);;
+  NSString *filePath = [RCTAuroraIMUIFileManager getPath];
   
-  NSString *filePath = [self getPath];
   if ([imageData writeToFile: filePath atomically: true]) {
     callback(@[@{@"code": @(0),
                  @"thumbPath": filePath
@@ -132,14 +134,6 @@ RCT_EXPORT_METHOD(compressImage:(NSDictionary *)dic
                  @"description": @"File could not be writed."
                  }]);
   }
-}
-
-- (NSString *)getPath {//"\(NSHomeDirectory())/Documents/"
-  CFUUIDRef udid = CFUUIDCreate(NULL);
-  NSString *udidString = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, udid));
-  
-  NSString *path = [NSString stringWithFormat:@"%@\/Documents\/%@.jpg", NSHomeDirectory(), udidString];
-  return path;
 }
 
 @end

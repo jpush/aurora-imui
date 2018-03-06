@@ -107,6 +107,8 @@
 		626BCE202001F5C4006F7C15 /* IMUIImageMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626BCDD62001F5C4006F7C15 /* IMUIImageMessageContentView.swift */; };
 		626BCE212001F5C4006F7C15 /* IMUIAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 626BCDD82001F5C4006F7C15 /* IMUIAssets.bundle */; };
 		6298E7F21FB40D3400E53CAF /* IMUICustomMessageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6298E7F11FB40D3400E53CAF /* IMUICustomMessageContentView.swift */; };
+		62B0CB35204E41C100D87F94 /* RCTAuroraIMUIFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B0CB33204E41C100D87F94 /* RCTAuroraIMUIFileManager.m */; };
+		62B0CB36204E41C100D87F94 /* RCTAuroraIMUIFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 62B0CB34204E41C100D87F94 /* RCTAuroraIMUIFileManager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,6 +241,8 @@
 		626BCDD62001F5C4006F7C15 /* IMUIImageMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUIImageMessageContentView.swift; sourceTree = "<group>"; };
 		626BCDD82001F5C4006F7C15 /* IMUIAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IMUIAssets.bundle; sourceTree = "<group>"; };
 		6298E7F11FB40D3400E53CAF /* IMUICustomMessageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUICustomMessageContentView.swift; sourceTree = "<group>"; };
+		62B0CB33204E41C100D87F94 /* RCTAuroraIMUIFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTAuroraIMUIFileManager.m; sourceTree = "<group>"; };
+		62B0CB34204E41C100D87F94 /* RCTAuroraIMUIFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTAuroraIMUIFileManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +283,8 @@
 				623EA9731EE55CB200EC43AE /* MyMessageModel.swift */,
 				623EA9741EE55CB200EC43AE /* MyUser.swift */,
 				623EA9751EE55CB200EC43AE /* RCTSwiftBridgeModule.h */,
+				62B0CB34204E41C100D87F94 /* RCTAuroraIMUIFileManager.h */,
+				62B0CB33204E41C100D87F94 /* RCTAuroraIMUIFileManager.m */,
 				623EA9761EE55CB200EC43AE /* RCTAuroraIMUIModule.h */,
 				623EA9771EE55CB200EC43AE /* RCTAuroraIMUIModule.m */,
 				623EA9781EE55CB200EC43AE /* RCTAuroraIMUI-Bridging-Header.h */,
@@ -561,6 +567,7 @@
 			files = (
 				626BCE042001F5C4006F7C15 /* IMUI.h in Headers */,
 				623EA9A91EE55D0800EC43AE /* RCTAuroraIMUI.h in Headers */,
+				62B0CB36204E41C100D87F94 /* RCTAuroraIMUIFileManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,6 +774,7 @@
 				624B829A1EE5710E006C3C03 /* RCTMessageListView.h in Sources */,
 				626BCE072001F5C4006F7C15 /* IMUIMessageCellLayout.swift in Sources */,
 				626BCDE12001F5C4006F7C15 /* IMUICameraCell.swift in Sources */,
+				62B0CB35204E41C100D87F94 /* RCTAuroraIMUIFileManager.m in Sources */,
 				626BCDE52001F5C4006F7C15 /* IMUIGalleryContainerCell.swift in Sources */,
 				626BCE132001F5C4006F7C15 /* IMUIChatDataManager.swift in Sources */,
 				624F23A01F039DBF00D11E4E /* MessageEventModel.swift in Sources */,
