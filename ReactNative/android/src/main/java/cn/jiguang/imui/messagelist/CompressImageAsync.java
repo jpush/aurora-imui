@@ -48,7 +48,7 @@ public class CompressImageAsync extends AsyncTask<String, Void, String> {
             bitmap.compress(format, quality, fileOutput);
             fileOutput.flush();
             outputPath = imgFile.getAbsolutePath();
-        } catch (IOException  e) {
+        } catch (IOException e) {
             e.printStackTrace();
             outputPath = null;
             map.putInt("code", -1);

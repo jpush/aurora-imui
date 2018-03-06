@@ -251,7 +251,6 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
             double quality =  100 * map.getDouble("compressionQuality");
             File file = new File(path);
             if (file.exists() && file.isFile()) {
-                // TODO AsyncTask Compress image
                 CompressImageAsync task = new CompressImageAsync(callback);
                 String fileSuffix = file.getName().substring(file.getName().lastIndexOf(".") + 1);
                 File resultDir = new File(getReactApplicationContext().getFilesDir() + "/thumbnails/");
