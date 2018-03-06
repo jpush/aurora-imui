@@ -11,6 +11,7 @@
 #import "RCTInputView.h"
 #import <RCTAuroraIMUI/RCTAuroraIMUI-Swift.h>
 #import <Photos/Photos.h>
+#import "RCTAuroraIMUIFileManager.h"
 
 @interface RCTInputViewManager : RCTViewManager <IMUIInputViewDelegate>
 
@@ -91,14 +92,9 @@ RCT_CUSTOM_VIEW_PROPERTY(inputTextLineHeight, NSNumber, RCTInputView) {
   _rctInputView.imuiIntputView.inputTextViewLineHeight = height.floatValue;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSNumber, RCTInputView) {
+RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
   NSNumber *galleryScale = [RCTConvert NSNumber: json];
   _rctInputView.galleryScale = galleryScale;
-}
-
-RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
-  NSNumber *compressionQuality = [RCTConvert NSNumber: json];
-  _rctInputView.compressionQuality = compressionQuality;
 }
 
 /// Tells the delegate that user tap send button and text input string is not empty
@@ -161,11 +157,8 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 /// Tells the delegate that user did selected Photo in gallery
 - (void)didSeletedGalleryWithAssetArr:(NSArray<PHAsset *> * _Nonnull)AssetArr {
   dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-    NSNumber *scaleNumber = _rctInputView.galleryScale?:@(1);
+    NSNumber *scaleNumber = _rctInputView.galleryScale?:@(0.5);
     CGFloat scale = scaleNumber.floatValue;
-    
-    NSNumber *compressionQualityNumber = _rctInputView.compressionQuality?:@(0.5);
-    CGFloat compressionQuality = compressionQualityNumber.floatValue;
     
     if(!_rctInputView.onSendGalleryFiles) { return; }
     __block NSMutableArray *imagePathArr = @[].mutableCopy;
@@ -183,8 +176,8 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
                                  targetSize: CGSizeMake(asset.pixelWidth * scale, asset.pixelHeight * scale)
                                 contentMode: PHImageContentModeAspectFill
                                     options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                      NSData *imageData = UIImageJPEGRepresentation(result, compressionQuality);
-                                      NSString *filePath = [self getPath];
+                                      NSData *imageData = UIImagePNGRepresentation(result);
+                                      NSString *filePath = [RCTAuroraIMUIFileManager getPath];
                                       if ([imageData writeToFile: filePath atomically: true]) {
                                         [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
                                       }
@@ -224,7 +217,7 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
   
   if(!_rctInputView.onTakePicture) { return; }
   // TODO: save to file
-  NSString *filePath = [self getPath];
+  NSString *filePath = [RCTAuroraIMUIFileManager getPath];
   
   [picture writeToFile: filePath atomically: false];
   _rctInputView.onTakePicture(@{@"mediaPath": filePath});
@@ -250,14 +243,5 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
   
   if(!_rctInputView.onShowKeyboard) { return; }
   _rctInputView.onShowKeyboard(@{@"keyboard_height": @(height), @"durationTime": @(durationTime)});
-}
-
-- (NSString *)getPath {//"\(NSHomeDirectory())/Documents/"
-  CFUUIDRef udid = CFUUIDCreate(NULL);
-  NSString *udidString = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, udid));
-  
-  NSString *path = [NSString stringWithFormat:@"%@\/Documents\/%@.jpg", NSHomeDirectory(), udidString];
-  return path;
-
 }
 @end
