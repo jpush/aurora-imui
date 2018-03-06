@@ -62,7 +62,7 @@ export default class ChatInput extends Component {
 		if (!this.props.onTakePicture) {
 			return;
 		}
-		this.props.onTakePicture(event.nativeEvent.mediaPath);
+		this.props.onTakePicture(event.nativeEvent);
 	}
 
 	_startVideoRecord() {

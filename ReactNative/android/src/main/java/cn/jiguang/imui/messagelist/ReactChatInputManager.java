@@ -272,6 +272,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 MediaPlayer mediaPlayer = MediaPlayer.create(reactContext, Uri.parse(videoPath));
                 int duration = mediaPlayer.getDuration() / 1000;    // Millisecond to second.
                 mediaPlayer.release();
+                File file = new File(videoPath);
+                event.putDouble("size", file.length());
                 event.putInt("duration", duration);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         FINISH_RECORD_VIDEO_EVENT, event);

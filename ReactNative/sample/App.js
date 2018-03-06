@@ -245,10 +245,10 @@ export default class TestRNIMUI extends Component {
   }
 
   onTakePicture = (media) => {
-
+    console.log("media " + JSON.stringify(media))
     var message = constructNormalMessage()
     message.msgType = 'image'
-    message.mediaPath = mediaPath.mediaPath
+    message.mediaPath = media.mediaPath
     AuroraIController.appendMessages([message])
     this.resetMenu()
     AuroraIController.scrollToBottom(true)

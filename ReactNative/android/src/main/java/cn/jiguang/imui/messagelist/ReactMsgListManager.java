@@ -403,7 +403,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
 
     @ReactProp(name = "avatarCornerRadius")
     public void setAvatarCornerRadius(PullToRefreshLayout root, int radius) {
-        mMessageList.setAvatarRadius(radius);
+        mMessageList.setAvatarRadius(dip2px(radius));
     }
 
     /**
