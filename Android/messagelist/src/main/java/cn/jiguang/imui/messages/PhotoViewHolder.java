@@ -47,6 +47,8 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     public void onBind(final MESSAGE message) {
         if (message.getTimeString() != null) {
             mDateTv.setText(message.getTimeString());
+        } else {
+            mDateTv.setVisibility(View.GONE);
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();
