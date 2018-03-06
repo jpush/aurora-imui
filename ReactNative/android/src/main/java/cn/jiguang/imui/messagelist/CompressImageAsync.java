@@ -9,9 +9,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.WritableMap;
+
 
 public class CompressImageAsync extends AsyncTask<String, Void, String> {
 
+    private Callback mCallback;
+
+    public CompressImageAsync(Callback callback) {
+        this.mCallback = callback;
+    }
 
 
     @Override
@@ -24,6 +33,7 @@ public class CompressImageAsync extends AsyncTask<String, Void, String> {
         String outputPath = params[2];
         FileOutputStream fileOutput = null;
         File imgFile;
+        WritableMap map = Arguments.createMap();
         try {
             imgFile = new File(outputPath);
             imgFile.createNewFile();
@@ -38,12 +48,12 @@ public class CompressImageAsync extends AsyncTask<String, Void, String> {
             bitmap.compress(format, quality, fileOutput);
             fileOutput.flush();
             outputPath = imgFile.getAbsolutePath();
-        } catch (FileNotFoundException e) {
+        } catch (IOException  e) {
             e.printStackTrace();
             outputPath = null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            outputPath = null;
+            map.putInt("code", -1);
+            map.putString("error", "compress error, should look at logcat.");
+            mCallback.invoke(map);
         } finally {
             if (null != fileOutput) {
                 try {
@@ -56,4 +66,11 @@ public class CompressImageAsync extends AsyncTask<String, Void, String> {
         return outputPath;
     }
 
+    @Override
+    protected void onPostExecute(String outputPath) {
+        WritableMap map = Arguments.createMap();
+        map.putInt("code", 0);
+        map.putString("thumbPath", outputPath);
+        mCallback.invoke(map);
+    }
 }

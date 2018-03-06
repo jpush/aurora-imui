@@ -252,18 +252,15 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
             File file = new File(path);
             if (file.exists() && file.isFile()) {
                 // TODO AsyncTask Compress image
-                CompressImageAsync task = new CompressImageAsync();
+                CompressImageAsync task = new CompressImageAsync(callback);
                 String fileSuffix = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-                File resultDir = new File(Environment.getExternalStorageDirectory() + "/thumbnails/");
+                File resultDir = new File(getReactApplicationContext().getFilesDir() + "/thumbnails/");
                 if (!resultDir.exists()) {
                     resultDir.mkdirs();
                 }
                 String resultPath = resultDir.getPath() + "/" + file.getName();
                 Log.d("AuroraIMUIModule", "compress image result path: " + resultPath);
                 task.execute(path, (int) quality + "", resultPath, fileSuffix);
-                result.putInt("code", 0);
-                result.putString("thumbPath", resultPath);
-                callback.invoke(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
