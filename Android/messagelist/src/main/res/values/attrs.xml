@@ -11,7 +11,7 @@
         <attr name="datePaddingTop" format="dimension|reference" />
         <attr name="datePaddingRight" format="dimension|reference" />
         <attr name="datePaddingBottom" format="dimension|reference" />
-        <attr name="dateBgColor" format="color|reference" />
+        <attr name="dateBackgroundColor" format="color|reference" />
         <attr name="dateCornerRadius" format="dimension|reference" />
         <attr name="eventTextSize" format="dimension|reference" />
         <attr name="eventTextColor" format="color|reference" />
