@@ -53,6 +53,8 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
     public void onBind(final Message message) {
         if (message.getTimeString() != null) {
             mTextDate.setText(message.getTimeString());
+        } else {
+            mTextDate.setVisibility(View.GONE);
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();
