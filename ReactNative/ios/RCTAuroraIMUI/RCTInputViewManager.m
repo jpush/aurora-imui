@@ -228,9 +228,11 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
   if(!_rctInputView.onTakePicture) { return; }
   // TODO: save to file
   NSString *filePath = [RCTAuroraIMUIFileManager getPath];
+  
+  [picture writeToFile: filePath atomically: true];
+  
   UIImage *image = [UIImage imageWithData:picture];
-  [picture writeToFile: filePath atomically: false];
-  int size = (int)picture.length/1024.0f/1024.0f;
+  int size = (int)picture.length;
   NSNumber *sizeNumber = @(size);
   _rctInputView.onTakePicture(@{@"mediaPath": filePath,
                                 @"size": sizeNumber,
