@@ -279,7 +279,6 @@ export default class TestRNIMUI extends Component {
 
   onFinishRecordVideo = (video) => {
     var message = constructNormalMessage()
-
     message.msgType = "video"
     message.mediaPath = video.mediaPath
     message.duration = video.duration
@@ -298,6 +297,7 @@ export default class TestRNIMUI extends Component {
      * 
      * 代码用例不做裁剪操作。
      */
+    Alert.alert('fas',JSON.stringify(mediaFiles))
     for (index in mediaFiles) {
       var message = constructNormalMessage()
       if (mediaFiles[index].mediaType == "image") {
@@ -437,6 +437,7 @@ export default class TestRNIMUI extends Component {
           showSelectAlbumBtn={true}
           onClickSelectAlbum={this.onClickSelectAlbum}
           galleryScale={0.6}//default = 0.5
+          compressionQuality={0.6}
         />
       </View>
     );

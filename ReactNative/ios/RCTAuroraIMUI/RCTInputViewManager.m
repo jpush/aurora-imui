@@ -92,10 +92,16 @@ RCT_CUSTOM_VIEW_PROPERTY(inputTextLineHeight, NSNumber, RCTInputView) {
   _rctInputView.imuiIntputView.inputTextViewLineHeight = height.floatValue;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
+RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSNumber, RCTInputView) {
   NSNumber *galleryScale = [RCTConvert NSNumber: json];
   _rctInputView.galleryScale = galleryScale;
 }
+
+RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
+  NSNumber *compressionQuality = [RCTConvert NSNumber: json];
+  _rctInputView.compressionQuality = compressionQuality;
+}
+
 
 /// Tells the delegate that user tap send button and text input string is not empty
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {
@@ -171,13 +177,13 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
           options.synchronous  = YES;
           options.networkAccessAllowed = YES;
           PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
-          
+          CGFloat compressionQuality = _rctInputView.compressionQuality.floatValue;
           
           [imageManage requestImageForAsset: asset
                                  targetSize: CGSizeMake(asset.pixelWidth * scale, asset.pixelHeight * scale)
                                 contentMode: PHImageContentModeAspectFill
                                     options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                      NSData *imageData = UIImagePNGRepresentation(result);
+                                      NSData *imageData = UIImageJPEGRepresentation(result, compressionQuality);
                                       NSString *filePath = [RCTAuroraIMUIFileManager getPath];
                                       if ([imageData writeToFile: filePath atomically: true]) {
                                         int fileSize = [RCTAuroraIMUIFileManager getFileSize: filePath];
