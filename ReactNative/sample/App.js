@@ -232,7 +232,10 @@ export default class TestRNIMUI extends Component {
       AuroraIController.insertMessagesToTop([message])
     }
     AuroraIController.insertMessagesToTop(messages)
-    this.refs["MessageList"].refreshComplete()
+    if (Platform.OS === 'android') {
+      this.refs["MessageList"].refreshComplete()
+    }
+    
   }
 
   onSendText = (text) => {
@@ -412,6 +415,7 @@ export default class TestRNIMUI extends Component {
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
           datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
           dateBackgroundColor={"#39ef23"}
+          isAllowPullToRefresh={true}
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"
