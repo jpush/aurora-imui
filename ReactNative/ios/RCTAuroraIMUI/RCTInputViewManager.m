@@ -249,9 +249,12 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
 
 /// Tells the delegate when user did shoot video in camera mode
 - (void)finishRecordVideoWithVideoPath:(NSString * _Nonnull)videoPath durationTime:(double)durationTime {
-  
+  int size = [RCTAuroraIMUIFileManager getFileSize:videoPath];
   if(!_rctInputView.onFinishRecordVideo) { return; }
-  _rctInputView.onFinishRecordVideo(@{@"mediaPath": videoPath, @"durationTime": @(durationTime)});
+  _rctInputView.onFinishRecordVideo(@{@"mediaPath": videoPath,
+                                      @"durationTime": @(durationTime),
+                                      @"size": @(size)
+                                      });
 }
 
 - (void)keyBoardWillShowWithHeight:(CGFloat)height durationTime:(double)durationTime {
