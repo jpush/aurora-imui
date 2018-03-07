@@ -178,13 +178,13 @@ import UIKit
   
   open var timeLabelFrame: CGRect {
     if self.isNeedShowTime {
-      let timeWidth = IMUIMessageCellLayout.timeLabelPadding.left +
+      let timeWidth = (IMUIMessageCellLayout.timeLabelPadding.left +
       timeLabelContentSize.width +
-      IMUIMessageCellLayout.timeLabelPadding.right
+      IMUIMessageCellLayout.timeLabelPadding.right + 0.5).rounded()
       
-      let timeHeight = IMUIMessageCellLayout.timeLabelPadding.top +
+      let timeHeight = (IMUIMessageCellLayout.timeLabelPadding.top +
       timeLabelContentSize.height +
-      IMUIMessageCellLayout.timeLabelPadding.bottom
+      IMUIMessageCellLayout.timeLabelPadding.bottom + 0.5).rounded()
       
       let timeX = (IMUIMessageCellLayout.cellWidth - timeWidth)/2
       
