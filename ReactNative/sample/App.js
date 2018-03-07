@@ -277,12 +277,12 @@ export default class TestRNIMUI extends Component {
     console.log("on start record video")
   }
 
-  onFinishRecordVideo = (mediaPath, duration) => {
+  onFinishRecordVideo = (video) => {
     var message = constructNormalMessage()
 
     message.msgType = "video"
-    message.mediaPath = mediaPath
-    message.duration = duration
+    message.mediaPath = video.mediaPath
+    message.duration = video.duration
     AuroraIController.appendMessages([message])
   }
 

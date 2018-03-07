@@ -302,6 +302,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 WritableMap event = Arguments.createMap();
                 event.putString("mediaPath", voiceFile.getAbsolutePath());
                 event.putInt("duration", duration);
+                event.putDouble("size", voiceFile.length());
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         FINISH_RECORD_VOICE_EVENT, event);
             }
