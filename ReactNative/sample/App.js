@@ -44,7 +44,7 @@ function constructNormalMessage() {
     displayName: "replace your nickname",
     avatarPath: "images"
   }
-  
+
   if (Platform.OS === "ios") {
     user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
   }
@@ -403,7 +403,7 @@ export default class TestRNIMUI extends Component {
         </View>
         <MessageListView style={this.state.messageListLayout}
           ref="MessageList"
-          isAllowPullToRefresh={false}
+          isAllowPullToRefresh={true}
           onAvatarClick={this.onAvatarClick}
           onMsgClick={this.onMsgClick}
           onStatusViewClick={this.onStatusViewClick}
@@ -419,7 +419,6 @@ export default class TestRNIMUI extends Component {
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
           datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
           dateBackgroundColor={"#39ef23"}
-          isAllowPullToRefresh={true}
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"
