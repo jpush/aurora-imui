@@ -3,6 +3,7 @@ package cn.jiguang.imui.messages;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,7 +23,7 @@ import cn.jiguang.imui.view.RoundTextView;
 public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHolder<Message>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
-    private final RoundTextView mTextDate;
+    private final RoundTextView mDateTv;
     private final RoundImageView mImageAvatar;
     private TextView mDisplayNameTv;
     private final ImageView mImageCover;
@@ -35,7 +36,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
     public VideoViewHolder(View itemView, boolean isSender) {
         super(itemView);
         this.mIsSender = isSender;
-        mTextDate = (RoundTextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mDateTv = (RoundTextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
         mImageAvatar = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         mImageCover = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_cover);
         mImagePlay = (ImageView) itemView.findViewById(R.id.aurora_iv_msgitem_play);
@@ -51,10 +52,11 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
 
     @Override
     public void onBind(final Message message) {
-        if (message.getTimeString() != null) {
-            mTextDate.setText(message.getTimeString());
+        String timeString = message.getTimeString();
+        if (timeString != null && !TextUtils.isEmpty(timeString)) {
+            mDateTv.setText(timeString);
         } else {
-            mTextDate.setVisibility(View.GONE);
+            mDateTv.setVisibility(View.GONE);
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();
@@ -130,12 +132,12 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
 
     @Override
     public void applyStyle(MessageListStyle style) {
-        mTextDate.setTextSize(style.getDateTextSize());
-        mTextDate.setTextColor(style.getDateTextColor());
-        mTextDate.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(),
+        mDateTv.setTextSize(style.getDateTextSize());
+        mDateTv.setTextColor(style.getDateTextColor());
+        mDateTv.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(),
                 style.getDatePaddingRight(), style.getDatePaddingBottom());
-        mTextDate.setBgCornerRadius(style.getDateBgCornerRadius());
-        mTextDate.setBgColor(style.getDateBgColor());
+        mDateTv.setBgCornerRadius(style.getDateBgCornerRadius());
+        mDateTv.setBgColor(style.getDateBgColor());
         if (mIsSender) {
             if (style.getSendingProgressDrawable() != null) {
                 mSendingPb.setProgressDrawable(style.getSendingProgressDrawable());

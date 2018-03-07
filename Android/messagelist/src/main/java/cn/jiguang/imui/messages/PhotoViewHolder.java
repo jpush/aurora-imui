@@ -1,6 +1,7 @@
 package cn.jiguang.imui.messages;
 
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -45,8 +46,9 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
 
     @Override
     public void onBind(final MESSAGE message) {
-        if (message.getTimeString() != null) {
-            mDateTv.setText(message.getTimeString());
+        String timeString = message.getTimeString();
+        if (timeString != null && !TextUtils.isEmpty(timeString)) {
+            mDateTv.setText(timeString);
         } else {
             mDateTv.setVisibility(View.GONE);
         }

@@ -3,6 +3,7 @@ package cn.jiguang.imui.messages;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -71,8 +72,9 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 return false;
             }
         });
-        if (message.getTimeString() != null) {
-            mDateTv.setText(message.getTimeString());
+        String timeString = message.getTimeString();
+        if (timeString != null && !TextUtils.isEmpty(timeString)) {
+            mDateTv.setText(timeString);
         } else {
             mDateTv.setVisibility(View.GONE);
         }
