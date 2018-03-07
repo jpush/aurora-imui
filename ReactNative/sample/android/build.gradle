@@ -20,6 +20,7 @@ allprojects {
             url "$rootDir/../node_modules/react-native/android"
         }
         maven { url "https://jitpack.io" }
+        google()
     }
     tasks.withType(Javadoc) {
         options.addStringOption('Xdoclint:none', '-quiet')

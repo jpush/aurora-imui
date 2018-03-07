@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
@@ -153,7 +154,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 } else {
                     Glide.with(reactContext)
                             .load(string)
-                            .placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default"))
+                            .apply(new RequestOptions().placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default")))
                             .into(avatarImageView);
                 }
             }
@@ -163,9 +164,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 // You can use other image load libraries.
                 Glide.with(reactContext)
                         .load(string)
-                        .fitCenter()
-                        .placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found"))
-                        .override(400, Target.SIZE_ORIGINAL)
+                        .apply(new RequestOptions().fitCenter().placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")).override(400, Target.SIZE_ORIGINAL))
                         .into(imageView);
             }
         };
@@ -270,7 +269,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 Log.d("RCTMessageListManager", "updating message, message: " + rctMessage);
                 if (activity != null) {
                     mAdapter.updateMessage(rctMessage.getMsgId(), rctMessage);
-                    mMessageList.smoothScrollToPosition(0);
+                    mMessageList.smoothScrollBy(0, 1);
                 }
                 break;
             case RCT_INSERT_MESSAGES_ACTION:

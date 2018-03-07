@@ -12,6 +12,7 @@ buildscript {
         maven {
             url 'https://dl.google.com/dl/android/maven2/'
         }
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -25,6 +26,7 @@ allprojects {
         mavenCentral()
         jcenter()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        google()
     }
     tasks.withType(Javadoc) {
         options.addStringOption('Xdoclint:none', '-quiet')
