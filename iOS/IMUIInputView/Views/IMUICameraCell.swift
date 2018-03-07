@@ -29,7 +29,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   
   @IBOutlet weak var cameraView: IMUICameraView!
   
-  open var cameraVC = UIViewController() // use to present full size mode viewcontroller
+  open var cameraVC = IMUIHidenStatusViewController() // use to present full size mode viewcontroller
   var isFullScreenMode = false
   var isActivity = true
   var featureDelegate: IMUIFeatureViewDelegate?
