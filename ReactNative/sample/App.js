@@ -44,7 +44,11 @@ function constructNormalMessage() {
     displayName: "replace your nickname",
     avatarPath: "images"
   }
-  // user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
+  
+  if (Platform.OS === "ios") {
+    user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
+  }
+  
   message.fromUser = user
 
   return message
