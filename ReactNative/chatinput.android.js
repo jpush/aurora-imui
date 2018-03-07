@@ -55,7 +55,7 @@ export default class ChatInput extends Component {
 		if (!this.props.onSendGalleryFiles) {
 			return;
 		}
-		this.props.onSendGalleryFiles(event.nativeEvent);
+		this.props.onSendGalleryFiles(event.nativeEvent.mediaFiles);
 	}
 
 	_takePicture(event: Event) {

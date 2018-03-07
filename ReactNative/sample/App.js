@@ -37,7 +37,8 @@ function constructNormalMessage() {
   themsgid += 1
   message.status = "send_going"
   message.isOutgoing = true
-  message.timeString = ""
+  var date = new Date()
+  message.timeString = date.getHours() + ":" + date.getMinutes()
   var user = {
     userId: "",
     displayName: "replace your nickname",
