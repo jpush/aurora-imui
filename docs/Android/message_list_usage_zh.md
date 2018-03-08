@@ -9,7 +9,7 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.6.3'
+compile 'cn.jiguang.imui:messagelist:0.6.4'
 ```
 
 - Maven
@@ -17,7 +17,7 @@ compile 'cn.jiguang.imui:messagelist:0.6.3'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.6.3</version>
+  <version>0.6.4</version>
   <type>pom</type>
 </dependency>
 ```
@@ -34,7 +34,7 @@ allprojects {
 
 // module/build.gradle
 dependencies {
-  compile 'com.github.jpush:imui:0.7.2'
+  compile 'com.github.jpush:imui:0.7.3'
 }
 ```
 
@@ -351,11 +351,11 @@ mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMes
 });
 ```
 
-- *OnMsgLongClickListener*: 长按消息触发
+- *OnMsgLongClickListener*: 长按消息触发（0.6.4 后增加参数 View）
 ```java
 mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
     @Override
-    public void onMessageLongClick(MyMessage message) {
+    public void onMessageLongClick(View view,MyMessage message) {
         // do something
     }
 });
