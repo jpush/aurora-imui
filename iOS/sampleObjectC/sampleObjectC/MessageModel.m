@@ -266,10 +266,17 @@
 }
 
 + (CGSize)getTextSizeWithString:(NSString *)string maxWidth:(CGFloat)maxWidth {
-  CGSize maxSize = CGSizeMake(maxWidth, 2000);
-  UIFont *font =[UIFont systemFontOfSize:18];
-  NSMutableParagraphStyle *paragraphStyle= [[NSMutableParagraphStyle alloc] init];
-  CGSize realSize = [string boundingRectWithSize:maxSize options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName: paragraphStyle} context: nil].size;
+
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  paragraphStyle.lineSpacing = 2.0;
+  NSAttributedString *attributionStr = [[NSAttributedString alloc]
+                                        initWithString:string attributes:@{NSFontAttributeName: IMUITextMessageContentView.outGoingTextFont,
+                                                                           NSParagraphStyleAttributeName: paragraphStyle
+                                                                           }];
+
+  CGSize realSize = [attributionStr boundingRectWithSize:CGSizeMake(IMUIMessageCellLayout.bubbleMaxWidth, 10000.0)
+                                                 options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                                 context:nil].size;
   CGSize imgSize =realSize;
 
   return imgSize;

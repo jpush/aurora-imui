@@ -51,7 +51,7 @@ import UIKit
     } else {
       mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.inComingTextLineHeight
       attributedString.addAttributes([
-        NSAttributedStringKey.font: IMUITextMessageContentView.inComingTextColor,
+        NSAttributedStringKey.font: IMUITextMessageContentView.inComingTextFont,
         NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
         NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.inComingTextColor
         ], range: NSMakeRange(0, text.count))
