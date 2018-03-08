@@ -37,13 +37,16 @@ function constructNormalMessage() {
   themsgid += 1
   message.status = "send_going"
   message.isOutgoing = true
-  message.timeString = ""
+  var date = new Date()
+  message.timeString = date.getHours() + ":" + date.getMinutes()
   var user = {
     userId: "",
     displayName: "replace your nickname",
     avatarPath: "images"
   }
-  // user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
+  if (Platform.OS === "ios") {
+    user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
+  }  
   message.fromUser = user
 
   return message
@@ -231,7 +234,10 @@ export default class TestRNIMUI extends Component {
       AuroraIController.insertMessagesToTop([message])
     }
     AuroraIController.insertMessagesToTop(messages)
-    this.refs["MessageList"].refreshComplete()
+    if (Platform.OS === 'android') {
+      this.refs["MessageList"].refreshComplete()
+    }
+
   }
 
   onSendText = (text) => {
@@ -244,11 +250,11 @@ export default class TestRNIMUI extends Component {
     AuroraIController.appendMessages([message])
   }
 
-  onTakePicture = (mediaPath) => {
-
+  onTakePicture = (media) => {
+    console.log("media " + JSON.stringify(media))
     var message = constructNormalMessage()
     message.msgType = 'image'
-    message.mediaPath = mediaPath
+    message.mediaPath = media.mediaPath
     AuroraIController.appendMessages([message])
     this.resetMenu()
     AuroraIController.scrollToBottom(true)
@@ -276,12 +282,12 @@ export default class TestRNIMUI extends Component {
     console.log("on start record video")
   }
 
-  onFinishRecordVideo = (mediaPath, duration) => {
+  onFinishRecordVideo = (video) => {
     var message = constructNormalMessage()
 
     message.msgType = "video"
-    message.mediaPath = mediaPath
-    message.duration = duration
+    message.mediaPath = video.mediaPath
+    message.duration = video.duration
     AuroraIController.appendMessages([message])
   }
 
@@ -297,6 +303,7 @@ export default class TestRNIMUI extends Component {
      * 
      * 代码用例不做裁剪操作。
      */
+    Alert.alert('fas',JSON.stringify(mediaFiles))
     for (index in mediaFiles) {
       var message = constructNormalMessage()
       if (mediaFiles[index].mediaType == "image") {
@@ -395,7 +402,7 @@ export default class TestRNIMUI extends Component {
         </View>
         <MessageListView style={this.state.messageListLayout}
           ref="MessageList"
-          isAllowPullToRefresh={false}
+          isAllowPullToRefresh={true}
           onAvatarClick={this.onAvatarClick}
           onMsgClick={this.onMsgClick}
           onStatusViewClick={this.onStatusViewClick}
@@ -411,6 +418,7 @@ export default class TestRNIMUI extends Component {
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
           datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
           dateBackgroundColor={"#39ef23"}
+          photoMessageRadius={5}
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"
@@ -436,6 +444,7 @@ export default class TestRNIMUI extends Component {
           showSelectAlbumBtn={true}
           onClickSelectAlbum={this.onClickSelectAlbum}
           galleryScale={0.6}//default = 0.5
+          compressionQuality={0.6}
         />
       </View>
     );

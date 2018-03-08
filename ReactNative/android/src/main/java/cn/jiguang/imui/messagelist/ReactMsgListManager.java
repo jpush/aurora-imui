@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
@@ -153,7 +154,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 } else {
                     Glide.with(reactContext)
                             .load(string)
-                            .placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default"))
+                            .apply(new RequestOptions().placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default")))
                             .into(avatarImageView);
                 }
             }
@@ -163,9 +164,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 // You can use other image load libraries.
                 Glide.with(reactContext)
                         .load(string)
-                        .fitCenter()
-                        .placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found"))
-                        .override(400, Target.SIZE_ORIGINAL)
+                        .apply(new RequestOptions().fitCenter().placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")))
                         .into(imageView);
             }
         };
@@ -186,7 +185,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
 
         mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<RCTMessage>() {
             @Override
-            public void onMessageLongClick(RCTMessage message) {
+            public void onMessageLongClick(View view, RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_MSG_LONG_CLICK_EVENT, event);
@@ -270,7 +269,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 Log.d("RCTMessageListManager", "updating message, message: " + rctMessage);
                 if (activity != null) {
                     mAdapter.updateMessage(rctMessage.getMsgId(), rctMessage);
-                    mMessageList.smoothScrollToPosition(0);
+                    mMessageList.smoothScrollBy(0, 1);
                 }
                 break;
             case RCT_INSERT_MESSAGES_ACTION:
@@ -358,7 +357,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     }
 
     @ReactProp(name = "receiveBubblePadding")
-    public void setReceiveBubblePaddingLeft(PullToRefreshLayout root, ReadableMap map) {
+    public void setReceiveBubblePadding(PullToRefreshLayout root, ReadableMap map) {
         mMessageList.setReceiveBubblePaddingLeft(dip2px(map.getInt("left")));
         mMessageList.setReceiveBubblePaddingTop(dip2px(map.getInt("top")));
         mMessageList.setReceiveBubblePaddingRight(dip2px(map.getInt("right")));
@@ -403,7 +402,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
 
     @ReactProp(name = "avatarCornerRadius")
     public void setAvatarCornerRadius(PullToRefreshLayout root, int radius) {
-        mMessageList.setAvatarRadius(radius);
+        mMessageList.setAvatarRadius(dip2px(radius));
     }
 
     /**
@@ -444,7 +443,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         int top = map.getInt("top");
         int right = map.getInt("right");
         int bottom = map.getInt("bottom");
-        mMessageList.setDatePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
+        mMessageList.setDisplayNamePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
     }
 
     @ReactProp(name = "isAllowPullToRefresh")
@@ -504,25 +503,25 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         mMessageList.setLineSpacingExtra(dip2px(spacing));
     }
 
-//    @ReactProp(name = "videoMessageRadius")
-//    public void setVideoMessageRadius(PullToRefreshLayout root, int radius) {
-//        mMessageList.setVideoMessageRadius(dip2px(radius));
-//    }
-//
-//    @ReactProp(name = "videoDurationTextColor")
-//    public void setVideoDurationTextColor(PullToRefreshLayout root, String color) {
-//        mMessageList.setVideoDurationTextColor(Color.parseColor(color));
-//    }
-//
-//    @ReactProp(name = "videoDurationTextSize")
-//    public void setVideoDurationTextSize(PullToRefreshLayout root, int size) {
-//        mMessageList.setVideoDurationTextSize(dip2sp(size));
-//    }
-//
-//    @ReactProp(name = "photoMessageRadius")
-//    public void setPhotoMessageRadius(PullToRefreshLayout root, int radius) {
-//        mMessageList.setPhotoMessageRadius(dip2px(radius));
-//    }
+    @ReactProp(name = "videoMessageRadius")
+    public void setVideoMessageRadius(PullToRefreshLayout root, int radius) {
+        mMessageList.setVideoMessageRadius(dip2px(radius));
+    }
+
+    @ReactProp(name = "videoDurationTextColor")
+    public void setVideoDurationTextColor(PullToRefreshLayout root, String color) {
+        mMessageList.setVideoDurationTextColor(Color.parseColor(color));
+    }
+
+    @ReactProp(name = "videoDurationTextSize")
+    public void setVideoDurationTextSize(PullToRefreshLayout root, int size) {
+        mMessageList.setVideoDurationTextSize(dip2sp(size));
+    }
+
+    @ReactProp(name = "photoMessageRadius")
+    public void setPhotoMessageRadius(PullToRefreshLayout root, int radius) {
+        mMessageList.setPhotoMessageRadius(dip2px(radius));
+    }
 
     @SuppressWarnings("unchecked")
     private BroadcastReceiver RCTMsgListReceiver = new BroadcastReceiver() {

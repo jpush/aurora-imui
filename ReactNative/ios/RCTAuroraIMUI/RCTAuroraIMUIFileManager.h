@@ -11,4 +11,5 @@
 @interface RCTAuroraIMUIFileManager : NSObject
 + (NSString *)getPath;
 + (void)createDirectory:(NSString *)directoryName atFilePath:(NSString *)filePath;
++ (int)getFileSize:(NSString *)path;
 @end

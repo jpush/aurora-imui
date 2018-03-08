@@ -229,10 +229,28 @@ open class RCTMessageModel: IMUIMessageModel {
   }
   
   @objc static func calculateTextContentSize(text: String, isOutGoing: Bool) -> CGSize {
+    let attributedString = NSMutableAttributedString(string: text)
+    let mutableParagraphStyle = NSMutableParagraphStyle()
+    
     if isOutGoing {
-      return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageContentView.outGoingTextFont)
+      mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.outGoingTextLineHeight
+      attributedString.addAttributes([
+        NSAttributedStringKey.font: IMUITextMessageContentView.outGoingTextFont,
+        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
+        NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.outGoingTextColor
+        ], range: NSMakeRange(0, text.count))
+      
+      return attributedString.boundingRect(with: CGSize(width: IMUIMessageCellLayout.bubbleMaxWidth, height: 10000), options: .usesLineFragmentOrigin, context: nil).size
+
     } else {
-      return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: IMUITextMessageContentView.inComingTextFont)
+      mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.inComingTextLineHeight
+      attributedString.addAttributes([
+        NSAttributedStringKey.font: IMUITextMessageContentView.inComingTextColor,
+        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
+        NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.inComingTextColor
+        ], range: NSMakeRange(0, text.count))
+      return attributedString.boundingRect(with: CGSize(width: IMUIMessageCellLayout.bubbleMaxWidth, height: 10000), options: .usesLineFragmentOrigin, context: nil).size
+
     }
   }
   

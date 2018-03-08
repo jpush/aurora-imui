@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 apply from: "$project.rootDir/tools/script-git-version.gradle"
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     flavorDimensions "versionCode"
 
     defaultConfig {
         applicationId "imui.jiguang.cn.imuisample"
         minSdkVersion 16
-        targetSdkVersion 19
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -58,8 +58,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
     compile 'pub.devrel:easypermissions:0.4.0'
     compile project(':messagelist')
     compile project(':chatinput')

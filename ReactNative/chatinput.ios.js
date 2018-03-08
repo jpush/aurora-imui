@@ -52,7 +52,7 @@ export default class ChatInput extends Component {
     if (!this.props.onTakePicture) {
       return;
     }
-    this.props.onTakePicture(event.nativeEvent.mediaPath);
+    this.props.onTakePicture(event.nativeEvent);
   }
 
   _startVideoRecord() {
@@ -66,7 +66,7 @@ export default class ChatInput extends Component {
     if (!this.props.onFinishRecordVideo) {
       return;
     }
-    this.props.onFinishRecordVideo(event.nativeEvent.mediaPath,event.nativeEvent.durationTime);
+    this.props.onFinishRecordVideo(event.nativeEvent);
   }
 
   _onStartRecordVoice() {

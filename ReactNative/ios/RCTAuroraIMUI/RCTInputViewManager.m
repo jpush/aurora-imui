@@ -92,10 +92,16 @@ RCT_CUSTOM_VIEW_PROPERTY(inputTextLineHeight, NSNumber, RCTInputView) {
   _rctInputView.imuiIntputView.inputTextViewLineHeight = height.floatValue;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
+RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSNumber, RCTInputView) {
   NSNumber *galleryScale = [RCTConvert NSNumber: json];
   _rctInputView.galleryScale = galleryScale;
 }
+
+RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
+  NSNumber *compressionQuality = [RCTConvert NSNumber: json];
+  _rctInputView.compressionQuality = compressionQuality;
+}
+
 
 /// Tells the delegate that user tap send button and text input string is not empty
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {
@@ -171,15 +177,23 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
           options.synchronous  = YES;
           options.networkAccessAllowed = YES;
           PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
+          CGFloat compressionQuality = _rctInputView.compressionQuality.floatValue;
           
           [imageManage requestImageForAsset: asset
                                  targetSize: CGSizeMake(asset.pixelWidth * scale, asset.pixelHeight * scale)
                                 contentMode: PHImageContentModeAspectFill
                                     options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                      NSData *imageData = UIImagePNGRepresentation(result);
+                                      NSData *imageData = UIImageJPEGRepresentation(result, compressionQuality);
                                       NSString *filePath = [RCTAuroraIMUIFileManager getPath];
                                       if ([imageData writeToFile: filePath atomically: true]) {
-                                        [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
+                                        int fileSize = [RCTAuroraIMUIFileManager getFileSize: filePath];
+                                        
+                                        [imagePathArr addObject: @{@"mediaPath": filePath,
+                                                                   @"mediaType": @"image",
+                                                                   @"size": @(fileSize),
+                                                                   @"width": @(result.size.width),
+                                                                   @"height": @(result.size.height),
+                                                                   }];
                                       }
                                     }];
           break;
@@ -191,7 +205,9 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
     }
     
     dispatch_async(dispatch_get_main_queue(), ^(void){
-      _rctInputView.onSendGalleryFiles(@{@"mediaFiles": imagePathArr});
+      _rctInputView.onSendGalleryFiles(@{@"mediaFiles": imagePathArr,
+                                         
+                                         });
     });
   });
 }
@@ -219,8 +235,16 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
   // TODO: save to file
   NSString *filePath = [RCTAuroraIMUIFileManager getPath];
   
-  [picture writeToFile: filePath atomically: false];
-  _rctInputView.onTakePicture(@{@"mediaPath": filePath});
+  [picture writeToFile: filePath atomically: true];
+  
+  UIImage *image = [UIImage imageWithData:picture];
+  int size = (int)picture.length;
+  NSNumber *sizeNumber = @(size);
+  _rctInputView.onTakePicture(@{@"mediaPath": filePath,
+                                @"size": sizeNumber,
+                                @"width": @(image.size.width),
+                                @"height": @(image.size.height)
+                                });
 }
 
 /// Tells the delegate when starting record video
@@ -231,9 +255,12 @@ RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSString, RCTInputView) {
 
 /// Tells the delegate when user did shoot video in camera mode
 - (void)finishRecordVideoWithVideoPath:(NSString * _Nonnull)videoPath durationTime:(double)durationTime {
-  
+  int size = [RCTAuroraIMUIFileManager getFileSize:videoPath];
   if(!_rctInputView.onFinishRecordVideo) { return; }
-  _rctInputView.onFinishRecordVideo(@{@"mediaPath": videoPath, @"durationTime": @(durationTime)});
+  _rctInputView.onFinishRecordVideo(@{@"mediaPath": videoPath,
+                                      @"durationTime": @(durationTime),
+                                      @"size": @(size)
+                                      });
 }
 
 - (void)keyBoardWillShowWithHeight:(CGFloat)height durationTime:(double)durationTime {

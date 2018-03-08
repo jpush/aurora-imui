@@ -130,6 +130,10 @@ MessageList.propTypes = {
   isAllowPullToRefresh: PropTypes.bool,
   maxBubbleWidth: PropTypes.number,
   messageTextLineHeight: PropTypes.number,
+  videoMessageRadius: PropTypes.number,
+  videoDurationTextColor: PropTypes.string,
+  videoDurationTextSize: PropTypes.string,
+  photoMessageRadius: PropTypes.number,
   ...ViewPropTypes
 };
 

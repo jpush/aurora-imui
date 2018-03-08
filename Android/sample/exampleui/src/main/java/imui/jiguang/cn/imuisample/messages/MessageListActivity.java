@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -423,7 +423,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 } else {
                     Glide.with(getApplicationContext())
                             .load(string)
-                            .placeholder(R.drawable.aurora_headicon_default)
+                            .apply(new RequestOptions().placeholder(R.drawable.aurora_headicon_default))
                             .into(avatarImageView);
                 }
             }
@@ -433,9 +433,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 // You can use other image load libraries.
                 Glide.with(getApplicationContext())
                         .load(string)
-                        .fitCenter()
-                        .placeholder(R.drawable.aurora_picture_not_found)
-                        .override(400, Target.SIZE_ORIGINAL)
+                        .apply(new RequestOptions().fitCenter().placeholder(R.drawable.aurora_picture_not_found))
                         .into(imageView);
             }
         };
@@ -477,7 +475,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
 
         mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
             @Override
-            public void onMessageLongClick(MyMessage message) {
+            public void onMessageLongClick(View view, MyMessage message) {
                 Toast.makeText(getApplicationContext(),
                         getApplicationContext().getString(R.string.message_long_click_hint),
                         Toast.LENGTH_SHORT).show();

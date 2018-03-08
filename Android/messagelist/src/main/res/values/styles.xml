@@ -1,11 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowActionModeOverlay">true</item>
-    </style>
-
-
     <style name="ChatMessageInfo">
         <item name="android:textSize">11sp</item>
     </style>

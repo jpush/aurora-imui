@@ -28,6 +28,8 @@
         app:sendBubblePaddingRight="16dp"
         app:sendTextColor="#7587A8"
         app:sendTextSize="16sp"
+        app:photoMessageRadius="5dp"
+        app:videoMessageRadius="5dp"
         app:showReceiverDisplayName="false"
         app:showSenderDisplayName="false">
 

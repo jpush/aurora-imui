@@ -10,7 +10,7 @@ We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.6.3'
+compile 'cn.jiguang.imui:messagelist:0.6.4'
 ```
 
 -  Maven：
@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:messagelist:0.6.3'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.6.3</version>
+  <version>0.6.4</version>
   <type>pom</type>
 </dependency>
 ```
@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.7.2'
+    compile 'com.github.jpush:imui:0.7.3'
 }
 ```
 
@@ -352,11 +352,14 @@ mAdapter.setOnAvatarClickListener(new MsgListAdapter.OnAvatarClickListener<MyMes
 });
 ```
 
-- `OnMsgLongClickListener` fires when long click message.
+- `OnMsgLongClickListener` fires when long click message.(Add View parameter since 0.6.4)
 ```java
 mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<MyMessage>() {
+    /**
+     *@param view The view been long clicked.
+     */
     @Override
-    public void onMessageLongClick(MyMessage message) {
+    public void onMessageLongClick(View view, MyMessage message){
         // do something
     }
 });

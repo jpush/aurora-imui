@@ -3,9 +3,6 @@ package cn.jiguang.imui.utils;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
-/**
- * Created by caiyaoguan on 2017/7/6.
- */
 
 public class BitmapCache {
 
@@ -28,11 +25,6 @@ public class BitmapCache {
         };
     }
 
-    /**
-     * 通过此方法来获取NativeImageLoader的实例
-     *
-     * @return NativeImageLoader
-     */
     public static BitmapCache getInstance() {
         return mInstance;
     }

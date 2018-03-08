@@ -9,7 +9,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.xml.sax.XMLReader;
 
 import java.io.File;
 
@@ -29,13 +27,14 @@ import cn.jiguang.imui.messages.BaseMessageViewHolder;
 import cn.jiguang.imui.messages.MessageListStyle;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import cn.jiguang.imui.view.RoundImageView;
+import cn.jiguang.imui.view.RoundTextView;
 
 
 public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
     private TextView mMsgTv;
-    private TextView mDateTv;
+    private RoundTextView mDateTv;
     private TextView mDisplayNameTv;
     private RoundImageView mAvatarIv;
     private ImageButton mResendIb;
@@ -47,7 +46,7 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
         super(itemView);
         this.mIsSender = isSender;
         mMsgTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_message);
-        mDateTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
+        mDateTv = (RoundTextView) itemView.findViewById(R.id.aurora_tv_msgitem_date);
         mAvatarIv = (RoundImageView) itemView.findViewById(R.id.aurora_iv_msgitem_avatar);
         if (isSender) {
             mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_sender_display_name);
@@ -63,8 +62,8 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
         int memClass = ((ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
         mCache = new LruCache<>(1024 * 1024 * memClass / 8);
         RCTMessage rctMessage = (RCTMessage) message;
-        int width = rctMessage.getWidth();
-        int height = rctMessage.getHeight();
+        int width = (int) (rctMessage.getWidth() * mDensity + 0.5);
+        int height = (int) (rctMessage.getHeight() * mDensity + 0.5);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
         if (mIsSender) {
             params.addRule(RelativeLayout.LEFT_OF, mAvatarIv.getId());
@@ -84,8 +83,10 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
             }
         }
 
-        if (message.getTimeString() != null) {
+        if (message.getTimeString() != null && !TextUtils.isEmpty(message.getTimeString())) {
             mDateTv.setText(message.getTimeString());
+        } else {
+            mDateTv.setVisibility(View.GONE);
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();
@@ -139,7 +140,7 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
             @Override
             public boolean onLongClick(View view) {
                 if (mMsgLongClickListener != null) {
-                    mMsgLongClickListener.onMessageLongClick(message);
+                    mMsgLongClickListener.onMessageLongClick(view, message);
                 } else {
                     if (BuildConfig.DEBUG) {
                         Log.w("MsgListAdapter", "Didn't set long click listener! Drop event.");
@@ -224,7 +225,55 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
 
 
     @Override
-    public void applyStyle(MessageListStyle messageListStyle) {
+    public void applyStyle(MessageListStyle style) {
+        mMsgTv.setMaxWidth((int) (style.getWindowWidth() * style.getBubbleMaxWidth()));
+        mMsgTv.setLineSpacing(style.getLineSpacingExtra(), style.getLineSpacingMultiplier());
+        mDisplayNameTv.setTextSize(style.getDisplayNameTextSize());
+        mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
+                style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
+        mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
+        if (mIsSender) {
+            mMsgTv.setBackground(style.getSendBubbleDrawable());
+            mMsgTv.setTextColor(style.getSendBubbleTextColor());
+            mMsgTv.setTextSize(style.getSendBubbleTextSize());
+            mMsgTv.setPadding(style.getSendBubblePaddingLeft(),
+                    style.getSendBubblePaddingTop(),
+                    style.getSendBubblePaddingRight(),
+                    style.getSendBubblePaddingBottom());
+            if (style.getSendingProgressDrawable() != null) {
+                mSendingPb.setProgressDrawable(style.getSendingProgressDrawable());
+            }
+            if (style.getSendingIndeterminateDrawable() != null) {
+                mSendingPb.setIndeterminateDrawable(style.getSendingIndeterminateDrawable());
+            }
+            if (style.getShowSenderDisplayName()) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
+            }
+        } else {
+            mMsgTv.setBackground(style.getReceiveBubbleDrawable());
+            mMsgTv.setTextColor(style.getReceiveBubbleTextColor());
+            mMsgTv.setTextSize(style.getReceiveBubbleTextSize());
+            mMsgTv.setPadding(style.getReceiveBubblePaddingLeft(),
+                    style.getReceiveBubblePaddingTop(),
+                    style.getReceiveBubblePaddingRight(),
+                    style.getReceiveBubblePaddingBottom());
+            if (style.getShowReceiverDisplayName()) {
+                mDisplayNameTv.setVisibility(View.VISIBLE);
+            } else {
+                mDisplayNameTv.setVisibility(View.GONE);
+            }
+        }
+        mAvatarIv.setBorderRadius(style.getAvatarRadius());
+        android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
+        layoutParams.width = style.getAvatarWidth();
+        layoutParams.height = style.getAvatarHeight();
+        mAvatarIv.setLayoutParams(layoutParams);
+        mDateTv.setTextSize(style.getDateTextSize());
+        mDateTv.setTextColor(style.getDateTextColor());
+        mDateTv.setBgColor(style.getDateBgColor());
+        mDateTv.setBgCornerRadius(style.getDateBgCornerRadius());
 
     }
 }
