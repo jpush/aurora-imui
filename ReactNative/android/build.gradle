@@ -27,8 +27,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'cn.jiguang.imui:messagelist:0.6.3'
-    compile 'cn.jiguang.imui:chatinput:0.6.4'
+    compile 'cn.jiguang.imui:messagelist:0.6.4'
+    compile 'cn.jiguang.imui:chatinput:0.6.5'
     compile 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.facebook.react:react-native:+'
     compile 'com.google.code.gson:gson:2.8.0'

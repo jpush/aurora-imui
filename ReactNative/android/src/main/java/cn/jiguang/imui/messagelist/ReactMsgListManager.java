@@ -164,7 +164,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 // You can use other image load libraries.
                 Glide.with(reactContext)
                         .load(string)
-                        .apply(new RequestOptions().fitCenter().placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")).override(400, Target.SIZE_ORIGINAL))
+                        .apply(new RequestOptions().fitCenter().placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")))
                         .into(imageView);
             }
         };
@@ -185,7 +185,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
 
         mAdapter.setMsgLongClickListener(new MsgListAdapter.OnMsgLongClickListener<RCTMessage>() {
             @Override
-            public void onMessageLongClick(RCTMessage message) {
+            public void onMessageLongClick(View view, RCTMessage message) {
                 WritableMap event = Arguments.createMap();
                 event.putString("message", message.toString());
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_MSG_LONG_CLICK_EVENT, event);
