@@ -572,7 +572,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             @Override
             public boolean onLongClick(View view) {
                 if (mSelectionListener == null) {
-                    notifyMessageLongClicked(wrapper.item);
+                    notifyMessageLongClicked(view, wrapper.item);
                     return true;
                 } else {
                     mIsSelectedMode = true;
@@ -583,9 +583,9 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         };
     }
 
-    private void notifyMessageLongClicked(MESSAGE message) {
+    private void notifyMessageLongClicked(View view, MESSAGE message) {
         if (mMsgLongClickListener != null) {
-            mMsgLongClickListener.onMessageLongClick(message);
+            mMsgLongClickListener.onMessageLongClick(view, message);
         }
     }
 
@@ -645,7 +645,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
      * @param <MESSAGE>
      */
     public interface OnMsgLongClickListener<MESSAGE extends IMessage> {
-        void onMessageLongClick(MESSAGE message);
+        void onMessageLongClick(View view, MESSAGE message);
     }
 
     public interface OnAvatarClickListener<MESSAGE extends IMessage> {

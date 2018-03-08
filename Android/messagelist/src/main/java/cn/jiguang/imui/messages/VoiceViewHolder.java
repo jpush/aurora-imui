@@ -182,7 +182,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             @Override
             public boolean onLongClick(View view) {
                 if (mMsgLongClickListener != null) {
-                    mMsgLongClickListener.onMessageLongClick(message);
+                    mMsgLongClickListener.onMessageLongClick(view, message);
                 } else {
                     if (BuildConfig.DEBUG) {
                         Log.w("MsgListAdapter", "Didn't set long click listener! Drop event.");

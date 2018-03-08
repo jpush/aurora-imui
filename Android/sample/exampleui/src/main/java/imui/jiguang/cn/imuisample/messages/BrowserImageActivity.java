@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.util.LruCache;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -93,6 +94,7 @@ public class BrowserImageActivity extends Activity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(true, BrowserImageActivity.this);
+            photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             photoView.setTag(position);
             String path = mPathList.get(position);
             if (path != null) {

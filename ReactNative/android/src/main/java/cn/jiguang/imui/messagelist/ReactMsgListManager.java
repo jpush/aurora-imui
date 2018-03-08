@@ -357,7 +357,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     }
 
     @ReactProp(name = "receiveBubblePadding")
-    public void setReceiveBubblePaddingLeft(PullToRefreshLayout root, ReadableMap map) {
+    public void setReceiveBubblePadding(PullToRefreshLayout root, ReadableMap map) {
         mMessageList.setReceiveBubblePaddingLeft(dip2px(map.getInt("left")));
         mMessageList.setReceiveBubblePaddingTop(dip2px(map.getInt("top")));
         mMessageList.setReceiveBubblePaddingRight(dip2px(map.getInt("right")));
@@ -443,7 +443,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         int top = map.getInt("top");
         int right = map.getInt("right");
         int bottom = map.getInt("bottom");
-        mMessageList.setDatePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
+        mMessageList.setDisplayNamePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
     }
 
     @ReactProp(name = "isAllowPullToRefresh")
@@ -503,25 +503,25 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         mMessageList.setLineSpacingExtra(dip2px(spacing));
     }
 
-//    @ReactProp(name = "videoMessageRadius")
-//    public void setVideoMessageRadius(PullToRefreshLayout root, int radius) {
-//        mMessageList.setVideoMessageRadius(dip2px(radius));
-//    }
-//
-//    @ReactProp(name = "videoDurationTextColor")
-//    public void setVideoDurationTextColor(PullToRefreshLayout root, String color) {
-//        mMessageList.setVideoDurationTextColor(Color.parseColor(color));
-//    }
-//
-//    @ReactProp(name = "videoDurationTextSize")
-//    public void setVideoDurationTextSize(PullToRefreshLayout root, int size) {
-//        mMessageList.setVideoDurationTextSize(dip2sp(size));
-//    }
-//
-//    @ReactProp(name = "photoMessageRadius")
-//    public void setPhotoMessageRadius(PullToRefreshLayout root, int radius) {
-//        mMessageList.setPhotoMessageRadius(dip2px(radius));
-//    }
+    @ReactProp(name = "videoMessageRadius")
+    public void setVideoMessageRadius(PullToRefreshLayout root, int radius) {
+        mMessageList.setVideoMessageRadius(dip2px(radius));
+    }
+
+    @ReactProp(name = "videoDurationTextColor")
+    public void setVideoDurationTextColor(PullToRefreshLayout root, String color) {
+        mMessageList.setVideoDurationTextColor(Color.parseColor(color));
+    }
+
+    @ReactProp(name = "videoDurationTextSize")
+    public void setVideoDurationTextSize(PullToRefreshLayout root, int size) {
+        mMessageList.setVideoDurationTextSize(dip2sp(size));
+    }
+
+    @ReactProp(name = "photoMessageRadius")
+    public void setPhotoMessageRadius(PullToRefreshLayout root, int radius) {
+        mMessageList.setPhotoMessageRadius(dip2px(radius));
+    }
 
     @SuppressWarnings("unchecked")
     private BroadcastReceiver RCTMsgListReceiver = new BroadcastReceiver() {

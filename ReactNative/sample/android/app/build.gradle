@@ -131,6 +131,9 @@ android {
             }
         }
     }
+    defaultConfig {
+        multiDexEnabled true
+    }
 }
 
 dependencies {
@@ -140,7 +143,13 @@ dependencies {
     })
     compile project(':aurora-imui-react-native')
     compile project(':react-native-fs')
-    compile 'com.android.support:appcompat-v7:27.0.2'
-    compile 'com.facebook.react:react-native:+'
+    compile ('com.facebook.react:react-native:+') {
+        exclude group: 'com.android.support'
+    }
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
     testCompile 'junit:junit:4.12'
 }
+

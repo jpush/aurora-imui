@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 ext {
     PUBLISH_GROUP_ID = 'cn.jiguang.imui'
     PUBLISH_ARTIFACT_ID = 'messagelist'
-    PUBLISH_VERSION = '0.6.3'
+    PUBLISH_VERSION = '0.6.4'
 }
 
 android {
@@ -27,9 +27,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compileOnly 'com.android.support:appcompat-v7:27.0.2'
-    compileOnly 'com.android.support:design:27.0.2'
-    compileOnly 'com.android.support:support-v4:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:support-v4:27.1.0'
     testCompile 'junit:junit:4.12'
 }
 

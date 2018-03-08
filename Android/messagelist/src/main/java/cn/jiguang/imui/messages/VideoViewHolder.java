@@ -77,7 +77,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
 
             @Override
             public boolean onLongClick(View view) {
-                mMsgLongClickListener.onMessageLongClick(message);
+                mMsgLongClickListener.onMessageLongClick(view, message);
                 return false;
             }
         });

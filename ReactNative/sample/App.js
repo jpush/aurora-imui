@@ -44,11 +44,9 @@ function constructNormalMessage() {
     displayName: "replace your nickname",
     avatarPath: "images"
   }
-
   if (Platform.OS === "ios") {
     user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
-  }
-  
+  }  
   message.fromUser = user
 
   return message
@@ -239,7 +237,7 @@ export default class TestRNIMUI extends Component {
     if (Platform.OS === 'android') {
       this.refs["MessageList"].refreshComplete()
     }
-    
+
   }
 
   onSendText = (text) => {
@@ -286,6 +284,7 @@ export default class TestRNIMUI extends Component {
 
   onFinishRecordVideo = (video) => {
     var message = constructNormalMessage()
+
     message.msgType = "video"
     message.mediaPath = video.mediaPath
     message.duration = video.duration
@@ -419,6 +418,7 @@ export default class TestRNIMUI extends Component {
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
           datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
           dateBackgroundColor={"#39ef23"}
+          photoMessageRadius={5}
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"
