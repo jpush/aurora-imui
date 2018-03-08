@@ -22,7 +22,24 @@ dependencies {
 }
 ```
 
-**注意事项（Android）：我们使用了 support v4, v7 25.3.1 版本，因此需要将你的 build.gradle 中 buildToolsVersion 及 compileSdkVersion 改为 25 以上。可以参考 sample 的配置。**
+**注意事项（Android）：我们使用了 support v4, v7 25.3.1 版本，因此需要将你的 build.gradle 中 buildToolsVersion 及 compileSdkVersion 改为 25 以上。可以参考 sample 的配置。**如果你的项目报错：
+
+```
+Failed to execute aapt
+com.android.ide.common.process.ProcessException: Failed to execute aapt
+...
+Caused by: java.util.concurrent.ExecutionException: java.util.concurrent.ExecutionException: com.android.tools.aapt2.Aapt2Exception: AAPT2 error: check logs for details
+```
+
+那么可能是 aurora-imui-react-native 与你当前项目的 support 包存在冲突。解决方法为在你的 build.gradle 中 exclude aurora-imui 的 support 包。
+
+```groovy
+compile (project(':aurora-imui-react-native')) {
+    exclude group: 'com.android.support'
+}
+```
+
+
 
 ## 配置
 
