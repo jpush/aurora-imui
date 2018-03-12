@@ -153,7 +153,6 @@ open class IMUIFeatureView: UIView {
   }
   
   func clearAllSelectedGallery() {
-    if currentType != .gallery { return }
     IMUIGalleryDataManager.selectedAssets = [PHAsset]()
     self.featureCollectionView.reloadData()
   }
