@@ -25,6 +25,7 @@ fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
 open class IMUIInputView: UIView {
   @objc open var inputTextViewLineHeight: Float = 5.0
   @objc open var inputTextViewTextColor: UIColor = UIColor(netHex: 0x555555)
+  
   var inputViewStatus: IMUIInputStatus = .none
   @objc open weak var inputViewDelegate: IMUIInputViewDelegate? {
     didSet {
@@ -55,6 +56,7 @@ open class IMUIInputView: UIView {
     view.frame = self.bounds
     
     inputTextView.textContainer.lineBreakMode = .byWordWrapping
+    self.inputTextView.textColor = inputTextViewTextColor
     inputTextView.delegate = self
     self.featureView.delegate = self
     print("fsad")
@@ -72,6 +74,7 @@ open class IMUIInputView: UIView {
     self.sendNumberLabel.layer.shadowOffset = CGSize(width: 2, height: 2)
     self.sendNumberLabel.layer.shadowRadius = 5
     self.sendNumberLabel.layer.shadowOpacity = 0.5
+    
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -150,7 +153,7 @@ extension IMUIInputView: UITextViewDelegate {
   
   // config line space
   func updateTextView(_ textView: UITextView, lineSpacing: Float) {
-    print("\(textView.text!)")
+    print("\(textView.text!)  \(textView.text.utf16.count)")
     let attributedString = NSMutableAttributedString(string: textView.text!)
     let mutableParagraphStyle = NSMutableParagraphStyle()
     mutableParagraphStyle.lineSpacing = CGFloat(lineSpacing)
@@ -159,7 +162,7 @@ extension IMUIInputView: UITextViewDelegate {
       NSAttributedStringKey.font:textView.font,
       NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
       NSAttributedStringKey.foregroundColor: inputTextViewTextColor
-      ], range: NSMakeRange(0, textView.text.count))
+      ], range: NSMakeRange(0, textView.text.utf16.count))
     textView.attributedText = attributedString
 
   }
@@ -298,7 +301,19 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
   public func didSeletedEmoji(with emoji: IMUIEmojiModel) {
     switch emoji.emojiType {
     case .emoji:
-      self.inputTextView.text.append(emoji.emoji!)
+      let inputStr = "\(self.inputTextView.text!)\(emoji.emoji!)"
+      let inputAttributeStr = NSMutableAttributedString(string: inputStr)
+      
+      let mutableParagraphStyle = NSMutableParagraphStyle()
+      mutableParagraphStyle.lineSpacing = CGFloat(self.inputTextViewLineHeight)
+      
+      inputAttributeStr.addAttributes([
+        NSAttributedStringKey.font:inputTextView.font,
+        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
+        NSAttributedStringKey.foregroundColor: inputTextViewTextColor
+        ], range: NSMakeRange(0, inputTextView.text.utf16.count))
+      
+      self.inputTextView.attributedText = inputAttributeStr
       self.fitTextViewSize(self.inputTextView)
       self.updateSendBtnToPhotoSendStatus()
     default:
