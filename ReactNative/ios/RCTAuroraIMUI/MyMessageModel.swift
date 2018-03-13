@@ -230,7 +230,7 @@ open class RCTMessageModel: IMUIMessageModel {
   
   @objc static func calculateTextContentSize(text: String, isOutGoing: Bool) -> CGSize {
     if isOutGoing {
-      return text.sizeWithConstrainedWidth(with: MessageEventCollectionViewCell.maxWidth,
+      return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth,
                                     font: IMUITextMessageContentView.outGoingTextFont)
     } else {
       return text.sizeWithConstrainedWidth(with: MessageEventCollectionViewCell.maxWidth,
@@ -239,7 +239,7 @@ open class RCTMessageModel: IMUIMessageModel {
   }
   
   static func calculateNameContentSize(text: String) -> CGSize {
-      return text.sizeWithConstrainedWidth(with: MessageEventCollectionViewCell.maxWidth,
+      return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth,
                                            font: IMUIMessageCellLayout.timeStringFont)
   }
   
