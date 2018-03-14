@@ -277,6 +277,16 @@ extension IMUIInputView: IMUIFeatureListDelegate {
 }
 
 extension IMUIInputView: IMUIFeatureViewDelegate {
+  
+  public func cameraRecoverScreen() {
+    self.inputViewDelegate?.cameraRecoverScreen?()
+  }
+  
+  public func cameraFullScreen() {
+    self.inputViewDelegate?.cameraFullScreen?()
+  }
+  
+  
   public func didChangeSelectedGallery(with gallerys: [PHAsset]) {
       self.updateSendBtnToPhotoSendStatus()
   }
@@ -334,4 +344,6 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
   public func didRecordVideo(with videoPath: String, durationTime: Double) {
     self.inputViewDelegate?.finishRecordVideo?(videoPath: videoPath, durationTime: durationTime)
   }
+  
+
 }
