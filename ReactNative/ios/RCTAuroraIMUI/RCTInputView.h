@@ -42,6 +42,10 @@
 
 @property (nonatomic, copy) RCTBubblingEventBlock onShowKeyboard;
 
+@property (nonatomic, copy) RCTBubblingEventBlock onFullScreen;
+
+@property (nonatomic, copy) RCTBubblingEventBlock onRecoverScreen;
+
 @property(strong, nonatomic) NSDictionary *inputPadding;
 @property(strong, nonatomic) NSString *inputTextColor;
 @property(strong, nonatomic) NSNumber *inputTextSize;

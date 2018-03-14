@@ -23,6 +23,8 @@
 //RCT_EXPORT_VIEW_PROPERTY(onEventCallBack, RCTBubblingEventBlock)
 
 RCT_EXPORT_VIEW_PROPERTY(onSizeChange, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onFullScreen, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onRecoverScreen, RCTBubblingEventBlock)
 
 RCT_EXPORT_VIEW_PROPERTY(onSendText, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onTakePicture, RCTBubblingEventBlock)
@@ -274,5 +276,15 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
   
   if(!_rctInputView.onShowKeyboard) { return; }
   _rctInputView.onShowKeyboard(@{@"keyboard_height": @(height), @"durationTime": @(durationTime)});
+}
+
+- (void)cameraFullScreen {
+  if(!_rctInputView.onFullScreen) { return; }
+  _rctInputView.onFullScreen(@{});
+}
+
+- (void)cameraRecoverScreen {
+  if(!_rctInputView.onRecoverScreen) { return; }
+  _rctInputView.onRecoverScreen(@{});
 }
 @end
