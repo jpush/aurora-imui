@@ -69,10 +69,10 @@ RCT_CUSTOM_VIEW_PROPERTY(inputPadding, NSDictionary, RCTInputView) {
   NSNumber *top = padding[@"top"];
   NSNumber *right = padding[@"right"];
   NSNumber *bottom = padding[@"bottom"];
-  _rctInputView.imuiIntputView.inputTextView.textContainerInset = UIEdgeInsetsMake([top floatValue],
-                                                                             [left floatValue],
-                                                                             [bottom floatValue],
-                                                                             [right floatValue]);
+  _rctInputView.imuiIntputView.inputTextViewPadding = UIEdgeInsetsMake([top floatValue],
+                                                                       [left floatValue],
+                                                                       [bottom floatValue],
+                                                                       [right floatValue]);
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(inputTextColor, NSString, RCTInputView) {
@@ -116,7 +116,10 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 - (void)switchToMicrophoneModeWithRecordVoiceBtn:(UIButton * _Nonnull)recordVoiceBtn {
   // TODO:
   if(_rctInputView.onSizeChange) {
-    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.top +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.bottom),
+                                 @"width":@(_rctInputView.frame.size.width)});
   }
   
   if(!_rctInputView.onSwitchToMicrophoneMode) { return; }
@@ -145,7 +148,10 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 - (void)switchToGalleryModeWithPhotoBtn:(UIButton * _Nonnull)photoBtn {
   
   if(_rctInputView.onSizeChange) {
-    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.top +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.bottom),
+                                 @"width":@(_rctInputView.frame.size.width)});
   }
   
   if(!_rctInputView.onSwitchToGalleryMode) { return; }
@@ -155,7 +161,10 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 /// Tells the delegate that IMUIInputView will switch to emoji
 - (void)switchToEmojiModeWithCameraBtn:(UIButton * _Nonnull)cameraBtn {
   if(_rctInputView.onSizeChange) {
-    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.top +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.bottom),
+                                 @"width":@(_rctInputView.frame.size.width)});
   }
   
   if(!_rctInputView.onSwitchToEmojiMode) { return; }
@@ -220,14 +229,22 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
   }
   
   if(_rctInputView.onSizeChange) {
-    _rctInputView.onSizeChange(@{@"height":@(46 + _rctInputView.inputTextHeight + _rctInputView.keyBoardHeight),@"width":@(_rctInputView.frame.size.width)});
+    _rctInputView.onSizeChange(@{@"height":@(46 + _rctInputView.inputTextHeight +
+                                   _rctInputView.keyBoardHeight +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.top +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.bottom
+                                   ),
+                                 @"width":@(_rctInputView.frame.size.width)});
   }
 }
 
 /// Tells the delegate that IMUIInputView will switch to camera mode
 - (void)switchToCameraModeWithCameraBtn:(UIButton * _Nonnull)cameraBtn {
   if(_rctInputView.onSizeChange) {
-    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+    _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.top +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.bottom),
+                                 @"width":@(_rctInputView.frame.size.width)});
   }
   
   if(!_rctInputView.onSwitchToCameraMode) { return; }
@@ -271,7 +288,10 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 
 - (void)keyBoardWillShowWithHeight:(CGFloat)height durationTime:(double)durationTime {
   if(_rctInputView.onSizeChange) {
-    _rctInputView.onSizeChange(@{@"height":@(height + 46 + _rctInputView.inputTextHeight),@"width":@(_rctInputView.frame.size.width)});
+    _rctInputView.onSizeChange(@{@"height":@(height + 46 + _rctInputView.inputTextHeight +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.top +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.bottom),
+                                 @"width":@(_rctInputView.frame.size.width)});
   }
   
   if(!_rctInputView.onShowKeyboard) { return; }
