@@ -213,6 +213,10 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 }
 
 - (void)textDidChangeWithText:(NSString * _Nonnull)text {
+  if ([text isEqualToString:@""]) {
+    return;
+  }
+  
   if(_rctInputView.onSizeChange) {
     _rctInputView.onSizeChange(@{@"height":@(46 + _rctInputView.inputTextHeight + _rctInputView.keyBoardHeight),@"width":@(_rctInputView.frame.size.width)});
   }
