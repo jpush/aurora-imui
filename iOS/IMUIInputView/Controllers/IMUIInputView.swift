@@ -25,7 +25,7 @@ fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
 open class IMUIInputView: UIView {
   @objc open var inputTextViewLineHeight: Float = 5.0
   @objc open var inputTextViewTextColor: UIColor = UIColor(netHex: 0x555555)
-  
+  @objc open var inputTextViewFont: UIFont = UIFont.systemFont(ofSize: 14)
   var inputViewStatus: IMUIInputStatus = .none
   @objc open weak var inputViewDelegate: IMUIInputViewDelegate? {
     didSet {
@@ -55,7 +55,8 @@ open class IMUIInputView: UIView {
     self.addSubview(view)
     view.frame = self.bounds
     
-    inputTextView.textContainer.lineBreakMode = .byWordWrapping
+    self.inputTextView.textContainer.lineBreakMode = .byWordWrapping
+    self.inputTextView.font = UIFont.systemFont(ofSize: 14)
     self.inputTextView.textColor = inputTextViewTextColor
     inputTextView.delegate = self
     self.featureView.delegate = self
@@ -159,7 +160,7 @@ extension IMUIInputView: UITextViewDelegate {
     mutableParagraphStyle.lineSpacing = CGFloat(lineSpacing)
     
     attributedString.addAttributes([
-      NSAttributedStringKey.font:textView.font,
+      NSAttributedStringKey.font: self.inputTextViewFont,
       NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
       NSAttributedStringKey.foregroundColor: inputTextViewTextColor
       ], range: NSMakeRange(0, textView.text.utf16.count))
@@ -308,7 +309,7 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
       mutableParagraphStyle.lineSpacing = CGFloat(self.inputTextViewLineHeight)
       
       inputAttributeStr.addAttributes([
-        NSAttributedStringKey.font:inputTextView.font,
+        NSAttributedStringKey.font: self.inputTextViewFont,
         NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
         NSAttributedStringKey.foregroundColor: inputTextViewTextColor
         ], range: NSMakeRange(0, inputTextView.text.utf16.count))
