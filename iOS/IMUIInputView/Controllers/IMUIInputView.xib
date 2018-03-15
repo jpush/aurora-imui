@@ -38,12 +38,12 @@
                     <rect key="frame" x="16" y="0.0" width="290" height="254"/>
                     <subviews>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="q3k-Vv-eYJ">
-                            <rect key="frame" x="14" y="9" width="263" height="37"/>
+                            <rect key="frame" x="14" y="9" width="263" height="17"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="37" id="18d-oS-Mnx"/>
+                                <constraint firstAttribute="height" constant="17" id="18d-oS-Mnx"/>
                                 <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="8Qp-9t-CrH"/>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="37" id="BUB-M1-Wl0"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="17" id="BUB-M1-Wl0"/>
                             </constraints>
                             <color key="textColor" red="0.45208716389999998" green="0.52692264320000004" blue="0.66399085520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
