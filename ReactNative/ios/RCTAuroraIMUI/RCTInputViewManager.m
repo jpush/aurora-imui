@@ -224,7 +224,15 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 }
 
 - (void)textDidChangeWithText:(NSString * _Nonnull)text {
+// 1. emoji 的时候会自动弹下 2.发送的时候不会复位  recordKeyboardheight
   if ([text isEqualToString:@""]) {
+    
+    _rctInputView.onSizeChange(@{@"height":@(46 + _rctInputView.inputTextHeight +
+                                   _rctInputView.maxKeyBoardHeight +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.top +
+                                   _rctInputView.imuiIntputView.inputTextViewPadding.bottom
+                                   ),
+                                 @"width":@(_rctInputView.frame.size.width)});
     return;
   }
   

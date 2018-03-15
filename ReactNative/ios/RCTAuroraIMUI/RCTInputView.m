@@ -29,6 +29,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
   self = [super initWithCoder:aDecoder];
   self.keyBoardHeight = 0.0;
+  self.maxKeyBoardHeight = 0.0;
   if (self) {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hidenFeatureView)
@@ -94,6 +95,9 @@
   NSDictionary *dic = notif.userInfo;
   NSValue *keyboardValue = dic[UIKeyboardFrameEndUserInfoKey];
   CGFloat bottomDistance = [UIScreen mainScreen].bounds.size.height - keyboardValue.CGRectValue.origin.y;
+  if (self.maxKeyBoardHeight < bottomDistance) {
+    self.maxKeyBoardHeight = bottomDistance;
+  }
   self.keyBoardHeight  = bottomDistance;
   if(self.onSizeChange) {
     self.onSizeChange(@{@"height":@(46 + self.inputTextHeight + self.keyBoardHeight),@"width":@(self.frame.size.width)});
