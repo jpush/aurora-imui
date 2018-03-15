@@ -72,7 +72,7 @@
                      attributes:@{NSFontAttributeName:self.imuiIntputView.inputTextView.font,
                                   NSParagraphStyleAttributeName:paragraphStyle}
                      context:nil].size;
-  return realSize.height <= 40 ? 40 : realSize.height;
+  return realSize.height <= self.imuiIntputView.inputTextViewHeightRange.minimum ? self.imuiIntputView.inputTextViewHeightRange.minimum : realSize.height;
   
 }
 - (void)hidenFeatureView {
