@@ -123,19 +123,19 @@ open class IMUIInputView: UIView {
   
   func fitTextViewSize(_ textView: UITextView) {
       let textViewFitSize = textView.sizeThatFits(CGSize(width: textView.imui_width, height: CGFloat(MAXFLOAT)))
-    if textViewFitSize.height <= inputTextViewHeightRange.minimum {
-      self.inputTextViewHeight.constant = inputTextViewHeightRange.minimum
-      return
+      if textViewFitSize.height <= inputTextViewHeightRange.minimum {
+        self.inputTextViewHeight.constant = inputTextViewHeightRange.minimum
+        return
+      }
+
+      let newValue = textViewFitSize.height > inputTextViewHeightRange.maximum ? inputTextViewHeightRange.maximum : textViewFitSize.height
+      if newValue != self.inputTextViewHeight.constant {
+        DispatchQueue.main.async {
+          self.inputTextViewHeight.constant = newValue
+        }
+      }
     }
 
-    // input text will not tump
-    let range = NSMakeRange(textView.text.lengthOfBytes(using: .utf16), 0)
-    textView.scrollRangeToVisible(range)
-    textView.isScrollEnabled = false
-    textView.isScrollEnabled = true
-    
-    self.inputTextViewHeight.constant = textViewFitSize.height > inputTextViewHeightRange.maximum ? inputTextViewHeightRange.maximum : textViewFitSize.height
-    }
   
   open func showFeatureView() {
     UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) {
