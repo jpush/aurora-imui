@@ -128,6 +128,12 @@ open class IMUIInputView: UIView {
       self.inputTextViewHeight.constant = inputTextViewHeightRange.minimum
       return
     }
+
+    // input text will not tump
+    let range = NSMakeRange(textView.text.lengthOfBytes(using: .utf16), 0)
+    textView.scrollRangeToVisible(range)
+    textView.isScrollEnabled = false
+    textView.isScrollEnabled = true
     
     self.inputTextViewHeight.constant = textViewFitSize.height > inputTextViewHeightRange.maximum ? inputTextViewHeightRange.maximum : textViewFitSize.height
     }
