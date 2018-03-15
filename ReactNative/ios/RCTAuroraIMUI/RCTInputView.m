@@ -79,7 +79,10 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.imuiIntputView hideFeatureView];
     if(self.onSizeChange) {
-      self.onSizeChange(@{@"height":@(46 + self.inputTextHeight),@"width":@(self.frame.size.width)});
+      self.onSizeChange(@{@"height":@(46 + self.inputTextHeight +
+                            self.imuiIntputView.inputTextViewPadding.top +
+                            self.imuiIntputView.inputTextViewPadding.bottom),
+                          @"width":@(self.frame.size.width)});
     }
   });
 }
@@ -100,7 +103,10 @@
   }
   self.keyBoardHeight  = bottomDistance;
   if(self.onSizeChange) {
-    self.onSizeChange(@{@"height":@(46 + self.inputTextHeight + self.keyBoardHeight),@"width":@(self.frame.size.width)});
+    self.onSizeChange(@{@"height":@(46 + self.inputTextHeight + self.keyBoardHeight +
+                          self.imuiIntputView.inputTextViewPadding.top +
+                          self.imuiIntputView.inputTextViewPadding.bottom),
+                        @"width":@(self.frame.size.width)});
   }
 }
 
