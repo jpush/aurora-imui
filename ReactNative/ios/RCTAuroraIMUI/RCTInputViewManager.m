@@ -89,11 +89,6 @@ RCT_CUSTOM_VIEW_PROPERTY(inputTextSize, NSNumber, RCTInputView) {
   [_rctInputView.imuiIntputView.inputTextView setFont:[UIFont systemFontOfSize:size.floatValue]];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(inputTextLineHeight, NSNumber, RCTInputView) {
-  NSNumber *height = [RCTConvert NSNumber: json];
-  _rctInputView.imuiIntputView.inputTextViewLineHeight = height.floatValue;
-}
-
 RCT_CUSTOM_VIEW_PROPERTY(galleryScale, NSNumber, RCTInputView) {
   NSNumber *galleryScale = [RCTConvert NSNumber: json];
   _rctInputView.galleryScale = galleryScale;

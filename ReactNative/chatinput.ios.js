@@ -200,7 +200,6 @@ ChatInput.propTypes = {
   inputPadding: PropTypes.object,
 	inputTextColor: PropTypes.string,
 	inputTextSize: PropTypes.number,
-	inputTextLineHeight: PropTypes.number,
   ...ViewPropTypes
 };
 

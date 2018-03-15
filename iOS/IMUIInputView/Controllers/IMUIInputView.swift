@@ -26,9 +26,8 @@ open class IMUIInputView: UIView {
   @objc open var inputTextViewPadding: UIEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
   @objc open var inputTextViewHeightRange: UIFloatRange = UIFloatRange(minimum: 17, maximum: 60)
   
-  @objc open var inputTextViewLineHeight: Float = 5.0
   @objc open var inputTextViewTextColor: UIColor = UIColor(netHex: 0x555555)
-  @objc open var inputTextViewFont: UIFont = UIFont.systemFont(ofSize: 14)
+  @objc open var inputTextViewFont: UIFont = UIFont.systemFont(ofSize: 18)
   
   var inputViewStatus: IMUIInputStatus = .none
   @objc open weak var inputViewDelegate: IMUIInputViewDelegate? {
@@ -166,26 +165,7 @@ extension IMUIInputView: UITextViewDelegate {
   public func textViewDidChange(_ textView: UITextView) {
     self.fitTextViewSize(textView)
     self.updateSendBtnToPhotoSendStatus()
-    if textView.markedTextRange == nil {
-      self.updateTextView(textView, lineSpacing: self.inputTextViewLineHeight)
-    }
     self.inputViewDelegate?.textDidChange?(text: textView.text)
-  }
-  
-  // config line space
-  func updateTextView(_ textView: UITextView, lineSpacing: Float) {
-    print("\(textView.text!)  \(textView.text.utf16.count)")
-    let attributedString = NSMutableAttributedString(string: textView.text!)
-    let mutableParagraphStyle = NSMutableParagraphStyle()
-    mutableParagraphStyle.lineSpacing = CGFloat(lineSpacing)
-    
-    attributedString.addAttributes([
-      NSAttributedStringKey.font: self.inputTextViewFont,
-      NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
-      NSAttributedStringKey.foregroundColor: inputTextViewTextColor
-      ], range: NSMakeRange(0, textView.text.utf16.count))
-    textView.attributedText = attributedString
-
   }
   
   public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
@@ -217,10 +197,8 @@ extension IMUIInputView: IMUIFeatureListDelegate {
   }
   
   public func onClickSend(with cell: IMUIFeatureListIconCell) {
-//    print("onClickSend")
     self.clickSendBtn(cell: cell)
   }
-  
   
   func clickMicBtn(cell: IMUIFeatureListIconCell) {
     self.leaveGalleryMode()
@@ -333,24 +311,12 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
     switch emoji.emojiType {
     case .emoji:
       let inputStr = "\(self.inputTextView.text!)\(emoji.emoji!)"
-      let inputAttributeStr = NSMutableAttributedString(string: inputStr)
-      
-      let mutableParagraphStyle = NSMutableParagraphStyle()
-      mutableParagraphStyle.lineSpacing = CGFloat(self.inputTextViewLineHeight)
-      
-      inputAttributeStr.addAttributes([
-        NSAttributedStringKey.font: self.inputTextViewFont,
-        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
-        NSAttributedStringKey.foregroundColor: inputTextViewTextColor
-        ], range: NSMakeRange(0, inputTextView.text.utf16.count))
-      
-      self.inputTextView.attributedText = inputAttributeStr
+      self.inputTextView.text = inputStr
       self.fitTextViewSize(self.inputTextView)
       self.updateSendBtnToPhotoSendStatus()
     default:
       return
     }
-    
   }
   
   public func didRecordVoice(with voicePath: String, durationTime: Double) {
