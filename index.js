@@ -70,6 +70,13 @@ class AuroraIMUIController {
 	static hidenFeatureView(animate) {
 		AuroraIMUIModule.hidenFeatureView(animate)
 	}
+
+	/**
+	 * layout input view
+	 */
+	static layoutInputView() {
+		AuroraIMUIModule.layoutInputView()
+	}
 	
 	/**
 	 * add listener: messageList did Loaded will call cb
