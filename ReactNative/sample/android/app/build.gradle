@@ -112,8 +112,14 @@ android {
         }
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -130,9 +136,6 @@ android {
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
         }
-    }
-    defaultConfig {
-        multiDexEnabled true
     }
 }
 

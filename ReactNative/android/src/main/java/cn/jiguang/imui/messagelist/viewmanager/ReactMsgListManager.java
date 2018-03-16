@@ -1,4 +1,4 @@
-package cn.jiguang.imui.messagelist;
+package cn.jiguang.imui.messagelist.viewmanager;
 
 
 import android.annotation.SuppressLint;
@@ -25,10 +25,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -49,6 +47,11 @@ import javax.annotation.Nullable;
 
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.models.IMessage;
+import cn.jiguang.imui.messagelist.AuroraIMUIModule;
+import cn.jiguang.imui.messagelist.CustomViewHolder;
+import cn.jiguang.imui.messagelist.IdHelper;
+import cn.jiguang.imui.messagelist.R;
+import cn.jiguang.imui.messagelist.model.RCTMessage;
 import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;

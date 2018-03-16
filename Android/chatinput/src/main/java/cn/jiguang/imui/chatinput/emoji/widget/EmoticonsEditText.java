@@ -92,11 +92,13 @@ public class EmoticonsEditText extends AppCompatEditText {
     }
 
     @Override
-    public boolean dispatchKeyEventPreIme(KeyEvent event) {
-        if(onBackKeyClickListener != null){
-            onBackKeyClickListener.onBackKeyClick();
+    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if (onBackKeyClickListener != null) {
+                onBackKeyClickListener.onBackKeyClick();
+            }
         }
-        return super.dispatchKeyEventPreIme(event);
+        return super.onKeyPreIme(keyCode, event);
     }
 
     @Override

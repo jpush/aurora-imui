@@ -1,15 +1,10 @@
-package cn.jiguang.imui.messagelist;
+package cn.jiguang.imui.messagelist.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.commons.models.IUser;

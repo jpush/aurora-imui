@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
+import cn.jiguang.imui.chatinput.listener.CameraControllerListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
@@ -274,16 +275,11 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
             }
         });
 
-        mChatView.setOnTouchEditTextListener(new OnClickEditTextListener() {
+        mChatView.getChatInputView().getInputView().setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onTouchEditText() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mChatView.getMessageListView().smoothScrollToPosition(0);
-                    }
-                }, 100);
-
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                scrollToBottom();
+                return false;
             }
         });
 
@@ -507,10 +503,12 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         MyMessage voiceMessage = new MyMessage("", IMessage.MessageType.RECEIVE_VOICE.ordinal());
         voiceMessage.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
         voiceMessage.setMediaFilePath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/voice/2018-02-28-105103.m4a");
+        voiceMessage.setDuration(4);
         mAdapter.addToStart(voiceMessage, true);
         MyMessage sendVoiceMsg = new MyMessage("", IMessage.MessageType.SEND_VOICE.ordinal());
         sendVoiceMsg.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
         sendVoiceMsg.setMediaFilePath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/voice/2018-02-28-105103.m4a");
+        sendVoiceMsg.setDuration(4);
         mAdapter.addToStart(sendVoiceMsg, true);
         MyMessage eventMsg = new MyMessage("haha", IMessage.MessageType.EVENT.ordinal());
         mAdapter.addToStart(eventMsg, true);
@@ -563,7 +561,12 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
     }
 
     private void scrollToBottom() {
-        mAdapter.getLayoutManager().scrollToPosition(0);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mChatView.getMessageListView().smoothScrollToPosition(0);
+            }
+        }, 200);
     }
 
     @Override
@@ -571,16 +574,16 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 ChatInputView chatInputView = mChatView.getChatInputView();
-                if (view.getId() == chatInputView.getInputView().getId()) {
-                    scrollToBottom();
-                    if (chatInputView.getMenuState() == View.VISIBLE
-                            && !chatInputView.getSoftInputState()) {
-                        chatInputView.dismissMenuAndResetSoftMode();
-                        return false;
-                    } else {
-                        return false;
-                    }
-                }
+//                if (view.getId() == chatInputView.getInputView().getId()) {
+//                    scrollToBottom();
+//                    if (chatInputView.getMenuState() == View.VISIBLE
+//                            && !chatInputView.isKeyboardVisible()) {
+//                        chatInputView.dismissMenuLayout();
+//                        return false;
+//                    } else {
+//                        return false;
+//                    }
+//                }
                 if (chatInputView.getMenuState() == View.VISIBLE) {
                     chatInputView.dismissMenuLayout();
                 }
@@ -588,10 +591,8 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                     View v = getCurrentFocus();
                     if (mImm != null && v != null) {
                         mImm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                        mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        mWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                         view.clearFocus();
-                        chatInputView.setSoftInputState(false);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

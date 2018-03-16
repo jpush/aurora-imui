@@ -2,7 +2,7 @@ package cn.jiguang.imui.messagelist.event;
 
 import javax.annotation.Nullable;
 
-import cn.jiguang.imui.messagelist.RCTMessage;
+import cn.jiguang.imui.messagelist.model.RCTMessage;
 
 public class MessageEvent {
 

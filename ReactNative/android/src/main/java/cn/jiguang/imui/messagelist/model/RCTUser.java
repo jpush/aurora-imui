@@ -1,4 +1,4 @@
-package cn.jiguang.imui.messagelist;
+package cn.jiguang.imui.messagelist.model;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

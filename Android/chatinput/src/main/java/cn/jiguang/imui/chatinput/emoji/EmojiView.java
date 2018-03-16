@@ -88,4 +88,8 @@ public class EmojiView extends AutoHeightLayout implements EmoticonsFuncView.OnE
     public void onToolBarItemClick(PageSetEntity pageSetEntity) {
         mEmoticonsFuncView.setCurrentPageSet(pageSetEntity);
     }
+
+    public EmoticonsFuncView getEmoticonsFuncView() {
+        return this.mEmoticonsFuncView;
+    }
 }

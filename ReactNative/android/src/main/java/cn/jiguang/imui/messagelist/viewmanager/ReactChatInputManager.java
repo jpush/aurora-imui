@@ -1,4 +1,4 @@
-package cn.jiguang.imui.messagelist;
+package cn.jiguang.imui.messagelist.viewmanager;
 
 import android.app.Activity;
 import android.graphics.BitmapFactory;
@@ -52,6 +52,7 @@ import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
+import cn.jiguang.imui.messagelist.AuroraIMUIModule;
 import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
@@ -351,6 +352,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_CLICK_SELECT_ALBUM_EVENT, null);
             }
         });
+
         return mChatInput;
     }
 

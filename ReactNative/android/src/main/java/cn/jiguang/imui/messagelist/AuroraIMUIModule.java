@@ -2,7 +2,6 @@ package cn.jiguang.imui.messagelist;
 
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
@@ -32,9 +31,12 @@ import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
+import cn.jiguang.imui.messagelist.model.RCTMessage;
+import cn.jiguang.imui.messagelist.model.RCTUser;
+import cn.jiguang.imui.messagelist.viewmanager.ReactMsgListManager;
 
-import static cn.jiguang.imui.messagelist.ReactMsgListManager.RCT_REMOVE_ALL_MESSAGE_ACTION;
-import static cn.jiguang.imui.messagelist.ReactMsgListManager.RCT_REMOVE_MESSAGE_ACTION;
+import static cn.jiguang.imui.messagelist.viewmanager.ReactMsgListManager.RCT_REMOVE_ALL_MESSAGE_ACTION;
+import static cn.jiguang.imui.messagelist.viewmanager.ReactMsgListManager.RCT_REMOVE_MESSAGE_ACTION;
 
 public class AuroraIMUIModule extends ReactContextBaseJavaModule {
 

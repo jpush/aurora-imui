@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:background="@drawable/aurora_edittext_bg"
             android:cursorVisible="true"
-            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:inputType="textMultiLine"
             android:maxLines="4"
