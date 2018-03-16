@@ -32,6 +32,8 @@ export default class ChatInput extends Component {
     this._onSwitchToCameraMode = this._onSwitchToCameraMode.bind(this);
     this._onShowKeyboard = this._onShowKeyboard.bind(this);
     this._onSizeChange = this._onSizeChange.bind(this);
+    this._onFullScreen = this._onFullScreen.bind(this);
+		this._onRecoverScreen = this._onRecoverScreen.bind(this);
   }
 
   _onSendText(event: Event) {
@@ -134,6 +136,19 @@ export default class ChatInput extends Component {
     this.props.onSizeChange(event.nativeEvent);
   }
 
+  _onFullScreen() {
+		if (!this.props.onFullScreen) {
+			return;
+		}
+		this.props.onFullScreen();
+	}
+
+	_onRecoverScreen() {
+		if (!this.props.onRecoverScreen) {
+			return;
+		}
+		this.props.onRecoverScreen();
+	}
 
   render() {
     return (
@@ -153,6 +168,8 @@ export default class ChatInput extends Component {
           onSwitchToCameraMode={this._onSwitchToCameraMode}
           onShowKeyboard={this._onShowKeyboard}
           onSizeChange={this._onSizeChange}
+          onFullScreen={this._onFullScreen}
+          onRecoverScreen={this._onRecoverScreen}
       />
     );
   }
@@ -176,12 +193,13 @@ ChatInput.propTypes = {
   onSwitchToCameraMode: PropTypes.func,
   onShowKeyboard: PropTypes.func,
   onSizeChange: PropTypes.func,
+  onFullScreen: PropTypes.func,
+	onRecoverScreen: PropTypes.func,
   galleryScale: PropTypes.number,
   compressionQuality: PropTypes.number,
   inputPadding: PropTypes.object,
 	inputTextColor: PropTypes.string,
 	inputTextSize: PropTypes.number,
-	inputTextLineHeight: PropTypes.number,
   ...ViewPropTypes
 };
 

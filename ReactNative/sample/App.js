@@ -29,6 +29,8 @@ const getInputTextEvent = "getInputText"
 const MessageListDidLoadEvent = "IMUIMessageListDidLoad"
 
 var themsgid = 1
+var photoPathArr = [];
+var msgIdArr = [];
 
 function constructNormalMessage() {
 
@@ -77,19 +79,28 @@ export default class TestRNIMUI extends Component {
       messageListLayout: {flex: 1, width: window.width, margin: 0},
       inputViewLayout: { width: window.width, height: initHeight, },
       isAllowPullToRefresh: true,
-      navigationBar: {}
+      navigationBar: {},
     }
-
+    
     this.updateLayout = this.updateLayout.bind(this);
+    this.onMsgClick = this.onMsgClick.bind(this);
   }
 
   componentDidMount() {
-    AuroraIController.compressImage({path: "/storage/emulated/0/DCIM/Camera/IMG_20180305_164154.jpg", compressionQuality: 0.5}, (result) => {
+    /**
+     * Android only
+     * Must set menu height once, the height should be equals with the soft keyboard height so that the widget won't flash.
+     * 在别的界面计算一次软键盘的高度，然后初始化一次菜单栏高度，如果用户唤起了软键盘，则之后会自动计算高度。
+     */
+    this.refs["ChatInput"].setMenuContainerHeight(316)
+    AuroraIController.compressImage({path: "/storage/emulated/0/DCIM/????.jpg", compressionQuality: 0.5}, (result) => {
       console.log(JSON.stringify(result))
       var message = constructNormalMessage()
       message.mediaPath = result.thumbPath
       message.msgType = "image"
       AuroraIController.appendMessages([message])
+      msgIdArr.push(message.msgId)
+      photoPathArr.push(message.mediaPath)
     })
     this.resetMenu()
     AuroraIController.addMessageListDidLoadListener(() => {
@@ -162,9 +173,9 @@ export default class TestRNIMUI extends Component {
 
   onTouchEditText = () => {
     this.refs["ChatInput"].showMenu(false)
-    this.setState({
-      inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
-    })
+    // this.setState({
+    //   inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
+    // })
     // if (this.state.shouldExpandMenuContainer) {
     //   console.log("on touch input, expend menu")
     //   this.expendMenu()
@@ -193,9 +204,17 @@ export default class TestRNIMUI extends Component {
     AuroraIController.removeMessage(message.msgId)
   }
 
-  onMsgClick = (message) => {
+  onMsgClick(message) {
     console.log(message)
-    Alert.alert("message", JSON.stringify(message))
+    // Alert.alert("message", JSON.stringify(message))
+    if (message.msgType === "image") {
+      const {navigate} = this.props.navigation;
+      navigate("BrowserPhoto", {
+        photoPath: photoPathArr,
+        msgIds: msgIdArr,
+        clickedMsgId: message.msgId
+      })
+    }
   }
 
   onMsgLongClick = (message) => {
@@ -258,6 +277,8 @@ export default class TestRNIMUI extends Component {
     AuroraIController.appendMessages([message])
     this.resetMenu()
     AuroraIController.scrollToBottom(true)
+    photoPathArr.push(message.mediaPath)
+    msgIdArr.push(message.msgId)
   }
 
   onStartRecordVoice = (e) => {
@@ -308,6 +329,8 @@ export default class TestRNIMUI extends Component {
       var message = constructNormalMessage()
       if (mediaFiles[index].mediaType == "image") {
         message.msgType = "image"
+        photoPathArr.push(mediaFiles[index].mediaPath)
+        msgIdArr.push(message.msgId)
       } else {
         message.msgType = "video"
         message.duration = mediaFiles[index].duration
@@ -443,6 +466,7 @@ export default class TestRNIMUI extends Component {
           onSizeChange={this.onInputViewSizeChange}
           showSelectAlbumBtn={true}
           onClickSelectAlbum={this.onClickSelectAlbum}
+          inputPadding={{left: 30, top: 10, right: 10, bottom: 10}}
           galleryScale={0.6}//default = 0.5
           compressionQuality={0.6}
         />

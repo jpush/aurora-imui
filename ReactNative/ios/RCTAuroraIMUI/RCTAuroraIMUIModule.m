@@ -88,7 +88,7 @@ RCT_EXPORT_METHOD(scaleImage:(NSDictionary *)dic
   }
   
   NSNumber *width = dic[@"width"] ?: @(0);
-  NSNumber *height = dic[@"width"] ?: @(0);
+  NSNumber *height = dic[@"height"] ?: @(0);
   CGRect rect = CGRectMake(0, 0, width.floatValue, height.floatValue);
   
   UIImage *originImg = [UIImage imageWithContentsOfFile:dic[@"path"]];

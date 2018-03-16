@@ -14,6 +14,7 @@
     "react-native-fs": "^2.8.5",
     "react-native-material-ui": "^1.12.0",
     "react-native-popup-dialog": "^0.7.29",
+    "react-navigation": "^1.5.0",
     "react-timer-mixin": "^0.13.3"
   },
   "devDependencies": {

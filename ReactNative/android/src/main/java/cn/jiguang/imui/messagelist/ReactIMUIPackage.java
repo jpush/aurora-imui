@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cn.jiguang.imui.messagelist.viewmanager.ReactChatInputManager;
+import cn.jiguang.imui.messagelist.viewmanager.ReactMsgListManager;
+import cn.jiguang.imui.messagelist.viewmanager.ReactPhotoBrowserManager;
+
 /**
  * Created by caiyaoguan on 2017/5/24.
  */
@@ -32,6 +36,7 @@ public class ReactIMUIPackage implements ReactPackage {
         List<ViewManager> viewManagers = new ArrayList<>();
         viewManagers.add(new ReactMsgListManager());
         viewManagers.add(new ReactChatInputManager());
+        viewManagers.add(new ReactPhotoBrowserManager());
         return  viewManagers;
     }
 }

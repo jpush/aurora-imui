@@ -50,9 +50,9 @@ class IMUIGalleryContainerCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   }
   
   func activateMedia() {
-    self.galleryCollectionView.reloadData()
+    self.galleryCollectionView.reloadDataHorizontalNoScroll()
     if IMUIGalleryDataManager.allAssets.count > 0 {
-      self.galleryCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
+//      self.galleryCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
     }
   }
   

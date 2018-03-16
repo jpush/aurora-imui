@@ -1,4 +1,4 @@
-package cn.jiguang.imui.messagelist;
+package cn.jiguang.imui.messagelist.viewmanager;
 
 
 import android.annotation.SuppressLint;
@@ -13,6 +13,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,10 +26,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -49,6 +48,11 @@ import javax.annotation.Nullable;
 
 import cn.jiguang.imui.commons.ImageLoader;
 import cn.jiguang.imui.commons.models.IMessage;
+import cn.jiguang.imui.messagelist.AuroraIMUIModule;
+import cn.jiguang.imui.messagelist.CustomViewHolder;
+import cn.jiguang.imui.messagelist.IdHelper;
+import cn.jiguang.imui.messagelist.R;
+import cn.jiguang.imui.messagelist.model.RCTMessage;
 import cn.jiguang.imui.messagelist.event.LoadedEvent;
 import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
@@ -242,10 +246,15 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     public void onEvent(ScrollEvent event) {
         if (event.getFlag()) {
             Log.i(REACT_MESSAGE_LIST, "Scroll to bottom smoothly");
-            mMessageList.smoothScrollToPosition(0);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mMessageList.smoothScrollToPosition(0);
+                }
+            }, 200);
         } else {
             Log.i(REACT_MESSAGE_LIST, "Scroll to bottom");
-            mMessageList.getLayoutManager().scrollToPosition(0);
+            mMessageList.scrollToPosition(0);
         }
     }
 

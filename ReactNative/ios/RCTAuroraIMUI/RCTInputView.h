@@ -16,6 +16,8 @@
 @property (nonatomic, assign)CGFloat inputTextHeight;
 @property (nonatomic, assign)CGFloat keyBoardHeight;
 
+@property (nonatomic, assign)CGFloat maxKeyBoardHeight;
+
 @property(strong, nonatomic) NSString *chatInputBackgroupColor;
 
 @property(strong, nonatomic) NSNumber *galleryScale;
@@ -42,8 +44,11 @@
 
 @property (nonatomic, copy) RCTBubblingEventBlock onShowKeyboard;
 
+@property (nonatomic, copy) RCTBubblingEventBlock onFullScreen;
+
+@property (nonatomic, copy) RCTBubblingEventBlock onRecoverScreen;
+
 @property(strong, nonatomic) NSDictionary *inputPadding;
 @property(strong, nonatomic) NSString *inputTextColor;
 @property(strong, nonatomic) NSNumber *inputTextSize;
-@property(strong, nonatomic) NSNumber *inputTextLineHeight;
 @end

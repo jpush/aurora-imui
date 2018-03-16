@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import imui.jiguang.cn.imuisample.R;
 public class ChatView extends RelativeLayout {
 
     private TextView mTitle;
+    private LinearLayout mTitleContainer;
     private MessageList mMsgList;
     private ChatInputView mChatInput;
     private RecordVoiceButton mRecordVoiceBtn;
@@ -44,11 +46,17 @@ public class ChatView extends RelativeLayout {
     }
 
     public void initModule() {
+        mTitleContainer = (LinearLayout) findViewById(R.id.title_container);
         mTitle = (TextView) findViewById(R.id.title_tv);
         mMsgList = (MessageList) findViewById(R.id.msg_list);
         mChatInput = (ChatInputView) findViewById(R.id.chat_input);
         mPtrLayout = (PullToRefreshLayout) findViewById(R.id.pull_to_refresh_layout);
 
+        /**
+         * Should set menu container height once the ChatInputView has been initialized.
+         * For perfect display, the height should be equals with soft input height.
+         */
+        mChatInput.setMenuContainerHeight(831);
         mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
         mSelectAlbumIb = mChatInput.getSelectAlbumBtn();
         PtrDefaultHeader header = new PtrDefaultHeader(getContext());

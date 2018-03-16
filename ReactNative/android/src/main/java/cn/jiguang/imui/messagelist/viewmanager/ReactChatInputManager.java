@@ -1,11 +1,13 @@
-package cn.jiguang.imui.messagelist;
+package cn.jiguang.imui.messagelist.viewmanager;
 
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -52,6 +54,7 @@ import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
+import cn.jiguang.imui.messagelist.AuroraIMUIModule;
 import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
@@ -85,6 +88,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String ON_INPUT_SIZE_CHANGED_EVENT = "onSizeChange";
     private static final String ON_CLICK_SELECT_ALBUM_EVENT = "onClickSelectAlbum";
     private final int REQUEST_PERMISSION = 0x0001;
+    private final int INIT_MENU_HEIGHT = 99;
     private final int CLOSE_SOFT_INPUT = 100;
     private final int GET_INPUT_TEXT = 101;
     private final int RESET_MENU_STATE = 102;
@@ -103,6 +107,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
      */
     private int mMenuContainerHeight = 831;
     private float mDensity;
+    private int mLastClickId = -1;
 
     @Override
     public String getName() {
@@ -125,9 +130,9 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                     reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_TOUCH_EDIT_TEXT_EVENT, null);
                     if (!mChatInput.isFocused()) {
                         EmoticonsKeyboardUtils.openSoftKeyboard(mChatInput.getInputView());
-                        mChatInput.invisibleMenuLayout();
+//                        mChatInput.invisibleMenuLayout();
                     }
-                    EventBus.getDefault().post(new ScrollEvent(false));
+                    EventBus.getDefault().post(new ScrollEvent(true));
 
                 }
                 return false;
@@ -212,40 +217,126 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
 
             @Override
             public boolean switchToMicrophoneMode() {
-                initMenu(0);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_MIC_EVENT, null);
-                return true;
+                // If menu is visible, close menu.
+                if (mLastClickId == 0 && mShowMenu) {
+                    mShowMenu = false;
+                    mChatInput.dismissMenuLayout();
+                    mChatInput.dismissRecordVoiceLayout();
+                    sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+                } else {
+                    mShowMenu = true;
+                    mChatInput.setPendingShowMenu(true);
+                    EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChatInput.showMenuLayout();
+                            mChatInput.showRecordVoiceLayout();
+                            sendSizeChangedEvent(calculateMenuHeight());
+                        }
+                    }, 100);
+
+                }
+                mLastClickId = 0;
+                return false;
             }
 
             @Override
             public boolean switchToGalleryMode() {
-                initMenu(-1);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_GALLERY_EVENT, null);
-                return true;
+                if (mLastClickId == 1 && mShowMenu) {
+                    mShowMenu = false;
+                    mChatInput.dismissMenuLayout();
+                    mChatInput.dismissPhotoLayout();
+                    sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+                } else {
+                    mShowMenu = true;
+                    mChatInput.setPendingShowMenu(true);
+                    EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendSizeChangedEvent(calculateMenuHeight() + 1);
+                            mChatInput.showMenuLayout();
+                            mChatInput.showSelectPhotoLayout();
+                        }
+                    }, 100);
+
+                }
+                mLastClickId = 1;
+                return false;
             }
 
             @Override
             public boolean switchToCameraMode() {
-                initMenu(1);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_CAMERA_EVENT, null);
-                return true;
+                if (mLastClickId == 2 && mShowMenu) {
+                    mShowMenu = false;
+                    mChatInput.dismissMenuLayout();
+                    mChatInput.dismissCameraLayout();
+                    sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+                } else {
+                    mShowMenu = true;
+                    mChatInput.setPendingShowMenu(true);
+                    mChatInput.initCamera();
+                    EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChatInput.showMenuLayout();
+                            mChatInput.showCameraLayout();
+                            sendSizeChangedEvent(calculateMenuHeight() + 2);
+                        }
+                    }, 100);
+
+                }
+                mLastClickId = 2;
+                return false;
             }
 
             @Override
             public boolean switchToEmojiMode() {
-                initMenu(2);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_EMOJI_EVENT, null);
-                return true;
+                if (mLastClickId == 3 && mShowMenu) {
+                    mShowMenu = false;
+                    mChatInput.dismissMenuLayout();
+                    mChatInput.dismissEmojiLayout();
+                    sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+                } else {
+                    mShowMenu = true;
+                    mChatInput.setPendingShowMenu(true);
+                    EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChatInput.showMenuLayout();
+                            mChatInput.showEmojiLayout();
+                            sendSizeChangedEvent(calculateMenuHeight() - 1);
+                        }
+                    }, 100);
+                }
+                mLastClickId = 3;
+                return false;
             }
         });
 
         mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
             @Override
             public void onTakePictureCompleted(String photoPath) {
+                if (mChatInput.isFullScreen()) {
+                    mContext.runOnUiQueueThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChatInput.dismissCameraLayout();
+                            mChatInput.dismissMenuLayout();
+                        }
+                    });
+                }
                 WritableMap event = Arguments.createMap();
                 event.putString("mediaPath", photoPath);
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -317,20 +408,16 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
         mChatInput.setCameraControllerListener(new CameraControllerListener() {
             @Override
             public void onFullScreenClick() {
-                FrameLayout container = mChatInput.getCameraContainer();
-                container.bringToFront();
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         ON_FULL_SCREEN_EVENT, null);
             }
 
             @Override
             public void onRecoverScreenClick() {
-                moveToBack(mChatInput.getCameraContainer());
-                FrameLayout container = mChatInput.getCameraContainer();
-                container.setLayoutParams(new FrameLayout.LayoutParams(mScreenWidth, mChatInput.getSoftKeyboardHeight()));
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         ON_RECOVER_SCREEN_EVENT, null);
                 WritableMap map = Arguments.createMap();
+                Log.e(REACT_CHAT_INPUT, "send onSizeChangedEvent to js, height: " + mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / mDensity);
                 map.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / mDensity);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
             }
@@ -351,25 +438,31 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_CLICK_SELECT_ALBUM_EVENT, null);
             }
         });
+//        mChatInput.getEmojiContainer().getEmoticonsFuncView().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                Log.e(REACT_CHAT_INPUT, "EmotionPage Position" + position);
+//                if (position > 0) {
+//                    sendSizeChangedEvent(calculateMenuHeight() - 2);
+//                }
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
         return mChatInput;
     }
 
-    private void initMenu(int n) {
-        mShowMenu = true;
-        if (mChatInput.getSoftInputState()) {
-            EmoticonsKeyboardUtils.closeSoftKeyboard(mChatInput.getInputView());
-        }
-        if (mChatInput.getSoftInputState() || mChatInput.getMenuState() == View.VISIBLE) {
-            EventBus.getDefault().post(new ScrollEvent(false));
-        } else {
-            EventBus.getDefault().post(new ScrollEvent(true));
-        }
+    private void sendSizeChangedEvent(final double n) {
         WritableMap event = Arguments.createMap();
-        if (mChatInput.getSoftKeyboardHeight() == 0) {
-            event.putDouble("height", mInitialChatInputHeight + mMenuContainerHeight + n);
-        } else {
-            event.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / mDensity + n);
-        }
+        event.putDouble("height", n);
         mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, event);
     }
 
@@ -462,9 +555,9 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
             int top = map.getInt("top");
             int right = map.getInt("right");
             int bottom = map.getInt("bottom");
-            chatInputView.getInputView().setPadding(DisplayUtil.dp2px(mContext, left),
-                    DisplayUtil.dp2px(mContext, top), DisplayUtil.dp2px(mContext, right),
-                    DisplayUtil.dp2px(mContext, bottom));
+            chatInputView.getInputView().setPadding(chatInputView.dp2px(left),
+                    chatInputView.dp2px(top), chatInputView.dp2px(right),
+                    chatInputView.dp2px(bottom));
         } catch (Exception e) {
             Log.e(REACT_CHAT_INPUT, "Input padding key error");
         }
@@ -525,6 +618,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     @Override
     public void receiveCommand(ChatInputView root, int commandId, @Nullable ReadableArray args) {
         switch (commandId){
+            case INIT_MENU_HEIGHT:
+                if (args == null) {
+                    return;
+                }
+                root.setMenuContainerHeight(root.dp2px(args.getInt(0)));
+                break;
             case CLOSE_SOFT_INPUT:
                 EmoticonsKeyboardUtils.closeSoftKeyboard(root.getInputView());
                 break;

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import java.io.File;
 
 import cn.jiguang.imui.commons.models.IMessage;
+import cn.jiguang.imui.messagelist.model.RCTMessage;
 import cn.jiguang.imui.messages.BaseMessageViewHolder;
 import cn.jiguang.imui.messages.MessageListStyle;
 import cn.jiguang.imui.messages.MsgListAdapter;
