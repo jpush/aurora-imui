@@ -773,12 +773,16 @@ public class ChatInputView extends LinearLayout
         }
     }
 
-    private void initCamera() {
+    public void initCamera() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mCameraSupport = new CameraNew(getContext(), mTextureView);
         } else {
             mCameraSupport = new CameraOld(getContext(), mTextureView);
         }
+        ViewGroup.LayoutParams params = mTextureView.getLayoutParams();
+        params.height = mSoftKeyboardHeight == 0 ? sMenuHeight : mSoftKeyboardHeight;
+        mTextureView.setLayoutParams(params);
+        Log.e(TAG, "TextureView height: " + mTextureView.getHeight());
         mCameraSupport.setCameraCallbackListener(mCameraListener);
         mCameraSupport.setCameraEventListener(this);
         for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
@@ -1269,6 +1273,14 @@ public class ChatInputView extends LinearLayout
         if (mIsFullScreen) {
             recoverScreen();
         }
+    }
+
+    public boolean isFullScreen() {
+        return this.mIsFullScreen;
+    }
+
+    public void setPendingShowMenu(boolean flag) {
+        this.mPendingShowMenu = flag;
     }
 
     @Override

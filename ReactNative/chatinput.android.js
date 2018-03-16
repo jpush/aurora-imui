@@ -170,6 +170,10 @@ export default class ChatInput extends Component {
 		this.props.onClickSelectAlbum();
 	}
 
+	setMenuContainerHeight(height) {
+		UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[CHAT_INPUT]), 99, [height]);
+	}
+
 	closeSoftInput() {
 		UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[CHAT_INPUT]), 100, null);
 	}

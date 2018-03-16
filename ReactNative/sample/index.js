@@ -10,6 +10,8 @@ export default App = StackNavigator({
     BrowserPhoto: {
         screen: BrowserPhotoScreen
     }
+}, {
+    headerMode: 'none'
 })
 
 AppRegistry.registerComponent('TestRNIMUI', () => App);

@@ -13,6 +13,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -245,10 +246,15 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
     public void onEvent(ScrollEvent event) {
         if (event.getFlag()) {
             Log.i(REACT_MESSAGE_LIST, "Scroll to bottom smoothly");
-            mMessageList.smoothScrollToPosition(0);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mMessageList.smoothScrollToPosition(0);
+                }
+            }, 200);
         } else {
             Log.i(REACT_MESSAGE_LIST, "Scroll to bottom");
-            mMessageList.getLayoutManager().scrollToPosition(0);
+            mMessageList.scrollToPosition(0);
         }
     }
 

@@ -79,7 +79,7 @@ export default class TestRNIMUI extends Component {
       messageListLayout: {flex: 1, width: window.width, margin: 0},
       inputViewLayout: { width: window.width, height: initHeight, },
       isAllowPullToRefresh: true,
-      navigationBar: {}
+      navigationBar: {},
     }
     
     this.updateLayout = this.updateLayout.bind(this);
@@ -87,6 +87,12 @@ export default class TestRNIMUI extends Component {
   }
 
   componentDidMount() {
+    /**
+     * Android only
+     * Must set menu height once, the height should be equals with the soft keyboard height so that the widget won't flash.
+     * 在别的界面计算一次软键盘的高度，然后初始化一次菜单栏高度，如果用户唤起了软键盘，则之后会自动计算高度。
+     */
+    this.refs["ChatInput"].setMenuContainerHeight(316)
     AuroraIController.compressImage({path: "/storage/emulated/0/DCIM/????.jpg", compressionQuality: 0.5}, (result) => {
       console.log(JSON.stringify(result))
       var message = constructNormalMessage()
@@ -167,9 +173,9 @@ export default class TestRNIMUI extends Component {
 
   onTouchEditText = () => {
     this.refs["ChatInput"].showMenu(false)
-    this.setState({
-      inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
-    })
+    // this.setState({
+    //   inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
+    // })
     // if (this.state.shouldExpandMenuContainer) {
     //   console.log("on touch input, expend menu")
     //   this.expendMenu()
