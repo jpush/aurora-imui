@@ -88,24 +88,8 @@ class MyMessageModel: IMUIMessageModel {
   }
   
   static func calculateTextContentSize(text: String) -> CGSize {
-//    let textSize  = text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: UIFont.systemFont(ofSize: 18))
-//
-//    return textSize
-    
-    let attributedString = NSMutableAttributedString(string: text)
-    let mutableParagraphStyle = NSMutableParagraphStyle()
-
-
-      mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.outGoingTextLineHeight
-      attributedString.addAttributes([
-        NSAttributedStringKey.font: IMUITextMessageContentView.outGoingTextFont,
-        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
-        NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.outGoingTextColor
-        ], range: NSMakeRange(0, text.count))
-
-      return attributedString.boundingRect(with: CGSize(width: IMUIMessageCellLayout.bubbleMaxWidth, height: 10000), options: .usesLineFragmentOrigin, context: nil).size
-    
-  
+    let textSize  = text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth, font: UIFont.systemFont(ofSize: 18))
+    return textSize
   }
   
   static func calculateNameContentSize(text: String) -> CGSize {

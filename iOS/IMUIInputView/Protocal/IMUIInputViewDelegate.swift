@@ -89,6 +89,16 @@ import Photos
    *  Tells the delegate when inputTextview text did change
    */
   @objc optional func textDidChange(text: String)
+  
+  /**
+   *  Tells the delegate when camera transform to full screem
+   */
+  @objc optional func cameraFullScreen()
+  
+  /**
+   *  Tells the delegate when camera recover screen
+   */
+  @objc optional func cameraRecoverScreen()
 }
 
 

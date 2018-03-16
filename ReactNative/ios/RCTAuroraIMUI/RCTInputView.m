@@ -29,6 +29,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
   self = [super initWithCoder:aDecoder];
   self.keyBoardHeight = 0.0;
+  self.maxKeyBoardHeight = 0.0;
   if (self) {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(hidenFeatureView)
@@ -71,14 +72,17 @@
                      attributes:@{NSFontAttributeName:self.imuiIntputView.inputTextView.font,
                                   NSParagraphStyleAttributeName:paragraphStyle}
                      context:nil].size;
-  return realSize.height <= 40 ? 40 : realSize.height;
+  return realSize.height <= self.imuiIntputView.inputTextViewHeightRange.minimum ? self.imuiIntputView.inputTextViewHeightRange.minimum : realSize.height;
   
 }
 - (void)hidenFeatureView {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.imuiIntputView hideFeatureView];
     if(self.onSizeChange) {
-      self.onSizeChange(@{@"height":@(46 + self.inputTextHeight),@"width":@(self.frame.size.width)});
+      self.onSizeChange(@{@"height":@(46 + self.inputTextHeight +
+                            self.imuiIntputView.inputTextViewPadding.top +
+                            self.imuiIntputView.inputTextViewPadding.bottom),
+                          @"width":@(self.frame.size.width)});
     }
   });
 }
@@ -94,9 +98,15 @@
   NSDictionary *dic = notif.userInfo;
   NSValue *keyboardValue = dic[UIKeyboardFrameEndUserInfoKey];
   CGFloat bottomDistance = [UIScreen mainScreen].bounds.size.height - keyboardValue.CGRectValue.origin.y;
+  if (self.maxKeyBoardHeight < bottomDistance) {
+    self.maxKeyBoardHeight = bottomDistance;
+  }
   self.keyBoardHeight  = bottomDistance;
   if(self.onSizeChange) {
-    self.onSizeChange(@{@"height":@(46 + self.inputTextHeight + self.keyBoardHeight),@"width":@(self.frame.size.width)});
+    self.onSizeChange(@{@"height":@(46 + self.inputTextHeight + self.keyBoardHeight +
+                          self.imuiIntputView.inputTextViewPadding.top +
+                          self.imuiIntputView.inputTextViewPadding.bottom),
+                        @"width":@(self.frame.size.width)});
   }
 }
 

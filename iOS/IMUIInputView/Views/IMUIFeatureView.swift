@@ -29,6 +29,8 @@ public protocol IMUIFeatureViewDelegate: NSObjectProtocol {
   func didRecordVideo(with videoPath: String, durationTime: Double)
   func didSeletedEmoji(with emoji: IMUIEmojiModel)
   func didChangeSelectedGallery(with gallerys: [PHAsset])
+  func cameraFullScreen()
+  func cameraRecoverScreen()
 }
 
 public extension IMUIFeatureViewDelegate {
@@ -38,6 +40,8 @@ public extension IMUIFeatureViewDelegate {
   func didRecordVideo(with videoPath: String, durationTime: Double) {}
   func didSeletedEmoji(with emoji: IMUIEmojiModel) {}
   func didChangeSelectedGallery() {}
+  func cameraFullScreen() {}
+  func cameraRecoverScreen() {}
 }
 
 public protocol IMUIFeatureCellProtocol {
@@ -153,7 +157,6 @@ open class IMUIFeatureView: UIView {
   }
   
   func clearAllSelectedGallery() {
-    if currentType != .gallery { return }
     IMUIGalleryDataManager.selectedAssets = [PHAsset]()
     self.featureCollectionView.reloadData()
   }

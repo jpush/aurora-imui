@@ -14,8 +14,6 @@ import UIKit
   
   @objc open static var outGoingTextFont = UIFont.systemFont(ofSize: 18)
   @objc open static var inComingTextFont = UIFont.systemFont(ofSize: 18)
-  @objc open static var outGoingTextLineHeight: CGFloat = 2.0
-  @objc open static var inComingTextLineHeight: CGFloat = 2.0
   
   var textMessageLable = IMUITextView()
   
@@ -41,21 +39,29 @@ import UIKit
     let mutableParagraphStyle = NSMutableParagraphStyle()
     
     
+//    if isOutGoing {
+//      mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.outGoingTextLineHeight
+//      attributedString.addAttributes([
+//        NSAttributedStringKey.font: IMUITextMessageContentView.outGoingTextFont,
+//        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
+//        NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.outGoingTextColor
+//        ], range: NSMakeRange(0, text.count))
+//    } else {
+//      mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.inComingTextLineHeight
+//      attributedString.addAttributes([
+//        NSAttributedStringKey.font: IMUITextMessageContentView.inComingTextFont,
+//        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
+//        NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.inComingTextColor
+//        ], range: NSMakeRange(0, text.count))
+//    }
+    
+    textMessageLable.text = text
     if isOutGoing {
-      mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.outGoingTextLineHeight
-      attributedString.addAttributes([
-        NSAttributedStringKey.font: IMUITextMessageContentView.outGoingTextFont,
-        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
-        NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.outGoingTextColor
-        ], range: NSMakeRange(0, text.count))
+      textMessageLable.font = IMUITextMessageContentView.outGoingTextFont
+      textMessageLable.textColor = IMUITextMessageContentView.outGoingTextColor
     } else {
-      mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.inComingTextLineHeight
-      attributedString.addAttributes([
-        NSAttributedStringKey.font: IMUITextMessageContentView.inComingTextFont,
-        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
-        NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.inComingTextColor
-        ], range: NSMakeRange(0, text.count))
+      textMessageLable.font = IMUITextMessageContentView.inComingTextFont
+      textMessageLable.textColor = IMUITextMessageContentView.inComingTextColor
     }
-    textMessageLable.attributedText = attributedString
   }
 }

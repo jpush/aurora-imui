@@ -227,4 +227,10 @@ public extension UICollectionView {
     print("the currentOffset\(currentOffset)")
     self.setContentOffset(currentOffset, animated: false)
   }
+  
+  func reloadDataHorizontalNoScroll() {
+    var currentOffset = self.contentOffset
+    self.reloadData();
+    self.setContentOffset(currentOffset, animated: false)
+  }
 }

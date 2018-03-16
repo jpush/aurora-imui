@@ -88,7 +88,7 @@ open class IMUIFeatureListView: UIView {
     let frameWidth = self.view.imui_width
     let totalCellWidth = CGFloat(self.featureListDataSource.count * featureListBtnWidth)
     
-    var spaceWidth = (frameWidth - CGFloat(featureListMargin * 2) - totalCellWidth) / CGFloat(self.featureListDataSource.count - 1)
+    let spaceWidth = (frameWidth - CGFloat(featureListMargin * 2) - totalCellWidth) / CGFloat(self.featureListDataSource.count - 1)
     print("frameWidth :\(frameWidth)  spaceWidth: \(spaceWidth)")
     (self.featureListCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = spaceWidth
     
@@ -139,7 +139,7 @@ extension IMUIFeatureListView: UICollectionViewDataSource,UICollectionViewDelega
   
   public func collectionView(_ collectionView: UICollectionView,
                              cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    var cellIdentifier = "IMUIFeatureListIconCell"
+    let cellIdentifier = "IMUIFeatureListIconCell"
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! IMUIFeatureListIconCell
     cell.layout(with: self.featureListDataSource[indexPath.item],onClickCallback: { cell in
       switch cell.featureData!.featureType {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13122.19" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.16"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,9 +14,12 @@
                 <outlet property="featureSelectorView" destination="xJx-AS-B6d" id="Rhd-bL-Atu"/>
                 <outlet property="featureView" destination="t9V-LN-RmM" id="BX1-yg-qdU"/>
                 <outlet property="inputTextView" destination="q3k-Vv-eYJ" id="MyE-YV-WPU"/>
-                <outlet property="inputTextViewHeight" destination="LLt-r7-Tnh" id="M6Z-gq-RJI"/>
+                <outlet property="inputTextViewHeight" destination="18d-oS-Mnx" id="HX8-Rd-aol"/>
                 <outlet property="moreViewHeight" destination="Di3-tL-4ID" id="ORc-ip-Sc5"/>
-                <outlet property="sendNumberLabel" destination="49v-09-3OF" id="Yuh-f7-T6w"/>
+                <outlet property="paddingBottom" destination="zYO-BI-2Mu" id="lCe-aV-DuP"/>
+                <outlet property="paddingLeft" destination="PQt-BA-knv" id="lAx-kD-0Xd"/>
+                <outlet property="paddingRight" destination="eAk-Y4-eRz" id="MpP-qG-tVr"/>
+                <outlet property="paddingTop" destination="shA-jA-VUO" id="fYE-Sx-eqR"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -24,39 +27,39 @@
             <rect key="frame" x="0.0" y="0.0" width="322" height="300"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="q3k-Vv-eYJ">
-                    <rect key="frame" x="16" y="0.0" width="290" height="37"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="1oH-4G-OT1"/>
-                        <constraint firstAttribute="height" priority="800" constant="37" id="LLt-r7-Tnh"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="37" id="Sc2-Ju-FfT"/>
-                    </constraints>
-                    <color key="textColor" red="0.45208716389999998" green="0.52692264320000004" blue="0.66399085520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t9V-LN-RmM" customClass="IMUIFeatureView" customModule="sample" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="83" width="322" height="0.0"/>
+                    <rect key="frame" x="0.0" y="300" width="322" height="0.0"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" id="Di3-tL-4ID"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49v-09-3OF">
-                    <rect key="frame" x="279" y="60.5" width="21" height="21"/>
-                    <color key="backgroundColor" red="0.81378847360610962" green="0.86015254259109497" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Cb-U2-c9G">
+                    <rect key="frame" x="16" y="0.0" width="290" height="254"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="q3k-Vv-eYJ">
+                            <rect key="frame" x="14" y="9" width="263" height="17"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="17" id="18d-oS-Mnx"/>
+                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="8Qp-9t-CrH"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="17" id="BUB-M1-Wl0"/>
+                            </constraints>
+                            <color key="textColor" red="0.45208716389999998" green="0.52692264320000004" blue="0.66399085520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="21" id="EO5-n3-woc"/>
-                        <constraint firstAttribute="width" constant="21" id="Mu1-ww-v9G"/>
+                        <constraint firstItem="q3k-Vv-eYJ" firstAttribute="leading" secondItem="3Cb-U2-c9G" secondAttribute="leading" constant="14" id="PQt-BA-knv"/>
+                        <constraint firstAttribute="trailing" secondItem="q3k-Vv-eYJ" secondAttribute="trailing" constant="13" id="eAk-Y4-eRz"/>
+                        <constraint firstItem="q3k-Vv-eYJ" firstAttribute="top" secondItem="3Cb-U2-c9G" secondAttribute="top" constant="9" id="shA-jA-VUO"/>
+                        <constraint firstAttribute="bottom" secondItem="q3k-Vv-eYJ" secondAttribute="bottom" constant="9" id="zYO-BI-2Mu"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                    <size key="shadowOffset" width="1" height="-1"/>
-                </label>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJx-AS-B6d" customClass="IMUIFeatureListView" customModule="sample" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="37" width="322" height="46"/>
+                    <rect key="frame" x="0.0" y="254" width="322" height="46"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="46" id="erI-UZ-EUg"/>
@@ -65,16 +68,16 @@
             </subviews>
             <color key="backgroundColor" red="0.95283776521682739" green="0.95300072431564331" blue="0.95282751321792603" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="3Cb-U2-c9G" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="5XP-3a-wVU"/>
                 <constraint firstItem="t9V-LN-RmM" firstAttribute="top" secondItem="xJx-AS-B6d" secondAttribute="bottom" id="INR-I3-hHZ"/>
-                <constraint firstItem="q3k-Vv-eYJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="JXt-2x-VwG"/>
-                <constraint firstItem="q3k-Vv-eYJ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="R3n-j1-E9C"/>
-                <constraint firstAttribute="trailing" secondItem="q3k-Vv-eYJ" secondAttribute="trailing" constant="16" id="W9j-Ty-Bls"/>
+                <constraint firstAttribute="trailing" secondItem="3Cb-U2-c9G" secondAttribute="trailing" constant="16" id="Mtd-Fr-wN5"/>
+                <constraint firstItem="xJx-AS-B6d" firstAttribute="top" secondItem="3Cb-U2-c9G" secondAttribute="bottom" id="RDB-KL-PWN"/>
+                <constraint firstItem="3Cb-U2-c9G" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="YZv-F0-ipk"/>
                 <constraint firstItem="t9V-LN-RmM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="caC-5F-djf"/>
                 <constraint firstItem="xJx-AS-B6d" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gnG-8J-zlX"/>
                 <constraint firstAttribute="trailing" secondItem="t9V-LN-RmM" secondAttribute="trailing" id="lnO-SC-Lxl"/>
                 <constraint firstAttribute="bottom" secondItem="t9V-LN-RmM" secondAttribute="bottom" id="vDI-Fg-quz"/>
                 <constraint firstAttribute="trailing" secondItem="xJx-AS-B6d" secondAttribute="trailing" id="ykG-I9-7eC"/>
-                <constraint firstItem="xJx-AS-B6d" firstAttribute="top" secondItem="q3k-Vv-eYJ" secondAttribute="bottom" id="ykZ-5a-TdX"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-547" y="-17"/>
