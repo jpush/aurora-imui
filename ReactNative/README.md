@@ -33,12 +33,15 @@ com.android.ide.common.process.ProcessException: Failed to execute aapt
 Caused by: java.util.concurrent.ExecutionException: java.util.concurrent.ExecutionException: com.android.tools.aapt2.Aapt2Exception: AAPT2 error: check logs for details
 ```
 
-It would be likely that the android support  libraries in  aurora-imui-react-native conflicts with yours. Solution: In your build.gradle, exclude support libraries from aurora-imui:
+It would be likely that the android support  libraries in  aurora-imui-react-native conflicts with yours. Solution: In your build.gradle, exclude support libraries from aurora-imui，and add your support libraries.
 
 ```groovy
 compile (project(':aurora-imui-react-native')) {
     exclude group: 'com.android.support'
 }
+// Add your support libraries, versions must match compileSdkVersion.
+implementation 'com.android.support:appcompat-v7:27.1.0'
+implementation 'com.android.support:design:27.1.0'
 ```
 
 

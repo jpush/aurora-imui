@@ -31,12 +31,15 @@ com.android.ide.common.process.ProcessException: Failed to execute aapt
 Caused by: java.util.concurrent.ExecutionException: java.util.concurrent.ExecutionException: com.android.tools.aapt2.Aapt2Exception: AAPT2 error: check logs for details
 ```
 
-那么可能是 aurora-imui-react-native 与你当前项目的 support 包存在冲突。解决方法为在你的 build.gradle 中 exclude aurora-imui 的 support 包。
+那么可能是 aurora-imui-react-native 与你当前项目的 support 包存在冲突。解决方法为在你的 build.gradle 中 exclude aurora-imui 的 support 包。然后显式地添加你自己的扩展包版本。
 
 ```groovy
 compile (project(':aurora-imui-react-native')) {
     exclude group: 'com.android.support'
 }
+// 添加自己的版本，需要与 compileSdkVersion 相匹配
+implementation 'com.android.support:appcompat-v7:27.1.0'
+implementation 'com.android.support:design:27.1.0'
 ```
 
 
