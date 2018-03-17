@@ -27,6 +27,7 @@
 #define kScrollToBottom @"kScrollToBottom"
 #define kHidenFeatureView @"kHidenFeatureView"
 #define kMessageListDidLoad @"kMessageListDidLoad"
+#define kLayoutInputView @"kLayoutInputView"
 
 @interface RCTAuroraIMUIModule : NSObject <RCTBridgeModule>
 + (NSString *)getPath;

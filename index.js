@@ -6,7 +6,6 @@ import {
 
 import ChatInput from './ReactNative/chatinput';
 import MessageList from './ReactNative/messagelist';
-import PhotoBrowser from './ReactNative/photo_browser';
 
 const AuroraIMUIModule = NativeModules.AuroraIMUIModule;
 
@@ -69,6 +68,13 @@ class AuroraIMUIController {
 	 */
 	static hidenFeatureView(animate) {
 		AuroraIMUIModule.hidenFeatureView(animate)
+	}
+
+	/**
+	 * layout input view
+	 */
+	static layoutInputView() {
+		AuroraIMUIModule.layoutInputView()
 	}
 	
 	/**
@@ -149,5 +155,4 @@ module.exports = {
 	ChatInput: ChatInput,
 	MessageList: MessageList,
 	AuroraIMUIController: AuroraIMUIController,
-	PhotoBrowserView: PhotoBrowser,
 };

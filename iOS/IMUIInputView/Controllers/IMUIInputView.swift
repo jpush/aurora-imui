@@ -136,6 +136,10 @@ open class IMUIInputView: UIView {
       }
     }
 
+  // 该接口提供给 React Native 用于处理 第三库（react-navigation 或 react-native-router-flux ）可能导致的布局问题。
+  @objc public func layoutInputView() {
+      self.fitTextViewSize(self.inputTextView)
+  }
   
   open func showFeatureView() {
     UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) {

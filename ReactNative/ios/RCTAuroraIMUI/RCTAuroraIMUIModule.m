@@ -77,6 +77,9 @@ RCT_EXPORT_METHOD(stopPlayVoice) {
   [[IMUIAudioPlayerHelper sharedInstance] stopAudio];
 }
 
+RCT_EXPORT_METHOD(layoutInputView) {
+  [[NSNotificationCenter defaultCenter] postNotificationName:kLayoutInputView object: nil];
+}
 
 RCT_EXPORT_METHOD(scaleImage:(NSDictionary *)dic
                   callback:(RCTResponseSenderBlock)callback) {
