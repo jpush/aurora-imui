@@ -36,6 +36,10 @@
                                                  name:kHidenFeatureView object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(layoutInputView)
+                                                 name:kLayoutInputView object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidHide:)
                                                  name:UIKeyboardDidHideNotification object:nil];
 
@@ -78,6 +82,19 @@
 - (void)hidenFeatureView {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.imuiIntputView hideFeatureView];
+    [self.imuiIntputView hideFeatureView];// call twice to fix odd bug
+    if(self.onSizeChange) {
+      self.onSizeChange(@{@"height":@(46 + self.inputTextHeight +
+                            self.imuiIntputView.inputTextViewPadding.top +
+                            self.imuiIntputView.inputTextViewPadding.bottom),
+                          @"width":@(self.frame.size.width)});
+    }
+  });
+}
+
+- (void)layoutInputView {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.imuiIntputView layoutInputView];
     if(self.onSizeChange) {
       self.onSizeChange(@{@"height":@(46 + self.inputTextHeight +
                             self.imuiIntputView.inputTextViewPadding.top +

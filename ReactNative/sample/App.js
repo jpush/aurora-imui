@@ -92,7 +92,9 @@ export default class TestRNIMUI extends Component {
      * Must set menu height once, the height should be equals with the soft keyboard height so that the widget won't flash.
      * 在别的界面计算一次软键盘的高度，然后初始化一次菜单栏高度，如果用户唤起了软键盘，则之后会自动计算高度。
      */
-    this.refs["ChatInput"].setMenuContainerHeight(316)
+    if (Platform.OS === "android") {
+      this.refs["ChatInput"].setMenuContainerHeight(316)
+    }
     AuroraIController.compressImage({path: "/storage/emulated/0/DCIM/????.jpg", compressionQuality: 0.5}, (result) => {
       console.log(JSON.stringify(result))
       var message = constructNormalMessage()
