@@ -208,12 +208,14 @@ export default class TestRNIMUI extends Component {
     console.log(message)
     // Alert.alert("message", JSON.stringify(message))
     if (message.msgType === "image") {
-      const {navigate} = this.props.navigation;
-      navigate("BrowserPhoto", {
-        photoPath: photoPathArr,
-        msgIds: msgIdArr,
-        clickedMsgId: message.msgId
-      })
+      if (Platform.OS === "android") {
+        const {navigate} = this.props.navigation;
+        navigate("BrowserPhoto", {
+          photoPath: photoPathArr,
+          msgIds: msgIdArr,
+          clickedMsgId: message.msgId
+        })
+      }
     }
   }
 
@@ -277,8 +279,8 @@ export default class TestRNIMUI extends Component {
     AuroraIController.appendMessages([message])
     this.resetMenu()
     AuroraIController.scrollToBottom(true)
-    photoPathArr.push(message.mediaPath)
-    msgIdArr.push(message.msgId)
+    // photoPathArr.push(message.mediaPath)
+    // msgIdArr.push(message.msgId)
   }
 
   onStartRecordVoice = (e) => {

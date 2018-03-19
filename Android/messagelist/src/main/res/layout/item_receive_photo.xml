@@ -31,6 +31,8 @@
             android:layout_height="wrap_content"
             android:maxHeight="200dp"
             android:maxWidth="200dp"
+            android:minWidth="50dp"
+            android:minHeight="100dp"
             android:layout_below="@id/aurora_tv_msgitem_receiver_display_name"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/aurora_iv_msgitem_avatar"

@@ -505,6 +505,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         voiceMessage.setMediaFilePath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/voice/2018-02-28-105103.m4a");
         voiceMessage.setDuration(4);
         mAdapter.addToStart(voiceMessage, true);
+
         MyMessage sendVoiceMsg = new MyMessage("", IMessage.MessageType.SEND_VOICE.ordinal());
         sendVoiceMsg.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
         sendVoiceMsg.setMediaFilePath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/voice/2018-02-28-105103.m4a");
@@ -512,6 +513,12 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         mAdapter.addToStart(sendVoiceMsg, true);
         MyMessage eventMsg = new MyMessage("haha", IMessage.MessageType.EVENT.ordinal());
         mAdapter.addToStart(eventMsg, true);
+
+        MyMessage receiveVideo = new MyMessage("", IMessage.MessageType.RECEIVE_VIDEO.ordinal());
+        receiveVideo.setMediaFilePath(Environment.getExternalStorageDirectory().getPath() + "/Pictures/Hangouts/video-20170407_135638.3gp");
+        receiveVideo.setDuration(4);
+        receiveVideo.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
+        mAdapter.addToStart(receiveVideo, true);
         mAdapter.addToEnd(mData);
         PullToRefreshLayout layout = mChatView.getPtrLayout();
         layout.setPtrHandler(new PtrHandler() {

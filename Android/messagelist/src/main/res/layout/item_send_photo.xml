@@ -55,6 +55,8 @@
             android:layout_below="@+id/aurora_tv_msgitem_sender_display_name"
             android:layout_toLeftOf="@+id/aurora_iv_msgitem_avatar"
             android:layout_marginRight="8dp"
+            android:minWidth="50dp"
+            android:minHeight="100dp"
             android:maxHeight="200dp"
             android:maxWidth="200dp"
             android:src="@drawable/aurora_picture_not_found"

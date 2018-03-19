@@ -403,20 +403,11 @@ public class MessageListStyle extends Style {
         this.receiveBubbleTextColor = receiveBubbleTextColor;
     }
 
-    public void setReceiveBubblePaddingLeft(int receiveBubblePaddingLeft) {
-        this.receiveBubblePaddingLeft = receiveBubblePaddingLeft;
-    }
-
-    public void setReceiveBubblePaddingTop(int receiveBubblePaddingTop) {
-        this.receiveBubblePaddingTop = receiveBubblePaddingTop;
-    }
-
-    public void setReceiveBubblePaddingRight(int receiveBubblePaddingRight) {
-        this.receiveBubblePaddingRight = receiveBubblePaddingRight;
-    }
-
-    public void setReceiveBubblePaddingBottom(int receiveBubblePaddingBottom) {
-        this.receiveBubblePaddingBottom = receiveBubblePaddingBottom;
+    public void setReceiveBubblePadding(int left, int top, int right, int bottom) {
+        this.receiveBubblePaddingLeft = left;
+        this.receiveBubblePaddingTop = top;
+        this.receiveBubblePaddingRight = right;
+        this.receiveBubblePaddingBottom = bottom;
     }
 
     public void setSendBubbleColor(int sendBubbleColor) {
@@ -437,22 +428,6 @@ public class MessageListStyle extends Style {
 
     public void setSendBubbleTextColor(int sendBubbleTextColor) {
         this.sendBubbleTextColor = sendBubbleTextColor;
-    }
-
-    public void setSendBubblePaddingLeft(int sendBubblePaddingLeft) {
-        this.sendBubblePaddingLeft = sendBubblePaddingLeft;
-    }
-
-    public void setSendBubblePaddingTop(int sendBubblePaddingTop) {
-        this.sendBubblePaddingTop = sendBubblePaddingTop;
-    }
-
-    public void setSendBubblePaddingRight(int sendBubblePaddingRight) {
-        this.sendBubblePaddingRight = sendBubblePaddingRight;
-    }
-
-    public void setSendBubblePaddingBottom(int sendBubblePaddingBottom) {
-        this.sendBubblePaddingBottom = sendBubblePaddingBottom;
     }
 
     public void setSendVoiceDrawable(int sendVoiceDrawable) {
@@ -737,5 +712,12 @@ public class MessageListStyle extends Style {
 
     public int getPhotoMessageRadius() {
         return this.photoMessageRadius;
+    }
+
+    public void setSendBubblePadding(int left, int top, int right, int bottom) {
+        this.sendBubblePaddingLeft = left;
+        this.sendBubblePaddingTop = top;
+        this.sendBubblePaddingRight = right;
+        this.sendBubblePaddingBottom = bottom;
     }
 }

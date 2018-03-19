@@ -67,6 +67,6 @@
             android:layout_toRightOf="@+id/aurora_fl_msgitem_video_container"
             android:background="@drawable/aurora_send_msg_error"
             android:scaleType="fitCenter"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

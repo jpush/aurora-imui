@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
@@ -348,10 +349,11 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
 
     @ReactProp(name = "sendBubblePadding")
     public void setSendBubblePadding(PullToRefreshLayout root, ReadableMap map) {
-        mMessageList.setSendBubblePaddingLeft(dip2px(map.getInt("left")));
-        mMessageList.setSendBubblePaddingTop(dip2px(map.getInt("top")));
-        mMessageList.setSendBubblePaddingRight(dip2px(map.getInt("right")));
-        mMessageList.setSendBubblePaddingBottom(dip2px(map.getInt("bottom")));
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setSendBubblePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
     }
 
     private int dip2px(float dpValue) {
@@ -367,10 +369,11 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
 
     @ReactProp(name = "receiveBubblePadding")
     public void setReceiveBubblePadding(PullToRefreshLayout root, ReadableMap map) {
-        mMessageList.setReceiveBubblePaddingLeft(dip2px(map.getInt("left")));
-        mMessageList.setReceiveBubblePaddingTop(dip2px(map.getInt("top")));
-        mMessageList.setReceiveBubblePaddingRight(dip2px(map.getInt("right")));
-        mMessageList.setReceiveBubblePaddingBottom(dip2px(map.getInt("bottom")));
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setReceiveBubblePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
     }
 
     @ReactProp(name = "dateTextSize")

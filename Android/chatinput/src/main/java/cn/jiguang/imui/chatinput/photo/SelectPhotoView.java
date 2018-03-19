@@ -150,7 +150,7 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
                     String date = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED));
                     long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
 
-                    VideoItem item = new VideoItem(path, name, null, date, duration);
+                    VideoItem item = new VideoItem(path, name, null, date, duration / 1000);
                     item.setType(FileItem.Type.Video);
                     mMedias.add(item);
                 }

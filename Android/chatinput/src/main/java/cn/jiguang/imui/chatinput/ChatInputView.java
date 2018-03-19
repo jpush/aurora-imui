@@ -440,7 +440,7 @@ public class ChatInputView extends LinearLayout
                 mChatInput.clearFocus();
                 if (view.getId() == R.id.aurora_framelayout_menuitem_voice) {
                     if (mListener != null && mListener.switchToMicrophoneMode()) {
-                        if (mRecordContentLl.getVisibility() == VISIBLE && mMenuContainer.getVisibility() == VISIBLE) {
+                        if (mRecordVoiceRl.getVisibility() == VISIBLE && mMenuContainer.getVisibility() == VISIBLE) {
                             dismissMenuLayout();
                         } else if (isKeyboardVisible()) {
                             mPendingShowMenu = true;
@@ -608,7 +608,7 @@ public class ChatInputView extends LinearLayout
                 // if finished recording video, send it
             } else if (mFinishRecordingVideo) {
                 if (mListener != null) {
-                    VideoItem video = new VideoItem(mVideoFilePath, null, null, null, mMediaPlayer.getDuration());
+                    VideoItem video = new VideoItem(mVideoFilePath, null, null, null, mMediaPlayer.getDuration() / 1000);
                     List<FileItem> list = new ArrayList<>();
                     list.add(video);
                     mListener.onSendFiles(list);
@@ -632,6 +632,8 @@ public class ChatInputView extends LinearLayout
             }
             recoverScreen();
             dismissMenuLayout();
+            mIsRecordVideoMode = false;
+            mIsRecordingVideo = false;
             if (mFinishRecordingVideo) {
                 mCameraSupport.cancelRecordingVideo();
                 mFinishRecordingVideo = false;
@@ -961,8 +963,7 @@ public class ChatInputView extends LinearLayout
     }
 
     public void showSelectPhotoLayout() {
-        mRecordContentLl.setVisibility(GONE);
-        mPreviewPlayLl.setVisibility(GONE);
+        mRecordVoiceRl.setVisibility(GONE);
         mCameraFl.setVisibility(GONE);
         mEmojiRl.setVisibility(GONE);
         mSelectPhotoView.setVisibility(VISIBLE);
@@ -973,8 +974,7 @@ public class ChatInputView extends LinearLayout
     }
 
     public void showCameraLayout() {
-        mRecordContentLl.setVisibility(GONE);
-        mPreviewPlayLl.setVisibility(GONE);
+        mRecordVoiceRl.setVisibility(GONE);
         mSelectPhotoView.setVisibility(GONE);
         mEmojiRl.setVisibility(GONE);
         mCameraFl.setVisibility(VISIBLE);
@@ -992,8 +992,7 @@ public class ChatInputView extends LinearLayout
     }
 
     public void showEmojiLayout() {
-        mRecordContentLl.setVisibility(GONE);
-        mPreviewPlayLl.setVisibility(GONE);
+        mRecordVoiceRl.setVisibility(GONE);
         mSelectPhotoView.setVisibility(GONE);
         mCameraFl.setVisibility(GONE);
         mEmojiRl.setVisibility(VISIBLE);
