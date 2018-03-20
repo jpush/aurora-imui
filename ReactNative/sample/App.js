@@ -95,15 +95,6 @@ export default class TestRNIMUI extends Component {
     if (Platform.OS === "android") {
       this.refs["ChatInput"].setMenuContainerHeight(316)
     }
-    AuroraIController.compressImage({path: "/storage/emulated/0/DCIM/????.jpg", compressionQuality: 0.5}, (result) => {
-      console.log(JSON.stringify(result))
-      var message = constructNormalMessage()
-      message.mediaPath = result.thumbPath
-      message.msgType = "image"
-      AuroraIController.appendMessages([message])
-      msgIdArr.push(message.msgId)
-      photoPathArr.push(message.mediaPath)
-    })
     this.resetMenu()
     AuroraIController.addMessageListDidLoadListener(() => {
       this.getHistoryMessage()
@@ -112,7 +103,7 @@ export default class TestRNIMUI extends Component {
 
   getHistoryMessage() {
     var messages = []
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 10; i++) {
       // var message = constructNormalMessage()
       // message.msgType = "text"
       // message.text = "" + i
@@ -140,8 +131,6 @@ export default class TestRNIMUI extends Component {
       message.extras = { "extras": "fdfsf" }
       AuroraIController.appendMessages([message,eventMessage])
       AuroraIController.scrollToBottom(true)
-
-      AuroraIController.insertMessagesToTop([message])
     }
   }
 

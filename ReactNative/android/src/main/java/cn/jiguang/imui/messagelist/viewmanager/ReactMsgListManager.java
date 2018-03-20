@@ -25,8 +25,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
@@ -59,6 +57,7 @@ import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
+import cn.jiguang.imui.messagelist.view.ImageTarget;
 import cn.jiguang.imui.messages.CustomMsgConfig;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
@@ -159,18 +158,19 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 } else {
                     Glide.with(reactContext)
                             .load(string)
-                            .apply(new RequestOptions().placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default")))
+                            .placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default"))
                             .into(avatarImageView);
                 }
             }
 
             @Override
-            public void loadImage(ImageView imageView, String string) {
+            public void loadImage(final ImageView imageView, String string) {
                 // You can use other image load libraries.
                 Glide.with(reactContext)
                         .load(string)
-                        .apply(new RequestOptions().fitCenter().placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")))
-                        .into(imageView);
+                        .asBitmap()
+                        .placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found"))
+                        .into(new ImageTarget(imageView));
             }
         };
         mAdapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
