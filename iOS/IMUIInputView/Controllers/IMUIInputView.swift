@@ -117,7 +117,6 @@ open class IMUIInputView: UIView {
       self.inputViewDelegate?.keyBoardWillShow?(height: keyboardValue.cgRectValue.size.height, durationTime: duration)
       self.moreViewHeight.constant = IMUIFeatureViewHeight
     }
-      self.superview?.layoutIfNeeded()
     }
   }
   

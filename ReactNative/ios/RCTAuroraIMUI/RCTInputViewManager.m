@@ -155,6 +155,7 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 
 /// Tells the delegate that IMUIInputView will switch to emoji
 - (void)switchToEmojiModeWithCameraBtn:(UIButton * _Nonnull)cameraBtn {
+  _rctInputView.maxKeyBoardHeight = 252;
   if(_rctInputView.onSizeChange) {
     _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight +
                                    _rctInputView.imuiIntputView.inputTextViewPadding.top +
