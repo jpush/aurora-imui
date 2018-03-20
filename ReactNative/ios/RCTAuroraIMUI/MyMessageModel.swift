@@ -233,7 +233,7 @@ open class RCTMessageModel: IMUIMessageModel {
       return text.sizeWithConstrainedWidth(with: IMUIMessageCellLayout.bubbleMaxWidth,
                                     font: IMUITextMessageContentView.outGoingTextFont)
     } else {
-      return text.sizeWithConstrainedWidth(with: MessageEventCollectionViewCell.maxWidth,
+      return text.sizeWithConstrainedWidth(with: MessageEventCollectionViewCell.bubbleMaxWidth,
                                            font: IMUITextMessageContentView.inComingTextFont)
     }
   }
