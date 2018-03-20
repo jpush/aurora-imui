@@ -117,7 +117,6 @@ open class IMUIInputView: UIView {
       self.inputViewDelegate?.keyBoardWillShow?(height: keyboardValue.cgRectValue.size.height, durationTime: duration)
       self.moreViewHeight.constant = IMUIFeatureViewHeight
     }
-      self.superview?.layoutIfNeeded()
     }
   }
   
@@ -320,6 +319,7 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
       self.inputTextView.text = inputStr
       self.fitTextViewSize(self.inputTextView)
       self.updateSendBtnToPhotoSendStatus()
+      self.inputViewDelegate?.textDidChange?(text: inputStr)
     default:
       return
     }
