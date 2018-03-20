@@ -65,7 +65,7 @@ open class IMUIInputView: UIView {
     self.inputTextView.textContainer.lineBreakMode = .byWordWrapping
     self.inputTextView.font = UIFont.systemFont(ofSize: 14)
     self.inputTextView.textColor = inputTextViewTextColor
-    
+    self.inputTextView.layoutManager.allowsNonContiguousLayout = false
     inputTextView.delegate = self
     self.featureView.delegate = self
   }
@@ -130,8 +130,10 @@ open class IMUIInputView: UIView {
 
       let newValue = textViewFitSize.height > inputTextViewHeightRange.maximum ? inputTextViewHeightRange.maximum : textViewFitSize.height
       if newValue != self.inputTextViewHeight.constant {
+        self.inputTextViewHeight.constant = 120
         DispatchQueue.main.async {
           self.inputTextViewHeight.constant = newValue
+          textView.scrollRangeToVisible(NSRange(location: 0, length: 0))
         }
       }
     }
