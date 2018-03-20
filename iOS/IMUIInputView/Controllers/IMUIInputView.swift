@@ -319,6 +319,7 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
       self.inputTextView.text = inputStr
       self.fitTextViewSize(self.inputTextView)
       self.updateSendBtnToPhotoSendStatus()
+      self.inputViewDelegate?.textDidChange?(text: inputStr)
     default:
       return
     }
