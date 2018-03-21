@@ -118,7 +118,6 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
                             cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
                     String size = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE));
                     String date = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
-
                     FileItem item = new FileItem(path, fileName, size, date);
                     item.setType(FileItem.Type.Image);
                     mMedias.add(item);
@@ -134,7 +133,8 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
         ContentResolver cr = getContext().getContentResolver();
         String[] projection = new String[]{
                 MediaStore.Video.VideoColumns.DATA, MediaStore.Video.VideoColumns.DURATION,
-                MediaStore.Video.VideoColumns.DISPLAY_NAME, MediaStore.Video.VideoColumns.DATE_ADDED
+                MediaStore.Video.VideoColumns.SIZE, MediaStore.Video.VideoColumns.DISPLAY_NAME,
+                MediaStore.Video.VideoColumns.DATE_ADDED
         };
 
         Cursor cursor = cr.query(videoUri, projection, null, null, null);
@@ -148,9 +148,10 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
                 if (file.exists()) {
                     String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
                     String date = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED));
+                    String size = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
                     long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
 
-                    VideoItem item = new VideoItem(path, name, null, date, duration);
+                    VideoItem item = new VideoItem(path, name, size, date, duration / 1000);
                     item.setType(FileItem.Type.Video);
                     mMedias.add(item);
                 }

@@ -25,7 +25,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
@@ -58,6 +57,7 @@ import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
+import cn.jiguang.imui.messagelist.view.ImageTarget;
 import cn.jiguang.imui.messages.CustomMsgConfig;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
@@ -158,18 +158,19 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 } else {
                     Glide.with(reactContext)
                             .load(string)
-                            .apply(new RequestOptions().placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default")))
+                            .placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default"))
                             .into(avatarImageView);
                 }
             }
 
             @Override
-            public void loadImage(ImageView imageView, String string) {
+            public void loadImage(final ImageView imageView, String string) {
                 // You can use other image load libraries.
                 Glide.with(reactContext)
                         .load(string)
-                        .apply(new RequestOptions().fitCenter().placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")))
-                        .into(imageView);
+                        .asBitmap()
+                        .placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found"))
+                        .into(new ImageTarget(imageView));
             }
         };
         mAdapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
@@ -348,10 +349,11 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
 
     @ReactProp(name = "sendBubblePadding")
     public void setSendBubblePadding(PullToRefreshLayout root, ReadableMap map) {
-        mMessageList.setSendBubblePaddingLeft(dip2px(map.getInt("left")));
-        mMessageList.setSendBubblePaddingTop(dip2px(map.getInt("top")));
-        mMessageList.setSendBubblePaddingRight(dip2px(map.getInt("right")));
-        mMessageList.setSendBubblePaddingBottom(dip2px(map.getInt("bottom")));
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setSendBubblePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
     }
 
     private int dip2px(float dpValue) {
@@ -367,10 +369,11 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
 
     @ReactProp(name = "receiveBubblePadding")
     public void setReceiveBubblePadding(PullToRefreshLayout root, ReadableMap map) {
-        mMessageList.setReceiveBubblePaddingLeft(dip2px(map.getInt("left")));
-        mMessageList.setReceiveBubblePaddingTop(dip2px(map.getInt("top")));
-        mMessageList.setReceiveBubblePaddingRight(dip2px(map.getInt("right")));
-        mMessageList.setReceiveBubblePaddingBottom(dip2px(map.getInt("bottom")));
+        int left = map.getInt("left");
+        int top = map.getInt("top");
+        int right = map.getInt("right");
+        int bottom = map.getInt("bottom");
+        mMessageList.setReceiveBubblePadding(dip2px(left), dip2px(top), dip2px(right), dip2px(bottom));
     }
 
     @ReactProp(name = "dateTextSize")

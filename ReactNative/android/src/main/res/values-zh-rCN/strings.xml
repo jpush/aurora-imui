@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="rationale_record_voice">需要获取麦克风权限来录音</string>
+    <string name="rationale_photo">需要获取相册权限</string>
+    <string name="rationale_camera">需要获取相机权限</string>
+
+</resources>

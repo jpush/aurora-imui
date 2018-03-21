@@ -344,8 +344,10 @@ public class CameraNew implements CameraSupport {
         @Override
         public void onError(@NonNull CameraDevice camera, int error) {
             mCameraOpenCloseLock.release();
-            mCamera.close();
-            mCamera = null;
+            if (mCamera != null) {
+                mCamera.close();
+                mCamera = null;
+            }
         }
     };
 

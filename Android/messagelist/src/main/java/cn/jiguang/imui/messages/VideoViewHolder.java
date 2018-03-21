@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -83,8 +84,9 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         });
 
         String durationStr = String.format(Locale.CHINA, "%02d:%02d",
-                TimeUnit.MILLISECONDS.toMinutes(message.getDuration()),
-                TimeUnit.MILLISECONDS.toSeconds(message.getDuration()));
+                TimeUnit.SECONDS.toMinutes(message.getDuration()),
+                TimeUnit.SECONDS.toSeconds(message.getDuration()));
+        Log.d("VideoViewHolder", "duration: " + message.getDuration() + " durationStr " + durationStr);
         mTvDuration.setText(durationStr);
         if (mDisplayNameTv.getVisibility() == View.VISIBLE) {
             mDisplayNameTv.setText(message.getFromUser().getDisplayName());

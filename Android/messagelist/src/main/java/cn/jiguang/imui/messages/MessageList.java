@@ -90,20 +90,8 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setSendBubbleTextColor(color);
     }
 
-    public void setSendBubblePaddingLeft(int paddingLeft) {
-        mMsgListStyle.setSendBubblePaddingLeft(paddingLeft);
-    }
-
-    public void setSendBubblePaddingTop(int paddingTop) {
-        mMsgListStyle.setSendBubblePaddingTop(paddingTop);
-    }
-
-    public void setSendBubblePaddingRight(int paddingRight) {
-        mMsgListStyle.setSendBubblePaddingRight(paddingRight);
-    }
-
-    public void setSendBubblePaddingBottom(int paddingBottom) {
-        mMsgListStyle.setSendBubblePaddingBottom(paddingBottom);
+    public void setSendBubblePadding(int paddingLeft, int paddingTop, int paddingRight, int paddingBottom) {
+        mMsgListStyle.setSendBubblePadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
     }
 
     public void setReceiveBubbleDrawable(int resId) {
@@ -126,20 +114,8 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setReceiveBubbleTextColor(color);
     }
 
-    public void setReceiveBubblePaddingLeft(int paddingLeft) {
-        mMsgListStyle.setReceiveBubblePaddingLeft(paddingLeft);
-    }
-
-    public void setReceiveBubblePaddingTop(int paddingTop) {
-        mMsgListStyle.setReceiveBubblePaddingTop(paddingTop);
-    }
-
-    public void setReceiveBubblePaddingRight(int paddingRight) {
-        mMsgListStyle.setReceiveBubblePaddingRight(paddingRight);
-    }
-
-    public void setReceiveBubblePaddingBottom(int paddingBottom) {
-        mMsgListStyle.setReceiveBubblePaddingBottom(paddingBottom);
+    public void setReceiveBubblePadding(int paddingLeft, int paddingTop, int paddingRight, int paddingBottom) {
+        mMsgListStyle.setReceiveBubblePadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
     }
 
     public void setDateTextSize(float size) {

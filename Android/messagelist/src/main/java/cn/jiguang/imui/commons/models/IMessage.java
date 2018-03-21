@@ -91,7 +91,7 @@ public interface IMessage {
 
     /**
      * If message type is voice or video, get duration through this method.
-     * @return duration of audio or video
+     * @return duration of audio or video, TimeUnit: SECONDS.
      */
     long getDuration();
 

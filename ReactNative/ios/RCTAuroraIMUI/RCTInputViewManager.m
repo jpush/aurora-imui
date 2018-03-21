@@ -155,6 +155,7 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 
 /// Tells the delegate that IMUIInputView will switch to emoji
 - (void)switchToEmojiModeWithCameraBtn:(UIButton * _Nonnull)cameraBtn {
+  _rctInputView.maxKeyBoardHeight = 252;
   if(_rctInputView.onSizeChange) {
     _rctInputView.onSizeChange(@{@"height":@(298 + _rctInputView.inputTextHeight +
                                    _rctInputView.imuiIntputView.inputTextViewPadding.top +
@@ -219,11 +220,10 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
 }
 
 - (void)textDidChangeWithText:(NSString * _Nonnull)text {
-// 1. emoji 的时候会自动弹下 2.发送的时候不会复位  recordKeyboardheight //
   
   if(_rctInputView.onSizeChange) {
     _rctInputView.onSizeChange(@{@"height":@(46 + _rctInputView.inputTextHeight +
-                                   _rctInputView.keyBoardHeight +
+                                   _rctInputView.maxKeyBoardHeight +
                                    _rctInputView.imuiIntputView.inputTextViewPadding.top +
                                    _rctInputView.imuiIntputView.inputTextViewPadding.bottom
                                    ),

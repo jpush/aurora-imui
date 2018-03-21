@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,10 +77,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         }
 
         FileItem item = mMedias.get(position);
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.drawable.aurora_picture_not_found);
         Glide.with(mContext)
-                .setDefaultRequestOptions(requestOptions)
                 .load(item.getFilePath())
                 .into(holder.ivPhoto);
 
@@ -103,8 +99,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
             long duration = ((VideoItem) item).getDuration();
             String durationStr = String.format(Locale.CHINA, "%02d:%02d",
-                    TimeUnit.MILLISECONDS.toMinutes(duration),
-                    TimeUnit.MILLISECONDS.toSeconds(duration));
+                    TimeUnit.SECONDS.toMinutes(duration),
+                    TimeUnit.SECONDS.toSeconds(duration));
 
             holder.tvDuration.setText(durationStr);
         }

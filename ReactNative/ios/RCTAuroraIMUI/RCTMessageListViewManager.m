@@ -65,7 +65,7 @@ RCT_CUSTOM_VIEW_PROPERTY(sendBubble, NSDictionary, RCTMessageListView) {
   
   if (bubbleName == nil) { return; }
   if (bubbleDic[@"padding"] == nil) { return; }
-  UIEdgeInsets padding = [self edgeInsetsWith:bubbleDic];
+  UIEdgeInsets padding = [self edgeInsetsWith:bubbleDic[@"padding"]];
   
   UIImage *bubbleImg = [UIImage imageNamed:bubbleName];
   bubbleImg = [bubbleImg resizableImageWithCapInsets: padding
@@ -80,7 +80,7 @@ RCT_CUSTOM_VIEW_PROPERTY(receiveBubble, NSDictionary, RCTMessageListView) {
   if (bubbleName == nil) { return; }
   if (bubbleDic[@"padding"] == nil) { return; }
   
-  UIEdgeInsets padding = [self edgeInsetsWith:bubbleDic];
+  UIEdgeInsets padding = [self edgeInsetsWith:bubbleDic[@"padding"]];
   UIImage *bubbleImg = [UIImage imageNamed:bubbleName];
   bubbleImg = [bubbleImg resizableImageWithCapInsets: padding
                                         resizingMode: UIImageResizingModeTile];

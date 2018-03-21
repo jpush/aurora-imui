@@ -95,15 +95,6 @@ export default class TestRNIMUI extends Component {
     if (Platform.OS === "android") {
       this.refs["ChatInput"].setMenuContainerHeight(316)
     }
-    AuroraIController.compressImage({path: "/storage/emulated/0/DCIM/????.jpg", compressionQuality: 0.5}, (result) => {
-      console.log(JSON.stringify(result))
-      var message = constructNormalMessage()
-      message.mediaPath = result.thumbPath
-      message.msgType = "image"
-      AuroraIController.appendMessages([message])
-      msgIdArr.push(message.msgId)
-      photoPathArr.push(message.mediaPath)
-    })
     this.resetMenu()
     AuroraIController.addMessageListDidLoadListener(() => {
       this.getHistoryMessage()
@@ -112,7 +103,7 @@ export default class TestRNIMUI extends Component {
 
   getHistoryMessage() {
     var messages = []
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 10; i++) {
       // var message = constructNormalMessage()
       // message.msgType = "text"
       // message.text = "" + i
@@ -140,8 +131,6 @@ export default class TestRNIMUI extends Component {
       message.extras = { "extras": "fdfsf" }
       AuroraIController.appendMessages([message,eventMessage])
       AuroraIController.scrollToBottom(true)
-
-      AuroraIController.insertMessagesToTop([message])
     }
   }
 
@@ -173,15 +162,11 @@ export default class TestRNIMUI extends Component {
     }
   }
 
+  /**
+   * Android need this event to invoke onSizeChanged 
+   */
   onTouchEditText = () => {
     this.refs["ChatInput"].showMenu(false)
-    // this.setState({
-    //   inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
-    // })
-    // if (this.state.shouldExpandMenuContainer) {
-    //   console.log("on touch input, expend menu")
-    //   this.expendMenu()
-    // }
   }
 
   onFullScreen = () => {
@@ -210,12 +195,14 @@ export default class TestRNIMUI extends Component {
     console.log(message)
     // Alert.alert("message", JSON.stringify(message))
     if (message.msgType === "image") {
-      const {navigate} = this.props.navigation;
-      navigate("BrowserPhoto", {
-        photoPath: photoPathArr,
-        msgIds: msgIdArr,
-        clickedMsgId: message.msgId
-      })
+      if (Platform.OS === "android") {
+        const {navigate} = this.props.navigation;
+        navigate("BrowserPhoto", {
+          photoPath: photoPathArr,
+          msgIds: msgIdArr,
+          clickedMsgId: message.msgId
+        })
+      }
     }
   }
 
@@ -279,8 +266,8 @@ export default class TestRNIMUI extends Component {
     AuroraIController.appendMessages([message])
     this.resetMenu()
     AuroraIController.scrollToBottom(true)
-    photoPathArr.push(message.mediaPath)
-    msgIdArr.push(message.msgId)
+    // photoPathArr.push(message.mediaPath)
+    // msgIdArr.push(message.msgId)
   }
 
   onStartRecordVoice = (e) => {
@@ -294,7 +281,7 @@ export default class TestRNIMUI extends Component {
     message.timeString = "safsdfa"
     message.duration = duration
     AuroraIController.appendMessages([message])
-    console.log("on start record voice")
+    console.log("on finish record voice")
   }
 
   onCancelRecordVoice = () => {
@@ -306,12 +293,12 @@ export default class TestRNIMUI extends Component {
   }
 
   onFinishRecordVideo = (video) => {
-    var message = constructNormalMessage()
+    // var message = constructNormalMessage()
 
-    message.msgType = "video"
-    message.mediaPath = video.mediaPath
-    message.duration = video.duration
-    AuroraIController.appendMessages([message])
+    // message.msgType = "video"
+    // message.mediaPath = video.mediaPath
+    // message.duration = video.duration
+    // AuroraIController.appendMessages([message])
   }
 
   onSendGalleryFiles = (mediaFiles) => {
@@ -447,7 +434,6 @@ export default class TestRNIMUI extends Component {
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"
-          menuContainerHeight={this.state.menuContainerHeight}
           isDismissMenuContainer={this.state.isDismissMenuContainer}
           onSendText={this.onSendText}
           onTakePicture={this.onTakePicture}

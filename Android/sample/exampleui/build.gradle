@@ -60,7 +60,7 @@ dependencies {
     })
     implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'
-    implementation 'com.github.bumptech.glide:glide:4.6.1'
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
     compile 'pub.devrel:easypermissions:0.4.0'
     compile project(':messagelist')
     compile project(':chatinput')

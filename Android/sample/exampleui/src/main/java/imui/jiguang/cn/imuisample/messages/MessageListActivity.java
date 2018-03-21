@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -419,7 +418,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 } else {
                     Glide.with(getApplicationContext())
                             .load(string)
-                            .apply(new RequestOptions().placeholder(R.drawable.aurora_headicon_default))
+                            .placeholder(R.drawable.aurora_headicon_default)
                             .into(avatarImageView);
                 }
             }
@@ -429,7 +428,8 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 // You can use other image load libraries.
                 Glide.with(getApplicationContext())
                         .load(string)
-                        .apply(new RequestOptions().fitCenter().placeholder(R.drawable.aurora_picture_not_found))
+                        .fitCenter()
+                        .placeholder(R.drawable.aurora_picture_not_found)
                         .into(imageView);
             }
         };
@@ -505,6 +505,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         voiceMessage.setMediaFilePath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/voice/2018-02-28-105103.m4a");
         voiceMessage.setDuration(4);
         mAdapter.addToStart(voiceMessage, true);
+
         MyMessage sendVoiceMsg = new MyMessage("", IMessage.MessageType.SEND_VOICE.ordinal());
         sendVoiceMsg.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
         sendVoiceMsg.setMediaFilePath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/voice/2018-02-28-105103.m4a");
@@ -512,6 +513,12 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         mAdapter.addToStart(sendVoiceMsg, true);
         MyMessage eventMsg = new MyMessage("haha", IMessage.MessageType.EVENT.ordinal());
         mAdapter.addToStart(eventMsg, true);
+
+        MyMessage receiveVideo = new MyMessage("", IMessage.MessageType.RECEIVE_VIDEO.ordinal());
+        receiveVideo.setMediaFilePath(Environment.getExternalStorageDirectory().getPath() + "/Pictures/Hangouts/video-20170407_135638.3gp");
+        receiveVideo.setDuration(4);
+        receiveVideo.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
+        mAdapter.addToStart(receiveVideo, true);
         mAdapter.addToEnd(mData);
         PullToRefreshLayout layout = mChatView.getPtrLayout();
         layout.setPtrHandler(new PtrHandler() {

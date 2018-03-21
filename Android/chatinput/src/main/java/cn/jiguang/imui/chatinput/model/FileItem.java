@@ -59,7 +59,11 @@ public class FileItem implements Comparable<FileItem> {
     }
 
     public long getLongFileSize() {
-        return Long.valueOf(mSize);
+        if (mSize != null) {
+            return Long.valueOf(mSize);
+        } else {
+            return 0L;
+        }
     }
 
     public String getDate() {
