@@ -29,6 +29,7 @@ dependencies {
     })
     compile 'cn.jiguang.imui:messagelist:0.6.7'
     compile 'cn.jiguang.imui:chatinput:0.7.0'
+    compile 'pub.devrel:easypermissions:0.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'

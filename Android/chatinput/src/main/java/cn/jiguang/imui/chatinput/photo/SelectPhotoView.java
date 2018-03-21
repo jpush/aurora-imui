@@ -134,7 +134,8 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
         ContentResolver cr = getContext().getContentResolver();
         String[] projection = new String[]{
                 MediaStore.Video.VideoColumns.DATA, MediaStore.Video.VideoColumns.DURATION,
-                MediaStore.Video.VideoColumns.DISPLAY_NAME, MediaStore.Video.VideoColumns.DATE_ADDED
+                MediaStore.Video.VideoColumns.SIZE, MediaStore.Video.VideoColumns.DISPLAY_NAME,
+                MediaStore.Video.VideoColumns.DATE_ADDED
         };
 
         Cursor cursor = cr.query(videoUri, projection, null, null, null);

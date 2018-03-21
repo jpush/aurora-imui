@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -419,7 +418,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 } else {
                     Glide.with(getApplicationContext())
                             .load(string)
-                            .apply(new RequestOptions().placeholder(R.drawable.aurora_headicon_default))
+                            .placeholder(R.drawable.aurora_headicon_default)
                             .into(avatarImageView);
                 }
             }
@@ -429,7 +428,8 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 // You can use other image load libraries.
                 Glide.with(getApplicationContext())
                         .load(string)
-                        .apply(new RequestOptions().fitCenter().placeholder(R.drawable.aurora_picture_not_found))
+                        .fitCenter()
+                        .placeholder(R.drawable.aurora_picture_not_found)
                         .into(imageView);
             }
         };
