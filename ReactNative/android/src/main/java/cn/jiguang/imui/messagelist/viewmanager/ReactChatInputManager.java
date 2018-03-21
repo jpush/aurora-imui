@@ -1,11 +1,14 @@
 package cn.jiguang.imui.messagelist.viewmanager;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
@@ -87,6 +90,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private static final String ON_RECOVER_SCREEN_EVENT = "onRecoverScreen";
     private static final String ON_INPUT_SIZE_CHANGED_EVENT = "onSizeChange";
     private static final String ON_CLICK_SELECT_ALBUM_EVENT = "onClickSelectAlbum";
+    private final String SOFT_KEYBOARD_HEIGHT = "softKeyboardHeight";
+    private final String AURORA_IMUI_SHARED_PREFERENCES = "cn.jiguang.imui.sp";
     private final int REQUEST_PERMISSION = 0x0001;
     private final int INIT_MENU_HEIGHT = 99;
     private final int CLOSE_SOFT_INPUT = 100;
@@ -100,6 +105,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private boolean mShowMenu = false;
     private double mCurrentInputHeight = 48;
     private int mInitialChatInputHeight = 100;
+    private int mSoftKeyboardHeight;
     private double mLineExpend = 0;
     private int mScreenWidth;
     /**
@@ -117,6 +123,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     @Override
     protected ChatInputView createViewInstance(final ThemedReactContext reactContext) {
         mContext = reactContext;
+        final SharedPreferences sp = reactContext.getSharedPreferences(AURORA_IMUI_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        mSoftKeyboardHeight = sp.getInt(SOFT_KEYBOARD_HEIGHT, 0);
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -130,9 +138,14 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                     reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_TOUCH_EDIT_TEXT_EVENT, null);
                     if (!mChatInput.isFocused()) {
                         EmoticonsKeyboardUtils.openSoftKeyboard(mChatInput.getInputView());
-//                        mChatInput.invisibleMenuLayout();
                     }
                     EventBus.getDefault().post(new ScrollEvent(true));
+                    if (mSoftKeyboardHeight != mChatInput.getSoftKeyboardHeight() && mChatInput.getSoftKeyboardHeight() != 0) {
+                        mSoftKeyboardHeight = mChatInput.getSoftKeyboardHeight();
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putInt(SOFT_KEYBOARD_HEIGHT, mSoftKeyboardHeight);
+                        editor.commit();
+                    }
 
                 }
                 return false;
@@ -417,8 +430,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         ON_RECOVER_SCREEN_EVENT, null);
                 WritableMap map = Arguments.createMap();
-                Log.e(REACT_CHAT_INPUT, "send onSizeChangedEvent to js, height: " + mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / mDensity);
-                map.putDouble("height", mInitialChatInputHeight + mChatInput.getSoftKeyboardHeight() / mDensity);
+                Log.e(REACT_CHAT_INPUT, "send onSizeChangedEvent to js, height: " + mInitialChatInputHeight + mSoftKeyboardHeight / mDensity);
+                map.putDouble("height", mInitialChatInputHeight + mSoftKeyboardHeight / mDensity);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
             }
 
@@ -469,8 +482,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
     private double calculateMenuHeight() {
         double layoutHeight = mInitialChatInputHeight;
         if (mShowMenu) {
-            if (mChatInput.getSoftKeyboardHeight() != 0) {
-                layoutHeight += mChatInput.getSoftKeyboardHeight() / mDensity;
+            if (mSoftKeyboardHeight != 0) {
+                layoutHeight += mSoftKeyboardHeight / mDensity;
             } else {
                 layoutHeight += mMenuContainerHeight;
             }
@@ -622,7 +635,9 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> {
                 if (args == null) {
                     return;
                 }
-                root.setMenuContainerHeight(root.dp2px(args.getInt(0)));
+                mMenuContainerHeight = root.dp2px(args.getInt(0));
+                mSoftKeyboardHeight = mMenuContainerHeight;
+                root.setMenuContainerHeight(mMenuContainerHeight);
                 break;
             case CLOSE_SOFT_INPUT:
                 EmoticonsKeyboardUtils.closeSoftKeyboard(root.getInputView());

@@ -438,7 +438,6 @@ export default class TestRNIMUI extends Component {
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"
-          menuContainerHeight={this.state.menuContainerHeight}
           isDismissMenuContainer={this.state.isDismissMenuContainer}
           onSendText={this.onSendText}
           onTakePicture={this.onTakePicture}

@@ -148,9 +148,10 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
                 if (file.exists()) {
                     String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
                     String date = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_ADDED));
+                    String size = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
                     long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
 
-                    VideoItem item = new VideoItem(path, name, null, date, duration / 1000);
+                    VideoItem item = new VideoItem(path, name, size, date, duration / 1000);
                     item.setType(FileItem.Type.Video);
                     mMedias.add(item);
                 }
