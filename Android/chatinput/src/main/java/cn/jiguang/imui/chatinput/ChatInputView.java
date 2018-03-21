@@ -608,7 +608,8 @@ public class ChatInputView extends LinearLayout
                 // if finished recording video, send it
             } else if (mFinishRecordingVideo) {
                 if (mListener != null) {
-                    VideoItem video = new VideoItem(mVideoFilePath, null, null, null, mMediaPlayer.getDuration() / 1000);
+                    File file = new File(mVideoFilePath);
+                    VideoItem video = new VideoItem(mVideoFilePath, file.getName(), file.length() + "", System.currentTimeMillis() + "", mMediaPlayer.getDuration() / 1000);
                     List<FileItem> list = new ArrayList<>();
                     list.add(video);
                     mListener.onSendFiles(list);
@@ -627,6 +628,7 @@ public class ChatInputView extends LinearLayout
             try {
                 mMediaPlayer.stop();
                 mMediaPlayer.release();
+                mCameraSupport.cancelRecordingVideo();
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
@@ -635,7 +637,6 @@ public class ChatInputView extends LinearLayout
             mIsRecordVideoMode = false;
             mIsRecordingVideo = false;
             if (mFinishRecordingVideo) {
-                mCameraSupport.cancelRecordingVideo();
                 mFinishRecordingVideo = false;
             }
         } else if (view.getId() == R.id.aurora_ib_camera_switch) {

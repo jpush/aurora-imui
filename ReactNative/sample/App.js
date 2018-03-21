@@ -162,15 +162,11 @@ export default class TestRNIMUI extends Component {
     }
   }
 
+  /**
+   * Android need this event to invoke onSizeChanged 
+   */
   onTouchEditText = () => {
     this.refs["ChatInput"].showMenu(false)
-    // this.setState({
-    //   inputViewLayout: { width: window.width, height: this.state.inputLayoutHeight }
-    // })
-    // if (this.state.shouldExpandMenuContainer) {
-    //   console.log("on touch input, expend menu")
-    //   this.expendMenu()
-    // }
   }
 
   onFullScreen = () => {
@@ -285,7 +281,7 @@ export default class TestRNIMUI extends Component {
     message.timeString = "safsdfa"
     message.duration = duration
     AuroraIController.appendMessages([message])
-    console.log("on start record voice")
+    console.log("on finish record voice")
   }
 
   onCancelRecordVoice = () => {
@@ -297,12 +293,12 @@ export default class TestRNIMUI extends Component {
   }
 
   onFinishRecordVideo = (video) => {
-    var message = constructNormalMessage()
+    // var message = constructNormalMessage()
 
-    message.msgType = "video"
-    message.mediaPath = video.mediaPath
-    message.duration = video.duration
-    AuroraIController.appendMessages([message])
+    // message.msgType = "video"
+    // message.mediaPath = video.mediaPath
+    // message.duration = video.duration
+    // AuroraIController.appendMessages([message])
   }
 
   onSendGalleryFiles = (mediaFiles) => {

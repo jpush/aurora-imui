@@ -118,7 +118,6 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
                             cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
                     String size = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE));
                     String date = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
-
                     FileItem item = new FileItem(path, fileName, size, date);
                     item.setType(FileItem.Type.Image);
                     mMedias.add(item);
