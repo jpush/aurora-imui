@@ -73,6 +73,7 @@ import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
 import cn.jiguang.imui.chatinput.listener.OnFileSelectedListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
+import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.chatinput.photo.SelectPhotoView;
@@ -126,6 +127,7 @@ public class ChatInputView extends LinearLayout
     private OnCameraCallbackListener mCameraListener;
     private OnClickEditTextListener mEditTextListener;
     private CameraControllerListener mCameraControllerListener;
+    private RecordVoiceListener mRecordVoiceListener;
 
     private EmojiView mEmojiRl;
 
@@ -373,6 +375,11 @@ public class ChatInputView extends LinearLayout
         mListener = listener;
     }
 
+    public void setRecordVoiceListener(RecordVoiceListener listener) {
+        this.mRecordVoiceBtn.setRecordVoiceListener(listener);
+        this.mRecordVoiceListener = listener;
+    }
+
     public void setOnCameraCallbackListener(OnCameraCallbackListener listener) {
         mCameraListener = listener;
     }
@@ -535,6 +542,9 @@ public class ChatInputView extends LinearLayout
             mRecordContentLl.setVisibility(VISIBLE);
             mRecordVoiceBtn.cancelRecord();
             mChronometer.setText("00:00");
+            if (mRecordVoiceListener != null) {
+                mRecordVoiceListener.onPreviewCancel();
+            }
 
         } else if (view.getId() == R.id.aurora_btn_recordvoice_send) {
             // preview play audio widget send audio
@@ -542,6 +552,9 @@ public class ChatInputView extends LinearLayout
             dismissMenuLayout();
             mRecordVoiceBtn.finishRecord();
             mChronometer.setText("00:00");
+            if (mRecordVoiceListener != null) {
+                mRecordVoiceListener.onPreviewSend();
+            }
 
         } else if (view.getId() == R.id.aurora_ib_camera_full_screen) {
             // full screen/recover screen button in texture view
@@ -630,7 +643,9 @@ public class ChatInputView extends LinearLayout
                 mCameraControllerListener.onCloseCameraClick();
                 mMediaPlayer.stop();
                 mMediaPlayer.release();
-                mCameraSupport.cancelRecordingVideo();
+                if (mCameraSupport != null) {
+                    mCameraSupport.cancelRecordingVideo();
+                }
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
@@ -1315,6 +1330,25 @@ public class ChatInputView extends LinearLayout
     public int getDistanceFromInputToBottom() {
         mSendBtn.getGlobalVisibleRect(mRect);
         return mHeight - mRect.bottom;
+    }
+
+    private final Runnable measureAndLayout = new Runnable() {
+        @Override
+        public void run() {
+            measure(
+                    MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
+            layout(getLeft(), getTop(), getRight(), getBottom());
+        }
+    };
+
+    @Override
+    public void requestLayout() {
+        super.requestLayout();
+
+        // React Native Override requestLayout, since we refresh our layout in native, RN catch the
+        //requestLayout event, so that the view won't refresh at once, we simulate layout here.
+        post(measureAndLayout);
     }
 
     public int getSoftKeyboardHeight() {

@@ -262,15 +262,10 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mChatInput.showMenuLayout();
-                            mChatInput.showRecordVoiceLayout();
-                            sendSizeChangedEvent(calculateMenuHeight());
-                        }
-                    }, 100);
-
+                    mChatInput.showMenuLayout();
+                    mChatInput.showRecordVoiceLayout();
+                    sendSizeChangedEvent(calculateMenuHeight());
+                    mChatInput.requestLayout();
                 }
                 mLastClickId = 0;
                 return false;
@@ -298,15 +293,10 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            sendSizeChangedEvent(calculateMenuHeight() + 1);
-                            mChatInput.showMenuLayout();
-                            mChatInput.showSelectPhotoLayout();
-                        }
-                    }, 100);
-
+                    sendSizeChangedEvent(calculateMenuHeight());
+                    mChatInput.showMenuLayout();
+                    mChatInput.showSelectPhotoLayout();
+                    mChatInput.requestLayout();
                 }
                 mLastClickId = 1;
                 return false;
@@ -337,15 +327,10 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mChatInput.setPendingShowMenu(true);
                     mChatInput.initCamera();
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mChatInput.showMenuLayout();
-                            mChatInput.showCameraLayout();
-                            sendSizeChangedEvent(calculateMenuHeight() + 2);
-                        }
-                    }, 100);
-
+                    mChatInput.showMenuLayout();
+                    mChatInput.showCameraLayout();
+                    sendSizeChangedEvent(calculateMenuHeight());
+                    mChatInput.requestLayout();
                 }
                 mLastClickId = 2;
                 return false;
@@ -364,14 +349,10 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mChatInput.showMenuLayout();
-                            mChatInput.showEmojiLayout();
-                            sendSizeChangedEvent(calculateMenuHeight() - 1);
-                        }
-                    }, 100);
+                    mChatInput.showMenuLayout();
+                    mChatInput.showEmojiLayout();
+                    sendSizeChangedEvent(calculateMenuHeight());
+                    mChatInput.requestLayout();
                 }
                 mLastClickId = 3;
                 return false;
@@ -411,16 +392,18 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
             @Override
             public void onFinishVideoRecord(String videoPath) {
-                WritableMap event = Arguments.createMap();
-                event.putString("mediaPath", videoPath);
-//                MediaPlayer mediaPlayer = MediaPlayer.create(reactContext, Uri.parse(videoPath));
-//                int duration = mediaPlayer.getDuration() / 1000;    // Millisecond to second.
-//                mediaPlayer.release();
-                File file = new File(videoPath);
-                event.putDouble("size", file.length());
-//                event.putInt("duration", duration);
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
-                        FINISH_RECORD_VIDEO_EVENT, event);
+                if (videoPath != null) {
+                    WritableMap event = Arguments.createMap();
+                    event.putString("mediaPath", videoPath);
+                    MediaPlayer mediaPlayer = MediaPlayer.create(reactContext, Uri.parse(videoPath));
+                    int duration = mediaPlayer.getDuration() / 1000;    // Millisecond to second.
+                    mediaPlayer.release();
+                    File file = new File(videoPath);
+                    event.putDouble("size", file.length());
+                    event.putInt("duration", duration);
+                    reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
+                            FINISH_RECORD_VIDEO_EVENT, event);
+                }
             }
 
             @Override
@@ -430,7 +413,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
             }
         });
 
-        mChatInput.getRecordVoiceButton().setRecordVoiceListener(new RecordVoiceListener() {
+        mChatInput.setRecordVoiceListener(new RecordVoiceListener() {
             @Override
             public void onStartRecord() {
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
@@ -455,6 +438,17 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
             public void onCancelRecord() {
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         CANCEL_RECORD_VOICE_EVENT, null);
+            }
+
+            @Override
+            public void onPreviewCancel() {
+
+            }
+
+            @Override
+            public void onPreviewSend() {
+                sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+                mChatInput.requestLayout();
             }
         });
 
@@ -494,25 +488,23 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_CLICK_SELECT_ALBUM_EVENT, null);
             }
         });
-//        mChatInput.getEmojiContainer().getEmoticonsFuncView().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                Log.e(REACT_CHAT_INPUT, "EmotionPage Position" + position);
-//                if (position > 0) {
-//                    sendSizeChangedEvent(calculateMenuHeight() - 2);
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
+        mChatInput.getEmojiContainer().getEmoticonsFuncView().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.e(REACT_CHAT_INPUT, "EmotionPage Position" + position);
+                mChatInput.requestLayout();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         return mChatInput;
     }
 

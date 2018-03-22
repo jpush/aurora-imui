@@ -239,6 +239,16 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
             public void onCancelRecord() {
 
             }
+
+            @Override
+            public void onPreviewCancel() {
+
+            }
+
+            @Override
+            public void onPreviewSend() {
+
+            }
         });
 
         mChatView.setOnCameraCallbackListener(new OnCameraCallbackListener() {
