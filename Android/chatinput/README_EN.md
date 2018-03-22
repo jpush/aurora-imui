@@ -11,7 +11,7 @@ Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.6.7'
+compile 'cn.jiguang.imui:chatinput:0.7.2'
 ```
 
 - Via Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.6.7'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.6.7</version>
+  <version>0.7.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -41,7 +41,7 @@ allprojects {
 
 ```groovy
 dependencies {
-  compile 'com.github.jpush:imui:0.7.4'
+  compile 'com.github.jpush:imui:0.7.5'
 }
 ```
 
@@ -212,7 +212,38 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 });
 ```
 
+
+
+#### CameraControllerListener
+
+Control camera interface, include full screen event, switch take picture/ record video event, close camera event, etc.
+
+```
+mChatInput.setCameraControllerListener(new CameraControllerListener() {
+            @Override
+            public void onFullScreenClick() {
+               
+            }
+
+            @Override
+            public void onRecoverScreenClick() {
+               
+            }
+
+            @Override
+            public void onCloseCameraClick() {
+                
+            }
+
+            @Override
+            public void onSwitchCameraModeClick(boolean isRecordVideoMode) {
+                // Judge is take picture mode or record video mode by isRecordVideoMode.
+        });
+```
+
+
 #### Set file path and file name that after taken picture(Deprecated since 0.4.5)
+
 setCameraCaptureFile(String path, String fileName)
 
 Since 0.4.5, take picture will return default path.
