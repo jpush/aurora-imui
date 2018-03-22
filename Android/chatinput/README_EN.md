@@ -11,7 +11,7 @@ Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.7.2'
+compile 'cn.jiguang.imui:chatinput:0.7.3'
 ```
 
 - Via Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.7.2'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.7.2</version>
+  <version>0.7.3</version>
   <type>pom</type>
 </dependency>
 ```
@@ -41,7 +41,7 @@ allprojects {
 
 ```groovy
 dependencies {
-  compile 'com.github.jpush:imui:0.7.5'
+  compile 'com.github.jpush:imui:0.7.6'
 }
 ```
 
@@ -171,6 +171,24 @@ mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceListener() {
     @Override
     public void onCancelRecord() {
 
+    }
+    
+     /**
+      * In preview record voice layout, fires when click cancel button
+      * Add since 0.7.3
+      */
+    @Override
+    public void onPreviewCancel() {
+    }
+
+    
+    /**
+     * In preview record voice layout, fires when click send button
+     * Add since chatinput 0.7.3
+     */
+    @Override
+    public void onPreviewSend() {
+		
     }
 });
 ```

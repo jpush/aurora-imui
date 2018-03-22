@@ -5,14 +5,14 @@
 这是一个聊天界面输入框组件，可以方便地结合 `MessageList` 使用，包含录音，选择图片，拍照等功能，提供了一些丰富的接口和回调供用户使用，
 还可以选择自定义样式。
 
-> 该组件依赖了 Glide 3.7.0
+> 该组件依赖了 Glide 3.8.0
 
 ## 集成
 提供了以下几种方式添加依赖，只需要选择其中一种即可。
 
 - Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.7.2'
+compile 'cn.jiguang.imui:chatinput:0.7.3'
 ```
 
 - Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.7.2'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.7.2</version>
+  <version>0.7.3</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ compile 'cn.jiguang.imui:chatinput:0.7.2'
 
   ```groovy
   dependencies {
-    compile 'com.github.jpush:imui:0.7.5'
+    compile 'com.github.jpush:imui:0.7.6'
   }
   ```
 
@@ -163,6 +163,24 @@ mRecordVoiceBtn.setRecordVoiceListener(new RecordVoiceListener() {
     public void onCancelRecord() {
 
     }
+    
+    /**
+     * 录音试听界面，点击取消按钮触发
+     * 0.7.3 后添加此事件
+     */
+    @Override
+    public void onPreviewCancel() {
+        
+    }
+
+    /**
+     * 录音试听界面，点击发送按钮触发
+     * 0.7.3 后增加此事件
+     */
+    @Override
+    public void onPreviewSend() {
+
+    }
 });
 ```
 
@@ -198,6 +216,7 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
     public void onCancelVideoRecord() {
 
     }
+    
 });
 ```
 
