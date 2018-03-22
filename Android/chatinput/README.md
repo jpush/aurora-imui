@@ -12,7 +12,7 @@
 
 - Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.6.7'
+compile 'cn.jiguang.imui:chatinput:0.7.2'
 ```
 
 - Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.6.7'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.6.7</version>
+  <version>0.7.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ compile 'cn.jiguang.imui:chatinput:0.6.7'
 
   ```groovy
   dependencies {
-    compile 'com.github.jpush:imui:0.7.4'
+    compile 'com.github.jpush:imui:0.7.5'
   }
   ```
 
@@ -201,7 +201,41 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 });
 ```
 
+
+
+#### CameraControllerListener
+
+相机控制相关接口，包括全屏、拍照与录制视频切换、关闭相机等事件。
+
+```
+mChatInput.setCameraControllerListener(new CameraControllerListener() {
+            @Override
+            public void onFullScreenClick() {
+               
+            }
+
+            @Override
+            public void onRecoverScreenClick() {
+               
+            }
+
+            @Override
+            public void onCloseCameraClick() {
+                
+            }
+
+            @Override
+            public void onSwitchCameraModeClick(boolean isRecordVideoMode) {
+                // 切换拍照与否，通过 isRecordVideoMode 判断
+        });
+```
+
+
+
+
+
 ### 设置拍照后保存的文件(0.4.5 版本后弃用)
+
 `setCameraCaptureFile(String path, String fileName)`
 
 0.4.5 版本后拍照会返回默认路径。
@@ -211,3 +245,4 @@ mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
 // 0.4.5 后弃用
 mChatInput.setCameraCaptureFile(path, fileName);
 ```
+

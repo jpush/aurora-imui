@@ -84,12 +84,14 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
     private static final String SWITCH_TO_CAMERA_EVENT = "onSwitchToCameraMode";
     private static final String SWITCH_TO_EMOJI_EVENT = "onSwitchToEmojiMode";
     private static final String TAKE_PICTURE_EVENT = "onTakePicture";
+    private static final String SWITCH_CAMERA_MODE_EVENT = "switchCameraMode";
     private static final String START_RECORD_VIDEO_EVENT = "onStartRecordVideo";
     private static final String FINISH_RECORD_VIDEO_EVENT = "onFinishRecordVideo";
     private static final String CANCEL_RECORD_VIDEO_EVENT = "onCancelRecordVideo";
     private static final String START_RECORD_VOICE_EVENT = "onStartRecordVoice";
     private static final String FINISH_RECORD_VOICE_EVENT = "onFinishRecordVoice";
     private static final String CANCEL_RECORD_VOICE_EVENT = "onCancelRecordVoice";
+    private static final String CLOSE_CAMERA_EVENT = "closeCamera";
     private static final String ON_TOUCH_EDIT_TEXT_EVENT = "onTouchEditText";
     private static final String ON_FULL_SCREEN_EVENT = "onFullScreen";
     private static final String ON_RECOVER_SCREEN_EVENT = "onRecoverScreen";
@@ -411,12 +413,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
             public void onFinishVideoRecord(String videoPath) {
                 WritableMap event = Arguments.createMap();
                 event.putString("mediaPath", videoPath);
-                MediaPlayer mediaPlayer = MediaPlayer.create(reactContext, Uri.parse(videoPath));
-                int duration = mediaPlayer.getDuration() / 1000;    // Millisecond to second.
-                mediaPlayer.release();
+//                MediaPlayer mediaPlayer = MediaPlayer.create(reactContext, Uri.parse(videoPath));
+//                int duration = mediaPlayer.getDuration() / 1000;    // Millisecond to second.
+//                mediaPlayer.release();
                 File file = new File(videoPath);
                 event.putDouble("size", file.length());
-                event.putInt("duration", duration);
+//                event.putInt("duration", duration);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         FINISH_RECORD_VIDEO_EVENT, event);
             }
@@ -465,22 +467,25 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
             @Override
             public void onRecoverScreenClick() {
+                mShowMenu = false;
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         ON_RECOVER_SCREEN_EVENT, null);
                 WritableMap map = Arguments.createMap();
-                Log.e(REACT_CHAT_INPUT, "send onSizeChangedEvent to js, height: " + mInitialChatInputHeight + mSoftKeyboardHeight / mDensity);
-                map.putDouble("height", mInitialChatInputHeight + mSoftKeyboardHeight / mDensity);
+                Log.e(REACT_CHAT_INPUT, "send onSizeChangedEvent to js, height: " + mInitialChatInputHeight + mLineExpend);
+                map.putDouble("height", mInitialChatInputHeight + mLineExpend);
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
             }
 
             @Override
             public void onCloseCameraClick() {
-
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), CLOSE_CAMERA_EVENT, null);
             }
 
             @Override
-            public void onSwitchCameraModeClick() {
-
+            public void onSwitchCameraModeClick(boolean isRecordVideoMode) {
+                WritableMap map = Arguments.createMap();
+                map.putBoolean("isRecordVideoMode", isRecordVideoMode);
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), SWITCH_CAMERA_MODE_EVENT, map);
             }
         });
         mChatInput.getSelectAlbumBtn().setOnClickListener(new View.OnClickListener() {
@@ -682,6 +687,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                 .put(ON_RECOVER_SCREEN_EVENT, MapBuilder.of("registrationName", ON_RECOVER_SCREEN_EVENT))
                 .put(ON_INPUT_SIZE_CHANGED_EVENT, MapBuilder.of("registrationName", ON_INPUT_SIZE_CHANGED_EVENT))
                 .put(ON_CLICK_SELECT_ALBUM_EVENT, MapBuilder.of("registrationName", ON_CLICK_SELECT_ALBUM_EVENT))
+                .put(SWITCH_CAMERA_MODE_EVENT, MapBuilder.of("registrationName", SWITCH_CAMERA_MODE_EVENT))
+                .put(CLOSE_CAMERA_EVENT, MapBuilder.of("registrationName", CLOSE_CAMERA_EVENT))
                 .build();
     }
 

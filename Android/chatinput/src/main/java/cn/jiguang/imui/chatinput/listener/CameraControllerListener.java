@@ -4,5 +4,5 @@ public interface CameraControllerListener {
     void onFullScreenClick();
     void onRecoverScreenClick();
     void onCloseCameraClick();
-    void onSwitchCameraModeClick();
+    void onSwitchCameraModeClick(boolean isRecordVideoMode);
 }
