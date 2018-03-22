@@ -388,13 +388,7 @@ export default class TestRNIMUI extends Component {
         inputViewLayout: { flex: 1, width: window.width, height: window.height },
         navigationBar: { height: 0 }
       })
-    } else {
-      this.setState({
-        messageListLayout: { flex: 1, width: window.width, margin: 0 },
-        inputViewLayout: { flex: 0, width: window.width, height: this.state.inputLayoutHeight },
-        navigationBar: { height: 64, justifyContent: 'center' }
-      })
-    }
+    } 
   }
 
   render() {
