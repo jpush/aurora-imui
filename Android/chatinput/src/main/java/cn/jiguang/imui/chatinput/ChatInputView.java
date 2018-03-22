@@ -573,7 +573,9 @@ public class ChatInputView extends LinearLayout
         } else if (view.getId() == R.id.aurora_ib_camera_record_video) {
             // click record video button
             // if it is not record video mode
-            mCameraControllerListener.onSwitchCameraModeClick(!mIsRecordVideoMode);
+            if (mCameraControllerListener != null) {
+                mCameraControllerListener.onSwitchCameraModeClick(!mIsRecordVideoMode);
+            }
             if (!mIsRecordVideoMode) {
                 mIsRecordVideoMode = true;
                 mCaptureBtn.setBackgroundResource(R.drawable.aurora_preview_record_video_start);
@@ -621,15 +623,15 @@ public class ChatInputView extends LinearLayout
                 }
                 // if finished recording video, send it
             } else if (mFinishRecordingVideo) {
-                if (mListener != null) {
+                if (mListener != null && mVideoFilePath != null) {
                     File file = new File(mVideoFilePath);
                     VideoItem video = new VideoItem(mVideoFilePath, file.getName(), file.length() + "", System.currentTimeMillis() + "", mMediaPlayer.getDuration() / 1000);
                     List<FileItem> list = new ArrayList<>();
                     list.add(video);
                     mListener.onSendFiles(list);
-                    mFinishRecordingVideo = false;
                     mVideoFilePath = null;
                 }
+                mFinishRecordingVideo = false;
                 mMediaPlayer.stop();
                 mMediaPlayer.release();
                 recoverScreen();
@@ -640,7 +642,9 @@ public class ChatInputView extends LinearLayout
             }
         } else if (view.getId() == R.id.aurora_ib_camera_close) {
             try {
-                mCameraControllerListener.onCloseCameraClick();
+                if (mCameraControllerListener != null) {
+                    mCameraControllerListener.onCloseCameraClick();
+                }
                 mMediaPlayer.stop();
                 mMediaPlayer.release();
                 if (mCameraSupport != null) {

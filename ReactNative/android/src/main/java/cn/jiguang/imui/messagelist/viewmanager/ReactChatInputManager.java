@@ -262,10 +262,15 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
-                    mChatInput.showMenuLayout();
-                    mChatInput.showRecordVoiceLayout();
-                    sendSizeChangedEvent(calculateMenuHeight());
-                    mChatInput.requestLayout();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChatInput.showMenuLayout();
+                            mChatInput.showRecordVoiceLayout();
+                            sendSizeChangedEvent(calculateMenuHeight());
+                        }
+                    }, 100);
+
                 }
                 mLastClickId = 0;
                 return false;
@@ -293,10 +298,16 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
-                    sendSizeChangedEvent(calculateMenuHeight());
-                    mChatInput.showMenuLayout();
-                    mChatInput.showSelectPhotoLayout();
-                    mChatInput.requestLayout();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendSizeChangedEvent(calculateMenuHeight());
+                            mChatInput.showMenuLayout();
+                            mChatInput.showSelectPhotoLayout();
+                            mChatInput.requestLayout();
+                        }
+                    }, 100);
+
                 }
                 mLastClickId = 1;
                 return false;
@@ -327,10 +338,16 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mChatInput.setPendingShowMenu(true);
                     mChatInput.initCamera();
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
-                    mChatInput.showMenuLayout();
-                    mChatInput.showCameraLayout();
-                    sendSizeChangedEvent(calculateMenuHeight());
-                    mChatInput.requestLayout();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChatInput.showMenuLayout();
+                            mChatInput.showCameraLayout();
+                            sendSizeChangedEvent(calculateMenuHeight());
+                            mChatInput.requestLayout();
+                        }
+                    }, 100);
+
                 }
                 mLastClickId = 2;
                 return false;
@@ -349,10 +366,15 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
-                    mChatInput.showMenuLayout();
-                    mChatInput.showEmojiLayout();
-                    sendSizeChangedEvent(calculateMenuHeight());
-                    mChatInput.requestLayout();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChatInput.showMenuLayout();
+                            mChatInput.showEmojiLayout();
+                            sendSizeChangedEvent(calculateMenuHeight());
+                            mChatInput.requestLayout();
+                        }
+                    }, 100);
                 }
                 mLastClickId = 3;
                 return false;
