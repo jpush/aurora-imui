@@ -560,6 +560,7 @@ public class ChatInputView extends LinearLayout
         } else if (view.getId() == R.id.aurora_ib_camera_record_video) {
             // click record video button
             // if it is not record video mode
+            mCameraControllerListener.onSwitchCameraModeClick(!mIsRecordVideoMode);
             if (!mIsRecordVideoMode) {
                 mIsRecordVideoMode = true;
                 mCaptureBtn.setBackgroundResource(R.drawable.aurora_preview_record_video_start);
@@ -626,6 +627,7 @@ public class ChatInputView extends LinearLayout
             }
         } else if (view.getId() == R.id.aurora_ib_camera_close) {
             try {
+                mCameraControllerListener.onCloseCameraClick();
                 mMediaPlayer.stop();
                 mMediaPlayer.release();
                 mCameraSupport.cancelRecordingVideo();

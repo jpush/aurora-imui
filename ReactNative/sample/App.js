@@ -48,7 +48,7 @@ function constructNormalMessage() {
   }
   if (Platform.OS === "ios") {
     user.avatarPath = RNFS.MainBundlePath + '/default_header.png'
-  }  
+  }
   message.fromUser = user
 
   return message
@@ -76,12 +76,12 @@ export default class TestRNIMUI extends Component {
     }
     this.state = {
       inputLayoutHeight: initHeight,
-      messageListLayout: {flex: 1, width: window.width, margin: 0},
+      messageListLayout: { flex: 1, width: window.width, margin: 0 },
       inputViewLayout: { width: window.width, height: initHeight, },
       isAllowPullToRefresh: true,
       navigationBar: {},
     }
-    
+
     this.updateLayout = this.updateLayout.bind(this);
     this.onMsgClick = this.onMsgClick.bind(this);
   }
@@ -126,10 +126,10 @@ export default class TestRNIMUI extends Component {
       var eventMessage = constructNormalMessage()
       eventMessage.msgType = "event"
       eventMessage.text = 'fsadfad'
-      
+
       message.contentSize = { 'height': 100, 'width': 200 }
       message.extras = { "extras": "fdfsf" }
-      AuroraIController.appendMessages([message,eventMessage])
+      AuroraIController.appendMessages([message, eventMessage])
       AuroraIController.scrollToBottom(true)
     }
   }
@@ -140,7 +140,7 @@ export default class TestRNIMUI extends Component {
       this.setState({
         inputLayoutHeight: size.height,
         inputViewLayout: { width: window.width, height: size.height },
-        messageListLayout: { flex:1, width: window.width, margin: 0 }
+        messageListLayout: { flex: 1, width: window.width, margin: 0 }
       })
     }
   }
@@ -173,17 +173,18 @@ export default class TestRNIMUI extends Component {
     console.log("on full screen")
     this.setState({
       messageListLayout: { flex: 0, width: 0, height: 0 },
-      inputViewLayout: { flex:1, width: window.width, height: window.height },
+      inputViewLayout: { flex: 1, width: window.width, height: window.height },
       navigationBar: { height: 0 }
     })
   }
 
   onRecoverScreen = () => {
-    this.setState({
-      messageListLayout: { flex: 1, width: window.width, margin: 0 },
-      inputViewLayout: { flex: 0, width: window.width, height: this.state.inputLayoutHeight },
-      navigationBar: { height: 64, justifyContent: 'center' }
-    })
+    // this.setState({
+    //   inputLayoutHeight: 100,
+    //   messageListLayout: { flex: 1, width: window.width, margin: 0 },
+    //   inputViewLayout: { flex: 0, width: window.width, height: 100 },
+    //   navigationBar: { height: 64, justifyContent: 'center' }
+    // })
   }
 
   onAvatarClick = (message) => {
@@ -196,7 +197,7 @@ export default class TestRNIMUI extends Component {
     // Alert.alert("message", JSON.stringify(message))
     if (message.msgType === "image") {
       if (Platform.OS === "android") {
-        const {navigate} = this.props.navigation;
+        const { navigate } = this.props.navigation;
         navigate("BrowserPhoto", {
           photoPath: photoPathArr,
           msgIds: msgIdArr,
@@ -313,7 +314,7 @@ export default class TestRNIMUI extends Component {
      * 
      * 代码用例不做裁剪操作。
      */
-    Alert.alert('fas',JSON.stringify(mediaFiles))
+    Alert.alert('fas', JSON.stringify(mediaFiles))
     for (index in mediaFiles) {
       var message = constructNormalMessage()
       if (mediaFiles[index].mediaType == "image") {
@@ -324,13 +325,13 @@ export default class TestRNIMUI extends Component {
         message.msgType = "video"
         message.duration = mediaFiles[index].duration
       }
-      
+
       message.mediaPath = mediaFiles[index].mediaPath
       message.timeString = "8:00"
       AuroraIController.appendMessages([message])
       AuroraIController.scrollToBottom(true)
     }
-    
+
     this.resetMenu()
   }
 
@@ -363,6 +364,37 @@ export default class TestRNIMUI extends Component {
 
   onClickSelectAlbum = () => {
     console.log("on click select album")
+  }
+
+  onCloseCamera = () => {
+    console.log("On close camera event")
+    this.setState({
+      inputLayoutHeight: 100,
+      messageListLayout: { flex: 1, width: window.width, margin: 0 },
+      inputViewLayout: { flex: 0, width: window.width, height: 100 },
+      navigationBar: { height: 64, justifyContent: 'center' }
+    })
+  }
+
+  /**
+   * Switch to record video mode or not
+   */
+  switchCameraMode = (isRecordVideoMode) => {
+    console.log("Switching camera mode: isRecordVideoMode: " + isRecordVideoMode)
+    // If record video mode, then set to full screen.
+    if (isRecordVideoMode) {
+      this.setState({
+        messageListLayout: { flex: 0, width: 0, height: 0 },
+        inputViewLayout: { flex: 1, width: window.width, height: window.height },
+        navigationBar: { height: 0 }
+      })
+    } else {
+      this.setState({
+        messageListLayout: { flex: 1, width: window.width, margin: 0 },
+        inputViewLayout: { flex: 0, width: window.width, height: this.state.inputLayoutHeight },
+        navigationBar: { height: 64, justifyContent: 'center' }
+      })
+    }
   }
 
   render() {
@@ -434,7 +466,6 @@ export default class TestRNIMUI extends Component {
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"
-          isDismissMenuContainer={this.state.isDismissMenuContainer}
           onSendText={this.onSendText}
           onTakePicture={this.onTakePicture}
           onStartRecordVoice={this.onStartRecordVoice}
@@ -452,9 +483,11 @@ export default class TestRNIMUI extends Component {
           onFullScreen={this.onFullScreen}
           onRecoverScreen={this.onRecoverScreen}
           onSizeChange={this.onInputViewSizeChange}
+          closeCamera={this.onCloseCamera}
+          switchCameraMode={this.switchCameraMode}
           showSelectAlbumBtn={true}
           onClickSelectAlbum={this.onClickSelectAlbum}
-          inputPadding={{left: 30, top: 10, right: 10, bottom: 10}}
+          inputPadding={{ left: 30, top: 10, right: 10, bottom: 10 }}
           galleryScale={0.6}//default = 0.5
           compressionQuality={0.6}
         />

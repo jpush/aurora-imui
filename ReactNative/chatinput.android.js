@@ -42,6 +42,8 @@ export default class ChatInput extends Component {
 		this._onRecoverScreen = this._onRecoverScreen.bind(this);
 		this._onSizeChange = this._onSizeChange.bind(this);
 		this._onClickSelectAlbum = this._onClickSelectAlbum.bind(this);
+		this._closeCamera = this._closeCamera.bind(this);
+		this._switchCameraMode = this._switchCameraMode.bind(this);
 	}
 
 	_onSendText(event: Event) {
@@ -170,6 +172,20 @@ export default class ChatInput extends Component {
 		this.props.onClickSelectAlbum();
 	}
 
+	_closeCamera(event: Event) {
+		if (!this.props.closeCamera) {
+			return;
+		}
+		this.props.closeCamera();
+	}
+
+	_switchCameraMode(event: Event) {
+		if (!this.props.switchCameraMode) {
+			return;
+		}
+		this.props.switchCameraMode(event.nativeEvent.isRecordVideoMode);
+	}
+
 	setMenuContainerHeight(height) {
 		UIManager.dispatchViewManagerCommand(findNodeHandle(this.refs[CHAT_INPUT]), 99, [height]);
 	}
@@ -208,6 +224,8 @@ export default class ChatInput extends Component {
 				onRecoverScreen={this._onRecoverScreen}
 				onSizeChange={this._onSizeChange}
 				onClickSelectAlbum={this._onClickSelectAlbum}
+				closeCamera={this._closeCamera}
+				switchCameraMode={this._switchCameraMode}
 			/>
 		);
 	}
@@ -235,6 +253,8 @@ ChatInput.propTypes = {
 	onFullScreen: PropTypes.func,
 	onRecoverScreen: PropTypes.func,
 	onSizeChange: PropTypes.func,
+	closeCamera: PropTypes.func,
+	switchCameraMode: PropTypes.func,
 	inputViewHeight: PropTypes.number,
 	onClickSelectAlbum: PropTypes.func,
 	showSelectAlbumBtn: PropTypes.bool,
