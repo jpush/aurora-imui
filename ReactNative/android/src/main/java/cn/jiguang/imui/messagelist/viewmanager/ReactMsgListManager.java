@@ -270,7 +270,6 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                     Log.d("RCTMessageListManager", "Add message to start, message: " + rctMessage);
                     if (activity != null) {
                         mAdapter.addToStart(rctMessage, true);
-                        mMessageList.smoothScrollToPosition(0);
                     }
                 }
                 break;
@@ -279,7 +278,6 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 Log.d("RCTMessageListManager", "updating message, message: " + rctMessage);
                 if (activity != null) {
                     mAdapter.updateMessage(rctMessage.getMsgId(), rctMessage);
-                    mMessageList.smoothScrollBy(0, 1);
                 }
                 break;
             case RCT_INSERT_MESSAGES_ACTION:
@@ -294,6 +292,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             default:
                 mAdapter.clear();
         }
+        mMessageList.requestLayout();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -239,6 +239,24 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
             public void onCancelRecord() {
 
             }
+
+            /**
+             * In preview record voice layout, fires when click cancel button
+             * Add since chatinput v0.7.3
+             */
+            @Override
+            public void onPreviewCancel() {
+
+            }
+
+            /**
+             * In preview record voice layout, fires when click send button
+             * Add since chatinput v0.7.3
+             */
+            @Override
+            public void onPreviewSend() {
+
+            }
         });
 
         mChatView.setOnCameraCallbackListener(new OnCameraCallbackListener() {
@@ -364,7 +382,6 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
             }
         }
     }
-
 
 
     @Override

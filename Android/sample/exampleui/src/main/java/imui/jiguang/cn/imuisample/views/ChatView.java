@@ -112,7 +112,7 @@ public class ChatView extends RelativeLayout {
     }
 
     public void setRecordVoiceListener(RecordVoiceListener listener) {
-        mRecordVoiceBtn.setRecordVoiceListener(listener);
+        mChatInput.setRecordVoiceListener(listener);
     }
 
     public void setOnCameraCallbackListener(OnCameraCallbackListener listener) {

@@ -37,7 +37,7 @@ function constructNormalMessage() {
   var message = {}
   message.msgId = themsgid.toString()
   themsgid += 1
-  message.status = "send_going"
+  message.status = "send_succeed"
   message.isOutgoing = true
   var date = new Date()
   message.timeString = date.getHours() + ":" + date.getMinutes()
@@ -429,7 +429,7 @@ export default class TestRNIMUI extends Component {
                   <h5>This is a custom message. </h5>
                   <img src="/storage/emulated/0/XhsEmoticonsKeyboard/Emoticons/wxemoticons/icon_040_cover.png"></img>
                 </body>`
-                message.contentSize = { 'height': 400, 'width': 400 }
+                message.contentSize = { 'height': 100, 'width': 200 }
                 message.extras = { "extras": "fdfsf" }
                 var user = {
                   userId: "1",
