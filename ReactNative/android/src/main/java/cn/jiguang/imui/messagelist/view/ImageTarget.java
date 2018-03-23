@@ -55,6 +55,9 @@ public class ImageTarget extends BitmapImageViewTarget {
             srcWidth = srcWidth * (200 * mDensity / srcHeight);
             srcHeight = 200 * mDensity;
         }
+        if (srcWidth < 60 * mDensity) {
+            srcWidth = 60 * mDensity;
+        }
         ViewGroup.LayoutParams params = mImageView.getLayoutParams();
         params.width = (int) srcWidth;
         params.height = (int) srcHeight;

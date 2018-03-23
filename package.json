@@ -1,6 +1,6 @@
 {
     "name": "aurora-imui-react-native",
-    "version": "0.9.28",
+    "version": "0.9.29-rc",
     "description": "aurora imui plugin for react native application",
     "main": "index.js",
 

@@ -174,6 +174,7 @@ public class ChatInputView extends LinearLayout
     private boolean mIsFullScreen = false;
     private Context mContext;
     private Rect mRect = new Rect();
+    private View mCameraBtnContainer;
 
     public ChatInputView(Context context) {
         super(context);
@@ -204,11 +205,11 @@ public class ChatInputView extends LinearLayout
 
         View voiceBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_voice);
         View photoBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_photo);
-        View cameraBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_camera);
+        mCameraBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_camera);
         View emojiBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_emoji);
         voiceBtnContainer.setOnClickListener(onMenuItemClickListener);
         photoBtnContainer.setOnClickListener(onMenuItemClickListener);
-        cameraBtnContainer.setOnClickListener(onMenuItemClickListener);
+        mCameraBtnContainer.setOnClickListener(onMenuItemClickListener);
         emojiBtnContainer.setOnClickListener(onMenuItemClickListener);
         mSendBtn.setOnClickListener(onMenuItemClickListener);
 
@@ -1380,6 +1381,10 @@ public class ChatInputView extends LinearLayout
 
     public EmojiView getEmojiContainer() {
         return mEmojiRl;
+    }
+
+    public View getCameraBtnContainer() {
+        return this.mCameraBtnContainer;
     }
 
     public ChatInputStyle getStyle() {

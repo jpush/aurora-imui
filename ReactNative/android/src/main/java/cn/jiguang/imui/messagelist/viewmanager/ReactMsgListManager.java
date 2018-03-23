@@ -227,19 +227,27 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             }
         });
 
-        mMessageList.setOnClickListener(new View.OnClickListener() {
+        mMessageList.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                EventBus.getDefault().post(new OnTouchMsgListEvent());
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_TOUCH_MSG_LIST_EVENT, null);
-                if (reactContext.getCurrentActivity() != null) {
-                    InputMethodManager imm = (InputMethodManager) reactContext.getCurrentActivity()
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    Window window = reactContext.getCurrentActivity().getWindow();
-                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                            | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        v.performClick();
+                        EventBus.getDefault().post(new OnTouchMsgListEvent());
+                        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_TOUCH_MSG_LIST_EVENT, null);
+                        if (reactContext.getCurrentActivity() != null) {
+                            InputMethodManager imm = (InputMethodManager) reactContext.getCurrentActivity()
+                                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                            Window window = reactContext.getCurrentActivity().getWindow();
+                            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                                    | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        }
+                        break;
                 }
+                return false;
             }
         });
         // 通知 AuroraIMUIModule 完成初始化 MessageList

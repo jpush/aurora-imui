@@ -696,6 +696,15 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
         chatInputView.getInputView().setLineSpacing(spacing, 1.0f);
     }
 
+    @ReactProp(name = "hideCameraButton")
+    public void hideCameraButton(ChatInputView chatInputView, boolean hide) {
+//        if (hide) {
+//            chatInputView.getCameraBtnContainer().setVisibility(View.GONE);
+//        } else {
+//            chatInputView.getCameraBtnContainer().setVisibility(View.VISIBLE);
+//        }
+    }
+
     @Override
     public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.<String, Object>builder()

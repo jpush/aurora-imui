@@ -262,6 +262,7 @@ ChatInput.propTypes = {
 	inputTextColor: PropTypes.string,
 	inputTextSize: PropTypes.number,
 	inputTextLineHeight: PropTypes.number,
+	hideCameraButton: PropTypes.bool,
 	...ViewPropTypes
 };
 
