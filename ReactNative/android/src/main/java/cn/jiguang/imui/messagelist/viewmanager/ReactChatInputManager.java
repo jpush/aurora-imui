@@ -494,6 +494,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
             @Override
             public void onCloseCameraClick() {
+                mShowMenu = false;
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), CLOSE_CAMERA_EVENT, null);
             }
 
