@@ -36,6 +36,8 @@
                 android:id="@+id/aurora_iv_msgitem_cover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:maxHeight="200dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 app:videoMessageRadius="8dp" />

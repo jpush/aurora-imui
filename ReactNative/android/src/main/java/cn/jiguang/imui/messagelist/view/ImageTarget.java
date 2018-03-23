@@ -1,16 +1,13 @@
 package cn.jiguang.imui.messagelist.view;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.RectF;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 
 public class ImageTarget extends BitmapImageViewTarget {
@@ -20,47 +17,53 @@ public class ImageTarget extends BitmapImageViewTarget {
     // 长图截取后的高宽比（宽图截取后的宽高比）
     public static int HW_RATIO = 3;
     private ImageView mImageView;
+    private float mDensity;
 
-    public ImageTarget(ImageView view) {
+    public ImageTarget(ImageView view, float density) {
         super(view);
         this.mImageView = view;
+        this.mDensity = density;
     }
 
     private Bitmap resolveBitmap(Bitmap resource) {
-        int srcWidth = resource.getWidth();
-        int srcHeight = resource.getHeight();
+        float srcWidth = resource.getWidth();
+        float srcHeight = resource.getHeight();
         if (srcWidth > srcHeight) {
-            float srcWHRatio = (float) srcWidth / srcHeight;
+            float srcWHRatio = srcWidth / srcHeight;
             // 宽图
             if (srcWHRatio > RATIO_OF_LARGE) {
-                resource = Bitmap.createBitmap(resource, 0, 0, srcHeight * HW_RATIO, srcHeight);
+                resource = Bitmap.createBitmap(resource, 0, 0, (int) srcHeight * HW_RATIO, (int) srcHeight);
             }
         } else {
-            float srcHWRatio = (float) srcHeight / srcWidth;
+            float srcHWRatio = srcHeight / srcWidth;
             // 长图
             if (srcHWRatio > RATIO_OF_LARGE) {
-                resource = Bitmap.createBitmap(resource, 0, 0, srcWidth, srcWidth * HW_RATIO);
+                resource = Bitmap.createBitmap(resource, 0, 0, (int) srcWidth, (int) srcWidth * HW_RATIO);
             }
         }
-        return createRoundCornerBitmap(resource);
-    }
-
-    private Bitmap createRoundCornerBitmap(Bitmap resource) {
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        Bitmap result = Bitmap.createBitmap(resource.getWidth(), resource.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(result);
-        RectF rectF = new RectF(0, 0, resource.getWidth(), resource.getHeight());
-        canvas.drawRoundRect(rectF, 20, 20, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(resource, 0, 0, paint);
-        return result;
+        if (srcWidth < 100 * mDensity) {
+            srcHeight = srcHeight * (100 * mDensity / srcWidth);
+            srcWidth = 100 * mDensity;
+        } else if (srcWidth > 250 * mDensity) {
+            srcHeight = srcHeight * (200 * mDensity / srcWidth);
+            srcWidth = 200 * mDensity;
+        }
+        if (srcHeight < 100 * mDensity) {
+            srcWidth = srcWidth * (100 * mDensity / srcHeight);
+            srcHeight = 100 * mDensity;
+        } else if (srcHeight > 250 * mDensity) {
+            srcWidth = srcWidth * (200 * mDensity / srcHeight);
+            srcHeight = 200 * mDensity;
+        }
+        ViewGroup.LayoutParams params = mImageView.getLayoutParams();
+        params.width = (int) srcWidth;
+        params.height = (int) srcHeight;
+        mImageView.setLayoutParams(params);
+        return resource;
     }
 
     @Override
-    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-        super.onResourceReady(resolveBitmap(resource), glideAnimation);
+    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+        super.onResourceReady(resolveBitmap(resource), transition);
     }
-
-
 }

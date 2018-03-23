@@ -823,14 +823,19 @@ public class ChatInputView extends LinearLayout
             mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
                 @Override
                 public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
-                    Log.e("ChatInputView", "Opening camera");
-                    mCameraSupport.open(mCameraId, width, height, mIsBackCamera);
+                    Log.d("ChatInputView", "Opening camera");
+                    if (mCameraSupport == null) {
+                        initCamera();
+                    } else {
+                        mCameraSupport.open(mCameraId, width, height, mIsBackCamera);
+                    }
+
                 }
 
                 @Override
                 public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width,
                                                         int height) {
-                    Log.e("ChatInputView", "Texture size changed, Opening camera");
+                    Log.d("ChatInputView", "Texture size changed, Opening camera");
                     if (mTextureView.getVisibility() == VISIBLE && mCameraSupport != null) {
                         mCameraSupport.open(mCameraId, width, height, mIsBackCamera);
                     }
@@ -914,6 +919,8 @@ public class ChatInputView extends LinearLayout
                 activity.getWindow().setAttributes(attrs);
                 activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 mIsFullScreen = false;
+                mIsRecordingVideo = false;
+                mIsRecordVideoMode = false;
                 mCloseBtn.setVisibility(GONE);
                 mFullScreenBtn.setBackgroundResource(R.drawable.aurora_preview_full_screen);
                 mFullScreenBtn.setVisibility(VISIBLE);

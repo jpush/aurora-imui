@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
@@ -144,6 +145,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
         reactContext.registerReceiver(RCTMsgListReceiver, intentFilter);
+        final float density = reactContext.getResources().getDisplayMetrics().density;
 
         mMessageList = (MessageList) rootView.findViewById(R.id.msg_list);
         mMessageList.setHasFixedSize(true);
@@ -158,7 +160,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 } else {
                     Glide.with(reactContext)
                             .load(string)
-                            .placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default"))
+                            .apply(new RequestOptions().placeholder(IdHelper.getDrawable(reactContext, "aurora_headicon_default")))
                             .into(avatarImageView);
                 }
             }
@@ -167,10 +169,20 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             public void loadImage(final ImageView imageView, String string) {
                 // You can use other image load libraries.
                 Glide.with(reactContext)
-                        .load(string)
                         .asBitmap()
-                        .placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found"))
-                        .into(new ImageTarget(imageView));
+                        .load(string)
+                        .apply(new RequestOptions().placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")))
+                        .into(new ImageTarget(imageView, density));
+            }
+
+            @Override
+            public void loadVideo(ImageView imageCover, String uri) {
+                long interval = 5000 * 1000;
+                Glide.with(reactContext)
+                        .asBitmap()
+                        .load(uri)
+                        .apply(new RequestOptions().frame(interval).placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")))
+                        .into(new ImageTarget(imageCover, density));
             }
         };
         mAdapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
@@ -215,27 +227,19 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             }
         });
 
-        mMessageList.setOnTouchListener(new View.OnTouchListener() {
+        mMessageList.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        EventBus.getDefault().post(new OnTouchMsgListEvent());
-                        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_TOUCH_MSG_LIST_EVENT, null);
-                        if (reactContext.getCurrentActivity() != null) {
-                            InputMethodManager imm = (InputMethodManager) reactContext.getCurrentActivity()
-                                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                            Window window = reactContext.getCurrentActivity().getWindow();
-                            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                                    | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        v.performClick();
-                        break;
+            public void onClick(View view) {
+                EventBus.getDefault().post(new OnTouchMsgListEvent());
+                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(rootView.getId(), ON_TOUCH_MSG_LIST_EVENT, null);
+                if (reactContext.getCurrentActivity() != null) {
+                    InputMethodManager imm = (InputMethodManager) reactContext.getCurrentActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    Window window = reactContext.getCurrentActivity().getWindow();
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                            | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 }
-                return false;
             }
         });
         // 通知 AuroraIMUIModule 完成初始化 MessageList

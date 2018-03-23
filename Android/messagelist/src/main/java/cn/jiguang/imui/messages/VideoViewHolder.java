@@ -61,13 +61,16 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         }
         boolean isAvatarExists = message.getFromUser().getAvatarFilePath() != null
                 && !message.getFromUser().getAvatarFilePath().isEmpty();
-
-        if (BitmapCache.getInstance().getBitmapFromMemCache(message.getMediaFilePath()) == null) {
-            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(message.getMediaFilePath(),
-                    MediaStore.Images.Thumbnails.MINI_KIND);
-            BitmapCache.getInstance().setBitmapCache(message.getMediaFilePath(), thumb);
+        if (mImageLoader != null) {
+            mImageLoader.loadVideo(mImageCover, message.getMediaFilePath());
+        } else {
+            if (BitmapCache.getInstance().getBitmapFromMemCache(message.getMediaFilePath()) == null) {
+                Bitmap thumb = ThumbnailUtils.createVideoThumbnail(message.getMediaFilePath(),
+                        MediaStore.Images.Thumbnails.MINI_KIND);
+                BitmapCache.getInstance().setBitmapCache(message.getMediaFilePath(), thumb);
+            }
+            mImageCover.setImageBitmap(BitmapCache.getInstance().getBitmapFromMemCache(message.getMediaFilePath()));
         }
-        mImageCover.setImageBitmap(BitmapCache.getInstance().getBitmapFromMemCache(message.getMediaFilePath()));
         mImageCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
