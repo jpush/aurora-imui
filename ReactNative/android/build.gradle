@@ -27,10 +27,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-//    compile 'cn.jiguang.imui:messagelist:0.6.9'
-//    compile 'cn.jiguang.imui:chatinput:0.7.4'
-    compile project(':messagelist')
-    compile project(':chatinput')
+    compile 'cn.jiguang.imui:messagelist:0.7.0'
+    compile 'cn.jiguang.imui:chatinput:0.7.5'
     compile 'pub.devrel:easypermissions:0.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.android.support:appcompat-v7:27.1.0'
