@@ -236,8 +236,10 @@ export default class TestRNIMUI extends Component {
       // }
 
       if (i % 3 == 0) {
-        message.msgType = "event"
+        message.msgType = "video"
         message.text = "" + i
+        message.mediaPath = "/storage/emulated/0/ScreenRecorder/screenrecorder.20180323101705.mp4"
+        message.duration = 12
       }
 
       AuroraIController.insertMessagesToTop([message])
@@ -457,6 +459,7 @@ export default class TestRNIMUI extends Component {
           datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
           dateBackgroundColor={"#39ef23"}
           photoMessageRadius={5}
+          videoDurationTextColor={"#ffffff"}
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"
