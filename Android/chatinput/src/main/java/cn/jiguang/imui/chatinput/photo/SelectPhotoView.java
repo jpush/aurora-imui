@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,7 @@ import cn.jiguang.imui.chatinput.listener.OnFileSelectedListener;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
 
-public class SelectPhotoView extends FrameLayout implements Handler.Callback {
+public class SelectPhotoView extends FrameLayout {
 
     private final static int MSG_WHAT_SCAN_SUCCESS = 1;
     private final static int MSG_WHAT_SCAN_FAILED = 0;
@@ -43,9 +44,10 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
 
     private List<FileItem> mMedias; // All photo or video files
 
-    private Handler mMediaHandler = new Handler(this);
+    private Handler mMediaHandler;
 
     private OnFileSelectedListener mOnFileSelectedListener;
+    private long mLastUpdateTime;
 
     public SelectPhotoView(@NonNull Context context) {
         super(context);
@@ -71,6 +73,7 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
         mRvPhotos = (RecyclerView) findViewById(R.id.aurora_recyclerview_selectphoto);
         mRvPhotos.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         mRvPhotos.setHasFixedSize(true);
+        mMediaHandler = new MediaHandler(this);
     }
 
     public void initData() {
@@ -83,6 +86,24 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
 
             mProgressBar.setVisibility(View.VISIBLE);
 
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (getPhotos() && getVideos()) {
+                        mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_SUCCESS);
+                    } else {
+                        mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_FAILED);
+                    }
+                }
+            }).start();
+        }
+    }
+
+    /**
+     * Update Select photo view every 30 seconds.
+     */
+    public void updateData() {
+        if (mLastUpdateTime !=0 && System.currentTimeMillis() - mLastUpdateTime >= 30 * 1000) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -161,20 +182,35 @@ public class SelectPhotoView extends FrameLayout implements Handler.Callback {
         return true;
     }
 
-    @Override
-    public boolean handleMessage(Message message) {
-        mProgressBar.setVisibility(View.GONE);
-
-        if (message.what == MSG_WHAT_SCAN_SUCCESS) {
-            Collections.sort(mMedias);
-            mPhotoAdapter = new PhotoAdapter(mMedias);
-            mPhotoAdapter.setOnPhotoSelectedListener(mOnFileSelectedListener);
-            mRvPhotos.setAdapter(mPhotoAdapter);
-        } else if (message.what == MSG_WHAT_SCAN_FAILED) {
-            Toast.makeText(getContext(), getContext().getString(R.string.sdcard_not_prepare_toast),
-                    Toast.LENGTH_SHORT).show();
+    static class MediaHandler extends Handler {
+        WeakReference<SelectPhotoView> mViewReference;
+        MediaHandler(SelectPhotoView view) {
+            mViewReference= new WeakReference<SelectPhotoView>(view);
         }
-        return false;
+        @Override
+        public void handleMessage(Message msg) {
+            final SelectPhotoView view = mViewReference.get();
+            if (view != null) {
+                view.mProgressBar.setVisibility(View.GONE);
+                switch (msg.what) {
+                    case MSG_WHAT_SCAN_SUCCESS:
+                        view.mLastUpdateTime = System.currentTimeMillis();
+                        Collections.sort(view.mMedias);
+                        if (view.mPhotoAdapter == null) {
+                            view.mPhotoAdapter = new PhotoAdapter(view.mMedias);
+                            view.mRvPhotos.setAdapter(view.mPhotoAdapter);
+                        } else {
+                            view.mPhotoAdapter.notifyDataSetChanged();
+                        }
+                        view.mPhotoAdapter.setOnPhotoSelectedListener(view.mOnFileSelectedListener);
+                        break;
+                    case MSG_WHAT_SCAN_FAILED:
+                        Toast.makeText(view.mContext, view.mContext.getString(R.string.sdcard_not_prepare_toast),
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }
     }
 
     public List<FileItem> getSelectFiles() {

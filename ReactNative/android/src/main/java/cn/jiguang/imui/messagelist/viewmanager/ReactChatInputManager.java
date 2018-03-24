@@ -300,10 +300,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mChatInput.dismissPhotoLayout();
                     sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
                 } else if (mShowMenu) {
+                    mChatInput.getSelectPhotoView().updateData();
                     mChatInput.showMenuLayout();
                     mChatInput.showSelectPhotoLayout();
                     mChatInput.requestLayout();
                 } else {
+                    mChatInput.getSelectPhotoView().updateData();
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
@@ -627,13 +629,14 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OnTouchMsgListEvent event) {
-        WritableMap map = Arguments.createMap();
-        map.putDouble("height", mInitialChatInputHeight + mLineExpend);
-        mShowMenu = false;
-        mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
+        if (mChatInput.isKeyboardVisible() || mChatInput.getMenuState() == View.VISIBLE) {
+            sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+            mShowMenu = false;
+            mChatInput.dismissMenuLayout();
+        }
     }
 
-    @ReactProp(name = "chatInputBackgroupColor")
+    @ReactProp(name = "chatInputBackgroundColor")
     public void setBackgroundColor(ChatInputView chatInputView, String color) {
         int colorRes = Color.parseColor(color);
         chatInputView.setBackgroundColor(colorRes);
@@ -698,11 +701,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
     @ReactProp(name = "hideCameraButton")
     public void hideCameraButton(ChatInputView chatInputView, boolean hide) {
-//        if (hide) {
-//            chatInputView.getCameraBtnContainer().setVisibility(View.GONE);
-//        } else {
-//            chatInputView.getCameraBtnContainer().setVisibility(View.VISIBLE);
-//        }
+        if (hide) {
+            chatInputView.getCameraBtnContainer().setVisibility(View.GONE);
+        } else {
+            chatInputView.getCameraBtnContainer().setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

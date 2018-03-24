@@ -174,7 +174,7 @@ public class ChatInputView extends LinearLayout
     private boolean mIsFullScreen = false;
     private Context mContext;
     private Rect mRect = new Rect();
-    private View mCameraBtnContainer;
+    private LinearLayout mCameraBtnContainer;
 
     public ChatInputView(Context context) {
         super(context);
@@ -205,7 +205,7 @@ public class ChatInputView extends LinearLayout
 
         View voiceBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_voice);
         View photoBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_photo);
-        mCameraBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_camera);
+        mCameraBtnContainer = findViewById(R.id.aurora_ll_menuitem_camera_container);
         View emojiBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_emoji);
         voiceBtnContainer.setOnClickListener(onMenuItemClickListener);
         photoBtnContainer.setOnClickListener(onMenuItemClickListener);
@@ -476,7 +476,7 @@ public class ChatInputView extends LinearLayout
                             showSelectPhotoLayout();
                         }
                     }
-                } else if (view.getId() == R.id.aurora_framelayout_menuitem_camera) {
+                } else if (view.getId() == R.id.aurora_ll_menuitem_camera_container) {
                     if (mListener != null && mListener.switchToCameraMode()) {
                         if (mCameraFl.getVisibility() == VISIBLE && mMenuContainer.getVisibility() == VISIBLE) {
                             dismissMenuLayout();
@@ -1246,9 +1246,16 @@ public class ChatInputView extends LinearLayout
     @Override
     public void onRightUpTapped() {
         mChronometer.stop();
+        mChronometer.setText("00:00");
         mChronometer.setVisibility(INVISIBLE);
         mRecordHintTv.setText(getContext().getString(R.string.record_voice_hint));
         mRecordHintTv.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void onFinish() {
+        mChronometer.stop();
+        mChronometer.setText("00:00");
     }
 
     private long convertStrTimeToLong(String strTime) {
@@ -1409,6 +1416,10 @@ public class ChatInputView extends LinearLayout
 
     public ImageButton getSendBtn() {
         return this.mSendBtn;
+    }
+
+    public SelectPhotoView getSelectPhotoView() {
+        return this.mSelectPhotoView;
     }
 
     public ImageButton getSelectAlbumBtn() {

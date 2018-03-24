@@ -55,9 +55,9 @@
                 android:id="@+id/aurora_btn_recordvoice_cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/aurora_recordvoice_left_btn_bg"
-                android:padding="8dp"
                 android:text="@string/cancel"
                 android:textColor="#29B5EA"
                 android:textSize="16sp" />
@@ -66,9 +66,9 @@
                 android:id="@+id/aurora_btn_recordvoice_send"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/aurora_recordvoice_right_btn_bg"
-                android:padding="8dp"
                 android:text="@string/send"
                 android:textColor="#29B5EA"
                 android:textSize="16sp" />
