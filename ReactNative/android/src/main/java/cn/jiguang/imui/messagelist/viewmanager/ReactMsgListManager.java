@@ -64,7 +64,6 @@ import cn.jiguang.imui.messagelist.event.MessageEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
-import cn.jiguang.imui.messagelist.view.ImageTarget;
 import cn.jiguang.imui.messages.CustomMsgConfig;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
@@ -246,8 +245,8 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                 Glide.with(reactContext)
                         .asBitmap()
                         .load(uri)
-                        .apply(new RequestOptions().frame(interval).placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")))
-                        .into(new ImageTarget(imageCover, density));
+                        .apply(new RequestOptions().frame(interval).placeholder(IdHelper.getDrawable(reactContext, "aurora_picture_not_found")).override(200, 400))
+                        .into(imageCover);
             }
         };
         mAdapter = new MsgListAdapter<>("0", holdersConfig, imageLoader);
