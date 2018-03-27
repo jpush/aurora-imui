@@ -1347,7 +1347,7 @@ public class ChatInputView extends LinearLayout
     }
 
     public int getDistanceFromInputToBottom() {
-        mSendBtn.getGlobalVisibleRect(mRect);
+        mMenuItemContainer.getGlobalVisibleRect(mRect);
         return mHeight - mRect.bottom;
     }
 
@@ -1371,7 +1371,7 @@ public class ChatInputView extends LinearLayout
     }
 
     public int getSoftKeyboardHeight() {
-        return this.mSoftKeyboardHeight;
+        return mSoftKeyboardHeight > 0 ? mSoftKeyboardHeight : sMenuHeight;
     }
 
     public FrameLayout getCameraContainer() {

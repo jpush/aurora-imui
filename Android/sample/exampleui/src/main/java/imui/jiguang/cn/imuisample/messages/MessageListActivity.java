@@ -181,6 +181,8 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                             getResources().getString(R.string.rationale_photo),
                             RC_PHOTO, perms);
                 }
+                // If you call updateData, select photo view will try to update data(Last update over 30 seconds.)
+                mChatView.getChatInputView().getSelectPhotoView().updateData();
                 return true;
             }
 
@@ -424,6 +426,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
     }
 
     private void initMsgAdapter() {
+        final float density = getResources().getDisplayMetrics().density;
         ImageLoader imageLoader = new ImageLoader() {
             @Override
             public void loadAvatarImage(ImageView avatarImageView, String string) {
@@ -450,9 +453,10 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
             public void loadImage(ImageView imageView, String string) {
                 // You can use other image load libraries.
                 Glide.with(getApplicationContext())
+                        .asBitmap()
                         .load(string)
                         .apply(new RequestOptions().fitCenter().placeholder(R.drawable.aurora_picture_not_found))
-                        .into(imageView);
+                        .into(new ImageTarget(imageView, density));
             }
 
             /**

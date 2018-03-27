@@ -194,17 +194,7 @@ export default class TestRNIMUI extends Component {
 
   onMsgClick(message) {
     console.log(message)
-    // Alert.alert("message", JSON.stringify(message))
-    if (message.msgType === "image") {
-      if (Platform.OS === "android") {
-        const { navigate } = this.props.navigation;
-        navigate("BrowserPhoto", {
-          photoPath: photoPathArr,
-          msgIds: msgIdArr,
-          clickedMsgId: message.msgId
-        })
-      }
-    }
+    Alert.alert("message", JSON.stringify(message))
   }
 
   onMsgLongClick = (message) => {

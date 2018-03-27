@@ -24,6 +24,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.jiguang.imui.chatinput.R;
@@ -42,7 +43,8 @@ public class SelectPhotoView extends FrameLayout {
     private PhotoAdapter mPhotoAdapter;
     private ProgressBar mProgressBar;
 
-    private List<FileItem> mMedias; // All photo or video files
+    private HashMap<String, Integer> mMedias; // All photo or video files
+    private List<FileItem> mFileItems = new ArrayList<>();
 
     private Handler mMediaHandler;
 
@@ -82,7 +84,7 @@ public class SelectPhotoView extends FrameLayout {
                 == PackageManager.PERMISSION_GRANTED;
 
         if (hasPermission && mMedias == null) {
-            mMedias = new ArrayList<>();
+            mMedias = new HashMap<>();
 
             mProgressBar.setVisibility(View.VISIBLE);
 
@@ -90,6 +92,7 @@ public class SelectPhotoView extends FrameLayout {
                 @Override
                 public void run() {
                     if (getPhotos() && getVideos()) {
+                        Collections.sort(mFileItems);
                         mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_SUCCESS);
                     } else {
                         mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_FAILED);
@@ -108,6 +111,7 @@ public class SelectPhotoView extends FrameLayout {
                 @Override
                 public void run() {
                     if (getPhotos() && getVideos()) {
+                        Collections.sort(mFileItems);
                         mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_SUCCESS);
                     } else {
                         mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_FAILED);
@@ -139,9 +143,12 @@ public class SelectPhotoView extends FrameLayout {
                             cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
                     String size = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE));
                     String date = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
-                    FileItem item = new FileItem(path, fileName, size, date);
-                    item.setType(FileItem.Type.Image);
-                    mMedias.add(item);
+                    if (!mMedias.containsKey(fileName)) {
+                        mMedias.put(fileName, 1);
+                        FileItem item = new FileItem(path, fileName, size, date);
+                        item.setType(FileItem.Type.Image);
+                        mFileItems.add(item);
+                    }
                 }
             }
         }
@@ -172,9 +179,12 @@ public class SelectPhotoView extends FrameLayout {
                     String size = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
                     long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
 
-                    VideoItem item = new VideoItem(path, name, size, date, duration / 1000);
-                    item.setType(FileItem.Type.Video);
-                    mMedias.add(item);
+                    if (!mMedias.containsKey(name)) {
+                        mMedias.put(name, 1);
+                        VideoItem item = new VideoItem(path, name, size, date, duration / 1000);
+                        item.setType(FileItem.Type.Video);
+                        mFileItems.add(item);
+                    }
                 }
             }
         }
@@ -195,9 +205,8 @@ public class SelectPhotoView extends FrameLayout {
                 switch (msg.what) {
                     case MSG_WHAT_SCAN_SUCCESS:
                         view.mLastUpdateTime = System.currentTimeMillis();
-                        Collections.sort(view.mMedias);
                         if (view.mPhotoAdapter == null) {
-                            view.mPhotoAdapter = new PhotoAdapter(view.mMedias);
+                            view.mPhotoAdapter = new PhotoAdapter(view.mFileItems);
                             view.mRvPhotos.setAdapter(view.mPhotoAdapter);
                         } else {
                             view.mPhotoAdapter.notifyDataSetChanged();
