@@ -320,6 +320,7 @@ export default class TestRNIMUI extends Component {
 
       message.mediaPath = mediaFiles[index].mediaPath
       message.timeString = "8:00"
+      message.status = "send_going"
       AuroraIController.appendMessages([message])
       AuroraIController.scrollToBottom(true)
     }
