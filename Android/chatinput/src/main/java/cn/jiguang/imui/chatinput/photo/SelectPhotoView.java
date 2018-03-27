@@ -43,7 +43,7 @@ public class SelectPhotoView extends FrameLayout {
     private PhotoAdapter mPhotoAdapter;
     private ProgressBar mProgressBar;
 
-    private HashMap<String, Integer> mMedias; // All photo or video files
+    private HashMap<String, Integer> mMedias = new HashMap<>(); // All photo or video files
     private List<FileItem> mFileItems = new ArrayList<>();
 
     private Handler mMediaHandler;
@@ -79,13 +79,7 @@ public class SelectPhotoView extends FrameLayout {
     }
 
     public void initData() {
-        boolean hasPermission = android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M
-                || mContext.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED;
-
-        if (hasPermission && mMedias == null) {
-            mMedias = new HashMap<>();
-
+        if (hasPermission()) {
             mProgressBar.setVisibility(View.VISIBLE);
 
             new Thread(new Runnable() {
@@ -102,22 +96,30 @@ public class SelectPhotoView extends FrameLayout {
         }
     }
 
+    private boolean hasPermission() {
+        return  android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M
+                || mContext.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
     /**
      * Update Select photo view every 30 seconds.
      */
     public void updateData() {
-        if (mLastUpdateTime !=0 && System.currentTimeMillis() - mLastUpdateTime >= 30 * 1000) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if (getPhotos() && getVideos()) {
-                        Collections.sort(mFileItems);
-                        mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_SUCCESS);
-                    } else {
-                        mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_FAILED);
+        if (hasPermission()) {
+            if ((mLastUpdateTime !=0 && System.currentTimeMillis() - mLastUpdateTime >= 30 * 1000) || mFileItems.size() == 0) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (getPhotos() && getVideos()) {
+                            Collections.sort(mFileItems);
+                            mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_SUCCESS);
+                        } else {
+                            mMediaHandler.sendEmptyMessage(MSG_WHAT_SCAN_FAILED);
+                        }
                     }
-                }
-            }).start();
+                }).start();
+            }
         }
     }
 

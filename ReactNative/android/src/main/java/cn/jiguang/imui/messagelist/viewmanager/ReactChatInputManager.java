@@ -284,7 +284,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
             @Override
             public boolean switchToGalleryMode() {
                 String[] perms = new String[]{
-                        Manifest.permission.READ_EXTERNAL_STORAGE
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
                 };
 
                 if (!EasyPermissions.hasPermissions(activity, perms)) {
@@ -562,11 +562,13 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                 break;
             case RC_SELECT_PHOTO:
                 mChatInput.showSelectPhotoLayout();
+                mChatInput.getSelectPhotoView().initData();
                 break;
             default:
                 mChatInput.showCameraLayout();
                 break;
         }
+        mChatInput.requestLayout();
     }
 
     @Override
