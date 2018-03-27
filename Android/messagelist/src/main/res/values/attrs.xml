@@ -63,6 +63,10 @@
         <attr name="lineSpacingExtra" format="dimension|reference" />
         <attr name="lineSpacingMultiplier" format="float" />
 
+        <attr name="isOutgoing" format="boolean" />
+        <attr name="bubbleVertexWidth" format="dimension|reference" />
+        <attr name="bubbleHemlineHeight" format="dimension|reference" />
+        <attr name="bubbleVertexY" format="dimension|reference" />
         <attr name="sendPhotoMsgBg" format="reference"/>
         <attr name="receivePhotoMsgBg" format="reference"/>
         <attr name="photoMessageRadius" format="dimension|reference" />

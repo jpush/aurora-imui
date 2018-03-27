@@ -233,7 +233,7 @@ export default class ChatInput extends Component {
 }
 
 ChatInput.propTypes = {
-	chatInputBackgroupColor: PropTypes.string,
+	chatInputBackgroundColor: PropTypes.string,
 	menuContainerHeight: PropTypes.number,
 	isDismissMenuContainer: PropTypes.bool,
 	onSendText: PropTypes.func,
@@ -262,6 +262,7 @@ ChatInput.propTypes = {
 	inputTextColor: PropTypes.string,
 	inputTextSize: PropTypes.number,
 	inputTextLineHeight: PropTypes.number,
+	hideCameraButton: PropTypes.bool,
 	...ViewPropTypes
 };
 

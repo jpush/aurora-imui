@@ -150,7 +150,8 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                         EmoticonsKeyboardUtils.openSoftKeyboard(mChatInput.getInputView());
                     }
                     EventBus.getDefault().post(new ScrollEvent(true));
-                    if (mSoftKeyboardHeight != mChatInput.getSoftKeyboardHeight() && mChatInput.getSoftKeyboardHeight() != 0) {
+                    int height = mChatInput.getSoftKeyboardHeight();
+                    if (mSoftKeyboardHeight != height && height != 0 && height < 1000) {
                         mSoftKeyboardHeight = mChatInput.getSoftKeyboardHeight();
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putInt(SOFT_KEYBOARD_HEIGHT, mSoftKeyboardHeight);
@@ -258,19 +259,23 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mChatInput.dismissMenuLayout();
                     mChatInput.dismissRecordVoiceLayout();
                     sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+                } else if (mShowMenu) {
+                    mChatInput.showMenuLayout();
+                    mChatInput.showRecordVoiceLayout();
+                    mChatInput.requestLayout();
                 } else {
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
+                    sendSizeChangedEvent(calculateMenuHeight());
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             mChatInput.showMenuLayout();
                             mChatInput.showRecordVoiceLayout();
-                            sendSizeChangedEvent(calculateMenuHeight());
+                            mChatInput.requestLayout();
                         }
-                    }, 100);
-
+                    }, 150);
                 }
                 mLastClickId = 0;
                 return false;
@@ -294,20 +299,25 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mChatInput.dismissMenuLayout();
                     mChatInput.dismissPhotoLayout();
                     sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+                } else if (mShowMenu) {
+                    mChatInput.getSelectPhotoView().updateData();
+                    mChatInput.showMenuLayout();
+                    mChatInput.showSelectPhotoLayout();
+                    mChatInput.requestLayout();
                 } else {
+                    mChatInput.getSelectPhotoView().updateData();
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
+                    sendSizeChangedEvent(calculateMenuHeight());
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            sendSizeChangedEvent(calculateMenuHeight());
                             mChatInput.showMenuLayout();
                             mChatInput.showSelectPhotoLayout();
                             mChatInput.requestLayout();
                         }
-                    }, 100);
-
+                    }, 150);
                 }
                 mLastClickId = 1;
                 return false;
@@ -333,6 +343,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mChatInput.dismissMenuLayout();
                     mChatInput.dismissCameraLayout();
                     sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+                } else if (mShowMenu) {
+                    mChatInput.initCamera();
+                    mChatInput.showMenuLayout();
+                    mChatInput.showCameraLayout();
+                    mChatInput.requestLayout();
                 } else {
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
@@ -347,7 +362,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                             mChatInput.requestLayout();
                         }
                     }, 100);
-
                 }
                 mLastClickId = 2;
                 return false;
@@ -362,19 +376,23 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     mChatInput.dismissMenuLayout();
                     mChatInput.dismissEmojiLayout();
                     sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+                } else if (mShowMenu) {
+                    mChatInput.showMenuLayout();
+                    mChatInput.showEmojiLayout();
+                    mChatInput.requestLayout();
                 } else {
                     mShowMenu = true;
                     mChatInput.setPendingShowMenu(true);
                     EmoticonsKeyboardUtils.closeSoftKeyboard(editText);
+                    sendSizeChangedEvent(calculateMenuHeight());
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             mChatInput.showMenuLayout();
                             mChatInput.showEmojiLayout();
-                            sendSizeChangedEvent(calculateMenuHeight());
                             mChatInput.requestLayout();
                         }
-                    }, 100);
+                    }, 150);
                 }
                 mLastClickId = 3;
                 return false;
@@ -470,7 +488,6 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
             @Override
             public void onPreviewSend() {
                 sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
-                mChatInput.requestLayout();
             }
         });
 
@@ -494,6 +511,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
             @Override
             public void onCloseCameraClick() {
+                mShowMenu = false;
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), CLOSE_CAMERA_EVENT, null);
             }
 
@@ -570,10 +588,10 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
     private double calculateMenuHeight() {
         double layoutHeight = mInitialChatInputHeight;
         if (mShowMenu) {
-            if (mSoftKeyboardHeight != 0) {
-                layoutHeight += mSoftKeyboardHeight / mDensity;
+            if (mChatInput.getSoftKeyboardHeight() != 0) {
+                layoutHeight += mChatInput.getSoftKeyboardHeight() / mDensity;
             } else {
-                layoutHeight += mMenuContainerHeight;
+                layoutHeight += mMenuContainerHeight / mDensity;
             }
 
         }
@@ -611,13 +629,14 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OnTouchMsgListEvent event) {
-        WritableMap map = Arguments.createMap();
-        map.putDouble("height", mInitialChatInputHeight + mLineExpend);
-        mShowMenu = false;
-        mContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(), ON_INPUT_SIZE_CHANGED_EVENT, map);
+        if (mChatInput.isKeyboardVisible() || mChatInput.getMenuState() == View.VISIBLE) {
+            sendSizeChangedEvent(mInitialChatInputHeight + mLineExpend);
+            mShowMenu = false;
+            mChatInput.dismissMenuLayout();
+        }
     }
 
-    @ReactProp(name = "chatInputBackgroupColor")
+    @ReactProp(name = "chatInputBackgroundColor")
     public void setBackgroundColor(ChatInputView chatInputView, String color) {
         int colorRes = Color.parseColor(color);
         chatInputView.setBackgroundColor(colorRes);
@@ -678,6 +697,15 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
     @ReactProp(name = "inputTextLineHeight")
     public void setEditTextLineSpacing(ChatInputView chatInputView, int spacing) {
         chatInputView.getInputView().setLineSpacing(spacing, 1.0f);
+    }
+
+    @ReactProp(name = "hideCameraButton")
+    public void hideCameraButton(ChatInputView chatInputView, boolean hide) {
+        if (hide) {
+            chatInputView.getCameraBtnContainer().setVisibility(View.GONE);
+        } else {
+            chatInputView.getCameraBtnContainer().setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

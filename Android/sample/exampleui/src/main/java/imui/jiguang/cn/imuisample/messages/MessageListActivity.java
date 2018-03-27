@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -180,6 +181,8 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                             getResources().getString(R.string.rationale_photo),
                             RC_PHOTO, perms);
                 }
+                // If you call updateData, select photo view will try to update data(Last update over 30 seconds.)
+                mChatView.getChatInputView().getSelectPhotoView().updateData();
                 return true;
             }
 
@@ -423,6 +426,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
     }
 
     private void initMsgAdapter() {
+        final float density = getResources().getDisplayMetrics().density;
         ImageLoader imageLoader = new ImageLoader() {
             @Override
             public void loadAvatarImage(ImageView avatarImageView, String string) {
@@ -433,21 +437,41 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
 
                     avatarImageView.setImageResource(resId);
                 } else {
-                    Glide.with(getApplicationContext())
+                    Glide.with(MessageListActivity.this)
                             .load(string)
-                            .placeholder(R.drawable.aurora_headicon_default)
+                            .apply(new RequestOptions().placeholder(R.drawable.aurora_headicon_default))
                             .into(avatarImageView);
                 }
             }
 
+            /**
+             * Load image message
+             * @param imageView Image message's ImageView.
+             * @param string A file path, or a uri or url.
+             */
             @Override
             public void loadImage(ImageView imageView, String string) {
                 // You can use other image load libraries.
                 Glide.with(getApplicationContext())
+                        .asBitmap()
                         .load(string)
-                        .fitCenter()
-                        .placeholder(R.drawable.aurora_picture_not_found)
-                        .into(imageView);
+                        .apply(new RequestOptions().fitCenter().placeholder(R.drawable.aurora_picture_not_found))
+                        .into(new ImageTarget(imageView, density));
+            }
+
+            /**
+             * Load video message
+             * @param imageCover Video message's image cover
+             * @param uri Local path or url.
+             */
+            @Override
+            public void loadVideo(ImageView imageCover, String uri) {
+                long interval = 5000 * 1000;
+                Glide.with(MessageListActivity.this)
+                        .asBitmap()
+                        .load(uri)
+                        .apply(new RequestOptions().frame(interval).override(200, 400))
+                        .into(imageCover);
             }
         };
 

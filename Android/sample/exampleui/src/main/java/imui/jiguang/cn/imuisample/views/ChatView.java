@@ -56,7 +56,7 @@ public class ChatView extends RelativeLayout {
          * Should set menu container height once the ChatInputView has been initialized.
          * For perfect display, the height should be equals with soft input height.
          */
-        mChatInput.setMenuContainerHeight(831);
+        mChatInput.setMenuContainerHeight(819);
         mRecordVoiceBtn = mChatInput.getRecordVoiceButton();
         mSelectAlbumIb = mChatInput.getSelectAlbumBtn();
         PtrDefaultHeader header = new PtrDefaultHeader(getContext());

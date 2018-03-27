@@ -33,5 +33,8 @@
     <dimen name="aurora_radius_photo_message">8dp</dimen>
     <dimen name="aurora_radius_video_message">8dp</dimen>
     <dimen name="aurora_size_video_message_duration_text">12sp</dimen>
+    <dimen name="aurora_width_bubble_vertex">8dp</dimen>
+    <dimen name="aurora_height_bubble_hemline">5dp</dimen>
+    <dimen name="aurora_Y_bubble_vertex">20dp</dimen>
 
 </resources>

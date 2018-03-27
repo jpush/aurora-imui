@@ -197,7 +197,7 @@ public class RecordControllerView extends View {
             default:
                 mRecordVoiceBtn.finishRecord(false);
                 if (mListener != null) {
-                    mListener.onRightUpTapped();
+                    mListener.onFinish();
                 }
         }
         mCurrentState = INIT_STATE;
@@ -226,5 +226,7 @@ public class RecordControllerView extends View {
         void onRightUpTapped();
 
         void onLeftUpTapped();
+
+        void onFinish();
     }
 }

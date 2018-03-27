@@ -194,17 +194,7 @@ export default class TestRNIMUI extends Component {
 
   onMsgClick(message) {
     console.log(message)
-    // Alert.alert("message", JSON.stringify(message))
-    if (message.msgType === "image") {
-      if (Platform.OS === "android") {
-        const { navigate } = this.props.navigation;
-        navigate("BrowserPhoto", {
-          photoPath: photoPathArr,
-          msgIds: msgIdArr,
-          clickedMsgId: message.msgId
-        })
-      }
-    }
+    Alert.alert("message", JSON.stringify(message))
   }
 
   onMsgLongClick = (message) => {
@@ -236,8 +226,10 @@ export default class TestRNIMUI extends Component {
       // }
 
       if (i % 3 == 0) {
-        message.msgType = "event"
+        message.msgType = "video"
         message.text = "" + i
+        message.mediaPath = "/storage/emulated/0/ScreenRecorder/screenrecorder.20180323101705.mp4"
+        message.duration = 12
       }
 
       AuroraIController.insertMessagesToTop([message])
@@ -388,13 +380,7 @@ export default class TestRNIMUI extends Component {
         inputViewLayout: { flex: 1, width: window.width, height: window.height },
         navigationBar: { height: 0 }
       })
-    } else {
-      this.setState({
-        messageListLayout: { flex: 1, width: window.width, margin: 0 },
-        inputViewLayout: { flex: 0, width: window.width, height: this.state.inputLayoutHeight },
-        navigationBar: { height: 64, justifyContent: 'center' }
-      })
-    }
+    } 
   }
 
   render() {
@@ -463,6 +449,7 @@ export default class TestRNIMUI extends Component {
           datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
           dateBackgroundColor={"#39ef23"}
           photoMessageRadius={5}
+          videoDurationTextColor={"#ffffff"}
         />
         <InputView style={this.state.inputViewLayout}
           ref="ChatInput"
@@ -490,6 +477,7 @@ export default class TestRNIMUI extends Component {
           inputPadding={{ left: 30, top: 10, right: 10, bottom: 10 }}
           galleryScale={0.6}//default = 0.5
           compressionQuality={0.6}
+          hideCameraButton={true}
         />
       </View>
     );
