@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -24,7 +23,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.facebook.react.bridge.Arguments;
@@ -36,6 +34,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.common.MapBuilder;
+import com.facebook.react.modules.core.PermissionListener;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -65,7 +64,7 @@ import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
-import cn.jiguang.imui.utils.DisplayUtil;
+import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -291,6 +290,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     EasyPermissions.requestPermissions(activity,
                             activity.getResources().getString(R.string.rationale_photo),
                             RC_SELECT_PHOTO, perms);
+                    return false;
                 }
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_GALLERY_EVENT, null);
@@ -551,11 +551,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
+        mChatInput.showMenuLayout();
         switch (requestCode) {
             case RC_RECORD_VOICE:
                 mChatInput.showRecordVoiceLayout();

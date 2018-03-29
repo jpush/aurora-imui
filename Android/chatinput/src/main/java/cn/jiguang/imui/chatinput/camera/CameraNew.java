@@ -156,6 +156,7 @@ public class CameraNew implements CameraSupport {
     private int mHeight;
     private static SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
+    private CameraCharacteristics mCameraCharacteristic;
     /**
      * An {@link ImageReader} that handles still image capture.
      */
@@ -489,19 +490,6 @@ public class CameraNew implements CameraSupport {
         }
     }
 
-    @Override
-    public int getOrientation(final int cameraId) {
-        try {
-            String[] cameraIds = mManager.getCameraIdList();
-            CameraCharacteristics characteristics = mManager.getCameraCharacteristics(cameraIds[cameraId]);
-            return characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
-        } catch (CameraAccessException e) {
-            // TODO handle
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
     private int sensorToDeviceRotation(CameraCharacteristics characteristics, int deviceOrientation) {
         mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         deviceOrientation = ORIENTATIONS.get(deviceOrientation);
@@ -537,8 +525,8 @@ public class CameraNew implements CameraSupport {
     private void setUpCameraOutputs(int width, int height) {
         try {
             Activity activity = (Activity) mContext;
-            CameraCharacteristics characteristics = mManager.getCameraCharacteristics(mCameraId);
-            StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+            mCameraCharacteristic = mManager.getCameraCharacteristics(mCameraId);
+            StreamConfigurationMap map = mCameraCharacteristic.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
             mVideoSize = chooseVideoSize(map.getOutputSizes(MediaRecorder.class));
             // For still image captures, we use the largest available size.
@@ -554,7 +542,7 @@ public class CameraNew implements CameraSupport {
             // coordinate.
             int displayRotation = activity.getWindowManager().getDefaultDisplay().getRotation();
             //noinspection ConstantConditions
-            mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+            mSensorOrientation = mCameraCharacteristic.get(CameraCharacteristics.SENSOR_ORIENTATION);
             boolean swappedDimensions = false;
             switch (displayRotation) {
                 case Surface.ROTATION_0:
@@ -612,7 +600,7 @@ public class CameraNew implements CameraSupport {
 //            }
 
             // Check if the flash is supported.
-            Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+            Boolean available = mCameraCharacteristic.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
             mFlashSupported = available == null ? false : available;
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -719,8 +707,8 @@ public class CameraNew implements CameraSupport {
             setAutoFlash(captureBuilder);
 
             // Orientation
-            int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(rotation));
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,
+                    mCameraCharacteristic.get(CameraCharacteristics.SENSOR_ORIENTATION));
 
             CameraCaptureSession.CaptureCallback CaptureCallback
                     = new CameraCaptureSession.CaptureCallback() {
