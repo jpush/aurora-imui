@@ -64,7 +64,11 @@ implementation 'com.android.support:design:27.1.0'
       );
   }
   ```
-
+ #### Android release (打包 Release apk)
+ 需要添加混淆代码到 app/proguard-rules.pro 文件中：
+ ```
+ -keep class cn.jiguang.imui.** { *; }
+ ```
 
 - ### iOS
 
