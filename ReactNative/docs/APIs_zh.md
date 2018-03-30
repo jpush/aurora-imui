@@ -159,7 +159,7 @@ AuroraIMUIController.updateMessage(message);
 
 参数：[{[message](./Models_zh.md#message)}]
 
-插入顺序会根据传入的消息数组顺序来排序。
+将消息列表插入到聊天列表顶部。**被插入的消息列表必须按照时间顺序排序。**
 
 example:
 

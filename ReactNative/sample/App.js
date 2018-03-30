@@ -231,8 +231,7 @@ export default class TestRNIMUI extends Component {
         message.mediaPath = "/storage/emulated/0/ScreenRecorder/screenrecorder.20180323101705.mp4"
         message.duration = 12
       }
-
-      AuroraIController.insertMessagesToTop([message])
+      messages.push(message)
     }
     AuroraIController.insertMessagesToTop(messages)
     if (Platform.OS === 'android') {

@@ -159,7 +159,7 @@ AuroraIMUIController.updateMessage(message);
 
 param: [{[message](./Models.md#message)}]
 
-Insert messages to the top of the MessageList, usually use this method to load history messages.
+Insert messages to the top of the MessageList, usually use this method to load history messages. **The messages to be inserted must be sorted chronologically.**
 
 example:
 

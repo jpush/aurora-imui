@@ -32,7 +32,7 @@ class AuroraIMUIController {
 	}
 
 	/**
-	 * insert messages into messageList's top
+	 * insert messages into messageList's top, the message list to be inserted must be sorted chronologically.
 	 * @param {Array} messageList  [message]
 	 */
 	static insertMessagesToTop(messageList) {

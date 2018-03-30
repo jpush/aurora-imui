@@ -115,6 +115,10 @@ public class AuroraIMUIModule extends ReactContextBaseJavaModule {
         EventBus.getDefault().post(new MessageEvent(rctMessage, ReactMsgListManager.RCT_UPDATE_MESSAGE_ACTION));
     }
 
+    /**
+     * 按照时间顺序将消息插入消息列表顶部。
+     * @param messages 按照时间顺序排列，最新的消息在最后面。
+     */
     @ReactMethod
     public void insertMessagesToTop(ReadableArray messages) {
         RCTMessage[] rctMessages = new RCTMessage[messages.size()];

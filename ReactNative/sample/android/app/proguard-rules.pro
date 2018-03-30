@@ -26,7 +26,7 @@
 
 -keep class com.facebook.react.devsupport.** { *; }
 -keep class cn.jiguang.imui.** { *; }
--dontwarn com.facebook.react.devsupport.**
+-dontwarn com.facebook.**
 -dontwarn com.bumptech.glide.**
 -keep class okio.Okio.** { *; }
 -dontwarn okio.**
