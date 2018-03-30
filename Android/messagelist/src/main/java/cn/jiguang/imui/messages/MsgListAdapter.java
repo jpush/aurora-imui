@@ -306,13 +306,29 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     }
 
     /**
-     * Add messages chronologically, to load last page of messages from history, use this method.
+     * Add messages to end, the messages in list are in descending order.
+     * For example: messages[0].timeString > messages[1].timeString.
+     * To load last page of messages from history, use this method.
      *
      * @param messages Last page of messages.
      */
     public void addToEnd(List<MESSAGE> messages) {
         int oldSize = mItems.size();
         for (int i = 0; i < messages.size(); i++) {
+            MESSAGE message = messages.get(i);
+            mItems.add(new Wrapper<>(message));
+        }
+        notifyItemRangeInserted(oldSize, mItems.size() - oldSize);
+    }
+
+    /**
+     * If messages in list is sorted chronologically, for example, messages[0].timeString < messages[1].timeString.
+     * To load last page of messages from history, use this method.
+     * @param messages Last page of messages.
+     */
+    public void addToEndChronologically(List<MESSAGE> messages) {
+        int oldSize = mItems.size();
+        for (int i = messages.size() - 1; i >= 0; i--) {
             MESSAGE message = messages.get(i);
             mItems.add(new Wrapper<>(message));
         }
