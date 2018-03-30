@@ -42,7 +42,6 @@ public class RCTMessage implements IMessage {
     private int width;
     private int height;
     private HashMap<String, String> mExtra;
-    private int mCustomViewType = 13;
     private static Gson sGSON = new Gson();
 
     public RCTMessage(String msgId, String status, String msgType, boolean isOutgoing) {
