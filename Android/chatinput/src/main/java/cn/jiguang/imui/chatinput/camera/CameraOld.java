@@ -114,7 +114,6 @@ public class CameraOld implements CameraSupport {
         return this;
     }
 
-    @Override
     public int getOrientation(int cameraId) {
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(cameraId, info);

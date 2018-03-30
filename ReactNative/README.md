@@ -69,6 +69,16 @@ implementation 'com.android.support:design:27.1.0'
 
   - import IMUI from 'aurora-imui-react-native';
 
+  #### Android Release (Generate release apk)
+
+  Need add proguard rule in your proguard-rules.pro：
+
+  ```
+  -keep class cn.jiguang.imui.** { *; }
+  ```
+
+  ​
+
 
 - ### iOS
 

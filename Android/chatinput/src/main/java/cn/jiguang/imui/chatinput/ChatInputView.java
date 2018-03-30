@@ -1191,10 +1191,10 @@ public class ChatInputView extends LinearLayout
     @Override
     public void onStart() {
         Log.e("ChatInputView", "starting chronometer");
-        mChronometer.setBase(SystemClock.elapsedRealtime());
-        mChronometer.start();
         mChronometer.setVisibility(VISIBLE);
         mRecordHintTv.setVisibility(INVISIBLE);
+        mChronometer.setBase(SystemClock.elapsedRealtime());
+        mChronometer.start();
     }
 
     /**
@@ -1233,7 +1233,7 @@ public class ChatInputView extends LinearLayout
     public void onLeftUpTapped() {
         mChronometer.stop();
         mRecordTime = SystemClock.elapsedRealtime() - mChronometer.getBase();
-        mPreviewPlayBtn.setMax((int) (mRecordTime / 1000));
+        mPreviewPlayBtn.setMax(Math.round(mRecordTime/ 1000));
         mChronometer.setVisibility(VISIBLE);
         mRecordHintTv.setVisibility(INVISIBLE);
         mPreviewPlayLl.setVisibility(VISIBLE);
@@ -1256,6 +1256,8 @@ public class ChatInputView extends LinearLayout
     public void onFinish() {
         mChronometer.stop();
         mChronometer.setText("00:00");
+        mChronometer.setVisibility(GONE);
+        mRecordHintTv.setVisibility(VISIBLE);
     }
 
     private long convertStrTimeToLong(String strTime) {
@@ -1326,7 +1328,7 @@ public class ChatInputView extends LinearLayout
                 ViewGroup.LayoutParams params = mMenuContainer.getLayoutParams();
                 int distance = getDistanceFromInputToBottom();
                 Log.d(TAG, "Distance from bottom: " + distance);
-                if (distance > 300 && distance != params.height) {
+                if (distance < mHeight / 2 && distance > 300 && distance != params.height) {
                     params.height = distance;
                     mSoftKeyboardHeight = distance;
                     mMenuContainer.setLayoutParams(params);
