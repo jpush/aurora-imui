@@ -9,7 +9,7 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.6.8'
+compile 'cn.jiguang.imui:messagelist:0.7.2'
 ```
 
 - Maven
@@ -17,7 +17,7 @@ compile 'cn.jiguang.imui:messagelist:0.6.8'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.6.8</version>
+  <version>0.7.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -34,7 +34,7 @@ allprojects {
 
 // module/build.gradle
 dependencies {
-  compile 'com.github.jpush:imui:0.7.6'
+  compile 'com.github.jpush:imui:0.7.7'
 }
 ```
 
@@ -287,9 +287,16 @@ public class DefaultUser implements IUser {
 adapter.addToStart(message, true);
 ```
 
-- *addToEnd(List<IMessage> messages)*
+- addToEndChronologically(List<IMessage> messages)（**0.7.2 后新增**）
+
 ```java
-// 在消息列表的顶部加入消息，消息列表应当按日期增序存放。
+// 在消息列表顶部插入消息，参数列表按照时间顺序排序(最后一条消息是最新的)。
+adapter.addToEndChronologically(messages);
+```
+
+- addToEnd(List<IMessage> messages)
+```java
+// 在消息列表的顶部加入消息，消息列表应当按日期降序存放（第一条消息是最新的）。
 adapter.addToEnd(messages);
 ```
 

@@ -10,7 +10,7 @@ We have support several ways to add dependency. You can choose one of them.
 
 - Gradle:
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.6.8'
+compile 'cn.jiguang.imui:messagelist:0.7.2'
 ```
 
 -  Maven：
@@ -18,7 +18,7 @@ compile 'cn.jiguang.imui:messagelist:0.6.8'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.6.8</version>
+  <version>0.7.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -35,7 +35,7 @@ allprojects {
 
 // Add in module's build.gradle
 dependencies {
-    compile 'com.github.jpush:imui:0.7.6'
+    compile 'com.github.jpush:imui:0.7.7'
 }
 ```
 
@@ -289,10 +289,17 @@ To add new message in message list is pretty easy, we support two ways to add ne
 adapter.addToStart(message, true);
 ```
 
-- Add messages in the top of message list（Usually use this method to load last page of history messages）: `addToEnd(List<IMessage> messages)`
+- Add messages to the top of message list, the parameter list is sorted chronologically: `addToEndChronologically`(**Add since 0.7.2**)
 
 ```java
-// Add messages to the top of message list, messages should be orderd by date.
+// Messages to be add are sorted chronologically(The last message is the latest)
+adapter.addToEndChronologically(messages);
+```
+
+- Add messages to the top of message list（Usually use this method to load last page of history messages）: `addToEnd(List<IMessage> messages)`
+
+```java
+// Add messages to the top of message list, messages are in descending order(The first message is the latest)
 adapter.addToEnd(messages);
 ```
 

@@ -431,7 +431,6 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
             message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
             list.add(message);
         }
-        Collections.reverse(list);
         return list;
     }
 
@@ -538,6 +537,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 Glide.with(MessageListActivity.this)
                         .asBitmap()
                         .load(uri)
+                        // Resize image view by change override size.
                         .apply(new RequestOptions().frame(interval).override(200, 400))
                         .into(imageCover);
             }
@@ -628,7 +628,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         receiveVideo.setDuration(4);
         receiveVideo.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
         mAdapter.addToStart(receiveVideo, true);
-        mAdapter.addToEnd(mData);
+        mAdapter.addToEndChronologically(mData);
         PullToRefreshLayout layout = mChatView.getPtrLayout();
         layout.setPtrHandler(new PtrHandler() {
             @Override
@@ -669,8 +669,9 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                     message.setTimeString(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date()));
                     list.add(message);
                 }
-                Collections.reverse(list);
-                mAdapter.addToEnd(list);
+//                Collections.reverse(list);
+                // MessageList 0.7.2 add this method, add messages chronologically.
+                mAdapter.addToEndChronologically(list);
                 mChatView.getPtrLayout().refreshComplete();
             }
         }, 1500);
@@ -690,16 +691,6 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 ChatInputView chatInputView = mChatView.getChatInputView();
-//                if (view.getId() == chatInputView.getInputView().getId()) {
-//                    scrollToBottom();
-//                    if (chatInputView.getMenuState() == View.VISIBLE
-//                            && !chatInputView.isKeyboardVisible()) {
-//                        chatInputView.dismissMenuLayout();
-//                        return false;
-//                    } else {
-//                        return false;
-//                    }
-//                }
                 if (chatInputView.getMenuState() == View.VISIBLE) {
                     chatInputView.dismissMenuLayout();
                 }
