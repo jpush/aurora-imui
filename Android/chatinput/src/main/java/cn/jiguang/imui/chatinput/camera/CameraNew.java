@@ -525,6 +525,10 @@ public class CameraNew implements CameraSupport {
     private void setUpCameraOutputs(int width, int height) {
         try {
             Activity activity = (Activity) mContext;
+            final String[] ids = mManager.getCameraIdList();
+            if (ids.length == 0) { // No camera
+                throw new RuntimeException("No camera available.");
+            }
             mCameraCharacteristic = mManager.getCameraCharacteristics(mCameraId);
             StreamConfigurationMap map = mCameraCharacteristic.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
