@@ -45,6 +45,7 @@ public class TxtViewHolder<MESSAGE extends IMessage>
     public void onBind(final MESSAGE message) {
         mMsgTv.setText(message.getText());
         String timeString = message.getTimeString();
+        mDateTv.setVisibility(View.VISIBLE);
         if (timeString != null && !TextUtils.isEmpty(timeString)) {
             mDateTv.setText(timeString);
         } else {
