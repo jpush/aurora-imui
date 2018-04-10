@@ -359,7 +359,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
             case RCT_INSERT_MESSAGES_ACTION:
                 messages = event.getMessages();
                 Log.d("RCTMessageListManager", "Add send message to top");
-                mAdapter.addToEnd(Arrays.asList(messages));
+                mAdapter.addToEndChronologically(Arrays.asList(messages));
                 break;
             case RCT_REMOVE_MESSAGE_ACTION:
                 String msgId = event.getMsgId();

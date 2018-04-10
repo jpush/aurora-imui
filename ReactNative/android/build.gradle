@@ -27,7 +27,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'cn.jiguang.imui:messagelist:0.7.1'
+    compile 'cn.jiguang.imui:messagelist:0.7.3'
     compile 'cn.jiguang.imui:chatinput:0.8.0'
     compile 'pub.devrel:easypermissions:1.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'

@@ -102,36 +102,88 @@ export default class TestRNIMUI extends Component {
   }
 
   getHistoryMessage() {
-    var messages = []
-    for (var i = 0; i < 10; i++) {
-      // var message = constructNormalMessage()
-      // message.msgType = "text"
-      // message.text = "" + i
-      // if (i%2 == 0)  {
-      //   message.isOutgoing = false
-      // }
-      var message = constructNormalMessage()
-      message.msgType = 'custom'
+    // var messages = []
+    // for (var i = 0; i < 10; i++) {
+    //   // var message = constructNormalMessage()
+    //   // message.msgType = "text"
+    //   // message.text = "" + i
+    //   // if (i%2 == 0)  {
+    //   //   message.isOutgoing = false
+    //   // }
+    //   var message = constructNormalMessage()
+    //   message.msgType = 'custom'
 
-      if (Platform.OS === "ios") {
-        message.content = `
-        <h5>This is a custom message. </h5>
-        <img src="file://${RNFS.MainBundlePath}/default_header.png"/>
-        `
-      } else {
-        message.content = '<body bgcolor="#ff3399"><h5>This is a custom message. </h5>\
-        <img src="/storage/emulated/0/XhsEmoticonsKeyboard/Emoticons/wxemoticons/icon_040_cover.png"></img></body>'
-      }
+    //   if (Platform.OS === "ios") {
+    //     message.content = `
+    //     <h5>This is a custom message. </h5>
+    //     <img src="file://${RNFS.MainBundlePath}/default_header.png"/>
+    //     `
+    //   } else {
+    //     message.content = '<body bgcolor="#ff3399"><h5>This is a custom message. </h5>\
+    //     <img src="/storage/emulated/0/XhsEmoticonsKeyboard/Emoticons/wxemoticons/icon_040_cover.png"></img></body>'
+    //   }
 
-      var eventMessage = constructNormalMessage()
-      eventMessage.msgType = "event"
-      eventMessage.text = 'fsadfad'
+    //   var eventMessage = constructNormalMessage()
+    //   eventMessage.msgType = "event"
+    //   eventMessage.text = 'fsadfad'
 
-      message.contentSize = { 'height': 100, 'width': 200 }
-      message.extras = { "extras": "fdfsf" }
-      AuroraIController.appendMessages([message, eventMessage])
-      AuroraIController.scrollToBottom(true)
+    //   message.contentSize = { 'height': 100, 'width': 200 }
+    //   message.extras = { "extras": "fdfsf" }
+    //   AuroraIController.appendMessages([message, eventMessage])
+    //   AuroraIController.scrollToBottom(true)
+    // }
+    var user = {
+      userId: "",
+      displayName: "replace your nickname",
+      avatarPath: "images"
     }
+    let msg = {
+      fromUser: user,
+      msgId: 'aa',
+      status: 'send_succeed',
+      msgType: "text",
+      isOutgoing: false,
+      text: 'aaaaa',
+      timeString:'2018-4-4 10:10:10'
+      }
+      let msg1 = {
+      fromUser: user,
+      msgId: 'aa',
+      status: 'send_succeed',
+      msgType: "text",
+      isOutgoing: false,
+      text: 'bbbbb',
+      timeString: null
+      }
+      let dataArr = [];
+      dataArr[0] = msg;
+      dataArr[1] = msg1;
+      dataArr[2] = msg;
+      dataArr[3] = msg1;
+      dataArr[4] = msg;
+      dataArr[5] = msg1;
+      dataArr[6] = msg;
+      dataArr[7] = msg1;
+      dataArr[8] = msg;
+      dataArr[9] = msg1;
+      dataArr[10] = msg;
+      dataArr[11] = msg1;
+      dataArr[12] = msg;
+      dataArr[13] = msg1;
+      dataArr[14] = msg;
+      dataArr[15] = msg1;
+      dataArr[16] = msg;
+      dataArr[17] = msg1;
+      dataArr[18] = msg;
+      dataArr[19] = msg1;
+      dataArr[20] = msg;
+      dataArr[21] = msg1;
+      dataArr[22] = msg;
+      dataArr[23] = msg1;
+      AuroraIController.insertMessagesToTop(dataArr)
+      // dataArr.map((item)=> {
+      // AuroraIController.insertMessagesToTop([item]);
+      // })
   }
 
   onInputViewSizeChange = (size) => {
@@ -231,8 +283,7 @@ export default class TestRNIMUI extends Component {
         message.mediaPath = "/storage/emulated/0/ScreenRecorder/screenrecorder.20180323101705.mp4"
         message.duration = 12
       }
-
-      AuroraIController.insertMessagesToTop([message])
+      messages.push(message)
     }
     AuroraIController.insertMessagesToTop(messages)
     if (Platform.OS === 'android') {
