@@ -17,20 +17,69 @@ class ViewController: UIViewController {
   @IBOutlet weak var messageCollectionView: IMUIMessageCollectionView!
   
   @IBOutlet weak var myInputView: IMUIInputView!
+  var currentType:IMUIFeatureType = .voice
   
   var imageViewArr = [MyImageView]()
   
   let imageManage: PHCachingImageManager = PHCachingImageManager()
   
+  var inputViewBottomItemArr = [IMUIFeatureIconModel]()
+  var inputViewRightItemArr = [IMUIFeatureIconModel]()
+  var inputViewLeftItemArr = [IMUIFeatureIconModel]()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     print("\(UIView())")
-    self.myInputView.inputViewDelegate = self
+//    self.setupInputViewData()
+//    self.myInputView.inputViewDelegate = self
+//    self.myInputView.dataSource = self
     self.messageCollectionView.delegate = self
     
     self.messageCollectionView.messageCollectionView.register(MessageEventCollectionViewCell.self, forCellWithReuseIdentifier: MessageEventCollectionViewCell.self.description())
   }
   
+//  func setupInputViewData() {
+//
+//    let bundle = Bundle.imuiInputViewBundle()
+//    self.myInputView.register(UINib(nibName: "IMUIFeatureListIconCell", bundle: bundle), in: .bottom, forCellWithReuseIdentifier: "IMUIFeatureListIconCell")
+//    self.myInputView.register(UINib(nibName: "IMUIFeatureListIconCell", bundle: bundle), in: .right, forCellWithReuseIdentifier: "IMUIFeatureListIconCell")
+//
+////    self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
+////    self.featureCollectionView.register(UINib(nibName: "IMUIGalleryContainerCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIGalleryContainerCell")
+////    self.featureCollectionView.register(UINib(nibName: "IMUICameraCell", bundle: bundle), forCellWithReuseIdentifier: "IMUICameraCell")
+////    self.featureCollectionView.register(UINib(nibName: "IMUIEmojiCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIEmojiCell")
+//
+//    self.myInputView.registerForFeatureView(UINib(nibName: "IMUIRecordVoiceCell", bundle: bundle),
+//                                            forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
+//    self.myInputView.registerForFeatureView(UINib(nibName: "IMUIGalleryContainerCell", bundle: bundle),
+//                                            forCellWithReuseIdentifier: "IMUIGalleryContainerCell")
+//    self.myInputView.registerForFeatureView(UINib(nibName: "IMUICameraCell", bundle: bundle),
+//                                            forCellWithReuseIdentifier: "IMUICameraCell")
+//    self.myInputView.registerForFeatureView(UINib(nibName: "IMUIEmojiCell", bundle: bundle),
+//                                            forCellWithReuseIdentifier: "IMUIEmojiCell")
+//
+//    inputViewBottomItemArr.append(IMUIFeatureIconModel(featureType: .voice,
+//                                                      UIImage.imuiImage(with: "input_item_mic"),
+//                                                      UIImage.imuiImage(with:"input_item_mic")))
+//
+//    inputViewBottomItemArr.append(IMUIFeatureIconModel(featureType: .gallery,
+//                                                      UIImage.imuiImage(with: "input_item_photo"),
+//                                                      UIImage.imuiImage(with:"input_item_photo")))
+//
+//    inputViewBottomItemArr.append(IMUIFeatureIconModel(featureType: .camera,
+//                                                      UIImage.imuiImage(with: "input_item_camera"),
+//                                                      UIImage.imuiImage(with:"input_item_camera")))
+//
+//    inputViewRightItemArr.append(IMUIFeatureIconModel(featureType: .emoji,
+//                                                      UIImage.imuiImage(with: "input_item_emoji"),
+//                                                      UIImage.imuiImage(with:"input_item_emoji")))
+//
+//    inputViewRightItemArr.append(IMUIFeatureIconModel(featureType: .none,
+//                                                      UIImage.imuiImage(with: "input_item_send"),
+//                                                      UIImage.imuiImage(with:"input_item_send_message_selected"),
+//                                                      0,
+//                                                      false))
+//  }
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
@@ -46,10 +95,6 @@ extension ViewController: IMUIInputViewDelegate {
     let inCommingMessage = MyMessageModel(text: messageText, isOutGoing: false)
     self.messageCollectionView.appendMessage(with: outGoingmessage)
     self.messageCollectionView.appendMessage(with: inCommingMessage)
-    
-//    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
-//    let event = MessageEventModel(msgId: msgId, eventText: messageText)
-//    self.messageCollectionView.appendMessage(with: event)
   }
   
   func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {
@@ -98,24 +143,6 @@ extension ViewController: IMUIInputViewDelegate {
     for asset in AssetArr {
       switch asset.mediaType {
       case .image:
-        
-//        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
-//        options.synchronous  = YES;
-//        options.networkAccessAllowed = YES;
-//        PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
-//
-//        [imageManage requestImageForAsset: asset
-//        targetSize: CGSizeMake(asset.pixelWidth, asset.pixelHeight)
-//        contentMode: PHImageContentModeAspectFill
-//        options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-//        NSData *imageData = UIImagePNGRepresentation(result);
-//        NSString *filePath = [self getPath];
-//        if ([imageData writeToFile: filePath atomically: true]) {
-//        [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
-//        }
-//        }];
-        
-        
         let option = PHImageRequestOptions()
         option.isSynchronous = true
         option.isNetworkAccessAllowed = true
@@ -190,7 +217,11 @@ extension ViewController: IMUIMessageMessageCollectionViewDelegate {
   }
   
   func messageCollectionView(_ willBeginDragging: UICollectionView) {
-    self.myInputView.hideFeatureView()
+    DispatchQueue.main.async {
+        self.myInputView.hideFeatureView()
+//      self.myInputView
+    }
+    
   }
   
   func showToast(alert: String) {
