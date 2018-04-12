@@ -25,6 +25,10 @@ public class IMUIFeatureListIconCell: UICollectionViewCell {
     super.init(coder: aDecoder)
   }
   
+  override public init(frame: CGRect) {
+    super.init(frame: frame)
+  }
+  
   public func layout(with data: IMUIFeatureIconModel,onClickCallback: @escaping (IMUIFeatureListIconCell) -> ()) {
     self.featureData = data
     self.onClickCallback = onClickCallback

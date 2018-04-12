@@ -11,6 +11,6 @@ import Foundation
 public extension Bundle {
   
   class func imuiInputViewBundle() -> Bundle {
-    return Bundle(for: IMUIInputView.self)
+    return Bundle(for: IMUICustomInputView.self)
   }
 }

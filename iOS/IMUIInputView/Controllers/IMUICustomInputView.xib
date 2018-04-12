@@ -9,36 +9,49 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IMUIInputView" customModule="sample" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IMUICustomInputView" customModule="sample" customModuleProvider="target">
             <connections>
-                <outlet property="featureSelectorView" destination="xJx-AS-B6d" id="Rhd-bL-Atu"/>
+                <outlet property="bottomInputBarItemListView" destination="xJx-AS-B6d" id="Rhd-bL-Atu"/>
+                <outlet property="bottomInputBarItemListViewHeight" destination="erI-UZ-EUg" id="dGL-yU-WIF"/>
                 <outlet property="featureView" destination="t9V-LN-RmM" id="BX1-yg-qdU"/>
                 <outlet property="inputTextView" destination="q3k-Vv-eYJ" id="MyE-YV-WPU"/>
                 <outlet property="inputTextViewHeight" destination="18d-oS-Mnx" id="HX8-Rd-aol"/>
+                <outlet property="leftInputBarItemListView" destination="nEz-Ll-nbj" id="hSW-dm-cGc"/>
+                <outlet property="leftInputBarItemListViewWidth" destination="Ufo-bz-eS6" id="xtS-qs-tPL"/>
                 <outlet property="moreViewHeight" destination="Di3-tL-4ID" id="ORc-ip-Sc5"/>
                 <outlet property="paddingBottom" destination="zYO-BI-2Mu" id="lCe-aV-DuP"/>
                 <outlet property="paddingLeft" destination="PQt-BA-knv" id="lAx-kD-0Xd"/>
                 <outlet property="paddingRight" destination="eAk-Y4-eRz" id="MpP-qG-tVr"/>
                 <outlet property="paddingTop" destination="shA-jA-VUO" id="fYE-Sx-eqR"/>
+                <outlet property="rightInputBarItemListView" destination="xjf-qu-ADD" id="HV1-hX-b7w"/>
+                <outlet property="rightInputBarItemListViewWidth" destination="UXf-aX-hmR" id="3G4-m7-2bM"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="322" height="300"/>
+            <rect key="frame" x="0.0" y="0.0" width="402" height="82"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t9V-LN-RmM" customClass="IMUIFeatureView" customModule="sample" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="300" width="322" height="0.0"/>
+                    <rect key="frame" x="0.0" y="82" width="402" height="0.0"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" id="Di3-tL-4ID"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nEz-Ll-nbj" customClass="IMUIFeatureListView" customModule="sample" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="16" height="36"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="4Wn-cQ-Jfg"/>
+                        <constraint firstAttribute="width" constant="16" id="Ufo-bz-eS6"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Cb-U2-c9G">
-                    <rect key="frame" x="16" y="0.0" width="290" height="254"/>
+                    <rect key="frame" x="16" y="0.0" width="370" height="36"/>
                     <subviews>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="q3k-Vv-eYJ">
-                            <rect key="frame" x="14" y="9" width="263" height="17"/>
+                            <rect key="frame" x="14" y="9" width="343" height="17"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="17" id="18d-oS-Mnx"/>
@@ -58,9 +71,17 @@
                         <constraint firstAttribute="bottom" secondItem="q3k-Vv-eYJ" secondAttribute="bottom" constant="9" id="zYO-BI-2Mu"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJx-AS-B6d" customClass="IMUIFeatureListView" customModule="sample" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="254" width="322" height="46"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjf-qu-ADD" customClass="IMUIFeatureListView" customModule="sample" customModuleProvider="target">
+                    <rect key="frame" x="386" y="0.0" width="16" height="36"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="16" id="UXf-aX-hmR"/>
+                        <constraint firstAttribute="height" constant="36" id="fjm-7h-WUZ"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJx-AS-B6d" customClass="IMUIFeatureListView" customModule="sample" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="36" width="402" height="46"/>
+                    <color key="backgroundColor" red="0.39872862120000002" green="0.81575716030000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="46" id="erI-UZ-EUg"/>
                     </constraints>
@@ -68,19 +89,23 @@
             </subviews>
             <color key="backgroundColor" red="0.95283776521682739" green="0.95300072431564331" blue="0.95282751321792603" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="3Cb-U2-c9G" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="5XP-3a-wVU"/>
+                <constraint firstItem="3Cb-U2-c9G" firstAttribute="leading" secondItem="nEz-Ll-nbj" secondAttribute="trailing" id="56c-t0-ddY"/>
+                <constraint firstAttribute="trailing" secondItem="xjf-qu-ADD" secondAttribute="trailing" id="7MF-MS-rCw"/>
+                <constraint firstItem="xJx-AS-B6d" firstAttribute="top" secondItem="nEz-Ll-nbj" secondAttribute="bottom" id="ATB-WY-W78"/>
                 <constraint firstItem="t9V-LN-RmM" firstAttribute="top" secondItem="xJx-AS-B6d" secondAttribute="bottom" id="INR-I3-hHZ"/>
-                <constraint firstAttribute="trailing" secondItem="3Cb-U2-c9G" secondAttribute="trailing" constant="16" id="Mtd-Fr-wN5"/>
                 <constraint firstItem="xJx-AS-B6d" firstAttribute="top" secondItem="3Cb-U2-c9G" secondAttribute="bottom" id="RDB-KL-PWN"/>
                 <constraint firstItem="3Cb-U2-c9G" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="YZv-F0-ipk"/>
+                <constraint firstItem="xjf-qu-ADD" firstAttribute="leading" secondItem="3Cb-U2-c9G" secondAttribute="trailing" id="Zst-dy-9PB"/>
+                <constraint firstItem="xJx-AS-B6d" firstAttribute="top" secondItem="xjf-qu-ADD" secondAttribute="bottom" id="aCR-Oj-C7u"/>
                 <constraint firstItem="t9V-LN-RmM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="caC-5F-djf"/>
                 <constraint firstItem="xJx-AS-B6d" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gnG-8J-zlX"/>
+                <constraint firstItem="nEz-Ll-nbj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="hUI-9F-8Rn"/>
                 <constraint firstAttribute="trailing" secondItem="t9V-LN-RmM" secondAttribute="trailing" id="lnO-SC-Lxl"/>
                 <constraint firstAttribute="bottom" secondItem="t9V-LN-RmM" secondAttribute="bottom" id="vDI-Fg-quz"/>
                 <constraint firstAttribute="trailing" secondItem="xJx-AS-B6d" secondAttribute="trailing" id="ykG-I9-7eC"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-547" y="-17"/>
+            <point key="canvasLocation" x="-507" y="92"/>
         </view>
     </objects>
 </document>

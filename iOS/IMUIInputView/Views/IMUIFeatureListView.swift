@@ -15,20 +15,51 @@ import UIKit
 }
 
 
-fileprivate var featureListMargin = 16.0
-fileprivate var featureListBtnWidth = 46
+//fileprivate var featureListMargin = 16.0
+//fileprivate var featureListMargin = 8.0
+//fileprivate var featureListBtnWidth = 46
+//fileprivate var featureListBtnWidth = 28
 
 open class IMUIFeatureListView: UIView {
-
-
+  public static var featureListItemSpace: CGFloat = 8.0
+  public static var featureListBtnWidth = 28
+  
   @IBOutlet var view: UIView!
   @IBOutlet open weak var featureListCollectionView: UICollectionView!
   
-  open weak var delegate:  IMUIFeatureListDelegate?
+  public weak var delegate:  IMUIFeatureListDelegate?
+  
+  fileprivate weak var _dataSource: IMUIInputViewDataSource?
+  public weak var dataSource: IMUIInputViewDataSource? {
+    set {
+      self._dataSource = newValue
+      self.layoutFeatureListToCenter()
+    }
+    
+    get {
+      return self._dataSource
+    }
+  }
   
   var featureListDataSource:[IMUIFeatureIconModel] = [IMUIFeatureIconModel]()
   
-  open var currentFeature: IMUIFeatureType = .none
+//  open var currentFeature: IMUIFeatureType = .none
+  public var position: IMUIInputViewItemPosition?
+  
+  public var totalWidth: CGFloat {
+    if self.position == .bottom {
+      return self.bounds.size.width
+    }
+    
+    let itemCount = self.dataSource?.imuiInputView(self.featureListCollectionView, numberForItemAt: self.position!) ?? 0
+    var totalCellWidth: CGFloat = 0
+    for index in 0..<itemCount {
+      let indexPath = IndexPath(item: index, section: 0)
+      let size = self.dataSource?.imuiInputView(self.featureListCollectionView, self.position!, sizeForIndex: indexPath) ?? CGSize.zero
+      totalCellWidth += size.width
+    }
+    return totalCellWidth + IMUIFeatureListView.featureListItemSpace * CGFloat(itemCount + 1)
+  }
   
   open override func awakeFromNib() {
     super.awakeFromNib()
@@ -57,19 +88,19 @@ open class IMUIFeatureListView: UIView {
                                                       UIImage.imuiImage(with: "input_item_photo"),
                                                       UIImage.imuiImage(with:"input_item_photo")))
     
-    featureListDataSource.append(IMUIFeatureIconModel(featureType: .camera,
-                                                      UIImage.imuiImage(with: "input_item_camera"),
-                                                      UIImage.imuiImage(with:"input_item_camera")))
-    
-    featureListDataSource.append(IMUIFeatureIconModel(featureType: .emoji,
-                                                      UIImage.imuiImage(with: "input_item_emoji"),
-                                                      UIImage.imuiImage(with:"input_item_emoji")))
-    
-    featureListDataSource.append(IMUIFeatureIconModel(featureType: .none,
-                                                      UIImage.imuiImage(with: "input_item_send"),
-                                                      UIImage.imuiImage(with:"input_item_send_message_selected"),
-                                                      0,
-                                                      false))
+//    featureListDataSource.append(IMUIFeatureIconModel(featureType: .camera,
+//                                                      UIImage.imuiImage(with: "input_item_camera"),
+//                                                      UIImage.imuiImage(with:"input_item_camera")))
+//
+//    featureListDataSource.append(IMUIFeatureIconModel(featureType: .emoji,
+//                                                      UIImage.imuiImage(with: "input_item_emoji"),
+//                                                      UIImage.imuiImage(with:"input_item_emoji")))
+//
+//    featureListDataSource.append(IMUIFeatureIconModel(featureType: .none,
+//                                                      UIImage.imuiImage(with: "input_item_send"),
+//                                                      UIImage.imuiImage(with:"input_item_send_message_selected"),
+//                                                      0,
+//                                                      false))
   }
   
   func setupAllViews() {
@@ -79,20 +110,30 @@ open class IMUIFeatureListView: UIView {
     self.featureListCollectionView.delegate = self
     self.featureListCollectionView.dataSource = self
     
-    self.layoutFeatureListToCenter()
+    
   }
+  
+  
   
   func layoutFeatureListToCenter() {
     self.featureListCollectionView.reloadData()
     var insets = self.featureListCollectionView.contentInset
     let frameWidth = self.view.imui_width
-    let totalCellWidth = CGFloat(self.featureListDataSource.count * featureListBtnWidth)
+//    let totalCellWidth = CGFloat(self.featureListDataSource.count * IMUIFeatureListView.featureListBtnWidth)
     
-    let spaceWidth = (frameWidth - CGFloat(featureListMargin * 2) - totalCellWidth) / CGFloat(self.featureListDataSource.count - 1)
+    let itemCount = self.dataSource?.imuiInputView(self.featureListCollectionView, numberForItemAt: self.position!) ?? 0
+    var totalCellWidth: CGFloat = 0
+    for index in 0..<itemCount {
+      let indexPath = IndexPath(item: index, section: 0)
+      let size = self.dataSource?.imuiInputView(self.featureListCollectionView, self.position!, sizeForIndex: indexPath) ?? CGSize.zero
+      totalCellWidth += size.width
+    }
+    
+    let spaceWidth = (frameWidth - CGFloat(IMUIFeatureListView.featureListItemSpace * 2) - totalCellWidth) / CGFloat(itemCount - 1)
     print("frameWidth :\(frameWidth)  spaceWidth: \(spaceWidth)")
     (self.featureListCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = spaceWidth
     
-    insets.left = CGFloat(featureListMargin)
+    insets.left = CGFloat(IMUIFeatureListView.featureListItemSpace)
     self.featureListCollectionView.contentInset = insets
   }
   
@@ -102,12 +143,23 @@ open class IMUIFeatureListView: UIView {
     }
   }
   
-  public func updateSendButton(with count: Int?, isAllowToSend: Bool?) {
-    featureListDataSource.last?.isAllowToSend = isAllowToSend
-    featureListDataSource.last?.photoCount = count
-    self.featureListCollectionView.reloadItems(at: [IndexPath(item: featureListDataSource.count - 1, section: 0)])
+  public func register(_ cellClass: AnyClass?,forCellWithReuseIdentifier identifier: String) {
+    self.featureListCollectionView.register(cellClass, forCellWithReuseIdentifier: identifier)
   }
-
+  
+  public func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
+    self.featureListCollectionView.register(nib, forCellWithReuseIdentifier: identifier)
+  }
+  
+  public func updateSendButton(with count: Int?, isAllowToSend: Bool?) {
+//    featureListDataSource.last?.isAllowToSend = isAllowToSend
+//    featureListDataSource.last?.photoCount = count
+//    self.featureListCollectionView.reloadItems(at: [IndexPath(item: featureListDataSource.count - 1, section: 0)])
+  }
+  
+  public func reloadData() {
+      self.featureListCollectionView.reloadData()
+  }
 }
 
 extension IMUIFeatureListView: UICollectionViewDelegate {
@@ -117,7 +169,7 @@ extension IMUIFeatureListView: UICollectionViewDelegate {
 extension IMUIFeatureListView: UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return self.featureListDataSource.count
+    return self.dataSource?.imuiInputView(self.featureListCollectionView, numberForItemAt: self.position!) ?? 0
   }
   
   public func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -128,7 +180,7 @@ extension IMUIFeatureListView: UICollectionViewDataSource,UICollectionViewDelega
   public func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: featureListBtnWidth, height: featureListBtnWidth)
+    return self.dataSource?.imuiInputView(self.featureListCollectionView, self.position!, sizeForIndex: indexPath) ?? CGSize.zero
   }
   
   public func collectionView(_ collectionView: UICollectionView,
@@ -139,19 +191,23 @@ extension IMUIFeatureListView: UICollectionViewDataSource,UICollectionViewDelega
   
   public func collectionView(_ collectionView: UICollectionView,
                              cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cellIdentifier = "IMUIFeatureListIconCell"
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! IMUIFeatureListIconCell
-    cell.layout(with: self.featureListDataSource[indexPath.item],onClickCallback: { cell in
-      switch cell.featureData!.featureType {
-        case .none:
-          self.delegate?.onClickSend?(with: cell)
-        break
-        default:
-          self.delegate?.onSelectedFeature?(with: cell)
-        break
-      }
-    })
-    return cell
+//    let cellIdentifier = "IMUIFeatureListIconCell"
+//    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! IMUIFeatureListIconCell
+//    cell.layout(with: self.featureListDataSource[indexPath.item],onClickCallback: { cell in
+//      switch cell.featureData!.featureType {
+//        case .none:
+//          self.delegate?.onClickSend?(with: cell)
+//        break
+//        default:
+//          self.delegate?.onSelectedFeature?(with: cell)
+//        break
+//      }
+//    })
+//    return cell
+//        print("fafsdfafafasf")
+        return self.dataSource?.imuiInputView(self.featureListCollectionView, self.position!, cellForItemAt: indexPath) ?? UICollectionViewCell()
+    
+//    return UICollectionViewCell()
   }
   
 }
