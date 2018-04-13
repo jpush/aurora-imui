@@ -33,53 +33,12 @@ class ViewController: UIViewController {
 //    self.setupInputViewData()
 //    self.myInputView.inputViewDelegate = self
 //    self.myInputView.dataSource = self
+    self.myInputView.delegate = self
     self.messageCollectionView.delegate = self
     
     self.messageCollectionView.messageCollectionView.register(MessageEventCollectionViewCell.self, forCellWithReuseIdentifier: MessageEventCollectionViewCell.self.description())
   }
   
-//  func setupInputViewData() {
-//
-//    let bundle = Bundle.imuiInputViewBundle()
-//    self.myInputView.register(UINib(nibName: "IMUIFeatureListIconCell", bundle: bundle), in: .bottom, forCellWithReuseIdentifier: "IMUIFeatureListIconCell")
-//    self.myInputView.register(UINib(nibName: "IMUIFeatureListIconCell", bundle: bundle), in: .right, forCellWithReuseIdentifier: "IMUIFeatureListIconCell")
-//
-////    self.featureCollectionView.register(UINib(nibName: "IMUIRecordVoiceCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
-////    self.featureCollectionView.register(UINib(nibName: "IMUIGalleryContainerCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIGalleryContainerCell")
-////    self.featureCollectionView.register(UINib(nibName: "IMUICameraCell", bundle: bundle), forCellWithReuseIdentifier: "IMUICameraCell")
-////    self.featureCollectionView.register(UINib(nibName: "IMUIEmojiCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIEmojiCell")
-//
-//    self.myInputView.registerForFeatureView(UINib(nibName: "IMUIRecordVoiceCell", bundle: bundle),
-//                                            forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
-//    self.myInputView.registerForFeatureView(UINib(nibName: "IMUIGalleryContainerCell", bundle: bundle),
-//                                            forCellWithReuseIdentifier: "IMUIGalleryContainerCell")
-//    self.myInputView.registerForFeatureView(UINib(nibName: "IMUICameraCell", bundle: bundle),
-//                                            forCellWithReuseIdentifier: "IMUICameraCell")
-//    self.myInputView.registerForFeatureView(UINib(nibName: "IMUIEmojiCell", bundle: bundle),
-//                                            forCellWithReuseIdentifier: "IMUIEmojiCell")
-//
-//    inputViewBottomItemArr.append(IMUIFeatureIconModel(featureType: .voice,
-//                                                      UIImage.imuiImage(with: "input_item_mic"),
-//                                                      UIImage.imuiImage(with:"input_item_mic")))
-//
-//    inputViewBottomItemArr.append(IMUIFeatureIconModel(featureType: .gallery,
-//                                                      UIImage.imuiImage(with: "input_item_photo"),
-//                                                      UIImage.imuiImage(with:"input_item_photo")))
-//
-//    inputViewBottomItemArr.append(IMUIFeatureIconModel(featureType: .camera,
-//                                                      UIImage.imuiImage(with: "input_item_camera"),
-//                                                      UIImage.imuiImage(with:"input_item_camera")))
-//
-//    inputViewRightItemArr.append(IMUIFeatureIconModel(featureType: .emoji,
-//                                                      UIImage.imuiImage(with: "input_item_emoji"),
-//                                                      UIImage.imuiImage(with:"input_item_emoji")))
-//
-//    inputViewRightItemArr.append(IMUIFeatureIconModel(featureType: .none,
-//                                                      UIImage.imuiImage(with: "input_item_send"),
-//                                                      UIImage.imuiImage(with:"input_item_send_message_selected"),
-//                                                      0,
-//                                                      false))
-//  }
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
   }
@@ -114,9 +73,7 @@ extension ViewController: IMUIInputViewDelegate {
       try picture.write(to: URL(fileURLWithPath: imgPath))
       DispatchQueue.main.async {
         let outGoingmessage = MyMessageModel(imagePath: imgPath, isOutGoing: true)
-//        let inCommingMessage = MyMessageModel(imagePath: imgPath, isOutGoing: false)
         self.messageCollectionView.appendMessage(with: outGoingmessage)
-//        self.messageCollectionView.appendMessage(with: inCommingMessage)
       }
     } catch {
       print("write image file error")

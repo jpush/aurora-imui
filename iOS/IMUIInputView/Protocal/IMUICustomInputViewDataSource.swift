@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@objc public protocol IMUIInputViewDataSource: NSObjectProtocol {
+@objc public protocol IMUICustomInputViewDataSource: NSObjectProtocol {
   
   /**
    *  return left/right/bottom inputBarItemListView's item number

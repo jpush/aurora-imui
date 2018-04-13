@@ -15,16 +15,6 @@ import Photos
   case bottom
 }
 
-enum IMUIInputStatus {
-  case text
-  case microphone
-  case photo
-  case camera
-  case emoji
-  case none
-}
-
-
 fileprivate var IMUIFeatureViewHeight:CGFloat = 215
 fileprivate var IMUIFeatureSelectorHeight:CGFloat = 46
 fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
@@ -37,14 +27,11 @@ open class IMUICustomInputView: UIView {
   @objc open var inputTextViewFont: UIFont = UIFont.systemFont(ofSize: 18)
   
   var inputViewStatus: IMUIInputStatus = .none
-  @objc open weak var inputViewDelegate: IMUIInputViewDelegate? {
-    didSet {
-      self.featureView.inputViewDelegate = self.inputViewDelegate
-    }
-  }
   
-  fileprivate weak var inputViewDataSource: IMUIInputViewDataSource?
-  @objc open var dataSource: IMUIInputViewDataSource? {
+  @objc open weak var inputViewDelegate: IMUICustomInputViewDelegate?
+  
+  fileprivate weak var inputViewDataSource: IMUICustomInputViewDataSource?
+  @objc open var dataSource: IMUICustomInputViewDataSource? {
     set {
       self.inputViewDataSource = newValue
       self.rightInputBarItemListView.dataSource = newValue
@@ -96,13 +83,6 @@ open class IMUICustomInputView: UIView {
     self.inputTextView.textColor = inputTextViewTextColor
     self.inputTextView.layoutManager.allowsNonContiguousLayout = false
     inputTextView.delegate = self
-    self.featureView.delegate = self
-    
-    
-    
-    // TEST
-//    self.leftFeatureSelectorViewWidth.constant = 120
-//    self.rightFeatureSelectorViewWidth.constant = 120
   }
   
   open override func awakeFromNib() {
@@ -131,9 +111,7 @@ open class IMUICustomInputView: UIView {
     
     inputTextView.textContainer.lineBreakMode = .byWordWrapping
     inputTextView.delegate = self
-    self.featureView.delegate = self
-    self.bottomInputBarItemListView.delegate = self
-    
+
     self.bottomInputBarItemListView.position = .bottom
     self.leftInputBarItemListView.position = .left
     self.rightInputBarItemListView.position = .right
@@ -182,7 +160,7 @@ open class IMUICustomInputView: UIView {
   
   func leaveGalleryMode() {
     featureView.clearAllSelectedGallery()
-    self.updateSendBtnToPhotoSendStatus()
+//    self.updateSendBtnToPhotoSendStatus()
   }
   
   @objc func keyboardFrameChanged(_ notification: Notification) {
@@ -217,7 +195,6 @@ open class IMUICustomInputView: UIView {
       }
     }
 
-  // TODO: update inputBar item status
   @objc public func updateInputBarItemCell(_ position: IMUIInputViewItemPosition,
                                            at index: Int) {
     let inputBarList = self.getFeatureView(from: position)
@@ -242,14 +219,14 @@ open class IMUICustomInputView: UIView {
   
   @objc public func showFeatureView() {
     UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) {
+      self.inputTextView.resignFirstResponder()
       self.moreViewHeight.constant = 253
       self.superview?.layoutIfNeeded()
     }
   }
   
   @objc public func hideFeatureView() {
-//    self.moreViewHeight.constant = 0
-//    self.featureView.currentType = .none
+
     UIView.animate(withDuration: IMUIShowFeatureViewAnimationDuration) {
       self.moreViewHeight.constant = 0
       self.inputTextView.resignFirstResponder()
@@ -269,173 +246,13 @@ open class IMUICustomInputView: UIView {
 extension IMUICustomInputView: UITextViewDelegate {
   public func textViewDidChange(_ textView: UITextView) {
     self.fitTextViewSize(textView)
-    self.updateSendBtnToPhotoSendStatus()
+
     self.inputViewDelegate?.textDidChange?(text: textView.text)
   }
   
   public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-    inputViewStatus = .text
+//    inputViewStatus = .text
     return true
   }
   
-}
-
-extension IMUICustomInputView: IMUIFeatureListDelegate {
-  public func onSelectedFeature(with cell: IMUIFeatureListIconCell) {
-    print("onSelectedFeature")
-    switch cell.featureData!.featureType {
-    case .voice:
-      self.clickMicBtn(cell: cell)
-      break
-    case .gallery:
-      self.clickPhotoBtn(cell: cell)
-      break
-    case .camera:
-      self.clickCameraBtn(cell: cell)
-      break
-    case .emoji:
-      self.clickEmojiBtn(cell: cell)
-      break
-    default:
-      break
-    }
-  }
-  
-  public func onClickSend(with cell: IMUIFeatureListIconCell) {
-    self.clickSendBtn(cell: cell)
-  }
-
-  func clickMicBtn(cell: IMUIFeatureListIconCell) {
-    self.leaveGalleryMode()
-    inputViewStatus = .microphone
-
-    self.inputTextView.resignFirstResponder()
-
-    self.inputViewDelegate?.switchToMicrophoneMode?(recordVoiceBtn: cell.featureIconBtn)
-
-    let serialQueue = DispatchQueue(label: "inputview")
-    serialQueue.async {
-      usleep(10000)
-      DispatchQueue.main.async {
-        self.featureView.layoutFeature(with: .voice)
-        self.showFeatureView()
-      }
-    }
-  }
-
-  func clickPhotoBtn(cell: IMUIFeatureListIconCell) {
-    self.leaveGalleryMode()
-    inputViewStatus = .photo
-
-    inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchToGalleryMode?(photoBtn: cell.featureIconBtn)
-    DispatchQueue.main.async {
-      self.featureView.layoutFeature(with: .gallery)
-    }
-    self.showFeatureView()
-  }
-
-  func clickCameraBtn(cell: IMUIFeatureListIconCell) {
-    self.leaveGalleryMode()
-    inputViewStatus = .camera
-
-    inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchToCameraMode?(cameraBtn: cell.featureIconBtn)
-    DispatchQueue.main.async {
-      self.featureView.layoutFeature(with: .camera)
-    }
-    self.showFeatureView()
-  }
-
-  func clickEmojiBtn(cell: IMUIFeatureListIconCell) {
-    self.leaveGalleryMode()
-    inputViewStatus = .emoji
-
-    inputTextView.resignFirstResponder()
-    inputViewDelegate?.switchToEmojiMode?(cameraBtn: cell.featureIconBtn)
-
-    DispatchQueue.main.async {
-      self.featureView.layoutFeature(with: .emoji)
-    }
-    self.showFeatureView()
-  }
-
-  func clickSendBtn(cell: IMUIFeatureListIconCell) {
-    if IMUIGalleryDataManager.selectedAssets.count > 0 {
-      self.inputViewDelegate?.didSeletedGallery?(AssetArr: IMUIGalleryDataManager.selectedAssets)
-      self.featureView.clearAllSelectedGallery()
-      self.updateSendBtnToPhotoSendStatus()
-      return
-    }
-
-    if inputTextView.text != "" {
-      inputViewDelegate?.sendTextMessage?(self.inputTextView.text)
-      inputTextView.text = ""
-      self.inputViewDelegate?.textDidChange?(text: "")
-      fitTextViewSize(inputTextView)
-    }
-  
-    self.updateSendBtnToPhotoSendStatus()
-  }
-}
-
-extension IMUICustomInputView: IMUIFeatureViewDelegate {
-  
-  public func cameraRecoverScreen() {
-    self.inputViewDelegate?.cameraRecoverScreen?()
-  }
-  
-  public func cameraFullScreen() {
-    self.inputViewDelegate?.cameraFullScreen?()
-  }
-  
-  
-  public func didChangeSelectedGallery(with gallerys: [PHAsset]) {
-      self.updateSendBtnToPhotoSendStatus()
-  }
-  
-  public func updateSendBtnToPhotoSendStatus() {
-    var isAllowToSend = false
-    var seletedPhotoCount = IMUIGalleryDataManager.selectedAssets.count
-    if seletedPhotoCount > 0 {
-      isAllowToSend = true
-    }
-    
-    if inputTextView.text != "" {
-      isAllowToSend = true
-    }
-    
-    self.bottomInputBarItemListView.updateSendButton(with: seletedPhotoCount, isAllowToSend: isAllowToSend)
-  }
-  
-  public func didSelectPhoto(with images: [UIImage]) {
-    self.updateSendBtnToPhotoSendStatus()
-  }
-  
-  public func didSeletedEmoji(with emoji: IMUIEmojiModel) {
-    switch emoji.emojiType {
-    case .emoji:
-      let inputStr = "\(self.inputTextView.text!)\(emoji.emoji!)"
-      self.inputTextView.text = inputStr
-      self.fitTextViewSize(self.inputTextView)
-      self.updateSendBtnToPhotoSendStatus()
-      self.inputViewDelegate?.textDidChange?(text: inputStr)
-    default:
-      return
-    }
-  }
-  
-  public func didRecordVoice(with voicePath: String, durationTime: Double) {
-    self.inputViewDelegate?.finishRecordVoice?(voicePath, durationTime: durationTime)
-  }
-  
-  public func didShotPicture(with image: Data) {
-    self.inputViewDelegate?.didShootPicture?(picture: image)
-  }
-  
-  public func didRecordVideo(with videoPath: String, durationTime: Double) {
-    self.inputViewDelegate?.finishRecordVideo?(videoPath: videoPath, durationTime: durationTime)
-  }
-  
-
 }

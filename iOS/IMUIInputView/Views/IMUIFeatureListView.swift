@@ -29,8 +29,8 @@ open class IMUIFeatureListView: UIView {
   
   public weak var delegate:  IMUIFeatureListDelegate?
   
-  fileprivate weak var _dataSource: IMUIInputViewDataSource?
-  public weak var dataSource: IMUIInputViewDataSource? {
+  fileprivate weak var _dataSource: IMUICustomInputViewDataSource?
+  public weak var dataSource: IMUICustomInputViewDataSource? {
     set {
       self._dataSource = newValue
       self.layoutFeatureListToCenter()
