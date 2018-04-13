@@ -12,37 +12,7 @@ import Photos
 
 private var CellIdentifier = ""
 
-public enum IMUIFeatureType {
-  case voice
-  case gallery
-  case camera
-  case location
-  case emoji
-  case none
-}
 
-public protocol IMUIFeatureViewDelegate: NSObjectProtocol {
-  
-  func didSelectPhoto(with images: [UIImage])
-  func didRecordVoice(with voicePath: String, durationTime: Double)
-  func didShotPicture(with image: Data)
-  func didRecordVideo(with videoPath: String, durationTime: Double)
-  func didSeletedEmoji(with emoji: IMUIEmojiModel)
-  func didChangeSelectedGallery(with gallerys: [PHAsset])
-  func cameraFullScreen()
-  func cameraRecoverScreen()
-}
-
-public extension IMUIFeatureViewDelegate {
-  func didSelectPhoto(with images: [UIImage]) {}
-  func didRecordVoice(with voicePath: String, durationTime: Double) {}
-  func didShotPicture(with image: Data) {}
-  func didRecordVideo(with videoPath: String, durationTime: Double) {}
-  func didSeletedEmoji(with emoji: IMUIEmojiModel) {}
-  func didChangeSelectedGallery() {}
-  func cameraFullScreen() {}
-  func cameraRecoverScreen() {}
-}
 
 public protocol IMUIFeatureCellProtocol {
   
@@ -70,9 +40,9 @@ open class IMUIFeatureView: UIView {
   var view: UIView!
   var currentType:IMUIFeatureType = .none
   
-  open weak var inputViewDelegate: IMUIInputViewDelegate?
-  weak var delegate: IMUIFeatureViewDelegate?
-  weak var dataSource: IMUIInputViewDataSource?
+//  open weak var inputViewDelegate: IMUIInputViewDelegate?
+//  weak var delegate: IMUIFeatureViewDelegate?
+  weak var dataSource: IMUICustomInputViewDataSource?
   
   open override func awakeFromNib() {
     super.awakeFromNib()
@@ -237,6 +207,6 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource,
   }
   
   func updateSelectedAssets() {
-    self.delegate?.didChangeSelectedGallery(with: IMUIGalleryDataManager.selectedAssets)
+//    self.delegate?.didChangeSelectedGallery(with: IMUIGalleryDataManager.selectedAssets)
   }
 }

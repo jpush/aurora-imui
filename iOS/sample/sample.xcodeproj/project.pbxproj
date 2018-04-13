@@ -90,7 +90,8 @@
 		629BA82B1F8F02C600EB4FD5 /* IMUIGalleryContainerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629BA8291F8F02C600EB4FD5 /* IMUIGalleryContainerCell.swift */; };
 		629BA82C1F8F02C600EB4FD5 /* IMUIGalleryContainerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 629BA82A1F8F02C600EB4FD5 /* IMUIGalleryContainerCell.xib */; };
 		62B0CB7C204FC2F500D87F94 /* IMUIHidenStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62B0CB7B204FC2F500D87F94 /* IMUIHidenStatusViewController.swift */; };
-		62CD92E82074C90500780D8C /* IMUIInputViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CD92E72074C90500780D8C /* IMUIInputViewDataSource.swift */; };
+		62C84B5A207F3905003EBA4F /* IMUICustomInputViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C84B59207F3905003EBA4F /* IMUICustomInputViewDelegate.swift */; };
+		62CD92E82074C90500780D8C /* IMUICustomInputViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CD92E72074C90500780D8C /* IMUICustomInputViewDataSource.swift */; };
 		62D26AA21F7A17EC0093FE3D /* IMUIEmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D26AA01F7A17EC0093FE3D /* IMUIEmojiCell.swift */; };
 		62D26AA31F7A17EC0093FE3D /* IMUIEmojiCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62D26AA11F7A17EC0093FE3D /* IMUIEmojiCell.xib */; };
 		62D26AA61F7A21A60093FE3D /* IMUIEmojiItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D26AA41F7A21A60093FE3D /* IMUIEmojiItemCell.swift */; };
@@ -206,7 +207,8 @@
 		629BA8291F8F02C600EB4FD5 /* IMUIGalleryContainerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUIGalleryContainerCell.swift; sourceTree = "<group>"; };
 		629BA82A1F8F02C600EB4FD5 /* IMUIGalleryContainerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IMUIGalleryContainerCell.xib; sourceTree = "<group>"; };
 		62B0CB7B204FC2F500D87F94 /* IMUIHidenStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUIHidenStatusViewController.swift; sourceTree = "<group>"; };
-		62CD92E72074C90500780D8C /* IMUIInputViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUIInputViewDataSource.swift; sourceTree = "<group>"; };
+		62C84B59207F3905003EBA4F /* IMUICustomInputViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUICustomInputViewDelegate.swift; sourceTree = "<group>"; };
+		62CD92E72074C90500780D8C /* IMUICustomInputViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUICustomInputViewDataSource.swift; sourceTree = "<group>"; };
 		62D26AA01F7A17EC0093FE3D /* IMUIEmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUIEmojiCell.swift; sourceTree = "<group>"; };
 		62D26AA11F7A17EC0093FE3D /* IMUIEmojiCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IMUIEmojiCell.xib; sourceTree = "<group>"; };
 		62D26AA41F7A21A60093FE3D /* IMUIEmojiItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMUIEmojiItemCell.swift; sourceTree = "<group>"; };
@@ -327,7 +329,8 @@
 			isa = PBXGroup;
 			children = (
 				6255393A1EF28F8800F6A239 /* IMUIInputViewDelegate.swift */,
-				62CD92E72074C90500780D8C /* IMUIInputViewDataSource.swift */,
+				62C84B59207F3905003EBA4F /* IMUICustomInputViewDelegate.swift */,
+				62CD92E72074C90500780D8C /* IMUICustomInputViewDataSource.swift */,
 			);
 			path = Protocal;
 			sourceTree = "<group>";
@@ -695,7 +698,7 @@
 				625539991EF28F8800F6A239 /* IMUIBaseMessageCell.swift in Sources */,
 				6255398D1EF28F8800F6A239 /* IMUIMessageCellLayout.swift in Sources */,
 				625539771EF28F8800F6A239 /* IMUICustomInputView.swift in Sources */,
-				62CD92E82074C90500780D8C /* IMUIInputViewDataSource.swift in Sources */,
+				62CD92E82074C90500780D8C /* IMUICustomInputViewDataSource.swift in Sources */,
 				625539711EF28F8800F6A239 /* StringExtension.swift in Sources */,
 				625B68461ECDEFFF007D2CB2 /* ViewController.swift in Sources */,
 				625539921EF28F8800F6A239 /* IMUIMessageCellProtocol.swift in Sources */,
@@ -732,6 +735,7 @@
 				625539741EF28F8800F6A239 /* UIViewExtension.swift in Sources */,
 				6255398A1EF28F8800F6A239 /* IMUIVideoFileLoader.swift in Sources */,
 				625B68E91ECDF07E007D2CB2 /* MyMessageModel.swift in Sources */,
+				62C84B5A207F3905003EBA4F /* IMUICustomInputViewDelegate.swift in Sources */,
 				625539A21EF28F8800F6A239 /* IMUIVoiceMessageContentView.swift in Sources */,
 				6255398E1EF28F8800F6A239 /* IMUIMessageModel.swift in Sources */,
 				6284D9291F7235400014C314 /* IMUIFeatureListIconCell.swift in Sources */,
@@ -903,7 +907,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = RL64Y54S9V;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 1;
 				INFOPLIST_FILE = sample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
