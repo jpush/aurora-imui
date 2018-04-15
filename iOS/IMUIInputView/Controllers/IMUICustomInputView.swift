@@ -21,7 +21,7 @@ fileprivate var IMUIShowFeatureViewAnimationDuration = 0.25
 
 open class IMUICustomInputView: UIView {
   @objc open var inputTextViewPadding: UIEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
-  @objc open var inputTextViewHeightRange: UIFloatRange = UIFloatRange(minimum: 17, maximum: 60)
+  @objc open var inputTextViewHeightRange: UIFloatRange = UIFloatRange(minimum: 20, maximum: 60)
   
   @objc open var inputTextViewTextColor: UIColor = UIColor(netHex: 0x555555)
   @objc open var inputTextViewFont: UIFont = UIFont.systemFont(ofSize: 18)
@@ -176,6 +176,8 @@ open class IMUICustomInputView: UIView {
         self.moreViewHeight.constant = IMUIFeatureViewHeight
       }
     }
+    
+    self.superview?.layoutIfNeeded()
   }
   
   func fitTextViewSize(_ textView: UITextView) {

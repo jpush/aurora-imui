@@ -24,6 +24,7 @@ public enum IMUIFeatureType {
   case camera
   case location
   case emoji
+  case empty
   case none
 }
 
@@ -112,6 +113,9 @@ class IMUIInputView: IMUICustomInputView {
                                                 forCellWithReuseIdentifier: "IMUIRecordVoiceCell")
     self.registerForFeatureView(UINib(nibName: "IMUIGalleryContainerCell", bundle: bundle),
                                                 forCellWithReuseIdentifier: "IMUIGalleryContainerCell")
+
+    registerForFeatureView(IMUIEmptyContainerCell.self, forCellWithReuseIdentifier: "IMUIEmptyContainerCell")
+    
     self.registerForFeatureView(UINib(nibName: "IMUICameraCell", bundle: bundle),
                                                 forCellWithReuseIdentifier: "IMUICameraCell")
     self.registerForFeatureView(UINib(nibName: "IMUIEmojiCell", bundle: bundle),
@@ -190,7 +194,7 @@ extension IMUIInputView: IMUICustomInputViewDataSource {
   func imuiInputView(_ inputBarItemListView: UICollectionView,
                      _ position: IMUIInputViewItemPosition,
                      sizeForIndex indexPath: IndexPath) -> CGSize {
-    return CGSize(width: 20, height: 20)
+    return CGSize(width: 30, height: 30)
   }
   
   func imuiInputView(_ inputBarItemListView: UICollectionView,
@@ -244,6 +248,8 @@ extension IMUIInputView: IMUICustomInputViewDataSource {
     case .gallery:
       CellIdentifier = "IMUIGalleryContainerCell"
       break
+    case .empty:
+      CellIdentifier = "IMUIEmptyContainerCell"
     default:
       break
     }
@@ -343,6 +349,9 @@ extension IMUIInputView: IMUICustomInputViewDelegate {
   }
   
   func keyBoardWillShow(height: CGFloat, durationTime: Double) {
-    print("\(height)   \(durationTime)")
+    self.currentType = .empty
+    self.reloadFeaturnView()
   }
 }
+
+class IMUIEmptyContainerCell: UICollectionViewCell,IMUIFeatureCellProtocol { }
