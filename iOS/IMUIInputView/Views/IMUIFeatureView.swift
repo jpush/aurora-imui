@@ -12,37 +12,7 @@ import Photos
 
 private var CellIdentifier = ""
 
-public enum IMUIFeatureType {
-  case voice
-  case gallery
-  case camera
-  case location
-  case emoji
-  case none
-}
 
-public protocol IMUIFeatureViewDelegate: NSObjectProtocol {
-  
-  func didSelectPhoto(with images: [UIImage])
-  func didRecordVoice(with voicePath: String, durationTime: Double)
-  func didShotPicture(with image: Data)
-  func didRecordVideo(with videoPath: String, durationTime: Double)
-  func didSeletedEmoji(with emoji: IMUIEmojiModel)
-  func didChangeSelectedGallery(with gallerys: [PHAsset])
-  func cameraFullScreen()
-  func cameraRecoverScreen()
-}
-
-public extension IMUIFeatureViewDelegate {
-  func didSelectPhoto(with images: [UIImage]) {}
-  func didRecordVoice(with voicePath: String, durationTime: Double) {}
-  func didShotPicture(with image: Data) {}
-  func didRecordVideo(with videoPath: String, durationTime: Double) {}
-  func didSeletedEmoji(with emoji: IMUIEmojiModel) {}
-  func didChangeSelectedGallery() {}
-  func cameraFullScreen() {}
-  func cameraRecoverScreen() {}
-}
 
 public protocol IMUIFeatureCellProtocol {
   
@@ -70,8 +40,9 @@ open class IMUIFeatureView: UIView {
   var view: UIView!
   var currentType:IMUIFeatureType = .none
   
-  open weak var inputViewDelegate: IMUIInputViewDelegate?
-  weak var delegate: IMUIFeatureViewDelegate?
+//  open weak var inputViewDelegate: IMUIInputViewDelegate?
+//  weak var delegate: IMUIFeatureViewDelegate?
+  weak var dataSource: IMUICustomInputViewDataSource?
   
   open override func awakeFromNib() {
     super.awakeFromNib()
@@ -101,6 +72,14 @@ open class IMUIFeatureView: UIView {
     self.featureCollectionView.dataSource = self
     
     self.featureCollectionView.reloadData()
+  }
+  
+  public func register(_ cellClass: AnyClass?,forCellWithReuseIdentifier identifier: String) {
+    self.featureCollectionView.register(cellClass, forCellWithReuseIdentifier: identifier)
+  }
+  
+  public func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
+    self.featureCollectionView.register(nib, forCellWithReuseIdentifier: identifier)
   }
   
   open func layoutFeature(with type: IMUIFeatureType) {
@@ -165,6 +144,7 @@ open class IMUIFeatureView: UIView {
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 1
     switch currentType {
     case .none:
       return 0
@@ -195,28 +175,8 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource,
   
   public func collectionView(_ collectionView: UICollectionView,
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    
-    switch currentType {
-    case .voice:
-      CellIdentifier = "IMUIRecordVoiceCell"
-    case .camera:
-      CellIdentifier = "IMUICameraCell"
-      break
-    case .emoji:
-      CellIdentifier = "IMUIEmojiCell"
-      break
-    case .location:
-      break
-    case .gallery:
-        CellIdentifier = "IMUIGalleryContainerCell"
-      break
-    default:
-      break
-    }
-    var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocol
-    cell.activateMedia()
-    cell.featureDelegate = self.delegate
-    return cell as! UICollectionViewCell
+
+    return self.dataSource?.imuiInputView(collectionView, cellForItem: indexPath) ?? UICollectionViewCell()
   }
   
   public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {
@@ -225,6 +185,6 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource,
   }
   
   func updateSelectedAssets() {
-    self.delegate?.didChangeSelectedGallery(with: IMUIGalleryDataManager.selectedAssets)
+//    self.delegate?.didChangeSelectedGallery(with: IMUIGalleryDataManager.selectedAssets)
   }
 }

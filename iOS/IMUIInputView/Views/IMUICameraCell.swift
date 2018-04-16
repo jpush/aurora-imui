@@ -37,6 +37,11 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   override func awakeFromNib() {
       super.awakeFromNib()
       cameraView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 253)
+    
+      cameraView.startRecordVideoCallback = {
+        self.featureDelegate?.startRecordVideo()
+      }
+    
       cameraView.recordVideoCallback = {(path, duration) in
       self.featureDelegate?.didRecordVideo(with: path, durationTime: duration)
       if self.isFullScreenMode {

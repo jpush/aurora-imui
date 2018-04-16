@@ -17,15 +17,23 @@ class ViewController: UIViewController {
   @IBOutlet weak var messageCollectionView: IMUIMessageCollectionView!
   
   @IBOutlet weak var myInputView: IMUIInputView!
+  var currentType:IMUIFeatureType = .voice
   
   var imageViewArr = [MyImageView]()
   
   let imageManage: PHCachingImageManager = PHCachingImageManager()
   
+  var inputViewBottomItemArr = [IMUIFeatureIconModel]()
+  var inputViewRightItemArr = [IMUIFeatureIconModel]()
+  var inputViewLeftItemArr = [IMUIFeatureIconModel]()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     print("\(UIView())")
-    self.myInputView.inputViewDelegate = self
+//    self.setupInputViewData()
+//    self.myInputView.inputViewDelegate = self
+//    self.myInputView.dataSource = self
+    self.myInputView.delegate = self
     self.messageCollectionView.delegate = self
     
     self.messageCollectionView.messageCollectionView.register(MessageEventCollectionViewCell.self, forCellWithReuseIdentifier: MessageEventCollectionViewCell.self.description())
@@ -46,19 +54,20 @@ extension ViewController: IMUIInputViewDelegate {
     let inCommingMessage = MyMessageModel(text: messageText, isOutGoing: false)
     self.messageCollectionView.appendMessage(with: outGoingmessage)
     self.messageCollectionView.appendMessage(with: inCommingMessage)
-    
-//    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
-//    let event = MessageEventModel(msgId: msgId, eventText: messageText)
-//    self.messageCollectionView.appendMessage(with: event)
   }
   
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {
-    
+  func switchToMicrophoneMode(recordVoiceBtn: UIButton) {
+//    self.showToast(alert: "switchToMicrophoneMode")
+  }
+  
+  func switchToCameraMode(cameraBtn: UIButton) {
+//    self.showToast(alert: "switchToCameraMode")
   }
   
   func switchToEmojiMode(cameraBtn: UIButton) {
-    print("switchToEmojiMode")
+//    self.showToast(alert: "switchToEmojiMode")
   }
+  
   func didShootPicture(picture: Data) {
     let imgPath = self.getPath()
     
@@ -69,14 +78,20 @@ extension ViewController: IMUIInputViewDelegate {
       try picture.write(to: URL(fileURLWithPath: imgPath))
       DispatchQueue.main.async {
         let outGoingmessage = MyMessageModel(imagePath: imgPath, isOutGoing: true)
-//        let inCommingMessage = MyMessageModel(imagePath: imgPath, isOutGoing: false)
         self.messageCollectionView.appendMessage(with: outGoingmessage)
-//        self.messageCollectionView.appendMessage(with: inCommingMessage)
       }
     } catch {
       print("write image file error")
     }
     
+  }
+  
+  func startRecordVoice() {
+//    self.showToast(alert: "startRecordVoice")
+  }
+  
+  func startRecordVideo() {
+//    self.showToast(alert: "startRecordVideo")
   }
   
   func finishRecordVideo(videoPath: String, durationTime: Double) {
@@ -98,24 +113,6 @@ extension ViewController: IMUIInputViewDelegate {
     for asset in AssetArr {
       switch asset.mediaType {
       case .image:
-        
-//        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
-//        options.synchronous  = YES;
-//        options.networkAccessAllowed = YES;
-//        PHCachingImageManager *imageManage = [[PHCachingImageManager alloc] init];
-//
-//        [imageManage requestImageForAsset: asset
-//        targetSize: CGSizeMake(asset.pixelWidth, asset.pixelHeight)
-//        contentMode: PHImageContentModeAspectFill
-//        options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-//        NSData *imageData = UIImagePNGRepresentation(result);
-//        NSString *filePath = [self getPath];
-//        if ([imageData writeToFile: filePath atomically: true]) {
-//        [imagePathArr addObject: @{@"mediaPath": filePath, @"mediaType": @"image"}];
-//        }
-//        }];
-        
-        
         let option = PHImageRequestOptions()
         option.isSynchronous = true
         option.isNetworkAccessAllowed = true
@@ -190,7 +187,11 @@ extension ViewController: IMUIMessageMessageCollectionViewDelegate {
   }
   
   func messageCollectionView(_ willBeginDragging: UICollectionView) {
-    self.myInputView.hideFeatureView()
+    DispatchQueue.main.async {
+        self.myInputView.hideFeatureView()
+//      self.myInputView
+    }
+    
   }
   
   func showToast(alert: String) {
