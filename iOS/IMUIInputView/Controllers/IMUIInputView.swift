@@ -31,8 +31,10 @@ public enum IMUIFeatureType {
 public protocol IMUIFeatureViewDelegate: NSObjectProtocol {
   
   func didSelectPhoto(with images: [UIImage])
+  func startRecordVoice()
   func didRecordVoice(with voicePath: String, durationTime: Double)
   func didShotPicture(with image: Data)
+  func startRecordVideo()
   func didRecordVideo(with videoPath: String, durationTime: Double)
   func didSeletedEmoji(with emoji: IMUIEmojiModel)
   func didChangeSelectedGallery(with gallerys: [PHAsset])
@@ -42,8 +44,10 @@ public protocol IMUIFeatureViewDelegate: NSObjectProtocol {
 
 public extension IMUIFeatureViewDelegate {
   func didSelectPhoto(with images: [UIImage]) {}
+  func startRecordVoice() {}
   func didRecordVoice(with voicePath: String, durationTime: Double) {}
   func didShotPicture(with image: Data) {}
+  func startRecordVideo() {}
   func didRecordVideo(with videoPath: String, durationTime: Double) {}
   func didSeletedEmoji(with emoji: IMUIEmojiModel) {}
   func didChangeSelectedGallery() {}
@@ -176,6 +180,25 @@ class IMUIInputView: IMUICustomInputView {
     
     return .bottom
   }
+  
+  fileprivate func switchToFeature(type: IMUIFeatureType, button: UIButton) {
+    switch type {
+    case .voice:
+      self.delegate?.switchToMicrophoneMode?(recordVoiceBtn: button)
+      break
+    case .camera:
+      self.delegate?.switchToCameraMode?(cameraBtn: button)
+      break
+    case .gallery:
+      self.delegate?.switchToGalleryMode?(photoBtn: button)
+      break
+    case .emoji:
+      self.delegate?.switchToEmojiMode?(cameraBtn: button)
+      break
+    default:
+      break
+    }
+  }
 }
 
 extension IMUIInputView: IMUICustomInputViewDataSource {
@@ -216,6 +239,7 @@ extension IMUIInputView: IMUICustomInputViewDataSource {
     cell.layout(with: dataArr[indexPath.item],onClickCallback: { cell in
       if cell.featureData!.featureType != .none {
         self.currentType = cell.featureData!.featureType
+        self.switchToFeature(type: self.currentType, button: cell.featureIconBtn)
         self.showFeatureView()
         self.reloadFeaturnView()
       }
@@ -231,6 +255,7 @@ extension IMUIInputView: IMUICustomInputViewDataSource {
     return cell
   }
   
+  // featureView dataSource
   func imuiInputView(_ featureView: UICollectionView,
                      cellForItem indexPath: IndexPath) -> UICollectionViewCell {
     var CellIdentifier = ""
@@ -244,6 +269,7 @@ extension IMUIInputView: IMUICustomInputViewDataSource {
       CellIdentifier = "IMUIEmojiCell"
       break
     case .location:
+      // TODO:
       break
     case .gallery:
       CellIdentifier = "IMUIGalleryContainerCell"
@@ -255,7 +281,7 @@ extension IMUIInputView: IMUICustomInputViewDataSource {
     }
     var cell = featureView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocol
     cell.activateMedia()
-        cell.featureDelegate = self
+    cell.featureDelegate = self
     return cell as! UICollectionViewCell
   }
 }
@@ -283,7 +309,7 @@ extension IMUIInputView: IMUIFeatureListDelegate {
   
   public func updateSendBtnToPhotoSendStatus() {
     var isAllowToSend = false
-    var seletedPhotoCount = IMUIGalleryDataManager.selectedAssets.count
+    let seletedPhotoCount = IMUIGalleryDataManager.selectedAssets.count
     if seletedPhotoCount > 0 {
       isAllowToSend = true
     }
@@ -338,9 +364,19 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
     self.delegate?.didShootPicture?(picture: image)
   }
   
+  public func startRecordVideo() {
+    self.delegate?.startRecordVideo?()
+  }
+  
+  public func startRecordVoice() {
+    self.delegate?.startRecordVoice?()
+  }
+  
   public func didRecordVideo(with videoPath: String, durationTime: Double) {
     self.delegate?.finishRecordVideo?(videoPath: videoPath, durationTime: durationTime)
-  }}
+  }
+  
+}
 
 extension IMUIInputView: IMUICustomInputViewDelegate {
   

@@ -27,7 +27,9 @@ class IMUICameraView: UIView {
   public typealias PathCallback = (String, Double) -> ()
   public typealias DataCallback = (Data) -> ()
   public typealias ButtonOnClickCallback = (UIButton) -> ()
+  public typealias EventCallback = () -> ()
   
+  public var startRecordVideoCallback: EventCallback?
   public var recordVideoCallback: PathCallback?
   public var shootPictureCallback: DataCallback?
   public var onClickFullSizeCallback: ButtonOnClickCallback?
@@ -460,6 +462,7 @@ class IMUICameraView: UIView {
       session.sessionPreset = AVCaptureSession.Preset.cif352x288
       session.commitConfiguration()
       self.inConfiging = false
+      self.startRecordVideoCallback?()
       videoFileOutput?.startRecording(to: URL(fileURLWithPath: outputPath), recordingDelegate: self)
     } else {
       videoFileOutput?.stopRecording()

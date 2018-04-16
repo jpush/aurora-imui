@@ -175,30 +175,8 @@ extension IMUIFeatureView: UICollectionViewDelegate, UICollectionViewDataSource,
   
   public func collectionView(_ collectionView: UICollectionView,
                       cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    
-//    switch currentType {
-//    case .voice:
-//      CellIdentifier = "IMUIRecordVoiceCell"
-//    case .camera:
-//      CellIdentifier = "IMUICameraCell"
-//      break
-//    case .emoji:
-//      CellIdentifier = "IMUIEmojiCell"
-//      break
-//    case .location:
-//      break
-//    case .gallery:
-//        CellIdentifier = "IMUIGalleryContainerCell"
-//      break
-//    default:
-//      break
-//    }
-//    var cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! IMUIFeatureCellProtocol
-//    cell.activateMedia()
-//    cell.featureDelegate = self.delegate
-//    return cell as! UICollectionViewCell
+
     return self.dataSource?.imuiInputView(collectionView, cellForItem: indexPath) ?? UICollectionViewCell()
-    
   }
   
   public func collectionView(_ collectionView: UICollectionView, didEndDisplaying: UICollectionViewCell, forItemAt: IndexPath) {

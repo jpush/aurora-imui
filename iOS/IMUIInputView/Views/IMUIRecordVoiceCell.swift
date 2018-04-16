@@ -94,6 +94,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
         self.swtichToPlayModeBtn.isHidden = false
         self.cancelVoiceBtn.isHidden = false
         
+        self.featureDelegate?.startRecordVoice()
         UIView.animate(withDuration: 0.2) {
           self.contentView.layoutIfNeeded()
         }
@@ -124,7 +125,6 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
       self.resetSubViewsStyle()
       
       let finishiRecorder = recordHelper.finishRecordingCompletion()
-//      self.inputViewDelegate?.finishRecordVoice?(finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
       self.featureDelegate?.didRecordVoice(with: finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
     }
     

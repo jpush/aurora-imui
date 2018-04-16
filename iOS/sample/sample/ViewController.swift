@@ -56,13 +56,18 @@ extension ViewController: IMUIInputViewDelegate {
     self.messageCollectionView.appendMessage(with: inCommingMessage)
   }
   
-  func switchIntoRecordingVoiceMode(recordVoiceBtn: UIButton) {
-    
+  func switchToMicrophoneMode(recordVoiceBtn: UIButton) {
+//    self.showToast(alert: "switchToMicrophoneMode")
+  }
+  
+  func switchToCameraMode(cameraBtn: UIButton) {
+//    self.showToast(alert: "switchToCameraMode")
   }
   
   func switchToEmojiMode(cameraBtn: UIButton) {
-    print("switchToEmojiMode")
+//    self.showToast(alert: "switchToEmojiMode")
   }
+  
   func didShootPicture(picture: Data) {
     let imgPath = self.getPath()
     
@@ -79,6 +84,14 @@ extension ViewController: IMUIInputViewDelegate {
       print("write image file error")
     }
     
+  }
+  
+  func startRecordVoice() {
+//    self.showToast(alert: "startRecordVoice")
+  }
+  
+  func startRecordVideo() {
+//    self.showToast(alert: "startRecordVideo")
   }
   
   func finishRecordVideo(videoPath: String, durationTime: Double) {
