@@ -158,11 +158,6 @@ open class IMUICustomInputView: UIView {
     }
   }
   
-  func leaveGalleryMode() {
-    featureView.clearAllSelectedGallery()
-//    self.updateSendBtnToPhotoSendStatus()
-  }
-  
   @objc func keyboardFrameChanged(_ notification: Notification) {
     let dic = NSDictionary(dictionary: (notification as NSNotification).userInfo!)
     let keyboardValue = dic.object(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
