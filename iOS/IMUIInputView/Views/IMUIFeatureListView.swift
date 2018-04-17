@@ -53,12 +53,14 @@ open class IMUIFeatureListView: UIView {
     
     let itemCount = self.dataSource?.imuiInputView(self.featureListCollectionView, numberForItemAt: self.position!) ?? 0
     var totalCellWidth: CGFloat = 0
+    
     for index in 0..<itemCount {
       let indexPath = IndexPath(item: index, section: 0)
       let size = self.dataSource?.imuiInputView(self.featureListCollectionView, self.position!, sizeForIndex: indexPath) ?? CGSize.zero
       totalCellWidth += size.width
     }
-    return totalCellWidth + IMUIFeatureListView.featureListItemSpace * CGFloat(itemCount + 1)
+    
+    return totalCellWidth + (IMUIFeatureListView.featureListItemSpace * CGFloat(itemCount + 1))
   }
   
   open override func awakeFromNib() {
@@ -74,53 +76,21 @@ open class IMUIFeatureListView: UIView {
     self.addSubview(view)
     view.frame = self.bounds
     
-    self.setupAllData()
-    self.setupAllViews() 
-  }
-  
-  func setupAllData() {
-    
-    featureListDataSource.append(IMUIFeatureIconModel(featureType: .voice,
-                                                      UIImage.imuiImage(with: "input_item_mic"),
-                                                      UIImage.imuiImage(with:"input_item_mic")))
-    
-    featureListDataSource.append(IMUIFeatureIconModel(featureType: .gallery,
-                                                      UIImage.imuiImage(with: "input_item_photo"),
-                                                      UIImage.imuiImage(with:"input_item_photo")))
-    
-//    featureListDataSource.append(IMUIFeatureIconModel(featureType: .camera,
-//                                                      UIImage.imuiImage(with: "input_item_camera"),
-//                                                      UIImage.imuiImage(with:"input_item_camera")))
-//
-//    featureListDataSource.append(IMUIFeatureIconModel(featureType: .emoji,
-//                                                      UIImage.imuiImage(with: "input_item_emoji"),
-//                                                      UIImage.imuiImage(with:"input_item_emoji")))
-//
-//    featureListDataSource.append(IMUIFeatureIconModel(featureType: .none,
-//                                                      UIImage.imuiImage(with: "input_item_send"),
-//                                                      UIImage.imuiImage(with:"input_item_send_message_selected"),
-//                                                      0,
-//                                                      false))
+    self.setupAllViews()
   }
   
   func setupAllViews() {
-    
-    let bundle = Bundle.imuiInputViewBundle()
-    self.featureListCollectionView.register(UINib(nibName: "IMUIFeatureListIconCell", bundle: bundle), forCellWithReuseIdentifier: "IMUIFeatureListIconCell")
     self.featureListCollectionView.delegate = self
     self.featureListCollectionView.dataSource = self
-    
-    
   }
   
   
   
-  func layoutFeatureListToCenter() {
+  public func layoutFeatureListToCenter() {
     self.featureListCollectionView.reloadData()
     var insets = self.featureListCollectionView.contentInset
     let frameWidth = self.view.imui_width
-//    let totalCellWidth = CGFloat(self.featureListDataSource.count * IMUIFeatureListView.featureListBtnWidth)
-    
+
     let itemCount = self.dataSource?.imuiInputView(self.featureListCollectionView, numberForItemAt: self.position!) ?? 0
     var totalCellWidth: CGFloat = 0
     for index in 0..<itemCount {
@@ -128,11 +98,16 @@ open class IMUIFeatureListView: UIView {
       let size = self.dataSource?.imuiInputView(self.featureListCollectionView, self.position!, sizeForIndex: indexPath) ?? CGSize.zero
       totalCellWidth += size.width
     }
+    var spaceWidth: CGFloat = 0
+    if itemCount > 1 {
+      spaceWidth = (frameWidth - CGFloat(IMUIFeatureListView.featureListItemSpace * 2) - totalCellWidth) / CGFloat(itemCount - 1)
+    } else {
+      spaceWidth = (frameWidth - CGFloat(IMUIFeatureListView.featureListItemSpace * 2) - totalCellWidth)
+    }
     
-    let spaceWidth = (frameWidth - CGFloat(IMUIFeatureListView.featureListItemSpace * 2) - totalCellWidth) / CGFloat(itemCount - 1)
     print("frameWidth :\(frameWidth)  spaceWidth: \(spaceWidth)")
     (self.featureListCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = spaceWidth
-    
+
     insets.left = CGFloat(IMUIFeatureListView.featureListItemSpace)
     self.featureListCollectionView.contentInset = insets
   }

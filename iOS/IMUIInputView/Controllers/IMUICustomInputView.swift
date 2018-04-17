@@ -127,6 +127,8 @@ open class IMUICustomInputView: UIView {
     
     self.rightInputBarItemListViewWidth.constant = self.rightInputBarItemListView.totalWidth
     self.leftInputBarItemListViewWidth.constant = self.leftInputBarItemListView.totalWidth
+    
+    self.bottomInputBarItemListView.layoutFeatureListToCenter()
   }
   
   public func register(_ cellClass: AnyClass?, in position: IMUIInputViewItemPosition, forCellWithReuseIdentifier identifier: String) {

@@ -109,21 +109,21 @@ open class IMUIInputView: IMUICustomInputView {
   func setupInputViewData() {
     
     
-    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .voice,
-                                                       UIImage.imuiImage(with: "input_item_mic"),
-                                                       UIImage.imuiImage(with:"input_item_mic")))
-    
-    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .gallery,
-                                                       UIImage.imuiImage(with: "input_item_photo"),
-                                                       UIImage.imuiImage(with:"input_item_photo")))
-    
-    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .camera,
-                                                       UIImage.imuiImage(with: "input_item_camera"),
-                                                       UIImage.imuiImage(with:"input_item_camera")))
-    
-    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .emoji,
-                                                      UIImage.imuiImage(with: "input_item_emoji"),
-                                                      UIImage.imuiImage(with:"input_item_emoji")))
+//    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .voice,
+//                                                       UIImage.imuiImage(with: "input_item_mic"),
+//                                                       UIImage.imuiImage(with:"input_item_mic")))
+//
+//    inputBarItemData.left.append(IMUIFeatureIconModel(featureType: .gallery,
+//                                                       UIImage.imuiImage(with: "input_item_photo"),
+//                                                       UIImage.imuiImage(with:"input_item_photo")))
+//
+//    inputBarItemData.left.append(IMUIFeatureIconModel(featureType: .camera,
+//                                                       UIImage.imuiImage(with: "input_item_camera"),
+//                                                       UIImage.imuiImage(with:"input_item_camera")))
+//
+//    inputBarItemData.right.append(IMUIFeatureIconModel(featureType: .emoji,
+//                                                      UIImage.imuiImage(with: "input_item_emoji"),
+//                                                      UIImage.imuiImage(with:"input_item_emoji")))
     
     inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .none,
                                                       UIImage.imuiImage(with: "input_item_send"),
@@ -135,16 +135,38 @@ open class IMUIInputView: IMUICustomInputView {
   
   // for react native dynamic, config inputViewBar with json
   @objc public func setupDataWithDic(dic:[String:[String]]) {
+    var newData = IMUIInputViewData(left: [IMUIFeatureIconModel](),
+                                    right: [IMUIFeatureIconModel](),
+                                    bottom: [IMUIFeatureIconModel]())
+    
     for (positionStr, itemArr) in dic {
       let position = self.convertStringToPosition(str: positionStr)
-      
       for itemStr in itemArr {
-        if let item = self.convertStringToIconModel(itemStr: itemStr) {
-          var itemViewList = self.inputBarItemData.dataWithPositon(position: position)
-          itemViewList.append(item)
+        switch position {
+          case .left:
+            if let item = self.convertStringToIconModel(itemStr: itemStr) {
+              newData.left.append(item)
+            }
+            break
+          case .right:
+            if let item = self.convertStringToIconModel(itemStr: itemStr) {
+              newData.right.append(item)
+            }
+            break
+          case .bottom:
+            if let item = self.convertStringToIconModel(itemStr: itemStr) {
+              newData.bottom.append(item)
+            }
+            break
         }
       }
+
     }
+    self.inputBarItemData = newData
+    self.layoutInputBar()
+    self.reloadData()
+    
+    
   }
   
   fileprivate func convertStringToIconModel(itemStr: String) ->IMUIFeatureIconModel? {
@@ -260,11 +282,11 @@ extension IMUIInputView: IMUICustomInputViewDataSource {
   public func imuiInputView(_ inputBarItemListView: UICollectionView, numberForItemAt position: IMUIInputViewItemPosition) -> Int {
     switch position {
     case .right:
-      return 0
+      return self.inputBarItemData.right.count
+    case .left:
+      return self.inputBarItemData.left.count
     case .bottom:
       return self.inputBarItemData.bottom.count
-    default:
-      return 0
     }
   }
   

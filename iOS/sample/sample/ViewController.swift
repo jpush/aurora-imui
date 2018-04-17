@@ -37,6 +37,16 @@ class ViewController: UIViewController {
     self.messageCollectionView.delegate = self
     
     self.messageCollectionView.messageCollectionView.register(MessageEventCollectionViewCell.self, forCellWithReuseIdentifier: MessageEventCollectionViewCell.self.description())
+    
+  }
+  override func viewDidAppear(_ animated: Bool) {
+      self.myInputView.setupDataWithDic(dic: [
+        "left":["send"],
+        "right":["voice","gallery"],
+        "bottom":["camera","emoji","emoji"]
+        ])
+//      self.myInputView.reloadData()
+//    self.myInputView.layoutInputBar()
   }
   
   override func didReceiveMemoryWarning() {
