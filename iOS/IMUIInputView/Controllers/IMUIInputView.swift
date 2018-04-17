@@ -56,7 +56,7 @@ public extension IMUIFeatureViewDelegate {
 }
 
 
-class IMUIInputView: IMUICustomInputView {
+open class IMUIInputView: IMUICustomInputView {
 
   struct IMUIInputViewData {
     var left: [IMUIFeatureIconModel]
@@ -203,7 +203,7 @@ class IMUIInputView: IMUICustomInputView {
 
 extension IMUIInputView: IMUICustomInputViewDataSource {
   
-  func imuiInputView(_ inputBarItemListView: UICollectionView, numberForItemAt position: IMUIInputViewItemPosition) -> Int {
+  public func imuiInputView(_ inputBarItemListView: UICollectionView, numberForItemAt position: IMUIInputViewItemPosition) -> Int {
     switch position {
     case .right:
       return 0
@@ -214,13 +214,13 @@ extension IMUIInputView: IMUICustomInputViewDataSource {
     }
   }
   
-  func imuiInputView(_ inputBarItemListView: UICollectionView,
+  public func imuiInputView(_ inputBarItemListView: UICollectionView,
                      _ position: IMUIInputViewItemPosition,
                      sizeForIndex indexPath: IndexPath) -> CGSize {
     return CGSize(width: 30, height: 30)
   }
   
-  func imuiInputView(_ inputBarItemListView: UICollectionView,
+  public func imuiInputView(_ inputBarItemListView: UICollectionView,
                      _ position: IMUIInputViewItemPosition,
                      cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
@@ -256,7 +256,7 @@ extension IMUIInputView: IMUICustomInputViewDataSource {
   }
   
   // featureView dataSource
-  func imuiInputView(_ featureView: UICollectionView,
+  public func imuiInputView(_ featureView: UICollectionView,
                      cellForItem indexPath: IndexPath) -> UICollectionViewCell {
     var CellIdentifier = ""
     switch currentType {
@@ -380,11 +380,11 @@ extension IMUIInputView: IMUIFeatureViewDelegate {
 
 extension IMUIInputView: IMUICustomInputViewDelegate {
   
-  func textDidChange(text: String) {
+  public func textDidChange(text: String) {
     self.updateSendBtnToPhotoSendStatus()
   }
   
-  func keyBoardWillShow(height: CGFloat, durationTime: Double) {
+  public func keyBoardWillShow(height: CGFloat, durationTime: Double) {
     self.currentType = .empty
     self.reloadFeaturnView()
   }
