@@ -530,6 +530,11 @@ export default class TestRNIMUI extends Component {
           galleryScale={0.6}//default = 0.5
           compressionQuality={0.6}
           hideCameraButton={false}
+          customLayoutItems={{
+            left: ['voice'],
+            right: ['send'],
+            bottom: ['gallery','emoji','camera','camera']
+          }}
         />
       </View>
     );

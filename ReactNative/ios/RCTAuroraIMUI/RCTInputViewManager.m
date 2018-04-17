@@ -60,7 +60,7 @@ RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgroupColor, NSString, RCTInputView) {
       view.backgroundColor = color;
     }
   }
-  _rctInputView.imuiIntputView.featureSelectorView.featureListCollectionView.backgroundColor = color;
+  [_rctInputView.imuiIntputView setBackgroundColorWithColor: color];
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(inputPadding, NSDictionary, RCTInputView) {
@@ -99,6 +99,12 @@ RCT_CUSTOM_VIEW_PROPERTY(compressionQuality, NSNumber, RCTInputView) {
   _rctInputView.compressionQuality = compressionQuality;
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(customLayoutItems, NSDictionary, RCTInputView) {
+  NSDictionary *customLayoutItems = [RCTConvert NSDictionary: json];
+  [_rctInputView.imuiIntputView setupDataWithDicWithDic: customLayoutItems];
+  [_rctInputView.imuiIntputView reloadData];
+  [_rctInputView.imuiIntputView layoutInputBar];
+}
 
 /// Tells the delegate that user tap send button and text input string is not empty
 - (void)sendTextMessage:(NSString * _Nonnull)messageText {

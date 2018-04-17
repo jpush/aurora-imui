@@ -118,7 +118,7 @@ open class IMUICustomInputView: UIView {
     
   }
   
-  func layoutInputBar() {
+  @objc public func layoutInputBar() {
     let bottomCount = self.inputViewDataSource?.imuiInputView(self.bottomInputBarItemListView.featureListCollectionView, numberForItemAt: .bottom) ?? 0
     
     if bottomCount == 0 {
@@ -130,6 +130,7 @@ open class IMUICustomInputView: UIView {
     
     self.bottomInputBarItemListView.layoutFeatureListToCenter()
   }
+  
   @objc public func setBackgroundColor(color: UIColor) {
     self.backgroundColor = color
     self.rightInputBarItemListView.featureListCollectionView.backgroundColor = color
