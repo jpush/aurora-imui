@@ -130,6 +130,12 @@ open class IMUICustomInputView: UIView {
     
     self.bottomInputBarItemListView.layoutFeatureListToCenter()
   }
+  @objc public func setBackgroundColor(color: UIColor) {
+    self.backgroundColor = color
+    self.rightInputBarItemListView.featureListCollectionView.backgroundColor = color
+    self.leftInputBarItemListView.featureListCollectionView.backgroundColor = color
+    self.bottomInputBarItemListView.featureListCollectionView.backgroundColor = color
+  }
   
   public func register(_ cellClass: AnyClass?, in position: IMUIInputViewItemPosition, forCellWithReuseIdentifier identifier: String) {
     let featureSelectorList = self.getFeatureView(from: position)
