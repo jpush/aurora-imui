@@ -76,6 +76,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [isAllowPullToRefresh](#isallowpulltorefresh)
 - [ChatInput](#chatinput)
   - [Props customizable style]()
+    - [customLayoutItems](#customlayoutitemsios-only)
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showSelectAlbumBtn)
     - [inputPadding](#inputPadding)
@@ -560,6 +561,29 @@ Example: `messageTextLineHeight={5}`
 ### Props customizable style
 
 ------
+#### customLayoutItems(iOS Only)
+
+**PropTypes.string:** 
+
+自定义 ChatInput 组件和布局。
+
+Eample: 
+
+```
+// 可以在 ChatInput 的 left/right/bottom 放置各功能 item，(可以重复但不建议)
+customLayoutItems={{
+            left: ['voice'],
+            right: ['send'],
+            bottom: ['gallery','emoji','camera','camera']
+		}} 
+		
+
+// 如果 left/right/bottom 没有提供则不会显示，直接隐藏。
+customLayoutItems={{
+            left: ['voice'],
+            right: ['send']
+		}} 
+```
 
 #### chatInputBackgroupColor
 
