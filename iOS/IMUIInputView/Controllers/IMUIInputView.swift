@@ -459,6 +459,7 @@ extension IMUIInputView: IMUICustomInputViewDelegate {
   
   public func textDidChange(text: String) {
     self.updateSendBtnToPhotoSendStatus()
+    self.delegate?.textDidChange?(text: text)
   }
   
   public func keyBoardWillShow(height: CGFloat, durationTime: Double) {
