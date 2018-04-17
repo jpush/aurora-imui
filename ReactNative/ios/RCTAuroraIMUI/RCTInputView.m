@@ -85,9 +85,11 @@
     [self.imuiIntputView hideFeatureView];
     [self.imuiIntputView hideFeatureView];// call twice to fix odd bug
     if(self.onSizeChange) {
+      BOOL needShow = [self.imuiIntputView isNeedShowBottomView];
       self.onSizeChange(@{@"height":@(46 + self.inputTextHeight +
                             self.imuiIntputView.inputTextViewPadding.top +
-                            self.imuiIntputView.inputTextViewPadding.bottom),
+                            self.imuiIntputView.inputTextViewPadding.bottom +
+                            (needShow?0:-46)),
                           @"width":@(self.frame.size.width)});
     }
   });
@@ -96,10 +98,13 @@
 - (void)layoutInputView {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.imuiIntputView layoutInputView];
+    
     if(self.onSizeChange) {
+      BOOL needShow = [self.imuiIntputView isNeedShowBottomView];
       self.onSizeChange(@{@"height":@(46 + self.inputTextHeight +
                             self.imuiIntputView.inputTextViewPadding.top +
-                            self.imuiIntputView.inputTextViewPadding.bottom),
+                            self.imuiIntputView.inputTextViewPadding.bottom +
+                            (needShow?0:-46)),
                           @"width":@(self.frame.size.width)});
     }
   });
@@ -121,9 +126,11 @@
   }
   self.keyBoardHeight  = bottomDistance;
   if(self.onSizeChange) {
+    BOOL needShow = [self.imuiIntputView isNeedShowBottomView];
     self.onSizeChange(@{@"height":@(46 + self.inputTextHeight + self.keyBoardHeight +
                           self.imuiIntputView.inputTextViewPadding.top +
-                          self.imuiIntputView.inputTextViewPadding.bottom),
+                          self.imuiIntputView.inputTextViewPadding.bottom +
+                          (needShow?0:-46)),
                         @"width":@(self.frame.size.width)});
   }
 }

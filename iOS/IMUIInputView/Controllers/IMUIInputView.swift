@@ -84,11 +84,11 @@ open class IMUIInputView: IMUICustomInputView {
   }
   
   var inputBarItemData = IMUIInputViewData(left: [IMUIFeatureIconModel](),
-                                        right: [IMUIFeatureIconModel](),
-                                        bottom: [IMUIFeatureIconModel]())
+                                          right: [IMUIFeatureIconModel](),
+                                          bottom: [IMUIFeatureIconModel]())
   
   var currentType:IMUIFeatureType = .voice
-  weak var delegate: IMUIInputViewDelegate?
+  public weak var delegate: IMUIInputViewDelegate?
   
   override public init(frame: CGRect) {
     super.init(frame: frame)
@@ -160,13 +160,14 @@ open class IMUIInputView: IMUICustomInputView {
             break
         }
       }
-
     }
     self.inputBarItemData = newData
     self.layoutInputBar()
     self.reloadData()
-    
-    
+  }
+  
+  @objc public func isNeedShowBottomView() -> Bool{
+    return !inputBarItemData.bottom.isEmpty
   }
   
   fileprivate func convertStringToIconModel(itemStr: String) ->IMUIFeatureIconModel? {
