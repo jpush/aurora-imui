@@ -88,7 +88,7 @@ open class IMUIInputView: IMUICustomInputView {
                                           bottom: [IMUIFeatureIconModel]())
   
   var currentType:IMUIFeatureType = .voice
-  public weak var delegate: IMUIInputViewDelegate?
+  @objc public weak var delegate: IMUIInputViewDelegate?
   
   override public init(frame: CGRect) {
     super.init(frame: frame)
