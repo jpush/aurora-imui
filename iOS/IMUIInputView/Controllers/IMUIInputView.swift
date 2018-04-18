@@ -109,21 +109,21 @@ open class IMUIInputView: IMUICustomInputView {
   func setupInputViewData() {
     
     
-//    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .voice,
-//                                                       UIImage.imuiImage(with: "input_item_mic"),
-//                                                       UIImage.imuiImage(with:"input_item_mic")))
-//
-//    inputBarItemData.left.append(IMUIFeatureIconModel(featureType: .gallery,
-//                                                       UIImage.imuiImage(with: "input_item_photo"),
-//                                                       UIImage.imuiImage(with:"input_item_photo")))
-//
-//    inputBarItemData.left.append(IMUIFeatureIconModel(featureType: .camera,
-//                                                       UIImage.imuiImage(with: "input_item_camera"),
-//                                                       UIImage.imuiImage(with:"input_item_camera")))
-//
-//    inputBarItemData.right.append(IMUIFeatureIconModel(featureType: .emoji,
-//                                                      UIImage.imuiImage(with: "input_item_emoji"),
-//                                                      UIImage.imuiImage(with:"input_item_emoji")))
+    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .voice,
+                                                       UIImage.imuiImage(with: "input_item_mic"),
+                                                       UIImage.imuiImage(with:"input_item_mic")))
+
+    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .gallery,
+                                                       UIImage.imuiImage(with: "input_item_photo"),
+                                                       UIImage.imuiImage(with:"input_item_photo")))
+
+    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .camera,
+                                                       UIImage.imuiImage(with: "input_item_camera"),
+                                                       UIImage.imuiImage(with:"input_item_camera")))
+
+    inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .emoji,
+                                                      UIImage.imuiImage(with: "input_item_emoji"),
+                                                      UIImage.imuiImage(with:"input_item_emoji")))
     
     inputBarItemData.bottom.append(IMUIFeatureIconModel(featureType: .none,
                                                       UIImage.imuiImage(with: "input_item_send"),
