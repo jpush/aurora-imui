@@ -67,19 +67,21 @@ extension ViewController: IMUIInputViewDelegate {
   
   func didShootPicture(picture: Data) {
     let imgPath = self.getPath()
-    
-    let imageView = MyImageView()
-    self.imageViewArr.append(imageView)
-    
-    do {
-      try picture.write(to: URL(fileURLWithPath: imgPath))
-      DispatchQueue.main.async {
-        let outGoingmessage = MyMessageModel(imagePath: imgPath, isOutGoing: true)
-        self.messageCollectionView.appendMessage(with: outGoingmessage)
+    DispatchQueue.main.async {
+      let imageView = MyImageView()
+      self.imageViewArr.append(imageView)
+      
+      do {
+        try picture.write(to: URL(fileURLWithPath: imgPath))
+        DispatchQueue.main.async {
+          let outGoingmessage = MyMessageModel(imagePath: imgPath, isOutGoing: true)
+          self.messageCollectionView.appendMessage(with: outGoingmessage)
+        }
+      } catch {
+        print("write image file error")
       }
-    } catch {
-      print("write image file error")
     }
+    
     
   }
   
