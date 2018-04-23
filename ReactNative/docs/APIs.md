@@ -77,6 +77,7 @@ Refer to iOS,Android example
     - [isAllowPullToRefresh](#isallowpulltorefresh)
 - [ChatInput](#chatinput)
   - [Props customizable style]()
+    - [customLayoutItems](#customlayoutitemsios-only)
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showSelectAlbumBtn)
     - [inputPadding](#inputPadding)
@@ -558,6 +559,30 @@ Example: ```isAllowPullToRefresh={ture}```。
 ### Props customizable style
 
 ***
+
+#### customLayoutItems(iOS Only)
+
+**PropTypes.string:** 
+
+Customize ChatInput feature and layout。
+
+Eample: 
+
+```
+// You can put item into ChatInput's left/right/bottom part，(Can be repeated but not recommended)
+customLayoutItems={{
+            left: ['voice'],
+            right: ['send'],
+            bottom: ['gallery','emoji','camera','camera']
+		}} 
+		
+
+// if you don't put element in left/right/bottom ChatInput will hidden the part.
+customLayoutItems={{
+            left: ['voice'],
+            right: ['send']
+		}} 
+```
 
 #### chatInputBackgroupColor
 

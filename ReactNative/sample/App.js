@@ -187,7 +187,7 @@ export default class TestRNIMUI extends Component {
   }
 
   onInputViewSizeChange = (size) => {
-    console.log("height: " + size.height + " width: " + size.width)
+    console.log("onInputViewSizeChange height: " + size.height + " width: " + size.width)
     if (this.state.inputLayoutHeight != size.height) {
       this.setState({
         inputLayoutHeight: size.height,
@@ -530,12 +530,17 @@ export default class TestRNIMUI extends Component {
           galleryScale={0.6}//default = 0.5
           compressionQuality={0.6}
           hideCameraButton={false}
+          customLayoutItems={{
+            left: [],
+            right: [],
+            bottom: ['voice','gallery','emoji','camera','send']
+          }}
         />
       </View>
     );
   }
 }
-
+// bottom: ['gallery','emoji','camera','camera']
 const styles = StyleSheet.create({
   sendCustomBtn: {
 

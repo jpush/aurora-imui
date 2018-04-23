@@ -23,6 +23,8 @@
 @property(strong, nonatomic) NSNumber *galleryScale;
 @property(strong, nonatomic) NSNumber *compressionQuality;
 
+@property(strong, nonatomic) NSDictionary *customLayoutItems;
+
 @property (nonatomic, copy) RCTBubblingEventBlock onEventCallBack;
 
 @property (nonatomic, copy) RCTBubblingEventBlock onSizeChange;

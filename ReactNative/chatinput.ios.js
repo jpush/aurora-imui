@@ -197,6 +197,7 @@ ChatInput.propTypes = {
 	onRecoverScreen: PropTypes.func,
   galleryScale: PropTypes.number,
   compressionQuality: PropTypes.number,
+  customLayoutItems: PropTypes.object,
   inputPadding: PropTypes.object,
 	inputTextColor: PropTypes.string,
 	inputTextSize: PropTypes.number,

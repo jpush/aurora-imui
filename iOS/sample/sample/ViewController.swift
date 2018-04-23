@@ -29,14 +29,11 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    print("\(UIView())")
-//    self.setupInputViewData()
-//    self.myInputView.inputViewDelegate = self
-//    self.myInputView.dataSource = self
     self.myInputView.delegate = self
     self.messageCollectionView.delegate = self
     
     self.messageCollectionView.messageCollectionView.register(MessageEventCollectionViewCell.self, forCellWithReuseIdentifier: MessageEventCollectionViewCell.self.description())
+    
   }
   
   override func didReceiveMemoryWarning() {
