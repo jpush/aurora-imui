@@ -591,7 +591,9 @@ class IMUICameraView: UIView {
       default:
         break
       }
-      photoSettings.flashMode = .off
+      if #available(iOS 10.0, *) {
+          photoSettings.flashMode = .off
+      }
 
       self.photoOutput?.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate)
     }
