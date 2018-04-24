@@ -581,6 +581,20 @@ class IMUICameraView: UIView {
       )
       
       self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = photoCaptureDelegate
+
+      switch self.currentCameraDeviceType {
+      case .front:
+        
+        break
+      case .back:
+        break
+      default:
+        break
+      }
+      if #available(iOS 10.0, *) {
+          photoSettings.flashMode = .off
+      }
+
       self.photoOutput?.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate)
     }
   }
