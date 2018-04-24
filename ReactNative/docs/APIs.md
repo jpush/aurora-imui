@@ -21,7 +21,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 
 Refer to iOS,Android example
 
-> [Example usage](./../sample/app/app.js)
+> [Example usage](../sample/App.js)
 
 
 

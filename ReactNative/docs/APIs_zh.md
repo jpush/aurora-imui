@@ -19,7 +19,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 <ChatInput />
 ```
 详情可以参考 iOS Android 示例
-> [Example 用法](./../sample/app/app.js)
+> [Example 用法](../sample/App.js)
 
 
 
