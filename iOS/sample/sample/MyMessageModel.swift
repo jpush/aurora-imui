@@ -150,11 +150,11 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
     case "text":
         return IMUITextMessageContentView()
     case "image":
-        return IMUITextMessageContentView()
+        return IMUIImageMessageContentView()
     case "voice":
-        return IMUITextMessageContentView()
+        return IMUIVoiceMessageContentView()
     case "video":
-        return IMUITextMessageContentView()
+        return IMUIVideoMessageContentView()
     default:
         return IMUIDefaultContentView()
     }
