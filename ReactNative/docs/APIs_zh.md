@@ -30,6 +30,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
   - [stopPlayVoice](#stopplayvoice)
   - [removeMessage](#removeMessage)
   - [removeAllMessage](#removeAllMessage)
+  - [hidenFeatureView](#hidenfeatureview)
   - [Event](#auroraimuicontrollerevent)
     - [MessageListDidLoadListener](#messagelistdidloadlistener)
 
@@ -78,7 +79,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
   - [Props customizable style]()
     - [customLayoutItems](#customlayoutitemsios-only)
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
-    - [showSelectAlbumBtn](#showSelectAlbumBtn)
+    - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
     - [inputPadding](#inputPadding)
     - [inputTextColor](#inputTextColor)
     - [inputTextSize](#inputTextSize)
@@ -224,6 +225,14 @@ example:
 ```js
 AuroraIMUIController.removeAllMessage()
 ```
+#### hidenFeatureView
+
+隐藏 inputView 的展开视图。
+
+```
+AuroraIMUIController.hidenFeatureView()
+```
+
 #### stopPlayVoice
 
 停止正在播放的音频，这里会停止所有的声音，包括 ChatInput 和 MessageList 正在播放的声音。
@@ -595,7 +604,7 @@ Example:  ```chatInputBackgroupColor="#000000"```
 
 ------
 
-#### showSelectAlbumBtn
+#### showSelectAlbumBtn(Android Only)
 **PropTypes.bool:**
 
 设置选择相册按钮的可见性。
