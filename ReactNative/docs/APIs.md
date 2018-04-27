@@ -32,6 +32,7 @@ Refer to iOS,Android example
   - [stopPlayVoice](#stopplayvoice)
   - [removeMessage](#removeMessage)
   - [removeAllMessage](#removeAllMessage)
+  - [hidenFeatureView](#hidenfeatureview)
   - [Event](#auroraimuicontrollerevent)
     - [MessageListDidLoadListener](#messagelistdidloadlistener)
 
@@ -79,7 +80,7 @@ Refer to iOS,Android example
   - [Props customizable style]()
     - [customLayoutItems](#customlayoutitemsios-only)
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
-    - [showSelectAlbumBtn](#showSelectAlbumBtn)
+    - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
     - [inputPadding](#inputPadding)
     - [inputTextColor](#inputTextColor)
     - [inputTextSize](#inputTextSize)
@@ -231,6 +232,16 @@ Remove all messages.
 example:
 ```js
 AuroraIMUIController.removeAllMessage()
+```
+
+#### hidenFeatureView
+
+hiden inputView's featureView.
+
+example:
+
+```
+AuroraIMUIController.hidenFeatureView()
 ```
 
 #### MessageListDidLoadListener
@@ -594,7 +605,7 @@ Example:  ```chatInputBackgroupColor="#000000"```
 
 ***
 
-#### showSelectAlbumBtn
+#### showSelectAlbumBtn(Android Only)
 **PropTypes.bool:**
 
 Set the visibility of the select album button.
