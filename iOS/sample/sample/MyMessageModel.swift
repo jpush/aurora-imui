@@ -17,7 +17,6 @@ class MyMessageModel: IMUIMessageModel {
   override func mediaFilePath() -> String {
     return mediaPath
   }
-
   
   override var resizableBubbleImage: UIImage {
     // return defoult message bubble
@@ -29,16 +28,18 @@ class MyMessageModel: IMUIMessageModel {
     self.myTextMessage = text
     self.mediaPath = mediaPath
     
-    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: "", type: type, cellLayout: layout, duration: duration)
+    let chatTime = MyMessageModel.formatChatDate(date: date)
+    
+    super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: chatTime, type: type, cellLayout: layout, duration: duration)
   }
   
   convenience init(text: String, isOutGoing: Bool) {
 
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
-                                          isNeedShowTime: false,
+                                          isNeedShowTime: true,
                                        bubbleContentSize: MyMessageModel.calculateTextContentSize(text: text),
                                      bubbleContentInsets: UIEdgeInsets.zero,
-                                    timeLabelContentSize: CGSize.zero,
+                                    timeLabelContentSize: CGSize(width: 200, height: 20),
                                                     type: "text")
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
     self.init(msgId: msgId, messageStatus: .failed, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "text", text: text, mediaPath: "", layout:  myLayout, duration: nil)
@@ -46,10 +47,10 @@ class MyMessageModel: IMUIMessageModel {
 
   convenience init(voicePath: String, duration: CGFloat, isOutGoing: Bool) {
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
-                                          isNeedShowTime: false,
+                                          isNeedShowTime: true,
                                        bubbleContentSize: CGSize(width: 80, height: 37),
                                      bubbleContentInsets: UIEdgeInsets.zero,
-                                    timeLabelContentSize: CGSize.zero,
+                                    timeLabelContentSize: CGSize(width: 200, height: 20),
                                                     type: "voice")
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
     self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "voice", text: "", mediaPath: voicePath, layout:  myLayout, duration: duration)
@@ -64,20 +65,20 @@ class MyMessageModel: IMUIMessageModel {
     }
     
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
-                                          isNeedShowTime: false,
+                                          isNeedShowTime: true,
                                        bubbleContentSize: imgSize,
                                      bubbleContentInsets: UIEdgeInsets.zero,
-                                    timeLabelContentSize: CGSize.zero,
+                                    timeLabelContentSize: CGSize(width: 200, height: 20),
                                        type: "image")
     self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "image", text: "", mediaPath: imagePath, layout:  myLayout, duration: nil)
   }
   
   convenience init(videoPath: String, isOutGoing: Bool) {
     let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
-                                          isNeedShowTime: false,
+                                          isNeedShowTime: true,
                                        bubbleContentSize: CGSize(width: 120, height: 160),
                                      bubbleContentInsets: UIEdgeInsets.zero,
-                                    timeLabelContentSize: CGSize.zero,
+                                    timeLabelContentSize: CGSize(width: 200, height: 20),
                                                     type: "video")
     let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
     self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "video", text: "", mediaPath: videoPath, layout:  myLayout, duration: nil)
@@ -110,6 +111,14 @@ class MyMessageModel: IMUIMessageModel {
       return CGSize(width: CGFloat(maxSide) * CGFloat(scale), height: CGFloat(maxSide))
     }
   }
+  
+  /// Format chat date.
+  static func formatChatDate(date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    return formatter.string(from: date)
+  }
+
 }
 
 
@@ -137,24 +146,18 @@ class MyMessageCellLayout: IMUIMessageCellLayout {
   }
   
   override var bubbleContentView: IMUIMessageContentViewProtocol {
-    if type == "text" {
-      return IMUITextMessageContentView()
+    switch type {
+    case "text":
+        return IMUITextMessageContentView()
+    case "image":
+        return IMUITextMessageContentView()
+    case "voice":
+        return IMUITextMessageContentView()
+    case "video":
+        return IMUITextMessageContentView()
+    default:
+        return IMUIDefaultContentView()
     }
-
-    if type == "image" {
-      return IMUIImageMessageContentView()
-    }
-
-    if type == "voice" {
-      return IMUIVoiceMessageContentView()
-    }
-
-    if type == "video" {
-      return IMUIVideoMessageContentView()
-    }
-    
-    
-    return IMUIDefaultContentView()
   }
   
   override var bubbleContentType: String {
