@@ -54,7 +54,7 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocol {
       self.featureDelegate?.didShotPicture(with: imageData)
       if self.isFullScreenMode {
         // Switch to main thread operation UI
-        DispatchQueue.main.sync {
+        DispatchQueue.main.async {
             self.shrinkDownScreen()
         }
         self.isFullScreenMode = false
