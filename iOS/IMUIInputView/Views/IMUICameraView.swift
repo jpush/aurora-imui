@@ -303,7 +303,7 @@ class IMUICameraView: UIView {
       for device in AVCaptureDevice.devices() {
         if (device as AnyObject).hasMediaType( AVMediaType.video ) {
           if (device as AnyObject).position == cameraDevicePosition {
-            defaultVideoDevice = device as? AVCaptureDevice
+            defaultVideoDevice = device
             currentCameraDeviceType = cameraDevicePosition
           }
         }
@@ -604,8 +604,8 @@ class IMUICameraView: UIView {
     stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
     
     var videoConnection: AVCaptureConnection? = nil
-    for connection in stillImageOutput.connections as! [AVCaptureConnection] {
-      for port in connection.inputPorts as! [AVCaptureInput.Port]{
+    for connection in stillImageOutput.connections {
+      for port in connection.inputPorts {
         if port.mediaType == AVMediaType.video {
           videoConnection = connection
           break
@@ -632,8 +632,6 @@ class IMUICameraView: UIView {
       let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer!)
 
       self.shootPictureCallback?(imageData!)
-      let image = UIImage(data: imageData!)
-      
     }
   }
   
