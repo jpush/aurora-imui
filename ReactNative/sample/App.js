@@ -81,9 +81,11 @@ export default class TestRNIMUI extends Component {
       isAllowPullToRefresh: true,
       navigationBar: {},
     }
+    
 
     this.updateLayout = this.updateLayout.bind(this);
     this.onMsgClick = this.onMsgClick.bind(this);
+    this.messageListDidLoadEvent = this.messageListDidLoadEvent.bind(this);
   }
 
   componentDidMount() {
@@ -96,94 +98,96 @@ export default class TestRNIMUI extends Component {
       this.refs["ChatInput"].setMenuContainerHeight(316)
     }
     this.resetMenu()
-    AuroraIController.addMessageListDidLoadListener(() => {
-      this.getHistoryMessage()
-    });
+    AuroraIController.addMessageListDidLoadListener(this.messageListDidLoadEvent);
   }
 
+  messageListDidLoadEvent() {
+    this.getHistoryMessage()
+  }
+  
   getHistoryMessage() {
-    // var messages = []
-    // for (var i = 0; i < 10; i++) {
-    //   // var message = constructNormalMessage()
-    //   // message.msgType = "text"
-    //   // message.text = "" + i
-    //   // if (i%2 == 0)  {
-    //   //   message.isOutgoing = false
-    //   // }
-    //   var message = constructNormalMessage()
-    //   message.msgType = 'custom'
+    var messages = []
+    for (var i = 0; i < 10; i++) {
+      // var message = constructNormalMessage()
+      // message.msgType = "text"
+      // message.text = "" + i
+      // if (i%2 == 0)  {
+      //   message.isOutgoing = false
+      // }
+      var message = constructNormalMessage()
+      message.msgType = 'custom'
 
-    //   if (Platform.OS === "ios") {
-    //     message.content = `
-    //     <h5>This is a custom message. </h5>
-    //     <img src="file://${RNFS.MainBundlePath}/default_header.png"/>
-    //     `
-    //   } else {
-    //     message.content = '<body bgcolor="#ff3399"><h5>This is a custom message. </h5>\
-    //     <img src="/storage/emulated/0/XhsEmoticonsKeyboard/Emoticons/wxemoticons/icon_040_cover.png"></img></body>'
-    //   }
+      if (Platform.OS === "ios") {
+        message.content = `
+        <h5>This is a custom message. </h5>
+        <img src="file://${RNFS.MainBundlePath}/default_header.png"/>
+        `
+      } else {
+        message.content = '<body bgcolor="#ff3399"><h5>This is a custom message. </h5>\
+        <img src="/storage/emulated/0/XhsEmoticonsKeyboard/Emoticons/wxemoticons/icon_040_cover.png"></img></body>'
+      }
 
-    //   var eventMessage = constructNormalMessage()
-    //   eventMessage.msgType = "event"
-    //   eventMessage.text = 'fsadfad'
+      var eventMessage = constructNormalMessage()
+      eventMessage.msgType = "event"
+      eventMessage.text = 'fsadfad'
 
-    //   message.contentSize = { 'height': 100, 'width': 200 }
-    //   message.extras = { "extras": "fdfsf" }
-    //   AuroraIController.appendMessages([message, eventMessage])
-    //   AuroraIController.scrollToBottom(true)
-    // }
-    var user = {
-      userId: "",
-      displayName: "replace your nickname",
-      avatarPath: "images"
+      message.contentSize = { 'height': 100, 'width': 200 }
+      message.extras = { "extras": "fdfsf" }
+      AuroraIController.appendMessages([message, eventMessage])
+      AuroraIController.scrollToBottom(true)
     }
-    let msg = {
-      fromUser: user,
-      msgId: 'aa',
-      status: 'send_succeed',
-      msgType: "text",
-      isOutgoing: false,
-      text: 'aaaaa',
-      timeString:'2018-4-4 10:10:10'
-      }
-      let msg1 = {
-      fromUser: user,
-      msgId: 'aa',
-      status: 'send_succeed',
-      msgType: "text",
-      isOutgoing: false,
-      text: 'bbbbb',
-      timeString: null
-      }
-      let dataArr = [];
-      dataArr[0] = msg;
-      dataArr[1] = msg1;
-      dataArr[2] = msg;
-      dataArr[3] = msg1;
-      dataArr[4] = msg;
-      dataArr[5] = msg1;
-      dataArr[6] = msg;
-      dataArr[7] = msg1;
-      dataArr[8] = msg;
-      dataArr[9] = msg1;
-      dataArr[10] = msg;
-      dataArr[11] = msg1;
-      dataArr[12] = msg;
-      dataArr[13] = msg1;
-      dataArr[14] = msg;
-      dataArr[15] = msg1;
-      dataArr[16] = msg;
-      dataArr[17] = msg1;
-      dataArr[18] = msg;
-      dataArr[19] = msg1;
-      dataArr[20] = msg;
-      dataArr[21] = msg1;
-      dataArr[22] = msg;
-      dataArr[23] = msg1;
-      AuroraIController.insertMessagesToTop(dataArr)
-      // dataArr.map((item)=> {
-      // AuroraIController.insertMessagesToTop([item]);
-      // })
+    // var user = {
+    //   userId: "",
+    //   displayName: "replace your nickname",
+    //   avatarPath: "images"
+    // }
+    // let msg = {
+    //   fromUser: user,
+    //   msgId: 'aa',
+    //   status: 'send_succeed',
+    //   msgType: "text",
+    //   isOutgoing: false,
+    //   text: 'aaaaa',
+    //   timeString:'2018-4-4 10:10:10'
+    //   }
+    //   let msg1 = {
+    //   fromUser: user,
+    //   msgId: 'aa',
+    //   status: 'send_succeed',
+    //   msgType: "text",
+    //   isOutgoing: false,
+    //   text: 'bbbbb',
+    //   timeString: null
+    //   }
+    //   let dataArr = [];
+    //   dataArr[0] = msg;
+    //   dataArr[1] = msg1;
+    //   dataArr[2] = msg;
+    //   dataArr[3] = msg1;
+    //   dataArr[4] = msg;
+    //   dataArr[5] = msg1;
+    //   dataArr[6] = msg;
+    //   dataArr[7] = msg1;
+    //   dataArr[8] = msg;
+    //   dataArr[9] = msg1;
+    //   dataArr[10] = msg;
+    //   dataArr[11] = msg1;
+    //   dataArr[12] = msg;
+    //   dataArr[13] = msg1;
+    //   dataArr[14] = msg;
+    //   dataArr[15] = msg1;
+    //   dataArr[16] = msg;
+    //   dataArr[17] = msg1;
+    //   dataArr[18] = msg;
+    //   dataArr[19] = msg1;
+    //   dataArr[20] = msg;
+    //   dataArr[21] = msg1;
+    //   dataArr[22] = msg;
+    //   dataArr[23] = msg1;
+    //   AuroraIController.insertMessagesToTop(dataArr)
+    //   // dataArr.map((item)=> {
+    //   // AuroraIController.insertMessagesToTop([item]);
+    //   // })
   }
 
   onInputViewSizeChange = (size) => {
@@ -198,7 +202,7 @@ export default class TestRNIMUI extends Component {
   }
 
   componentWillUnmount() {
-    AuroraIController.removeMessageListDidLoadListener(MessageListDidLoadEvent)
+    AuroraIController.removeMessageListDidLoadListener(this.messageListDidLoadEvent)
   }
 
   resetMenu() {
@@ -493,13 +497,13 @@ export default class TestRNIMUI extends Component {
           onBeginDragMessageList={this.onBeginDragMessageList}
           onPullToRefresh={this.onPullToRefresh}
           avatarSize={{ width: 50, height: 50 }}
-          avatarCornerRadius={60}
+          avatarCornerRadius={25}
           messageListBackgroundColor={"#f3f3f3"}
           sendBubbleTextSize={18}
           sendBubbleTextColor={"#000000"}
           sendBubblePadding={{ left: 10, top: 10, right: 15, bottom: 10 }}
           datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
-          dateBackgroundColor={"#39ef23"}
+          dateBackgroundColor={"#F3F3F3"}
           photoMessageRadius={5}
           videoDurationTextColor={"#ffffff"}
         />
