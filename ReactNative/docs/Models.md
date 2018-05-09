@@ -48,7 +48,6 @@ imageMessage = {
     msgId: "msgid",
     msgType: "image",
     isOutGoing: true,
-    progress: "progress string",
     mediaPath: "image path",
     fromUser: {}，
     extras: {}// option
