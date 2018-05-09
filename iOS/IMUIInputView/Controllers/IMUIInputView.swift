@@ -92,6 +92,8 @@ public class IMUIInputView: IMUICustomInputView {
   
   override public init(frame: CGRect) {
     super.init(frame: frame)
+    
+    setupInputViewData()
   }
   
   open override func awakeFromNib() {
@@ -101,9 +103,7 @@ public class IMUIInputView: IMUICustomInputView {
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     
-    self.setupInputViewData()
-    self.inputViewDelegate = self
-    self.dataSource = self
+    setupInputViewData()
   }
 
   func setupInputViewData() {
@@ -146,7 +146,11 @@ public class IMUIInputView: IMUICustomInputView {
                                                       UIImage.imuiImage(with:"input_item_send_message_selected"),
                                                       0,
                                                       false))
+    
+    self.inputViewDelegate = self
+    self.dataSource = self
   }
+  
   // need dynamic get send model for react-native custom layout
   fileprivate var sendModel: IMUIFeatureIconModel {
     let position = self.findSendPosition()

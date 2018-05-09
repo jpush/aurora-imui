@@ -72,17 +72,13 @@ open class IMUICustomInputView: UIView {
   
   override public init(frame: CGRect) {
     super.init(frame: frame)
-    let bundle = Bundle.imuiInputViewBundle()
-    view = bundle.loadNibNamed("IMUICustomInputView", owner: self, options: nil)?.first as! UIView
     
-    self.addSubview(view)
-    view.frame = self.bounds
+    setupInputView()
     
-    self.inputTextView.textContainer.lineBreakMode = .byWordWrapping
-    self.inputTextView.font = UIFont.systemFont(ofSize: 14)
-    self.inputTextView.textColor = inputTextViewTextColor
-    self.inputTextView.layoutManager.allowsNonContiguousLayout = false
-    inputTextView.delegate = self
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(self.keyboardFrameChanged(_:)),
+                                           name: NSNotification.Name.UIKeyboardWillChangeFrame,
+                                           object: nil)
   }
   
   open override func awakeFromNib() {
@@ -100,6 +96,11 @@ open class IMUICustomInputView: UIView {
   
   required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
+    
+    setupInputView()
+  }
+  
+  private func setupInputView() {
     let bundle = Bundle.imuiInputViewBundle()
     view = bundle.loadNibNamed("IMUICustomInputView", owner: self, options: nil)?.first as! UIView
     
@@ -111,11 +112,10 @@ open class IMUICustomInputView: UIView {
     
     inputTextView.textContainer.lineBreakMode = .byWordWrapping
     inputTextView.delegate = self
-
+    
     self.bottomInputBarItemListView.position = .bottom
     self.leftInputBarItemListView.position = .left
     self.rightInputBarItemListView.position = .right
-    
   }
   
   @objc public func layoutInputBar() {
@@ -168,10 +168,10 @@ open class IMUICustomInputView: UIView {
   }
   
   @objc func keyboardFrameChanged(_ notification: Notification) {
-    let dic = NSDictionary(dictionary: (notification as NSNotification).userInfo!)
-    let keyboardValue = dic.object(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+    let dic = notification.userInfo!
+    let keyboardValue = dic[UIKeyboardFrameEndUserInfoKey] as! NSValue
     let bottomDistance = UIScreen.main.bounds.size.height - keyboardValue.cgRectValue.origin.y
-    let duration = Double(dic.object(forKey: UIKeyboardAnimationDurationUserInfoKey) as! NSNumber)
+    let duration = dic[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
     
     UIView.animate(withDuration: duration) {
       if bottomDistance > 10.0 {
