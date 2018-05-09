@@ -26,7 +26,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.messageList.delegate = self;
-  self.imuiInputView.inputViewDelegate = self;
+  self.imuiInputView.delegate = self;
+  
   [self.messageList.messageCollectionView registerClass:[MessageEventCollectionViewCell class] forCellWithReuseIdentifier:[[MessageEventCollectionViewCell class] description]];
   
 }
