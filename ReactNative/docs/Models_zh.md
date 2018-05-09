@@ -48,7 +48,6 @@ imageMessage = {
     msgId: "msgid",
     msgType: "image",
     isOutGoing: true,
-    progress: "progress string",
     mediaPath: "image path",
     fromUser: {}，
     extras: {}// 选填，可以在消息中添加附加字段
