@@ -30,7 +30,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   var featureDelegate: IMUIFeatureViewDelegate?
   
   func inactivateMedia() {
-    recordHelper.stopRecord()
+    self.cancelPlayVoiceMode()
   }
   
   lazy var recordHelper = IMUIRecordVoiceHelper()
@@ -163,10 +163,16 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     self.sendVoiceBtn.isHidden = false
   }
   
-  @IBAction func cancelPlayVoice(_ sender: Any) {
+  func cancelPlayVoiceMode() {
     recordHelper.stopRecord()
     recordHelper.cancelledDeleteWithCompletion()
+    IMUIAudioPlayerHelper.sharedInstance.stopAudio()
+    playVoiceBtn.isSelected = false
     self.resetSubViewsStyle()
+  }
+    
+  @IBAction func cancelPlayVoice(_ sender: Any) {
+    self.cancelPlayVoiceMode()
   }
   
   @IBAction func sendRecordedVoice(_ sender: Any) {
@@ -199,7 +205,10 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
         
       }, { (identify) in
         self.playVoiceBtn.isSelected = false
-      }, {id in })
+//        self.playVoiceBtn.progress = 0.0
+      }, { id in
+//        self.playVoiceBtn.progress = 0.0
+      })
     } catch {
       print("fail to play recorded voice!")
       print(error)
