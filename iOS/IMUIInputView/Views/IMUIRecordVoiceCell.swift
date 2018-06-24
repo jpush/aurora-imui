@@ -205,10 +205,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
         
       }, { (identify) in
         self.playVoiceBtn.isSelected = false
-//        self.playVoiceBtn.progress = 0.0
-      }, { id in
-//        self.playVoiceBtn.progress = 0.0
-      })
+      }, {id in })
     } catch {
       print("fail to play recorded voice!")
       print(error)

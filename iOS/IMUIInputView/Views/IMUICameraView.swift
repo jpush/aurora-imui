@@ -580,7 +580,7 @@ class IMUICameraView: UIView {
         }
       )
       
-      self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = photoCaptureDelegate
+  self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = photoCaptureDelegate
 
       switch self.currentCameraDeviceType {
       case .front:
