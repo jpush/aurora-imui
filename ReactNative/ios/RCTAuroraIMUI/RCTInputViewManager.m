@@ -46,10 +46,11 @@ RCT_EXPORT_VIEW_PROPERTY(onShowKeyboard, RCTBubblingEventBlock)
 RCT_EXPORT_MODULE()
 - (UIView *)view
 {
-  NSBundle *bundle = [NSBundle bundleForClass: [RCTInputView class]];
+  NSBundle *bundle = [NSBundle bundleForClass: [IMUIInputView class]];
   _rctInputView = [[bundle loadNibNamed:@"RCTInputView" owner:self options: nil] objectAtIndex:0];
   _rctInputView.imuiIntputView.delegate = self;
   return _rctInputView;
+//    return [UIView new];
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgroupColor, NSString, RCTInputView) {
