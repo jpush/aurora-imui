@@ -48,7 +48,7 @@ static NSString *cellIdentify = nil;
 RCT_EXPORT_MODULE()
 - (UIView *)view
 {
-  NSBundle *bundle = [NSBundle bundleForClass: [RCTMessageListView class]];
+  NSBundle *bundle = [NSBundle bundleForClass: [IMUIMessageCollectionView class]];
   
   _messageList = [[bundle loadNibNamed:@"RCTMessageListView" owner:self options: nil] objectAtIndex:0];
   _messageList.messageList.delegate = self;

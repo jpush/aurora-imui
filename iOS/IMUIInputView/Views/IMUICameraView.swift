@@ -580,7 +580,7 @@ class IMUICameraView: UIView {
         }
       )
       
-      self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = photoCaptureDelegate
+  self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = photoCaptureDelegate
 
       switch self.currentCameraDeviceType {
       case .front:
@@ -642,7 +642,7 @@ class IMUICameraView: UIView {
     dateFormatter.dateFormat = "yy-MMMM-dd"
     recorderPath = NSTemporaryDirectory()
     dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm-ss"
-    recorderPath?.append("\(dateFormatter.string(from: now))-video.mp4")
+    recorderPath?.append("\(dateFormatter.string(from: now))-\(UUID().uuidString)-video.mp4")
     return recorderPath!
   }
 }
