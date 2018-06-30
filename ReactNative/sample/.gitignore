@@ -40,6 +40,9 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
+release.properties
+!Android/gradlew.bat
+
 
 # fastlane
 #
