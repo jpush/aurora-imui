@@ -126,6 +126,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
       
       let finishiRecorder = recordHelper.finishRecordingCompletion()
       self.featureDelegate?.didRecordVoice(with: finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
+      recordHelper.recordPath = nil
     }
     
   }
@@ -176,8 +177,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   }
   
   @IBAction func sendRecordedVoice(_ sender: Any) {
-//    self.inputViewDelegate?.finishRecordVoice?(self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
-    self.featureDelegate?.didRecordVoice(with: self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
+    self.finishRecordVoice()
   }
   
   @IBAction func playRecordedVoice(_ sender: IMUIProgressButton) {

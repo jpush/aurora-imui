@@ -146,6 +146,7 @@ class IMUIRecordVoiceHelper: NSObject {
     self.stopRecord()
     if let _ = recordPath {
       return (voiceFilePath: recordPath!, duration: duration)
+        
     } else {
       return ("",0)
     }
