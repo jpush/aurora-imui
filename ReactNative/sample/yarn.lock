@@ -239,9 +239,9 @@ atob@^2.1.1:
   version "2.1.1"
   resolved "http://registry.npm.taobao.org/atob/download/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
 
-aurora-imui-react-native@^0.8.4:
-  version "0.8.4"
-  resolved "http://registry.npm.taobao.org/aurora-imui-react-native/download/aurora-imui-react-native-0.8.4.tgz#668501a46e767d5b0f87e76295d1d29386d82672"
+aurora-imui-react-native@^0.10.6:
+  version "0.10.6"
+  resolved "http://registry.npm.taobao.org/aurora-imui-react-native/download/aurora-imui-react-native-0.10.6.tgz#319cc40395acb6a2c129f8d3682da2fbe5e529d3"
 
 aws-sign2@~0.6.0:
   version "0.6.0"
