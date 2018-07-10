@@ -1,20 +1,12 @@
 import React, { Component } from 'react'
 
 import {
-  AppRegistry,
   StyleSheet,
-  Text,
   View,
-  TouchableHighlight,
-  NativeModules,
-  requireNativeComponent,
   Alert,
   Dimensions,
   Button,
-  DeviceEventEmitter,
   Platform,
-  PixelRatio,
-  PermissionsAndroid
 } from 'react-native'
 
 var RNFS = require('react-native-fs')
@@ -25,12 +17,9 @@ var InputView = IMUI.ChatInput
 var MessageListView = IMUI.MessageList
 const AuroraIController = IMUI.AuroraIMUIController
 const window = Dimensions.get('window')
-const getInputTextEvent = "getInputText"
-const MessageListDidLoadEvent = "IMUIMessageListDidLoad"
+
 
 var themsgid = 1
-var photoPathArr = [];
-var msgIdArr = [];
 
 function constructNormalMessage() {
 
@@ -314,8 +303,6 @@ export default class TestRNIMUI extends Component {
     AuroraIController.appendMessages([message])
     this.resetMenu()
     AuroraIController.scrollToBottom(true)
-    // photoPathArr.push(message.mediaPath)
-    // msgIdArr.push(message.msgId)
   }
 
   onStartRecordVoice = (e) => {
@@ -366,8 +353,6 @@ export default class TestRNIMUI extends Component {
       var message = constructNormalMessage()
       if (mediaFiles[index].mediaType == "image") {
         message.msgType = "image"
-        photoPathArr.push(mediaFiles[index].mediaPath)
-        msgIdArr.push(message.msgId)
       } else {
         message.msgType = "video"
         message.duration = mediaFiles[index].duration
