@@ -84,6 +84,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   
   // -MARK: RecordVoice
   @IBAction func finishiRecordVoiceCallback(_ sender: Any) {
+    self.finishiRecorderCache = recordHelper.finishRecordingCompletion()
     self.finishRecordVoice()
   }
   
@@ -104,8 +105,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
                                               
         }) { (duration, meter) in
           let seconds = Int(duration)
-          self.timeLable.text = "\(String(format: "%02d", seconds / 60)):\(String(format: "%02d", seconds % 60))"
-          
+          self.setTimeLabel(duration: seconds)
         }
       case AVAudioSessionRecordPermission.denied:
         break
@@ -124,8 +124,8 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
       self.cancelVoiceBtn.isHidden = true
       self.resetSubViewsStyle()
       
-      let finishiRecorder = recordHelper.finishRecordingCompletion()
-      self.featureDelegate?.didRecordVoice(with: finishiRecorder.voiceFilePath, durationTime: finishiRecorder.duration)
+      self.featureDelegate?.didRecordVoice(with: self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
+      recordHelper.recordPath = nil
     }
     
   }
@@ -161,6 +161,9 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     self.playVoiceBtn.isHidden = false
     self.playCancelBtn.isHidden = false
     self.sendVoiceBtn.isHidden = false
+    
+    let voiceDuration = Int((self.finishiRecorderCache?.duration)!)
+    self.setTimeLabel(duration: voiceDuration)
   }
   
   func cancelPlayVoiceMode() {
@@ -176,8 +179,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   }
   
   @IBAction func sendRecordedVoice(_ sender: Any) {
-//    self.inputViewDelegate?.finishRecordVoice?(self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
-    self.featureDelegate?.didRecordVoice(with: self.finishiRecorderCache!.voiceFilePath, durationTime: self.finishiRecorderCache!.duration)
+    self.finishRecordVoice()
   }
   
   @IBAction func playRecordedVoice(_ sender: IMUIProgressButton) {
@@ -198,13 +200,17 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
   
   func playVoice() {
     do {
-      let voiceData = try Data(contentsOf: URL(fileURLWithPath: recordHelper.recordPath!))
+        let voiceData = try Data(contentsOf: URL(fileURLWithPath: (self.finishiRecorderCache?.voiceFilePath)!))
 
       IMUIAudioPlayerHelper.sharedInstance.playAudioWithData("",voiceData, { (identify, power,  currentTime, duration) in
         self.playVoiceBtn.progress = CGFloat(currentTime/duration)
         
+        let seconds = Int(currentTime)
+        self.timeLable.text = "\(String(format: "%02d", seconds / 60)):\(String(format: "%02d", seconds % 60))"
       }, { (identify) in
         self.playVoiceBtn.isSelected = false
+        let voiceDuration = Int((self.finishiRecorderCache?.duration)!)
+        self.setTimeLabel(duration: voiceDuration)
       }, {id in })
     } catch {
       print("fail to play recorded voice!")
@@ -212,6 +218,10 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     }
   }
   
+  func setTimeLabel(duration: Int) {
+    self.timeLable.text = "\(String(format: "%02d", duration / 60)):\(String(format: "%02d", duration % 60))"
+  }
+    
   @objc func handlePan(recognizer:UIPanGestureRecognizer) {
     let pointInSuperView = recognizer.location(in: self.contentView)
     
@@ -248,7 +258,7 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     }
     
     if recognizer.state == .ended {
-      
+        
       if self.cancelVoiceBtn.isSelected {
         self.recordHelper.cancelRecording()
         self.resetSubViewsStyle()
@@ -256,11 +266,13 @@ class IMUIRecordVoiceCell: UICollectionViewCell, IMUIFeatureCellProtocol {
       }
       
       if self.swtichToPlayModeBtn.isSelected {
-        self.switchToPlayVoiceModel()
+        // 切换到播放模式将录音结果缓存.
         self.finishiRecorderCache = recordHelper.finishRecordingCompletion()
+        self.switchToPlayVoiceModel()
         return
       }
       
+      self.finishiRecorderCache = recordHelper.finishRecordingCompletion()
       self.finishRecordVoice()
     }
   }

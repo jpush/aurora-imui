@@ -97,12 +97,6 @@ class IMUIRecordVoiceHelper: NSObject {
       print(error.localizedDescription)
     }
     
-//    let recordSettings:[String : AnyObject] = [
-//      AVFormatIDKey: NSNumber(value: kAudioFormatAppleIMA4 as UInt32),
-//      AVNumberOfChannelsKey: 1 as AnyObject,
-//      AVSampleRateKey : 16000.0 as AnyObject
-//    ]
-    
     let recordSettings = [
       AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
       AVSampleRateKey: 16000,
@@ -146,6 +140,7 @@ class IMUIRecordVoiceHelper: NSObject {
     self.stopRecord()
     if let _ = recordPath {
       return (voiceFilePath: recordPath!, duration: duration)
+        
     } else {
       return ("",0)
     }

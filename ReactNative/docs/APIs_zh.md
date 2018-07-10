@@ -100,6 +100,8 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [onSwitchToEmojiMode](#onswitchtoemojimode)
     - [onTouchEditText](#ontouchedittext)
     - [onSizeChange](#onsizechange)
+    - [onFullScreen](#onfullscreen)
+    - [onRecoverScreen](#onrecoverscreen)
     - [onClickSelectAlbum](#onClickSelectAlbum)
 
 
@@ -765,13 +767,29 @@ Example: `inputTextLineHeight={2}`
 
 **PropTypes.function:** `({width: number, height: number}) => {}`
 
-输入组件尺寸变更时触发。
+输入组件尺寸变更时触发 (建议使用这个方法来处理 inputView 的尺寸变化)。
+
+***
+
+#### onFullScreen
+
+**PropTypes.function:** `() => {}`
+
+当摄像机全屏的时候触发这个回调（例如：可以在摄像机全屏的时候隐藏系统状态栏）。
+
+***
+
+#### onRecoverScreen
+
+**PropTypes.function:** `() => {}`
+
+摄像机取消全屏的时候触发这个回调
 
 ***
 
 #### onClickSelectAlbum
 
-**PropTypes.function:** `() => {}`
+**PropTypes.function:** `() => {}` (Android only)
 
 点击选择相册按钮触发(选择相册按钮默认是可见的，可以通过 [showSelectAlbumBtn](#showSelectAlbumBtn) 改变 )
 
