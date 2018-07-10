@@ -100,6 +100,8 @@ Refer to iOS,Android example
     - [onSwitchToCameraMode](#onswitchtocameramode)
     - [onSwitchToEmojiMode](#onswitchtoemojimode)
     - [onSizeChange](#onsizechange)
+    - [onFullScreen](#onfullscreen)
+    - [onRecoverScreen](#onrecoverscreen)
     - [onTouchEditText](#ontouchedittext)
     - [onClickSelectAlbum](#onClickSelectAlbum)
 
@@ -775,15 +777,33 @@ Fires when ChantInput's size change。
 
 ***
 
+#### onFullScreen
+
+**PropTypes.function:** `() => {}`
+
+Fires when camera switch into full screen mode.
+
+***
+
+#### onRecoverScreen
+
+**PropTypes.function:** `() => {}`
+
+Fires when camera cancel full screen mode.
+
+***
+
 #### onTouchEditText
 
 **PropTypes.function:** （Android only）
 
-Fires when click input view.
+Fires when click input view text input.
+
+***
 
 #### onClickSelectAlbum
 
-**PropTypes.function:** `() => {}`
+**PropTypes.function:** `() => {}`（Android only）
 
 Fires when click select album button(you can through [showSelectAlbumBtn](#showSelectAlbumBtn) change the visibility )
 
