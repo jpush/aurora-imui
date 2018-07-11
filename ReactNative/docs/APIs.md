@@ -81,6 +81,7 @@ Refer to iOS,Android example
     - [customLayoutItems](#customlayoutitemsios-only)
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
+    - [hideCameraButton](#hideCameraButtonandroid-only)
     - [inputPadding](#inputPadding)
     - [inputTextColor](#inputTextColor)
     - [inputTextSize](#inputTextSize)
@@ -613,6 +614,15 @@ Example:  ```chatInputBackgroupColor="#000000"```
 Set the visibility of the select album button.
 
 Example: ```showSelectAlbumBtn={true}```
+
+------
+
+#### hideCameraButton(Android Only)
+**PropTypes.bool:**
+
+Set the visibility of the camera button.
+
+Example: ```hideCameraButton={true}```
 
 ------
 ### inputPadding

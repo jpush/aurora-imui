@@ -80,6 +80,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [customLayoutItems](#customlayoutitemsios-only)
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
+    - [hideCameraButton](#hideCameraButtonandroid-only)
     - [inputPadding](#inputPadding)
     - [inputTextColor](#inputTextColor)
     - [inputTextSize](#inputTextSize)
@@ -612,6 +613,15 @@ Example:  ```chatInputBackgroupColor="#000000"```
 设置选择相册按钮的可见性。
 
 Example: ```showSelectAlbumBtn={true}```
+
+------
+
+#### hideCameraButton(Android Only)
+**PropTypes.bool:**
+
+设置菜单栏相机按钮可见性。
+
+Example: ```hideCameraButton={true}```
 
 ------
 
