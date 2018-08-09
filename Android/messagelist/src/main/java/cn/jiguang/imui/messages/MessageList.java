@@ -12,7 +12,6 @@ import android.view.MotionEvent;
 
 import cn.jiguang.imui.commons.models.IMessage;
 
-
 public class MessageList extends RecyclerView implements GestureDetector.OnGestureListener {
 
     private Context mContext;
@@ -45,8 +44,8 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
     /**
      * Set adapter for MessageList.
      *
-     * @param adapter   Adapter, extends MsgListAdapter.
-     * @param <MESSAGE> Message model extends IMessage.
+     * @param adapter Adapter, extends MsgListAdapter.
+     * @param         <MESSAGE> Message model extends IMessage.
      */
     public <MESSAGE extends IMessage> void setAdapter(MsgListAdapter<MESSAGE> adapter) {
         mAdapter = adapter;
@@ -54,11 +53,10 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         itemAnimator.setSupportsChangeAnimations(false);
         setItemAnimator(itemAnimator);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
-                getContext(), LinearLayoutManager.VERTICAL, true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         layoutManager.setStackFromEnd(true);
         setLayoutManager(layoutManager);
-        
+
         adapter.setLayoutManager(layoutManager);
         adapter.setStyle(mContext, mMsgListStyle);
         mScrollMoreListener = new ScrollMoreListener(layoutManager, adapter);
@@ -178,6 +176,10 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
         mMsgListStyle.setDisplayNamePadding(left, top, right, bottom);
     }
 
+    public void setDisplayNameEmsNumber(int number) {
+        mMsgListStyle.setDisplayNameEmsNumber(number);
+    }
+
     public void setSendVoiceDrawable(int resId) {
         mMsgListStyle.setSendVoiceDrawable(resId);
     }
@@ -290,8 +292,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
     private final Runnable measureAndLayout = new Runnable() {
         @Override
         public void run() {
-            measure(
-                    MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
+            measure(MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
                     MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
             layout(getLeft(), getTop(), getRight(), getBottom());
         }

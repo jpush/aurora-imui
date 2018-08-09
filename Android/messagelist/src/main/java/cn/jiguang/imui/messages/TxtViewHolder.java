@@ -14,8 +14,7 @@ import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.view.RoundImageView;
 import cn.jiguang.imui.view.RoundTextView;
 
-public class TxtViewHolder<MESSAGE extends IMessage>
-        extends BaseMessageViewHolder<MESSAGE>
+public class TxtViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
     private TextView mMsgTv;
@@ -63,29 +62,29 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         }
         if (mIsSender) {
             switch (message.getMessageStatus()) {
-                case SEND_GOING:
-                    mSendingPb.setVisibility(View.VISIBLE);
-                    mResendIb.setVisibility(View.GONE);
-                    Log.i("TxtViewHolder", "sending message");
-                    break;
-                case SEND_FAILED:
-                    mSendingPb.setVisibility(View.GONE);
-                    Log.i("TxtViewHolder", "send message failed");
-                    mResendIb.setVisibility(View.VISIBLE);
-                    mResendIb.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mMsgStatusViewClickListener != null) {
-                                mMsgStatusViewClickListener.onStatusViewClick(message);
-                            }
+            case SEND_GOING:
+                mSendingPb.setVisibility(View.VISIBLE);
+                mResendIb.setVisibility(View.GONE);
+                Log.i("TxtViewHolder", "sending message");
+                break;
+            case SEND_FAILED:
+                mSendingPb.setVisibility(View.GONE);
+                Log.i("TxtViewHolder", "send message failed");
+                mResendIb.setVisibility(View.VISIBLE);
+                mResendIb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mMsgStatusViewClickListener != null) {
+                            mMsgStatusViewClickListener.onStatusViewClick(message);
                         }
-                    });
-                    break;
-                case SEND_SUCCEED:
-                    mSendingPb.setVisibility(View.GONE);
-                    mResendIb.setVisibility(View.GONE);
-                    Log.i("TxtViewHolder", "send message succeed");
-                    break;
+                    }
+                });
+                break;
+            case SEND_SUCCEED:
+                mSendingPb.setVisibility(View.GONE);
+                mResendIb.setVisibility(View.GONE);
+                Log.i("TxtViewHolder", "send message succeed");
+                break;
             }
         }
 
@@ -130,10 +129,8 @@ public class TxtViewHolder<MESSAGE extends IMessage>
             mMsgTv.setBackground(style.getSendBubbleDrawable());
             mMsgTv.setTextColor(style.getSendBubbleTextColor());
             mMsgTv.setTextSize(style.getSendBubbleTextSize());
-            mMsgTv.setPadding(style.getSendBubblePaddingLeft(),
-                    style.getSendBubblePaddingTop(),
-                    style.getSendBubblePaddingRight(),
-                    style.getSendBubblePaddingBottom());
+            mMsgTv.setPadding(style.getSendBubblePaddingLeft(), style.getSendBubblePaddingTop(),
+                    style.getSendBubblePaddingRight(), style.getSendBubblePaddingBottom());
             if (style.getSendingProgressDrawable() != null) {
                 mSendingPb.setProgressDrawable(style.getSendingProgressDrawable());
             }
@@ -149,10 +146,8 @@ public class TxtViewHolder<MESSAGE extends IMessage>
             mMsgTv.setBackground(style.getReceiveBubbleDrawable());
             mMsgTv.setTextColor(style.getReceiveBubbleTextColor());
             mMsgTv.setTextSize(style.getReceiveBubbleTextSize());
-            mMsgTv.setPadding(style.getReceiveBubblePaddingLeft(),
-                    style.getReceiveBubblePaddingTop(),
-                    style.getReceiveBubblePaddingRight(),
-                    style.getReceiveBubblePaddingBottom());
+            mMsgTv.setPadding(style.getReceiveBubblePaddingLeft(), style.getReceiveBubblePaddingTop(),
+                    style.getReceiveBubblePaddingRight(), style.getReceiveBubblePaddingBottom());
             if (style.getShowReceiverDisplayName()) {
                 mDisplayNameTv.setVisibility(View.VISIBLE);
             } else {
@@ -163,10 +158,11 @@ public class TxtViewHolder<MESSAGE extends IMessage>
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
                 style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
+        mDisplayNameTv.setEms(style.getDisplayNameEmsNumber());
         mDateTv.setTextSize(style.getDateTextSize());
         mDateTv.setTextColor(style.getDateTextColor());
-        mDateTv.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(),
-                style.getDatePaddingRight(), style.getDatePaddingBottom());
+        mDateTv.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(), style.getDatePaddingRight(),
+                style.getDatePaddingBottom());
         mDateTv.setBgCornerRadius(style.getDateBgCornerRadius());
         mDateTv.setBgColor(style.getDateBgColor());
 

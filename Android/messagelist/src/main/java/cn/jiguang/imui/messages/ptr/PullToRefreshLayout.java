@@ -166,7 +166,7 @@ public class PullToRefreshLayout extends ViewGroup {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (!isEnabled() || mMsgList == null || mHeaderView == null) {
+        if (!isEnabled() || mMsgList == null || mHeaderView == null || !isPullToRefresh()) {
             return super.dispatchTouchEvent(ev);
         }
         int action = ev.getAction();

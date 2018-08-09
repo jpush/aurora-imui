@@ -94,43 +94,43 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         }
         if (mIsSender) {
             switch (message.getMessageStatus()) {
-                case SEND_GOING:
-                    mSendingPb.setVisibility(View.VISIBLE);
-                    mResendIb.setVisibility(View.GONE);
-                    break;
-                case SEND_FAILED:
-                    mSendingPb.setVisibility(View.GONE);
-                    mResendIb.setVisibility(View.VISIBLE);
-                    mResendIb.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mMsgStatusViewClickListener != null) {
-                                mMsgStatusViewClickListener.onStatusViewClick(message);
-                            }
+            case SEND_GOING:
+                mSendingPb.setVisibility(View.VISIBLE);
+                mResendIb.setVisibility(View.GONE);
+                break;
+            case SEND_FAILED:
+                mSendingPb.setVisibility(View.GONE);
+                mResendIb.setVisibility(View.VISIBLE);
+                mResendIb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mMsgStatusViewClickListener != null) {
+                            mMsgStatusViewClickListener.onStatusViewClick(message);
                         }
-                    });
-                    break;
-                case SEND_SUCCEED:
-                    mSendingPb.setVisibility(View.GONE);
-                    mResendIb.setVisibility(View.GONE);
-                    break;
+                    }
+                });
+                break;
+            case SEND_SUCCEED:
+                mSendingPb.setVisibility(View.GONE);
+                mResendIb.setVisibility(View.GONE);
+                break;
             }
         } else {
             switch (message.getMessageStatus()) {
-                case RECEIVE_FAILED:
-                    mResendIb.setVisibility(View.VISIBLE);
-                    mResendIb.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mMsgStatusViewClickListener != null) {
-                                mMsgStatusViewClickListener.onStatusViewClick(message);
-                            }
+            case RECEIVE_FAILED:
+                mResendIb.setVisibility(View.VISIBLE);
+                mResendIb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mMsgStatusViewClickListener != null) {
+                            mMsgStatusViewClickListener.onStatusViewClick(message);
                         }
-                    });
-                    break;
-                case RECEIVE_SUCCEED:
-                    mResendIb.setVisibility(View.GONE);
-                    break;
+                    }
+                });
+                break;
+            case RECEIVE_SUCCEED:
+                mResendIb.setVisibility(View.GONE);
+                break;
             }
         }
 
@@ -142,10 +142,10 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 }
 
                 // stop animation whatever this time is play or pause audio
-//                if (mVoiceAnimation != null) {
-//                    mVoiceAnimation.stop();
-//                    mVoiceAnimation = null;
-//                }
+                // if (mVoiceAnimation != null) {
+                // mVoiceAnimation.stop();
+                // mVoiceAnimation = null;
+                // }
                 mController.notifyAnimStop();
                 mController.setMessage(message);
                 if (mIsSender) {
@@ -156,7 +156,8 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                 mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
                 mController.addView(getAdapterPosition(), mVoiceIv);
                 // If audio is playing, pause
-                Log.e("VoiceViewHolder", "MediaPlayer playing " + mMediaPlayer.isPlaying() + "now position " + getAdapterPosition());
+                Log.e("VoiceViewHolder",
+                        "MediaPlayer playing " + mMediaPlayer.isPlaying() + "now position " + getAdapterPosition());
                 if (mController.getLastPlayPosition() == getAdapterPosition()) {
                     if (mMediaPlayer.isPlaying()) {
                         pauseVoice();
@@ -253,8 +254,8 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     public void applyStyle(MessageListStyle style) {
         mDateTv.setTextSize(style.getDateTextSize());
         mDateTv.setTextColor(style.getDateTextColor());
-        mDateTv.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(),
-                style.getDatePaddingRight(), style.getDatePaddingBottom());
+        mDateTv.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(), style.getDatePaddingRight(),
+                style.getDatePaddingBottom());
         mDateTv.setBgCornerRadius(style.getDateBgCornerRadius());
         mDateTv.setBgColor(style.getDateBgColor());
         mSendDrawable = style.getSendVoiceDrawable();
@@ -289,7 +290,7 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
                 style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
-
+        mDisplayNameTv.setEms(style.getDisplayNameEmsNumber());
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();

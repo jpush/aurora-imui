@@ -1,6 +1,5 @@
 package cn.jiguang.imui.messages;
 
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -47,6 +46,7 @@ public class MessageListStyle extends Style {
     private int displayNamePaddingTop;
     private int displayNamePaddingRight;
     private int displayNamePaddingBottom;
+    private int displayNameEmsNumber;
     private int receiveBubbleDrawable;
     private int receiveBubbleColor;
     private int receiveBubblePressedColor;
@@ -79,7 +79,8 @@ public class MessageListStyle extends Style {
     private int videoMessageRadius;
     private int photoMessageRadius;
 
-    // Set bubble's max width, value from 0 to 1. 1 means max width equals with screen width.
+    // Set bubble's max width, value from 0 to 1. 1 means max width equals with
+    // screen width.
     // Default value is 0.8.
     private float bubbleMaxWidth;
     private Drawable sendPhotoMsgBg;
@@ -155,13 +156,17 @@ public class MessageListStyle extends Style {
         style.receiveBubbleTextSize = getSPTextSize(context, receiveTextSizePixel);
         style.receiveBubbleTextColor = typedArray.getColor(R.styleable.MessageList_receiveTextColor,
                 ContextCompat.getColor(context, R.color.aurora_msg_receive_text_color));
-        style.receiveBubblePaddingLeft = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveBubblePaddingLeft,
+        style.receiveBubblePaddingLeft = typedArray.getDimensionPixelSize(
+                R.styleable.MessageList_receiveBubblePaddingLeft,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_receive_text_left));
-        style.receiveBubblePaddingTop = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveBubblePaddingTop,
+        style.receiveBubblePaddingTop = typedArray.getDimensionPixelSize(
+                R.styleable.MessageList_receiveBubblePaddingTop,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_receive_text_top));
-        style.receiveBubblePaddingRight = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveBubblePaddingRight,
+        style.receiveBubblePaddingRight = typedArray.getDimensionPixelSize(
+                R.styleable.MessageList_receiveBubblePaddingRight,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_receive_text_right));
-        style.receiveBubblePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_receiveBubblePaddingBottom,
+        style.receiveBubblePaddingBottom = typedArray.getDimensionPixelSize(
+                R.styleable.MessageList_receiveBubblePaddingBottom,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_receive_text_bottom));
 
         style.sendBubbleDrawable = typedArray.getResourceId(R.styleable.MessageList_sendBubbleDrawable, -1);
@@ -182,7 +187,8 @@ public class MessageListStyle extends Style {
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_send_text_top));
         style.sendBubblePaddingRight = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingRight,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_send_text_right));
-        style.sendBubblePaddingBottom = typedArray.getDimensionPixelSize(R.styleable.MessageList_sendBubblePaddingBottom,
+        style.sendBubblePaddingBottom = typedArray.getDimensionPixelSize(
+                R.styleable.MessageList_sendBubblePaddingBottom,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_padding_send_text_bottom));
         style.lineSpacingExtra = typedArray.getDimensionPixelSize(R.styleable.MessageList_lineSpacingExtra,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_line_spacing_extra_default));
@@ -198,7 +204,7 @@ public class MessageListStyle extends Style {
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         style.bubbleMaxWidth = typedArray.getFloat(R.styleable.MessageList_bubbleMaxWidth, 0.8f);
-        style.windowWidth =  wm.getDefaultDisplay().getWidth();
+        style.windowWidth = wm.getDefaultDisplay().getWidth();
 
         style.sendPhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_sendPhotoMsgBg);
         style.receivePhotoMsgBg = typedArray.getDrawable(R.styleable.MessageList_receivePhotoMsgBg);
@@ -212,7 +218,8 @@ public class MessageListStyle extends Style {
         style.videoMessageRadius = typedArray.getDimensionPixelSize(R.styleable.MessageList_videoMessageRadius,
                 context.getResources().getDimensionPixelSize(R.dimen.aurora_radius_video_message));
         style.sendingProgressDrawable = typedArray.getDrawable(R.styleable.MessageList_sendingProgressDrawable);
-        style.sendingIndeterminateDrawable = typedArray.getDrawable(R.styleable.MessageList_sendingIndeterminateDrawable);
+        style.sendingIndeterminateDrawable = typedArray
+                .getDrawable(R.styleable.MessageList_sendingIndeterminateDrawable);
         typedArray.recycle();
         return style;
     }
@@ -226,13 +233,12 @@ public class MessageListStyle extends Style {
     }
 
     public Drawable getMessageSelector(@ColorInt int normalColor, @ColorInt int selectedColor,
-                                       @ColorInt int pressedColor, @DrawableRes int shape) {
+            @ColorInt int pressedColor, @DrawableRes int shape) {
         Drawable button = DrawableCompat.wrap(getVectorDrawable(shape));
-        DrawableCompat.setTintList(button, new ColorStateList(new int[][] {
-                new int[] {android.R.attr.state_selected},
-                new int[] {android.R.attr.state_pressed},
-                new int[] {-android.R.attr.state_pressed, -android.R.attr.state_selected}
-        }, new int[] {selectedColor, pressedColor, normalColor}));
+        DrawableCompat.setTintList(button, new ColorStateList(
+                new int[][] { new int[] { android.R.attr.state_selected }, new int[] { android.R.attr.state_pressed },
+                        new int[] { -android.R.attr.state_pressed, -android.R.attr.state_selected } },
+                new int[] { selectedColor, pressedColor, normalColor }));
         return button;
     }
 
@@ -381,6 +387,14 @@ public class MessageListStyle extends Style {
 
     public int getDisplayNamePaddingBottom() {
         return this.displayNamePaddingBottom;
+    }
+
+    public int setDisplayNameEmsNumber(int displayNameEmsNumber) {
+        return this.displayNameEmsNumber = displayNameEmsNumber;
+    }
+
+    public int getDisplayNameEmsNumber() {
+        return this.displayNameEmsNumber <= 0 ? 5 : this.displayNameEmsNumber;
     }
 
     public void setReceiveBubbleColor(int receiveBubbleColor) {

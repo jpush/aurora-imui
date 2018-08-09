@@ -162,6 +162,7 @@ public class PhotoViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
                 style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
+        mDisplayNameTv.setEms(style.getDisplayNameEmsNumber());
         android.view.ViewGroup.LayoutParams layoutParams = mAvatarIv.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();

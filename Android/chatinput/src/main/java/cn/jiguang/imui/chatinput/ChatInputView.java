@@ -48,7 +48,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
@@ -174,7 +173,10 @@ public class ChatInputView extends LinearLayout
     private boolean mIsFullScreen = false;
     private Context mContext;
     private Rect mRect = new Rect();
-    private LinearLayout mCameraBtnContainer;
+    private View mCameraBtnContainer;
+    private View mVoiceBtnContainer;
+    private View mPhotoBtnContainer;
+    private View mEmojiBtnContainer;
 
     public ChatInputView(Context context) {
         super(context);
@@ -203,14 +205,14 @@ public class ChatInputView extends LinearLayout
         mEmojiBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_emoji);
         mSendBtn = (ImageButton) findViewById(R.id.aurora_menuitem_ib_send);
 
-        View voiceBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_voice);
-        View photoBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_photo);
+        mVoiceBtnContainer = findViewById(R.id.aurora_ll_menuitem_voice_container);
+        mPhotoBtnContainer = findViewById(R.id.aurora_ll_menuitem_photo_container);
         mCameraBtnContainer = findViewById(R.id.aurora_ll_menuitem_camera_container);
-        View emojiBtnContainer = findViewById(R.id.aurora_framelayout_menuitem_emoji);
-        voiceBtnContainer.setOnClickListener(onMenuItemClickListener);
-        photoBtnContainer.setOnClickListener(onMenuItemClickListener);
+        mEmojiBtnContainer = findViewById(R.id.aurora_ll_menuitem_emoji_container);
+        mVoiceBtnContainer.setOnClickListener(onMenuItemClickListener);
+        mPhotoBtnContainer.setOnClickListener(onMenuItemClickListener);
         mCameraBtnContainer.setOnClickListener(onMenuItemClickListener);
-        emojiBtnContainer.setOnClickListener(onMenuItemClickListener);
+        mEmojiBtnContainer.setOnClickListener(onMenuItemClickListener);
         mSendBtn.setOnClickListener(onMenuItemClickListener);
 
         mSendCountTv = (TextView) findViewById(R.id.aurora_menuitem_tv_send_count);
@@ -277,19 +279,19 @@ public class ChatInputView extends LinearLayout
         mRecordControllerView.setOnControllerListener(this);
         getViewTreeObserver().addOnPreDrawListener(this);
 
-//        mChatInput.setOnTouchListener(new OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                if (mEditTextListener != null) {
-//                    mEditTextListener.onTouchEditText();
-//                }
-////                if (!mChatInput.isFocused()) {
-////                    mChatInput.setFocusable(true);
-////                    mChatInput.setFocusableInTouchMode(true);
-////                }
-//                return false;
-//            }
-//        });
+        // mChatInput.setOnTouchListener(new OnTouchListener() {
+        // @Override
+        // public boolean onTouch(View view, MotionEvent motionEvent) {
+        // if (mEditTextListener != null) {
+        // mEditTextListener.onTouchEditText();
+        // }
+        //// if (!mChatInput.isFocused()) {
+        //// mChatInput.setFocusable(true);
+        //// mChatInput.setFocusableInTouchMode(true);
+        //// }
+        // return false;
+        // }
+        // });
     }
 
     EmoticonClickListener emoticonClickListener = new EmoticonClickListener() {
@@ -303,9 +305,9 @@ public class ChatInputView extends LinearLayout
                     return;
                 }
                 if (actionType == Constants.EMOTICON_CLICK_BIGIMAGE) {
-//                    if(o instanceof EmoticonEntity){
-//                        OnSendImage(((EmoticonEntity)o).getIconUri());
-//                    }
+                    // if(o instanceof EmoticonEntity){
+                    // OnSendImage(((EmoticonEntity)o).getIconUri());
+                    // }
                 } else {
                     String content = null;
                     if (o instanceof EmojiBean) {
@@ -336,8 +338,8 @@ public class ChatInputView extends LinearLayout
         mChatInput.setTextColor(mStyle.getInputTextColor());
         mChatInput.setHintTextColor(mStyle.getInputHintColor());
         mChatInput.setBackgroundResource(mStyle.getInputEditTextBg());
-        mChatInput.setPadding(mStyle.getInputPaddingLeft(), mStyle.getInputPaddingTop(),
-                mStyle.getInputPaddingRight(), mStyle.getInputPaddingBottom());
+        mChatInput.setPadding(mStyle.getInputPaddingLeft(), mStyle.getInputPaddingTop(), mStyle.getInputPaddingRight(),
+                mStyle.getInputPaddingBottom());
         mInputMarginLeft.getLayoutParams().width = mStyle.getInputMarginLeft();
         mInputMarginRight.getLayoutParams().width = mStyle.getInputMarginRight();
         mVoiceBtn.setImageResource(mStyle.getVoiceBtnIcon());
@@ -435,8 +437,7 @@ public class ChatInputView extends LinearLayout
                 if (mSelectPhotoView.getSelectFiles() != null && mSelectPhotoView.getSelectFiles().size() > 0) {
                     mListener.onSendFiles(mSelectPhotoView.getSelectFiles());
 
-                    mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                            R.drawable.aurora_menuitem_send));
+                    mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.aurora_menuitem_send));
                     mSendCountTv.setVisibility(View.INVISIBLE);
                     mSelectPhotoView.resetCheckState();
                     dismissMenuLayout();
@@ -461,8 +462,8 @@ public class ChatInputView extends LinearLayout
                     }
                 } else if (view.getId() == R.id.aurora_framelayout_menuitem_photo) {
                     if (mListener != null && mListener.switchToGalleryMode()) {
-                        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) {
+                        if (ContextCompat.checkSelfPermission(mContext,
+                                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                             return;
                         }
                         if (mSelectPhotoView.getVisibility() == VISIBLE && mMenuContainer.getVisibility() == VISIBLE) {
@@ -596,7 +597,7 @@ public class ChatInputView extends LinearLayout
             // click capture button in preview camera view
             // is record video mode
             if (mIsRecordVideoMode) {
-                if (!mIsRecordingVideo) {   // start recording
+                if (!mIsRecordingVideo) { // start recording
                     mCameraSupport.startRecordingVideo();
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -609,7 +610,7 @@ public class ChatInputView extends LinearLayout
                     }, 200);
                     mIsRecordingVideo = true;
 
-                } else {    // finish recording
+                } else { // finish recording
                     mVideoFilePath = mCameraSupport.finishRecordingVideo();
                     mIsRecordingVideo = false;
                     mIsRecordVideoMode = false;
@@ -626,7 +627,8 @@ public class ChatInputView extends LinearLayout
             } else if (mFinishRecordingVideo) {
                 if (mListener != null && mVideoFilePath != null) {
                     File file = new File(mVideoFilePath);
-                    VideoItem video = new VideoItem(mVideoFilePath, file.getName(), file.length() + "", System.currentTimeMillis() + "", mMediaPlayer.getDuration() / 1000);
+                    VideoItem video = new VideoItem(mVideoFilePath, file.getName(), file.length() + "",
+                            System.currentTimeMillis() + "", mMediaPlayer.getDuration() / 1000);
                     List<FileItem> list = new ArrayList<>();
                     list.add(video);
                     mListener.onSendFiles(list);
@@ -683,8 +685,8 @@ public class ChatInputView extends LinearLayout
                             mCameraId = i;
                             mIsBackCamera = false;
                             mCameraSupport.release();
-                            mCameraSupport.open(mCameraId, mTextureView.getWidth(),
-                                    mTextureView.getHeight(), mIsBackCamera);
+                            mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight(),
+                                    mIsBackCamera);
                             break;
                         }
                     } else {
@@ -692,8 +694,8 @@ public class ChatInputView extends LinearLayout
                             mCameraId = i;
                             mIsBackCamera = true;
                             mCameraSupport.release();
-                            mCameraSupport.open(mCameraId, mTextureView.getWidth(),
-                                    mTextureView.getHeight(), mIsBackCamera);
+                            mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight(),
+                                    mIsBackCamera);
                             break;
                         }
                     }
@@ -736,8 +738,8 @@ public class ChatInputView extends LinearLayout
                 }
             });
         } catch (Exception e) {
-            Toast.makeText(getContext(), getContext().getString(R.string.file_not_found_toast),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getContext().getString(R.string.file_not_found_toast), Toast.LENGTH_SHORT)
+                    .show();
             e.printStackTrace();
         } finally {
             try {
@@ -780,21 +782,18 @@ public class ChatInputView extends LinearLayout
     }
 
     public void setAudioPlayByEarPhone(int state) {
-        AudioManager audioManager = (AudioManager) getContext()
-                .getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         int currVolume = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
         audioManager.setMode(AudioManager.MODE_IN_CALL);
         if (state == 0) {
             mIsEarPhoneOn = false;
             audioManager.setSpeakerphoneOn(true);
             audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,
-                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL),
-                    AudioManager.STREAM_VOICE_CALL);
+                    audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL), AudioManager.STREAM_VOICE_CALL);
         } else {
             mIsEarPhoneOn = true;
             audioManager.setSpeakerphoneOn(false);
-            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume,
-                    AudioManager.STREAM_VOICE_CALL);
+            audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, currVolume, AudioManager.STREAM_VOICE_CALL);
         }
     }
 
@@ -834,8 +833,7 @@ public class ChatInputView extends LinearLayout
                 }
 
                 @Override
-                public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width,
-                                                        int height) {
+                public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width, int height) {
                     Log.d("ChatInputView", "Texture size changed, Opening camera");
                     if (mTextureView.getVisibility() == VISIBLE && mCameraSupport != null) {
                         mCameraSupport.open(mCameraId, width, height, mIsBackCamera);
@@ -880,7 +878,8 @@ public class ChatInputView extends LinearLayout
             height = dm.heightPixels;
         }
         MarginLayoutParams marginParams1 = new MarginLayoutParams(mCaptureBtn.getLayoutParams());
-        marginParams1.setMargins(marginParams1.leftMargin, marginParams1.topMargin, marginParams1.rightMargin, dp2px(40));
+        marginParams1.setMargins(marginParams1.leftMargin, marginParams1.topMargin, marginParams1.rightMargin,
+                dp2px(40));
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(marginParams1);
         params.gravity = Gravity.BOTTOM | Gravity.CENTER;
         mCaptureBtn.setLayoutParams(params);
@@ -897,7 +896,7 @@ public class ChatInputView extends LinearLayout
         params3.gravity = Gravity.BOTTOM | Gravity.END;
         mSwitchCameraBtn.setLayoutParams(params3);
 
-        mMenuContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  height));
+        mMenuContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height));
         mTextureView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
         mIsFullScreen = true;
     }
@@ -932,8 +931,8 @@ public class ChatInputView extends LinearLayout
                     height = mSoftKeyboardHeight;
                 }
                 setMenuContainerHeight(height);
-                ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, height);
+                ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        height);
                 mTextureView.setLayoutParams(params);
                 mRecordVideoBtn.setBackgroundResource(R.drawable.aurora_preview_record_video);
                 mRecordVideoBtn.setVisibility(VISIBLE);
@@ -942,7 +941,8 @@ public class ChatInputView extends LinearLayout
                 mCaptureBtn.setBackgroundResource(R.drawable.aurora_menuitem_send_pres);
 
                 MarginLayoutParams marginParams1 = new MarginLayoutParams(mCaptureBtn.getLayoutParams());
-                marginParams1.setMargins(marginParams1.leftMargin, marginParams1.topMargin, marginParams1.rightMargin, dp2px(12));
+                marginParams1.setMargins(marginParams1.leftMargin, marginParams1.topMargin, marginParams1.rightMargin,
+                        dp2px(12));
                 FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(marginParams1);
                 params1.gravity = Gravity.BOTTOM | Gravity.CENTER;
                 mCaptureBtn.setLayoutParams(params1);
@@ -1016,8 +1016,7 @@ public class ChatInputView extends LinearLayout
             mCameraSupport = null;
         }
         mCameraFl.setVisibility(GONE);
-        ViewGroup.LayoutParams params =
-                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, sMenuHeight);
+        ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, sMenuHeight);
         mTextureView.setLayoutParams(params);
     }
 
@@ -1033,14 +1032,17 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * Set menu container's height, invoke this method once the menu was initialized.
+     * Set menu container's height, invoke this method once the menu was
+     * initialized.
      *
-     * @param height Height of menu, set same height as soft keyboard so that display to perfection.
+     * @param height Height of menu, set same height as soft keyboard so that
+     *               display to perfection.
      */
     public void setMenuContainerHeight(int height) {
         if (height > 0) {
             sMenuHeight = height;
-            ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
+            ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    height);
             mMenuContainer.setLayoutParams(params);
         }
     }
@@ -1093,14 +1095,14 @@ public class ChatInputView extends LinearLayout
      * @param isSelectPhoto check if selecting photos
      */
     private void triggerSendButtonAnimation(final ImageButton sendBtn, final boolean hasContent,
-                                            final boolean isSelectPhoto) {
-        float[] shrinkValues = new float[]{0.6f};
+            final boolean isSelectPhoto) {
+        float[] shrinkValues = new float[] { 0.6f };
         AnimatorSet shrinkAnimatorSet = new AnimatorSet();
         shrinkAnimatorSet.playTogether(ObjectAnimator.ofFloat(sendBtn, "scaleX", shrinkValues),
                 ObjectAnimator.ofFloat(sendBtn, "scaleY", shrinkValues));
         shrinkAnimatorSet.setDuration(100);
 
-        float[] restoreValues = new float[]{1.0f};
+        float[] restoreValues = new float[] { 1.0f };
         final AnimatorSet restoreAnimatorSet = new AnimatorSet();
         restoreAnimatorSet.playTogether(ObjectAnimator.ofFloat(sendBtn, "scaleX", restoreValues),
                 ObjectAnimator.ofFloat(sendBtn, "scaleY", restoreValues));
@@ -1146,11 +1148,9 @@ public class ChatInputView extends LinearLayout
             @Override
             public void onAnimationEnd(Animator animator) {
                 if (hasContent) {
-                    mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                            mStyle.getSendBtnPressedIcon()));
+                    mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), mStyle.getSendBtnPressedIcon()));
                 } else {
-                    mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(),
-                            R.drawable.aurora_menuitem_send));
+                    mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.aurora_menuitem_send));
                 }
                 restoreAnimatorSet.start();
             }
@@ -1170,8 +1170,8 @@ public class ChatInputView extends LinearLayout
     }
 
     /**
-     * Set camera capture file path and file name. If user didn't invoke this method, will save in
-     * default path.
+     * Set camera capture file path and file name. If user didn't invoke this
+     * method, will save in default path.
      *
      * @param path     Photo to be saved in.
      * @param fileName File name.
@@ -1233,7 +1233,7 @@ public class ChatInputView extends LinearLayout
     public void onLeftUpTapped() {
         mChronometer.stop();
         mRecordTime = SystemClock.elapsedRealtime() - mChronometer.getBase();
-        mPreviewPlayBtn.setMax(Math.round(mRecordTime/ 1000));
+        mPreviewPlayBtn.setMax(Math.round(mRecordTime / 1000));
         mChronometer.setVisibility(VISIBLE);
         mRecordHintTv.setVisibility(INVISIBLE);
         mPreviewPlayLl.setVisibility(VISIBLE);
@@ -1303,7 +1303,7 @@ public class ChatInputView extends LinearLayout
     public boolean isKeyboardVisible() {
         return (getDistanceFromInputToBottom() > 300 && mMenuContainer.getVisibility() == GONE)
                 || (getDistanceFromInputToBottom() > (mMenuContainer.getHeight() + 300)
-                && mMenuContainer.getVisibility() == VISIBLE);
+                        && mMenuContainer.getVisibility() == VISIBLE);
     }
 
     @Override
@@ -1356,8 +1356,7 @@ public class ChatInputView extends LinearLayout
     private final Runnable measureAndLayout = new Runnable() {
         @Override
         public void run() {
-            measure(
-                    MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
+            measure(MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
                     MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
             layout(getLeft(), getTop(), getRight(), getBottom());
         }
@@ -1367,8 +1366,10 @@ public class ChatInputView extends LinearLayout
     public void requestLayout() {
         super.requestLayout();
 
-        // React Native Override requestLayout, since we refresh our layout in native, RN catch the
-        //requestLayout event, so that the view won't refresh at once, we simulate layout here.
+        // React Native Override requestLayout, since we refresh our layout in native,
+        // RN catch the
+        // requestLayout event, so that the view won't refresh at once, we simulate
+        // layout here.
         post(measureAndLayout);
     }
 
@@ -1394,6 +1395,18 @@ public class ChatInputView extends LinearLayout
 
     public View getCameraBtnContainer() {
         return this.mCameraBtnContainer;
+    }
+
+    public View getVoiceBtnContainer() {
+        return this.mVoiceBtnContainer;
+    }
+
+    public View getEmojiBtnContainer() {
+        return this.mEmojiBtnContainer;
+    }
+
+    public View getPhotoBtnContainer() {
+        return this.mPhotoBtnContainer;
     }
 
     public ChatInputStyle getStyle() {
@@ -1427,4 +1440,9 @@ public class ChatInputView extends LinearLayout
     public ImageButton getSelectAlbumBtn() {
         return this.mSelectAlbumIb;
     }
+
+    public ImageButton getRecordVideoBtn() {
+        return this.mRecordVideoBtn;
+    }
+
 }

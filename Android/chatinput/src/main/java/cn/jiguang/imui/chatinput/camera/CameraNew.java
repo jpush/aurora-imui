@@ -225,7 +225,7 @@ public class CameraNew implements CameraSupport {
                         } else {
                             runPrecaptureSequence();
                         }
-                    // 前置摄像头并且不支持自动对焦
+                        // 前置摄像头并且不支持自动对焦
                     } else if (!mIsFacingBack && afState == CaptureResult.CONTROL_AF_STATE_INACTIVE) {
                         mState = STATE_PICTURE_TAKEN;
                         captureStillPicture();
@@ -772,7 +772,7 @@ public class CameraNew implements CameraSupport {
         /**
          * The file we save the image into.
          */
-        private File mPhoto;
+        private File mPhoto, mLastPhoto;
 
         public ImageSaver(Image image) {
             mImage = image;
@@ -794,14 +794,17 @@ public class CameraNew implements CameraSupport {
                     int w = bmp.getWidth();
                     int h = bmp.getHeight();
                     Matrix matrix = new Matrix();
-                    matrix.preScale(1, -1);
+                    matrix.preScale(-1, 1);
                     Bitmap convertBmp = Bitmap.createBitmap(bmp, 0, 0, w, h, matrix, true);
                     convertBmp.compress(Bitmap.CompressFormat.JPEG, 100, output);
                 } else {
                     output.write(bytes);
                 }
                 if (mOnCameraCallbackListener != null) {
+                    if(mLastPhoto != null && mLastPhoto.getAbsolutePath().equals(mPhoto.getAbsolutePath())) // Forbid repeat
+                        return;
                     mOnCameraCallbackListener.onTakePictureCompleted(mPhoto.getAbsolutePath());
+                    mLastPhoto = mPhoto;
                 }
                 if (mCameraEventListener != null) {
                     mCameraEventListener.onFinishTakePicture();

@@ -7,6 +7,7 @@
               android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/aurora_ll_menuitem_voice_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -29,6 +30,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/aurora_ll_menuitem_photo_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -74,6 +76,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/aurora_ll_menuitem_emoji_container"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"

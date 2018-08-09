@@ -20,7 +20,6 @@ import cn.jiguang.imui.utils.BitmapCache;
 import cn.jiguang.imui.view.RoundImageView;
 import cn.jiguang.imui.view.RoundTextView;
 
-
 public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHolder<Message>
         implements MsgListAdapter.DefaultMessageViewHolder {
 
@@ -87,8 +86,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
             }
         });
 
-        String durationStr = String.format(Locale.CHINA, "%02d:%02d",
-                TimeUnit.SECONDS.toMinutes(message.getDuration()),
+        String durationStr = String.format(Locale.CHINA, "%02d:%02d", TimeUnit.SECONDS.toMinutes(message.getDuration()),
                 TimeUnit.SECONDS.toSeconds(message.getDuration()));
         Log.d("VideoViewHolder", "duration: " + message.getDuration() + " durationStr " + durationStr);
         mTvDuration.setText(durationStr);
@@ -97,26 +95,26 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         }
         if (mIsSender) {
             switch (message.getMessageStatus()) {
-                case SEND_GOING:
-                    mSendingPb.setVisibility(View.VISIBLE);
-                    mResendIb.setVisibility(View.GONE);
-                    break;
-                case SEND_FAILED:
-                    mSendingPb.setVisibility(View.GONE);
-                    mResendIb.setVisibility(View.VISIBLE);
-                    mResendIb.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mMsgStatusViewClickListener != null) {
-                                mMsgStatusViewClickListener.onStatusViewClick(message);
-                            }
+            case SEND_GOING:
+                mSendingPb.setVisibility(View.VISIBLE);
+                mResendIb.setVisibility(View.GONE);
+                break;
+            case SEND_FAILED:
+                mSendingPb.setVisibility(View.GONE);
+                mResendIb.setVisibility(View.VISIBLE);
+                mResendIb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mMsgStatusViewClickListener != null) {
+                            mMsgStatusViewClickListener.onStatusViewClick(message);
                         }
-                    });
-                    break;
-                case SEND_SUCCEED:
-                    mSendingPb.setVisibility(View.GONE);
-                    mResendIb.setVisibility(View.GONE);
-                    break;
+                    }
+                });
+                break;
+            case SEND_SUCCEED:
+                mSendingPb.setVisibility(View.GONE);
+                mResendIb.setVisibility(View.GONE);
+                break;
             }
         }
 
@@ -140,8 +138,8 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
     public void applyStyle(MessageListStyle style) {
         mDateTv.setTextSize(style.getDateTextSize());
         mDateTv.setTextColor(style.getDateTextColor());
-        mDateTv.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(),
-                style.getDatePaddingRight(), style.getDatePaddingBottom());
+        mDateTv.setPadding(style.getDatePaddingLeft(), style.getDatePaddingTop(), style.getDatePaddingRight(),
+                style.getDatePaddingBottom());
         mDateTv.setBgCornerRadius(style.getDateBgCornerRadius());
         mDateTv.setBgColor(style.getDateBgColor());
         if (mIsSender) {
@@ -169,7 +167,7 @@ public class VideoViewHolder<Message extends IMessage> extends BaseMessageViewHo
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
                 style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
-
+        mDisplayNameTv.setEms(style.getDisplayNameEmsNumber());
         android.view.ViewGroup.LayoutParams layoutParams = mImageAvatar.getLayoutParams();
         layoutParams.width = style.getAvatarWidth();
         layoutParams.height = style.getAvatarHeight();
