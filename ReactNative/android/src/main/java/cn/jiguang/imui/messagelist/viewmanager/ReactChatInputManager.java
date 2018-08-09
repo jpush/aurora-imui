@@ -671,6 +671,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
         chatInputView.getSelectAlbumBtn().setVisibility(flag ? View.VISIBLE : View.GONE);
     }
 
+    @ReactProp(name = "showRecordVideoBtn")
+    public void showRecordVideoBtn(ChatInputView chatInputView, boolean flag) {
+        chatInputView.getRecordVideoBtn().setVisibility(flag ? View.VISIBLE : View.GONE);
+    }
+
     @ReactProp(name = "inputPadding")
     public void setEditTextPadding(ChatInputView chatInputView, ReadableMap map) {
         try {
@@ -704,11 +709,22 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
     @ReactProp(name = "hideCameraButton")
     public void hideCameraButton(ChatInputView chatInputView, boolean hide) {
-        if (hide) {
-            chatInputView.getCameraBtnContainer().setVisibility(View.GONE);
-        } else {
-            chatInputView.getCameraBtnContainer().setVisibility(View.VISIBLE);
-        }
+        chatInputView.getCameraBtnContainer().setVisibility(hide ? View.GONE : View.VISIBLE);
+    }
+
+    @ReactProp(name = "hideVoiceButton")
+    public void hideVoiceButton(ChatInputView chatInputView, boolean hide) {
+        chatInputView.getVoiceBtnContainer().setVisibility(hide ? View.GONE : View.VISIBLE);
+    }
+
+    @ReactProp(name = "hideEmojiButton")
+    public void hideEmojiButton(ChatInputView chatInputView, boolean hide) {
+        chatInputView.getEmojiBtnContainer().setVisibility(hide ? View.GONE : View.VISIBLE);
+    }
+
+    @ReactProp(name = "hidePhotoButton")
+    public void hidePhotoButton(ChatInputView chatInputView, boolean hide) {
+        chatInputView.getPhotoBtnContainer().setVisibility(hide ? View.GONE : View.VISIBLE);
     }
 
     @Override

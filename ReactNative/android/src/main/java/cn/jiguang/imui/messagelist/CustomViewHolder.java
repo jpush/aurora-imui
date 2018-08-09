@@ -233,6 +233,7 @@ public class CustomViewHolder<MESSAGE extends IMessage> extends BaseMessageViewH
         mDisplayNameTv.setPadding(style.getDisplayNamePaddingLeft(), style.getDisplayNamePaddingTop(),
                 style.getDisplayNamePaddingRight(), style.getDisplayNamePaddingBottom());
         mDisplayNameTv.setTextColor(style.getDisplayNameTextColor());
+        mDisplayNameTv.setEms(style.getDisplayNameEmsNumber());
         if (mIsSender) {
             mMsgTv.setBackground(style.getSendBubbleDrawable());
             mMsgTv.setTextColor(style.getSendBubbleTextColor());
