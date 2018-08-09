@@ -127,6 +127,7 @@ MessageList.propTypes = {
   displayNameTextSize: PropTypes.number,
   displayNameTextColor: PropTypes.string,
   displayNamePadding: PropTypes.object,
+  displayNameEmsNumber: PropTypes.number,
   isAllowPullToRefresh: PropTypes.bool,
   maxBubbleWidth: PropTypes.number,
   messageTextLineHeight: PropTypes.number,
