@@ -66,6 +66,7 @@ Refer to iOS,Android example
     - [displayNameTextSize](#displayNameTextSize)
     - [displayNameTextColor](#displayNameTextColor)
     - [displayNamePadding](#displayNamePadding)
+    - [displayNameEmsNumber](#displayNameEmsNumberandroid-only)
     - [eventTextColor](#eventTextColor)
     - [eventTextSize](#eventTextSize)
     - [eventTextPadding](#eventTextPadding)
@@ -81,7 +82,11 @@ Refer to iOS,Android example
     - [customLayoutItems](#customlayoutitemsios-only)
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
+    - [showRecordVideoBtn](#showRecordVideoBtnandroid-only) 
     - [hideCameraButton](#hideCameraButtonandroid-only)
+    - [hideVoiceButton](#hideVoiceButtonandroid-only)
+    - [hideEmojiButton](#hideEmojiButtonandroid-only)
+    - [hidePhotoButton](#hidePhotoButtonandroid-only)
     - [inputPadding](#inputPadding)
     - [inputTextColor](#inputTextColor)
     - [inputTextSize](#inputTextSize)
@@ -530,6 +535,15 @@ Example: `displayNamePadding={left: 5, top: 0, right: 0, bottom: 5}`
 
 ------
 
+#### displayNameEmsNumber(Android Only)
+**PropTypes.number:**
+
+Set ems number of display name.
+
+Example: ```displayNameEmsNumber={6}```
+
+------
+
 #### messageListBackgroundColor
 
 **PropTypes.string:**
@@ -617,12 +631,49 @@ Example: ```showSelectAlbumBtn={true}```
 
 ------
 
+#### showRecordVideoBtn(Android Only)
+**PropTypes.bool:**
+
+Set the visibility of the record video button.
+
+Example: ```showRecordVideoBtn={true}```
+
+------
+
 #### hideCameraButton(Android Only)
 **PropTypes.bool:**
 
 Set the visibility of the camera button.
 
 Example: ```hideCameraButton={true}```
+
+
+------
+
+#### hideVoiceButton(Android Only)
+**PropTypes.bool:**
+
+Set the visibility of the voice button.
+
+Example: ```hideVoiceButton={true}```
+
+------
+
+#### hideEmojiButton(Android Only)
+**PropTypes.bool:**
+
+Set the visibility of the Emoji button.
+
+Example: ```hideEmojiButton={true}```
+
+------
+
+#### hidePhotoButton(Android Only)
+**PropTypes.bool:**
+
+Set the visibility of the photo button.
+
+Example: ```hidePhotoButton={true}```
 
 ------
 ### inputPadding

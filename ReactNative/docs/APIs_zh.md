@@ -65,6 +65,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [displayNameTextSize](#displayNameTextSize)
     - [displayNameTextColor](#displayNameTextColor)
     - [displayNamePadding](#displayNamePadding)
+    - [displayNameEmsNumber](#displayNameEmsNumberandroid-only)
     - [eventTextColor](#eventTextColor)
     - [eventTextSize](#eventTextSize)
     - [eventTextPadding](#eventTextPadding)
@@ -80,7 +81,11 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [customLayoutItems](#customlayoutitemsios-only)
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
+    - [showRecordVideoBtn](#showRecordVideoBtnandroid-only)   
     - [hideCameraButton](#hideCameraButtonandroid-only)
+    - [hideVoiceButton](#hideVoiceButtonandroid-only)
+    - [hideEmojiButton](#hideEmojiButtonandroid-only)
+    - [hidePhotoButton](#hidePhotoButtonandroid-only)
     - [inputPadding](#inputPadding)
     - [inputTextColor](#inputTextColor)
     - [inputTextSize](#inputTextSize)
@@ -528,6 +533,15 @@ Example: `displayNamePadding={left: 5, top: 0, right: 0, bottom: 5}`
 
 ------
 
+#### displayNameEmsNumber(Android Only)
+**PropTypes.number:**
+
+设置昵称显示长度，超出省略号代替，默认值5
+
+Example: ```displayNameEmsNumber={6}```
+
+------
+
 #### messageListBackgroundColor
 
 **PropTypes.string:**
@@ -616,6 +630,16 @@ Example: ```showSelectAlbumBtn={true}```
 
 ------
 
+#### showRecordVideoBtn(Android Only)
+**PropTypes.bool:**
+
+设置视频录制按钮的可见性。
+
+Example: ```showRecordVideoBtn={true}```
+
+
+------
+
 #### hideCameraButton(Android Only)
 **PropTypes.bool:**
 
@@ -625,6 +649,32 @@ Example: ```hideCameraButton={true}```
 
 ------
 
+#### hideVoiceButton(Android Only)
+**PropTypes.bool:**
+
+设置菜单栏录音按钮可见性。
+
+Example: ```hideVoiceButton={true}```
+
+------
+
+#### hideEmojiButton(Android Only)
+**PropTypes.bool:**
+
+设置菜单栏Emoji表情按钮可见性。
+
+Example: ```hideEmojiButton={true}```
+
+------
+
+#### hidePhotoButton(Android Only)
+**PropTypes.bool:**
+
+设置菜单栏相册按钮可见性。
+
+Example: ```hidePhotoButton={true}```
+
+------
 ### inputPadding
 
 **PropTypes.object:** {left: number, top: number, right: number, bottom: number}
