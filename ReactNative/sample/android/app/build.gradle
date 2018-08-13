@@ -111,31 +111,31 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
-    signingConfigs {
-        release {
-            def Properties localProps = new Properties()
-            localProps.load(new FileInputStream(file('../local.properties')))
-            def Properties keyProps = new Properties()
-            assert localProps['release.keystore.file']
-            keyProps.load(new FileInputStream(file(localProps['release.keystore.file'])))
-            storeFile file(keyProps["storeFile"])
-            keyAlias keyProps["keyAlias"]
-            storePassword keyProps["storePassword"]
-            keyPassword keyProps["keyPassword"]
-        }
-    }
+//    signingConfigs {
+//        release {
+//            def Properties localProps = new Properties()
+//            localProps.load(new FileInputStream(file('../local.properties')))
+//            def Properties keyProps = new Properties()
+//            assert localProps['release.keystore.file']
+//            keyProps.load(new FileInputStream(file(localProps['release.keystore.file'])))
+//            storeFile file(keyProps["storeFile"])
+//            keyAlias keyProps["keyAlias"]
+//            storePassword keyProps["storePassword"]
+//            keyPassword keyProps["keyPassword"]
+//        }
+//    }
     buildTypes {
         debug {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        release {
-            minifyEnabled true
-            useProguard true
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+//        release {
+//            minifyEnabled true
+//            useProguard true
+//            signingConfig signingConfigs.release
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
     }
 
     // applicationVariants are e.g. debug, release.properties
