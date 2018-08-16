@@ -447,7 +447,7 @@ public class ChatInputView extends LinearLayout
 
             } else {
                 mChatInput.clearFocus();
-                if (view.getId() == R.id.aurora_framelayout_menuitem_voice) {
+                if (view.getId() == R.id.aurora_ll_menuitem_voice_container) {
                     if (mListener != null && mListener.switchToMicrophoneMode()) {
                         if (mRecordVoiceRl.getVisibility() == VISIBLE && mMenuContainer.getVisibility() == VISIBLE) {
                             dismissMenuLayout();
@@ -460,7 +460,7 @@ public class ChatInputView extends LinearLayout
                             showRecordVoiceLayout();
                         }
                     }
-                } else if (view.getId() == R.id.aurora_framelayout_menuitem_photo) {
+                } else if (view.getId() == R.id.aurora_ll_menuitem_photo_container) {
                     if (mListener != null && mListener.switchToGalleryMode()) {
                         if (ContextCompat.checkSelfPermission(mContext,
                                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -498,7 +498,7 @@ public class ChatInputView extends LinearLayout
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
-                } else if (view.getId() == R.id.aurora_framelayout_menuitem_emoji) {
+                } else if (view.getId() == R.id.aurora_ll_menuitem_emoji_container) {
                     if (mListener != null && mListener.switchToEmojiMode()) {
                         if (mEmojiRl.getVisibility() == VISIBLE && mMenuContainer.getVisibility() == VISIBLE) {
                             dismissMenuLayout();
