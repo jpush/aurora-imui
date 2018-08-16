@@ -66,7 +66,6 @@ Refer to iOS,Android example
     - [displayNameTextSize](#displayNameTextSize)
     - [displayNameTextColor](#displayNameTextColor)
     - [displayNamePadding](#displayNamePadding)
-    - [displayNameEmsNumber](#displayNameEmsNumberandroid-only)
     - [eventTextColor](#eventTextColor)
     - [eventTextSize](#eventTextSize)
     - [eventTextPadding](#eventTextPadding)
@@ -532,15 +531,6 @@ Example: `displayNameTextColor={"#cecece"}`
 Set padding of display name.
 
 Example: `displayNamePadding={left: 5, top: 0, right: 0, bottom: 5}`
-
-------
-
-#### displayNameEmsNumber(Android Only)
-**PropTypes.number:**
-
-Set ems number of display name.
-
-Example: ```displayNameEmsNumber={6}```
 
 ------
 
