@@ -65,7 +65,6 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [displayNameTextSize](#displayNameTextSize)
     - [displayNameTextColor](#displayNameTextColor)
     - [displayNamePadding](#displayNamePadding)
-    - [displayNameEmsNumber](#displayNameEmsNumberandroid-only)
     - [eventTextColor](#eventTextColor)
     - [eventTextSize](#eventTextSize)
     - [eventTextPadding](#eventTextPadding)
@@ -530,15 +529,6 @@ Example: `displayNameTextColor={"#cecece"}`
 设置昵称内边距。
 
 Example: `displayNamePadding={left: 5, top: 0, right: 0, bottom: 5}`
-
-------
-
-#### displayNameEmsNumber(Android Only)
-**PropTypes.number:**
-
-设置昵称显示长度，超出省略号代替，默认值5
-
-Example: ```displayNameEmsNumber={6}```
 
 ------
 
