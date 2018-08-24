@@ -94,11 +94,15 @@
   _messagemediaPath = mediaPath;
   _isOutGoing = isOutGoing;
   _messageStatus = messageStatus;
-  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage:isOutGoing
-                                              isNeedShowTime:false
+  
+  BOOL isNeedShowTime = timeString != nil && ![timeString isEqualToString:@""];
+  CGSize timeLabelSize = isNeedShowTime ? CGSizeMake(200, 28) : CGSizeZero;
+  
+  _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
+                                              isNeedShowTime: isNeedShowTime
                                            bubbleContentSize: CGSizeMake(80, 37)
                                          bubbleContentInsets: UIEdgeInsetsZero
-                                        timeLabelContentSize: CGSizeZero
+                                        timeLabelContentSize: timeLabelSize
                                                  contentType: @"Voice"];
   _type = @"Voice";
 }
@@ -115,11 +119,15 @@
   _messagemediaPath = mediaPath;
   _isOutGoing = isOutGoing;
   _messageStatus = messageStatus;
+  
+  BOOL isNeedShowTime = timeString != nil && ![timeString isEqualToString:@""];
+  CGSize timeLabelSize = isNeedShowTime ? CGSizeMake(200, 28) : CGSizeZero;
+  
   _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
-                                              isNeedShowTime: false
+                                              isNeedShowTime: isNeedShowTime
                                            bubbleContentSize: CGSizeMake(120, 160)
                                          bubbleContentInsets: UIEdgeInsetsZero
-                                        timeLabelContentSize: CGSizeZero
+                                        timeLabelContentSize: timeLabelSize
                                                  contentType: @"Image"];
   
   _type = @"Image";
@@ -137,11 +145,15 @@
   _messagemediaPath = mediaPath;
   _isOutGoing = isOutGoing;
   _messageStatus = messageStatus;
+  
+  BOOL isNeedShowTime = timeString != nil && ![timeString isEqualToString:@""];
+  CGSize timeLabelSize = isNeedShowTime ? CGSizeMake(200, 28) : CGSizeZero;
+  
   _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
-                                              isNeedShowTime: false
+                                              isNeedShowTime: isNeedShowTime
                                            bubbleContentSize: CGSizeMake(120, 160)
                                          bubbleContentInsets: UIEdgeInsetsZero
-                                        timeLabelContentSize: CGSizeZero
+                                        timeLabelContentSize: timeLabelSize
                                                  contentType: @"Video"];
   _type = @"Video";
 }
@@ -168,11 +180,14 @@
     } else {
       contentInset = UIEdgeInsetsMake(10, 15, 10, 10);
     }
+    BOOL isNeedShowTime = timeString != nil && ![timeString isEqualToString:@""];
+    CGSize timeLabelSize = isNeedShowTime ? CGSizeMake(200, 14) : CGSizeZero;
+    
     _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
-                                                isNeedShowTime: false
+                                                isNeedShowTime: isNeedShowTime
                                              bubbleContentSize: [MessageModel calculateTextContentSizeWithText: text]
                                            bubbleContentInsets: contentInset
-                                          timeLabelContentSize: CGSizeZero
+                                          timeLabelContentSize: timeLabelSize
                                                    contentType: @"Text"];
     _type = @"Text";
   }
@@ -194,11 +209,15 @@
     _messagemediaPath = mediaPath;
     _isOutGoing = isOutGoing;
     _messageStatus = messageStatus;
+    
+    BOOL isNeedShowTime = timeString != nil && ![timeString isEqualToString:@""];
+    CGSize timeLabelSize = isNeedShowTime ? CGSizeMake(200, 14) : CGSizeZero;
+    
     _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
-                                                isNeedShowTime: false
+                                                isNeedShowTime: isNeedShowTime
                                              bubbleContentSize: CGSizeMake(120, 160)
                                            bubbleContentInsets: UIEdgeInsetsZero
-                                          timeLabelContentSize: CGSizeZero
+                                          timeLabelContentSize: timeLabelSize
                                                    contentType: @"Image"];
     
     _type = @"Image";
@@ -223,11 +242,15 @@
     _isOutGoing = isOutGoing;
     _messageStatus = messageStatus;
     _duration = duration;
+    
+    BOOL isNeedShowTime = timeString != nil && ![timeString isEqualToString:@""];
+    CGSize timeLabelSize = isNeedShowTime ? CGSizeMake(200, 14) : CGSizeZero;
+    
     _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
-                                                isNeedShowTime: false
+                                                isNeedShowTime: isNeedShowTime
                                              bubbleContentSize: CGSizeMake(80, 37)
                                            bubbleContentInsets: UIEdgeInsetsZero
-                                          timeLabelContentSize: CGSizeZero
+                                          timeLabelContentSize: timeLabelSize
                                                    contentType: @"Voice"];
     _type = @"Voice";
   }
@@ -249,11 +272,15 @@
     _messagemediaPath = mediaPath;
     _isOutGoing = isOutGoing;
     _messageStatus = messageStatus;
+    
+    BOOL isNeedShowTime = timeString != nil && ![timeString isEqualToString:@""];
+    CGSize timeLabelSize = isNeedShowTime ? CGSizeMake(200, 14) : CGSizeZero;
+    
     _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
-                                                isNeedShowTime: false
+                                                isNeedShowTime: isNeedShowTime
                                              bubbleContentSize: CGSizeMake(120, 160)
                                            bubbleContentInsets: UIEdgeInsetsZero
-                                          timeLabelContentSize: CGSizeZero
+                                          timeLabelContentSize: timeLabelSize
                                                    contentType: @"Video"];
     _type = @"Video";
   }
