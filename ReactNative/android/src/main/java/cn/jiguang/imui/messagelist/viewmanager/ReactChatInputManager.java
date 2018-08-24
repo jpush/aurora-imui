@@ -673,7 +673,13 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
     @ReactProp(name = "showRecordVideoBtn")
     public void showRecordVideoBtn(ChatInputView chatInputView, boolean flag) {
-        chatInputView.getRecordVideoBtn().setVisibility(flag ? View.VISIBLE : View.GONE);
+        if(flag){
+            chatInputView.getRecordVideoBtn().setVisibility(View.VISIBLE);
+            chatInputView.getRecordVideoBtn().setTag("VISIBLE");
+        }else{
+            chatInputView.getRecordVideoBtn().setVisibility(View.GONE);
+            chatInputView.getRecordVideoBtn().setTag("GONE");
+        }
     }
 
     @ReactProp(name = "inputPadding")

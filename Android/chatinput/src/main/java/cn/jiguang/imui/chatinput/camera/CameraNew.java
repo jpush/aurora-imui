@@ -711,8 +711,8 @@ public class CameraNew implements CameraSupport {
             setAutoFlash(captureBuilder);
 
             // Orientation
-            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,
-                    mCameraCharacteristic.get(CameraCharacteristics.SENSOR_ORIENTATION));
+//            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,
+//                    mCameraCharacteristic.get(CameraCharacteristics.SENSOR_ORIENTATION));
 
             CameraCaptureSession.CaptureCallback CaptureCallback
                     = new CameraCaptureSession.CaptureCallback() {
@@ -789,17 +789,23 @@ public class CameraNew implements CameraSupport {
                         new SimpleDateFormat("yyyy-MM-dd-HHmmss", Locale.getDefault()).format(new Date())
                                 + ".jpg");
                 output = new FileOutputStream(mPhoto);
+
+                // 前置摄像头水平翻转照片
+                Matrix matrix = new Matrix();
+                Bitmap rotateBmp;
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                int w = bmp.getWidth();
+                int h = bmp.getHeight();
                 if (!mIsFacingBack) {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    int w = bmp.getWidth();
-                    int h = bmp.getHeight();
-                    Matrix matrix = new Matrix();
-                    matrix.preScale(-1, 1);
-                    Bitmap convertBmp = Bitmap.createBitmap(bmp, 0, 0, w, h, matrix, true);
-                    convertBmp.compress(Bitmap.CompressFormat.JPEG, 100, output);
+                    matrix.postScale(-1, 1);
+                    matrix.postRotate(90);
+                    rotateBmp = Bitmap.createBitmap(bmp, 0, 0, w, h, matrix, true);
                 } else {
-                    output.write(bytes);
+                    matrix.postRotate(90);
+                    rotateBmp = Bitmap.createBitmap(bmp, 0, 0, w, h, matrix, true);
                 }
+                rotateBmp.compress(Bitmap.CompressFormat.JPEG, 100, output);
+
                 if (mOnCameraCallbackListener != null) {
                     if(mLastPhoto != null && mLastPhoto.getAbsolutePath().equals(mPhoto.getAbsolutePath())) // Forbid repeat
                         return;

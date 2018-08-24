@@ -462,6 +462,7 @@ export default class TestRNIMUI extends Component {
           closeCamera={this.onCloseCamera}
           switchCameraMode={this.switchCameraMode}
           showSelectAlbumBtn={true}
+          showRecordVideoBtn={false}
           onClickSelectAlbum={this.onClickSelectAlbum}
           inputPadding={{ left: 30, top: 10, right: 10, bottom: 10 }}
           galleryScale={0.6}//default = 0.5
