@@ -12,12 +12,16 @@ class MyMessageModel: IMUIMessageModel {
   
   open var myTextMessage: String = ""
   
-  var mediaPath: String = ""
+  var mediaPath = ""
+  var imageUrl = ""
   
   override func mediaFilePath() -> String {
     return mediaPath
   }
   
+  override func webImageUrl() -> String {
+    return self.imageUrl
+  }
   override var resizableBubbleImage: UIImage {
     // return defoult message bubble
     return super.resizableBubbleImage
@@ -71,6 +75,20 @@ class MyMessageModel: IMUIMessageModel {
                                     timeLabelContentSize: CGSize(width: 200, height: 20),
                                        type: "image")
     self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "image", text: "", mediaPath: imagePath, layout:  myLayout, duration: nil)
+  }
+  
+  convenience init(imageUrl: String, isOutGoing: Bool) {
+    let msgId = "\(NSDate().timeIntervalSince1970 * 1000)"
+    
+    let myLayout = MyMessageCellLayout(isOutGoingMessage: isOutGoing,
+                                       isNeedShowTime: true,
+                                       bubbleContentSize: CGSize(width: 120, height: 160),
+                                       bubbleContentInsets: UIEdgeInsets.zero,
+                                       timeLabelContentSize: CGSize(width: 200, height: 20),
+                                       type: "image")
+    self.init(msgId: msgId, messageStatus: .sending, fromUser: MyUser(), isOutGoing: isOutGoing, date: Date(), type: "image", text: "", mediaPath: "", layout:  myLayout, duration: nil)
+    
+    self.imageUrl = imageUrl
   }
   
   convenience init(videoPath: String, isOutGoing: Bool) {

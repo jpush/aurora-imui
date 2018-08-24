@@ -57,7 +57,7 @@
   MessageModel *message = [[MessageModel alloc] initWithText:messageText
                                                    messageId:msgId
                                                     fromUser:[UserModel new]
-                                                  timeString:@""
+                                                  timeString:@"fawefaewf"
                                                   isOutgoing:true
                                                       status:IMUIMessageStatusSuccess];
   [self.messageList appendMessageWith:message];
@@ -78,7 +78,7 @@
                                                          duration:durationTime
                                                         messageId:msgId
                                                          fromUser:[UserModel new]
-                                                       timeString:@""
+                                                       timeString:@"fasdfsadf"
                                                        isOutgoing:true
                                                            status:IMUIMessageStatusSuccess];
   [_messageList appendMessageWith: message];

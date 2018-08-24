@@ -38,7 +38,6 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
   
   @objc public var duration: CGFloat
 
-  
   open var msgId = {
     return ""
   }()
@@ -77,6 +76,10 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
     return ""
   }
   
+  open func webImageUrl() -> String {
+    return ""
+  }
+  
   public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: IMUIUserProtocol, isOutGoing: Bool, time: String, type: String, cellLayout: IMUIMessageCellLayoutProtocol, duration: CGFloat?) {
     self.msgId = msgId
     self.fromUser = fromUser
@@ -88,7 +91,7 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
     self.duration = duration ?? 0.0
     
     super.init()
-      self.cellLayout = cellLayout
+    self.cellLayout = cellLayout
   }
   
   open var resizableBubbleImage: UIImage {

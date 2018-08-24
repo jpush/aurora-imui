@@ -9,7 +9,8 @@
 import UIKit
 
 public class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocol {
-
+  var urlString: String?
+  weak var task: URLSessionTask?
   var imageView = UIImageView()
   
   override init(frame: CGRect) {
@@ -26,5 +27,22 @@ public class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocol
     
     imageView.frame = CGRect(origin: CGPoint.zero, size: message.layout.bubbleContentSize)
     imageView.image = UIImage(contentsOfFile: message.mediaFilePath())
+    
+    task?.suspend()
+    let msg = message as! IMUIMessageModel
+    self.urlString = msg.webImageUrl()
+    task = IMUIWebImageTaskManager.shared.downloadImage(self.urlString!) { (data, precent, urlString, error) in
+      if (error != nil) {
+        print("\(String(describing: error))")
+        return
+      }
+      
+      if precent == 1.0 && data != nil {
+        let image = UIImage(data: data!)
+        if self.urlString == urlString {
+          self.imageView.image = image
+        }
+      }
+    }
   }
 }

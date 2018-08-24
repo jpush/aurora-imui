@@ -28,6 +28,8 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
   weak var bubbleContentView: IMUIMessageContentViewProtocol?
   var bubbleContentType = ""
   
+  var urlString: String?
+  weak var task: URLSessionTask?
   weak var delegate: IMUIMessageMessageCollectionViewDelegate?
   var message: IMUIMessageModelProtocol?
   
@@ -134,12 +136,29 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
   
   func setupData(with message: IMUIMessageModelProtocol) {
     self.avatarImage.image = message.fromUser.Avatar()
+    
     self.bubbleView.backgroundColor = IMUIBaseMessageCell.backgroundColor
     self.timeLabel.text = message.timeString
     self.nameLabel.text = message.fromUser.displayName()
     self.bubbleContentView?.layoutContentView(message: message)
     self.message = message
     
+    task?.suspend()
+    self.urlString = message.fromUser.avatarUrlString()
+    task = IMUIWebImageTaskManager.shared.downloadImage(self.urlString!) { (data, precent, urlString, error) in
+      if (error != nil) {
+        print("\(error)")
+        return
+      }
+      
+      if precent == 1.0 && data != nil {
+        let image = UIImage(data: data!)
+        if self.urlString == urlString {
+          self.avatarImage.image = image
+        }
+      }
+      
+    }
     self.bubbleView.setupBubbleImage(resizeBubbleImage: message.resizableBubbleImage)
     
     let statusView = self.statusView as! IMUIMessageStatusViewProtocol

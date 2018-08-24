@@ -82,22 +82,3 @@ import UIKit
   var messageStatus: IMUIMessageStatus { get }
 
 }
-
-//public extension IMUIMessageModelProtocol {
-//  
-//  var timeString: String {
-//    return ""
-//  }
-//  
-//  func text() -> String {
-//    return ""
-//  }
-//  
-//  func mediaFilePath() -> String {
-//    return ""
-//  }
-//  
-//  var messageStatus: IMUIMessageStatus {
-//    return IMUIMessageStatus.success
-//  }
-//}
