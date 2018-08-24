@@ -815,6 +815,7 @@ public class ChatInputView extends LinearLayout
             Camera.getCameraInfo(i, info);
             if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
                 mCameraId = i;
+                mIsBackCamera = true;
                 break;
             }
         }

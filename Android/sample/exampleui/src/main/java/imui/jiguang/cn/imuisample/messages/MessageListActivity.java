@@ -209,6 +209,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                     EasyPermissions.requestPermissions(MessageListActivity.this,
                             getResources().getString(R.string.rationale_camera),
                             RC_CAMERA, perms);
+                    return false;
                 } else {
                     File rootDir = getFilesDir();
                     String fileDir = rootDir.getAbsolutePath() + "/photo";

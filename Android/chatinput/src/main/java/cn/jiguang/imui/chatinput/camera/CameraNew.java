@@ -215,6 +215,7 @@ public class CameraNew implements CameraSupport {
                     if (afState == null) {
                         captureStillPicture();
                     } else if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
+                            CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED == afState ||
                             CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
                         // CONTROL_AE_STATE can be null on some devices
                         Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
@@ -352,6 +353,8 @@ public class CameraNew implements CameraSupport {
         }
     };
 
+    private Surface mSurface;
+
     /**
      * Creates a new {@link CameraCaptureSession} for camera preview.
      */
@@ -364,14 +367,17 @@ public class CameraNew implements CameraSupport {
             texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
 
             // This is the output Surface we need to start preview.
-            Surface surface = new Surface(texture);
+            if(mSurface != null){
+                mSurface.release();
+            }
+            mSurface = new Surface(texture);
 
             // We set up a CaptureRequest.Builder with the output Surface.
             mPreviewRequestBuilder
                     = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            mPreviewRequestBuilder.addTarget(surface);
+            mPreviewRequestBuilder.addTarget(mSurface);
             // Here, we create a CameraCaptureSession for camera preview.
-            mCamera.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),
+            mCamera.createCaptureSession(Arrays.asList(mSurface, mImageReader.getSurface()),
                     new CameraCaptureSession.StateCallback() {
 
                         @Override
@@ -512,6 +518,10 @@ public class CameraNew implements CameraSupport {
             if (null != mImageReader) {
                 mImageReader.close();
                 mImageReader = null;
+            }
+            if(mSurface != null){
+                mSurface.release();
+                mSurface = null ;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
