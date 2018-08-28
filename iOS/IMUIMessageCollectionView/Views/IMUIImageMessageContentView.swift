@@ -24,15 +24,18 @@ public class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocol
   }
   
   public func layoutContentView(message: IMUIMessageModelProtocol) {
+    imageView.image = nil // reset image
     
     imageView.frame = CGRect(origin: CGPoint.zero, size: message.layout.bubbleContentSize)
     imageView.image = UIImage(contentsOfFile: message.mediaFilePath())
+    if imageView.image == nil && (message.webImageUrl?() == nil || message.webImageUrl?() == "") {
+      self.imageView.image = UIImage.imuiImage(with: "image-broken")
+    }
     
     task?.suspend()
     self.urlString = message.webImageUrl?() ?? ""
     task = IMUIWebImageTaskManager.shared.downloadImage(self.urlString!) { (data, precent, urlString, error) in
       if (error != nil) {
-        print("\(String(describing: error))")
         return
       }
       
