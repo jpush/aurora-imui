@@ -42,9 +42,7 @@ public class IMUIWebImageDownloader {
   
   public func completionHandler(with error: Error?) {
     for callback in self.callbacks {
-      DispatchQueue.main.async {
-        callback(self._imageData as Data, 1.0, (self.task?.currentRequest?.url?.absoluteString) ?? "" ,error)
-      }
+      callback(self._imageData as Data, 1.0, (self.task?.currentRequest?.url?.absoluteString) ?? "" ,error)
     }
   }
 }

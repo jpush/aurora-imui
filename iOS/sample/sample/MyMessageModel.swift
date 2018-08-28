@@ -22,6 +22,7 @@ class MyMessageModel: IMUIMessageModel {
   override func webImageUrl() -> String {
     return self.imageUrl
   }
+  
   override var resizableBubbleImage: UIImage {
     // return defoult message bubble
     return super.resizableBubbleImage

@@ -29,8 +29,7 @@ public class IMUIImageMessageContentView: UIView, IMUIMessageContentViewProtocol
     imageView.image = UIImage(contentsOfFile: message.mediaFilePath())
     
     task?.suspend()
-    let msg = message as! IMUIMessageModel
-    self.urlString = msg.webImageUrl()
+    self.urlString = message.webImageUrl?() ?? ""
     task = IMUIWebImageTaskManager.shared.downloadImage(self.urlString!) { (data, precent, urlString, error) in
       if (error != nil) {
         print("\(String(describing: error))")

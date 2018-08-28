@@ -144,7 +144,8 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
     self.message = message
     
     task?.suspend()
-    self.urlString = message.fromUser.avatarUrlString()
+    self.urlString = message.fromUser.avatarUrlString?() ?? ""
+    
     task = IMUIWebImageTaskManager.shared.downloadImage(self.urlString!) { (data, precent, urlString, error) in
       if (error != nil) {
         print("\(error)")

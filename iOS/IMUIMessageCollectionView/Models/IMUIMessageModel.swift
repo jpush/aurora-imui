@@ -108,3 +108,4 @@ open class IMUIMessageModel: NSObject, IMUIMessageModelProtocol {
   }
   
 }
+

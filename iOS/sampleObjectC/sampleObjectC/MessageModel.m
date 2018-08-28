@@ -11,8 +11,10 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 @interface MessageModel()
-@property(strong, nonatomic)NSString *messageText;
-@property(strong, nonatomic)NSString *messagemediaPath;
+@property(nonatomic, copy) NSString *messageText;
+@property(nonatomic, copy) NSString *messagemediaPath;
+@property (nonatomic, copy) NSString *imageUrl;
+
 @end
 
 @implementation MessageModel
@@ -67,6 +69,10 @@
 
 - (NSString *)mediaFilePath {
   return _messagemediaPath;
+}
+
+- (NSString *)webImageUrl {
+  return _imageUrl;
 }
 
 - (UIImage *)resizableBubbleImage {
@@ -133,6 +139,8 @@
   _type = @"Image";
 }
 
+
+
 - (void)setupVideoMessage:(NSString *)msgId
                  fromUser:(id <IMUIUserProtocol>)fromUser
                timeString:(NSString *)timeString
@@ -143,6 +151,7 @@
   _fromUser = fromUser;
   _timeString = timeString;
   _messagemediaPath = mediaPath;
+  
   _isOutGoing = isOutGoing;
   _messageStatus = messageStatus;
   
@@ -225,13 +234,46 @@
   return self;
 }
 
+
+
+- (instancetype)initWithImageUrl: (NSString *) imgUrl
+                       messageId: (NSString *)msgId
+                        fromUser: (id <IMUIUserProtocol>)fromUser
+                      timeString: (NSString *)timeString
+                      isOutgoing: (BOOL)isOutGoing
+                          status: (IMUIMessageStatus) messageStatus {
+  
+  self = [super init];
+  if (self) {
+    _msgId = msgId;
+    _fromUser = fromUser;
+    _timeString = timeString;
+    _isOutGoing = isOutGoing;
+    _messageStatus = messageStatus;
+    _imageUrl = imgUrl;
+    
+    BOOL isNeedShowTime = timeString != nil && ![timeString isEqualToString:@""];
+    CGSize timeLabelSize = isNeedShowTime ? CGSizeMake(200, 14) : CGSizeZero;
+    
+    _layout = [[MessageLayout alloc] initWithIsOutGoingMessage: isOutGoing
+                                                isNeedShowTime: isNeedShowTime
+                                             bubbleContentSize: CGSizeMake(120, 160)
+                                           bubbleContentInsets: UIEdgeInsetsZero
+                                          timeLabelContentSize: timeLabelSize
+                                                   contentType: @"Image"];
+    
+    _type = @"Image";
+  }
+  return self;
+}
+
 - (instancetype)initWithVoicePath:(NSString *) mediaPath
-                duration:(CGFloat)duration
-                messageId:(NSString *)msgId
-                 fromUser:(id <IMUIUserProtocol>)fromUser
-               timeString:(NSString *)timeString
-               isOutgoing:(BOOL)isOutGoing
-                   status:(IMUIMessageStatus) messageStatus {
+                         duration:(CGFloat)duration
+                        messageId:(NSString *)msgId
+                         fromUser:(id <IMUIUserProtocol>)fromUser
+                       timeString:(NSString *)timeString
+                       isOutgoing:(BOOL)isOutGoing
+                           status:(IMUIMessageStatus) messageStatus {
 
   self = [super init];
   if (self) {

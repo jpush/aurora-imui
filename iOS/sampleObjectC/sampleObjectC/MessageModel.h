@@ -33,13 +33,8 @@
 
 @property (nonatomic, readonly) enum IMUIMessageStatus messageStatus;
 
-@property (assign, nonatomic) NSString *type;
+@property (assign, nonatomic) NSString * _Nonnull type;
 
-//- (instancetype)initWithIsOutGoingMessage:(BOOL)isOutgoing
-//                           isNeedShowTime:(BOOL)isNeedShowTime
-//                        bubbleContentSize:(CGSize)bubbleContentSize
-//                      bubbleContentInsets:(UIEdgeInsets)contentInset
-//                              contentType:(NSString *)contentType;
 
 
 - (instancetype)initWithText:(NSString *)text
@@ -56,6 +51,13 @@
           isOutgoing:(BOOL)isOutGoing
               status:(IMUIMessageStatus) messageStatus;
 
+- (instancetype)initWithImageUrl: (NSString *) imgUrl
+                       messageId: (NSString *)msgId
+                        fromUser: (id <IMUIUserProtocol>)fromUser
+                      timeString: (NSString *)timeString
+                      isOutgoing: (BOOL)isOutGoing
+                          status: (IMUIMessageStatus) messageStatus;
+  
 - (instancetype)initWithVoicePath:(NSString *) mediaPath
                  duration:(CGFloat)duration
                 messageId:(NSString *)msgId

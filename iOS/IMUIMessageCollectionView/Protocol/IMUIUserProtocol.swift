@@ -34,11 +34,6 @@ import UIKit
   /**
    *  return avatar image url string, for web image.
    */
-  func avatarUrlString() -> String?
+  @objc optional func avatarUrlString() -> String?
 }
 
-public extension IMUIUserProtocol {
-  func avatarUrlString() -> String? {
-    return nil
-  }
-}

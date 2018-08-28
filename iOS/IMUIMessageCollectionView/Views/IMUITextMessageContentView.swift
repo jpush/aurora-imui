@@ -38,23 +38,6 @@ import UIKit
     let attributedString = NSMutableAttributedString(string: text)
     let mutableParagraphStyle = NSMutableParagraphStyle()
     
-    
-//    if isOutGoing {
-//      mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.outGoingTextLineHeight
-//      attributedString.addAttributes([
-//        NSAttributedStringKey.font: IMUITextMessageContentView.outGoingTextFont,
-//        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
-//        NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.outGoingTextColor
-//        ], range: NSMakeRange(0, text.count))
-//    } else {
-//      mutableParagraphStyle.lineSpacing = IMUITextMessageContentView.inComingTextLineHeight
-//      attributedString.addAttributes([
-//        NSAttributedStringKey.font: IMUITextMessageContentView.inComingTextFont,
-//        NSAttributedStringKey.paragraphStyle: mutableParagraphStyle,
-//        NSAttributedStringKey.foregroundColor: IMUITextMessageContentView.inComingTextColor
-//        ], range: NSMakeRange(0, text.count))
-//    }
-    
     textMessageLable.text = text
     if isOutGoing {
       textMessageLable.font = IMUITextMessageContentView.outGoingTextFont

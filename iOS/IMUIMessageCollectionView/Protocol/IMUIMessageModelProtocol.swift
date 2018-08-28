@@ -53,13 +53,20 @@ import UIKit
    *  @optional function if message type is text implement message text in this function
    */
   func text() -> String
-
+  
   /**
    * If message type is photo, voice, video or file,
    * get file path through this method.
    * @return media file path
    */
   func mediaFilePath() -> String
+  
+  /**
+   * If message type is photo,
+   * get web image from url through this method
+   * @return image url
+   */
+  @objc optional func webImageUrl() -> String
   
   /**
    * If message type is voice or video, get duration through this method.
@@ -82,3 +89,7 @@ import UIKit
   var messageStatus: IMUIMessageStatus { get }
 
 }
+
+//@objc public protocol IMUICustomMessageModelProtocol: IMUIMessageModelProtocol {
+//
+//}
