@@ -116,18 +116,15 @@ open class RCTMessageModel: IMUIMessageModel {
     }
     
     var mediaPath = messageDic.object(forKey: RCTMessageModel.kMsgKeyMediaFilePath) as? String
+    var imgUrl = ""
     if let _ = mediaPath {
-      
+      if FileManager.default.fileExists(atPath: mediaPath!) {
+      } else {
+        imgUrl = mediaPath!
+        mediaPath = ""
+      }
     } else {
       mediaPath = ""
-    }
-    
-    var imgUrl = messageDic.object(forKey: RCTMessageModel.kMsgKeyImageUrl) as? String
-    
-    if let _ = imgUrl {
-      
-    } else {
-      imgUrl = ""
     }
     
     var text = messageDic.object(forKey: RCTMessageModel.kMsgKeyText) as? String
@@ -237,7 +234,7 @@ open class RCTMessageModel: IMUIMessageModel {
       
     }
     
-    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing ?? true, time: timeString!, type: msgType!, text: text!, mediaPath: mediaPath!,imageUrl: imgUrl!, layout:  messageLayout!,duration: durationTime, extras: extras)
+    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing ?? true, time: timeString!, type: msgType!, text: text!, mediaPath: mediaPath!,imageUrl: imgUrl, layout:  messageLayout!,duration: durationTime, extras: extras)
 
   }
   

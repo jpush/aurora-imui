@@ -23,7 +23,13 @@ open class RCTUser: NSObject, IMUIUserProtocol {
     self.rUserId = userDic.object(forKey: "userId") as? String
     self.rDisplayName = userDic.object(forKey: "displayName") as? String
     self.rAvatarFilePath = userDic.object(forKey: "avatarPath") as? String
-    self.rAvatarFilePath = userDic.object(forKey: "avatarUrl") as? String
+    if FileManager.default.fileExists(atPath: self.rAvatarFilePath ?? "") {
+      
+    } else {
+      self.rAvatarUrl = self.rAvatarFilePath
+      self.rAvatarFilePath = ""
+    }
+    
   }
   
   public func userId() -> String {
@@ -53,6 +59,6 @@ open class RCTUser: NSObject, IMUIUserProtocol {
   }
   
   public func avatarUrlString() -> String? {
-    return self.rAvatarFilePath
+    return self.rAvatarUrl
   }
 }
