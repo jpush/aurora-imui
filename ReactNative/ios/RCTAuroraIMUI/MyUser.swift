@@ -13,7 +13,7 @@ open class RCTUser: NSObject, IMUIUserProtocol {
   open var rUserId: String?
   open var rDisplayName: String?
   open var rAvatarFilePath: String?
-  
+  open var rAvatarUrl: String?
   public override init() {
     super.init()
   }
@@ -23,6 +23,7 @@ open class RCTUser: NSObject, IMUIUserProtocol {
     self.rUserId = userDic.object(forKey: "userId") as? String
     self.rDisplayName = userDic.object(forKey: "displayName") as? String
     self.rAvatarFilePath = userDic.object(forKey: "avatarPath") as? String
+    self.rAvatarFilePath = userDic.object(forKey: "avatarUrl") as? String
   }
   
   public func userId() -> String {
@@ -49,5 +50,9 @@ open class RCTUser: NSObject, IMUIUserProtocol {
       }
     }
     return UIImage()
+  }
+  
+  public func avatarUrlString() -> String? {
+    return self.rAvatarFilePath
   }
 }

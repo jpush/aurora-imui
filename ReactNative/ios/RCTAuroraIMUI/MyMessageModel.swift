@@ -32,6 +32,7 @@ open class RCTMessageModel: IMUIMessageModel {
   static let kMsgKeyText = "text"
   static let kMsgKeyisOutgoing = "isOutgoing"
   static let kMsgKeyMediaFilePath = "mediaPath"
+  static let kMsgKeyImageUrl = "imageUrl"
   static let kMsgKeyDuration = "duration"
   static let kMsgKeyContentSize = "contentSize"
   static let kMsgKeyContent = "content"
@@ -47,12 +48,17 @@ open class RCTMessageModel: IMUIMessageModel {
   open var myTextMessage: String = ""
   
   var mediaPath: String = ""
+  var imageUrl: String = ""
   var extras: NSDictionary?
   
   override open func mediaFilePath() -> String {
     return mediaPath
   }
 
+  override open func webImageUrl() -> String {
+    return imageUrl
+  }
+  
   @objc static open var outgoingBubbleImage: UIImage = {
     var bubbleImg = UIImage.imuiImage(with: "outGoing_bubble")
     bubbleImg = bubbleImg?.resizableImage(withCapInsets: UIEdgeInsetsMake(24, 10, 9, 15), resizingMode: .tile)
@@ -73,11 +79,12 @@ open class RCTMessageModel: IMUIMessageModel {
     }
   }
   
-  @objc public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, type: String, text: String, mediaPath: String, layout: IMUIMessageCellLayoutProtocol, duration: CGFloat, extras: NSDictionary?) {
+  @objc public init(msgId: String, messageStatus: IMUIMessageStatus, fromUser: RCTUser, isOutGoing: Bool, time: String, type: String, text: String, mediaPath: String, imageUrl: String, layout: IMUIMessageCellLayoutProtocol, duration: CGFloat, extras: NSDictionary?) {
     
     self.myTextMessage = text
     self.mediaPath = mediaPath
     self.extras = extras
+    self.imageUrl = imageUrl
     super.init(msgId: msgId, messageStatus: messageStatus, fromUser: fromUser, isOutGoing: isOutGoing, time: time, type: type, cellLayout: layout, duration: duration)
   }
   
@@ -115,6 +122,14 @@ open class RCTMessageModel: IMUIMessageModel {
       mediaPath = ""
     }
     
+    var imgUrl = messageDic.object(forKey: RCTMessageModel.kMsgKeyImageUrl) as? String
+    
+    if let _ = imgUrl {
+      
+    } else {
+      imgUrl = ""
+    }
+    
     var text = messageDic.object(forKey: RCTMessageModel.kMsgKeyText) as? String
     if let _ = text {
       
@@ -145,6 +160,8 @@ open class RCTMessageModel: IMUIMessageModel {
         var imgSize = CGSize(width: 120, height: 160)
         if let img = UIImage(contentsOfFile: mediaPath!) {
           imgSize = RCTMessageModel.converImageSize(with: CGSize(width: img.size.width, height: img.size.height))
+        } else {
+          imgSize = CGSize(width: 120, height: 160)
         }
         
         messageLayout = MyMessageCellLayout(isOutGoingMessage: isOutgoing ?? true,
@@ -220,7 +237,7 @@ open class RCTMessageModel: IMUIMessageModel {
       
     }
     
-    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing ?? true, time: timeString!, type: msgType!, text: text!, mediaPath: mediaPath!, layout:  messageLayout!,duration: durationTime, extras: extras)
+    self.init(msgId: msgId, messageStatus: msgStatus, fromUser: user, isOutGoing: isOutgoing ?? true, time: timeString!, type: msgType!, text: text!, mediaPath: mediaPath!,imageUrl: imgUrl!, layout:  messageLayout!,duration: durationTime, extras: extras)
 
   }
   
