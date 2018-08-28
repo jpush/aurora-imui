@@ -819,6 +819,7 @@ public class CameraNew implements CameraSupport {
                 if (mOnCameraCallbackListener != null) {
                     if(mLastPhoto != null && mLastPhoto.getAbsolutePath().equals(mPhoto.getAbsolutePath())) // Forbid repeat
                         return;
+                    Log.i(TAG,"Saved capture into "+ mPhoto.getAbsolutePath());
                     mOnCameraCallbackListener.onTakePictureCompleted(mPhoto.getAbsolutePath());
                     mLastPhoto = mPhoto;
                 }
