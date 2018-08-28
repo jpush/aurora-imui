@@ -519,6 +519,7 @@ export default class TestRNIMUI extends Component {
           datePadding={{ left: 5, top: 5, right: 5, bottom: 5 }}
           dateBackgroundColor={"#F3F3F3"}
           photoMessageRadius={5}
+          maxBubbleWidth={0.7}
           videoDurationTextColor={"#ffffff"}
         />
         <InputView style={this.state.inputViewLayout}

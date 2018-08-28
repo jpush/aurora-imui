@@ -117,7 +117,7 @@ MessageList.propTypes = {
   displayNameTextSize: PropTypes.number,
   displayNameTextColor: PropTypes.string,
   displayNamePadding: PropTypes.object,
-
+  maxBubbleWidth: PropTypes.number,
   eventTextLineHeight: PropTypes.number, //TODO:
   messageTextLineHeight: PropTypes.number, //TODO:
   ...ViewPropTypes
