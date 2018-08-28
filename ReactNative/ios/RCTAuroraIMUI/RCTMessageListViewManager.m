@@ -97,6 +97,12 @@ RCT_CUSTOM_VIEW_PROPERTY(messageListBackgroundColor, NSString, RCTMessageListVie
   
 }
 
+RCT_CUSTOM_VIEW_PROPERTY(maxBubbleWidth, NSNumber, RCTMessageListView) {
+  NSNumber *widthPercent = [RCTConvert NSNumber: json];
+  
+  IMUIMessageCellLayout.bubbleMaxWidth = UIScreen.mainScreen.bounds.size.width * widthPercent.floatValue;
+}
+
 RCT_CUSTOM_VIEW_PROPERTY(sendBubbleTextColor, NSString, RCTMessageListView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];

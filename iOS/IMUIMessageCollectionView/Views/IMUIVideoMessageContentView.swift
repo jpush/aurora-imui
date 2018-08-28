@@ -43,8 +43,6 @@ public class IMUIVideoMessageContentView: UIView, IMUIMessageContentViewProtocol
                                  y: durationY,
                                  width: 30,
                                  height: 24)
-    
-    
   }
   
 

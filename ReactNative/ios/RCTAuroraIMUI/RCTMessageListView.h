@@ -31,6 +31,9 @@
 @property (nonatomic, copy) RCTBubblingEventBlock onPullToRefresh;
 
 // custom layout
+//maxBubbleWidth
+@property(assign, nonatomic) CGFloat maxBubbleWidth;
+
 @property(copy, nonatomic) NSString *messageListBackgroundColor;
 
 @property(strong, nonatomic) NSDictionary *sendBubble;

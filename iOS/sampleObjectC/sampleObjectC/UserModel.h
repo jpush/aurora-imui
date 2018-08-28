@@ -16,4 +16,6 @@
 - (NSString * _Nonnull)displayName SWIFT_WARN_UNUSED_RESULT;
 
 - (UIImage * _Nonnull)Avatar SWIFT_WARN_UNUSED_RESULT;
+
+- (NSString * _Nullable)avatarUrlString SWIFT_WARN_UNUSED_RESULT;
 @end
