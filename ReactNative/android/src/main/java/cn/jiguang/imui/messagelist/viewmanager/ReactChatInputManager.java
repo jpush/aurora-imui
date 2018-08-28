@@ -117,6 +117,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
     private int mSoftKeyboardHeight;
     private double mLineExpend = 0;
     private int mScreenWidth;
+    private String mLastPhotoPath = "";
     /**
      * Initial soft input height, set this value via {@link #setMenuContainerHeight}
      */
@@ -335,6 +336,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                     EasyPermissions.requestPermissions(activity,
                             activity.getResources().getString(R.string.rationale_camera),
                             RC_CAMERA, perms);
+                    return false;
                 }
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         SWITCH_TO_CAMERA_EVENT, null);
@@ -402,6 +404,12 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
         mChatInput.setOnCameraCallbackListener(new OnCameraCallbackListener() {
             @Override
             public void onTakePictureCompleted(String photoPath) {
+
+                if(mLastPhotoPath.equals(photoPath)){
+                    return;
+                }
+                mLastPhotoPath = photoPath;
+
                 if (mChatInput.isFullScreen()) {
                     mContext.runOnUiQueueThread(new Runnable() {
                         @Override
@@ -422,6 +430,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
                 event.putDouble("size", file.length());
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mChatInput.getId(),
                         TAKE_PICTURE_EVENT, event);
+                mChatInput.dismissMenuLayout();
             }
 
             @Override
