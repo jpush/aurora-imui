@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -239,6 +240,62 @@
 			remoteGlobalIDString = 623EA9A11EE55D0800EC43AE;
 			remoteInfo = RCTAuroraIMUITests;
 		};
+		62901B8121351D90000296DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27B4022562C848B8BD0EDEF6 /* RCTAuroraIMUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6239E6641EDDB1F700B9AC9C;
+			remoteInfo = AuroraIMUI;
+		};
+		62901B8321351D90000296DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27B4022562C848B8BD0EDEF6 /* RCTAuroraIMUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 623EA9991EE55D0800EC43AE;
+			remoteInfo = RCTAuroraIMUI;
+		};
+		62901B8521351D90000296DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27B4022562C848B8BD0EDEF6 /* RCTAuroraIMUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 623EA9A11EE55D0800EC43AE;
+			remoteInfo = RCTAuroraIMUITests;
+		};
+		62901B8A21351D90000296DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 080AFB41D8FC42E2B57D5A9A /* RCTAuroraIMUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6239E6641EDDB1F700B9AC9C;
+			remoteInfo = AuroraIMUI;
+		};
+		62901B8C21351D90000296DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 080AFB41D8FC42E2B57D5A9A /* RCTAuroraIMUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 623EA9991EE55D0800EC43AE;
+			remoteInfo = RCTAuroraIMUI;
+		};
+		62901B8E21351D90000296DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 080AFB41D8FC42E2B57D5A9A /* RCTAuroraIMUI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 623EA9A11EE55D0800EC43AE;
+			remoteInfo = RCTAuroraIMUITests;
+		};
+		62901BB121351D90000296DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BDC1FC498900052F4D5;
+			remoteInfo = jsinspector;
+		};
+		62901BB321351D90000296DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BFA1FC4989A0052F4D5;
+			remoteInfo = "jsinspector-tvOS";
+		};
 		62D9BD771FC2A20200118BC5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
@@ -360,6 +417,7 @@
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
+		080AFB41D8FC42E2B57D5A9A /* RCTAuroraIMUI.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTAuroraIMUI.xcodeproj; path = "../node_modules/aurora-imui-react-native/ReactNative/ios/RCTAuroraIMUI.xcodeproj"; sourceTree = "<group>"; };
 		08C83C376FDB484FBB2DB209 /* CoreGraphics.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0F65E3B5E29E414CB7583E04 /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
@@ -374,6 +432,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		17B9B94CC66540BE9BD86ABC /* CoreTelephony.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		1E35F35BE48B43978AB5AF9F /* libAuroraIMUI.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAuroraIMUI.a; sourceTree = "<group>"; };
+		27B4022562C848B8BD0EDEF6 /* RCTAuroraIMUI.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTAuroraIMUI.xcodeproj; path = "../node_modules/aurora-imui-react-native/ReactNative/ios/RCTAuroraIMUI.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* TestRNIMUI-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TestRNIMUI-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* TestRNIMUI-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TestRNIMUI-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4184428881674A478F1D3067 /* Foundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -390,8 +449,6 @@
 		C42D5F1E1E2348A88CF22080 /* RCTAuroraIMUI.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTAuroraIMUI.xcodeproj; path = "../node_modules/aurora-imui-react-native/ReactNative/ios/RCTAuroraIMUI.xcodeproj"; sourceTree = "<group>"; };
 		DDE9DE9AE48940A2A5FE86F4 /* CFNetwork.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F552D1FC7A5B46A2A3AD2AFF /* CoreFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		080AFB41D8FC42E2B57D5A9A /* RCTAuroraIMUI.xcodeproj */ = {isa = PBXFileReference; name = "RCTAuroraIMUI.xcodeproj"; path = "../node_modules/aurora-imui-react-native/ReactNative/ios/RCTAuroraIMUI.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		27B4022562C848B8BD0EDEF6 /* RCTAuroraIMUI.xcodeproj */ = {isa = PBXFileReference; name = "RCTAuroraIMUI.xcodeproj"; path = "../node_modules/aurora-imui-react-native/ReactNative/ios/RCTAuroraIMUI.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -539,6 +596,8 @@
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
 				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
+				62901BB221351D90000296DF /* libjsinspector.a */,
+				62901BB421351D90000296DF /* libjsinspector-tvOS.a */,
 				62E68A731FA85EE600C42874 /* libthird-party.a */,
 				62E68A751FA85EE600C42874 /* libthird-party.a */,
 				62E68A771FA85EE600C42874 /* libdouble-conversion.a */,
@@ -574,6 +633,26 @@
 				626F95321F2D9630009C6BB5 /* libAuroraIMUI.a */,
 				626F95341F2D9630009C6BB5 /* RCTAuroraIMUI.framework */,
 				626F95361F2D9630009C6BB5 /* RCTAuroraIMUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		62901B7721351D90000296DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62901B8221351D90000296DF /* libAuroraIMUI.a */,
+				62901B8421351D90000296DF /* RCTAuroraIMUI.framework */,
+				62901B8621351D90000296DF /* RCTAuroraIMUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		62901B7921351D90000296DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62901B8B21351D90000296DF /* libAuroraIMUI.a */,
+				62901B8D21351D90000296DF /* RCTAuroraIMUI.framework */,
+				62901B8F21351D90000296DF /* RCTAuroraIMUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -767,6 +846,14 @@
 				{
 					ProductGroup = 5E91572E1DD0AC6500FF2AA8 /* Products */;
 					ProjectRef = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
+				},
+				{
+					ProductGroup = 62901B7721351D90000296DF /* Products */;
+					ProjectRef = 27B4022562C848B8BD0EDEF6 /* RCTAuroraIMUI.xcodeproj */;
+				},
+				{
+					ProductGroup = 62901B7921351D90000296DF /* Products */;
+					ProjectRef = 080AFB41D8FC42E2B57D5A9A /* RCTAuroraIMUI.xcodeproj */;
 				},
 				{
 					ProductGroup = 626F95291F2D9630009C6BB5 /* Products */;
@@ -1009,6 +1096,62 @@
 			fileType = wrapper.cfbundle;
 			path = RCTAuroraIMUITests.xctest;
 			remoteRef = 626F95351F2D9630009C6BB5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62901B8221351D90000296DF /* libAuroraIMUI.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAuroraIMUI.a;
+			remoteRef = 62901B8121351D90000296DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62901B8421351D90000296DF /* RCTAuroraIMUI.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RCTAuroraIMUI.framework;
+			remoteRef = 62901B8321351D90000296DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62901B8621351D90000296DF /* RCTAuroraIMUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RCTAuroraIMUITests.xctest;
+			remoteRef = 62901B8521351D90000296DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62901B8B21351D90000296DF /* libAuroraIMUI.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAuroraIMUI.a;
+			remoteRef = 62901B8A21351D90000296DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62901B8D21351D90000296DF /* RCTAuroraIMUI.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RCTAuroraIMUI.framework;
+			remoteRef = 62901B8C21351D90000296DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62901B8F21351D90000296DF /* RCTAuroraIMUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RCTAuroraIMUITests.xctest;
+			remoteRef = 62901B8E21351D90000296DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62901BB221351D90000296DF /* libjsinspector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsinspector.a;
+			remoteRef = 62901BB121351D90000296DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		62901BB421351D90000296DF /* libjsinspector-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsinspector-tvOS.a";
+			remoteRef = 62901BB321351D90000296DF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		62D9BD9D1FC2A20300118BC5 /* libprivatedata.a */ = {

@@ -94,6 +94,7 @@ public class RecordVoiceButton extends AppCompatImageButton {
         }
         //录音文件的命名格式
         myRecAudioFile = new File(path, fileName + ".m4a");
+        myRecAudioFile.setReadable(true,false);
         Log.i(TAG, "Create file success file path: " + myRecAudioFile.getAbsolutePath());
     }
 

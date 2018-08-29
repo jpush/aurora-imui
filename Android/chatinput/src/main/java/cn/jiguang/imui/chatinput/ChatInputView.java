@@ -668,7 +668,8 @@ public class ChatInputView extends LinearLayout
                 mCameraSupport.cancelRecordingVideo();
                 mSwitchCameraBtn.setBackgroundResource(R.drawable.aurora_preview_switch_camera);
                 mRecordVideoBtn.setBackgroundResource(R.drawable.aurora_preview_camera);
-                mRecordVideoBtn.setVisibility(VISIBLE);
+                showRecordVideoBtn();
+
                 mVideoFilePath = null;
                 mFinishRecordingVideo = false;
                 mIsRecordVideoMode = true;
@@ -814,6 +815,7 @@ public class ChatInputView extends LinearLayout
             Camera.getCameraInfo(i, info);
             if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
                 mCameraId = i;
+                mIsBackCamera = true;
                 break;
             }
         }
@@ -935,7 +937,7 @@ public class ChatInputView extends LinearLayout
                         height);
                 mTextureView.setLayoutParams(params);
                 mRecordVideoBtn.setBackgroundResource(R.drawable.aurora_preview_record_video);
-                mRecordVideoBtn.setVisibility(VISIBLE);
+                showRecordVideoBtn();
                 mSwitchCameraBtn.setBackgroundResource(R.drawable.aurora_preview_switch_camera);
                 mSwitchCameraBtn.setVisibility(VISIBLE);
                 mCaptureBtn.setBackgroundResource(R.drawable.aurora_menuitem_send_pres);
@@ -1009,6 +1011,16 @@ public class ChatInputView extends LinearLayout
         mEmojiRl.setVisibility(GONE);
         mCameraFl.setVisibility(VISIBLE);
     }
+
+    public void showRecordVideoBtn(){
+        if(mRecordVideoBtn.getTag()!=null && mRecordVideoBtn.getTag() instanceof String && ((String)mRecordVideoBtn.getTag()).equals("GONE")){
+            mRecordVideoBtn.setVisibility(GONE);
+        }else {
+            mRecordVideoBtn.setVisibility(VISIBLE);
+        }
+
+    }
+
 
     public void dismissCameraLayout() {
         if (mCameraSupport != null) {
