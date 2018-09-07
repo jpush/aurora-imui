@@ -27,6 +27,7 @@
   [super viewDidLoad];
   self.messageList.delegate = self;
   self.imuiInputView.delegate = self;
+  self.imuiInputView.inputViewDelegate = self;
   
   [self.messageList.messageCollectionView registerClass:[MessageEventCollectionViewCell class] forCellWithReuseIdentifier:[[MessageEventCollectionViewCell class] description]];
   
@@ -191,7 +192,7 @@
 }
 
 - (void)keyBoardWillShowWithHeight:(CGFloat)height durationTime:(double)durationTime {
-  
+  [_messageList scrollToBottomWith: YES];
 }
 
 - (NSString *)getPath {//"\(NSHomeDirectory())/Documents/"

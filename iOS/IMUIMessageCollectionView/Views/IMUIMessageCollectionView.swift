@@ -90,7 +90,10 @@ open class IMUIMessageCollectionView: UIView {
   @objc open func scrollToBottom(with animated: Bool) {
     if chatDataManager.count == 0 { return }
     let endIndex = IndexPath(item: chatDataManager.endIndex - 1, section: 0)
-    self.messageCollectionView.scrollToItem(at: endIndex, at: .bottom, animated: animated)
+    DispatchQueue.main.async {
+      self.messageCollectionView.scrollToItem(at: endIndex, at: .bottom, animated: animated)
+    }
+
   }
   
   @objc open func appendMessage(with message: IMUIMessageProtocol) {
