@@ -1,6 +1,7 @@
 package cn.jiguang.imui.chatinput.menu.collection;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,14 @@ public class MenuCollection extends HashMap<String, View> {
 
 
     protected void addMenu(String menuTag, View menu) {
+        if(TextUtils.isEmpty(menuTag)){
+            Log.e(TAG, "Collection custom menu failed,tag is empty.");
+            return;
+        }
 
         if (containsKey(menuTag)) {
-            Log.e(TAG, "Tag " + menuTag + " has been used already！");
+            Log.e(TAG, "Collection custom menu failed,Tag " + menuTag + " has been used already！");
+            return;
         }
         menu.setTag(menuTag);
         if (mMenuCollectionChangedListener != null) {
