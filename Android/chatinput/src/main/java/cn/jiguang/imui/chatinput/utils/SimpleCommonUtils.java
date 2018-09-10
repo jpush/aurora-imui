@@ -224,4 +224,8 @@ public class SimpleCommonUtils {
 //
 //        tv_content.setText(spannable);
 //    }
+    public static String formatTag(String tag){
+        return "IMUI-"+tag;
+    }
+
 }

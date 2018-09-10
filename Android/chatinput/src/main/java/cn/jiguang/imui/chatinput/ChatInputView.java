@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
@@ -29,7 +28,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -70,9 +68,11 @@ import cn.jiguang.imui.chatinput.listener.CameraControllerListener;
 import cn.jiguang.imui.chatinput.listener.CameraEventListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
+import cn.jiguang.imui.chatinput.listener.CustomMenuEventListener;
 import cn.jiguang.imui.chatinput.listener.OnFileSelectedListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
+import cn.jiguang.imui.chatinput.menu.MenuManager;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.chatinput.photo.SelectPhotoView;
@@ -178,6 +178,9 @@ public class ChatInputView extends LinearLayout
     private View mPhotoBtnContainer;
     private View mEmojiBtnContainer;
 
+
+    private MenuManager mMenuManager;
+
     public ChatInputView(Context context) {
         super(context);
         init(context);
@@ -196,6 +199,12 @@ public class ChatInputView extends LinearLayout
     private void init(Context context) {
         mContext = context;
         inflate(context, R.layout.view_chatinput, this);
+
+        mChatInputContainer = (LinearLayout) findViewById(R.id.aurora_ll_input_container);
+        mMenuItemContainer = (LinearLayout) findViewById(R.id.aurora_ll_menuitem_container);
+        mMenuContainer = (FrameLayout) findViewById(R.id.aurora_fl_menu_container);
+
+        mMenuManager = new MenuManager(this,mChatInputContainer,mMenuItemContainer,mMenuContainer);
 
         // menu buttons
         mChatInput = (EmoticonsEditText) findViewById(R.id.aurora_et_chat_input);
@@ -218,9 +227,8 @@ public class ChatInputView extends LinearLayout
         mSendCountTv = (TextView) findViewById(R.id.aurora_menuitem_tv_send_count);
         mInputMarginLeft = (Space) findViewById(R.id.aurora_input_margin_left);
         mInputMarginRight = (Space) findViewById(R.id.aurora_input_margin_right);
-        mChatInputContainer = (LinearLayout) findViewById(R.id.aurora_ll_input_container);
-        mMenuItemContainer = (LinearLayout) findViewById(R.id.aurora_ll_menuitem_container);
-        mMenuContainer = (FrameLayout) findViewById(R.id.aurora_fl_menu_container);
+
+
         mRecordVoiceRl = (RelativeLayout) findViewById(R.id.aurora_rl_recordvoice_container);
         mPreviewPlayLl = (LinearLayout) findViewById(R.id.aurora_ll_recordvoice_preview_container);
         mPreviewPlayBtn = (ProgressButton) findViewById(R.id.aurora_pb_recordvoice_play_audio);
@@ -292,6 +300,7 @@ public class ChatInputView extends LinearLayout
         // return false;
         // }
         // });
+
     }
 
     EmoticonClickListener emoticonClickListener = new EmoticonClickListener() {
@@ -330,7 +339,6 @@ public class ChatInputView extends LinearLayout
     private void init(Context context, AttributeSet attrs) {
         init(context);
         mStyle = ChatInputStyle.parse(context, attrs);
-
         mChatInput.setMaxLines(mStyle.getInputMaxLines());
         mChatInput.setHint(mStyle.getInputHint());
         mChatInput.setText(mStyle.getInputText());
@@ -340,6 +348,7 @@ public class ChatInputView extends LinearLayout
         mChatInput.setBackgroundResource(mStyle.getInputEditTextBg());
         mChatInput.setPadding(mStyle.getInputPaddingLeft(), mStyle.getInputPaddingTop(), mStyle.getInputPaddingRight(),
                 mStyle.getInputPaddingBottom());
+
         mInputMarginLeft.getLayoutParams().width = mStyle.getInputMarginLeft();
         mInputMarginRight.getLayoutParams().width = mStyle.getInputMarginRight();
         mVoiceBtn.setImageResource(mStyle.getVoiceBtnIcon());
@@ -352,6 +361,10 @@ public class ChatInputView extends LinearLayout
         mSendBtn.setImageResource(mStyle.getSendBtnIcon());
         mSendCountTv.setBackground(mStyle.getSendCountBg());
         mSelectAlbumIb.setVisibility(mStyle.getShowSelectAlbum() ? VISIBLE : INVISIBLE);
+
+        LinearLayout.LayoutParams lp =(LayoutParams) mChatInputContainer.getLayoutParams();
+        lp.setMargins(0,mStyle.getInputMarginTop(),0,mStyle.getInputMarginBottom());
+        mChatInputContainer.setLayoutParams(lp);
 
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -377,6 +390,11 @@ public class ChatInputView extends LinearLayout
     public void setMenuClickListener(OnMenuClickListener listener) {
         mListener = listener;
     }
+
+    public void setCustomMenuClickListener(CustomMenuEventListener listener){
+        mMenuManager.setCustomMenuClickListener(listener);
+    }
+
 
     public void setRecordVoiceListener(RecordVoiceListener listener) {
         this.mRecordVoiceBtn.setRecordVoiceListener(listener);
@@ -446,6 +464,7 @@ public class ChatInputView extends LinearLayout
                 }
 
             } else {
+                mMenuManager.hideCustomMenu();
                 mChatInput.clearFocus();
                 if (view.getId() == R.id.aurora_ll_menuitem_voice_container) {
                     if (mListener != null && mListener.switchToMicrophoneMode()) {
@@ -965,6 +984,7 @@ public class ChatInputView extends LinearLayout
     }
 
     public void dismissMenuLayout() {
+        mMenuManager.hideCustomMenu();
         mMenuContainer.setVisibility(GONE);
         if (mCameraSupport != null) {
             mCameraSupport.release();
@@ -1038,6 +1058,14 @@ public class ChatInputView extends LinearLayout
         mCameraFl.setVisibility(GONE);
         mEmojiRl.setVisibility(VISIBLE);
     }
+
+    public void hideDefaultMenuLayout(){
+        mRecordVoiceRl.setVisibility(GONE);
+        mSelectPhotoView.setVisibility(GONE);
+        mCameraFl.setVisibility(GONE);
+        mEmojiRl.setVisibility(GONE);
+    }
+
 
     public void dismissEmojiLayout() {
         mEmojiRl.setVisibility(GONE);
@@ -1456,5 +1484,10 @@ public class ChatInputView extends LinearLayout
     public ImageButton getRecordVideoBtn() {
         return this.mRecordVideoBtn;
     }
+
+    public MenuManager getMenuManager(){
+        return  this.mMenuManager;
+    }
+
 
 }

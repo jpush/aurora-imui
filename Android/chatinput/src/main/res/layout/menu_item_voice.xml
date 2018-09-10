@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/aurora_ll_menuitem_voice_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:tag="voice"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_voice"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_voice"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:src="@drawable/aurora_menuitem_mic"/>
+        </FrameLayout>
+
+
+</LinearLayout>

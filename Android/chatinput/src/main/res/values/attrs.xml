@@ -6,6 +6,8 @@
     <declare-styleable name="ChatInputView">
         <attr name="inputMarginLeft" format="dimension|reference" />
         <attr name="inputMarginRight" format="dimension|reference" />
+        <attr name="inputMarginBottom" format="dimension|reference" />
+        <attr name="inputMarginTop" format="dimension|reference" />
         <attr name="inputPaddingLeft" format="dimension|reference" />
         <attr name="inputPaddingTop" format="dimension|reference" />
         <attr name="inputPaddingRight" format="dimension|reference" />
