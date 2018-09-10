@@ -3,13 +3,11 @@ package imui.jiguang.cn.imuisample.views;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
@@ -90,7 +88,7 @@ public class ChatView extends RelativeLayout {
 
 
         // add Custom Menu View
-        mChatInput.getMenuManager().addCustomMenu("MY_CUSTOM",R.layout.menu_text,R.layout.menu_text_feature);
+        mChatInput.getMenuManager().addCustomMenu("MY_CUSTOM",R.layout.menu_text_item,R.layout.menu_text_feature);
 
         // Custom menu order
         mChatInput.getMenuManager().setMenu(Menu.newBuilder().
