@@ -157,13 +157,13 @@ public class MenuManager {
         }
     }
 
-//    public MenuItemCollection getMenuItemCollection() {
-//        return mMenuItemCollection;
-//    }
-//
-//    public MenuFeatureCollection getMenuFeatureCollection() {
-//        return mMenuFeatureCollection;
-//    }
+    public MenuItemCollection getMenuItemCollection() {
+        return mMenuItemCollection;
+    }
+
+    public MenuFeatureCollection getMenuFeatureCollection() {
+        return mMenuFeatureCollection;
+    }
 
     public void addCustomMenu(String tag, MenuItem menuItem, MenuFeature menuFeature) {
 
