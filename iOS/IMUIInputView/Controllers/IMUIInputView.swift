@@ -464,6 +464,7 @@ extension IMUIInputView: IMUICustomInputViewDelegate {
   
   public func keyBoardWillShow(height: CGFloat, durationTime: Double) {
     self.currentType = .empty
+    self.delegate?.keyBoardWillShow?(height: height, durationTime: durationTime)
     self.reloadFeaturnView()
   }
 }

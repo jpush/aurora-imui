@@ -42,6 +42,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.myInputView.delegate = self
+//    self.myInputView.inputViewDelegate = self 
     self.messageCollectionView.delegate = self
     
     self.messageCollectionView.messageCollectionView.register(MessageEventCollectionViewCell.self, forCellWithReuseIdentifier: MessageEventCollectionViewCell.self.description())
@@ -60,6 +61,10 @@ class ViewController: UIViewController {
 
 // MARK: - IMUIInputViewDelegate
 extension ViewController: IMUIInputViewDelegate {
+  
+  func keyBoardWillShow(height: CGFloat, durationTime: Double) {
+    self.messageCollectionView.scrollToBottom(with: true)
+  }
   
   func sendTextMessage(_ messageText: String) {
     let outGoingmessage = MyMessageModel(text: messageText, isOutGoing: true)
@@ -215,3 +220,4 @@ extension ViewController: IMUIMessageMessageCollectionViewDelegate {
     toast.dismiss(withClickedButtonIndex: 0, animated: true)
   }
 }
+
