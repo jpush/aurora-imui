@@ -1,9 +1,9 @@
 package imui.jiguang.cn.imuisample.views;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -12,8 +12,13 @@ import android.widget.TextView;
 import cn.jiguang.imui.chatinput.ChatInputView;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnClickEditTextListener;
+import cn.jiguang.imui.chatinput.listener.CustomMenuEventListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
+import cn.jiguang.imui.chatinput.menu.Menu;
+import cn.jiguang.imui.chatinput.menu.MenuManager;
+import cn.jiguang.imui.chatinput.menu.view.MenuFeature;
+import cn.jiguang.imui.chatinput.menu.view.MenuItem;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
@@ -81,6 +86,35 @@ public class ChatView extends RelativeLayout {
         // set show display name or not
 //        mMsgList.setShowReceiverDisplayName(true);
 //        mMsgList.setShowSenderDisplayName(false);
+
+
+        // add Custom Menu View
+        MenuManager menuManager = mChatInput.getMenuManager();
+        menuManager.addCustomMenu("MY_CUSTOM",R.layout.menu_text_item,R.layout.menu_text_feature);
+
+        // Custom menu order
+        menuManager.setMenu(Menu.newBuilder().
+                customize(true).
+                setRight(Menu.TAG_SEND).
+                setBottom(Menu.TAG_VOICE,Menu.TAG_EMOJI,Menu.TAG_GALLERY,Menu.TAG_CAMERA,"MY_CUSTOM").
+                build());
+        menuManager.setCustomMenuClickListener(new CustomMenuEventListener() {
+            @Override
+            public boolean onMenuItemClick(String tag, MenuItem menuItem) {
+                //Menu feature will not be show shown if return false；
+                return true;
+            }
+
+            @Override
+            public void onMenuFeatureVisibilityChanged(int visibility, String tag, MenuFeature menuFeature) {
+                if(visibility == View.VISIBLE){
+                    // Menu feature is visible.
+                }else {
+                    // Menu feature is gone.
+                }
+            }
+        });
+
     }
 
     public PullToRefreshLayout getPtrLayout() {

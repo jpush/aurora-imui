@@ -16,6 +16,8 @@ public class ChatInputStyle extends Style {
 
     private int inputMarginLeft;
     private int inputMarginRight;
+    private int inputMarginBottom;
+    private int inputMarginTop;
     private int inputMaxLines;
 
     private String inputText;
@@ -57,6 +59,10 @@ public class ChatInputStyle extends Style {
                 style.getDimension(R.dimen.aurora_margin_input_left));
         style.inputMarginRight = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginRight,
                 style.getDimension(R.dimen.aurora_margin_input_right));
+        style.inputMarginBottom = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginBottom,
+                style.getDimension(R.dimen.aurora_margin_input_bottom));
+        style.inputMarginTop = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputMarginTop,
+                style.getDimension(R.dimen.aurora_margin_input_top));
         style.inputMaxLines = typedArray.getInt(R.styleable.ChatInputView_inputMaxLines, DEFAULT_MAX_LINES);
         style.inputHint = typedArray.getString(R.styleable.ChatInputView_inputHint);
         style.inputText = typedArray.getString(R.styleable.ChatInputView_inputText);
@@ -114,6 +120,14 @@ public class ChatInputStyle extends Style {
 
     public int getInputMarginRight() {
         return this.inputMarginRight;
+    }
+
+    public int getInputMarginTop() {
+        return this.inputMarginTop;
+    }
+
+    public int getInputMarginBottom() {
+        return this.inputMarginBottom;
     }
 
     public int getInputMaxLines() {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/aurora_ll_menuitem_emoji_container"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:tag="emoji"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_emoji"
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_emoji"
+                style="@style/ChatInputIcon"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:background="@android:color/transparent"
+                android:src="@drawable/aurora_menuitem_emoji"/>
+
+        </FrameLayout>
+
+</LinearLayout>

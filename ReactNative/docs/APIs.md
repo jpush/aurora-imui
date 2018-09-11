@@ -82,10 +82,6 @@ Refer to iOS,Android example
     - [chatInputBackgroupColor](#chatInputbackgroupcolor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
     - [showRecordVideoBtn](#showRecordVideoBtnandroid-only) 
-    - [hideCameraButton](#hideCameraButtonandroid-only)
-    - [hideVoiceButton](#hideVoiceButtonandroid-only)
-    - [hideEmojiButton](#hideEmojiButtonandroid-only)
-    - [hidePhotoButton](#hidePhotoButtonandroid-only)
     - [inputPadding](#inputPadding)
     - [inputTextColor](#inputTextColor)
     - [inputTextSize](#inputTextSize)
@@ -578,7 +574,7 @@ Example: ```isAllowPullToRefresh={ture}```。
 
 ***
 
-#### customLayoutItems(iOS Only)
+#### customLayoutItems
 
 **PropTypes.string:** 
 
@@ -627,43 +623,6 @@ Example: ```showSelectAlbumBtn={true}```
 Set the visibility of the record video button.
 
 Example: ```showRecordVideoBtn={true}```
-
-------
-
-#### hideCameraButton(Android Only)
-**PropTypes.bool:**
-
-Set the visibility of the camera button.
-
-Example: ```hideCameraButton={true}```
-
-
-------
-
-#### hideVoiceButton(Android Only)
-**PropTypes.bool:**
-
-Set the visibility of the voice button.
-
-Example: ```hideVoiceButton={true}```
-
-------
-
-#### hideEmojiButton(Android Only)
-**PropTypes.bool:**
-
-Set the visibility of the Emoji button.
-
-Example: ```hideEmojiButton={true}```
-
-------
-
-#### hidePhotoButton(Android Only)
-**PropTypes.bool:**
-
-Set the visibility of the photo button.
-
-Example: ```hidePhotoButton={true}```
 
 ------
 ### inputPadding

@@ -13,14 +13,14 @@
 
         <android.support.v4.widget.Space
             android:id="@+id/aurora_input_margin_left"
-            android:layout_width="16dp"
+            android:layout_width="12dp"
             android:layout_height="match_parent" />
 
         <cn.jiguang.imui.chatinput.emoji.widget.EmoticonsEditText
             android:id="@+id/aurora_et_chat_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="7"
             android:background="@drawable/aurora_edittext_bg"
             android:cursorVisible="true"
             android:focusableInTouchMode="true"
@@ -30,6 +30,8 @@
             android:minHeight="48dp"
             android:paddingBottom="5dp"
             android:paddingLeft="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:paddingRight="4dp"
             android:paddingTop="5dp"
             android:textColor="@android:color/black"
@@ -38,7 +40,7 @@
 
         <android.support.v4.widget.Space
             android:id="@+id/aurora_input_margin_right"
-            android:layout_width="16dp"
+            android:layout_width="12dp"
             android:layout_height="match_parent" />
 
     </LinearLayout>

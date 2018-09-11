@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:tag="send"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/aurora_framelayout_menuitem_send"
+            android:layout_width="48dp"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/aurora_menuitem_ib_send"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@drawable/aurora_menuitem_send"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/aurora_menuitem_tv_send_count"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/aurora_menuitem_send_count_bg"
+                android:elevation="4dp"
+                android:ems="1"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:text="11"/>
+        </FrameLayout>
+
+</LinearLayout>

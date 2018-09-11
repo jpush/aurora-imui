@@ -8,6 +8,8 @@
 
     <dimen name="aurora_margin_input_left">20dp</dimen>
     <dimen name="aurora_margin_input_right">20dp</dimen>
+    <dimen name="aurora_margin_input_top">8dp</dimen>
+    <dimen name="aurora_margin_input_bottom">0dp</dimen>
 
     <dimen name="aurora_textsize_input">17sp</dimen>
 
