@@ -12,7 +12,7 @@
 
 - Gradle
 ```groovy
-compile 'cn.jiguang.imui:chatinput:0.8.3'
+compile 'cn.jiguang.imui:chatinput:0.9.0'
 ```
 
 - Maven
@@ -20,7 +20,7 @@ compile 'cn.jiguang.imui:chatinput:0.8.3'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>chatinput</artifactId>
-  <version>0.8.3</version>
+  <version>0.9.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -42,7 +42,7 @@ compile 'cn.jiguang.imui:chatinput:0.8.3'
 
   ```groovy
   dependencies {
-    compile 'com.github.jpush:imui:0.7.6'
+    compile 'com.github.jpush:imui:0.9.0'
   }
   ```
 
@@ -264,4 +264,104 @@ mChatInput.setCameraControllerListener(new CameraControllerListener() {
 // 0.4.5 后弃用
 mChatInput.setCameraCaptureFile(path, fileName);
 ```
+
+## MenuManager(从0.9.0版本开始支持)
+菜单功能管理类，用于添加自定义菜单，自由设置菜单项的位置，包括输入框的左边/右边/下边位置。
+
+### 获取MenuManager
+
+`MenuManager menuManager = mChatInput.getMenuManager();`
+
+
+### 添加自定义菜单
+
+`
+
+1. 添加菜单项布局，根节点为MenuItem（继承自LinearLayout）
+```xml
+<cn.jiguang.imui.chatinput.menu.view.MenuItem 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    ...
+
+</cn.jiguang.imui.chatinput.menu.view.MenuItem>
+```
+
+2. 添加对应菜单功能布局，根节点为MenuFeature（继承自LinearLayout）
+```xml
+<cn.jiguang.imui.chatinput.menu.view.MenuFeature 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    ...
+
+</cn.jiguang.imui.chatinput.menu.view.MenuFeature>
+```
+3. 通过MenuManager添加自定义菜单，
+```java
+//第一种：添加view方式，tag唯一
+//menuFeature 传 null 即表示此菜单项不需要对应功能
+addCustomMenu(String tag, MenuItem menuItem, MenuFeature menuFeature)
+
+//第二种：添加布局资源，tag唯一
+//menuFeatureResource 传 -1 即表示此菜单项不需要对应功能
+addCustomMenu(String tag, int menuItemResource, int menuFeatureResource) 
+```
+4. 设置自定义菜单事件监听，CustomMenuEventListener
+```java
+menuManager.setCustomMenuClickListener(new CustomMenuEventListener() {
+            @Override
+            public boolean onMenuItemClick(String tag, MenuItem menuItem) {
+                //Menu feature will not be shown if return false；
+                return true;
+            }
+
+            @Override
+            public void onMenuFeatureVisibilityChanged(int visibility, String tag, MenuFeature menuFeature) {
+                if(visibility == View.VISIBLE){
+                    // Menu feature is visible.
+                }else {
+                    // Menu feature is gone.
+                }
+            }
+        });
+```
+### 设置菜单项的位置
+`setMenu(Menu menu)`
+
+#### Menu
+通过传入菜单项的tag来控制布局,默认可使用的布局tag有：
+```Java
+Menu.TAG_VOICE 
+Menu.TAG_EMOJI
+Menu.TAG_GALLERY
+Menu.TAG_CAMERA
+Menu.TAG_SEND
+```
+设置位置,tag不能重复：
+
+```java
+Menu.newBuilder().
+        customize(boolean customize).//是否自定义位置
+        setLeft(String ... tag).//输入框左侧菜单项
+        setRight(String ... tag).//输入框右侧菜单项
+        setBottom(String ... tag).//输入框下侧菜单项
+        build()
+```
+#### 示例
+```java
+menuManager.setMenu(Menu.newBuilder().
+                customize(true).
+                setRight(Menu.TAG_SEND).
+                setBottom(Menu.TAG_VOICE,Menu.TAG_EMOJI,Menu.TAG_GALLERY,Menu.TAG_CAMERA,"MY_CUSTOM").
+                build());
+```
+
+
+
+
+
+
+
 
