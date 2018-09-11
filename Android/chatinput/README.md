@@ -266,7 +266,7 @@ mChatInput.setCameraCaptureFile(path, fileName);
 ```
 
 ## MenuManager(从0.9.0版本开始支持)
-菜单功能管理类，用于添加自定义菜单，自由设置菜单项的位置，包括输入框的左边/右边/下边位置。
+菜单功能管理类，用于添加自定义菜单，自由设置菜单项的位置，包括输入框的左边/右边/下边位置。
 
 ### 获取MenuManager
 
@@ -275,9 +275,7 @@ mChatInput.setCameraCaptureFile(path, fileName);
 
 ### 添加自定义菜单
 
-`
-
-1. 添加菜单项布局，根节点为MenuItem（继承自LinearLayout）
+1. 添加菜单项布局，根节点为MenuItem（继承自LinearLayout）
 ```xml
 <cn.jiguang.imui.chatinput.menu.view.MenuItem 
     android:layout_width="match_parent"
@@ -288,7 +286,7 @@ mChatInput.setCameraCaptureFile(path, fileName);
 </cn.jiguang.imui.chatinput.menu.view.MenuItem>
 ```
 
-2. 添加对应菜单功能布局，根节点为MenuFeature（继承自LinearLayout）
+2. 添加对应菜单功能布局，根节点为MenuFeature（继承自LinearLayout）
 ```xml
 <cn.jiguang.imui.chatinput.menu.view.MenuFeature 
     android:layout_width="match_parent"
@@ -331,7 +329,7 @@ menuManager.setCustomMenuClickListener(new CustomMenuEventListener() {
 `setMenu(Menu menu)`
 
 #### Menu
-通过传入菜单项的tag来控制布局,默认可使用的布局tag有：
+通过传入菜单项的tag来控制布局,默认可使用的布局tag有：
 ```Java
 Menu.TAG_VOICE 
 Menu.TAG_EMOJI
@@ -349,12 +347,12 @@ Menu.newBuilder().
         setBottom(String ... tag).//输入框下侧菜单项
         build()
 ```
-#### 示例
+#### 示例
 ```java
 menuManager.setMenu(Menu.newBuilder().
                 customize(true).
                 setRight(Menu.TAG_SEND).
-                setBottom(Menu.TAG_VOICE,Menu.TAG_EMOJI,Menu.TAG_GALLERY,Menu.TAG_CAMERA,"MY_CUSTOM").
+                setBottom(Menu.TAG_VOICE,Menu.TAG_EMOJI,Menu.TAG_GALLERY,Menu.TAG_CAMERA).
                 build());
 ```
 
