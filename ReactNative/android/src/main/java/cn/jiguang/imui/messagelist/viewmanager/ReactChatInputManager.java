@@ -65,7 +65,6 @@ import cn.jiguang.imui.messagelist.event.GetTextEvent;
 import cn.jiguang.imui.messagelist.event.OnTouchMsgListEvent;
 import cn.jiguang.imui.messagelist.event.ScrollEvent;
 import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -406,7 +405,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
             @Override
             public void onTakePictureCompleted(String photoPath) {
 
-                if(mLastPhotoPath.equals(photoPath)){
+                if (mLastPhotoPath.equals(photoPath)) {
                     return;
                 }
                 mLastPhotoPath = photoPath;
@@ -684,10 +683,10 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
     @ReactProp(name = "showRecordVideoBtn")
     public void showRecordVideoBtn(ChatInputView chatInputView, boolean flag) {
-        if(flag){
+        if (flag) {
             chatInputView.getRecordVideoBtn().setVisibility(View.VISIBLE);
             chatInputView.getRecordVideoBtn().setTag("VISIBLE");
-        }else{
+        } else {
             chatInputView.getRecordVideoBtn().setVisibility(View.GONE);
             chatInputView.getRecordVideoBtn().setTag("GONE");
         }
@@ -746,39 +745,40 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
     @ReactProp(name = "customLayoutItems")
     public void setCustomItems(ChatInputView chatInputView, ReadableMap map) {
-            ReadableArray left = map.hasKey("left")?map.getArray("left"):null;
-            ReadableArray right = map.hasKey("right")?map.getArray("right"):null;
-            ReadableArray bottom = map.hasKey("bottom")?map.getArray("bottom"):null;
-            String[] bottomTags = new String[0];
-            if(bottom!=null){
-                bottomTags = new String[bottom.size()];
-                for(int i =0;i<bottom.size();i++){
-                    bottomTags[i] = bottom.getString(i);
-                }
+        
+        ReadableArray left = map.hasKey("left") ? map.getArray("left") : null;
+        ReadableArray right = map.hasKey("right") ? map.getArray("right") : null;
+        ReadableArray bottom = map.hasKey("bottom") ? map.getArray("bottom") : null;
+        String[] bottomTags = new String[0];
+        if (bottom != null) {
+            bottomTags = new String[bottom.size()];
+            for (int i = 0; i < bottom.size(); i++) {
+                bottomTags[i] = bottom.getString(i);
             }
+        }
 
-            String[] leftTags = new String[0];
-            if(left!=null){
-                leftTags = new String[left.size()];
-                for(int i =0;i<left.size();i++){
-                    leftTags[i] = left.getString(i);
-                }
+        String[] leftTags = new String[0];
+        if (left != null) {
+            leftTags = new String[left.size()];
+            for (int i = 0; i < left.size(); i++) {
+                leftTags[i] = left.getString(i);
             }
+        }
 
-            String[] rightTags = new String[0];
-            if(right!=null){
-                rightTags = new String[right.size()];
-                for(int i =0;i<right.size();i++){
-                    rightTags[i] = right.getString(i);
-                }
+        String[] rightTags = new String[0];
+        if (right != null) {
+            rightTags = new String[right.size()];
+            for (int i = 0; i < right.size(); i++) {
+                rightTags[i] = right.getString(i);
             }
-            mChatInput.getMenuManager()
-                    .setMenu(Menu.newBuilder()
-                            .customize(true)
-                            .setLeft(leftTags)
-                            .setRight(rightTags)
-                            .setBottom(bottomTags)
-                            .build());
+        }
+        mChatInput.getMenuManager()
+                .setMenu(Menu.newBuilder()
+                        .customize(true)
+                        .setLeft(leftTags)
+                        .setRight(rightTags)
+                        .setBottom(bottomTags)
+                        .build());
 
     }
 
