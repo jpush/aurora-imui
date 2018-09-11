@@ -577,7 +577,7 @@ Example: `messageTextLineHeight={5}`
 ### Props customizable style
 
 ------
-#### customLayoutItems(iOS Only)
+#### customLayoutItems
 
 **PropTypes.string:** 
 
@@ -626,43 +626,6 @@ Example: ```showSelectAlbumBtn={true}```
 设置视频录制按钮的可见性。
 
 Example: ```showRecordVideoBtn={true}```
-
-
-------
-
-#### hideCameraButton(Android Only)
-**PropTypes.bool:**
-
-设置菜单栏相机按钮可见性。
-
-Example: ```hideCameraButton={true}```
-
-------
-
-#### hideVoiceButton(Android Only)
-**PropTypes.bool:**
-
-设置菜单栏录音按钮可见性。
-
-Example: ```hideVoiceButton={true}```
-
-------
-
-#### hideEmojiButton(Android Only)
-**PropTypes.bool:**
-
-设置菜单栏Emoji表情按钮可见性。
-
-Example: ```hideEmojiButton={true}```
-
-------
-
-#### hidePhotoButton(Android Only)
-**PropTypes.bool:**
-
-设置菜单栏相册按钮可见性。
-
-Example: ```hidePhotoButton={true}```
 
 ------
 ### inputPadding
