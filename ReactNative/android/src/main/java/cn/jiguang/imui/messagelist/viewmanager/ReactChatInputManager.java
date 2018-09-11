@@ -56,6 +56,7 @@ import cn.jiguang.imui.chatinput.listener.CameraControllerListener;
 import cn.jiguang.imui.chatinput.listener.OnCameraCallbackListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
+import cn.jiguang.imui.chatinput.menu.Menu;
 import cn.jiguang.imui.chatinput.model.FileItem;
 import cn.jiguang.imui.chatinput.model.VideoItem;
 import cn.jiguang.imui.messagelist.AuroraIMUIModule;
@@ -554,6 +555,7 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
             }
         });
+
         return mChatInput;
     }
 
@@ -740,6 +742,44 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
     @ReactProp(name = "hidePhotoButton")
     public void hidePhotoButton(ChatInputView chatInputView, boolean hide) {
         chatInputView.getPhotoBtnContainer().setVisibility(hide ? View.GONE : View.VISIBLE);
+    }
+
+    @ReactProp(name = "customLayoutItems")
+    public void setCustomItems(ChatInputView chatInputView, ReadableMap map) {
+            ReadableArray left = map.hasKey("left")?map.getArray("left"):null;
+            ReadableArray right = map.hasKey("right")?map.getArray("right"):null;
+            ReadableArray bottom = map.hasKey("bottom")?map.getArray("bottom"):null;
+            String[] bottomTags = new String[0];
+            if(bottom!=null){
+                bottomTags = new String[bottom.size()];
+                for(int i =0;i<bottom.size();i++){
+                    bottomTags[i] = bottom.getString(i);
+                }
+            }
+
+            String[] leftTags = new String[0];
+            if(left!=null){
+                leftTags = new String[left.size()];
+                for(int i =0;i<left.size();i++){
+                    leftTags[i] = left.getString(i);
+                }
+            }
+
+            String[] rightTags = new String[0];
+            if(right!=null){
+                rightTags = new String[right.size()];
+                for(int i =0;i<right.size();i++){
+                    rightTags[i] = right.getString(i);
+                }
+            }
+            mChatInput.getMenuManager()
+                    .setMenu(Menu.newBuilder()
+                            .customize(true)
+                            .setLeft(leftTags)
+                            .setRight(rightTags)
+                            .setBottom(bottomTags)
+                            .build());
+
     }
 
     @Override
