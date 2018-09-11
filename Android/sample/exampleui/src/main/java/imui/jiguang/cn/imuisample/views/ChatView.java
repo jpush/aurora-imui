@@ -16,6 +16,7 @@ import cn.jiguang.imui.chatinput.listener.CustomMenuEventListener;
 import cn.jiguang.imui.chatinput.listener.OnMenuClickListener;
 import cn.jiguang.imui.chatinput.listener.RecordVoiceListener;
 import cn.jiguang.imui.chatinput.menu.Menu;
+import cn.jiguang.imui.chatinput.menu.MenuManager;
 import cn.jiguang.imui.chatinput.menu.view.MenuFeature;
 import cn.jiguang.imui.chatinput.menu.view.MenuItem;
 import cn.jiguang.imui.chatinput.record.RecordVoiceButton;
@@ -88,15 +89,16 @@ public class ChatView extends RelativeLayout {
 
 
         // add Custom Menu View
-        mChatInput.getMenuManager().addCustomMenu("MY_CUSTOM",R.layout.menu_text_item,R.layout.menu_text_feature);
+        MenuManager menuManager = mChatInput.getMenuManager();
+        menuManager.addCustomMenu("MY_CUSTOM",R.layout.menu_text_item,R.layout.menu_text_feature);
 
         // Custom menu order
-        mChatInput.getMenuManager().setMenu(Menu.newBuilder().
+        menuManager.setMenu(Menu.newBuilder().
                 customize(true).
                 setRight(Menu.TAG_SEND).
                 setBottom(Menu.TAG_VOICE,Menu.TAG_EMOJI,Menu.TAG_GALLERY,Menu.TAG_CAMERA,"MY_CUSTOM").
                 build());
-        mChatInput.setCustomMenuClickListener(new CustomMenuEventListener() {
+        menuManager.setCustomMenuClickListener(new CustomMenuEventListener() {
             @Override
             public boolean onMenuItemClick(String tag, MenuItem menuItem) {
                 //Menu feature will not be show shown if return false；
