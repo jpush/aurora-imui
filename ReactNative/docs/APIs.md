@@ -79,7 +79,7 @@ Refer to iOS,Android example
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [customLayoutItems](#customlayoutitemsios-only)
-    - [chatInputBackgroupColor](#chatInputbackgroupcolor)
+    - [chatInputBackgrounpColor](#chatInputBackgrounpColor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
     - [showRecordVideoBtn](#showRecordVideoBtnandroid-only) 
     - [inputPadding](#inputPadding)
@@ -598,13 +598,13 @@ customLayoutItems={{
 		}} 
 ```
 
-#### chatInputBackgroupColor
+#### chatInputBackgrounpColor
 
 **PropTypes.string:**
 
 Set chatInput' background  color.
 
-Example:  ```chatInputBackgroupColor="#000000"```
+Example:  ```chatInputBackgrounpColor="#000000"```
 
 ***
 

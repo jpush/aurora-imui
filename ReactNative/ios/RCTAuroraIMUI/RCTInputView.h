@@ -18,7 +18,7 @@
 
 @property (nonatomic, assign)CGFloat maxKeyBoardHeight;
 
-@property(strong, nonatomic) NSString *chatInputBackgroupColor;
+@property(strong, nonatomic) NSString *chatInputBackgrounpColor;
 
 @property(strong, nonatomic) NSNumber *galleryScale;
 @property(strong, nonatomic) NSNumber *compressionQuality;

@@ -78,7 +78,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [customLayoutItems](#customlayoutitemsios-only)
-    - [chatInputBackgroupColor](#chatInputbackgroupcolor)
+    - [chatInputBackgrounpColor](#chatInputBackgrounpColor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
     - [showRecordVideoBtn](#showRecordVideoBtnandroid-only)   
     - [inputPadding](#inputPadding)
@@ -597,13 +597,13 @@ customLayoutItems={{
 		}} 
 ```
 
-#### chatInputBackgroupColor
+#### chatInputBackgrounpColor
 
 **PropTypes.string:**
 
 设置输入组件背景颜色。
 
-Example:  ```chatInputBackgroupColor="#000000"```
+Example:  ```chatInputBackgrounpColor="#000000"```
 
 ------
 

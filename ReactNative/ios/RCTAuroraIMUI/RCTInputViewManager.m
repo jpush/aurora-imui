@@ -53,7 +53,7 @@ RCT_EXPORT_MODULE()
 //    return [UIView new];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgroupColor, NSString, RCTInputView) {
+RCT_CUSTOM_VIEW_PROPERTY(chatInputBackgrounpColor, NSString, RCTInputView) {
   NSString *colorString = [RCTConvert NSString: json];
   UIColor *color = [UIColor hexStringToUIColorWithHex:colorString];
   if (color != nil) {
