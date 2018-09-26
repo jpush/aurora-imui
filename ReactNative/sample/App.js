@@ -551,15 +551,15 @@ export default class TestRNIMUI extends Component {
           compressionQuality={0.6}
           customLayoutItems={{
             left: [],
-            right: [],
-            bottom: ['voice','gallery','emoji','camera','send']
+            right: ['send','emoji']
+            // bottom: ['voice','gallery','emoji','camera']
           }}
         />
       </View>
     );
   }
 }
-// bottom: ['gallery','emoji','camera','camera']
+
 const styles = StyleSheet.create({
   sendCustomBtn: {
 
