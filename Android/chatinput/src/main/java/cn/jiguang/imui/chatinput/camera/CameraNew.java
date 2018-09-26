@@ -157,6 +157,7 @@ public class CameraNew implements CameraSupport {
     private static SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
     private CameraCharacteristics mCameraCharacteristic;
+    private static boolean mIsTakingPicture = false;
     /**
      * An {@link ImageReader} that handles still image capture.
      */
@@ -662,6 +663,11 @@ public class CameraNew implements CameraSupport {
 
     @Override
     public void takePicture() {
+        if(mIsTakingPicture){
+            Log.i(TAG,"Is taking picture now,please wait.");
+            return;
+        }
+        mIsTakingPicture = true;
         lockFocus();
     }
 
@@ -822,6 +828,7 @@ public class CameraNew implements CameraSupport {
                     Log.i(TAG,"Saved capture into "+ mPhoto.getAbsolutePath());
                     mOnCameraCallbackListener.onTakePictureCompleted(mPhoto.getAbsolutePath());
                     mLastPhoto = mPhoto;
+                    mIsTakingPicture = false;
                 }
                 if (mCameraEventListener != null) {
                     mCameraEventListener.onFinishTakePicture();

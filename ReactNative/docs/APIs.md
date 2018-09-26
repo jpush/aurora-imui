@@ -79,7 +79,7 @@ Refer to iOS,Android example
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [customLayoutItems](#customlayoutitemsios-only)
-    - [chatInputBackgroupColor](#chatInputbackgroupcolor)
+    - [chatInputBackgrounpColor](#chatInputBackgrounpColor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
     - [showRecordVideoBtn](#showRecordVideoBtnandroid-only) 
     - [inputPadding](#inputPadding)
@@ -583,11 +583,11 @@ Customize ChatInput feature and layout。
 Eample: 
 
 ```
-// You can put item into ChatInput's left/right/bottom part，(Can be repeated but not recommended)
+// You can put item into ChatInput's left/right/bottom part，(Can’t be repeated！)
 customLayoutItems={{
             left: ['voice'],
             right: ['send'],
-            bottom: ['gallery','emoji','camera','camera']
+            bottom: ['gallery','emoji','camera']
 		}} 
 		
 
@@ -598,13 +598,13 @@ customLayoutItems={{
 		}} 
 ```
 
-#### chatInputBackgroupColor
+#### chatInputBackgrounpColor
 
 **PropTypes.string:**
 
 Set chatInput' background  color.
 
-Example:  ```chatInputBackgroupColor="#000000"```
+Example:  ```chatInputBackgrounpColor="#000000"```
 
 ***
 
@@ -709,7 +709,7 @@ Fires when click record video button.
 
  Fires when finished recording video. 
 
-Result's type is  ```{mediaPath: string, durationTime: number}```。
+Result's type is  ```{mediaPath: string, duration: number}```。
 
 ------
 

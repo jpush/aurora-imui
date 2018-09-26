@@ -78,7 +78,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
 - [ChatInput](#chatinput)
   - [Props customizable style]()
     - [customLayoutItems](#customlayoutitemsios-only)
-    - [chatInputBackgroupColor](#chatInputbackgroupcolor)
+    - [chatInputBackgrounpColor](#chatInputBackgrounpColor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
     - [showRecordVideoBtn](#showRecordVideoBtnandroid-only)   
     - [inputPadding](#inputPadding)
@@ -582,11 +582,11 @@ Example: `messageTextLineHeight={5}`
 Eample: 
 
 ```
-// 可以在 ChatInput 的 left/right/bottom 放置各功能 item，(可以重复但不建议)
+// 可以在 ChatInput 的 left/right/bottom 放置各功能 item，(不可以重复)
 customLayoutItems={{
             left: ['voice'],
             right: ['send'],
-            bottom: ['gallery','emoji','camera','camera']
+            bottom: ['gallery','emoji','camera']
 		}} 
 		
 
@@ -597,13 +597,13 @@ customLayoutItems={{
 		}} 
 ```
 
-#### chatInputBackgroupColor
+#### chatInputBackgrounpColor
 
 **PropTypes.string:**
 
 设置输入组件背景颜色。
 
-Example:  ```chatInputBackgroupColor="#000000"```
+Example:  ```chatInputBackgrounpColor="#000000"```
 
 ------
 
@@ -704,7 +704,7 @@ Example: `inputTextLineHeight={2}`
 
 **PropTypes.function:**``` (result) => {}```
 
- 完成录制视频触发，result 参数为 ```{mediaPath: string, durationTime: number}```。
+ 完成录制视频触发，result 参数为 ```{mediaPath: string, duration: number}```。
 
 ***
 

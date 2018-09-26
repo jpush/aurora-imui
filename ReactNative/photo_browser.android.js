@@ -42,7 +42,7 @@ export default class PhotoBrowser extends Component {
 }
 
 PhotoBrowser.propTypes = {
-	chatInputBackgroupColor: PropTypes.string,
+	chatInputBackgrounpColor: PropTypes.string,
 	menuContainerHeight: PropTypes.number,
 	isDismissMenuContainer: PropTypes.bool,
 	onSendText: PropTypes.func,

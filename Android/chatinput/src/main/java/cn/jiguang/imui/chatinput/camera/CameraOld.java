@@ -49,6 +49,7 @@ public class CameraOld implements CameraSupport {
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static SparseIntArray ORIENTATIONS = new SparseIntArray();
     private CameraEventListener mCameraEventListener;
+    private boolean mIsTakingPicture = false;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 0);
@@ -130,6 +131,7 @@ public class CameraOld implements CameraSupport {
             mCamera = null;
         }
         releaseMediaRecorder();
+        mIsTakingPicture = false;
     }
 
     private void initPhotoPath() {
@@ -142,6 +144,11 @@ public class CameraOld implements CameraSupport {
 
     @Override
     public void takePicture() {
+        if(mIsTakingPicture){
+            Log.i(TAG,"Is taking picture now,please wait.");
+            return;
+        }
+        mIsTakingPicture = true;
         mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] bytes, Camera camera) {
@@ -176,6 +183,7 @@ public class CameraOld implements CameraSupport {
                             return;
                         mCameraCallbackListener.onTakePictureCompleted(mPhoto.getAbsolutePath());
                         mLastPhoto = mPhoto;
+                        mIsTakingPicture = false ;
                     }
                     if (mCameraEventListener != null) {
                         mCameraEventListener.onFinishTakePicture();
@@ -319,4 +327,5 @@ public class CameraOld implements CameraSupport {
         }
         return mNextVideoAbsolutePath;
     }
+
 }
