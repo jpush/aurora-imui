@@ -583,11 +583,11 @@ Customize ChatInput feature and layout。
 Eample: 
 
 ```
-// You can put item into ChatInput's left/right/bottom part，(Can be repeated but not recommended)
+// You can put item into ChatInput's left/right/bottom part，(Can’t be repeated！)
 customLayoutItems={{
             left: ['voice'],
             right: ['send'],
-            bottom: ['gallery','emoji','camera','camera']
+            bottom: ['gallery','emoji','camera']
 		}} 
 		
 
@@ -709,7 +709,7 @@ Fires when click record video button.
 
  Fires when finished recording video. 
 
-Result's type is  ```{mediaPath: string, durationTime: number}```。
+Result's type is  ```{mediaPath: string, duration: number}```。
 
 ------
 
