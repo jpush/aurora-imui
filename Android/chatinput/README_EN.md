@@ -11,7 +11,9 @@ Provides several ways to add dependency, you can choose one of them:
 
 - Via Gradle
 ```groovy
+
 compile 'cn.jiguang.imui:chatinput:0.9.1'
+
 ```
 
 - Via Maven
