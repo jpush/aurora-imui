@@ -204,7 +204,7 @@ public class ChatInputView extends LinearLayout
         mMenuItemContainer = (LinearLayout) findViewById(R.id.aurora_ll_menuitem_container);
         mMenuContainer = (FrameLayout) findViewById(R.id.aurora_fl_menu_container);
 
-        mMenuManager = new MenuManager(this,mChatInputContainer,mMenuItemContainer,mMenuContainer);
+        mMenuManager = new MenuManager(this);
 
         // menu buttons
         mChatInput = (EmoticonsEditText) findViewById(R.id.aurora_et_chat_input);
@@ -917,7 +917,8 @@ public class ChatInputView extends LinearLayout
         params3.gravity = Gravity.BOTTOM | Gravity.END;
         mSwitchCameraBtn.setLayoutParams(params3);
 
-        mMenuContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height));
+//        mMenuContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height));
+        mMenuContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         mTextureView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
         mIsFullScreen = true;
     }
@@ -946,7 +947,7 @@ public class ChatInputView extends LinearLayout
                 mFullScreenBtn.setBackgroundResource(R.drawable.aurora_preview_full_screen);
                 mFullScreenBtn.setVisibility(VISIBLE);
                 mChatInputContainer.setVisibility(VISIBLE);
-                mMenuItemContainer.setVisibility(VISIBLE);
+                mMenuItemContainer.setVisibility(isShowBottomMenu()?VISIBLE:GONE);
                 int height = sMenuHeight;
                 if (mSoftKeyboardHeight != 0) {
                     height = mSoftKeyboardHeight;
@@ -1310,15 +1311,27 @@ public class ChatInputView extends LinearLayout
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (mMediaPlayer == null){
+            mMediaPlayer = new MediaPlayer();
+        }
+    }
+
+    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (mCameraSupport != null) {
             mCameraSupport.release();
         }
-        mMediaPlayer.release();
+        if (mMediaPlayer != null){
+            mMediaPlayer.release();
+        }
         getViewTreeObserver().removeOnPreDrawListener(this);
-        mMediaPlayer = null;
+         mMediaPlayer = null;
     }
+
+
 
     @Override
     public void onWindowVisibilityChanged(int visibility) {
@@ -1388,8 +1401,24 @@ public class ChatInputView extends LinearLayout
         return true;
     }
 
+
+    private boolean showBottomMenu = true;
+
+    public void setShowBottomMenu(Boolean showBottomMenu){
+        this.showBottomMenu = showBottomMenu;
+        mMenuItemContainer.setVisibility(showBottomMenu?View.VISIBLE:View.GONE);
+    }
+
+    public boolean isShowBottomMenu(){
+        return showBottomMenu;
+    }
+
     public int getDistanceFromInputToBottom() {
-        mMenuItemContainer.getGlobalVisibleRect(mRect);
+        if(isShowBottomMenu()){
+            mMenuItemContainer.getGlobalVisibleRect(mRect);
+        }else {
+            mChatInputContainer.getGlobalVisibleRect(mRect);
+        }
         return mHeight - mRect.bottom;
     }
 
@@ -1489,5 +1518,16 @@ public class ChatInputView extends LinearLayout
         return  this.mMenuManager;
     }
 
+    public LinearLayout getChatInputContainer(){
+        return  this.mChatInputContainer;
+    }
+
+    public LinearLayout getMenuItemContainer(){
+        return  this.mMenuItemContainer;
+    }
+
+    public FrameLayout getMenuContainer(){
+        return  this.mMenuContainer;
+    }
 
 }

@@ -32,12 +32,12 @@ public class MenuManager {
     private MenuFeatureCollection mMenuFeatureCollection;
     private CustomMenuEventListener mCustomMenuEventListener;
 
-    public MenuManager(ChatInputView chatInputView, LinearLayout chatInputContainer, LinearLayout menuItemContainer, FrameLayout menuContainer) {
+    public MenuManager(ChatInputView chatInputView) {
         mChatInputView = chatInputView;
         mContext = chatInputView.getContext();
-        mChatInputContainer = chatInputContainer;
-        mMenuItemContainer = menuItemContainer;
-        mMenuContainer = menuContainer;
+        mChatInputContainer = chatInputView.getChatInputContainer();
+        mMenuItemContainer = chatInputView.getMenuItemContainer();
+        mMenuContainer = chatInputView.getMenuContainer();
         initCollection();
 
         initDefaultMenu();
@@ -137,8 +137,10 @@ public class MenuManager {
 
     private void addBottomByTag(String... tags) {
         if (tags == null || tags.length == 0) {
-            mMenuItemContainer.setVisibility(View.GONE);
+            mChatInputView.setShowBottomMenu(false);
+            return;
         }
+        mChatInputView.setShowBottomMenu(true);
         addViews(mMenuItemContainer, -1, tags);
     }
 
