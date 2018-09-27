@@ -76,9 +76,9 @@
                      attributes:@{NSFontAttributeName:self.imuiIntputView.inputTextView.font,
                                   NSParagraphStyleAttributeName:paragraphStyle}
                      context:nil].size;
-  return realSize.height <= self.imuiIntputView.inputTextViewHeightRange.minimum ? self.imuiIntputView.inputTextViewHeightRange.minimum + 6: realSize.height +6 ;
-  
+  return realSize.height <= self.imuiIntputView.inputTextViewHeightRange.minimum ? self.imuiIntputView.inputTextViewHeightRange.minimum: realSize.height;
 }
+
 - (void)hidenFeatureView {
   dispatch_async(dispatch_get_main_queue(), ^{
     self.maxKeyBoardHeight = 0.0;

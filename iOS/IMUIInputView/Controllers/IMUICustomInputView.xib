@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IMUICustomInputView" customModule="sample" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IMUICustomInputView" customModule="RCTAuroraIMUI" customModuleProvider="target">
             <connections>
                 <outlet property="bottomInputBarItemListView" destination="xJx-AS-B6d" id="Rhd-bL-Atu"/>
                 <outlet property="bottomInputBarItemListViewHeight" destination="erI-UZ-EUg" id="dGL-yU-WIF"/>
@@ -32,18 +32,18 @@
             <rect key="frame" x="0.0" y="0.0" width="402" height="82"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t9V-LN-RmM" customClass="IMUIFeatureView" customModule="sample" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t9V-LN-RmM" customClass="IMUIFeatureView" customModule="RCTAuroraIMUI" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="82" width="402" height="0.0"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" id="Di3-tL-4ID"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nEz-Ll-nbj" customClass="IMUIFeatureListView" customModule="sample" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="16" height="36"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nEz-Ll-nbj" customClass="IMUIFeatureListView" customModule="RCTAuroraIMUI" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="4" width="16" height="32"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="36" id="4Wn-cQ-Jfg"/>
+                        <constraint firstAttribute="height" constant="32" id="4Wn-cQ-Jfg"/>
                         <constraint firstAttribute="width" constant="16" id="Ufo-bz-eS6"/>
                     </constraints>
                 </view>
@@ -71,15 +71,15 @@
                         <constraint firstAttribute="bottom" secondItem="q3k-Vv-eYJ" secondAttribute="bottom" constant="9" id="zYO-BI-2Mu"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjf-qu-ADD" customClass="IMUIFeatureListView" customModule="sample" customModuleProvider="target">
-                    <rect key="frame" x="386" y="0.0" width="16" height="36"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjf-qu-ADD" customClass="IMUIFeatureListView" customModule="RCTAuroraIMUI" customModuleProvider="target">
+                    <rect key="frame" x="386" y="4" width="16" height="32"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="16" id="UXf-aX-hmR"/>
-                        <constraint firstAttribute="height" constant="36" id="fjm-7h-WUZ"/>
+                        <constraint firstAttribute="height" constant="32" id="fjm-7h-WUZ"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJx-AS-B6d" customClass="IMUIFeatureListView" customModule="sample" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xJx-AS-B6d" customClass="IMUIFeatureListView" customModule="RCTAuroraIMUI" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="36" width="402" height="46"/>
                     <color key="backgroundColor" red="0.39872862120000002" green="0.81575716030000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
