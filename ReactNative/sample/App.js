@@ -136,7 +136,7 @@ export default class TestRNIMUI extends Component {
     super(props);
     let initHeight;
     if (Platform.OS === "ios") {
-      initHeight = 86
+      initHeight = 46
     } else {
       initHeight = 100
     }
@@ -172,7 +172,7 @@ export default class TestRNIMUI extends Component {
   }
   
   getHistoryMessage() {
-    // var messages = []
+    var messages = []
     for (var index in imageUrlArray) {
       var message = constructNormalMessage()
       message.fromUser.avatarUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534926548887&di=f107f4f8bd50fada6c5770ef27535277&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F11%2F67%2F23%2F69i58PICP37.jpg",//1
@@ -180,9 +180,13 @@ export default class TestRNIMUI extends Component {
       message.mediaPath = imageUrlArray[index]
       message.contentSize = { 'height': 100, 'width': 200 }
       message.extras = { "extras": "fdfsf" }
-      AuroraIController.appendMessages([message])
-      AuroraIController.scrollToBottom(true)
+      messages.push(message)
+      // AuroraIController.appendMessages([message])
+      // AuroraIController.scrollToBottom(true)
     }
+    AuroraIController.appendMessages(messages)
+    AuroraIController.scrollToBottom(true)
+
     // for (var i = 0; i < 10; i++) {
     //   var message = constructNormalMessage()
     //   message.msgType = 'custom'
