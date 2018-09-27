@@ -104,8 +104,6 @@
 		62BD327820E4D8EB00867FBE /* RCTInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA97B1EE55CB200EC43AE /* RCTInputView.m */; };
 		62BD327920E4D90000867FBE /* RCTMessageListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 623EA97F1EE55CB200EC43AE /* RCTMessageListView.m */; };
 		62BD327A20E4D9F900867FBE /* RCTAuroraIMUIFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B0CB33204E41C100D87F94 /* RCTAuroraIMUIFileManager.m */; };
-		62BD328220E4DCF600867FBE /* RCTInputView.xib in Sources */ = {isa = PBXBuildFile; fileRef = 623EA97C1EE55CB200EC43AE /* RCTInputView.xib */; };
-		62BD328320E4DCF600867FBE /* RCTMessageListView.xib in Sources */ = {isa = PBXBuildFile; fileRef = 623EA9801EE55CB200EC43AE /* RCTMessageListView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -759,7 +757,6 @@
 				62901B4F21351D20000296DF /* IMUIViewCache.swift in Sources */,
 				62901B5C21351D20000296DF /* IMUIWebImageTaskManager.swift in Sources */,
 				62901B2A21351D20000296DF /* IMUIHidenStatusViewController.swift in Sources */,
-				62BD328220E4DCF600867FBE /* RCTInputView.xib in Sources */,
 				62901B4D21351D20000296DF /* IMUIMessageCellLayout.swift in Sources */,
 				62901B6021351D20000296DF /* IMUIMessageBubbleView.swift in Sources */,
 				62901B2021351D20000296DF /* IMUIEmojiModel.swift in Sources */,
@@ -789,7 +786,6 @@
 				62901B5D21351D20000296DF /* IMUIChatLayout.swift in Sources */,
 				62901B6121351D20000296DF /* IMUITextView.swift in Sources */,
 				62901B3821351D20000296DF /* IMUIPermissionDenyedView.swift in Sources */,
-				62BD328320E4DCF600867FBE /* RCTMessageListView.xib in Sources */,
 				62901B4321351D20000296DF /* CIImageExtension.swift in Sources */,
 				62901B1C21351D20000296DF /* IMUIInputViewDelegate.swift in Sources */,
 				624B82901EE5710E006C3C03 /* MyMessageModel.swift in Sources */,
