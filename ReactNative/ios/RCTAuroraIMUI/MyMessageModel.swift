@@ -285,7 +285,13 @@ open class RCTMessageModel: IMUIMessageModel {
         break
       case "image":
         messageDic.setValue(RCTMessageModel.kMsgTypeImage, forKey: RCTMessageModel.kMsgKeyMsgType)
-        messageDic.setValue(self.mediaPath, forKey: RCTMessageModel.kMsgKeyMediaFilePath)
+        
+        if (self.mediaPath == "") {
+          messageDic.setValue(self.imageUrl, forKey: RCTMessageModel.kMsgKeyMediaFilePath)
+        } else {
+          messageDic.setValue(self.mediaPath, forKey: RCTMessageModel.kMsgKeyMediaFilePath)
+        }
+        
         break
       case "voice":
         messageDic.setValue(RCTMessageModel.kMsgTypeVoice, forKey: RCTMessageModel.kMsgKeyMsgType)
@@ -337,7 +343,12 @@ open class RCTMessageModel: IMUIMessageModel {
       userDic.setValue(self.fromUser.userId(), forKey: "userId")
       userDic.setValue(self.fromUser.displayName(), forKey: "diaplayName")
       let user = self.fromUser as! RCTUser
-      userDic.setValue(user.rAvatarFilePath, forKey: "avatarPath")
+      
+      if (user.rAvatarFilePath == "") {
+        userDic.setValue(user.rAvatarUrl, forKey: "avatarPath")
+      } else {
+        userDic.setValue(user.rAvatarFilePath, forKey: "avatarPath")
+      }
       
       messageDic.setValue(userDic, forKey: "fromUser")
       messageDic.setValue(self.msgId, forKey: "msgId")
