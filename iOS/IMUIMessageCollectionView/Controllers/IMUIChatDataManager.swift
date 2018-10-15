@@ -82,7 +82,8 @@ class IMUIChatDataManager: NSObject {
   }
   
   open func insertMessages(with messages:[IMUIMessageProtocol]) {
-    for element in messages {
+    let msgs = messages.reversed()
+    for element in msgs {
       self.insertMessage(with: element)
     }
   }
