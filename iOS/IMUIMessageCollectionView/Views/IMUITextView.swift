@@ -23,6 +23,6 @@ class IMUITextView: UILabel {
   }
   
   override public func drawText(in rect: CGRect) {
-    super.drawText(in: UIEdgeInsetsInsetRect(rect, contentInset))
+    super.drawText(in: rect.inset(by: contentInset))
   }
 }

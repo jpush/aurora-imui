@@ -621,7 +621,7 @@ class IMUICameraView: UIView {
       if imageSampleBuffer == nil {
         return
       }
-      let exifAttachments = CMGetAttachment(imageSampleBuffer!, kCGImagePropertyExifDictionary, nil)
+      let exifAttachments = CMGetAttachment(imageSampleBuffer!, key: kCGImagePropertyExifDictionary, attachmentModeOut: nil)
       
       if (exifAttachments != nil) {
         print("exifAttachments exit")

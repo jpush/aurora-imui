@@ -137,7 +137,7 @@ extension ViewController: IMUIInputViewDelegate {
         option.isNetworkAccessAllowed = true
         
         imageManage.requestImage(for: asset, targetSize: CGSize(width: asset.pixelWidth/4, height: asset.pixelHeight/4), contentMode: .aspectFill, options: option, resultHandler: { [weak self] (image, _) in
-          let imageData = UIImagePNGRepresentation(image!)
+          let imageData = image!.pngData()
           self?.didShootPicture(picture: imageData!)
         })
         break

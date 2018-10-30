@@ -97,7 +97,7 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
     self.bubbleContentView = viewCache[bubbleContentType]!.dequeueContentView(layout: layout)
     self.bubbleContentType = bubbleContentType
     self.bubbleView.addSubview(self.bubbleContentView as! UIView)
-    (self.bubbleContentView as! UIView).frame = UIEdgeInsetsInsetRect(CGRect(origin: CGPoint.zero, size: layout.bubbleFrame.size), layout.bubbleContentInset)
+    (self.bubbleContentView as! UIView).frame = CGRect(origin: CGPoint.zero, size: layout.bubbleFrame.size).inset(by: layout.bubbleContentInset)
   }
   
   func addGestureForStatusView() {

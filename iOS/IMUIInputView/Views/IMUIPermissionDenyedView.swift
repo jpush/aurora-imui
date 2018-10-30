@@ -45,9 +45,9 @@ class IMUIPermissionDenyedView: UIView {
   
   @IBAction func gotoSettingPage(_ sender: Any) {
     if #available(iOS 10.0, *) {
-      UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, completionHandler: nil)
+      UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, completionHandler: nil)
     } else {
-      UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+      UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
     }
   }
   

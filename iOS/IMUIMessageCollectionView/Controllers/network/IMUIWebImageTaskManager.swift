@@ -81,7 +81,7 @@ class IMUIWebImageTaskManager: NSObject {
     config.urlCache = URLCache(memoryCapacity: 5 * 1024 * 1024, diskCapacity: 50 * 1024 * 1024, diskPath: "IMUIImageCache")
     _session = URLSession(configuration: config, delegate: self, delegateQueue: OperationQueue.main)
     
-    NotificationCenter.default.addObserver(self, selector: #selector(receiveMemoryWarnning), name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(receiveMemoryWarnning), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
   }
 
   @objc func receiveMemoryWarnning() {
