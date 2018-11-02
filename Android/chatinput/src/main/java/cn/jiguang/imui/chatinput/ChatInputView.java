@@ -1191,7 +1191,7 @@ public class ChatInputView extends LinearLayout
                 if (hasContent) {
                     mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), mStyle.getSendBtnPressedIcon()));
                 } else {
-                    mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.aurora_menuitem_send));
+                    mSendBtn.setImageDrawable(ContextCompat.getDrawable(getContext(), mStyle.getSendBtnIcon()));
                 }
                 restoreAnimatorSet.start();
             }
