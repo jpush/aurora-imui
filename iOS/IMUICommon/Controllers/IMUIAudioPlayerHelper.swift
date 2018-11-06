@@ -40,15 +40,24 @@ public class IMUIAudioPlayerHelper: NSObject {
   
   override init() {
     super.init()
-    NotificationCenter.default.addObserver(self, selector: #selector(sensorStateChange), name: NSNotification.Name.UIDeviceProximityStateDidChange, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(sensorStateChange), name: UIDevice.proximityStateDidChangeNotification, object: nil)
   }
   
   @objc func sensorStateChange() {
     do {
       if UIDevice.current.proximityState {
-        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+        if #available(iOS 10.0, *) {
+          try AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default)
+        } else {
+          AVAudioSession.sharedInstance().perform(NSSelectorFromString("setCategory:error:"), with: AVAudioSession.Category.playAndRecord)
+        }
       } else {
-        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+
+        if #available(iOS 10.0, *) {
+          try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        } else {
+          AVAudioSession.sharedInstance().perform(NSSelectorFromString("setCategory:error:"), with: AVAudioSession.Category.playback)
+        }
       }
     } catch let error as NSError {
       print("set category fail \(error)")
@@ -72,9 +81,14 @@ public class IMUIAudioPlayerHelper: NSObject {
       self.playFinishCallback = finishCallBack
       self.playStopCallback = stopCallBack
       
-      try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+      if #available(iOS 10.0, *) {
+        try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+      } else {
+        AVAudioSession.sharedInstance().perform(NSSelectorFromString("setCategory:error:"), with: AVAudioSession.Category.playback)
+      }
+      
       updater = CADisplayLink(target: self, selector: #selector(self.trackAudio))
-      updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+      updater.add(to: RunLoop.current, forMode: .common)
       updater.frameInterval = 1
     } catch let error as NSError {
       print("set category fail \(error)")
@@ -117,7 +131,7 @@ public class IMUIAudioPlayerHelper: NSObject {
   
   func resumePlayingAudio() {
     self.player?.play()
-    updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+    updater.add(to: RunLoop.current, forMode: .common)
   }
   
   @objc open func stopAudio() {

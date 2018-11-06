@@ -48,7 +48,7 @@ class IMUIGalleryCell: UICollectionViewCell, IMUIFeatureCellProtocol {
         galleryImageView.isHidden = true
         mediaView.isHidden = false
         PHImageManager.default().requestPlayerItem(forVideo: self.asset!, options: nil, resultHandler: { [weak self] (avPlayerItem, _) in
-          self?.contentView.sendSubview(toBack: (self?.mediaView)!)
+          self?.contentView.sendSubviewToBack((self?.mediaView)!)
           self?.playerLayer.player?.pause()
           let player = AVPlayer(playerItem: avPlayerItem)
           self?.playerLayer.player = player
@@ -101,8 +101,8 @@ class IMUIGalleryCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     }) {  [weak self] ( completion ) in
       self?.selectImageView.isHidden = !(self?.didSelect)!
       self?.grayView.isHidden = !(self?.didSelect)!
-      self?.contentView.bringSubview(toFront: (self?.grayView)!)
-      self?.contentView.bringSubview(toFront: (self?.selectImageView)!)
+      self?.contentView.bringSubviewToFront((self?.grayView)!)
+      self?.contentView.bringSubviewToFront((self?.selectImageView)!)
     }
   }
   
