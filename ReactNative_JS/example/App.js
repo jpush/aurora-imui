@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-// import {AuroraIMUI, Message} from "./src/index"
 import {AuroraIMUI, Message} from "aurora-imui";
 import MessageImageContent from "./MessageImageContent";
 import { View, Image } from "react-native";
@@ -46,6 +45,7 @@ export default class App extends Component {
     if (this.imui) {
       const message = {...msg, status: 'send_failed'}
       this.imui.updateMessage(message)
+      
       // this.imui.removeMessage(message)
       // this.imui.removeAllMessage()
     }

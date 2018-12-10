@@ -23,27 +23,11 @@ export const imageUrlArray = [
 ]
 
 
-export const initialMessages = [{
-  type: "event",
-  values: {msgId: '0',msgType: "event",text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"}
-},
-{
-  type: "text",
-  values: {msgId: '2',msgType: "text", text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"}
-},
-{
-  type: "text",
-  values: {msgId: '3',msgType: "text", text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"}
-},
-{
-  type: "event",
-  values: {msgId: '5',msgType: "event", text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"}
-},
-{
-  type: "text",
-  values: {msgId: '6',msgType: "text", text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"}
-},
-{
-  type: "text",
-  values: {msgId: '7',msgType: "text", text: "1111已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天", fromUser: {displayName: 'fasfas'}}
-}]
+export const initialMessages = [
+  {msgId: '0',msgType: "event",text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"},
+  {msgId: '2',msgType: "text", text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"},
+  {msgId: '3',msgType: "text", text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"},
+  {msgId: '5',msgType: "event", text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"},
+  {msgId: '6',msgType: "text", text: "已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天"},
+  {msgId: '7',msgType: "text", text: "1111已添加好友，开始聊天   已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天已添加好友，开始聊天", fromUser: {displayName: 'fasfas'}}
+]

@@ -117,6 +117,7 @@ export default class InputView extends Component {
           onFocus={this._onFocus}
           onChangeText={this._onChangeText}
           value={this.state.text}
+          autoFocus={true}
         />
       </View>
     )

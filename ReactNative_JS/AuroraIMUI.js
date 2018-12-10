@@ -11,36 +11,33 @@ export default class AuroraIMUI extends Component {
     constructor(props) {
         super(props)
         this.scrollAnimated = false
+        const initialMessages = props.initialMessages.map((msg) => {
+            return {
+                type: msg.msgType,
+                values: {...msg}
+            }
+        })
         this.state = {
             extendedState: {ids: []},
-            messageList: props.initialMessages,
+            messageList: initialMessages,
         }
 
         this.insertMessagesToTop = this.insertMessagesToTop.bind(this)
         this.appendMessages = this.appendMessages.bind(this)
         this.updateMessage = this.updateMessage.bind(this)
         this.removeMessage = this.removeMessage.bind(this)
+        
+        this.sendText = this.sendText.bind(this)
 
         this.renderRight = this.renderRight.bind(this)
         this.renderLeft = this.renderLeft.bind(this)
         
+
         this._onInputViewSizeChanged = this._onInputViewSizeChanged.bind(this)
         this._messageListScrollToBottom = this._messageListScrollToBottom.bind(this)
         this._onFocus = this._onFocus.bind(this)
     }
 
-    componentDidMount() {
-        this.setState({
-            messageList: [...this.state.messageList]
-        }, () => {
-            
-            setTimeout(() => {
-                this.setState({
-                    messageList: [...this.state.messageList]
-                })       
-            }, 50)
-        })
-    }
     _onInputViewSizeChanged() {
         if (!this.messageList) {
             return
@@ -139,35 +136,47 @@ export default class AuroraIMUI extends Component {
         }
     }
 
+    sendText() {
+        // TODO: sendText
+        if (!this.inputView || !this.inputView.state.text) {
+            return
+        }
+
+        const text = this.inputView.state.text
+        this.props.onSendText &&
+            this.props.onSendText.constructor === Function &&
+            this.props.onSendText(text)
+
+        this.inputView.setState({
+            text: '',
+        })
+    }
+
     renderRight() {
+        if (this.props.renderRight && 
+            this.props.renderRight.constructor === Function) {
+                const rightItem = this.props.renderRight()
+                if (rightItem) {
+                    return rightItem
+                }
+            }
         return <InputItem
             source={require('./assert/send_message_selected.png')}
-            onPress={() => {
-                // TODO: sendText
-                if (!this.inputView || !this.inputView.state.text) {
-                    return
-                }
-
-                const text = this.inputView.state.text
-                this.props.onSendText &&
-                    this.props.onSendText.constructor === Function &&
-                    this.props.onSendText(text)
-
-                this.inputView.setState({
-                    text: '',
-                })
-            }}
+            onPress={ this.sendText }
         />
     }
 
-
     renderLeft() {
-        return <InputItem
-            source={require('./assert/send_message_selected.png')}
-            onPress={() => {
-                this._messageListScrollToBottom(true)
-            }}
-        />
+        if (this.props.renderLeft && 
+            this.props.renderLeft.constructor === Function) {
+
+            const leftItem = this.props.renderLeft()
+            if (leftItem) {
+                return leftItem
+            }
+        } else {
+            return null
+        }
     }
 
     _messageListScrollToBottom(animated = false) {    
