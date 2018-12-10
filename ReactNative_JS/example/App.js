@@ -137,6 +137,10 @@ export default class App extends Component {
 
         stateContainerStyles={{justifyContent: 'center'}}
         avatarContainerStyles={{justifyContent: 'flex-start'}}
+        textInputProps={{
+          placeholder: 'Input Text message',
+          multiline: true,
+        }}
         // maxInputViewHeight={120}
         // renderBottom={() => {
         //   return <View
