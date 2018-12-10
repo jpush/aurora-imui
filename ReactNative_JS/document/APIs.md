@@ -271,7 +271,7 @@ If you want to custom send buttom you can use render (maybe you need [sendText](
 ```
 
 #### renderBottom
-you can add a bottom bar in InputView with this api,(NOTE: you need spe)
+you can add a bottom bar in InputView with this api,(NOTE: component need have a explicit height)
 ```jsx
 <AuroraIMUI
     renderBottom={ () => <View style={{height: 20}}/> }
