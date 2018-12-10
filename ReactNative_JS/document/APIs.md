@@ -152,28 +152,38 @@ Fires when pull MessageList to top, example usage: please refer sample's onPullT
 ```
 #### onAvatarClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
+
 PropTypes.function: `( userinfo ) => { }`
+
 Fires when click avatar.
 
 #### onMsgClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
+
 PropTypes.function: `(message) => { }`
+
 Fires when click message row.
 
 #### onStatusViewClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
+
 PropTypes.function: `(message) => { }`
+
 Fires when click message status view.
 
 
 #### onMsgContentClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
+
 PropTypes.function: `(message) => { }`
+
 Fires when click message content view.
 
 #### onMsgContentLongClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
+
 PropTypes.function: `(message) => { }`
+
 Fires when long press message content view.
 
 ### Custom Styles
@@ -182,6 +192,7 @@ Fires when long press message content view.
 
 #### renderRow
 **NOTE:** If you override message row, the message callback will be Invalid.
+
 ```jsx
   import {AuroraIMUI, Message} from "aurora-imui";
 
@@ -212,6 +223,7 @@ Fires when long press message content view.
 
 ### stateContainerStyles
 Used to set status View position.
+
 ```jsx
 <AuroraIMUI 
   stateContainerStyles={{justifyContent: 'center'}}
@@ -219,6 +231,7 @@ Used to set status View position.
 ```
 ### avatarContainerStyles
 Used to set avatar view position.
+
 ```jsx
 <AuroraIMUI 
   avatarContainerStyles={{justifyContent: 'flex-start'}}
@@ -229,6 +242,7 @@ Used to set avatar view position.
 
 #### textInputProps
 This props is useful when you want to adjust TextInput props(like placeHolder or placeholder Color).
+
 ```jsx
 <AuroraIMUI
     textInputProps={{
@@ -240,6 +254,7 @@ This props is useful when you want to adjust TextInput props(like placeHolder or
 ```
 #### renderLeft
 PropTypes.function: `() => Component`
+
 If you want to add item in InputView' left postion, you can use renderLeft to return a component.
 
 ```jsx
@@ -264,6 +279,8 @@ you can add a bottom bar in InputView with this api,(NOTE: you need spe)
 ```
 
 #### maxInputViewHeight
-PropTypes.number default value is 120.
-It‘s useful when you want to add a bottom bar in inputView(use [renderBottom](#renderBottom) callback), Usually you need use it to adjust maxInputView's height.
+**Params: PropTypes.number** default value is 120.
+
+It‘s useful when you want to add a bottom bar in inputView(use [renderBottom](#renderBottom) callback), 
+Usually you need use it to adjust maxInputView's height.
 
