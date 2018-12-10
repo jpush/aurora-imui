@@ -1,6 +1,5 @@
-import React, {Component} from "react";
-import PropTypes from 'prop-types';
-import { View, ViewPropTypes, StyleSheet, TextInput, Keyboard, Animation } from 'react-native';
+import React, {Component} from 'react'
+import { View, StyleSheet, TextInput } from 'react-native'
 
 const styles = StyleSheet.create({
   container: {
@@ -33,15 +32,15 @@ const styles = StyleSheet.create({
     width: 30.0,
     height: 30.0,
   }
-});
+})
 
 export default class InputView extends Component {
   constructor(props) {
     super(props)
     this.state = {
       inputViewHeight: undefined,
-      position: "absolute",
-      text: ""
+      position: 'absolute',
+      text: ''
     }
 
     this._onContentSizeChange = this._onContentSizeChange.bind(this)
@@ -120,7 +119,7 @@ export default class InputView extends Component {
           value={this.state.text}
         />
       </View>
-    );
+    )
   }
 
   renderLeft() {
@@ -128,7 +127,7 @@ export default class InputView extends Component {
         this.props.renderLeft.constructor === Function) {
       return (
         this.props.renderLeft()
-      );
+      )
     }
     return null
   }
@@ -138,10 +137,10 @@ export default class InputView extends Component {
         this.props.renderRight.constructor === Function) {
       return (
         this.props.renderRight()
-      );
+      )
     }
 
-    return <View style={styles.rightItem}></View>;
+    return <View style={styles.rightItem}></View>
   }
 
   renderBottom() {
@@ -150,7 +149,7 @@ export default class InputView extends Component {
         return this.props.renderBottom()
     }
 
-    return null;
+    return null
   }
 
   render() {

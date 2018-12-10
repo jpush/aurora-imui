@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import { View, Image, ActivityIndicator, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import React, {Component} from 'react'
+import { View, Image, ActivityIndicator, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 
 const styles = StyleSheet.create({
   stateContainer: {
@@ -21,7 +21,7 @@ export default class MessageState extends Component {
     this._onClick = this._onClick.bind(this)
   }
   
-  // "send_succeed", "send_failed", "send_going", "download_failed"
+  // 'send_succeed', 'send_failed', 'send_going', 'download_failed'
   _renderStateView() {
     switch(this.props.status) {
       case 'send_failed':

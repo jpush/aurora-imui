@@ -1,15 +1,15 @@
-import React, {Component} from "react";
-import { View, Dimensions, RefreshControl } from 'react-native';
-import {RecyclerListView, LayoutProvider, DataProvider, BaseItemAnimator} from "recyclerlistview";
-import Message from "./Message";
-import Event from "./Event";
-import MessageTextContent from "./MessageTextContent";
+import React, {Component} from 'react'
+import { View, Dimensions, RefreshControl } from 'react-native'
+import {RecyclerListView, LayoutProvider, DataProvider, BaseItemAnimator} from 'recyclerlistview'
+import Message from './Message'
+import Event from './Event'
+import MessageTextContent from './MessageTextContent'
 
-let {width} = Dimensions.get('window');
+let {width} = Dimensions.get('window')
 
 export default class MessageList extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
         dataProvider: new DataProvider((r1, r2) => {
           return r1 !== r2
@@ -17,17 +17,17 @@ export default class MessageList extends Component {
           return this.props.messageList[index].values.msgId
         }).cloneWithRows(props.messageList),
         refreshing: false
-    };
+    }
     
     this._layoutProvider = new LayoutProvider((i) => {
-        return this.state.dataProvider.getDataForIndex(i).type;
+        return this.state.dataProvider.getDataForIndex(i).type
     }, (type, dim, index) => {
-        dim.height = 300;
-        dim.width = width;
-    });
+        dim.height = 300
+        dim.width = width
+    })
     
-    this._renderRow = this._renderRow.bind(this);
-    this.scrollToIndex = this.scrollToIndex.bind(this);
+    this._renderRow = this._renderRow.bind(this)
+    this.scrollToIndex = this.scrollToIndex.bind(this)
   }
 
   scrollToIndex(index, animate = false) {
@@ -71,9 +71,9 @@ export default class MessageList extends Component {
     }
 
     switch (type) {
-        case "event":
+        case 'event':
           return <Event {...data.values}/>
-        case "text":
+        case 'text':
           return <Message {...{...message, messageContent: (message) => {return <MessageTextContent {...message}/>}}}
               onMsgClick={this.props.onMsgClick}
               onAvatarClick={this.props.onAvatarClick}
@@ -85,7 +85,7 @@ export default class MessageList extends Component {
               avatarContainerStyles={this.props.avatarContainerStyles}
           />
         default:
-          return null;
+          return null
     }
   }
 

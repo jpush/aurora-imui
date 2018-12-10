@@ -1,6 +1,5 @@
-import React, {Component} from "react";
-import PropTypes from 'prop-types';
-import { View, ViewPropTypes, Text, StyleSheet } from 'react-native';
+import React, {Component} from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   eventContainer: {
@@ -15,7 +14,7 @@ const styles = StyleSheet.create({
     borderRadius: 4.0,
     marginHorizontal: 20.0,
     marginBottom: 8.0,
-    overflow: "hidden",
+    overflow: 'hidden',
     color: 'white',
     backgroundColor: '#CECECE',
     fontSize: 11.0,

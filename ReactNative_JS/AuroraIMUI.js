@@ -1,32 +1,32 @@
-import React, {Component} from "react";
-import {Platform, View, Dimensions, Text, Image, TouchableHighlight, TextInput,Keyboard, KeyboardAvoidingView} from "react-native";
-import PropTypes from 'prop-types';
+import React, {Component} from 'react'
+import {Platform, View, KeyboardAvoidingView} from 'react-native'
+import PropTypes from 'prop-types'
 
-import MessageList from "./MessageList";
-import InputView from "./InputView";
-import InputItem from "./InputItem";
+import MessageList from './MessageList'
+import InputView from './InputView'
+import InputItem from './InputItem'
 
 
 export default class AuroraIMUI extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.scrollAnimated = false
         this.state = {
             extendedState: {ids: []},
             messageList: props.initialMessages,
         }
 
-        this.insertMessagesToTop = this.insertMessagesToTop.bind(this);
-        this.appendMessages = this.appendMessages.bind(this);
+        this.insertMessagesToTop = this.insertMessagesToTop.bind(this)
+        this.appendMessages = this.appendMessages.bind(this)
         this.updateMessage = this.updateMessage.bind(this)
         this.removeMessage = this.removeMessage.bind(this)
 
-        this.renderRight = this.renderRight.bind(this);
-        this.renderLeft = this.renderLeft.bind(this);
+        this.renderRight = this.renderRight.bind(this)
+        this.renderLeft = this.renderLeft.bind(this)
         
-        this._onInputViewSizeChanged = this._onInputViewSizeChanged.bind(this);
-        this._messageListScrollToBottom = this._messageListScrollToBottom.bind(this);
-        this._onFocus = this._onFocus.bind(this);
+        this._onInputViewSizeChanged = this._onInputViewSizeChanged.bind(this)
+        this._messageListScrollToBottom = this._messageListScrollToBottom.bind(this)
+        this._onFocus = this._onFocus.bind(this)
     }
 
     componentDidMount() {
@@ -74,15 +74,15 @@ export default class AuroraIMUI extends Component {
         },
           () => {
                 if (isNeedKeepCusrrentPosition) {
-                    const topRowIndex = this.messageList.messageListRef.findApproxFirstVisibleIndex();
-                    const currentOffset = this.messageList.messageListRef.getCurrentScrollOffset();
-                    const topRowOffset = this.messageList.messageListRef._virtualRenderer.getLayoutManager().getOffsetForIndex(topRowIndex);
-                    this.messageList.messageListRef._virtualRenderer.getLayoutManager().getOffsetForIndex(topRowIndex);
-                    const diff = currentOffset - topRowOffset.y;
+                    const topRowIndex = this.messageList.messageListRef.findApproxFirstVisibleIndex()
+                    const currentOffset = this.messageList.messageListRef.getCurrentScrollOffset()
+                    const topRowOffset = this.messageList.messageListRef._virtualRenderer.getLayoutManager().getOffsetForIndex(topRowIndex)
+                    this.messageList.messageListRef._virtualRenderer.getLayoutManager().getOffsetForIndex(topRowIndex)
+                    const diff = currentOffset - topRowOffset.y
     
                     this.messageList.messageListRef._checkAndChangeLayouts(this.messageList.messageListRef.props)
-                    const topRowNewOffset = this.messageList.messageListRef._virtualRenderer.getLayoutManager().getOffsetForIndex(newMsgs.length);
-                    this.messageList.messageListRef.scrollToOffset(0, topRowNewOffset.y + diff);
+                    const topRowNewOffset = this.messageList.messageListRef._virtualRenderer.getLayoutManager().getOffsetForIndex(newMsgs.length)
+                    this.messageList.messageListRef.scrollToOffset(0, topRowNewOffset.y + diff)
                 }
         })
     }
@@ -132,7 +132,7 @@ export default class AuroraIMUI extends Component {
 
     removeAllMessage() {
         if (this.state.messageList) {
-            this.state.messageList.splice(0, this.state.messageList.length);
+            this.state.messageList.splice(0, this.state.messageList.length)
             this.setState({
                 messageList: this.state.messageList
             })
@@ -154,7 +154,7 @@ export default class AuroraIMUI extends Component {
                     this.props.onSendText(text)
 
                 this.inputView.setState({
-                    text: "",
+                    text: '',
                 })
             }}
         />
@@ -163,7 +163,7 @@ export default class AuroraIMUI extends Component {
 
     renderLeft() {
         return <InputItem
-            source={require("./assert/send_message_selected.png")}
+            source={require('./assert/send_message_selected.png')}
             onPress={() => {
                 this._messageListScrollToBottom(true)
             }}
@@ -186,14 +186,15 @@ export default class AuroraIMUI extends Component {
     }
 
     render() {
-        const AuroraIMUIContainer = Platform.select({
-            ios: () => require('KeyboardAvoidingView'),
-            android: () => require('View'),
-          })();
+        var AuroraIMUIContainer = View
+        
+        if (Platform.OS === 'ios') {
+            AuroraIMUIContainer = KeyboardAvoidingView
+        }
 
         return <AuroraIMUIContainer 
             style={styles.container}
-            behavior="padding"
+            behavior='padding'
         >
             <MessageList
                 ref={(component) => {this.messageList = component}}
@@ -239,7 +240,7 @@ AuroraIMUI.propTypes = {
     onStatusViewClick: PropTypes.func,
     onMsgContentClick: PropTypes.func,
     onMsgContentLongClick: PropTypes.func,
-};
+}
 
 AuroraIMUI.defaultProps = {
     textInputProps: {},
@@ -255,7 +256,7 @@ AuroraIMUI.defaultProps = {
     onStatusViewClick: () => {},
     onMsgContentClick: () => {},
     onMsgContentLongClick: () => {},
-};
+}
 
 // TODO:
 //=== appendMessages
@@ -273,7 +274,6 @@ AuroraIMUI.defaultProps = {
 
 
 //- onPullToRefresh
-// onTouchMsgList
 
 // 
 //- onSendText

@@ -1,6 +1,5 @@
-import React, {Component} from "react";
-import PropTypes from 'prop-types';
-import { View, ViewPropTypes, Text, StyleSheet } from 'react-native';
+import React, {Component} from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   timeContainer: {
@@ -13,7 +12,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4.0,
     borderRadius: 4.0,
     marginBottom: 8.0,
-    overflow: "hidden",
+    overflow: 'hidden',
     color: 'white',
     backgroundColor: '#CECECE',
     fontSize: 10.0,

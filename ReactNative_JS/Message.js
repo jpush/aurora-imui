@@ -1,12 +1,12 @@
-import React, {Component} from "react";
-import PropTypes from 'prop-types';
-import { View, ViewPropTypes, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import { View, StyleSheet, TouchableWithoutFeedback} from 'react-native'
 
-import Avatar from './Avatar';
-import MessageBubble from './MessageBubble';
-import MessageState from './MessageState';
-import UserName from './UserName';
-import MessageTime from './MessageTime';
+import Avatar from './Avatar'
+import MessageBubble from './MessageBubble'
+import MessageState from './MessageState'
+import UserName from './UserName'
+import MessageTime from './MessageTime'
 
 const styles = StyleSheet.create({
   container: {
@@ -109,7 +109,7 @@ export default class Message extends Component {
         this.props.messageContent.constructor === Function) {
       return (
         this.props.messageContent(this.props)
-      );
+      )
     }
     return <View style={styles.defaultMessageBubbel}></View>
   }
@@ -172,7 +172,7 @@ Message.propTypes = {
 
   stateContainerStyles: PropTypes.object,
   
-};
+}
 
 Message.defaultProps = {
   status: 'send_succeed',
@@ -182,4 +182,4 @@ Message.defaultProps = {
   onAvatarClick: () => {},
   onMsgClick: () => {},
   onStatusViewClick: () => {},
-};
+}
