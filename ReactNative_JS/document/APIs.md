@@ -22,6 +22,8 @@
 - [Custom Styles](#custom_styles)
   - [MessageList]()
     - [renderRow](#renderrow)
+    - [stateContainerStyles](#statecontainerstyles)
+    - [avatarContainerStyles](#avatarcontainerstyles)
   - [InputView]()
     - [textInputProps](#textinputprops)
     - [renderLeft](#renderleft)
@@ -206,6 +208,21 @@ Fires when long press message content view.
   <AuroraIMUI
     renderRow={this.renderCustomRow}
   />
+```
+
+### stateContainerStyles
+Used to set status View position.
+```jsx
+<AuroraIMUI 
+  stateContainerStyles={{justifyContent: 'center'}}
+/>
+```
+### avatarContainerStyles
+Used to set avatar view position.
+```jsx
+<AuroraIMUI 
+  avatarContainerStyles={{justifyContent: 'flex-start'}}
+/>
 ```
 
 ### InputView
