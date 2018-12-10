@@ -1,5 +1,5 @@
 ## AuroraIMUI
-- [Useful APIs](#useful_apis)
+- [Useful APIs](#usefulapis)
   - [initialMessages](#initialMessages)
   - [appendMessages](#appendmessages)
   - [updateMessage](#updatemessage)
@@ -8,7 +8,7 @@
   - [removeAllMessage](#removeAllMessage)
   - [sendText](#sendtext)
 
-- [Event Callback](#event callback)
+- [Event Callback](#eventcallback)
   - [onSendText](#onsendtext)
   - [onInputTextChanged](#oninputtextchanged)
   - [onInputViewSizeChanged](#oninputviewsizechanged)
@@ -19,7 +19,7 @@
   - [onMsgContentClick](#onmsgcontentclick)
   - [onMsgContentLongClick](#oncsgcontentlongclick)
 
-- [Custom Styles](#custom_styles)
+- [Custom Styles](#customstyles)
   - [MessageList]()
     - [renderRow](#renderrow)
     - [stateContainerStyles](#statecontainerstyles)
