@@ -6,7 +6,6 @@ import MessageList from './MessageList'
 import InputView from './InputView'
 import InputItem from './InputItem'
 
-
 export default class AuroraIMUI extends Component {
     constructor(props) {
         super(props)
@@ -240,7 +239,10 @@ AuroraIMUI.propTypes = {
     textInputProps: PropTypes.object,
     maxInputViewHeight: PropTypes.number,// It‘s useful when you want to add a bottom bar in inputView, Usually you need use it to adjust maxInputView's height.
     initialMessages: PropTypes.array,
-
+    stateContainerStyles: PropTypes.object,
+    avatarContainerStyles: PropTypes.object,
+    
+    renderRow: PropTypes.func,
     onInputTextChanged: PropTypes.func,
     onInputViewSizeChanged: PropTypes.func,
     onPullToRefresh: PropTypes.func,
@@ -255,6 +257,8 @@ AuroraIMUI.defaultProps = {
     textInputProps: {},
     initialMessages: [],
     maxInputViewHeight: 120,
+    stateContainerStyles: {},
+    avatarContainerStyles: {},
 
     onInputTextChanged: () => {},
     onInputViewSizeChanged: () => {},
@@ -266,24 +270,3 @@ AuroraIMUI.defaultProps = {
     onMsgContentClick: () => {},
     onMsgContentLongClick: () => {},
 }
-
-// TODO:
-//=== appendMessages
-//- updateMessage
-//- insertMessagesToTop
-//- removeMessage
-//- removeAllMessage
-
-// MessageList
-//- onAvatarClick
-//- onMsgClick
-//- onStatusViewClick
-//- onMsgContentClick
-//- onMsgContentLongClick
-
-
-//- onPullToRefresh
-
-// 
-//- onSendText
-//- onTouchEditText

@@ -101,6 +101,9 @@ export default class MessageList extends Component {
     >
       <RecyclerListView
         contentContainerStyle={[this.props.messageListStyle ? this.props.messageListStyle : {}]}
+        // set renderAheadOffset 1000000 to disable Recycle row
+        // but waste more memmory, there a bug when set to 2000 ,
+        // insert message on top will scroll to error position.
         renderAheadOffset={1000000}
         ref={(messageListRef) => {this.messageListRef = messageListRef}}
         rowRenderer={this._renderRow} 
