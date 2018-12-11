@@ -36,12 +36,12 @@
 
 
 
-### Useful APIs
+## Useful APIs
 To use below APIs, You should get AuroraIMUI ref
 ```jsx
 <AuroraIMUI ref={(imui) => {this.imui = imui}}/>
 ```
-#### initialMessages
+### initialMessages
 **Param: PropTypes.array:** [{[message](../../ReactNative/docs/Models.md#message)}]
 Used to specify a list of initialization messages for MessageList.
 ex:
@@ -54,7 +54,7 @@ ex:
 />
 ```
 
-#### appendMessages
+### appendMessages
 **Param: PropTypes.array:**  [{[message](../../ReactNative/docs/Models.md#message)}]
 
 Append message array in MessageList bottom.
@@ -70,8 +70,9 @@ Append message array in MessageList bottom.
   }
 ```
 
-#### updateMessage
+### updateMessage
 **Param: PropTypes.object:** {[message](../../ReactNative/docs/Models.md#message)}
+
 Update specify message(match msgId) in MessageList.
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
@@ -83,8 +84,9 @@ Update specify message(match msgId) in MessageList.
   }
 ```
 
-#### insertMessagesToTop
+### insertMessagesToTop
 **Param: PropTypes.array:** [{[message](../../ReactNative/docs/Models.md#message)}]
+
 Insert messages to the top of the MessageList, usually use this method to load history messages. 
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
@@ -98,8 +100,9 @@ Insert messages to the top of the MessageList, usually use this method to load h
   }
 ```
 
-#### removeMessage
+### removeMessage
 **Param: PropTypes.object:** {[message](../../ReactNative/docs/Models.md#message)}
+
 Remove message by message(match with msgId).
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
@@ -110,7 +113,7 @@ Remove message by message(match with msgId).
       })
   }
 ```
-#### removeAllMessage
+### removeAllMessage
 Clear all message in MessageList.
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
@@ -118,7 +121,7 @@ Clear all message in MessageList.
   }
 ```
 
-#### sendText
+### sendText
 This function will clean InputView's TextInput.textvalue, and fire [onSendText](#onsendtext) callback.
 This's useful when you want to custom renderRight to override default rightItem(send text item).
 ```jsx
@@ -127,9 +130,9 @@ This's useful when you want to custom renderRight to override default rightItem(
   }
 ```
 
-### Event Callback
+## Event Callback
 
-#### onSendText
+### onSendText
 Trigger onSendText when default rightItem be clicked(or call [imui.sendText](#sendtext) manualy). 
 ```jsx
   <AuroraIMUI 
@@ -137,37 +140,37 @@ Trigger onSendText when default rightItem be clicked(or call [imui.sendText](#se
   />
 ```
 
-#### onInputTextChanged
+### onInputTextChanged
 Trigger onInputTextChanged when InputView.TextInput.text did changed
 ```jsx
   <AuroraIMUI 
     onInputTextChanged={ (textStr) => console.log(textStr) }
   />
 ```
-#### onInputViewSizeChanged
+### onInputViewSizeChanged
 
-#### onPullToRefresh
+### onPullToRefresh
 Fires when pull MessageList to top, example usage: please refer sample's onPullToRefresh method.
 ```jsx
   <AuroraIMUI 
     onPullToRefresh={ () => { /* you can load history message here */}
   />
 ```
-#### onAvatarClick
+### onAvatarClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
 
 PropTypes.function: `( userinfo ) => { }`
 
 Fires when click avatar.
 
-#### onMsgClick
+### onMsgClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
 
 PropTypes.function: `(message) => { }`
 
 Fires when click message row.
 
-#### onStatusViewClick
+### onStatusViewClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
 
 PropTypes.function: `(message) => { }`
@@ -175,25 +178,25 @@ PropTypes.function: `(message) => { }`
 Fires when click message status view.
 
 
-#### onMsgContentClick
+### onMsgContentClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
 
 PropTypes.function: `(message) => { }`
 
 Fires when click message content view.
 
-#### onMsgContentLongClick
+### onMsgContentLongClick
 **NOTE:** Invalid when return a [customMessage](#renderrow).
 
 PropTypes.function: `(message) => { }`
 
 Fires when long press message content view.
 
-### Custom Styles
+## Custom Styles
 
-### MessageList
+## MessageList
 
-#### renderRow
+### renderRow
 **NOTE:** If you override message row, the message callback will be Invalid.
 
 ```jsx
@@ -241,9 +244,9 @@ Used to set avatar view position.
 />
 ```
 
-### InputView
+## InputView
 
-#### textInputProps
+### textInputProps
 This props is useful when you want to adjust TextInput props(like placeHolder or placeholder Color).
 
 ```jsx
@@ -255,7 +258,7 @@ This props is useful when you want to adjust TextInput props(like placeHolder or
         }}
   />
 ```
-#### renderLeft
+### renderLeft
 PropTypes.function: `() => Component`
 
 If you want to add item in InputView' left postion, you can use renderLeft to return a component.
@@ -265,7 +268,7 @@ If you want to add item in InputView' left postion, you can use renderLeft to re
     renderLeft={ () => <View /> }
   />
 ```
-#### renderRight
+### renderRight
 If you want to custom send buttom you can use render (maybe you need [sendText](#sendtext) function).
 ```jsx
 <AuroraIMUI
@@ -273,7 +276,7 @@ If you want to custom send buttom you can use render (maybe you need [sendText](
   />
 ```
 
-#### renderBottom
+### renderBottom
 you can add a bottom bar in InputView with this api,(NOTE: component need have a explicit height)
 ```jsx
 <AuroraIMUI
@@ -281,7 +284,7 @@ you can add a bottom bar in InputView with this api,(NOTE: component need have a
   />
 ```
 
-#### maxInputViewHeight
+### maxInputViewHeight
 **Params: PropTypes.number** default value is 120.
 
 It‘s useful when you want to add a bottom bar in inputView(use [renderBottom](#renderBottom) callback), 
