@@ -1,6 +1,5 @@
 ## AuroraIMUI
-
-[中文文档](./APIs_zh.md)
+[English Document](./APIs.md)
 
 - [Useful APIs](#usefulapis)
   - [initialMessages](#initialMessages)
@@ -37,13 +36,13 @@
 
 
 ### Useful APIs
-To use below APIs, You should get AuroraIMUI ref
+**注意： 在使用下面的之前，先要获取 AuroraIMUI ref**
 ```jsx
 <AuroraIMUI ref={(imui) => {this.imui = imui}}/>
 ```
 #### initialMessages
 **Param: PropTypes.array:** [{[message](../../ReactNative/docs/Models.md#message)}]
-Used to specify a list of initialization messages for MessageList.
+用于设置 MessageList 的初始化消息。
 ex:
 ```jsx
 <AuroraIMUI 
@@ -57,7 +56,7 @@ ex:
 #### appendMessages
 **Param: PropTypes.array:**  [{[message](../../ReactNative/docs/Models.md#message)}]
 
-Append message array in MessageList bottom.
+在 MessageList 的底部插入消息。
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
     this.imui.appendMessages([
@@ -72,7 +71,8 @@ Append message array in MessageList bottom.
 
 #### updateMessage
 **Param: PropTypes.object:** {[message](../../ReactNative/docs/Models.md#message)}
-Update specify message(match msgId) in MessageList.
+
+更新指定消息，该方法会匹配相同的 msgId（如果消息列表中没有该 msgId，则不做处理）。
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
     this.imui.updateMessage({
@@ -85,7 +85,8 @@ Update specify message(match msgId) in MessageList.
 
 #### insertMessagesToTop
 **Param: PropTypes.array:** [{[message](../../ReactNative/docs/Models.md#message)}]
-Insert messages to the top of the MessageList, usually use this method to load history messages. 
+
+插入消息到 MessageList 的顶部（当触发[下拉刷新回调](#onpulltorefresh)时可以用该方法添加历史消息）。
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
     this.imui.insertMessagesToTop([
@@ -100,7 +101,8 @@ Insert messages to the top of the MessageList, usually use this method to load h
 
 #### removeMessage
 **Param: PropTypes.object:** {[message](../../ReactNative/docs/Models.md#message)}
-Remove message by message(match with msgId).
+
+移除 MessageList 中指定的消息，该方法会匹配删除相同的 msgId（如果消息列表中没有该 msgId，则不做处理）。
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
     this.imui.removeMessage({
@@ -111,7 +113,8 @@ Remove message by message(match with msgId).
   }
 ```
 #### removeAllMessage
-Clear all message in MessageList.
+
+清楚 MessageList 中所有的消息
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
     this.imui.removeAllMessage()
@@ -119,8 +122,9 @@ Clear all message in MessageList.
 ```
 
 #### sendText
-This function will clean InputView's TextInput.textvalue, and fire [onSendText](#onsendtext) callback.
-This's useful when you want to custom renderRight to override default rightItem(send text item).
+这个方法会清空 InputView's TextInput.textvalue 的内容，并且触发 [onSendText](#onsendtext) 事件回调，
+一般来说不需要调用这个方法，如果你想要自定义发送文本按钮这个方法就很有用。
+
 ```jsx
   if(this.imui) { // this.imui is AuroraIMUI ref
     this.imui.sendText()
@@ -130,7 +134,7 @@ This's useful when you want to custom renderRight to override default rightItem(
 ### Event Callback
 
 #### onSendText
-Trigger onSendText when default rightItem be clicked(or call [imui.sendText](#sendtext) manualy). 
+当按下默认的发送按钮，会触发这个回调。当主动调用 [AuroraIMUI.sendText](#sendtext) 方法也会触发这个回调。
 ```jsx
   <AuroraIMUI 
     onSendText={ (textStr) => console.log(textStr) }
@@ -138,7 +142,7 @@ Trigger onSendText when default rightItem be clicked(or call [imui.sendText](#se
 ```
 
 #### onInputTextChanged
-Trigger onInputTextChanged when InputView.TextInput.text did changed
+当 InputView.TextInput.text 内容发生变化的时候回触发这个回调
 ```jsx
   <AuroraIMUI 
     onInputTextChanged={ (textStr) => console.log(textStr) }
@@ -147,54 +151,53 @@ Trigger onInputTextChanged when InputView.TextInput.text did changed
 #### onInputViewSizeChanged
 
 #### onPullToRefresh
-Fires when pull MessageList to top, example usage: please refer sample's onPullToRefresh method.
+当下拉刷新 MessageList 的时候回触发这个回调。
 ```jsx
   <AuroraIMUI 
     onPullToRefresh={ () => { /* you can load history message here */}
   />
 ```
 #### onAvatarClick
-**NOTE:** Invalid when return a [customMessage](#renderrow).
+**NOTE:** 当使用自定义消息的时候 AuroraIMUI.onAvatarClick 会失效 [customMessage](#renderrow)，需要 Message 中重新传入回调.
 
 PropTypes.function: `( userinfo ) => { }`
 
-Fires when click avatar.
+点击头像的时候会触发这个回调。
 
 #### onMsgClick
-**NOTE:** Invalid when return a [customMessage](#renderrow).
+**NOTE:** 当使用自定义消息的时候 AuroraIMUI.onAvatarClick 会失效 [customMessage](#renderrow)，需要 Message 中重新传入回调.
 
 PropTypes.function: `(message) => { }`
 
-Fires when click message row.
+点击消息行的时候回触发这个回调。
 
 #### onStatusViewClick
-**NOTE:** Invalid when return a [customMessage](#renderrow).
+**NOTE:** 当使用自定义消息的时候 AuroraIMUI.onAvatarClick 会失效 [customMessage](#renderrow)，需要 Message 中重新传入回调.
 
 PropTypes.function: `(message) => { }`
 
-Fires when click message status view.
-
+点击 status view 的时候会触发这个回调。
 
 #### onMsgContentClick
-**NOTE:** Invalid when return a [customMessage](#renderrow).
+**NOTE:** 当使用自定义消息的时候 AuroraIMUI.onAvatarClick 会失效 [customMessage](#renderrow)，需要 Message 中重新传入回调.
 
 PropTypes.function: `(message) => { }`
 
-Fires when click message content view.
+点击消息内容（泡泡中的内容）的时候回触发这个回调，如果 MessageContent 中有添加手势，可能会截获该事件回调。
 
 #### onMsgContentLongClick
-**NOTE:** Invalid when return a [customMessage](#renderrow).
+**NOTE:** 当使用自定义消息的时候 AuroraIMUI.onAvatarClick 会失效 [customMessage](#renderrow)，需要 Message 中重新传入回调.
 
 PropTypes.function: `(message) => { }`
 
-Fires when long press message content view.
+长按消息内容（泡泡中的内容）的时候回触发这个回调，如果 MessageContent 中有添加手势，可能会截获该事件回调。
 
 ### Custom Styles
 
 ### MessageList
 
 #### renderRow
-**NOTE:** If you override message row, the message callback will be Invalid.
+**NOTE:** 使用 renderRow 返回自定义的消息，AuroraIMUI message row 相关的事件回调会失效，需要重新传入。
 
 ```jsx
   import {AuroraIMUI, Message} from "aurora-imui";
@@ -225,7 +228,7 @@ Fires when long press message content view.
 ```
 
 ### stateContainerStyles
-Used to set status View position.
+可以用指定 state view 的位置。
 
 ```jsx
 <AuroraIMUI 
@@ -233,7 +236,7 @@ Used to set status View position.
 />
 ```
 ### avatarContainerStyles
-Used to set avatar view position.
+用来指定头像的位置。
 
 ```jsx
 <AuroraIMUI 
@@ -244,7 +247,7 @@ Used to set avatar view position.
 ### InputView
 
 #### textInputProps
-This props is useful when you want to adjust TextInput props(like placeHolder or placeholder Color).
+如果你想要调整 TextInput 的属性或者样式（例如 placeHolder / placeHoder color  / style），可以使用这个属性。
 
 ```jsx
 <AuroraIMUI
@@ -258,15 +261,16 @@ This props is useful when you want to adjust TextInput props(like placeHolder or
 #### renderLeft
 PropTypes.function: `() => Component`
 
-If you want to add item in InputView' left postion, you can use renderLeft to return a component.
-
+如果希望在 InputView’s textInput 的左侧添加额外的 item， 可以使用这个方法换回自己的 component。
 ```jsx
 <AuroraIMUI
     renderLeft={ () => <View /> }
   />
 ```
 #### renderRight
-If you want to custom send buttom you can use render (maybe you need [sendText](#sendtext) function).
+
+如果希望在 InputView’s textInput 的右侧添加额外的 item，可以使用这个方法换回自己的 component，通常自定义发送按钮可以使用这个属性。
+
 ```jsx
 <AuroraIMUI
     renderRight={ () => <View /> }
@@ -274,7 +278,8 @@ If you want to custom send buttom you can use render (maybe you need [sendText](
 ```
 
 #### renderBottom
-you can add a bottom bar in InputView with this api,(NOTE: component need have a explicit height)
+<!-- you can add a bottom bar in InputView with this api,(NOTE: component need have a explicit height) -->
+如果希望在 InputView' textInput 下面添加 item bar 可以使用这个属性返回 component，（注意：返回的 component 需要明确指定高度）
 ```jsx
 <AuroraIMUI
     renderBottom={ () => <View style={{height: 20}}/> }
@@ -282,8 +287,8 @@ you can add a bottom bar in InputView with this api,(NOTE: component need have a
 ```
 
 #### maxInputViewHeight
-**Params: PropTypes.number** default value is 120.
+**Params: PropTypes.number** 默认为 120
+跳转 InputView 的最大高度，当你希望跳转 InputView‘ textInput 的最大行数，肯可能需要用到这个参数。
+当你用到 [renderBottom](#renderBottom) 这个属性返回自定义的 bottomBar 时，maxInputViewHeight 属性很可能会被用到这个参数。
 
-It‘s useful when you want to add a bottom bar in inputView(use [renderBottom](#renderBottom) callback), 
-Usually you need use it to adjust maxInputView's height.
 
