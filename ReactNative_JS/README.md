@@ -3,7 +3,7 @@
 ## Install
 
 ```
-npm install aurora-imui@next --save
+npm install aurora-imui@beta --save
 ```
 
 ## Usage
