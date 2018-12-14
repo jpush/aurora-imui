@@ -56,7 +56,8 @@ Ready components:
 - [IMUIInputView](./docs/iOS/IMUIInputView_usage.md)
 
 ### React Native
-- [AuroraIMUI](./ReactNative/README.md)
+- [AuroraIMUI_Pure_JS  Beta](./ReactNative_JS/README.md)
+- [AuroraIMUI_Native_Bridge](./ReactNative/README.md)
 
 ## Contribute
 

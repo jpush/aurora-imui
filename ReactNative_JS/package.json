@@ -1,0 +1,19 @@
+{
+  "name": "aurora-imui",
+  "version": "0.0.1-beta.1",
+  "description": "aurora imui js plugin for react native application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "aurora",
+    "imui",
+    "react-native"
+  ],
+  "author": "huminios",
+  "license": "MIT",
+  "peerDependencies": {
+    "recyclerlistview": "^1.4.0-beta.4"
+  }
+}
