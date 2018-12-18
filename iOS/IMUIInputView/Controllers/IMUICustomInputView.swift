@@ -73,7 +73,7 @@ open class IMUICustomInputView: UIView {
   override public init(frame: CGRect) {
     super.init(frame: frame)
     let bundle = Bundle.imuiInputViewBundle()
-    view = bundle.loadNibNamed("IMUICustomInputView", owner: self, options: nil)?.first as! UIView
+    view = bundle.loadNibNamed("IMUICustomInputView", owner: self, options: nil)?.first as? UIView
     
     self.addSubview(view)
     view.frame = self.bounds

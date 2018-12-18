@@ -78,7 +78,7 @@ extension IMUIEmojiCell: UICollectionViewDataSource, UICollectionViewDelegate, U
                              cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let model = self.emojiDataArr[indexPath.item]
     
-    var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IMUIEmojiItemCell", for: indexPath) as! IMUIEmojiItemCell
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IMUIEmojiItemCell", for: indexPath) as! IMUIEmojiItemCell
     cell.layout(with: model)
     return cell
   }

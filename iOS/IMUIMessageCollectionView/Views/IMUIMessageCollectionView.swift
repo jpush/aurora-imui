@@ -35,7 +35,7 @@ open class IMUIMessageCollectionView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     let bundle = Bundle.imuiBundle()
-    view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as! UIView
+    view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as? UIView
     
     self.addSubview(view)
     view.frame = self.bounds
@@ -47,7 +47,7 @@ open class IMUIMessageCollectionView: UIView {
     super.init(coder: aDecoder)
     
     let bundle = Bundle.imuiBundle()
-    view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as! UIView
+    view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as? UIView
     
     self.addSubview(view)
     view.frame = self.bounds
@@ -232,7 +232,7 @@ public extension UICollectionView {
   }
   
   func reloadDataHorizontalNoScroll() {
-    var currentOffset = self.contentOffset
+    let currentOffset = self.contentOffset
     self.reloadData();
     self.setContentOffset(currentOffset, animated: false)
   }

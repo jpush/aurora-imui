@@ -71,7 +71,7 @@ open class IMUIFeatureListView: UIView {
     super.init(coder: aDecoder)
     
     let bundle = Bundle.imuiBundle()
-    view = bundle.loadNibNamed("IMUIFeatureListView", owner: self, options: nil)?.first as! UIView
+    view = bundle.loadNibNamed("IMUIFeatureListView", owner: self, options: nil)?.first as? UIView
     
     self.addSubview(view)
     view.frame = self.bounds
@@ -126,12 +126,6 @@ open class IMUIFeatureListView: UIView {
     self.featureListCollectionView.register(nib, forCellWithReuseIdentifier: identifier)
   }
   
-  public func updateSendButton(with count: Int?, isAllowToSend: Bool?) {
-//    featureListDataSource.last?.isAllowToSend = isAllowToSend
-//    featureListDataSource.last?.photoCount = count
-//    self.featureListCollectionView.reloadItems(at: [IndexPath(item: featureListDataSource.count - 1, section: 0)])
-  }
-  
   public func reloadData() {
       self.featureListCollectionView.reloadData()
   }
@@ -166,23 +160,7 @@ extension IMUIFeatureListView: UICollectionViewDataSource,UICollectionViewDelega
   
   public func collectionView(_ collectionView: UICollectionView,
                              cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//    let cellIdentifier = "IMUIFeatureListIconCell"
-//    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! IMUIFeatureListIconCell
-//    cell.layout(with: self.featureListDataSource[indexPath.item],onClickCallback: { cell in
-//      switch cell.featureData!.featureType {
-//        case .none:
-//          self.delegate?.onClickSend?(with: cell)
-//        break
-//        default:
-//          self.delegate?.onSelectedFeature?(with: cell)
-//        break
-//      }
-//    })
-//    return cell
-//        print("fafsdfafafasf")
         return self.dataSource?.imuiInputView(self.featureListCollectionView, self.position!, cellForItemAt: indexPath) ?? UICollectionViewCell()
-    
-//    return UICollectionViewCell()
   }
   
 }

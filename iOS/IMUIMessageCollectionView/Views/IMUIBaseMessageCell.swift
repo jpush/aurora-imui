@@ -15,8 +15,8 @@ enum IMUIMessageCellType {
 }
 
 open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
-  @objc open static var avatarCornerRadius: CGFloat = 0
-  @objc open static var backgroundColor: UIColor = UIColor.init(netHex: 0xE7EBEF)
+  @objc public static var avatarCornerRadius: CGFloat = 0
+  @objc public static var backgroundColor: UIColor = UIColor.init(netHex: 0xE7EBEF)
   
   
   var bubbleView: IMUIMessageBubbleView
@@ -148,7 +148,6 @@ open class IMUIBaseMessageCell: UICollectionViewCell, IMUIMessageCellProtocol {
     
     task = IMUIWebImageTaskManager.shared.downloadImage(self.urlString!) { (data, precent, urlString, error) in
       if (error != nil) {
-        print("\(error)")
         return
       }
       

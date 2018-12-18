@@ -37,41 +37,41 @@
 
 
 
-- (instancetype)initWithText:(NSString *)text
-           messageId:(NSString *)msgId
-            fromUser:(id <IMUIUserProtocol>)fromUser
-            timeString:(NSString *)timeString
-            isOutgoing:(BOOL)isOutGoing
-                status:(IMUIMessageStatus) messageStatus;
+- (instancetype _Nonnull )initWithText:(NSString *_Nonnull)text
+                             messageId:(NSString *_Nonnull)msgId
+                              fromUser:(id <IMUIUserProtocol>_Nonnull)fromUser
+                            timeString:(NSString *_Nullable)timeString
+                            isOutgoing:(BOOL)isOutGoing
+                                status:(IMUIMessageStatus)messageStatus;
 
-- (instancetype)initWithImagePath:(NSString *) mediaPath
-           messageId:(NSString *)msgId
-            fromUser:(id <IMUIUserProtocol>)fromUser
-          timeString:(NSString *)timeString
-          isOutgoing:(BOOL)isOutGoing
-              status:(IMUIMessageStatus) messageStatus;
+- (instancetype _Nonnull )initWithImagePath:(NSString *_Nonnull)mediaPath
+                                  messageId:(NSString *_Nonnull)msgId
+                                   fromUser:(id <IMUIUserProtocol>_Nonnull)fromUser
+                                 timeString:(NSString *_Nullable)timeString
+                                 isOutgoing:(BOOL)isOutGoing
+                                     status:(IMUIMessageStatus)messageStatus;
 
-- (instancetype)initWithImageUrl: (NSString *) imgUrl
-                       messageId: (NSString *)msgId
-                        fromUser: (id <IMUIUserProtocol>)fromUser
-                      timeString: (NSString *)timeString
-                      isOutgoing: (BOOL)isOutGoing
-                          status: (IMUIMessageStatus) messageStatus;
+- (instancetype _Nonnull )initWithImageUrl:(NSString *_Nonnull)imgUrl
+                                 messageId:(NSString *_Nonnull)msgId
+                                  fromUser:(id <IMUIUserProtocol>_Nonnull)fromUser
+                                timeString:(NSString *_Nullable)timeString
+                                isOutgoing:(BOOL)isOutGoing
+                                    status:(IMUIMessageStatus)messageStatus;
   
-- (instancetype)initWithVoicePath:(NSString *) mediaPath
-                 duration:(CGFloat)duration
-                messageId:(NSString *)msgId
-                 fromUser:(id <IMUIUserProtocol>)fromUser
-               timeString:(NSString *)timeString
-               isOutgoing:(BOOL)isOutGoing
-                   status:(IMUIMessageStatus) messageStatus;
+- (instancetype _Nonnull )initWithVoicePath:(NSString *_Nonnull)mediaPath
+                                   duration:(CGFloat)duration
+                                  messageId:(NSString *_Nonnull)msgId
+                                   fromUser:(id <IMUIUserProtocol>_Nonnull)fromUser
+                                 timeString:(NSString *_Nullable)timeString
+                                 isOutgoing:(BOOL)isOutGoing
+                                     status:(IMUIMessageStatus)messageStatus;
 
-- (instancetype)initWithVideoPath:(NSString *) mediaPath
-                messageId:(NSString *)msgId
-                 fromUser:(id <IMUIUserProtocol>)fromUser
-               timeString:(NSString *)timeString
-               isOutgoing:(BOOL)isOutGoing
-                   status:(IMUIMessageStatus) messageStatus;
+- (instancetype _Nonnull )initWithVideoPath:(NSString *_Nonnull)mediaPath
+                                  messageId:(NSString *_Nonnull)msgId
+                                   fromUser:(id <IMUIUserProtocol>_Nonnull)romUser
+                                 timeString:(NSString *_Nullable)timeString
+                                 isOutgoing:(BOOL)isOutGoing
+                                     status:(IMUIMessageStatus)messageStatus;
 
 
 @end

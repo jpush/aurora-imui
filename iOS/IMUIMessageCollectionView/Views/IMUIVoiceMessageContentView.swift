@@ -10,8 +10,8 @@ import UIKit
 import AVFoundation
 
 public class IMUIVoiceMessageContentView: UIView, IMUIMessageContentViewProtocol {
-  open static var outGoingVoiceDurationColor = UIColor(netHex: 0x7587A8)
-  open static var inComingVoiceDurationColor = UIColor(netHex: 0xFFFFFF)
+  public static var outGoingVoiceDurationColor = UIColor(netHex: 0x7587A8)
+  public static var inComingVoiceDurationColor = UIColor(netHex: 0xFFFFFF)
   
   var voiceImg = UIImageView()
   fileprivate var isMediaActivity = false

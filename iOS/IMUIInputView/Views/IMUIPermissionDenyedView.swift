@@ -37,7 +37,7 @@ class IMUIPermissionDenyedView: UIView {
     super.init(coder: aDecoder)
     
     let bundle = Bundle.imuiInputViewBundle()
-    view = bundle.loadNibNamed("IMUIPermissionDenyedView", owner: self, options: nil)?.first as! UIView
+    view = bundle.loadNibNamed("IMUIPermissionDenyedView", owner: self, options: nil)?.first as? UIView
     
     self.addSubview(view)
     view.frame = self.bounds
