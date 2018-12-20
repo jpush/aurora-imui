@@ -35,7 +35,7 @@ open class IMUIMessageCollectionView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     let bundle = Bundle.imuiBundle()
-    view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as! UIView
+    view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as? UIView
     
     self.addSubview(view)
     view.frame = self.bounds
@@ -47,7 +47,7 @@ open class IMUIMessageCollectionView: UIView {
     super.init(coder: aDecoder)
     
     let bundle = Bundle.imuiBundle()
-    view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as! UIView
+    view = bundle.loadNibNamed("IMUIMessageCollectionView", owner: self, options: nil)?.first as? UIView
     
     self.addSubview(view)
     view.frame = self.bounds
@@ -88,12 +88,12 @@ open class IMUIMessageCollectionView: UIView {
   }
   
   @objc open func scrollToBottom(with animated: Bool) {
-    if chatDataManager.count == 0 { return }
-    let endIndex = IndexPath(item: chatDataManager.endIndex - 1, section: 0)
+    
     DispatchQueue.main.async {
+      if self.chatDataManager.count == 0 { return }
+      let endIndex = IndexPath(item: self.chatDataManager.endIndex - 1, section: 0)
       self.messageCollectionView.scrollToItem(at: endIndex, at: .bottom, animated: animated)
     }
-
   }
   
   @objc open func appendMessage(with message: IMUIMessageProtocol) {
@@ -232,7 +232,7 @@ public extension UICollectionView {
   }
   
   func reloadDataHorizontalNoScroll() {
-    var currentOffset = self.contentOffset
+    let currentOffset = self.contentOffset
     self.reloadData();
     self.setContentOffset(currentOffset, animated: false)
   }

@@ -259,6 +259,7 @@ open class IMUIInputView: IMUICustomInputView {
   }
   
   fileprivate func switchToFeature(type: IMUIFeatureType, button: UIButton) {
+    self.featureView.layoutFeature(with: type)
     switch type {
     case .voice:
       self.delegate?.switchToMicrophoneMode?(recordVoiceBtn: button)

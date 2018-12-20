@@ -9,11 +9,11 @@
 import UIKit
 
 @objc open class IMUITextMessageContentView: UIView, IMUIMessageContentViewProtocol {
-  @objc open static var outGoingTextColor = UIColor(netHex: 0x7587A8)
-  @objc open static var inComingTextColor = UIColor.white
+  @objc public static var outGoingTextColor = UIColor(netHex: 0x7587A8)
+  @objc public static var inComingTextColor = UIColor.white
   
-  @objc open static var outGoingTextFont = UIFont.systemFont(ofSize: 18)
-  @objc open static var inComingTextFont = UIFont.systemFont(ofSize: 18)
+  @objc public static var outGoingTextFont = UIFont.systemFont(ofSize: 18)
+  @objc public static var inComingTextFont = UIFont.systemFont(ofSize: 18)
   
   var textMessageLable = IMUITextView()
   
@@ -35,8 +35,6 @@ import UIKit
   }
   
   func layoutToText(with text: String, isOutGoing: Bool) {
-    let attributedString = NSMutableAttributedString(string: text)
-    let mutableParagraphStyle = NSMutableParagraphStyle()
     
     textMessageLable.text = text
     if isOutGoing {

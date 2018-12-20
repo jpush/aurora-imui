@@ -79,7 +79,7 @@ extension IMUIGalleryContainerCell: UICollectionViewDataSource, UICollectionView
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
     
-    var galleryHeight = 254
+    let galleryHeight = 254
     return CGSize(width: galleryHeight, height: galleryHeight)
   }
   

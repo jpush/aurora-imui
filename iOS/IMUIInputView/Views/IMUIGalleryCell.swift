@@ -79,8 +79,8 @@ class IMUIGalleryCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     
     if didSelect {
       IMUIGalleryDataManager.selectedAssets = IMUIGalleryDataManager.selectedAssets.filter({$0 != asset!})
-    }else{
-      IMUIGalleryDataManager.insertSelectedAssets(with: asset!)
+    } else {
+      _ = IMUIGalleryDataManager.insertSelectedAssets(with: asset!)
     }
     animate(duration: 0.2)
   }

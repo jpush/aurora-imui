@@ -276,7 +276,7 @@ import UIKit
 
 class IMUIDefaultContentView: UIView, IMUIMessageContentViewProtocol{
   
-  func layoutContentView(message message: IMUIMessageModelProtocol) {
+  func layoutContentView(message: IMUIMessageModelProtocol) {
   
   }
   

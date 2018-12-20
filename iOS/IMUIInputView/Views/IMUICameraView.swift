@@ -95,7 +95,7 @@ class IMUICameraView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     let bundle = Bundle.imuiInputViewBundle()
-    view = bundle.loadNibNamed("IMUICameraView", owner: self, options: nil)?.first as! UIView
+    view = bundle.loadNibNamed("IMUICameraView", owner: self, options: nil)?.first as? UIView
     
     self.addSubview(view)
     view.frame = self.bounds
@@ -105,7 +105,7 @@ class IMUICameraView: UIView {
     super.init(coder: aDecoder)
 
     let bundle = Bundle.imuiInputViewBundle()
-    view = bundle.loadNibNamed("IMUICameraView", owner: self, options: nil)?.first as! UIView
+    view = bundle.loadNibNamed("IMUICameraView", owner: self, options: nil)?.first as? UIView
     
     self.addSubview(view)
     view.frame = self.bounds
@@ -591,9 +591,8 @@ class IMUICameraView: UIView {
       default:
         break
       }
-      if #available(iOS 10.0, *) {
-          photoSettings.flashMode = .off
-      }
+      
+      photoSettings.flashMode = .off
 
       self.photoOutput?.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate)
     }
