@@ -53,6 +53,7 @@ Aurora IMUI 是个通用的即时通讯（IM）UI 库，不特定于任何 IM SD
 - [IMUIInputView](./docs/iOS/IMUIInputView_usage_zh.md)
 
 ### React Native
+- [AuroraIMUI_Pure_JS  Beta](./ReactNative_JS/README.md)
 - [AuroraIMUI](./ReactNative/README_zh.md)
 
 ## Contribute
