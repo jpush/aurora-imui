@@ -160,7 +160,7 @@ public class SimpleCommonUtils {
                     pageView.setNumColumns(pageEntity.getRow());
                     pageEntity.setRootView(pageView);
                     try {
-                        EmoticonsAdapter adapter = (EmoticonsAdapter) newInstance(_class, container.getContext(), pageEntity, onEmoticonClickListener);
+                        EmoticonsAdapter adapter = new EmoticonsAdapter(container.getContext(), pageEntity, onEmoticonClickListener);
                         if (emoticonDisplayListener != null) {
                             adapter.setOnDisPlayListener(emoticonDisplayListener);
                         }
