@@ -77,7 +77,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [isAllowPullToRefresh](#isallowpulltorefresh)
 - [ChatInput](#chatinput)
   - [Props customizable style]()
-    - [customLayoutItems](#customlayoutitemsios-only)
+    - [customLayoutItems](#customlayoutitems)
     - [chatInputBackgroundColor](#chatInputBackgroundColor)
     - [showSelectAlbumBtn](#showselectalbumbtnandroid-only)
     - [showRecordVideoBtn](#showRecordVideoBtnandroid-only)   
@@ -85,6 +85,7 @@ const AuroraIMUIController = IMUI.AuroraIMUIController; // the IMUI controller, 
     - [inputTextColor](#inputTextColor)
     - [inputTextSize](#inputTextSize)
     - [inputTextLineHeight](#inputTextLineHeight)
+    - [cameraQuality](#cameraQualityandroid-only)
   - [Props 事件]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
@@ -624,7 +625,7 @@ Example: ```showSelectAlbumBtn={true}```
 Example: ```showRecordVideoBtn={true}```
 
 ------
-### inputPadding
+#### inputPadding
 
 **PropTypes.object:** {left: number, top: number, right: number, bottom: number}
 
@@ -634,7 +635,7 @@ Example: `inputPadding={left:5, top:0, right:5, bottom:0}`
 
 ------
 
-### inputTextColor
+#### inputTextColor
 
 **PropTypes.string:** {"#xxxxxx"}
 
@@ -644,7 +645,7 @@ Example: `inputTextColor={"#808080"}`
 
 ------
 
-### inputTextSize
+#### inputTextSize
 
 **PropTypes.numbser:** {numbser}
 
@@ -654,7 +655,7 @@ Example: `inputTextSize={14}`
 
 ------
 
-### inputTextLineHeight
+#### inputTextLineHeight
 
 **PropTypes.number:**{numbser}
 
@@ -663,6 +664,14 @@ Example: `inputTextSize={14}`
 Example: `inputTextLineHeight={2}`
 
 ------
+
+#### cameraQuality(Android Only)
+**PropTypes.number:**
+
+设置拍摄的照片质量，取值 0.01 ~ 1(原图)，默认 0.5。
+
+Example: ```cameraQuality={0.6}```
+
 
 #### ChatInput 事件回调
 

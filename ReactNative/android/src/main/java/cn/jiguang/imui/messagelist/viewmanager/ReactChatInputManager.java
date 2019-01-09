@@ -787,6 +787,11 @@ public class ReactChatInputManager extends ViewGroupManager<ChatInputView> imple
 
     }
 
+    @ReactProp(name = "cameraQuality")
+    public void cameraQuality(ChatInputView chatInputView, float cameraQuality) {
+        chatInputView.setCameraQuality(cameraQuality);
+    }
+
     @Override
     public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.<String, Object>builder()
