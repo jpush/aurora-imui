@@ -553,10 +553,11 @@ export default class TestRNIMUI extends Component {
           inputPadding={{ left: 30, top: 10, right: 10, bottom: 10 }}
           galleryScale={0.6}//default = 0.5
           compressionQuality={0.6}
+          cameraQuality={1}//default = 0.5
           customLayoutItems={{
             left: [],
-            right: ['send','emoji']
-            // bottom: ['voice','gallery','emoji','camera']
+            right: ['send'],
+            bottom: ['voice','gallery','emoji','camera']
           }}
         />
       </View>
