@@ -36,7 +36,6 @@
                 android:id="@+id/aurora_tv_msgitem_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
                 android:background="@drawable/aurora_receivetxt_bubble"
                 android:maxWidth="220dp" />
 
