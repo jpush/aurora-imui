@@ -614,12 +614,14 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
         voiceMessage.setUserInfo(new DefaultUser("0", "Deadpool", "R.drawable.deadpool"));
         voiceMessage.setMediaFilePath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/voice/2018-02-28-105103.m4a");
         voiceMessage.setDuration(4);
+
         mAdapter.addToStart(voiceMessage, true);
 
         MyMessage sendVoiceMsg = new MyMessage("", IMessage.MessageType.SEND_VOICE.ordinal());
         sendVoiceMsg.setUserInfo(new DefaultUser("1", "Ironman", "R.drawable.ironman"));
         sendVoiceMsg.setMediaFilePath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/voice/2018-02-28-105103.m4a");
         sendVoiceMsg.setDuration(4);
+        sendVoiceMsg.setMessageStatus(IMessage.MessageStatus.SEND_SUCCEED);
         mAdapter.addToStart(sendVoiceMsg, true);
         MyMessage eventMsg = new MyMessage("haha", IMessage.MessageType.EVENT.ordinal());
         mAdapter.addToStart(eventMsg, true);
