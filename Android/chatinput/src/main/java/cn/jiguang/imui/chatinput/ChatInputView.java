@@ -1530,4 +1530,9 @@ public class ChatInputView extends LinearLayout
         return  this.mMenuContainer;
     }
 
+    public void setCameraQuality(float cameraQuality){
+        mStyle.setCameraQuality(cameraQuality);
+    }
+
+
 }

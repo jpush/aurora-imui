@@ -784,12 +784,22 @@ public class CameraNew implements CameraSupport {
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
             setAutoFlash(mPreviewRequestBuilder);
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
-                    mBackgroundHandler);
-            // After this, the camera will go back to the normal state of preview.
-            mState = STATE_PREVIEW;
-            mCaptureSession.setRepeatingRequest(mPreviewRequest, mCaptureCallback,
-                    mBackgroundHandler);
+            if(mCaptureSession != null ){
+                boolean reprocessable = true;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    reprocessable = mCaptureSession.isReprocessable();
+                }
+                if(!reprocessable){
+                    return;
+                }
+                mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+                        mBackgroundHandler);
+                // After this, the camera will go back to the normal state of preview.
+                mState = STATE_PREVIEW;
+                mCaptureSession.setRepeatingRequest(mPreviewRequest, mCaptureCallback,
+                        mBackgroundHandler);
+            }
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }

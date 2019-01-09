@@ -220,6 +220,10 @@ public class ChatInputStyle extends Style {
     }
 
     public float getCameraQuality() {
-        return this.cameraQuality;
+        return this.cameraQuality <= 0.01f ? 0.01f : this.cameraQuality;
+    }
+
+    public void setCameraQuality(float cameraQuality) {
+        this.cameraQuality = cameraQuality;
     }
 }
