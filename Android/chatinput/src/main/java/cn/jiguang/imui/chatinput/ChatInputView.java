@@ -695,7 +695,7 @@ public class ChatInputView extends LinearLayout
                 mCaptureBtn.setBackgroundResource(R.drawable.aurora_preview_record_video_start);
                 mMediaPlayer.stop();
                 mMediaPlayer.release();
-                mCameraSupport.open(mCameraId, mWidth, mHeight, mIsBackCamera);
+                mCameraSupport.open(mCameraId, mWidth, mHeight, mIsBackCamera, mStyle.getCameraQuality());
             } else {
                 for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
                     Camera.CameraInfo info = new Camera.CameraInfo();
@@ -706,7 +706,7 @@ public class ChatInputView extends LinearLayout
                             mIsBackCamera = false;
                             mCameraSupport.release();
                             mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight(),
-                                    mIsBackCamera);
+                                    mIsBackCamera, mStyle.getCameraQuality());
                             break;
                         }
                     } else {
@@ -715,7 +715,7 @@ public class ChatInputView extends LinearLayout
                             mIsBackCamera = true;
                             mCameraSupport.release();
                             mCameraSupport.open(mCameraId, mTextureView.getWidth(), mTextureView.getHeight(),
-                                    mIsBackCamera);
+                                    mIsBackCamera, mStyle.getCameraQuality());
                             break;
                         }
                     }
@@ -839,7 +839,7 @@ public class ChatInputView extends LinearLayout
             }
         }
         if (mTextureView.isAvailable()) {
-            mCameraSupport.open(mCameraId, mWidth, sMenuHeight, mIsBackCamera);
+            mCameraSupport.open(mCameraId, mWidth, sMenuHeight, mIsBackCamera, mStyle.getCameraQuality());
         } else {
             mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
                 @Override
@@ -848,7 +848,7 @@ public class ChatInputView extends LinearLayout
                     if (mCameraSupport == null) {
                         initCamera();
                     } else {
-                        mCameraSupport.open(mCameraId, width, height, mIsBackCamera);
+                        mCameraSupport.open(mCameraId, width, height, mIsBackCamera, mStyle.getCameraQuality());
                     }
 
                 }
@@ -857,7 +857,7 @@ public class ChatInputView extends LinearLayout
                 public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width, int height) {
                     Log.d("ChatInputView", "Texture size changed, Opening camera");
                     if (mTextureView.getVisibility() == VISIBLE && mCameraSupport != null) {
-                        mCameraSupport.open(mCameraId, width, height, mIsBackCamera);
+                        mCameraSupport.open(mCameraId, width, height, mIsBackCamera, mStyle.getCameraQuality());
                     }
                 }
 
