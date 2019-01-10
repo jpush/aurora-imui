@@ -66,6 +66,7 @@
         android:layout_alignParentBottom="true"
         app:inputMarginLeft="3dp"
         app:inputMarginRight="3dp"
+        app:cameraQuality="0.6"
         app:showSelectAlbum="true"/>
 
 

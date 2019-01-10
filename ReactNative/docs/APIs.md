@@ -86,6 +86,7 @@ Refer to iOS,Android example
     - [inputTextColor](#inputTextColor)
     - [inputTextSize](#inputTextSize)
     - [inputTextLineHeight](#inputTextLineHeight)
+    - [cameraQuality](#cameraQualityandroid-only)
   - [Props Event]()
     - [onSendText](#onsendtext)
     - [onSendGalleryFile](#onsendgalleryfile)
@@ -625,7 +626,7 @@ Set the visibility of the record video button.
 Example: ```showRecordVideoBtn={true}```
 
 ------
-### inputPadding
+#### inputPadding
 
 **PropTypes.object:** {left: number, top: number, right: number, bottom: number}
 
@@ -635,7 +636,7 @@ Example: `inputPadding={left:5, top:0, right:5, bottom:0}`
 
 ***
 
-### inputTextColor
+#### inputTextColor
 
 **PropTypes.string:** {"#xxxxxx"}
 
@@ -645,7 +646,7 @@ Example: `inputTextColor={"#808080"}`
 
 ***
 
-### inputTextSize
+#### inputTextSize
 
 **PropTypes.numbser:** {numbser}
 
@@ -655,13 +656,22 @@ Example: `inputTextSize={14}`
 
 ***
 
-### inputTextLineHeight
+#### inputTextLineHeight
 
 **PropTypes.number:**{numbser}
 
 Set the text line spacing of TextInput.
 
 Example: `inputTextLineHeight={2}`
+
+------
+
+#### cameraQuality(Android Only)
+**PropTypes.number:**
+
+Set quality for camera capture，the range of value are 0.01 ~ 1(Original graph)，default value is 0.5。
+
+Example: ```cameraQuality={0.6}```
 
 ------
 

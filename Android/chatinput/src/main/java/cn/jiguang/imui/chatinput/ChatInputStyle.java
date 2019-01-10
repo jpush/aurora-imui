@@ -48,6 +48,7 @@ public class ChatInputStyle extends Style {
     private int sendBtnPressedIcon;
     private Drawable sendCountBg;
     private boolean showSelectAlbumBtn;
+    private float cameraQuality;
 
     public static ChatInputStyle parse(Context context, AttributeSet attrs) {
         ChatInputStyle style = new ChatInputStyle(context, attrs);
@@ -94,6 +95,7 @@ public class ChatInputStyle extends Style {
                 style.getDimension(R.dimen.aurora_padding_input_right));
         style.inputPaddingBottom = typedArray.getDimensionPixelSize(R.styleable.ChatInputView_inputPaddingBottom,
                 style.getDimension(R.dimen.aurora_padding_input_bottom));
+        style.cameraQuality = typedArray.getFloat(R.styleable.ChatInputView_cameraQuality,0.5f);
         typedArray.recycle();
         return style;
     }
@@ -215,5 +217,13 @@ public class ChatInputStyle extends Style {
 
     public boolean getShowSelectAlbum() {
         return this.showSelectAlbumBtn;
+    }
+
+    public float getCameraQuality() {
+        return this.cameraQuality <= 0.01f ? 0.01f : this.cameraQuality;
+    }
+
+    public void setCameraQuality(float cameraQuality) {
+        this.cameraQuality = cameraQuality;
     }
 }

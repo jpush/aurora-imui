@@ -55,10 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="5dp"
-            android:layout_marginRight="3dp"
             android:background="@drawable/aurora_sendtxt_bubble"
-            android:paddingRight="20dp"
-            android:text="asdf"/>
+            android:paddingRight="20dp" />
 
         <cn.jiguang.imui.view.RoundImageView
             android:id="@+id/aurora_iv_msgitem_avatar"

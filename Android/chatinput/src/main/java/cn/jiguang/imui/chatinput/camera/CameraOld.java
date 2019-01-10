@@ -67,7 +67,7 @@ public class CameraOld implements CameraSupport {
     }
 
     @Override
-    public CameraSupport open(int cameraId, int width, int height, boolean isFacingBack) {
+    public CameraSupport open(int cameraId, int width, int height, boolean isFacingBack, float cameraQuality) {
         try {
             this.mCameraId = cameraId;
             this.mCamera = Camera.open(cameraId);
@@ -96,7 +96,7 @@ public class CameraOld implements CameraSupport {
             ViewGroup.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) (height * (w / h)), height);
             mTextureView.setLayoutParams(layoutParams);
 
-            params.setJpegQuality(100); // 设置照片质量
+            params.setJpegQuality((int)(100*cameraQuality)); // 设置照片质量
             if (params.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
                 params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             }
