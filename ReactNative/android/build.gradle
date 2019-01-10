@@ -30,9 +30,8 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'cn.jiguang.imui:messagelist:0.7.4'
-    implementation project(':chatinput')
-//    compile 'cn.jiguang.imui:chatinput:0.9.1'
+    implementation 'cn.jiguang.imui:messagelist:+'
+    implementation 'cn.jiguang.imui:chatinput:+'
     implementation 'pub.devrel:easypermissions:1.0.1'
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.android.support:appcompat-v7:27.1.0'
