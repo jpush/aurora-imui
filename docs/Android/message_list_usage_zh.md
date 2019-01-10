@@ -9,7 +9,7 @@
 - Gradle
 
 ```groovy
-compile 'cn.jiguang.imui:messagelist:0.7.4'
+compile 'cn.jiguang.imui:messagelist:0.8.0'
 ```
 
 - Maven
@@ -17,7 +17,7 @@ compile 'cn.jiguang.imui:messagelist:0.7.4'
 <dependency>
   <groupId>cn.jiguang.imui</groupId>
   <artifactId>messagelist</artifactId>
-  <version>0.7.4</version>
+  <version>0.8.0</version>
   <type>pom</type>
 </dependency>
 ```
