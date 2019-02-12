@@ -267,6 +267,7 @@ ChatInput.propTypes = {
   hideVoiceButton: PropTypes.bool,
   hideEmojiButton: PropTypes.bool,
   hidePhotoButton: PropTypes.bool,
+  customLayoutItems: PropTypes.object,
   cameraQuality: PropTypes.number,
   ...ViewPropTypes
 };
