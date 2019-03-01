@@ -410,6 +410,7 @@ class IMUICameraView: UIView {
   // -MARK: Click Event
   @IBAction func clickCameraSwitch(_ sender: Any) {
     if isPhotoMode {
+      
       if #available(iOS 10.0, *) {
         self.capturePhotoAfter_iOS10()
       } else {
@@ -528,8 +529,7 @@ class IMUICameraView: UIView {
       }
       
       let photoSettings = AVCapturePhotoSettings()
-      photoSettings.flashMode = .auto
-      
+      photoSettings.flashMode = .auto  
       photoSettings.isHighResolutionPhotoEnabled = false
       
       if photoSettings.availablePreviewPhotoPixelFormatTypes.count > 0 {
@@ -580,6 +580,7 @@ class IMUICameraView: UIView {
         }
       )
       
+
   self.inProgressPhotoCaptureDelegates[photoCaptureDelegate.requestedPhotoSettings.uniqueID] = photoCaptureDelegate
 
       switch self.currentCameraDeviceType {
@@ -591,8 +592,7 @@ class IMUICameraView: UIView {
       default:
         break
       }
-      
-      photoSettings.flashMode = .off
+      photoSettings.flashMode = self.videoDeviceInput.device.isFlashAvailable ? .auto : .off
 
       self.photoOutput?.capturePhoto(with: photoSettings, delegate: photoCaptureDelegate)
     }
