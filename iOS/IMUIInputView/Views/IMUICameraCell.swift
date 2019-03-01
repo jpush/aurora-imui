@@ -51,7 +51,9 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     }
     
     cameraView.shootPictureCallback = { imageData in
-      self.featureDelegate?.didShotPicture(with: imageData)
+      DispatchQueue.main.async {
+        self.featureDelegate?.didShotPicture(with: imageData)
+      }
       if self.isFullScreenMode {
         // Switch to main thread operation UI
         DispatchQueue.main.async {
@@ -79,17 +81,22 @@ class IMUICameraCell: UICollectionViewCell, IMUIFeatureCellProtocol {
     let rootVC = UIApplication.shared.delegate?.window??.rootViewController
     self.cameraView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
     self.cameraVC.view = self.cameraView
-    
-    rootVC?.present(self.cameraVC, animated: true, completion: {} )
+    DispatchQueue.main.async {
+      rootVC?.present(self.cameraVC, animated: true, completion: {} )
+    }
   }
   
   func shrinkDownScreen() {
+    
     self.featureDelegate?.cameraRecoverScreen()
-    self.cameraVC.dismiss(animated: false, completion: {
-      print("\(self.contentView)")
-      self.contentView.addSubview(self.cameraView)
-      self.cameraView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 253)
-    })
+    DispatchQueue.main.async {
+      self.cameraVC.dismiss(animated: false, completion: {
+        print("\(self.contentView)")
+        self.contentView.addSubview(self.cameraView)
+        self.cameraView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 253)
+      })
+    }
+    
   }
   
   func activateMedia() {
