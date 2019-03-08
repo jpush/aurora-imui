@@ -681,6 +681,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
     }
 
     private void scrollToBottom() {
+        mChatView.setMsgListHeight(false);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -697,6 +698,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 if (chatInputView.getMenuState() == View.VISIBLE) {
                     chatInputView.dismissMenuLayout();
                 }
+                mChatView.setMsgListHeight(true);
                 try {
                     View v = getCurrentFocus();
                     if (mImm != null && v != null) {

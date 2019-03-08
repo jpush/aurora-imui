@@ -3,7 +3,9 @@ package imui.jiguang.cn.imuisample.views;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -177,5 +179,21 @@ public class ChatView extends RelativeLayout {
 
     public ImageButton getSelectAlbumBtn() {
         return this.mSelectAlbumIb;
+    }
+
+    public void setMsgListHeight(boolean isTouchMsgList) {
+        if (!isTouchMsgList) {
+            ViewGroup.LayoutParams layoutParams = mMsgList.getLayoutParams();
+            int height = mChatInput.getSoftKeyboardHeight();
+            if (height > 0) {
+                layoutParams.height = mChatInput.getSoftKeyboardHeight();
+                mMsgList.setLayoutParams(layoutParams);
+            }
+        } else {
+            ViewGroup.LayoutParams layoutParams = mMsgList.getLayoutParams();
+            layoutParams.height = mMsgList.getMaxHeight();
+            Log.d("ChatView", "set MessageList height, height = " + layoutParams.height);
+            mMsgList.setLayoutParams(layoutParams);
+        }
     }
 }

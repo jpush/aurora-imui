@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
@@ -20,6 +21,7 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
     private final GestureDetector mGestureDetector;
     private MsgListAdapter mAdapter;
     private ScrollMoreListener mScrollMoreListener;
+    private int mMaxHeight;
 
     public MessageList(Context context) {
         this(context, null);
@@ -297,4 +299,17 @@ public class MessageList extends RecyclerView implements GestureDetector.OnGestu
             layout(getLeft(), getTop(), getRight(), getBottom());
         }
     };
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        Log.d("ChatView", "onLayout height = " + b);
+        if (mMaxHeight == 0) {
+            mMaxHeight = b;
+        }
+    }
+
+    public int getMaxHeight() {
+        return mMaxHeight;
+    }
 }
