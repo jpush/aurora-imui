@@ -134,7 +134,8 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                 if (list == null || list.isEmpty()) {
                     return;
                 }
-
+                // should reset messageList height
+                mChatView.setMsgListHeight(true);
                 MyMessage message;
                 for (FileItem item : list) {
                     if (item.getType() == FileItem.Type.Image) {

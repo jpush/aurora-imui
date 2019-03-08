@@ -181,6 +181,11 @@ public class ChatView extends RelativeLayout {
         return this.mSelectAlbumIb;
     }
 
+    /**
+     * reset MessageList's height, so that switch to SoftInput or Menu
+     * wouldn't cause MessageList scroll
+     * @param isTouchMsgList if touch MessageList, reset MessageList's height.
+     */
     public void setMsgListHeight(boolean isTouchMsgList) {
         if (!isTouchMsgList) {
             ViewGroup.LayoutParams layoutParams = mMsgList.getLayoutParams();
