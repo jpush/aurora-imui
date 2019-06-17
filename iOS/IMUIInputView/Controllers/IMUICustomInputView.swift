@@ -181,7 +181,9 @@ open class IMUICustomInputView: UIView {
       }
     }
     
-    self.superview?.layoutIfNeeded()
+    DispatchQueue.main.async {
+        self.superview?.layoutIfNeeded()
+    }
   }
   
   func fitTextViewSize(_ textView: UITextView) {
