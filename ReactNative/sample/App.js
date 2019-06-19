@@ -147,7 +147,7 @@ export default class TestRNIMUI extends Component {
       isAllowPullToRefresh: true,
       navigationBar: {},
     }
-    
+
 
     this.updateLayout = this.updateLayout.bind(this);
     this.onMsgClick = this.onMsgClick.bind(this);
@@ -170,13 +170,13 @@ export default class TestRNIMUI extends Component {
   messageListDidLoadEvent() {
     this.getHistoryMessage()
   }
-  
+
   getHistoryMessage() {
     var messages = []
     for (var index in imageUrlArray) {
       var message = constructNormalMessage()
       message.fromUser.avatarUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534926548887&di=f107f4f8bd50fada6c5770ef27535277&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F11%2F67%2F23%2F69i58PICP37.jpg",//1
-      message.msgType = 'image'
+        message.msgType = 'image'
       message.mediaPath = imageUrlArray[index]
       message.contentSize = { 'height': 100, 'width': 200 }
       message.extras = { "extras": "fdfsf" }
@@ -276,7 +276,7 @@ export default class TestRNIMUI extends Component {
   }
 
   onMsgLongClick = (message) => {
-    Alert.alert('message bubble on long press', 'message bubble on long press')
+    Alert.alert('获取长按时的数据', JSON.stringify(message))
   }
 
   onStatusViewClick = (message) => {
@@ -454,7 +454,7 @@ export default class TestRNIMUI extends Component {
         inputViewLayout: { flex: 1, width: window.width, height: window.height },
         navigationBar: { height: 0 }
       })
-    } 
+    }
   }
 
   render() {
@@ -509,6 +509,7 @@ export default class TestRNIMUI extends Component {
           isAllowPullToRefresh={true}
           onAvatarClick={this.onAvatarClick}
           onMsgClick={this.onMsgClick}
+          onMsgLongClick={this.onMsgLongClick}
           onStatusViewClick={this.onStatusViewClick}
           onTouchMsgList={this.onTouchMsgList}
           onTapMessageCell={this.onTapMessageCell}
@@ -557,7 +558,7 @@ export default class TestRNIMUI extends Component {
           customLayoutItems={{
             left: [],
             right: ['send'],
-            bottom: ['voice','gallery','emoji','camera']
+            bottom: ['voice', 'gallery', 'emoji', 'camera']
           }}
         />
       </View>
