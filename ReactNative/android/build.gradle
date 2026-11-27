@@ -34,11 +34,11 @@ dependencies {
     implementation 'cn.jiguang.imui:chatinput:+'
     implementation 'pub.devrel:easypermissions:1.0.1'
     implementation 'org.greenrobot:eventbus:3.0.0'
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
+    implementation "com.android.support:appcompat-v7:${safeExtGet('supportLibVersion', '27.1.0')}"
+    implementation "com.android.support:design:${safeExtGet('supportLibVersion', '27.1.0')}"
     implementation 'com.facebook.react:react-native:+'
     implementation 'com.google.code.gson:gson:2.8.0'
-    implementation 'com.github.bumptech.glide:glide:4.6.1'
+    implementation "com.github.bumptech.glide:glide:${safeExtGet('glideVersion', '4.6.1')}"
     testImplementation 'junit:junit:4.12'
 
 }

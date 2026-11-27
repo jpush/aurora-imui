@@ -6,12 +6,16 @@ ext {
     PUBLISH_VERSION = '0.10.0'
 }
 
+def safeExtGet(prop, fallback) {
+    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
+
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion safeExtGet('compileSdkVersion', 27)
+    buildToolsVersion safeExtGet('buildToolsVersion', '27.0.3')
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 27
+        minSdkVersion safeExtGet('minSdkVersion', 16)
+        targetSdkVersion safeExtGet('targetSdkVersion', 27)
         versionCode 2
         versionName "0.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,11 +38,11 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
+    implementation "com.android.support:appcompat-v7:${safeExtGet('supportLibVersion', '27.1.0')}"
+    implementation "com.android.support:design:${safeExtGet('supportLibVersion', '27.1.0')}"
     implementation 'com.google.android:flexbox:0.2.5'
-    implementation 'com.github.bumptech.glide:glide:4.6.1'
-    implementation 'com.android.support:support-v4:27.1.0'
+    implementation "com.github.bumptech.glide:glide:${safeExtGet('glideVersion', '4.6.1')}"
+    implementation "com.android.support:support-v4:${safeExtGet('supportLibVersion', '27.1.0')}"
     testImplementation 'junit:junit:4.12'
 }
 
