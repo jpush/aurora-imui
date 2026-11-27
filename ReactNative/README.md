@@ -16,6 +16,18 @@ include ':app', ':aurora-imui-react-native'
 project(':aurora-imui-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/aurora-imui-react-native/ReactNative/android')
 ```
 
+The Android library uses Glide 4.6.1 and support libraries 27.1.0 by default. To match versions already used by your app, set these values in the root `build.gradle` `ext` block. You can also override the Android SDK versions there:
+
+```groovy
+ext {
+    glideVersion = '4.9.0'
+    supportLibVersion = '27.1.0'
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.3'
+    targetSdkVersion = 27
+}
+```
+
 And add dependency in your app's `build.gradle`:
 
 ```
