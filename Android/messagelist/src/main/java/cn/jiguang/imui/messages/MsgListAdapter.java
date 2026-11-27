@@ -69,6 +69,7 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     private LinearLayoutManager mLayoutManager;
     private MessageListStyle mStyle;
     private MediaPlayer mMediaPlayer;
+    private final VoicePlaybackState mVoicePlaybackState = new VoicePlaybackState();
     private List<Wrapper> mItems;
     private boolean mScroll;
 
@@ -113,8 +114,51 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
     public void pauseVoice() {
         try {
             mMediaPlayer.pause();
+            String messageId = mVoicePlaybackState.getMessageId();
+            if (messageId != null) {
+                mVoicePlaybackState.pause(messageId);
+                notifyVoiceMessageChanged(messageId);
+            }
         } catch (IllegalStateException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void replayVoice() {
+        String messageId = mVoicePlaybackState.getMessageId();
+        if (messageId == null) {
+            return;
+        }
+        try {
+            if (mMediaPlayer.isPlaying()) {
+                mMediaPlayer.pause();
+            }
+            mMediaPlayer.seekTo(0);
+            mMediaPlayer.start();
+            mVoicePlaybackState.play(messageId);
+            notifyVoiceMessageChanged(messageId);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void onVoicePlaybackChanged(String previousMessageId, String currentMessageId) {
+        if (previousMessageId != null && !previousMessageId.equals(currentMessageId)) {
+            notifyVoiceMessageChanged(previousMessageId);
+        }
+        if (currentMessageId != null) {
+            ViewHolderController.getInstance().onPlaybackStarted(this);
+            notifyVoiceMessageChanged(currentMessageId);
+        }
+    }
+
+    private void notifyVoiceMessageChanged(String messageId) {
+        for (int i = 0; i < mItems.size(); i++) {
+            Object item = mItems.get(i).item;
+            if (item instanceof IMessage && messageId.equals(((IMessage) item).getMsgId())) {
+                notifyItemChanged(i);
+                return;
+            }
         }
     }
 
@@ -256,6 +300,15 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
             ((BaseMessageViewHolder) holder).mMediaPlayer = this.mMediaPlayer;
             ((BaseMessageViewHolder) holder).mScroll = this.mScroll;
             ((BaseMessageViewHolder) holder).mData = this.mItems;
+            if (holder instanceof VoiceViewHolder) {
+                ((VoiceViewHolder) holder).setPlaybackState(mVoicePlaybackState,
+                        new VoiceViewHolder.PlaybackChangeListener() {
+                            @Override
+                            public void onPlaybackChanged(String previousMessageId, String currentMessageId) {
+                                onVoicePlaybackChanged(previousMessageId, currentMessageId);
+                            }
+                        });
+            }
         }
         holder.onBind(wrapper.item);
     }
@@ -1002,15 +1055,4 @@ public class MsgListAdapter<MESSAGE extends IMessage> extends RecyclerView.Adapt
         }
     }
 
-    @Override
-    public void onViewDetachedFromWindow(ViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-        ViewHolderController.getInstance().remove(holder.getAdapterPosition());
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        ViewHolderController.getInstance().release();
-    }
 }

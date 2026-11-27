@@ -67,7 +67,6 @@ import cn.jiguang.imui.messagelist.event.StopPlayVoiceEvent;
 import cn.jiguang.imui.messages.CustomMsgConfig;
 import cn.jiguang.imui.messages.MessageList;
 import cn.jiguang.imui.messages.MsgListAdapter;
-import cn.jiguang.imui.messages.ViewHolderController;
 import cn.jiguang.imui.messages.ptr.PtrDefaultHeader;
 import cn.jiguang.imui.messages.ptr.PtrHandler;
 import cn.jiguang.imui.messages.ptr.PullToRefreshLayout;
@@ -694,7 +693,7 @@ public class ReactMsgListManager extends ViewGroupManager<PullToRefreshLayout> i
                     setScreenOn();
                 } else {
                     mAdapter.setAudioPlayByEarPhone(2);
-                    ViewHolderController.getInstance().replayVoice();
+                    mAdapter.replayVoice();
                     setScreenOff();
                 }
             } else {

@@ -64,7 +64,6 @@ import cn.jiguang.imui.commons.models.IMessage;
 import cn.jiguang.imui.messages.MsgListAdapter;
 import cn.jiguang.imui.messages.ptr.PtrHandler;
 import cn.jiguang.imui.messages.ptr.PullToRefreshLayout;
-import cn.jiguang.imui.messages.ViewHolderController;
 import imui.jiguang.cn.imuisample.R;
 import imui.jiguang.cn.imuisample.models.DefaultUser;
 import imui.jiguang.cn.imuisample.models.MyMessage;
@@ -350,7 +349,7 @@ public class MessageListActivity extends Activity implements View.OnTouchListene
                     setScreenOn();
                 } else {
                     mAdapter.setAudioPlayByEarPhone(2);
-                    ViewHolderController.getInstance().replayVoice();
+                    mAdapter.replayVoice();
                     setScreenOff();
                 }
             } else {

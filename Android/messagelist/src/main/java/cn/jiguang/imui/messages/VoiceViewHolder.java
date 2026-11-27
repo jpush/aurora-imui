@@ -21,7 +21,7 @@ import cn.jiguang.imui.view.RoundImageView;
 import cn.jiguang.imui.view.RoundTextView;
 
 public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHolder<MESSAGE>
-        implements MsgListAdapter.DefaultMessageViewHolder, ViewHolderController.ReplayVoiceListener {
+        implements MsgListAdapter.DefaultMessageViewHolder {
 
     private boolean mIsSender;
     private TextView mMsgTv;
@@ -40,7 +40,13 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
     private int mReceiveDrawable;
     private int mPlaySendAnim;
     private int mPlayReceiveAnim;
-    private ViewHolderController mController;
+    private VoicePlaybackState mPlaybackState;
+    private PlaybackChangeListener mPlaybackChangeListener;
+    private String mBoundMessageId;
+
+    interface PlaybackChangeListener {
+        void onPlaybackChanged(String previousMessageId, String currentMessageId);
+    }
 
     public VoiceViewHolder(View itemView, boolean isSender) {
         super(itemView);
@@ -58,12 +64,12 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
             mDisplayNameTv = (TextView) itemView.findViewById(R.id.aurora_tv_msgitem_sender_display_name);
         }
         mResendIb = (ImageButton) itemView.findViewById(R.id.aurora_ib_msgitem_resend);
-        mController = ViewHolderController.getInstance();
-        mController.setReplayVoiceListener(this);
     }
 
     @Override
     public void onBind(final MESSAGE message) {
+        mBoundMessageId = message.getMsgId();
+        renderPlaybackState(message);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
 
@@ -141,39 +147,21 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
                     mMsgClickListener.onMessageClick(message);
                 }
 
-                // stop animation whatever this time is play or pause audio
-                // if (mVoiceAnimation != null) {
-                // mVoiceAnimation.stop();
-                // mVoiceAnimation = null;
-                // }
-                mController.notifyAnimStop();
-                mController.setMessage(message);
-                if (mIsSender) {
-                    mVoiceIv.setImageResource(mPlaySendAnim);
-                } else {
-                    mVoiceIv.setImageResource(mPlayReceiveAnim);
-                }
-                mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
-                mController.addView(getAdapterPosition(), mVoiceIv);
-                // If audio is playing, pause
-                Log.e("VoiceViewHolder",
-                        "MediaPlayer playing " + mMediaPlayer.isPlaying() + "now position " + getAdapterPosition());
-                if (mController.getLastPlayPosition() == getAdapterPosition()) {
+                String messageId = message.getMsgId();
+                if (mPlaybackState.isCurrent(messageId)) {
                     if (mMediaPlayer.isPlaying()) {
                         pauseVoice();
-                        mVoiceAnimation.stop();
-                        if (mIsSender) {
-                            mVoiceIv.setImageResource(mSendDrawable);
-                        } else {
-                            mVoiceIv.setImageResource(mReceiveDrawable);
-                        }
+                        mPlaybackState.pause(messageId);
+                        notifyPlaybackChanged(messageId, messageId);
+                        renderPlaybackState(message);
                     } else if (mSetData) {
                         mMediaPlayer.start();
-                        mVoiceAnimation.start();
+                        mPlaybackState.play(messageId);
+                        notifyPlaybackChanged(messageId, messageId);
+                        renderPlaybackState(message);
                     } else {
                         playVoice(getAdapterPosition(), message);
                     }
-                    // Start playing audio
                 } else {
                     playVoice(getAdapterPosition(), message);
                 }
@@ -204,35 +192,43 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         });
     }
 
-    public void playVoice(int position, MESSAGE message) {
-        mController.setLastPlayPosition(position, mIsSender);
+    public void playVoice(int position, final MESSAGE message) {
+        String previousMessageId = mPlaybackState.getMessageId();
         try {
             mMediaPlayer.reset();
             mFIS = new FileInputStream(message.getMediaFilePath());
             mMediaPlayer.setDataSource(mFIS.getFD());
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
-            mMediaPlayer.prepare();
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    mVoiceAnimation.start();
                     mp.start();
                 }
             });
             mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    mVoiceAnimation.stop();
                     mp.reset();
                     mSetData = false;
-                    if (mIsSender) {
-                        mVoiceIv.setImageResource(mSendDrawable);
-                    } else {
-                        mVoiceIv.setImageResource(mReceiveDrawable);
+                    mPlaybackState.stop(message.getMsgId());
+                    notifyPlaybackChanged(message.getMsgId(), null);
+                    if (message.getMsgId().equals(mBoundMessageId)) {
+                        renderPlaybackState(message);
                     }
                 }
             });
+            mMediaPlayer.prepare();
+            mPlaybackState.play(message.getMsgId());
+            notifyPlaybackChanged(previousMessageId, message.getMsgId());
+            renderPlaybackState(message);
         } catch (IOException e) {
+            mMediaPlayer.reset();
+            mPlaybackState.stop(previousMessageId);
+            notifyPlaybackChanged(previousMessageId, null);
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            mPlaybackState.stop(previousMessageId);
+            notifyPlaybackChanged(previousMessageId, null);
             e.printStackTrace();
         } finally {
             try {
@@ -250,6 +246,36 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mSetData = true;
     }
 
+    void setPlaybackState(VoicePlaybackState playbackState, PlaybackChangeListener listener) {
+        mPlaybackState = playbackState;
+        mPlaybackChangeListener = listener;
+    }
+
+    private void notifyPlaybackChanged(String previousMessageId, String currentMessageId) {
+        if (mPlaybackChangeListener != null) {
+            mPlaybackChangeListener.onPlaybackChanged(previousMessageId, currentMessageId);
+        }
+    }
+
+    private void renderPlaybackState(MESSAGE message) {
+        if (mPlaybackState == null || mVoiceIv == null) {
+            return;
+        }
+        if (mVoiceAnimation != null) {
+            mVoiceAnimation.stop();
+            mVoiceAnimation = null;
+        }
+        if (mPlaybackState.isPlaying(message.getMsgId())) {
+            mVoiceIv.setImageResource(mIsSender ? mPlaySendAnim : mPlayReceiveAnim);
+            if (mVoiceIv.getDrawable() instanceof AnimationDrawable) {
+                mVoiceAnimation = (AnimationDrawable) mVoiceIv.getDrawable();
+                mVoiceAnimation.start();
+            }
+        } else {
+            mVoiceIv.setImageResource(mIsSender ? mSendDrawable : mReceiveDrawable);
+        }
+    }
+
     @Override
     public void applyStyle(MessageListStyle style) {
         mDateTv.setTextSize(style.getDateTextSize());
@@ -260,7 +286,6 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mDateTv.setBgColor(style.getDateBgColor());
         mSendDrawable = style.getSendVoiceDrawable();
         mReceiveDrawable = style.getReceiveVoiceDrawable();
-        mController.setDrawable(mSendDrawable, mReceiveDrawable);
         mPlaySendAnim = style.getPlaySendVoiceAnim();
         mPlayReceiveAnim = style.getPlayReceiveVoiceAnim();
         if (mIsSender) {
@@ -298,17 +323,4 @@ public class VoiceViewHolder<MESSAGE extends IMessage> extends BaseMessageViewHo
         mAvatarIv.setBorderRadius(style.getAvatarRadius());
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void replayVoice() {
-        pauseVoice();
-        mController.notifyAnimStop();
-        if (mIsSender) {
-            mVoiceIv.setImageResource(mPlaySendAnim);
-        } else {
-            mVoiceIv.setImageResource(mPlayReceiveAnim);
-        }
-        mVoiceAnimation = (AnimationDrawable) mVoiceIv.getBackground();
-        playVoice(mController.getLastPlayPosition(), (MESSAGE) mController.getMessage());
-    }
 }
