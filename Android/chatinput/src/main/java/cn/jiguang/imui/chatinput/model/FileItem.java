@@ -80,7 +80,26 @@ public class FileItem implements Comparable<FileItem> {
 
     @Override
     public int compareTo(@NonNull FileItem fileItem) {
-        return (int) (Long.valueOf(fileItem.getDate()) - Long.valueOf(mDate));
+        Long date = parseDate(mDate);
+        Long otherDate = parseDate(fileItem.getDate());
+        if (date == null) {
+            return otherDate == null ? 0 : 1;
+        }
+        if (otherDate == null) {
+            return -1;
+        }
+        return Long.compare(otherDate, date);
+    }
+
+    private static Long parseDate(String date) {
+        if (date == null) {
+            return null;
+        }
+        try {
+            return Long.valueOf(date);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
     }
 
     public enum Type {
